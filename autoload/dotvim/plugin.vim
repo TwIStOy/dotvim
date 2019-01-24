@@ -33,6 +33,7 @@ function! dotvim#plugin#doInstall() abort
 
     " let dein manage dein
     call dein#add(s:dein_root . '/repos/github.com/Shougo/dein.vim')
+    call dein#add('wsdjeg/dein-ui.vim')
 
     for l:plug in s:plugins
       call dein#add(l:plug, get(s:plug_options, l:plug, {}))

@@ -1,8 +1,6 @@
 let s:enabled_crates = []
-let s:crate_vars = {}
 let s:available_crates = {}
 
-let s:sys = dotvim#api#import('system')
 let s:logger = dotvim#api#import('logging').getLogger('crate')
 
 let s:crate_base = {
@@ -15,6 +13,23 @@ let s:crate_base = {
 
 function! dotvim#crate#get() abort
   return s:enabled_crates
+endfunction
+
+function! dotvim#crate#add(crate) abort
+  if index(s:enabled_crates, a:crate) != -1
+    return
+  endif
+
+  if has_key(s:available_crates, a:crate)
+    call add(s:enabled_crates, a:crate)
+    let s:available_crates[a:crate].enabled = 1
+  endif
+endfunction
+
+function! dotvim#crate#setVars(crate, key, value) abort
+  if has_key(s:available_crates, a:crate)
+    let s:available_crates[a:crate].vars[a:key] = a:value
+  endif
 endfunction
 
 function! dotvim#crate#hasLoaded(name) abort
@@ -46,11 +61,30 @@ function! dotvim#crate#loadConfig(...) abort
       let l:config_file_path = s:available_crates[a:name].dir . '/config.vim'
       call dotvim#utils#source(l:config_file_path)
     else
-      call s:logger.warn('Crate "' . l:crate . '" not found.')
+      call s:logger.warn('Load config failed. Crate "' . l:crate . '" not found.')
     endif
   else
     for l:crate in a:000
       call dotvim#crate#loadConfig(l:crate)
+    endfor
+  endif
+endfunction
+
+function! dotvim#crate#loadPackages(...) abort
+  if a:0 == 0
+    for l:crate in s:enabled_crates
+      call dotvim#crate#loadPackages(l:crate)
+    endfor
+  elseif a:0 == 1
+    if has_key(s:available_crates, a:name)
+      let l:package_file_path = s:available_crates[a:name].dir . '/package.vim'
+      call dotvim#utils#source(l:package_file_path)
+    else
+      call s:logger.warn('Load packages failed. Crate "' . l:crate . '" not found.')
+    endif
+  else
+    for l:crate in a:000
+      call dotvim#crate#loadPackages(l:crate)
     endfor
   endif
 endfunction

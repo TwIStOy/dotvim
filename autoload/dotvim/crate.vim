@@ -17,13 +17,13 @@ endfunction
 
 function! dotvim#crate#add(...) abort
   if a:0 == 1
-    if index(s:enabled_crates, a:crate) != -1
+    if index(s:enabled_crates, a:1) != -1
       return
     endif
 
-    if has_key(s:available_crates, a:crate)
-      call add(s:enabled_crates, a:crate)
-      let s:available_crates[a:crate].enabled = 1
+    if has_key(s:available_crates, a:1)
+      call add(s:enabled_crates, a:1)
+      let s:available_crates[a:1].enabled = 1
     endif
   else
     for a:l in a:000
@@ -32,9 +32,13 @@ function! dotvim#crate#add(...) abort
   endif
 endfunction
 
+function! dotvim#crate#getAvailableCrates() abort
+  return deepcopy(s:available_crates)
+endfunction
+
 function! dotvim#crate#setVars(crate, key, value) abort
   if has_key(s:available_crates, a:crate)
-    let s:available_crates[a:crate].vars[a:key] = a:value
+    let s:available_crates[a:crate].vars[a:key] = deepcopy(a:value)
   endif
 endfunction
 

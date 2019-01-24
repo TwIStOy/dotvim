@@ -12,7 +12,7 @@ function! s:self.parse(text) abort
   return self._parse(input)
 endfunction
 
-function! s:self.parse_file(filename) abort
+function! s:self.parseFile(filename) abort
   if !filereadable(a:filename)
     throw printf("toml API: No such file `%s'.", a:filename)
   endif

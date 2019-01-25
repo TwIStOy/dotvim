@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 let s:logger = dotvim#api#import('logging').getLogger('main')
-let s:dotvim_root = $HOME . '/.dotvim'
+let g:dotvim_root = $HOME . '/.dotvim'
 
 function! dotvim#bootstrap() abort
   " TODO(hawtian): impl
@@ -19,6 +19,11 @@ function! dotvim#bootstrap() abort
 
   " enable crates from config
   call s:enabled_crates_from_config()
+endfunction
+
+function! s:load_crates() abort
+  for l:crate in dotvim#crate#get()
+  endfor
 endfunction
 
 function! s:read_custom_file() abort

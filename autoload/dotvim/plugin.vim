@@ -17,6 +17,14 @@ function! dotvim#plugin#reg(plug, ...) abort
   endif
 endfunction
 
+function! dotvim#plugin#getOptions(plug) abort
+  return get(s:plug_options, a:plug, {})
+endfunction
+
+function! dotvim#plugin#hasOptions(plug) abort
+  return has_key(s:plug_options, a:plug)
+endfunction
+
 function! dotvim#plugin#installMissingDein() abort
   if !isdirectory(s:dein_root . '/repos/github.com/Shougo/dein.vim')
     echo "Installing dein..."

@@ -85,6 +85,10 @@ function! dotvim#crate#bootstrap() abort
   endfor
 
   call dotvim#vim#plug#end()
+
+  for l:crate in dotvim#crate#get()
+    call dotvim#crate#postConfig(l:crate)
+  endfor
 endfunction
 
 function! dotvim#crate#plugins(crate) abort
@@ -105,3 +109,10 @@ function! dotvim#crate#config(crate) abort
   endtry
 endfunction
 
+function! dotvim#crate#postConfig(crate) abort
+  try
+    call dotvim#crate#{a:crate}#postConfig()
+  catch /^Vim\%((\a\+)\)\=:E117/
+    call s:logger.warn('No config function in crate: ' . a:crate)
+  endtry
+endfunction

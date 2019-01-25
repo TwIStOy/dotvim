@@ -33,26 +33,3 @@ function! dotvim#plugin#installMissingDein() abort
   endif
 endfunction
 
-function! dotvim#plugin#doInstall() abort
-  execute 'set runtimepath+=' . s:dein_root . '/repos/github.com/Shougo/dein.vim'
-
-  if dein#load_state(s:dein_root)
-    call dein#begin(s:dein_root)
-
-    " let dein manage dein
-    call dein#add(s:dein_root . '/repos/github.com/Shougo/dein.vim')
-    call dein#add('wsdjeg/dein-ui.vim')
-
-    for l:plug in s:plugins
-      call dein#add(l:plug, get(s:plug_options, l:plug, {}))
-    endfor
-
-    call dein#end()
-    call dein#save_state()
-  endif
-
-  if dein#check_install()
-    call dein#install()
-  endif
-endfunction
-

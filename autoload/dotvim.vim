@@ -15,10 +15,11 @@ function! dotvim#bootstrap() abort
   " install if dein is missing
   call dotvim#plugin#installMissingDein()
 
-  call dotvim#crate#initialize(s:dotvim_root . '/crates')
-
   " enable crates from config
   call s:enabled_crates_from_config()
+
+  " crate bootstrap
+  call dotvim#crate#bootstrap()
 endfunction
 
 function! s:load_crates() abort
@@ -41,12 +42,11 @@ function! s:enabled_crates_from_config() abort
   let l:crates = get(g:dotvimCustomSetting, 'crates', {})
   for l:crate in l:crates
     if has_key(l:crate, 'name') && get(l:crate, 'enable', 1)
-      call dotvim#crate#add(l:crate.name)
-      for l:key in keys(l:crate)
-        if l:key != 'name' && l:key != 'enable'
-          call dotvim#crate#setVars(l:crate.name, l:key, l:crate[l:key])
-        endif
-      endfor
+      let l:crate_dict = deepcopy(l:crate)
+      unlet l:crate_dict.name
+      unlet l:crate_dict.enable
+
+      call dotvim#crate#load(l:crate.name, l:crate_dict)
     endif
   endfor
 endfunction

@@ -48,7 +48,7 @@ endfunction
 let g:_dotvim_plugins = get(g:, '_dotvim_plugins', [])
 
 function! dotvim#vim#plug#add(plug, ...) abort
-  if index(g:_dotvim_plugins, a:plug) == -1
+  if index(g:_dotvim_plugins, a:plug) != -1
     return
   endif
 
@@ -63,7 +63,6 @@ endfunction
 
 let g:_dotvim_dein_root = get(g:, 'dotvim_dein_root', $HOME . '/.cache/dein')
 function! dotvim#vim#plug#env()
-  execute 'set runtimepath+=' . s:dein_root . '/repos/github.com/Shougo/dein.vim'
+  execute 'set runtimepath+=' . g:_dotvim_dein_root . '/repos/github.com/Shougo/dein.vim'
 endfunction
-
 

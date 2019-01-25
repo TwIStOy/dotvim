@@ -33,20 +33,23 @@ function! dotvim#crate#bootstrap() abort
   call dotvim#vim#plug#begin(g:_dotvim_dein_root)
 
   " let dein manage dein itself
-  call dein#add(s:dein_root . '/repos/github.com/Shougo/dein.vim')
+  call dein#add(g:_dotvim_dein_root . '/repos/github.com/Shougo/dein.vim')
   call dein#add('wsdjeg/dein-ui.vim')
 
   for l:crate in dotvim#crate#get()
     " set global variables for current crate
     let g:dotvim#crate#name = l:crate
+    call s:logger.info('Bootstrap crate: ' . l:crate)
 
     for l:plug in dotvim#crate#plugins(l:crate)
+      call s:logger.info('Try to add plugin: ' . l:plug)
       let l:plug_last = split(l:plug, '/')[-1]
 
       if dotvim#plugin#hasOptions(l:plug)
         let l:plug_opt = dotvim#plugin#getOptions(l:plug)
 
         " add plug into dein
+        call s:logger.info('Add plug ' . l:plug . ' with opt: ' . string(l:plug_opt))
         call dotvim#vim#plug#add(l:plug, l:plug_opt)
 
         if dotvim#vim#plug#tap(l:plug_last)
@@ -65,6 +68,7 @@ function! dotvim#crate#bootstrap() abort
     call dotvim#crate#config(l:crate)
 
     unlet g:dotvim#crate#name
+    call s:logger.info('Bootstrap crate: ' . l:crate . ' done.')
   endfor
 
   " add custom plugins from config files
@@ -86,7 +90,7 @@ endfunction
 function! dotvim#crate#plugins(crate) abort
   let p = []
   try
-    let p = call dotvim#crate#{a:crate}#plugins()
+    let p = dotvim#crate#{a:crate}#plugins()
   catch /^Vim\%((\a\+)\)\=:E117/
     call s:logger.warn('No plugins function in crate: ' . a:crate)
   endtry

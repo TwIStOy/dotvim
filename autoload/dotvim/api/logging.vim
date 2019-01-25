@@ -1,4 +1,4 @@
-let s:log_file_path = get(g:, 'dotvim_log_file_path', $HOME . '/.dotvim.log')
+let g:_log_file_path = get(g:, 'dotvim_log_file_path', $HOME . '/.dotvim.log')
 
 let s:loggers = {}
 
@@ -58,7 +58,7 @@ function! s:log_impl(msg, tag, name) abort
   call add(l:lines, s:parse_msg(a:msg))
 
   let l:write_line = join(l:lines, ' ')
-  if g:wire.nvim
+  if has('nvim')
     call s:write_nvim(l:write_line)
   else
     call s:write_vim(l:write_line)
@@ -67,7 +67,7 @@ endfunction
 
 function! s:write_vim(line) abort
 lua << EOL
-  fout = io.open(vim.eval('g:log_file_path'), 'a')
+  fout = io.open(vim.eval('g:_log_file_path'), 'a')
   if fout == nil then
     return
   end
@@ -78,7 +78,7 @@ endfunction
 
 function! s:write_nvim(line) abort
 lua << EOL
-  fout = io.open(vim.api.nvim_eval('g:log_file_path'), 'a')
+  fout = io.open(vim.api.nvim_eval('g:_log_file_path'), 'a')
   if fout == nil then
     return
   end

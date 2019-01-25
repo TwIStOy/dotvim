@@ -52,7 +52,7 @@ function! dotvim#vim#plug#add(plug, ...) abort
     return
   endif
 
-  if a:0 > 1
+  if a:0 > 0
     call dein#add(a:plug, a:1)
   else
     call dein#add(a:plug)

@@ -30,7 +30,7 @@ endfunction
 function! s:read_custom_file() abort
   let l:custom_file = $HOME . '/.dotvim.toml'
   if !filereadable(expand(l:custom_file))
-    s:logger.warn('No custom file at ' . l:custom_file)
+    call s:logger.warn('No custom file at ' . l:custom_file)
     let g:dotvimCustomSetting = {}
     return
   endif
@@ -39,7 +39,7 @@ function! s:read_custom_file() abort
 endfunction
 
 function! s:enabled_crates_from_config() abort
-  let l:crates = get(g:dotvimCustomSetting, 'crates', {})
+  let l:crates = get(g:dotvimCustomSetting, 'crates', [])
   for l:crate in l:crates
     if has_key(l:crate, 'name') && get(l:crate, 'enable', 1)
       let l:crate_dict = deepcopy(l:crate)

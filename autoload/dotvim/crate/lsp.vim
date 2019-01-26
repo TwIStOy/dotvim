@@ -1,7 +1,6 @@
 function! dotvim#crate#lsp#plugins() abort
   call dotvim#plugin#reg('neoclide/coc.nvim', {
-        \ 'build': 'yarn install',
-        \ 'merged': 0
+        \ 'build': 'yarn install'
         \ })
 
   return ['neoclide/coc.nvim']

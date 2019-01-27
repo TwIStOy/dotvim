@@ -14,7 +14,8 @@ function! dotvim#crate#dotvim#plugins() abort
   call add(l:plugins, 'mhinz/vim-startify')
 
   call dotvim#plugin#reg('Shougo/defx.nvim', {
-        \ 'on_cmd': ['Defx']
+        \ 'on_cmd': ['Defx'],
+        \ 'builtin_conf': 1
         \ })
   call add(l:plugins, 'Shougo/defx.nvim')
 
@@ -69,7 +70,11 @@ function! dotvim#crate#dotvim#config() abort
   let g:rainbow_active = 1
   " }}}
 
-  set tabstop=2 shiftwidth=2 autoindent expandtab
+  set tabstop=2
+  set shiftwidth=2
+  set expandtab
+  set smartindent
+  set autoindent
 
   " auto-move quickfix to botright
   autocmd FileType qf wincmd J
@@ -88,6 +93,25 @@ function! dotvim#crate#dotvim#config() abort
         \ [' Commands:'],
         \ 'commands',
         \ ]
+  " }}}
+
+  execute 'set colorcolumn=' . string(get(s:vars, 'use_colorcolumn', 80))
+
+  if has('nvim')
+    set inccommand=split
+  endif
+
+  set scrolloff=5
+
+  " denite settings {{{
+  call denite#custom#map('insert', '<C-P>',
+        \ '<denite:move_to_previous_line>','noremap')
+  call denite#custom#map('insert', '<C-N>',
+        \ '<denite:move_to_next_line>','noremap')
+  call denite#custom#map('insert', '<Up>',
+        \ '<denite:move_to_previous_line>','noremap')
+  call denite#custom#map('insert', '<Down>',
+        \ '<denite:move_to_next_line>','noremap')
   " }}}
 endfunction
 

@@ -31,7 +31,7 @@ endfunction
 function! dotvim#vim#plug#builtinConfgExists(plug) abort
 endfunction
 
-function! dotvim#vim#plug#defineHook(plug) abort
+function! dotvim#vim#plug#defineHook() abort
   let l:path = s:_dotvim_builtin_root . '/plugins/'
   let l:path .= split(g:dein#name, '\.')[0] . '.vim'
   call dein#config(g:dein#name, {

@@ -7,7 +7,6 @@ let s:dein_root = get(g:, 'dotvim_dein_root', $HOME . '/.cache/dein')
 
 function! dotvim#plugin#reg(plug, ...) abort
   if index(s:plugins, a:plug) < 0
-    call s:logger.info('Add plug: ' . a:plug . ', with settings: ' . string(a:000))
     call add(s:plugins, a:plug)
   endif
 

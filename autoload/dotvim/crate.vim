@@ -42,7 +42,6 @@ function! dotvim#crate#bootstrap() abort
     call s:logger.info('Bootstrap crate: ' . l:crate)
 
     for l:plug in dotvim#crate#plugins(l:crate)
-      call s:logger.info('Try to add plugin: ' . l:plug)
       let l:plug_last = split(l:plug, '/')[-1]
 
       if dotvim#plugin#hasOptions(l:plug)
@@ -61,6 +60,7 @@ function! dotvim#crate#bootstrap() abort
           endif
         endif
       else
+        call s:logger.info('Add plug ' . l:plug . ' without opt')
         call dotvim#vim#plug#add(l:plug)
       endif
     endfor
@@ -113,6 +113,7 @@ function! dotvim#crate#postConfig(crate) abort
   try
     call dotvim#crate#{a:crate}#postConfig()
   catch /^Vim\%((\a\+)\)\=:E117/
-    call s:logger.warn('No config function in crate: ' . a:crate)
+    call s:logger.warn('No postConfig function in crate: ' . a:crate)
   endtry
 endfunction
+

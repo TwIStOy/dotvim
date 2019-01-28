@@ -1,3 +1,5 @@
+let s:logger = dotvim#api#import('logging').getLogger('crate::dotvim')
+
 function! dotvim#crate#dotvim#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)
 endfunction
@@ -10,6 +12,9 @@ function! dotvim#crate#dotvim#plugins() abort
     call add(l:plugins, 'roxma/vim-hug-neovim-rpc')
   endif
 
+  call dotvim#plugin#reg('skywind3000/asyncrun.vim', {
+        \ 'on_cmd': ['AsyncRun', 'AsyncStop']
+        \ })
   call add(l:plugins, 'skywind3000/asyncrun.vim')
   call add(l:plugins, 'mhinz/vim-startify')
 
@@ -23,7 +28,10 @@ function! dotvim#crate#dotvim#plugins() abort
 
   call add(l:plugins, 'tpope/vim-vividchalk')
 
-  call add(l:plugins, 'luochen1990/rainbow')
+  call dotvim#plugin#reg('liuchengxu/vim-which-key', {
+        \ 'on_cmd': ['WhichKey', 'WhichKey!']
+        \ })
+  call add(l:plugins, 'liuchengxu/vim-which-key')
 
   return l:plugins
 endfunction
@@ -64,6 +72,8 @@ function! dotvim#crate#dotvim#config() abort
       autocmd BufEnter, FocusGained, InsertLeave * set relativenumber
       autocmd BufLeave, FocusLost,   InsertEnter * set norelativenumber
     augroup END
+  else
+    set nu
   endif
 
   " rainbow settings {{{
@@ -80,7 +90,7 @@ function! dotvim#crate#dotvim#config() abort
   autocmd FileType qf wincmd J
 
   " startify settings {{{
-  let g:startify_custom_header = [ ' [ dotvim, last updated: 2018.1.26 ]' ]
+  let g:startify_custom_header = [ ' [ dotvim, last updated: 2018.1.28 ]' ]
   let g:startify_list_order = [
         \ [' Recent Files:'],
         \ 'files',
@@ -103,19 +113,18 @@ function! dotvim#crate#dotvim#config() abort
 
   set scrolloff=5
 
-  " denite settings {{{
-  call denite#custom#map('insert', '<C-P>',
-        \ '<denite:move_to_previous_line>','noremap')
-  call denite#custom#map('insert', '<C-N>',
-        \ '<denite:move_to_next_line>','noremap')
-  call denite#custom#map('insert', '<Up>',
-        \ '<denite:move_to_previous_line>','noremap')
-  call denite#custom#map('insert', '<Down>',
-        \ '<denite:move_to_next_line>','noremap')
-  " }}}
+  set timeoutlen=500
+
+  " default keybindings
+  for l:i in range(1, 9)
+    call dotvim#mapping#define_leader('nnoremap',
+          \ string(l:i), ':' . l:i .  'wincmd w<CR>', 'Window ' . l:i)
+  endfor
 endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
   colorscheme vividchalk
+  " call which_key#register('<Space>', 'g:dotvim_mapping')
+  nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 endfunction
 

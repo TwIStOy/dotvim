@@ -8,7 +8,7 @@ function! dotvim#bootstrap() abort
   call s:read_custom_file()
 
   " leader settings {{{
-  let g:mapleader = '\<Space>'
+  let g:mapleader = "\<Space>"
   let g:maplocalleader = ','
   " }}}
 

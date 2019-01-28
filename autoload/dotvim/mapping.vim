@@ -27,7 +27,7 @@ let g:dotvim_mapping = get(g:, 'dotvim_mapping', {})
 "   @action: <Plug>(EasyAlign)
 "   @a:1: desc
 function dotvim#mapping#define_leader(type, key, action, ...) abort
-  let l:cmd = a:type . ' <leader><leader>' . a:key . ' ' .a:action
+  let l:cmd = a:type . ' <silent><leader>' . a:key . ' ' .a:action
   execute l:cmd
 
   if a:0 > 0

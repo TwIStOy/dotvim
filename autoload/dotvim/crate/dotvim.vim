@@ -124,7 +124,8 @@ endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
   colorscheme vividchalk
-  " call which_key#register('<Space>', 'g:dotvim_mapping')
+
+  call which_key#register('<Space>', 'g:dotvim_mapping')
   nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 endfunction
 

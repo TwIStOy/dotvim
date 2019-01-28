@@ -9,12 +9,6 @@ endfunction
 function! dotvim#vim#plug#end() abort
   call dein#end()
 
-  " if dein#check_install()
-    " augroup DotvimAutoInstallMissing
-      " au!
-      " au VimEnter * call dein#install()
-    " augroup END
-  " endif
   if dein#check_install()
     call dein#install()
   endif

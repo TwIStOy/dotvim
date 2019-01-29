@@ -37,7 +37,20 @@ function! dotvim#crate#better#config() abort
   let g:surround_no_insert_mappings = 1
   " }}}
 
+  let g:Lf_ShortcutF = '<Leader>ff'
+  let g:Lf_ShortcutB = '<Leader>ffb'
+
   " key mappings
+  call dotvim#mapping#define_leader('nnoremap', 'e',
+        \ ':Leaderf file<CR>', 'edit[ pwd ]')
+  call dotvim#mapping#define_leader('nnoremap', 'ff',
+        \ ':Leaderf file ~<CR>', 'edit[ $HOME ]')
+
+  call dotvim#mapping#define_leader('xmap', 'ta',
+        \ ':EasyAlign<CR>', 'easy-align')
+  call dotvim#mapping#define_leader('nmap', 'ta',
+        \ ':EasyAlign<CR>', 'easy-align')
+
 endfunction
 
 function! dotvim#crate#better#postConfig() abort

@@ -29,7 +29,7 @@ function! dotvim#crate#dotvim#plugins() abort
   call add(l:plugins, 'tpope/vim-vividchalk')
 
   call dotvim#plugin#reg('liuchengxu/vim-which-key', {
-        \ 'on_cmd': ['WhichKey', 'WhichKey!']
+        \ 'lazy': 0,
         \ })
   call add(l:plugins, 'liuchengxu/vim-which-key')
 
@@ -115,17 +115,70 @@ function! dotvim#crate#dotvim#config() abort
 
   set timeoutlen=500
 
-  " default keybindings
+  " default keybindings {{{
   for l:i in range(1, 9)
     call dotvim#mapping#define_leader('nnoremap',
           \ string(l:i), ':' . l:i .  'wincmd w<CR>', 'Window ' . l:i)
   endfor
+
+  call dotvim#mapping#define_name('f', '+file')
+  call dotvim#mapping#define_leader('nnoremap', 'fs',
+        \ ':update<CR>', 'save')
+  call dotvim#mapping#define_leader('nnoremap', 'ft',
+        \ ':Defx -split=vertical -winwidth=30 -toggle<CR>', 'toggle-file-explorer')
+
+  call dotvim#mapping#define_name('j', '+jump')
+  call dotvim#mapping#define_leader('nnoremap', 'jb',
+        \ ':call feedkeys("\<C-O>")<CR>', 'jump-back')
+
+  call dotvim#mapping#define_name('n', '+no')
+  call dotvim#mapping#define_leader('nnoremap', 'nl', ':nohl<CR>', 'no-highlight')
+
+  call dotvim#mapping#define_leader('nnoremap', 'q', ':q<CR>', 'quit')
+  call dotvim#mapping#define_leader('nnoremap', 'x', ':wq<CR>', 'save-and-quit')
+  call dotvim#mapping#define_leader('nnoremap', 'Q', ':qa!<CR>', 'force-quit')
+
+  call dotvim#mapping#define_name('t', '+toggle')
+  call dotvim#mapping#define_leader('nnoremap', 'tq',
+        \ ':call dotvim#api#window#get().toggleQuickfix()<CR>',
+        \ 'toggle-quickfix')
+
+  nnoremap <Plug>(window_w) <C-W>w
+  nnoremap <Plug>(window_r) <C-W>r
+  nnoremap <Plug>(window_d) <C-W>c
+  nnoremap <Plug>(window_q) <C-W>q
+  nnoremap <Plug>(window_j) <C-W>j
+  nnoremap <Plug>(window_k) <C-W>k
+  nnoremap <Plug>(window_h) <C-W>h
+  nnoremap <Plug>(window_l) <C-W>l
+  nnoremap <Plug>(window_H) <C-W>5<
+  nnoremap <Plug>(window_L) <C-W>5>
+  nnoremap <Plug>(window_J) :resize +5<CR>
+  nnoremap <Plug>(window_K) :resize -5<CR>
+  nnoremap <Plug>(window_b) <C-W>=
+  nnoremap <Plug>(window_s1) <C-W>s
+  nnoremap <Plug>(window_s2) <C-W>s
+  nnoremap <Plug>(window_v1) <C-W>v
+  nnoremap <Plug>(window_v2) <C-W>v
+  nnoremap <Plug>(window_2) <C-W>v
+  
+  call dotvim#mapping#define_name('w', '+window')
+  call dotvim#mapping#define_leader('nnoremap', 'wv',
+        \ ':call feedkeys("\<Plug>(window_v1)")<CR>', 'split-window-below')
+  call dotvim#mapping#define_leader('nnoremap', 'w-',
+        \ ':call feedkeys("\<Plug>(window_s1)")<CR>', 'split-window-below')
+  call dotvim#mapping#define_leader('nnoremap', 'w=',
+        \ ':call feedkeys("\<Plug>(window_b)")<CR>', 'balance-window')
+
+  nnoremap <silent><leader> :WhichKey '<Space>'<CR>
+
+  inoremap jk <Esc>
+  " }}}
 endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
   colorscheme vividchalk
 
   call which_key#register('<Space>', 'g:dotvim_mapping')
-  nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 endfunction
 

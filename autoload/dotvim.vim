@@ -7,6 +7,8 @@ function! dotvim#bootstrap() abort
   " TODO(hawtian): impl
   call s:read_custom_file()
 
+  call dotvim#command#defineCommand()
+
   " leader settings {{{
   let g:mapleader = "\<Space>"
   let g:maplocalleader = ','

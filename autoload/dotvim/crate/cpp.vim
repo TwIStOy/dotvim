@@ -14,6 +14,11 @@ function! dotvim#crate#cpp#plugins() abort
 
   call add(l:plugins, 'derekwyatt/vim-fswitch')
 
+  call dotvim#plugin#reg('rhysd/vim-clang-format', {
+        \ 'on_cmd': ['ClangFormat']
+        \ })
+  call add(l:plugins, 'rhysd/vim-clang-format')
+
   return l:plugins
 endfunction
 
@@ -35,5 +40,16 @@ function! dotvim#crate#cpp#config() abort
         \ get(s:vars, 'cpp_concepts_highlight', 0)
   let g:cpp_no_function_highlight =
         \ get(s:vars, 'cpp_no_function_highlight', 0)
+
+  if has_key(s:vars, 'clang_format_exe')
+    let g:clang_format#command = s:vars['clang_format_exe']
+  endif
+
+  call dotvim#mapping#define_leader('nnoremap', 'fa', ':<C-u>ClangFormat<CR>',
+        \ 'clang-format')
+  call dotvim#mapping#define_leader('nnoremap', 'fs', ':FSHere<CR>',
+        \ 'switch-file-here')
+  call dotvim#mapping#define_leader('nnoremap', 'fs', ':FSSplitRight<CR>',
+        \ 'switch-file-split-right')
 endfunction
 

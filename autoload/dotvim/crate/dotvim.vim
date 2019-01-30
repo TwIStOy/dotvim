@@ -90,7 +90,9 @@ function! dotvim#crate#dotvim#config() abort
   autocmd FileType qf wincmd J
 
   " startify settings {{{
-  let g:startify_custom_header = [ ' [ dotvim, last updated: 2018.1.28 ]' ]
+  let g:startify_custom_header = [
+        \ ' [ dotvim, last updated: ' . g:dotvim_last_updated_time . ' ]'
+        \ ]
   let g:startify_list_order = [
         \ [' Recent Files:'],
         \ 'files',

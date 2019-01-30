@@ -2,6 +2,7 @@ scriptencoding utf-8
 
 let s:logger = dotvim#api#import('logging').getLogger('main')
 let g:dotvim_root = $HOME . '/.dotvim'
+let g:dotvim_last_updated_time = '2018.1.30'
 
 function! dotvim#bootstrap() abort
   " TODO(hawtian): impl
@@ -49,7 +50,9 @@ function! s:enabled_crates_from_config() abort
     if has_key(l:crate, 'name') && get(l:crate, 'enable', 1)
       let l:crate_dict = deepcopy(l:crate)
       unlet l:crate_dict.name
-      unlet l:crate_dict.enable
+      if has_key(l:crate, 'enable')
+        unlet l:crate_dict.enable
+      endif
 
       call dotvim#crate#load(l:crate.name, l:crate_dict)
     endif

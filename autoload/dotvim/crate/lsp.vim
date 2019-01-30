@@ -1,4 +1,4 @@
-let s:vars = {}
+let s:vars = get(s:, 'vars', {})
 
 function! dotvim#crate#lsp#plugins() abort
   call dotvim#plugin#reg('neoclide/coc.nvim', {

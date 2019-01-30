@@ -1,4 +1,4 @@
-let s:vars = {}
+let s:vars = get(s:, 'vars', {})
 
 function! dotvim#crate#cpp#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)

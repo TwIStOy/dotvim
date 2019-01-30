@@ -12,13 +12,6 @@ function! dotvim#crate#cpp#plugins() abort
         \ })
   call add(l:plugins, 'octol/vim-cpp-enhanced-highlight')
 
-  call dotvim#plugin#reg('derekwyatt/vim-fswitch', {
-        \ 'lazy': 1,
-        \ 'on_cmd': ['FSHere', 'FSRight', 'FSSplitRight', 'FSLeft',
-        \   'FSSplitLeft', 'FSAbove', 'FSSplitAbove',
-        \   'FSBelow', 'FSSplitBelow', 'FSTab'      
-        \ ]
-        \ })
   call add(l:plugins, 'derekwyatt/vim-fswitch')
 
   return l:plugins

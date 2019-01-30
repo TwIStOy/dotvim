@@ -42,6 +42,9 @@ endfunction
 
 function! s:enabled_crates_from_config() abort
   let l:crates = get(g:dotvimCustomSetting, 'crates', [])
+
+  call dotvim#crate#load('dotvim', get(g:dotvimCustomSetting, 'global', {}))
+
   for l:crate in l:crates
     if has_key(l:crate, 'name') && get(l:crate, 'enable', 1)
       let l:crate_dict = deepcopy(l:crate)

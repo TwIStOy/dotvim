@@ -26,6 +26,22 @@ function! dotvim#crate#lsp#config() abort
         \ 'goto-doc')
   call dotvim#mapping#define_leader('nmap', 'gR',
         \ '<Plug>(coc-rename)', 'lsp-rename')
+  call dotvim#mapping#define_leader('nmap', 'gf',
+        \ '<Plug>(coc-fix-current)', 'fix-current-line')
+
+  call dotvim#mapping#define_name('l', '+list/search')
+  call dotvim#mapping#define_leader('nnoremap', 'ld',
+        \ ':<C-u>CocList diagnostics<CR>', 'list-diagnostics')
+  call dotvim#mapping#define_leader('nnoremap', 'lo',
+        \ ':<C-u>CocList outline<CR>', 'list-outline')
+  call dotvim#mapping#define_leader('nnoremap', 'ld',
+        \ ':<C-u>CocList -I symbols<CR>', 'list-symbols')
+  call dotvim#mapping#define_leader('nnoremap', 'ln',
+        \ ':<C-u>CocNext<CR>', 'list-next')
+  call dotvim#mapping#define_leader('nnoremap', 'lp',
+        \ ':<C-u>CocPrev<CR>', 'list-prev')
+  call dotvim#mapping#define_leader('nnoremap', 'lr',
+        \ ':<C-u>CocListResume<CR>', 'list-resume')
 
   if get(s:vars, 'coc_show_signature_help', 0)
     autocmd CursorHoldI,CursorMovedI * silent! call CocAction('showSignatureHelp')
@@ -52,6 +68,7 @@ function! dotvim#crate#lsp#config() abort
         \ coc#refresh()
 
   set cmdheight=2
+  set shortmess+=c
   set signcolumn=yes
   set hidden
 

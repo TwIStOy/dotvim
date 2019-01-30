@@ -45,11 +45,11 @@ function! dotvim#crate#cpp#config() abort
     let g:clang_format#command = s:vars['clang_format_exe']
   endif
 
-  call dotvim#mapping#define_leader('nnoremap', 'fa', ':<C-u>ClangFormat<CR>',
+  call dotvim#mapping#define_leader('nnoremap', 'fc', ':<C-u>ClangFormat<CR>',
         \ 'clang-format')
-  call dotvim#mapping#define_leader('nnoremap', 'fs', ':FSHere<CR>',
+  call dotvim#mapping#define_leader('nnoremap', 'fa', ':FSHere<CR>',
         \ 'switch-file-here')
-  call dotvim#mapping#define_leader('nnoremap', 'fs', ':FSSplitRight<CR>',
+  call dotvim#mapping#define_leader('nnoremap', 'fv', ':FSSplitRight<CR>',
         \ 'switch-file-split-right')
 endfunction
 

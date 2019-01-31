@@ -14,8 +14,6 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'tenfyzhong/axring.vim')
   call add(l:plugins, 'bogado/file-line')
 
-  call add(l:plugins, 'tpope/vim-speeddating')
-  call add(l:plugins, 'tpope/vim-repeat')
   call add(l:plugins, 'Yggdroot/indentLine')
 
   call dotvim#plugin#reg('godlygeek/tabular', {
@@ -34,6 +32,7 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'mengelbrecht/lightline-bufferline')
 
   call add(l:plugins, 'sheerun/vim-polyglot')
+  call add(l:plugins, 'matze/vim-move')
 
   return l:plugins
 endfunction
@@ -47,11 +46,17 @@ function! dotvim#crate#better#config() abort
   let g:Lf_ShortcutF = '<Leader>ff'
   let g:Lf_ShortcutB = '<Leader>ffb'
 
+  call dotvim#mapping#define_name('b', '+buffer')
+
   " key mappings
   call dotvim#mapping#define_leader('nnoremap', 'e',
         \ ':Leaderf file<CR>', 'edit[ pwd ]')
   call dotvim#mapping#define_leader('nnoremap', 'ff',
         \ ':Leaderf file ~<CR>', 'edit[ $HOME ]')
+  call dotvim#mapping#define_leader('nnoremap', 'fr',
+        \ ':LeaderfMru<CR>', 'edit-recent-file')
+  call dotvim#mapping#define_leader('nnoremap', 'bb',
+        \ ':LeaderfBuffer<CR>', 'buffer-list')
 
   call dotvim#mapping#define_leader('xmap', 'ta',
         \ ':EasyAlign<CR>', 'easy-align')
@@ -81,6 +86,8 @@ function! dotvim#crate#better#config() abort
   let g:lightline.component_type   = {'buffers': 'tabsel'}
   let g:lightline.separator = { 'left': '', 'right': '' }
   let g:lightline.subseparator = { 'left': '', 'right': '' }
+
+  let g:move_key_modifier = 'C'
 endfunction
 
 function! dotvim#crate#better#postConfig() abort

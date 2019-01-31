@@ -60,11 +60,6 @@ function! dotvim#crate#dotvim#config() abort
   set t_vb=
   " }}}
 
-  " show trailing white-space {{{
-  hi ExtraWhitespace guifg=#FF2626 gui=underline ctermfg=124 cterm=underline
-  match ExtraWhitespace /\s\+%/
-  " }}}
-
   if get(s:vars, 'use_relativenumber', 1)
     set number relativenumber
     augroup RelativeNumberToggle
@@ -163,7 +158,7 @@ function! dotvim#crate#dotvim#config() abort
   nnoremap <Plug>(window_v1) <C-W>v
   nnoremap <Plug>(window_v2) <C-W>v
   nnoremap <Plug>(window_2) <C-W>v
-  
+
   call dotvim#mapping#define_name('w', '+window')
   call dotvim#mapping#define_leader('nnoremap', 'wv',
         \ ':call feedkeys("\<Plug>(window_v1)")<CR>', 'split-window-below')

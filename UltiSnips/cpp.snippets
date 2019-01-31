@@ -1,0 +1,62 @@
+snippet ns "namespace with comment (namespace)"
+namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
+  ${0:/* body */}
+}${1/.+/  \/\/ namespace /m}$1
+endsnippet
+
+snippet beginend "$1.begin(), $1.end() (beginend)"
+${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
+endsnippet
+
+snippet pragma "pragma once (pragma)"
+#pragma once  // NOLINT(build/header_guard)
+endsnippet
+
+snippet ttv "template<typename...> (template)"
+template<typename... Args>
+${0}
+endsnippet
+
+snippet tt1 "template<typename> (template)"
+template<typename T>
+${0}
+endsnippet
+
+snippet tt2 "template<typename> (template)"
+template<typename T1, typename T2>
+${0}
+endsnippet
+
+snippet tt3 "template<typename> 3"
+template<typename T1, typename T2, typename T3>
+${0}
+endsnippet
+
+snippet tt4 "template<typename> 4"
+template<typename T1, typename T2, typename T3, typename T4>
+${0}
+endsnippet
+
+snippet copyright "copyright"
+// Copyright (c) 2019 ${1}
+//
+
+${0}
+endsnippet
+
+snippet sc "static_cast"
+static_cast<${0}>(${1})
+endsnippet
+
+snippet dc "static_cast"
+dynamic_cast<${0}>(${1})
+endsnippet
+
+snippet rc "reinterpret_cast"
+reinterpret_cast<${0}>(${1})
+endsnippet
+
+snippet cc "const_cast"
+const_cast<${0}>(${1})
+endsnippet
+

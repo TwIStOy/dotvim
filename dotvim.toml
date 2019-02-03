@@ -1,0 +1,27 @@
+extra_plugins = []
+
+[global]
+
+[[crates]]
+name = 'better'
+
+[[crates]]
+name = 'lsp'
+
+[[crates]]
+name = 'cpp'
+clang_format_exe = 'clang-format-7'
+
+[[crates]]
+name = 'theme'
+theme = 'gruvbox'
+
+[[crates]]
+name = 'edit'
+
+[[crates]]
+name = 'snippets'
+
+[[crates]]
+name = 'textobject'
+

@@ -6,6 +6,7 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'tpope/vim-surround')
 
   call dotvim#plugin#reg('Yggdroot/LeaderF', {
+        \ 'on_cmd': ['Leaderf', 'LeaderfMru', 'LeaderfBuffer'],
         \ 'build': './install.sh'
         \ })
   call add(l:plugins, 'Yggdroot/LeaderF')

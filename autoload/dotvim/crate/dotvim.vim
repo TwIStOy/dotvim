@@ -53,6 +53,8 @@ function! dotvim#crate#dotvim#config() abort
   set ttyfast
 
   set lazyredraw
+  set termguicolors
+  set pumblend=20
 
   " no bells {{{
   set noerrorbells

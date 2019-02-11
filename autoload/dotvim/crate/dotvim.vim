@@ -54,7 +54,10 @@ function! dotvim#crate#dotvim#config() abort
 
   set lazyredraw
   set termguicolors
-  set pumblend=20
+  if has('nvim')
+    " make popupmenu semi-transparency
+    set pumblend=20
+  endif
 
   " no bells {{{
   set noerrorbells

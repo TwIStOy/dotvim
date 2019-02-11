@@ -47,7 +47,9 @@ function! dotvim#crate#lsp#config() abort
     autocmd CursorHoldI,CursorMovedI * silent! call CocAction('showSignatureHelp')
   endif
 
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+  if get(s:vars, 'coc_cursorhold_highlight', 0)
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+  endif
 
   " Close preview window when completion is done
   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif

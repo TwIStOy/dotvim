@@ -48,6 +48,12 @@ function! dotvim#crate#markdown#config() abort
 
   let g:vim_markdown_conceal = get(s:vars, 'conceal', 0)
 
+  if get(s:vars, 'enable_preview', 0)
+    let g:mkdp_echo_preview_url = 0
+    let g:mkdp_auto_start = get(s:vars, 'preview_auto_start', 1)
+    let g:mkdp_open_to_the_world = 1
+  endif
+
   if get(s:vars, 'math_enabled', 0)
     let g:tex_conceal = ""
     let g:vim_markdown_math = 1

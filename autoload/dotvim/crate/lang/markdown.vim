@@ -1,10 +1,10 @@
 let s:vars = get(s:, 'vars', {})
 
-function! dotvim#crate#markdown#setVariables(vars) abort
+function! dotvim#crate#lang#markdown#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)
 endfunction
 
-function! dotvim#crate#markdown#plugins() abort
+function! dotvim#crate#lang#markdown#plugins() abort
   let l:plugins = []
 
   call dotvim#plugin#reg('plasticboy/vim-markdown', {
@@ -26,7 +26,7 @@ function! dotvim#crate#markdown#plugins() abort
 endfunction
 
 
-function! dotvim#crate#markdown#config() abort
+function! dotvim#crate#lang#markdown#config() abort
   inoreabbrev <expr> <bar><bar>
             \ <SID>isAtStartOfLine('\|\|') ?
             \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' : '<bar><bar>'

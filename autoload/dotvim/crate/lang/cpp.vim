@@ -1,10 +1,10 @@
 let s:vars = get(s:, 'vars', {})
 
-function! dotvim#crate#cpp#setVariables(vars) abort
+function! dotvim#crate#lang#cpp#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)
 endfunction
 
-function! dotvim#crate#cpp#plugins() abort
+function! dotvim#crate#lang#cpp#plugins() abort
   let l:plugins = []
 
   call dotvim#plugin#reg('octol/vim-cpp-enhanced-highlight', {
@@ -22,7 +22,7 @@ function! dotvim#crate#cpp#plugins() abort
   return l:plugins
 endfunction
 
-function! dotvim#crate#cpp#config() abort
+function! dotvim#crate#lang#cpp#config() abort
   let g:polyglot_disabled = get(g:, 'polyglot_disabled', [])
 
   call add(g:polyglot_disabled, 'c')

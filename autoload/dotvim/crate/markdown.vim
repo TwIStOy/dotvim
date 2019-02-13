@@ -42,6 +42,21 @@ function! dotvim#crate#markdown#config() abort
 
   call dotvim#mapping#define_leader('nnoremap', 'tr',
         \ ':TableModeRealign<CR>', 'table-mode-realign')
+
+  let g:vim_markdown_folding_disabled = get(s:vars, 'folding_disabled', 1)
+  let g:vim_markdown_no_default_key_mappings = 1
+
+  let g:vim_markdown_conceal = get(s:vars, 'conceal', 0)
+
+  if get(s:vars, 'math_enabled', 0)
+    let g:tex_conceal = ""
+    let g:vim_markdown_math = 1
+  endif
+
+  if get(s:vars, 'frontmatter_enabled', 0)
+    let g:vim_markdown_frontmatter = 1
+    let g:vim_markdown_toml_frontmatter = 1
+  endif
 endfunction
 
 function! s:isAtStartOfLine(mapping)

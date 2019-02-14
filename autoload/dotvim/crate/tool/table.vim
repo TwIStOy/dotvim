@@ -19,7 +19,7 @@ function! dotvim#crate#tool#table#config() abort
             \ : '<bar><bar>'
   inoreabbrev <expr> __
             \ <SID>isAtStartOfLine('__') ?
-            \ '<c-o>:silent! TableModeDisable<cr>' : '__'
+            \ '<c-o>:TableModeDisable<cr>' : '__'
 
   " default use markdown-compatible table
   let g:table_mode_corner='|'

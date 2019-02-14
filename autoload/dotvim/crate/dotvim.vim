@@ -29,12 +29,17 @@ function! dotvim#crate#dotvim#plugins() abort
         \ })
   call add(l:plugins, 'Shougo/defx.nvim')
 
+  call dotvim#plugin#reg('Shougo/denite.nvim', {
+        \ 'on_cmd': ['Denite', 'DeniteBufferDir',
+        \            'DeniteCursorWord', 'DeniteProjectDir']
+        \ })
   call add(l:plugins, 'Shougo/denite.nvim')
 
   call add(l:plugins, 'tpope/vim-vividchalk')
 
   call dotvim#plugin#reg('liuchengxu/vim-which-key', {
-        \ 'lazy': 0,
+        \ 'on_cmd': ['WhichKey', 'WhichKey!'],
+        \ 'builtin_conf': 1
         \ })
   call add(l:plugins, 'liuchengxu/vim-which-key')
 
@@ -178,7 +183,5 @@ endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
   colorscheme vividchalk
-
-  call which_key#register('<Space>', 'g:dotvim_mapping')
 endfunction
 

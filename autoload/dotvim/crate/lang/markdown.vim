@@ -20,29 +20,11 @@ function! dotvim#crate#lang#markdown#plugins() abort
     call add(l:plugins, 'iamcco/markdown-preview.nvim')
   endif
 
-  call add(l:plugins, 'dhruvasagar/vim-table-mode')
-
   return l:plugins
 endfunction
 
 
 function! dotvim#crate#lang#markdown#config() abort
-  inoreabbrev <expr> <bar><bar>
-            \ <SID>isAtStartOfLine('\|\|') ?
-            \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' : '<bar><bar>'
-  inoreabbrev <expr> __
-            \ <SID>isAtStartOfLine('__') ?
-            \ '<c-o>:silent! TableModeDisable<cr>' : '__'
-
-  " default use markdown-compatible table
-  let g:table_mode_corner='|'
-
-  call dotvim#mapping#define_leader('nnoremap', 'tt',
-        \ ':TableModeToggle<CR>', 'toggle-table-mode')
-
-  call dotvim#mapping#define_leader('nnoremap', 'tr',
-        \ ':TableModeRealign<CR>', 'table-mode-realign')
-
   let g:vim_markdown_folding_disabled = get(s:vars, 'folding_disabled', 1)
   let g:vim_markdown_no_default_key_mappings = 1
 
@@ -65,9 +47,3 @@ function! dotvim#crate#lang#markdown#config() abort
   endif
 endfunction
 
-function! s:isAtStartOfLine(mapping)
-  let text_before_cursor = getline('.')[0 : col('.')-1]
-  let mapping_pattern = '\V' . escape(a:mapping, '\')
-  let comment_pattern = '\V' . escape(substitute(&l:commentstring, '%s.*$', '', ''), '\')
-  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') . '\s*\v' . mapping_pattern . '\v$')
-endfunction

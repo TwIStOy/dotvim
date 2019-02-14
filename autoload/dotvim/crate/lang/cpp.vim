@@ -8,10 +8,13 @@ function! dotvim#crate#lang#cpp#plugins() abort
   let l:plugins = []
 
   call dotvim#plugin#reg('octol/vim-cpp-enhanced-highlight', {
-        \ 'on_ft': ['cpp']
+        \ 'on_ft': ['cpp', 'c']
         \ })
   call add(l:plugins, 'octol/vim-cpp-enhanced-highlight')
 
+  call dotvim#plugin#reg('derekwyatt/vim-fswitch', {
+        \ 'on_ft': ['cpp', 'c']
+        \ })
   call add(l:plugins, 'derekwyatt/vim-fswitch')
 
   call dotvim#plugin#reg('rhysd/vim-clang-format', {
@@ -45,6 +48,13 @@ function! dotvim#crate#lang#cpp#config() abort
     let g:clang_format#command = s:vars['clang_format_exe']
   endif
 
+  augroup dotvimLangCppCommand
+    autocmd!
+    autocmd FileType c,cpp call s:do_keybindings()
+  augroup END
+endfunction
+
+function! s:do_keybindings() abort
   call dotvim#mapping#define_leader('nnoremap', 'fc', ':<C-u>ClangFormat<CR>',
         \ 'clang-format')
   call dotvim#mapping#define_leader('nnoremap', 'fa', ':FSHere<CR>',
@@ -52,4 +62,5 @@ function! dotvim#crate#lang#cpp#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'fv', ':FSSplitRight<CR>',
         \ 'switch-file-split-right')
 endfunction
+
 

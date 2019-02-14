@@ -1,5 +1,11 @@
 scriptencoding utf-8
 
+let s:vars = get(s:, 'vars', {})
+
+function! dotvim#crate#better#setVariables(vars) abort
+  let s:vars = deepcopy(a:vars)
+endfunction
+
 function! dotvim#crate#better#plugins() abort
   let l:plugins = []
 
@@ -12,7 +18,9 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'Yggdroot/LeaderF')
 
   call add(l:plugins, 'andymass/vim-matchup')
+
   call add(l:plugins, 'tenfyzhong/axring.vim')
+
   call add(l:plugins, 'bogado/file-line')
 
   call add(l:plugins, 'Yggdroot/indentLine')
@@ -46,6 +54,10 @@ function! dotvim#crate#better#config() abort
 
   let g:Lf_ShortcutF = '<Leader>ff'
   let g:Lf_ShortcutB = '<Leader>ffb'
+
+  if has_key(s:vars, 'axring_rings')
+    let g:axring_rings = deepcopy(s:vars['axring_rings'])
+  endif
 
   call dotvim#mapping#define_name('b', '+buffer')
 

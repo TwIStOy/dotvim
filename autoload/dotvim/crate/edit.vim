@@ -6,7 +6,6 @@ function! dotvim#crate#edit#plugins() abort
         \ })
   call add(l:plugins, 'osyo-manga/vim-jplus')
 
-  call add(l:plugins, 'tpope/vim-speeddating')
   call add(l:plugins, 'tpope/vim-repeat')
 
   call add(l:plugins, 'ntpeters/vim-better-whitespace')

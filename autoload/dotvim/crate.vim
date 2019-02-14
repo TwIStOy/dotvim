@@ -117,3 +117,67 @@ function! dotvim#crate#postConfig(crate) abort
   endtry
 endfunction
 
+function! dotvim#crate#showCrates() abort
+  tabnew DotvimCrates
+
+  nnoremap <buffer> q :q<cr>
+
+  setlocal buftype=nofile bufhidden=wipe
+  setlocal nobuflisted nolist noswapfile nowrap cursorline nospell
+
+  setf DotvimCrateLister
+  nnoremap <silent> <buffer> q :bd<CR>
+
+  let l:content = [
+        \ 'Dotvim Crates:',
+        \ ]
+
+  set modifiable
+  call setline(1, l:content + s:list_all_available_crates())
+  set nomodifiable
+endfunction
+
+function! s:dein_use_repo_name() abort
+  let l:plugins = dein#get()
+  let rst = {}
+
+  for name in keys(l:plugins)
+    let rst[l:plugins[name].repo] = deepcopy(l:plugins[name])
+  endfor
+
+  return rst
+endfunction
+
+function! s:list_all_available_crates() abort
+  let crates = dotvim#utils#globpath(&rtp, 'autoload/dotvim/crate/**/*.vim')
+  let pattern = '/autoload/dotvim/crate/'
+
+  let l:plugins_dict = s:dein_use_repo_name()
+  let rst = []
+  for crate in crates
+    if crate =~# pattern
+      let name = crate[matchend(crate, pattern):-5]
+      let name = substitute(name, '/', '#', 'g')
+
+      let status = index(s:enabled_crates, name) != -1 ? 'loaded' : 'not loaded'
+
+      call add(rst, '')
+      if status ==# 'loaded'
+        call add(rst, '+ ' . name . ':' . repeat(' ', 45 - len(name)) . status)
+        for plugin in dotvim#crate#plugins(name)
+          let plug_status = get(l:plugins_dict, plugin,
+                \ {'sourced': 0}).sourced ? 'sourced' : 'not sourced'
+          call add(rst, '  * ' . plugin
+                \ . repeat(' ', 44 - len(plugin) - (len(plug_status) - 6))
+                \ . plug_status)
+        endfor
+      else
+        call add(rst, '- ' . name . ':' . repeat(' ', 41 - len(name)) . status)
+      endif
+    endif
+  endfor
+
+  return rst
+endfunction
+
+

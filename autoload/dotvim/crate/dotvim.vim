@@ -16,6 +16,11 @@ function! dotvim#crate#dotvim#plugins() abort
         \ 'on_cmd': ['AsyncRun', 'AsyncStop']
         \ })
   call add(l:plugins, 'skywind3000/asyncrun.vim')
+
+  call dotvim#plugin#reg('mhinz/vim-startify', {
+        \ 'on_cmd': ['Startify'],
+        \ 'builtin_conf': 1
+        \ })
   call add(l:plugins, 'mhinz/vim-startify')
 
   call dotvim#plugin#reg('Shougo/defx.nvim', {
@@ -37,6 +42,17 @@ function! dotvim#crate#dotvim#plugins() abort
 endfunction
 
 function! dotvim#crate#dotvim#config() abort
+  " startify {{{
+  augroup dotvimStartify
+    autocmd!
+    autocmd VimEnter * 
+          \  if !argc()
+          \|   call dein#source('mhinz/vim-startify')
+          \|   silent! Startify
+          \| endif
+  augroup END
+  " }}}
+
   if !has('nvim')
     set nocompatible
     set backspace=2
@@ -88,24 +104,6 @@ function! dotvim#crate#dotvim#config() abort
 
   " auto-move quickfix to botright
   autocmd FileType qf wincmd J
-
-  " startify settings {{{
-  let g:startify_custom_header = [
-        \ ' [ dotvim, last updated: ' . g:dotvim_last_updated_time . ' ]'
-        \ ]
-  let g:startify_list_order = [
-        \ [' Recent Files:'],
-        \ 'files',
-        \ [' Project:'],
-        \ 'dir',
-        \ [' Sessions:'],
-        \ 'sessions',
-        \ [' Bookmarks:'],
-        \ 'bookmarks',
-        \ [' Commands:'],
-        \ 'commands',
-        \ ]
-  " }}}
 
   execute 'set colorcolumn=' . string(get(s:vars, 'use_colorcolumn', 80))
 

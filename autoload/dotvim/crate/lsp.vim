@@ -75,9 +75,6 @@ function! dotvim#crate#lsp#config() abort
   set shortmess+=c
   set signcolumn=yes
   set hidden
-
-  let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-  let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 endfunction
 
 function! s:check_back_space() abort

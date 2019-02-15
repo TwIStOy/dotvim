@@ -1,0 +1,1 @@
+call which_key#register('<Space>', 'g:dotvim_mapping')

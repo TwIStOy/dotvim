@@ -1,4 +1,5 @@
 let g:_log_file_path = get(g:, 'dotvim_log_file_path', $HOME . '/.dotvim.log')
+let g:_dotvim_minlvl = get(g:, '_dotvim_minlvl', 0)
 
 let s:loggers = {}
 
@@ -33,6 +34,10 @@ function! s:self.getLogger(name) abort
   return s:loggers[a:name]
 endfunction
 
+function! dotvim#api#logging#log_enabled(lvl)
+  return a:lvl >= g:_dotvim_minlvl
+endfunction
+
 function! dotvim#api#logging#log_debug(msg) dict
   call s:log_impl(a:msg, 1, self.name)
 endfunction
@@ -50,6 +55,9 @@ function! dotvim#api#logging#log_error(msg) dict
 endfunction
 
 function! s:log_impl(msg, tag, name) abort
+  if !dotvim#api#logging#log_enabled(a:tag)
+    return
+  endif
   let l:lines = []
 
   call add(l:lines, s:parse_tag(a:tag))

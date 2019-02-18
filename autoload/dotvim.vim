@@ -9,6 +9,8 @@ function! dotvim#bootstrap() abort
   call s:read_custom_file()
 
   call dotvim#command#defineCommand()
+  let g:_dotvim_minlvl = get(get(g:dotvimCustomSetting, 'global', {}),
+        \ 'minloglvl', 0)
 
   " leader settings {{{
   let g:mapleader = "\<Space>"

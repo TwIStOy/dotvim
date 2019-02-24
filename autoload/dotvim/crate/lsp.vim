@@ -44,7 +44,7 @@ function! dotvim#crate#lsp#config() abort
         \ ':<C-u>CocListResume<CR>', 'list-resume')
 
   if get(s:vars, 'coc_show_signature_help', 0)
-    autocmd CursorHoldI,CursorMovedI * silent! call CocAction('showSignatureHelp')
+    autocmd CursorHoldI,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
   endif
 
   if get(s:vars, 'coc_cursorhold_highlight', 0)

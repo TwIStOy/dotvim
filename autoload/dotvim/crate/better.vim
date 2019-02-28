@@ -43,6 +43,8 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'sheerun/vim-polyglot')
   call add(l:plugins, 'matze/vim-move')
 
+  call add(l:plugins, 'RRethy/vim-illuminate')
+
   return l:plugins
 endfunction
 
@@ -101,6 +103,11 @@ function! dotvim#crate#better#config() abort
   let g:lightline.subseparator = { 'left': '', 'right': '' }
 
   let g:move_key_modifier = 'C'
+
+  " vim-illuminate {{{
+  let g:Illuminate_delay = 200
+  let g:Illuminate_ftblacklist = ['nerdtree', 'defx']
+  " }}}
 endfunction
 
 function! dotvim#crate#better#postConfig() abort

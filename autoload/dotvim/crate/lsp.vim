@@ -51,6 +51,11 @@ function! dotvim#crate#lsp#config() abort
     autocmd CursorHold * silent call CocActionAsync('highlight')
   endif
 
+  if has_key(s:vars, 'updatetime')
+    let l:new_updatetime = str2nr(s:vars['updatetime'])
+    execute 'set updatetime=' . l:new_updatetime
+  endif
+
   " Close preview window when completion is done
   autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 

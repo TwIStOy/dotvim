@@ -126,21 +126,24 @@ function! dotvim#crate#showCrates() abort
 
   let l:opt = {
         \ 'relative': 'editor',
-        \ 'row': (winheight(0) - 20) / 2,
+        \ 'row': (winheight(0) / 3),
         \ 'col': (winwidth(0) - l:wincol) / 2,
         \ }
 
   let l:nr = bufnr('%')
-  let l:buffer_id = nvim_create_buf(v:false, v:false)
+  let l:buffer_id = nvim_create_buf(v:false, v:true)
   let l:winid = nvim_open_win(l:buffer_id, v:true,
-        \ len(l:content), 20, l:opt)
+        \ len(l:content), winheight(0) / 3, l:opt)
   call nvim_buf_set_lines(l:buffer_id, 0, -1, v:true, l:content)
 
   nnoremap <buffer> q :q<cr>
 
   setlocal buftype=nofile bufhidden=wipe
-  setlocal nobuflisted nolist noswapfile nowrap cursorline nospell
-  setlocal norelativenumber nonumber
+  setlocal nobuflisted
+  setlocal nolist noswapfile nowrap cursorline nospell
+
+  call nvim_win_set_option(l:winid, 'number', v:false)
+  call nvim_win_set_option(l:winid, 'relativenumber', v:false)
 
   setf DotvimCrateLister
   nnoremap <silent> <buffer> q :q<CR>

@@ -35,7 +35,7 @@ function! dotvim#crate#better#plugins() abort
         \ })
   call add(l:plugins, 'junegunn/vim-easy-align')
 
-  call add(l:plugins, 'luochen1990/rainbow')
+  "call add(l:plugins, 'luochen1990/rainbow')
 
   call add(l:plugins, 'itchyny/lightline.vim')
   call add(l:plugins, 'mengelbrecht/lightline-bufferline')

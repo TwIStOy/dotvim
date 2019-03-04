@@ -139,6 +139,7 @@ function! dotvim#crate#showCrates() abort
   nnoremap <buffer> q :q<cr>
 
   setlocal buftype=nofile bufhidden=wipe
+  setlocal signcolumn=no
   setlocal nobuflisted
   setlocal nolist noswapfile nowrap cursorline nospell
 

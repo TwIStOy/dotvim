@@ -22,7 +22,7 @@ function! dotvim#crate#lsp#config() abort
   call dotvim#mapping#define_leader('nmap', 'gr', '<Plug>(coc-references)',
         \ 'goto-references')
   call dotvim#mapping#define_leader('nnoremap', 'gk',
-        \ 'call dotvim#crate#lsp#show_documentation()',
+        \ ':call dotvim#crate#lsp#show_documentation()<CR>',
         \ 'goto-doc')
   call dotvim#mapping#define_leader('nmap', 'gR',
         \ '<Plug>(coc-rename)', 'lsp-rename')

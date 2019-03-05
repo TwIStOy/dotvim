@@ -84,6 +84,10 @@ function! dotvim#crate#better#config() abort
   " disable --INSERT-- mode show
   set noshowmode
 
+  if has_key(s:vars, 'use_clipboard')
+    execute 'set clipboard=' . s:vars['use_clipboard']
+  endif
+
   let g:lightline = {
         \ 'active': {
         \   'left':[ [ 'mode', 'paste' ], [ 'cocstatus', 'gitbranch', 'readonly', 'filename', 'modified' ] ]

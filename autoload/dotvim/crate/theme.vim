@@ -29,6 +29,8 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'logico-dev/typewriter')
   elseif l:theme ==# 'two-firewatch'
     call add(l:plugins, 'rakr/vim-two-firewatch')
+  elseif l:theme ==# 'github'
+    call add(l:plugins, 'cormacrelf/vim-colors-github')
   endif
 
   return l:plugins
@@ -74,6 +76,15 @@ function! dotvim#crate#theme#postConfig() abort
     let g:two_firewatch_italics=1
     if exists('g:lightline')
       let g:lightline.colorscheme = 'twofirewatch'
+    endif
+  elseif l:theme ==# 'github'
+    colorscheme github
+
+    let g:github_colors_extra_functions = 1
+    let g:github_colors_soft = 1
+
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'github'
     endif
   endif
 endfunction

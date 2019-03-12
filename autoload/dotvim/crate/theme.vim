@@ -25,6 +25,10 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'jacoborus/tender.vim')
   elseif l:theme ==# 'gruvbox'
     call add(l:plugins, 'morhetz/gruvbox')
+  elseif l:theme ==# 'typewriter'
+    call add(l:plugins, 'logico-dev/typewriter')
+  elseif l:theme ==# 'two-firewatch'
+    call add(l:plugins, 'rakr/vim-two-firewatch')
   endif
 
   return l:plugins
@@ -57,6 +61,19 @@ function! dotvim#crate#theme#postConfig() abort
     hi Normal guibg=NONE ctermbg=NONE
     if exists('g:lightline')
       let g:lightline.colorscheme = 'gruvbox'
+    endif
+  elseif l:theme ==# 'typewriter'
+    colorscheme typewriter
+
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'typewriter_light'
+    endif
+  elseif l:theme ==# 'two-firewatch'
+    colorscheme two-firewatch
+
+    let g:two_firewatch_italics=1
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'twofirewatch'
     endif
   endif
 endfunction

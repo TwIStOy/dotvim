@@ -76,6 +76,12 @@ function! dotvim#crate#lsp#config() abort
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
 
+  let g:coc_global_extensions = [
+        \ 'coc-json',
+        \ 'coc-snippets',
+        \ 'coc-tsserver'
+        \ ]
+
   set cmdheight=2
   set shortmess+=c
   set signcolumn=yes

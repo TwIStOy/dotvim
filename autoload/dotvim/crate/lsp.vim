@@ -76,11 +76,19 @@ function! dotvim#crate#lsp#config() abort
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
 
+  " default extensions
   let g:coc_global_extensions = [
         \ 'coc-json',
         \ 'coc-snippets',
         \ 'coc-tsserver'
         \ ]
+
+  " default settings
+  let g:coc_user_config = {
+        \ 'suggest.triggerAfterInsertEnter': v:false,
+        \ 'diagnostic.enable': v:true,
+        \ 'diagnostic.virtualText': v:true
+        \ }
 
   set cmdheight=2
   set shortmess+=c

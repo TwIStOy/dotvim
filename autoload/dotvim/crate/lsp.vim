@@ -87,7 +87,10 @@ function! dotvim#crate#lsp#config() abort
   let g:coc_user_config = {
         \ 'suggest.triggerAfterInsertEnter': v:false,
         \ 'diagnostic.enable': v:true,
-        \ 'diagnostic.virtualText': v:true
+        \ 'diagnostic.virtualText': v:false,
+        \ 'diagnostic.messageTarget': 'float',
+        \ 'signature.hideOnTextChange': v:true,
+        \ 'signature.preferShowAbove': v:false
         \ }
 
   set cmdheight=2

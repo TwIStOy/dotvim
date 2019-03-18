@@ -166,6 +166,7 @@ function! dotvim#crate#dotvim#config() abort
   nnoremap <Plug>(window_v1) <C-W>v
   nnoremap <Plug>(window_v2) <C-W>v
   nnoremap <Plug>(window_2) <C-W>v
+  nnoremap <Plug>(window_x) <C-W>x
 
   if exists('&wildoptions')
     set wildoptions=pum
@@ -173,11 +174,25 @@ function! dotvim#crate#dotvim#config() abort
 
   call dotvim#mapping#define_name('w', '+window')
   call dotvim#mapping#define_leader('nnoremap', 'wv',
-        \ ':call feedkeys("\<Plug>(window_v1)")<CR>', 'split-window-below')
+        \ ':call feedkeys("\<Plug>(window_v1)")<CR>', 'split-window-right')
   call dotvim#mapping#define_leader('nnoremap', 'w-',
         \ ':call feedkeys("\<Plug>(window_s1)")<CR>', 'split-window-below')
   call dotvim#mapping#define_leader('nnoremap', 'w=',
         \ ':call feedkeys("\<Plug>(window_b)")<CR>', 'balance-window')
+
+  call dotvim#mapping#define_leader('nnoremap', 'wr',
+        \ ':call feedkeys("\<Plug>(window_r)")<CR>', 'rotate-windows-rightwards')
+  call dotvim#mapping#define_leader('nnoremap', 'wx',
+        \ ':call feedkeys("\<Plug>(window_x)")<CR>', 'exchange-window-with-next')
+
+  call dotvim#mapping#define_leader('nnoremap', 'wh',
+        \ ':call feedkeys("\<Plug>(window_h)")<CR>', 'move-window-left')
+  call dotvim#mapping#define_leader('nnoremap', 'wj',
+        \ ':call feedkeys("\<Plug>(window_j)")<CR>', 'move-window-down')
+  call dotvim#mapping#define_leader('nnoremap', 'wk',
+        \ ':call feedkeys("\<Plug>(window_k)")<CR>', 'move-window-up')
+  call dotvim#mapping#define_leader('nnoremap', 'wl',
+        \ ':call feedkeys("\<Plug>(window_l)")<CR>', 'move-window-right')
 
   nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 

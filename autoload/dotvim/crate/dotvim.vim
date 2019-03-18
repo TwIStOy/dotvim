@@ -75,7 +75,7 @@ function! dotvim#crate#dotvim#config() abort
 
   set lazyredraw
   set termguicolors
-  if has('nvim')
+  if has('nvim') && exists('&pumblend')
     " make popupmenu semi-transparency
     set pumblend=20
   endif
@@ -166,6 +166,10 @@ function! dotvim#crate#dotvim#config() abort
   nnoremap <Plug>(window_v1) <C-W>v
   nnoremap <Plug>(window_v2) <C-W>v
   nnoremap <Plug>(window_2) <C-W>v
+
+  if exists('&wildoptions')
+    set wildoptions=pum
+  endif
 
   call dotvim#mapping#define_name('w', '+window')
   call dotvim#mapping#define_leader('nnoremap', 'wv',

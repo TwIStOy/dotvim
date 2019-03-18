@@ -1,8 +1,16 @@
+scriptencoding utf-8
+
+let s:vars = get(s:, 'vars', {})
+
+function! dotvim#crate#edit#setVariables(vars) abort
+  let s:vars = deepcopy(a:vars)
+endfunction
+
 function! dotvim#crate#edit#plugins() abort
   let l:plugins = []
 
   call dotvim#plugin#reg('osyo-manga/vim-jplus', {
-        \   'on_map' : '<Plug>(jplus' 
+        \   'on_map' : '<Plug>(jplus'
         \ })
   call add(l:plugins, 'osyo-manga/vim-jplus')
 

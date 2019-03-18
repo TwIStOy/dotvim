@@ -37,11 +37,11 @@ function! dotvim#crate#dotvim#plugins() abort
 
   call add(l:plugins, 'tpope/vim-vividchalk')
 
-  call dotvim#plugin#reg('TwIStOy/vim-which-key', {
+  call dotvim#plugin#reg('liuchengxu/vim-which-key', {
         \ 'on_cmd': ['WhichKey', 'WhichKey!'],
         \ 'builtin_conf': 1
         \ })
-  call add(l:plugins, 'TwIStOy/vim-which-key')
+  call add(l:plugins, 'liuchengxu/vim-which-key')
 
   return l:plugins
 endfunction

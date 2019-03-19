@@ -181,9 +181,11 @@ function! dotvim#crate#dotvim#config() abort
         \ ':call feedkeys("\<Plug>(window_b)")<CR>', 'balance-window')
 
   call dotvim#mapping#define_leader('nnoremap', 'wr',
-        \ ':call feedkeys("\<Plug>(window_r)")<CR>', 'rotate-windows-rightwards')
+        \ ':call feedkeys("\<Plug>(window_r)")<CR>',
+        \ 'rotate-windows-rightwards')
   call dotvim#mapping#define_leader('nnoremap', 'wx',
-        \ ':call feedkeys("\<Plug>(window_x)")<CR>', 'exchange-window-with-next')
+        \ ':call feedkeys("\<Plug>(window_x)")<CR>',
+        \ 'exchange-window-with-next')
 
   call dotvim#mapping#define_leader('nnoremap', 'wh',
         \ ':call feedkeys("\<Plug>(window_h)")<CR>', 'move-window-left')

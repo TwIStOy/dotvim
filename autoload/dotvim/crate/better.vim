@@ -45,6 +45,13 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'RRethy/vim-illuminate')
 
+  if get(s:vars, 'enable_defx_icons', 0)
+    call dotvim#plugin#reg('kristijanhusak/defx-icons', {
+          \ 'on_cmd': ['Defx']
+          \ })
+    call add(l:plugins, 'kristijanhusak/defx-icons')
+  endif
+
   return l:plugins
 endfunction
 
@@ -86,6 +93,13 @@ function! dotvim#crate#better#config() abort
 
   if has_key(s:vars, 'use_clipboard')
     execute 'set clipboard=' . s:vars['use_clipboard']
+  endif
+
+  if get(s:vars, 'enable_defx_icons', 0)
+    let g:defx_icons_enable_syntax_highlight = 1
+    call dotvim#mapping#define_leader('nnoremap', 'ft',
+          \ ':Defx -split=vertical -columns=icons:filename:type -winwidth=30 -toggle<CR>',
+          \ 'toggle-file-explorer-with-icon')
   endif
 
   let g:lightline = {

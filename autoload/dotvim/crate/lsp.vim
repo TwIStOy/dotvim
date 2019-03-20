@@ -5,7 +5,7 @@ function! dotvim#crate#lsp#plugins() abort
         \ 'build': 'yarn install'
         \ })
 
-  return ['neoclide/coc.nvim']
+  return ['liuchengxu/vista.vim', 'neoclide/coc.nvim']
 endfunction
 
 function! dotvim#crate#lsp#config() abort
@@ -97,6 +97,25 @@ function! dotvim#crate#lsp#config() abort
   set shortmess+=c
   set signcolumn=yes
   set hidden
+
+  " liuchengxu/vista.vim {{{
+
+  let win = dotvim#api#import('window')
+  call win.addAutocloseType('vista')
+
+  let g:vista_sidebar_position = 'vertical botright'
+  let g:vista_sidebar_width = 35
+  let g:vista_echo_cursor = 0
+  let g:vista_cursor_delay = 400
+  let g:vista_close_on_jump = 0
+  let g:vista_stay_on_open = 1
+  let g:vista_blink = [2, 100]
+  let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+  let g:vista_default_executive = 'coc'
+  let g:vista_fzf_preview = ['right:50%']
+  let g:vista_finder_alternative_executives = ['coc']
+
+  " }}}
 endfunction
 
 function! s:check_back_space() abort

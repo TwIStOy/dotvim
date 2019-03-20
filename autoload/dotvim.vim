@@ -17,8 +17,11 @@ function! dotvim#bootstrap() abort
   let g:maplocalleader = ','
   " }}}
 
+  call dotvim#api#import('window').enableAutoclose()
+
   " install if dein is missing
   call dotvim#plugin#installMissingDein()
+
 
   " enable crates from config
   call s:enabled_crates_from_config()

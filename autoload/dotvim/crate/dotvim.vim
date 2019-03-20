@@ -120,6 +120,8 @@ function! dotvim#crate#dotvim#config() abort
 
   set timeoutlen=500
 
+  call dotvim#api#import('window').addAutocloseType('defx')
+
   " default keybindings {{{
   for l:i in range(1, 9)
     call dotvim#mapping#define_leader('nnoremap',

@@ -17,8 +17,6 @@ function! dotvim#crate#better#plugins() abort
         \ })
   call add(l:plugins, 'Yggdroot/LeaderF')
 
-  call add(l:plugins, 'andymass/vim-matchup')
-
   call add(l:plugins, 'tenfyzhong/axring.vim')
 
   call add(l:plugins, 'bogado/file-line')
@@ -35,15 +33,26 @@ function! dotvim#crate#better#plugins() abort
         \ })
   call add(l:plugins, 'junegunn/vim-easy-align')
 
-  call add(l:plugins, 'luochen1990/rainbow')
 
   call add(l:plugins, 'itchyny/lightline.vim')
   call add(l:plugins, 'mengelbrecht/lightline-bufferline')
 
-  call add(l:plugins, 'sheerun/vim-polyglot')
   call add(l:plugins, 'matze/vim-move')
 
+
+  " lazy group {{{
+  call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
   call add(l:plugins, 'RRethy/vim-illuminate')
+
+  call dotvim#plugin#reg('sheerun/vim-polyglot', { 'lazy': 1 })
+  call add(l:plugins, 'sheerun/vim-polyglot')
+
+  call dotvim#plugin#reg('luochen1990/rainbow', { 'lazy': 1 })
+  call add(l:plugins, 'luochen1990/rainbow')
+
+  call dotvim#plugin#reg('andymass/vim-matchup', { 'lazy': 1 })
+  call add(l:plugins, 'andymass/vim-matchup')
+  " }}}
 
   if get(s:vars, 'enable_defx_icons', 0)
     call dotvim#plugin#reg('kristijanhusak/defx-icons', {
@@ -55,7 +64,7 @@ function! dotvim#crate#better#plugins() abort
   return l:plugins
 endfunction
 
-function! dotvim#crate#better#config() abort
+function! dotvim#crate#better#config() abort " {{{
   " enable vim-surround default keybindings {{{
   let g:surround_no_mappings = 0
   let g:surround_no_insert_mappings = 1
@@ -129,10 +138,18 @@ function! dotvim#crate#better#config() abort
   let g:Illuminate_delay = 200
   let g:Illuminate_ftblacklist = ['nerdtree', 'defx']
   " }}}
-endfunction
+endfunction " }}}
 
 function! dotvim#crate#better#postConfig() abort
-
+  call timer_start(400, 'dotvim#crate#better#_lazy_load')
 endfunction
 
-" vim:set ft=vim sw=2 sts=2 et:
+function! dotvim#crate#better#_lazy_load(timer) abort
+  call dotvim#vim#plug#source(
+        \ 'vim-polyglot',
+        \ 'vim-matchup',
+        \ 'rainbow',
+        \ 'vim-illuminate')
+endfunction
+
+" vim:set foldmethod=marker ft=vim sw=2 sts=2 et:

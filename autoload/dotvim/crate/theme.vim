@@ -31,6 +31,10 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'rakr/vim-two-firewatch')
   elseif l:theme ==# 'github'
     call add(l:plugins, 'cormacrelf/vim-colors-github')
+  elseif l:theme ==# 'spacegray'
+    call add(l:plugins, 'ajh17/Spacegray.vim')
+  elseif l:theme ==# 'sacredforest'
+    call add(l:plugins, 'KKPMW/sacredforest-vim')
   endif
 
   return l:plugins
@@ -85,6 +89,14 @@ function! dotvim#crate#theme#postConfig() abort
 
     if exists('g:lightline')
       let g:lightline.colorscheme = 'github'
+    endif
+  elseif l:theme ==# 'spacegray'
+    colorscheme spacegray
+  elseif l:theme ==# 'sacredforest'
+    colorscheme sacredforest
+
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'sacredforest'
     endif
   endif
 endfunction

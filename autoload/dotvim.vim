@@ -2,7 +2,7 @@ scriptencoding utf-8
 
 let s:logger = dotvim#api#import('logging').getLogger('main')
 let g:dotvim_root = $HOME . '/.dotvim'
-let g:dotvim_last_updated_time = '2018.2.18'
+let g:dotvim_last_updated_time = '2018.3.22'
 
 function! dotvim#bootstrap() abort
   " TODO(hawtian): impl

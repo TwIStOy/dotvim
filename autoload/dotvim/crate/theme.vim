@@ -35,6 +35,8 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'ajh17/Spacegray.vim')
   elseif l:theme ==# 'sacredforest'
     call add(l:plugins, 'KKPMW/sacredforest-vim')
+  elseif l:theme ==# 'onedark'
+    call add(l:plugins, 'joshdick/onedark.vim')
   endif
 
   return l:plugins
@@ -97,6 +99,14 @@ function! dotvim#crate#theme#postConfig() abort
 
     if exists('g:lightline')
       let g:lightline.colorscheme = 'sacredforest'
+    endif
+  elseif l:theme ==# 'onedark'
+    colorscheme onedark
+
+    let g:onedark_terminal_italics = 1
+
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'onedark'
     endif
   endif
 endfunction

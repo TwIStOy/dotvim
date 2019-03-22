@@ -22,6 +22,10 @@ function! dotvim#vim#plug#tap(plug) abort
   return dein#tap(a:plug)
 endfunction
 
+function! dotvim#vim#plug#source(...) abort
+  silent! call dein#source(a:000)
+endfunction
+
 function! dotvim#vim#plug#builtinConfgExists(plug) abort
 endfunction
 
@@ -56,7 +60,7 @@ function! dotvim#vim#plug#add(plug, ...) abort
     call dein#add(a:plug)
   endif
 
-  g:_dotvim_plugins[a:plug] = 1
+  let g:_dotvim_plugins[a:plug] = 1
 endfunction
 
 let g:_dotvim_dein_root = get(g:, 'dotvim_dein_root', $HOME . '/.cache/dein')

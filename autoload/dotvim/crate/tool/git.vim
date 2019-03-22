@@ -7,6 +7,7 @@ endfunction
 function! dotvim#crate#tool#git#plugins() abort
   let l:plugins = []
 
+  call dotvim#plugin#reg('tpope/vim-fugitive', { 'lazy': 1 })
   call add(l:plugins, 'tpope/vim-fugitive')
 
   call dotvim#plugin#reg('junegunn/gv.vim', {
@@ -17,5 +18,12 @@ function! dotvim#crate#tool#git#plugins() abort
   return l:plugins
 endfunction
 
+function! dotvim#crate#tool#git#postConfig() abort
+  call timer_start(600, 'dotvim#crate#tool#git#_lazy_load')
+endfunction
+
+function! dotvim#crate#tool#git#_lazy_load(timer) abort
+  call dotvim#vim#plug#source('vim-fugitive')
+endfunction
 
 

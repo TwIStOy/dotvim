@@ -36,7 +36,7 @@ function! dotvim#crate#edit#config() abort
   " }}}
 
   " AndrewRadev/sideways.vim {{{
-  call dotvim#mapping#define_name('m', '+move')
+  call dotvim#mapping#define_name('m', '+move/motion')
   call dotvim#mapping#define_leader('nnoremap', 'mh',
         \ ':SidewaysLeft<CR>', 'move-argument-left')
   call dotvim#mapping#define_leader('nnoremap', 'ml',

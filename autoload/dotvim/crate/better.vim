@@ -97,8 +97,11 @@ function! dotvim#crate#better#config() abort
 
   if get(s:vars, 'enable_defx_icons', 0)
     let g:defx_icons_enable_syntax_highlight = 1
+    let defx_cmd  = ':Defx '
+    let defx_cmd .= '-split=vertical -columns=icons:filename:type '
+    let defx_cmd .= '-winwidth=30 -toggle<CR>'
     call dotvim#mapping#define_leader('nnoremap', 'ft',
-          \ ':Defx -split=vertical -columns=icons:filename:type -winwidth=30 -toggle<CR>',
+          \ defx_cmd,
           \ 'toggle-file-explorer-with-icon')
   endif
 

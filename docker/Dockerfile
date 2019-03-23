@@ -7,13 +7,13 @@ RUN apt update && \
       apt install -y g++ git make cmake \
       pkg-config automake libtool curl \
       unzip libtool-bin gettext python3 \
-      python3-pip nodejs yarn python-pip && \
+      python3-pip nodejs npm python-pip && \
       apt clean autoclean && \
       rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 RUN python3 -m pip install --no-cache-dir pynvim && \
       python2 -m pip install --no-cache-dir pynvim \
-      && npm install -g neovim
+      && npm install -g neovim && npm install -g yarn
 
 RUN mkdir /custom && cd /tmp && git clone https://github.com/neovim/neovim.git \
       && cd neovim \

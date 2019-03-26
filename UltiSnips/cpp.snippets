@@ -60,3 +60,25 @@ snippet cc "const_cast"
 const_cast<${1}>(${2})${0}
 endsnippet
 
+snippet inc "#include"
+#include "${1}"
+${0}
+endsnippet
+
+snippet incc "#include<>"
+#include <${1}>
+${0}
+endsnippet
+
+snippet fin "for...in"
+for (auto& iter : ${1}) {
+  ${0}
+}
+endsnippet
+
+snippet cfin "const...for...in"
+for (const auto& iter : ${1}) {
+  ${0}
+}
+endsnippet
+

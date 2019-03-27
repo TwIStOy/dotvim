@@ -37,6 +37,8 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'KKPMW/sacredforest-vim')
   elseif l:theme ==# 'onedark'
     call add(l:plugins, 'joshdick/onedark.vim')
+  elseif l:theme ==# 'snow'
+    call add(l:plugins, 'nightsense/snow')
   endif
 
   return l:plugins
@@ -107,6 +109,13 @@ function! dotvim#crate#theme#postConfig() abort
 
     if exists('g:lightline')
       let g:lightline.colorscheme = 'onedark'
+    endif
+  elseif l:theme ==# 'snow'
+    colorscheme snow
+
+    exec 'set background=' . get(s:vars, 'background', 'dark')
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'snow_' . get(s:vars, 'background', 'dark')
     endif
   endif
 endfunction

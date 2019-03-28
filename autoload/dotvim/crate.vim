@@ -128,12 +128,13 @@ function! dotvim#crate#showCrates() abort
         \ 'relative': 'editor',
         \ 'row': (winheight(0) / 3),
         \ 'col': (winwidth(0) - l:wincol) / 2,
+        \ 'height': winheight(0) / 3,
+        \ 'width': len(l:content),
         \ }
 
   let l:nr = bufnr('%')
   let l:buffer_id = nvim_create_buf(v:false, v:true)
-  let l:winid = nvim_open_win(l:buffer_id, v:true,
-        \ len(l:content), winheight(0) / 3, l:opt)
+  let l:winid = nvim_open_win(l:buffer_id, v:true, l:opt)
   call nvim_buf_set_lines(l:buffer_id, 0, -1, v:true, l:content)
 
   nnoremap <buffer> q :q<cr>

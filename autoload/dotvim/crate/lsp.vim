@@ -90,8 +90,18 @@ function! dotvim#crate#lsp#config() abort
         \ 'diagnostic.virtualText': v:false,
         \ 'diagnostic.messageTarget': 'float',
         \ 'signature.hideOnTextChange': v:true,
-        \ 'signature.preferShowAbove': v:false
+        \ 'signature.preferShowAbove': v:false,
+				\ 'signature.target': 'float',
+        \ 'list.insertMappings': {
+        \   '<C-j>': 'normal:j',
+        \   '<C-k>': 'normal:k'
+        \ },
+        \ 'list.normalMappings': {
+        \   '<C-j>': 'normal:j',
+        \   '<C-k>': 'normal:k'
         \ }
+        \ }
+
 
   set cmdheight=2
   set shortmess+=c

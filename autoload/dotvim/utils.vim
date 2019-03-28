@@ -15,3 +15,8 @@ function! dotvim#utils#globpath(path, expr) abort
 		return split(globpath(a:path, a:expr), '\n')
 	endif
 endfunction
+
+function! dotvim#utils#repo_home() abort
+  return trim(system('git rev-parse --show-toplevel'))
+endfunction
+

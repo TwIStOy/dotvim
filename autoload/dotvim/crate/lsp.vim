@@ -1,11 +1,11 @@
 let s:vars = get(s:, 'vars', {})
 
 function! dotvim#crate#lsp#plugins() abort
-  call dotvim#plugin#reg('TwIStOy/coc.nvim', {
+  call dotvim#plugin#reg('neoclide/coc.nvim', {
         \ 'build': 'yarn install'
         \ })
 
-  return ['liuchengxu/vista.vim', 'TwIStOy/coc.nvim']
+  return ['liuchengxu/vista.vim', 'neoclide/coc.nvim']
 endfunction
 
 function! dotvim#crate#lsp#config() abort

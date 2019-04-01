@@ -128,6 +128,13 @@ function! dotvim#crate#lsp#config() abort
   " }}}
 endfunction
 
+function! dotvim#crate#lsp#postConfig() abort
+  if exists('g:lightline')
+    let g:lightline.component_function['vista'] =
+          \ 'dotvim#crate#lsp#_NearestMethodOrFunction'
+  endif
+endfunction
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
@@ -143,5 +150,9 @@ function! dotvim#crate#lsp#show_documentation()
   else
     call CocActionAsync('doHover')
   endif
+endfunction
+
+function! dotvim#crate#lsp#_NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 

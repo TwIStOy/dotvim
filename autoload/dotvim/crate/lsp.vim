@@ -130,9 +130,15 @@ endfunction
 
 function! dotvim#crate#lsp#postConfig() abort
   if exists('g:lightline')
+    call timer_start(500, 'dotvim#crate#lsp#_lazy_start')
+
     let g:lightline.component_function['vista'] =
           \ 'dotvim#crate#lsp#_NearestMethodOrFunction'
   endif
+endfunction
+
+function! dotvim#crate#lsp#_lazy_start(timer) abort
+  call vista#RunForNearestMethodOrFunction()
 endfunction
 
 function! s:check_back_space() abort

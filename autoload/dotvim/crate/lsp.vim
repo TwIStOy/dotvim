@@ -132,8 +132,12 @@ function! dotvim#crate#lsp#postConfig() abort
   if exists('g:lightline')
     call timer_start(500, 'dotvim#crate#lsp#_lazy_start')
 
+    let g:lightline.component_function['cocstatus'] = 'coc#status'
+
     let g:lightline.component_function['vista'] =
           \ 'dotvim#crate#lsp#_NearestMethodOrFunction'
+    let g:lightline.active.left[1] = extend(['cocstatus', 'vista'],
+          \ g:lightline.active.left[1])
   endif
 endfunction
 

@@ -116,14 +116,13 @@ function! dotvim#crate#better#config() abort " {{{
 
   let g:lightline = {
         \ 'active': {
-        \   'left':[ [ 'mode', 'paste' ], [ 'cocstatus', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+        \   'left':[ [ 'mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ]
         \ },
         \ 'component': {
         \   'lineinfo': ' %3l:%-2v',
         \ },
         \ 'component_function': {
         \   'gitbranch': 'fugitive#head',
-        \   'cocstatus': 'coc#status'
         \ }
         \ }
   let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}

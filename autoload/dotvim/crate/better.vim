@@ -78,8 +78,9 @@ function! dotvim#crate#better#config() abort " {{{
   endif
 
   call dotvim#mapping#define_name('b', '+buffer')
+  call dotvim#mapping#define_name('r', '+rg')
 
-  " key mappings
+  " key mappings {{{
   call dotvim#mapping#define_leader('nnoremap', 'e',
         \ ':Leaderf file<CR>', 'edit[ pwd ]')
   call dotvim#mapping#define_leader('nnoremap', 'ff',
@@ -88,11 +89,14 @@ function! dotvim#crate#better#config() abort " {{{
         \ ':LeaderfMru<CR>', 'edit-recent-file')
   call dotvim#mapping#define_leader('nnoremap', 'bb',
         \ ':LeaderfBuffer<CR>', 'buffer-list')
+  call dotvim#mapping#define_leader('nnoremap', 'rg',
+        \ ':Leaderf rg --vimgrep<CR>', 'rg')
 
   call dotvim#mapping#define_leader('xmap', 'ta',
         \ ':EasyAlign<CR>', 'easy-align')
   call dotvim#mapping#define_leader('nmap', 'ta',
         \ ':EasyAlign<CR>', 'easy-align')
+  " }}}
 
   set showtabline=2
   set guioptions-=e

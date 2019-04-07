@@ -50,17 +50,19 @@ function! dotvim#crate#lang#cpp#config() abort
 
   augroup dotvimLangCppCommand
     autocmd!
-    autocmd FileType c,cpp call s:do_keybindings()
+    autocmd FileType c,cpp call s:do_cpp()
   augroup END
 endfunction
 
-function! s:do_keybindings() abort
+function! s:do_cpp() abort
   call dotvim#mapping#define_leader('nnoremap', 'fc', ':<C-u>ClangFormat<CR>',
         \ 'clang-format')
   call dotvim#mapping#define_leader('nnoremap', 'fa', ':FSHere<CR>',
         \ 'switch-file-here')
   call dotvim#mapping#define_leader('nnoremap', 'fv', ':FSSplitRight<CR>',
         \ 'switch-file-split-right')
+
+  setlocal foldexpr=dotvim#lang#cpp#foldExpr(v:lnum)
 endfunction
 
 

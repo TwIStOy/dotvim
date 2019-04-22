@@ -15,7 +15,7 @@ endfunction
 function! dotvim#crate#tool#table#config() abort
   inoreabbrev <expr> <bar><bar>
             \ <SID>isAtStartOfLine('\|\|') ?
-            \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' 
+            \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>'
             \ : '<bar><bar>'
   inoreabbrev <expr> __
             \ <SID>isAtStartOfLine('__') ?
@@ -36,7 +36,7 @@ function! s:isAtStartOfLine(mapping)
   let mapping_pattern = '\V' . escape(a:mapping, '\')
   let comment_pattern = '\V' . escape(
         \ substitute(&l:commentstring, '%s.*$', '', ''), '\')
-  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') 
+  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?')
         \ . '\s*\v' . mapping_pattern . '\v$')
 endfunction
 

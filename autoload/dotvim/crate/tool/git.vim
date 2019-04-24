@@ -15,7 +15,22 @@ function! dotvim#crate#tool#git#plugins() abort
         \ })
   call add(l:plugins, 'junegunn/gv.vim')
 
+  call dotvim#plugin#reg('rhysd/git-messenger.vim', {
+        \ 'lazy' : 1,
+        \ 'on_cmd' : 'GitMessenger',
+        \ 'on_map' : '<Plug>(git-messenger',
+        \ })
+  call add(l:plugins, 'rhysd/git-messenger.vim')
+
   return l:plugins
+endfunction
+
+function! dotvim#crate#tool#git#config() abort
+  call dotvim#mapping#define_name('v', '+vcs/git')
+  call dotvim#mapping#define_leader('nnoremap', 'vm',
+        \ 'GitMessenger',
+        \ 'check-git-message'
+        \ )
 endfunction
 
 function! dotvim#crate#tool#git#postConfig() abort

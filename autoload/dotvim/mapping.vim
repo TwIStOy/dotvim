@@ -26,7 +26,7 @@ let g:dotvim_mapping = get(g:, 'dotvim_mapping', {})
 "   @key: ta
 "   @action: <Plug>(EasyAlign)
 "   @a:1: desc
-function dotvim#mapping#define_leader(type, key, action, ...) abort
+function! dotvim#mapping#define_leader(type, key, action, ...) abort
   let l:cmd = a:type . ' <silent><leader>' . a:key . ' ' .a:action
   execute l:cmd
 
@@ -37,14 +37,14 @@ function dotvim#mapping#define_leader(type, key, action, ...) abort
   endif
 endfunction
 
-function dotvim#mapping#define_name(key, name) abort
+function! dotvim#mapping#define_name(key, name) abort
   let keys = split(a:key, '\zs')
 
   let name_dict = call('dotvim#mapping#_gen_dict', keys + ['name', a:name])
   call dotvim#mapping#_merge_dict(g:dotvim_mapping, name_dict)
 endfunction
 
-function dotvim#mapping#_merge_dict(expr1, expr2) abort
+function! dotvim#mapping#_merge_dict(expr1, expr2) abort
   if type(a:expr1) != v:t_dict || type(a:expr2) != v:t_dict
     throw 'Error'
   endif
@@ -73,7 +73,7 @@ function dotvim#mapping#_merge_dict(expr1, expr2) abort
   endfor
 endfunction
 
-function dotvim#mapping#_gen_dict(...) abort
+function! dotvim#mapping#_gen_dict(...) abort
   if a:0 == 1
     " final
     return a:1

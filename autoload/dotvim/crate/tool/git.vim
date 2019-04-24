@@ -28,7 +28,7 @@ endfunction
 function! dotvim#crate#tool#git#config() abort
   call dotvim#mapping#define_name('v', '+vcs/git')
   call dotvim#mapping#define_leader('nnoremap', 'vm',
-        \ 'GitMessenger',
+        \ ':GitMessenger<CR>',
         \ 'check-git-message'
         \ )
 endfunction

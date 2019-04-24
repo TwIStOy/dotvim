@@ -39,6 +39,10 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'joshdick/onedark.vim')
   elseif l:theme ==# 'snow'
     call add(l:plugins, 'nightsense/snow')
+  elseif l:theme ==# 'janah'
+    call add(l:plugins, 'mhinz/vim-janah')
+  elseif l:theme ==# 'moonfly'
+    call add(l:plugins, 'bluz71/vim-moonfly-colors')
   endif
 
   return l:plugins
@@ -116,6 +120,20 @@ function! dotvim#crate#theme#postConfig() abort
     exec 'set background=' . get(s:vars, 'background', 'dark')
     if exists('g:lightline')
       let g:lightline.colorscheme = 'snow_' . get(s:vars, 'background', 'dark')
+    endif
+  elseif l:theme ==# 'janah'
+    autocmd ColorScheme janah highlight Normal ctermbg=235
+
+    colorscheme janah
+  elseif l:theme ==# 'moonfly'
+    let g:moonflyCursorLineNr = 0
+    let g:moonflyCursorColor = 1
+    let g:moonflyUnderlineMatchParen = 1
+
+    colorscheme moonfly
+
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'moonfly'
     endif
   endif
 endfunction

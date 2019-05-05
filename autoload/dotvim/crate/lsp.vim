@@ -5,7 +5,12 @@ function! dotvim#crate#lsp#plugins() abort
         \ 'build': 'yarn install'
         \ })
 
-  return ['liuchengxu/vista.vim', 'neoclide/coc.nvim']
+  let l:plugins = ['neoclide/coc.nvim']
+  if get(s:vars, 'vista_enabled', 0)
+    call add(l:plugins, 'liuchengxu/vista.vim')
+  endif
+
+  return l:plugins
 endfunction
 
 function! dotvim#crate#lsp#config() abort
@@ -110,20 +115,22 @@ function! dotvim#crate#lsp#config() abort
 
   " liuchengxu/vista.vim {{{
 
-  let win = dotvim#api#import('window')
-  call win.addAutocloseType('vista')
+  if get(s:vars, 'vista_enabled', 0)
+    let win = dotvim#api#import('window')
+    call win.addAutocloseType('vista')
 
-  let g:vista_sidebar_position = 'vertical botright'
-  let g:vista_sidebar_width = 35
-  let g:vista_echo_cursor = 0
-  let g:vista_cursor_delay = 400
-  let g:vista_close_on_jump = 0
-  let g:vista_stay_on_open = 1
-  let g:vista_blink = [2, 100]
-  let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-  let g:vista_default_executive = 'coc'
-  let g:vista_fzf_preview = ['right:50%']
-  let g:vista_finder_alternative_executives = ['coc']
+    let g:vista_sidebar_position = 'vertical botright'
+    let g:vista_sidebar_width = 35
+    let g:vista_echo_cursor = 0
+    let g:vista_cursor_delay = 400
+    let g:vista_close_on_jump = 0
+    let g:vista_stay_on_open = 1
+    let g:vista_blink = [2, 100]
+    let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+    let g:vista_default_executive = 'coc'
+    let g:vista_fzf_preview = ['right:50%']
+    let g:vista_finder_alternative_executives = ['coc']
+  endif
 
   " }}}
 endfunction
@@ -134,15 +141,19 @@ function! dotvim#crate#lsp#postConfig() abort
 
     let g:lightline.component_function['cocstatus'] = 'coc#status'
 
-    let g:lightline.component_function['vista'] =
-          \ 'dotvim#crate#lsp#_NearestMethodOrFunction'
-    let g:lightline.active.left[1] = extend(['cocstatus', 'vista'],
-          \ g:lightline.active.left[1])
+    if get(s:vars, 'vista_enabled', 0)
+      let g:lightline.component_function['vista'] =
+            \ 'dotvim#crate#lsp#_NearestMethodOrFunction'
+      let g:lightline.active.left[1] = extend(['cocstatus', 'vista'],
+            \ g:lightline.active.left[1])
+    endif
   endif
 endfunction
 
 function! dotvim#crate#lsp#_lazy_start(timer) abort
-  call vista#RunForNearestMethodOrFunction()
+  if get(s:vars, 'vista_enabled', 0)
+    call vista#RunForNearestMethodOrFunction()
+  endif
 endfunction
 
 function! s:check_back_space() abort

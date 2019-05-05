@@ -90,7 +90,7 @@ function! dotvim#crate#better#config() abort " {{{
   call dotvim#mapping#define_leader('nnoremap', 'bb',
         \ ':LeaderfBuffer<CR>', 'buffer-list')
   call dotvim#mapping#define_leader('nnoremap', 'rg',
-        \ ':Leaderf rg --vimgrep<CR>', 'rg')
+        \ ':LeaderfRgInteractive<CR>', 'rg')
 
   call dotvim#mapping#define_leader('xmap', 'ta',
         \ ':EasyAlign<CR>', 'easy-align')

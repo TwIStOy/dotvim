@@ -30,7 +30,9 @@ function! dotvim#crate#edit#config() abort
   " }}}
 
   " ntpeters/vim-better-whitespace {{{
-  hi ExtraWhitespace guifg=#FF2626 gui=underline ctermfg=124 cterm=underline
+  augroup WhiteSpaceHighlight
+    autocmd FileType cpp hi ExtraWhitespace guifg=#FF2626 gui=underline ctermfg=124 cterm=underline
+  augroup END
   let g:better_whitespace_enabled = 1
   let g:strip_whitespace_on_save = get(s:vars, 'strip_whitespace_on_save', 0)
   " }}}

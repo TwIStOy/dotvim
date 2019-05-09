@@ -32,23 +32,23 @@ function! dotvim#crate#tool#easymotion#config() abort
         \ 'motion-word'
         \ )
 
-  call dotvim#mapping#define_name('mw', '+motion-overwin')
-  call dotvim#mapping#define_leader('nmap', 'mwf',
+  call dotvim#mapping#define_name('mo', '+motion-overwin')
+  call dotvim#mapping#define_leader('nmap', 'mof',
         \ '<Plug>(easymotion-overwin-f)',
         \ 'motion-overwin-f'
         \ )
 
-  call dotvim#mapping#define_leader('nmap', 'mws',
+  call dotvim#mapping#define_leader('nmap', 'mos',
         \ '<Plug>(easymotion-overwin-f2)',
         \ 'motion-overwin-f2'
         \ )
 
-  call dotvim#mapping#define_leader('nmap', 'mwu',
+  call dotvim#mapping#define_leader('nmap', 'mou',
         \ '<Plug>(easymotion-overwin-line)',
         \ 'motion-overwin-line'
         \ )
 
-  call dotvim#mapping#define_leader('nmap', 'mww',
+  call dotvim#mapping#define_leader('nmap', 'mow',
         \ '<Plug>(easymotion-overwin-w)',
         \ 'motion-overwin-word'
         \ )

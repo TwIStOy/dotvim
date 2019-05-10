@@ -132,7 +132,8 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'fs',
         \ ':update<CR>', 'save')
   call dotvim#mapping#define_leader('nnoremap', 'ft',
-        \ ':Defx -split=vertical -winwidth=30 -toggle<CR>', 'toggle-file-explorer')
+        \ ':Defx -split=vertical -winwidth=30 -toggle<CR>',
+        \ 'toggle-file-explorer')
 
   call dotvim#mapping#define_name('j', '+jump')
   call dotvim#mapping#define_leader('nnoremap', 'jb',
@@ -206,5 +207,9 @@ endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
   colorscheme vividchalk
+
+  call defx#custom#option('_', {
+        \ 'ignored_files': '*.d',
+        \ })
 endfunction
 

@@ -1,5 +1,5 @@
 let s:custom_header = [
-      \ ' [ dotvim, last updated: ' . g:dotvim_last_updated_time . ' ]'
+      \ ' [ dotvim, last updated: ' . dotvim#version#version() . ' ]'
       \ ]
 let s:list_order = [
       \ [' Recent Files:'],

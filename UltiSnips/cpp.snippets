@@ -1,5 +1,4 @@
 global !p
-
 def write_docstring_args(arglist, snip):
 	args = str(arglist).split(',')
 
@@ -13,7 +12,6 @@ def write_docstring_args(arglist, snip):
 				snip += ' * @param %s' % arg.strip()
 	else:
 		snip.rv = args[0]
-
 endglobal
 
 snippet fnc "c++ function with doxygen comment" b

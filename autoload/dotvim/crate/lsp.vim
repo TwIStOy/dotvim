@@ -84,7 +84,7 @@ function! dotvim#crate#lsp#config() abort
   " default extensions
   let g:coc_global_extensions = [
         \ 'coc-json',
-        \ 'coc-snippets',
+        \ 'coc-ultisnips',
         \ 'coc-tsserver'
         \ ]
 

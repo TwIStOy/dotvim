@@ -12,6 +12,22 @@ def write_docstring_args(arglist, snip):
 				snip += ' * @param %s' % arg.strip()
 	else:
 		snip.rv = args[0]
+
+def defined_class_name(snip):
+	basename = snip.basename
+	if basename:
+		snip.rv = "".join([it.capitalize() for it in basename.split('_')])
+	else:
+		snip.rv = "name"
+
+def output_stream_generate(matched_str, snip):
+	args = [it.strip() for it in str(matched_str).split(',')]
+	snip.rv = " << ".join(['"%s: " << %s' % (it, it) for it in args])
+
+def output_stream_generate_pair(matched_str, snip):
+	args = [it.strip() for it in str(matched_str).split(',')]
+	tmp = " << ".join(['"%s: " << %s' % (it, it) for it in args])
+	snip.rv = '"(" << ' + tmp + ' << ")"'
 endglobal
 
 snippet fnc "c++ function with doxygen comment" b
@@ -25,6 +41,24 @@ snippet fnc "c++ function with doxygen comment" b
 ${1:ReturnType} ${2:FunctionName}(${3:param});
 endsnippet
 
+snippet cls "class ... (class)" b
+class ${1:`!p defined_class_name(snip)`} {
+ public:
+  $1(${2:args});
+	virtual ~$1() = default;
+
+ private:
+};
+endsnippet
+
+snippet "(\w[\w, ]*?).oss" "convert to output stream ..." r
+`!p output_stream_generate(match.group(1), snip)`$0
+endsnippet
+
+snippet "\(([\w, ]*?)\).oss" "convert to output stream with pair ..." r
+`!p output_stream_generate_pair(match.group(1), snip)`$0
+endsnippet
+
 snippet ns "namespace with comment (namespace)"
 namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
   ${0:/* body */}
@@ -35,33 +69,8 @@ snippet beginend "$1.begin(), $1.end() (beginend)"
 ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
 endsnippet
 
-snippet pragma "pragma once (pragma)"
+snippet once "pragma once (pragma)"
 #pragma once  // NOLINT(build/header_guard)
-endsnippet
-
-snippet ttv "template<typename...> (template)"
-template<typename... Args>
-${0}
-endsnippet
-
-snippet tt1 "template<typename> (template)"
-template<typename T>
-${0}
-endsnippet
-
-snippet tt2 "template<typename> (template)"
-template<typename T1, typename T2>
-${0}
-endsnippet
-
-snippet tt3 "template<typename> 3"
-template<typename T1, typename T2, typename T3>
-${0}
-endsnippet
-
-snippet tt4 "template<typename> 4"
-template<typename T1, typename T2, typename T3, typename T4>
-${0}
 endsnippet
 
 snippet copyright "copyright"
@@ -107,5 +116,21 @@ snippet cfin "const...for...in"
 for (const auto& iter : ${1}) {
   ${0}
 }
+endsnippet
+
+snippet map "std::map"
+std::map<${1:key}, ${2:value}> ${0:name};
+endsnippet
+
+snippet umap "std::unordered_map"
+std::unordered_map<${1:key}, ${2:value}> ${0:name};
+endsnippet
+
+snippet vec "std::vector"
+std::vector<${1:type}> ${0:name};
+endsnippet
+
+snippet nuptr "std::unique_ptr"
+std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet
 

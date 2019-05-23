@@ -135,6 +135,8 @@ function! dotvim#crate#showCrates() abort
   let l:nr = bufnr('%')
   let l:buffer_id = nvim_create_buf(v:false, v:true)
   let l:winid = nvim_open_win(l:buffer_id, v:true, l:opt)
+
+  set modifiable
   call nvim_buf_set_lines(l:buffer_id, 0, -1, v:true, l:content)
 
   nnoremap <buffer> q :q<cr>
@@ -148,6 +150,7 @@ function! dotvim#crate#showCrates() abort
   call nvim_win_set_option(l:winid, 'relativenumber', v:false)
 
   setf DotvimCrateLister
+
   nnoremap <silent> <buffer> q :q<CR>
   map <buffer> <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
         \ . '> trans<'

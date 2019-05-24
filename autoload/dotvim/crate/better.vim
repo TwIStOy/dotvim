@@ -44,7 +44,6 @@ function! dotvim#crate#better#plugins() abort
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
   call add(l:plugins, 'RRethy/vim-illuminate')
 
-  call dotvim#plugin#reg('sheerun/vim-polyglot', { 'lazy': 1 })
   call add(l:plugins, 'sheerun/vim-polyglot')
 
   call dotvim#plugin#reg('luochen1990/rainbow', { 'lazy': 1 })
@@ -149,7 +148,6 @@ endfunction
 
 function! dotvim#crate#better#_lazy_load(timer) abort
   call dotvim#vim#plug#source(
-        \ 'vim-polyglot',
         \ 'vim-matchup',
         \ 'rainbow',
         \ 'vim-illuminate')

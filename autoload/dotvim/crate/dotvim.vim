@@ -132,7 +132,7 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'fs',
         \ ':update<CR>', 'save')
   call dotvim#mapping#define_leader('nnoremap', 'ft',
-        \ ':Defx -split=vertical -winwidth=30 -toggle<CR>',
+        \ ':Defx -split=vertical -winwidth=30 -ignored-files=*.d -toggle<CR>',
         \ 'toggle-file-explorer')
 
   call dotvim#mapping#define_name('j', '+jump')
@@ -189,6 +189,8 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'wx',
         \ ':call feedkeys("\<Plug>(window_x)")<CR>',
         \ 'exchange-window-with-next')
+  call dotvim#mapping#define_leader('nnoremap', 'ww',
+        \ ':call feedkeys("\<Plug>(window_w)")<CR>', 'move-to-next-window')
 
   call dotvim#mapping#define_leader('nnoremap', 'wh',
         \ ':call feedkeys("\<Plug>(window_h)")<CR>', 'move-window-left')

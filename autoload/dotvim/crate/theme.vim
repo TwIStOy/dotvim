@@ -43,6 +43,8 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'mhinz/vim-janah')
   elseif l:theme ==# 'moonfly'
     call add(l:plugins, 'bluz71/vim-moonfly-colors')
+  elseif l:theme ==# 'night-owl'
+    call add(l:plugins, 'haishanh/night-owl.vim')
   endif
 
   return l:plugins
@@ -135,6 +137,8 @@ function! dotvim#crate#theme#postConfig() abort
     if exists('g:lightline')
       let g:lightline.colorscheme = 'moonfly'
     endif
+  elseif l:theme ==# 'night-owl'
+    colorscheme night-owl
   endif
 endfunction
 

@@ -59,6 +59,10 @@ snippet "\(([\w, ]*?)\).oss" "convert to output stream with pair ..." r
 `!p output_stream_generate_pair(match.group(1), snip)`$0
 endsnippet
 
+snippet "(\w[\w, ]*?).p" "comment" b
+`!p snip.rv = "(" + match.group(1) + ")"`
+endsnippet
+
 snippet ns "namespace with comment (namespace)"
 namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
   ${0:/* body */}
@@ -132,5 +136,10 @@ endsnippet
 
 snippet nuptr "std::unique_ptr"
 std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
+endsnippet
+
+# commom words
+snippet u32 "uint32_t"
+uint32_t
 endsnippet
 

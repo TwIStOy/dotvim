@@ -170,6 +170,7 @@ function! dotvim#crate#dotvim#config() abort
   nnoremap <Plug>(window_v2) <C-W>v
   nnoremap <Plug>(window_2) <C-W>v
   nnoremap <Plug>(window_x) <C-W>x
+  nnoremap <Plug>(window_p) <C-W>p
 
   if exists('&wildoptions')
     set wildoptions=pum
@@ -191,6 +192,9 @@ function! dotvim#crate#dotvim#config() abort
         \ 'exchange-window-with-next')
   call dotvim#mapping#define_leader('nnoremap', 'ww',
         \ ':call feedkeys("\<Plug>(window_w)")<CR>', 'move-to-next-window')
+  call dotvim#mapping#define_leader('nnoremap', 'wp',
+        \ ':call feedkeys("\<Plug>(window_p)")<CR>',
+        \ 'move-to-previous-access-window')
 
   call dotvim#mapping#define_leader('nnoremap', 'wh',
         \ ':call feedkeys("\<Plug>(window_h)")<CR>', 'move-window-left')

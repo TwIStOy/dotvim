@@ -1,4 +1,6 @@
 global !p
+from cpp_snippet_helper import *
+
 def write_docstring_args(arglist, snip):
 	args = str(arglist).split(',')
 
@@ -28,6 +30,24 @@ def output_stream_generate_pair(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
 	tmp = " << ".join(['"%s: " << %s' % (it, it) for it in args])
 	snip.rv = '"(" << ' + tmp + ' << ")"'
+
+def pair_generate(matched_first, matched_second, snip):
+	hello()
+	def fullname(s):
+		if s == "s":
+			return "std::string"
+		elif s == "i":
+			return "int"
+		elif s == "u":
+			return "uint32_t"
+		elif s == "ii":
+			return "int64_t"
+		elif s == "uu":
+			return "uint64_t"
+		else:
+			return ""
+	snip.rv = "std::pair<{}, {}>".format(fullname(matched_first),
+																		   fullname(matched_second))
 endglobal
 
 snippet fnc "c++ function with doxygen comment" b
@@ -142,4 +162,18 @@ endsnippet
 snippet u32 "uint32_t"
 uint32_t
 endsnippet
+
+# common types-alias
+snippet () "comment" b
+body
+endsnippet
+
+snippet "(\w{1,2})(\w{1,2}).p" "convert to std::pair format..." r
+`!p pair_generate(match.group(1), match.group(2), snip)`$0
+endsnippet
+
+snippet "p((?:(?=\()\(\w+\s*(?:,\s*\w+)+\))|(?:i|u|s){2})" "convert to std::pair or tuple format..." r
+`!p snip.rv = short_nameset_parse(match.group(1))`$0
+endsnippet
+
 

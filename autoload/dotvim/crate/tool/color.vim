@@ -8,6 +8,7 @@ function! dotvim#crate#tool#color#plugins() abort
   let l:plugins = []
 
   call add(l:plugins, 'lifepillar/vim-colortemplate')
+  call add(l:plugins, 'RRethy/vim-hexokinase')
 
   return l:plugins
 endfunction

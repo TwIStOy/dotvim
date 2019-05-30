@@ -172,7 +172,7 @@ snippet "(\w{1,2})(\w{1,2}).p" "convert to std::pair format..." r
 `!p pair_generate(match.group(1), match.group(2), snip)`$0
 endsnippet
 
-snippet "p((?:(?=\()\(\w+\s*(?:,\s*\w+)+\))|(?:i|u|s){2})" "convert to std::pair or tuple format..." r
+snippet "(p(?:(?:(?=\()\([\w\()]+\s*(?:,\s*[\w()]+)+\))|\w{2}))" "convert to std::pair or tuple format..." r
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
 endsnippet
 

@@ -41,3 +41,5 @@ def short_nameset_parse(s):
         return s
 
 
+def underscore_to_big_camel_case(s):
+    return "".join([i.capitalize() for i in s.split('_')])

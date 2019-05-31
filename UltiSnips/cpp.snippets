@@ -31,23 +31,6 @@ def output_stream_generate_pair(matched_str, snip):
 	tmp = " << ".join(['"%s: " << %s' % (it, it) for it in args])
 	snip.rv = '"(" << ' + tmp + ' << ")"'
 
-def pair_generate(matched_first, matched_second, snip):
-	hello()
-	def fullname(s):
-		if s == "s":
-			return "std::string"
-		elif s == "i":
-			return "int"
-		elif s == "u":
-			return "uint32_t"
-		elif s == "ii":
-			return "int64_t"
-		elif s == "uu":
-			return "uint64_t"
-		else:
-			return ""
-	snip.rv = "std::pair<{}, {}>".format(fullname(matched_first),
-																		   fullname(matched_second))
 endglobal
 
 snippet fnc "c++ function with doxygen comment" b
@@ -71,15 +54,15 @@ class ${1:`!p defined_class_name(snip)`} {
 };
 endsnippet
 
-snippet "(\w[\w, ]*?).oss" "convert to output stream ..." r
+snippet "(\w[\w, ]*?)\.oss" "convert to output stream ..." r
 `!p output_stream_generate(match.group(1), snip)`$0
 endsnippet
 
-snippet "\(([\w, ]*?)\).oss" "convert to output stream with pair ..." r
+snippet "\(([\w, ]*?)\)\.oss" "convert to output stream with pair ..." r
 `!p output_stream_generate_pair(match.group(1), snip)`$0
 endsnippet
 
-snippet "(\w[\w, ]*?).p" "comment" b
+snippet "(\w[\w, ]*?)\.p" "comment" b
 `!p snip.rv = "(" + match.group(1) + ")"`
 endsnippet
 
@@ -121,13 +104,11 @@ const_cast<${1}>(${2})${0}
 endsnippet
 
 snippet inc "#include"
-#include "${1}"
-${0}
+#include "${1}"${0}
 endsnippet
 
 snippet incc "#include<>"
-#include <${1}>
-${0}
+#include <${1}>${0}
 endsnippet
 
 snippet fin "for...in"
@@ -158,22 +139,19 @@ snippet nuptr "std::unique_ptr"
 std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet
 
-# commom words
-snippet u32 "uint32_t"
-uint32_t
+snippet getter "getter..." b
+${1:ValueType} ${2:VariableName};
+inline $1 `!p snip.rv = underscore_to_big_camel_case(t[2])`() {
+  return $2;
+}
+endsnippet
+
+snippet sl "SAFE_LOG2" b
+SAFE_LOG2(Info${1}) << ${0}
 endsnippet
 
 # common types-alias
-snippet () "comment" b
-body
-endsnippet
-
-snippet "(\w{1,2})(\w{1,2}).p" "convert to std::pair format..." r
-`!p pair_generate(match.group(1), match.group(2), snip)`$0
-endsnippet
-
 snippet "(p(?:(?:(?=\()\([\w\()]+\s*(?:,\s*[\w()]+)+\))|\w{2}))" "convert to std::pair or tuple format..." r
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
 endsnippet
-
 

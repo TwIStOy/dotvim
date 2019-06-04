@@ -56,7 +56,7 @@ function! dotvim#crate#lsp#coc#config() abort
     autocmd CursorHold * silent call CocActionAsync('highlight')
   endif
 
-  let g:coc_start_at_startup = 0
+  let g:coc_start_at_startup = get(s:vars, 'coc_start_at_startup', 0)
 
   if has_key(s:vars, 'updatetime')
     let l:new_updatetime = str2nr(s:vars['updatetime'])

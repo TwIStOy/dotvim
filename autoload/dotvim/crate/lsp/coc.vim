@@ -1,6 +1,6 @@
 let s:vars = get(s:, 'vars', {})
 
-function! dotvim#crate#lsp#plugins() abort
+function! dotvim#crate#lsp#coc#plugins() abort
   call dotvim#plugin#reg('neoclide/coc.nvim', {
         \ 'build': 'yarn install'
         \ })
@@ -13,7 +13,7 @@ function! dotvim#crate#lsp#plugins() abort
   return l:plugins
 endfunction
 
-function! dotvim#crate#lsp#config() abort
+function! dotvim#crate#lsp#coc#config() abort
   call dotvim#mapping#define_name('g', '+goto/lsp')
 
   call dotvim#mapping#define_leader('nmap', 'ga', '<Plug>(coc-codeaction)',
@@ -27,7 +27,7 @@ function! dotvim#crate#lsp#config() abort
   call dotvim#mapping#define_leader('nmap', 'gr', '<Plug>(coc-references)',
         \ 'goto-references')
   call dotvim#mapping#define_leader('nnoremap', 'gk',
-        \ ':call dotvim#crate#lsp#show_documentation()<CR>',
+        \ ':call dotvim#crate#lsp#coc#show_documentation()<CR>',
         \ 'goto-doc')
   call dotvim#mapping#define_leader('nmap', 'gR',
         \ '<Plug>(coc-rename)', 'lsp-rename')
@@ -55,6 +55,8 @@ function! dotvim#crate#lsp#config() abort
   if get(s:vars, 'coc_cursorhold_highlight', 0)
     autocmd CursorHold * silent call CocActionAsync('highlight')
   endif
+
+  let g:coc_start_at_startup = 0
 
   if has_key(s:vars, 'updatetime')
     let l:new_updatetime = str2nr(s:vars['updatetime'])
@@ -138,22 +140,22 @@ function! dotvim#crate#lsp#config() abort
   " }}}
 endfunction
 
-function! dotvim#crate#lsp#postConfig() abort
+function! dotvim#crate#lsp#coc#postConfig() abort
   if exists('g:lightline')
-    call timer_start(500, 'dotvim#crate#lsp#_lazy_start')
+    call timer_start(500, 'dotvim#crate#lsp#coc#_lazy_start')
 
     let g:lightline.component_function['cocstatus'] = 'coc#status'
 
     if get(s:vars, 'vista_enabled', 0)
       let g:lightline.component_function['vista'] =
-            \ 'dotvim#crate#lsp#_NearestMethodOrFunction'
+            \ 'dotvim#crate#lsp#coc#_NearestMethodOrFunction'
       let g:lightline.active.left[1] = extend(['cocstatus', 'vista'],
             \ g:lightline.active.left[1])
     endif
   endif
 endfunction
 
-function! dotvim#crate#lsp#_lazy_start(timer) abort
+function! dotvim#crate#lsp#coc#_lazy_start(timer) abort
   if get(s:vars, 'vista_enabled', 0)
     call vista#RunForNearestMethodOrFunction()
   endif
@@ -164,11 +166,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-function! dotvim#crate#lsp#setVariables(vars) abort
+function! dotvim#crate#lsp#coc#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)
 endfunction
 
-function! dotvim#crate#lsp#show_documentation()
+function! dotvim#crate#lsp#coc#show_documentation()
   if &filetype == 'vim'
     execute 'h '.expand('<cword>')
   else
@@ -176,7 +178,7 @@ function! dotvim#crate#lsp#show_documentation()
   endif
 endfunction
 
-function! dotvim#crate#lsp#_NearestMethodOrFunction() abort
+function! dotvim#crate#lsp#coc#_NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 

@@ -77,8 +77,11 @@ function! dotvim#crate#lsp#config() abort
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
   inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" : "\<TAB>"
+
+  inoremap <silent><expr> <C-n>
         \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
+        \ <SID>check_back_space() ? "\<C-n>" :
         \ coc#refresh()
 
   " default extensions

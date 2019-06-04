@@ -120,6 +120,7 @@ function! dotvim#crate#dotvim#config() abort
 
   set timeoutlen=500
 
+  call dotvim#api#import('window').addAutocloseType('quickfix')
   call dotvim#api#import('window').addAutocloseType('defx')
 
   " default keybindings {{{

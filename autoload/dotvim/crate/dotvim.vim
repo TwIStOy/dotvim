@@ -208,6 +208,8 @@ function! dotvim#crate#dotvim#config() abort
 
   nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 
+  command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+
   inoremap jk <Esc>
   " }}}
 endfunction

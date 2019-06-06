@@ -72,6 +72,9 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_ShortcutF = '<Leader>ff'
   let g:Lf_ShortcutB = '<Leader>ffb'
 
+  let g:Lf_DefaultExternalTool = ""
+  let g:Lf_UseVersionControlTool = 0
+
   if has_key(s:vars, 'axring_rings')
     let g:axring_rings = deepcopy(s:vars['axring_rings'])
   endif

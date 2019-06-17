@@ -155,3 +155,8 @@ snippet "(p(?:(?:(?=\()\([\w\()]+\s*(?:,\s*[\w()]+)+\))|\w{2}))" "convert to std
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
 endsnippet
 
+post_jump "expand_anon(snip)"
+snippet "@\[(.*?)\]" "all helper functions..." r
+`!p function_helpers(match.group(1), snip)`
+endsnippet
+

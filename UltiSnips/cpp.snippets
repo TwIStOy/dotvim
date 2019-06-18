@@ -140,8 +140,7 @@ std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet
 
 snippet getter "getter..." b
-${1:ValueType} ${2:VariableName};
-inline $1 `!p snip.rv = underscore_to_big_camel_case(t[2])`() {
+inline $1 $3::Get`!p snip.rv = underscore_to_big_camel_case(t[2])`() const {
   return $2;
 }
 endsnippet

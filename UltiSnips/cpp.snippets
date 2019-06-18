@@ -1,5 +1,6 @@
 global !p
 from cpp_snippet_helper import *
+from header_include_helper import generate_cpp_header_filename
 
 def write_docstring_args(arglist, snip):
 	args = str(arglist).split(',')
@@ -158,4 +159,9 @@ post_jump "expand_anon(snip)"
 snippet "@\[(.*?)\]" "all helper functions..." r
 `!p function_helpers(match.group(1), snip)`
 endsnippet
+
+snippet inh "include corresponding header..." b
+`!p snip.rv = generate_cpp_header_filename(vim)`$0
+endsnippet
+
 

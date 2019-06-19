@@ -90,11 +90,19 @@ function! dotvim#crate#dotvim#config() abort
     set number relativenumber
     augroup RelativeNumberToggle
       autocmd!
-      autocmd BufEnter, FocusGained, InsertLeave * set relativenumber
-      autocmd BufLeave, FocusLost,   InsertEnter * set norelativenumber
+      autocmd WinEnter,FocusGained,InsertLeave * set relativenumber
+      autocmd WinLeave,FocusLost,InsertEnter * set norelativenumber
     augroup END
   else
     set nu
+  endif
+
+  if get(s:vars, 'use_cursorline', 1)
+    augroup CursorLineToggle
+      autocmd!
+      autocmd InsertLeave,WinEnter * set cursorline
+      autocmd InsertEnter,WinLeave * set nocursorline
+    augroup END
   endif
 
   " rainbow settings {{{

@@ -214,11 +214,20 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'wl',
         \ ':call feedkeys("\<Plug>(window_l)")<CR>', 'move-window-right')
 
+  call dotvim#mapping#define_name('c', '+clipboard')
+  " keybinding for global copy/paste
+  vnoremap <silent>cc :'<,'>w! /tmp/vimtmp<CR>
+  call dotvim#mapping#define_leader('nnoremap', 'cc',
+        \ ":w! /tmp/vimtmp<CR>", 'global-copy-all')
+  call dotvim#mapping#define_leader('nnoremap', 'cv',
+        \ ":r! /tmp/vimtmp<CR>", 'global-paste')
+
   nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 
   command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
   inoremap jk <Esc>
+
   " }}}
 endfunction
 

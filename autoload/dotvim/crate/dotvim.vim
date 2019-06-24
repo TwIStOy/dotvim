@@ -220,7 +220,7 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'cc',
         \ ":w! /tmp/vimtmp<CR>", 'global-copy-all')
   call dotvim#mapping#define_leader('nnoremap', 'cv',
-        \ ":r! /tmp/vimtmp<CR>", 'global-paste')
+        \ ":r! cat /tmp/vimtmp<CR>", 'global-paste')
 
   nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 

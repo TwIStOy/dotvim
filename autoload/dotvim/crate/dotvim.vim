@@ -88,11 +88,14 @@ function! dotvim#crate#dotvim#config() abort
 
   if get(s:vars, 'use_relativenumber', 1)
     set number relativenumber
-    augroup RelativeNumberToggle
-      autocmd!
-      autocmd WinEnter,FocusGained,InsertLeave * set relativenumber
-      autocmd WinLeave,FocusLost,InsertEnter * set norelativenumber
-    augroup END
+
+    if get(s:vars, 'enable_relativenumber_toggle', 0)
+      augroup RelativeNumberToggle
+        autocmd!
+        autocmd WinEnter,FocusGained,InsertLeave * set relativenumber
+        autocmd WinLeave,FocusLost,InsertEnter * set norelativenumber
+      augroup END
+    endif
   else
     set nu
   endif

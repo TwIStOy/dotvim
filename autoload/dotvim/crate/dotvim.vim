@@ -118,6 +118,8 @@ function! dotvim#crate#dotvim#config() abort
   set smartindent
   set autoindent
 
+  set exrc
+
   " auto-move quickfix to botright
   autocmd FileType qf wincmd J
 

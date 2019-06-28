@@ -22,6 +22,11 @@ function! dotvim#crate#lang#cpp#plugins() abort
         \ })
   call add(l:plugins, 'rhysd/vim-clang-format')
 
+  call dotvim#plugin#reg('luochen1990/rainbow', {
+        \ 'on_ft': ['cpp']
+        \ })
+  call add(l:plugins, 'luochen1990/rainbow')
+
   return l:plugins
 endfunction
 

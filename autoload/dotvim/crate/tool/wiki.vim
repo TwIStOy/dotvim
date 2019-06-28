@@ -22,5 +22,6 @@ function! dotvim#crate#tool#wiki#config() abort
   augroup ToolWikiGroup
     au!
     autocmd BufNewFile,BufRead *.wiki set filetype=viwiki
+  augroup END
 endfunction
 

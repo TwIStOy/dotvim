@@ -66,7 +66,6 @@ def function_helpers(s, snip):
         snip.rv = s
 
 def expand_anon(snip):
-    print(snip.snippet_start, snip.snippet_end)
     anon = []
     for i in range(snip.snippet_start[0], snip.snippet_end[0] + 1):
         anon.append(snip.buffer[i])
@@ -110,4 +109,22 @@ def generate_cpp_header_filename(snip):
     if project_home is None:
         return template.format("{}{}")
 
+
+def simple_namespace_generate(s, snip):
+    lines = []
+
+    def gen_namespace(names):
+        nonlocal lines
+        if names:
+            name = names[0]
+            lines.append(f'namespace {name} ' + '{')
+            gen_namespace(names[1:])
+            lines.append('}' + f'  // namespace {name}')
+        else:
+            lines.append('')
+            lines.append('${0: /* body */}')
+            lines.append('')
+
+    gen_namespace(s.split('::'))
+    return "\n".join(lines)
 

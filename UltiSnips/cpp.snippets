@@ -55,11 +55,11 @@ class ${1:`!p defined_class_name(snip)`} {
 };
 endsnippet
 
-snippet "(\w[\w, ]*?)\.oss" "convert to output stream ..." r
+snippet "(\w[\w, .]*?)\.oss" "convert to output stream ..." r
 `!p output_stream_generate(match.group(1), snip)`$0
 endsnippet
 
-snippet "\(([\w, ]*?)\)\.oss" "convert to output stream with pair ..." r
+snippet "\(([\w, .]*?)\)\.oss" "convert to output stream with pair ..." r
 `!p output_stream_generate_pair(match.group(1), snip)`$0
 endsnippet
 
@@ -92,7 +92,7 @@ snippet sc "static_cast"
 static_cast<${1}>(${2})${0}
 endsnippet
 
-snippet dc "static_cast"
+snippet dc "dynamic_cast"
 dynamic_cast<${1}>(${2})${0}
 endsnippet
 
@@ -164,4 +164,8 @@ snippet inh "include corresponding header..." b
 `!p snip.rv = generate_cpp_header_filename(vim)`$0
 endsnippet
 
+post_jump "expand_anon(snip)"
+snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
+`!p snip.rv = simple_namespace_generate(match.group(1), snip)`
+endsnippet
 

@@ -88,6 +88,7 @@ snippet copyright "copyright"
 ${0}
 endsnippet
 
+# simple snippets {{{
 snippet sc "static_cast"
 static_cast<${1}>(${2})${0}
 endsnippet
@@ -140,6 +141,12 @@ snippet nuptr "std::unique_ptr"
 std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet
 
+snippet todo "TODO comments" b
+// TODO(hawtian): ${0}
+endsnippet
+
+# }}}
+
 snippet getter "getter..." b
 inline $1 $3::Get`!p snip.rv = underscore_to_big_camel_case(t[2])`() const {
   return $2;
@@ -168,4 +175,8 @@ post_jump "expand_anon(snip)"
 snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
 `!p snip.rv = simple_namespace_generate(match.group(1), snip)`
 endsnippet
+
+
+
+# vim: set fdm=marker
 

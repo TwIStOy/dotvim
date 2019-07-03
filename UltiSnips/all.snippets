@@ -2,3 +2,11 @@ snippet now "current time in second"
 `date "+%Y-%m-%d %H:%M:%S"`
 endsnippet
 
+snippet modeline "vim modeline" b
+vim`!v ':set '. (&expandtab ? printf('et sw=%i ts=%i', &sw, &ts) : printf('noet sts=%i sw=%i ts=%i', &sts, &sw, &ts)) . (&tw ? ' tw='. &tw : '') . ':'`
+endsnippet
+
+snippet uuid "Random UUID" w
+`!p if not snip.c: import uuid; snip.rv = uuid.uuid4()`
+endsnippet
+

@@ -45,6 +45,8 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'bluz71/vim-moonfly-colors')
   elseif l:theme ==# 'night-owl'
     call add(l:plugins, 'haishanh/night-owl.vim')
+  elseif l:theme ==# 'soft-era'
+    call add(l:plugins, 'soft-aesthetic/soft-era-vim')
   endif
 
   return l:plugins
@@ -139,6 +141,8 @@ function! dotvim#crate#theme#postConfig() abort
     endif
   elseif l:theme ==# 'night-owl'
     colorscheme night-owl
+  elseif l:theme ==# 'soft-era'
+    colorscheme soft-era
   endif
 endfunction
 

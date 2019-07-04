@@ -4,7 +4,11 @@ function update-dotvim-date
   set -l repo_home (git rev-parse --show-toplevel)
   set -l today (date +%Y.%m.%d)
 
-  sed -i "1c let g:dotvim_last_updated_time = '$today'" $repo_home/autoload/dotvim/version.vim
+  if [ (uname) = "Darwin" ]
+    gsed -i "1c let g:dotvim_last_updated_time = '$today'" $repo_home/autoload/dotvim/version.vim
+  else
+    sed -i "1c let g:dotvim_last_updated_time = '$today'" $repo_home/autoload/dotvim/version.vim
+  end
   echo (set_color green)"version date updated..."(set_color normal)
 end
 

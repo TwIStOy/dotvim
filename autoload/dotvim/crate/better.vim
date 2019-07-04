@@ -39,6 +39,7 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'matze/vim-move')
 
+  call add(l:plugins, 't9md/vim-choosewin')
 
   " lazy group {{{
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
@@ -75,6 +76,12 @@ function! dotvim#crate#better#config() abort " {{{
   if has_key(s:vars, 'axring_rings')
     let g:axring_rings = deepcopy(s:vars['axring_rings'])
   endif
+
+
+  " choosewin {{{
+  nmap  -  <Plug>(choosewin)
+  let g:choosewin_overlay_enable = 1
+  " }}}
 
   call dotvim#mapping#define_name('b', '+buffer')
   call dotvim#mapping#define_name('r', '+rg')

@@ -6,6 +6,7 @@ function! dotvim#crate#lsp#coc#plugins() abort
         \ })
 
   let l:plugins = ['neoclide/coc.nvim']
+
   if get(s:vars, 'vista_enabled', 0)
     call add(l:plugins, 'liuchengxu/vista.vim')
   endif

@@ -47,6 +47,8 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'haishanh/night-owl.vim')
   elseif l:theme ==# 'soft-era'
     call add(l:plugins, 'soft-aesthetic/soft-era-vim')
+  elseif l:theme ==# 'cosmic_latte'
+    call add(l:plugins, 'nightsense/cosmic_latte')
   endif
 
   return l:plugins
@@ -143,6 +145,14 @@ function! dotvim#crate#theme#postConfig() abort
     colorscheme night-owl
   elseif l:theme ==# 'soft-era'
     colorscheme soft-era
+  elseif l:theme ==# 'cosmic_latte'
+    exec 'set background=' . get(s:vars, 'background', 'light')
+
+    colorscheme cosmic_latte
+
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'cosmic_latte_' . get(s:vars, 'background', 'light')
+    endif
   endif
 endfunction
 

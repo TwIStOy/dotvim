@@ -43,6 +43,11 @@ function! dotvim#crate#dotvim#plugins() abort
         \ })
   call add(l:plugins, 'liuchengxu/vim-which-key')
 
+  call dotvim#plugin#reg('wsdjeg/vim-todo', {
+        \ 'on_cmd': ['OpenTodo']
+        \ })
+  call add(l:plugins, 'wsdjeg/vim-todo')
+
   return l:plugins
 endfunction
 

@@ -25,11 +25,11 @@ def defined_class_name(snip):
 
 def output_stream_generate(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
-	snip.rv = " << ".join(['"%s: " << %s' % (it, it) for it in args])
+	snip.rv = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
 
 def output_stream_generate_pair(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
-	tmp = " << ".join(['"%s: " << %s' % (it, it) for it in args])
+	tmp = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
 	snip.rv = '"(" << ' + tmp + ' << ")"'
 
 endglobal

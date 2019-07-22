@@ -1,6 +1,12 @@
 let s:vars = get(s:, 'vars', {})
 let s:setted = get(s:, 'setted', 0)
 
+if get(s:, 'sourced', 0)
+  finish
+endif
+
+let s:sourced = 1
+
 function! dotvim#crate#lang#lmake#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)
 endfunction

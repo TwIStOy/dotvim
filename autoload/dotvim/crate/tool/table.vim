@@ -7,6 +7,9 @@ endfunction
 function! dotvim#crate#tool#table#plugins() abort
   let l:plugins = []
 
+  call dotvim#plug#reg('dhruvasagar/vim-table-mode', {
+        \ 'on_cmd': ['TableModeEnable', 'TableModeToggle', 'TableModeRealign']
+        \ })
   call add(l:plugins, 'dhruvasagar/vim-table-mode')
 
   return l:plugins

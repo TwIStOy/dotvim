@@ -49,6 +49,8 @@ function! dotvim#crate#theme#plugins() abort
     call add(l:plugins, 'soft-aesthetic/soft-era-vim')
   elseif l:theme ==# 'cosmic_latte'
     call add(l:plugins, 'nightsense/cosmic_latte')
+  elseif l:theme ==# 'edge'
+    call add(l:plugins, 'sainnhe/edge')
   endif
 
   return l:plugins
@@ -152,6 +154,14 @@ function! dotvim#crate#theme#postConfig() abort
 
     if exists('g:lightline')
       let g:lightline.colorscheme = 'cosmic_latte_' . get(s:vars, 'background', 'light')
+    endif
+  elseif l:theme ==# 'edge'
+    exec 'set background=' . get(s:vars, 'background', 'light')
+
+    colorscheme edge
+
+    if exists('g:lightline')
+      let g:lightline.colorscheme = 'edge'
     endif
   endif
 endfunction

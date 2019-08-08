@@ -145,6 +145,10 @@ snippet todo "TODO comments" b
 // TODO(hawtian): ${0}
 endsnippet
 
+snippet fixme "FIXME comments" b
+// FIXME(hawtian): ${0}
+endsnippet
+
 # }}}
 
 snippet getter "getter..." b
@@ -155,6 +159,10 @@ endsnippet
 
 snippet sl "SAFE_LOG2" b
 SAFE_LOG2(Info) << ${0}
+endsnippet
+
+snippet ll "LOCAL_LOG" b
+LOCAL_LOG(Info) << ${0}
 endsnippet
 
 # common types-alias
@@ -176,12 +184,12 @@ snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
 `!p snip.rv = simple_namespace_generate(match.group(1), snip)`
 endsnippet
 
-snippet ulk "std::unqiue_lock<base::shared_mutex> " b
+snippet ulk "std::unqiue_lock<base::shared_mutex>" b
 std::unique_lock<base::shared_mutex> ${2:lk}(${1:mutex_});
 ${0}
 endsnippet
 
-snippet slk "std::unqiue_lock<base::shared_mutex> " b
+snippet slk "std::unqiue_lock<base::shared_mutex>" b
 base::shared_lock<base::shared_mutex> ${2:lk}(${1:mutex_});
 ${0}
 endsnippet

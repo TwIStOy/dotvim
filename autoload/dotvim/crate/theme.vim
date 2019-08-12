@@ -5,52 +5,45 @@ function! dotvim#crate#theme#setVariables(vars) abort
 endfunction
 
 function! dotvim#crate#theme#plugins() abort
-  let l:plugins = []
-
   let l:theme = get(s:vars, 'theme', 'unknown')
-  if l:theme ==# 'challenger-deep'
-    call dotvim#plugin#reg('challenger-deep-theme/vim', {
-          \ 'name': 'challenger-deep',
-          \ 'normalized_name': 'challenger-deep'
-          \ })
 
-    call add(l:plugins, 'challenger-deep-theme/vim')
-  elseif l:theme ==# 'onehalf'
-    call dotvim#plugin#reg('sonph/onehalf', {
-          \ 'rtp': 'vim',
-          \ })
+  let l:theme_map = {
+        \   'challenger-deep': {
+        \     'repo': 'challenger-deep-theme/vim',
+        \     'reg': {
+        \       'name': 'challenger-deep',
+        \       'normalized_name': 'challenger-deep'
+        \     }
+        \   },
+        \   'onehalf': {
+        \     'repo': 'sonph/onehalf',
+        \     'reg': { 'rtp': 'vim' }
+        \   },
+        \   'tender': 'jacoborus/tender.vim',
+        \   'gruvbox': 'morhetz/gruvbox',
+        \   'typewriter': 'logico-dev/typewriter',
+        \   'two-firewatch': 'rakr/vim-two-firewatch',
+        \   'github': 'cormacrelf/vim-colors-github',
+        \   'spacegray': 'ajh17/Spacegray.vim',
+        \   'sacredforest': 'KKPMW/sacredforest-vim',
+        \   'onedark': 'joshdick/onedark.vim',
+        \   'snow': 'nightsense/snow',
+        \   'janah': 'mhinz/vim-janah',
+        \   'moonfly': 'bluz71/vim-moonfly-colors',
+        \   'night-owl': 'haishanh/night-owl.vim',
+        \   'soft-era': 'soft-aesthetic/soft-era-vim',
+        \   'cosmic_latte': 'nightsense/cosmic_latte',
+        \   'edge': 'sainnhe/edge'
+        \ }
 
-    call add(l:plugins, 'sonph/onehalf')
-  elseif l:theme ==# 'tender'
-    call add(l:plugins, 'jacoborus/tender.vim')
-  elseif l:theme ==# 'gruvbox'
-    call add(l:plugins, 'morhetz/gruvbox')
-  elseif l:theme ==# 'typewriter'
-    call add(l:plugins, 'logico-dev/typewriter')
-  elseif l:theme ==# 'two-firewatch'
-    call add(l:plugins, 'rakr/vim-two-firewatch')
-  elseif l:theme ==# 'github'
-    call add(l:plugins, 'cormacrelf/vim-colors-github')
-  elseif l:theme ==# 'spacegray'
-    call add(l:plugins, 'ajh17/Spacegray.vim')
-  elseif l:theme ==# 'sacredforest'
-    call add(l:plugins, 'KKPMW/sacredforest-vim')
-  elseif l:theme ==# 'onedark'
-    call add(l:plugins, 'joshdick/onedark.vim')
-  elseif l:theme ==# 'snow'
-    call add(l:plugins, 'nightsense/snow')
-  elseif l:theme ==# 'janah'
-    call add(l:plugins, 'mhinz/vim-janah')
-  elseif l:theme ==# 'moonfly'
-    call add(l:plugins, 'bluz71/vim-moonfly-colors')
-  elseif l:theme ==# 'night-owl'
-    call add(l:plugins, 'haishanh/night-owl.vim')
-  elseif l:theme ==# 'soft-era'
-    call add(l:plugins, 'soft-aesthetic/soft-era-vim')
-  elseif l:theme ==# 'cosmic_latte'
-    call add(l:plugins, 'nightsense/cosmic_latte')
-  elseif l:theme ==# 'edge'
-    call add(l:plugins, 'sainnhe/edge')
+  let l:plugin = get(l:theme_map, l:theme, 'sainnhe/edge')
+  let l:plugins = []
+  if type(l:plugin) == v:t_dict
+    call add(l:plugins, l:plugin['repo'])
+
+    call dotvim#plugin#reg(l:plugin['repo'], l:plugin['reg'])
+  else
+    call add(l:plugins, l:plugin)
   endif
 
   return l:plugins
@@ -59,110 +52,119 @@ endfunction
 function! dotvim#crate#theme#postConfig() abort
   let l:theme = get(s:vars, 'theme', 'unknown')
 
-  if l:theme ==# 'challenger-deep'
-    colorscheme challenger_deep
+  let l:theme_map = {
+        \   'challenger-deep': {
+        \     'vim': 'challenger_deep',
+        \     'lightline': 'challenger_deep'
+        \   },
+        \   'onehalf': {
+        \     'vim': 'onehalfdark',
+        \     'lightline': 'onehalfdark'
+        \   },
+        \   'tender': {
+        \     'vim': 'tender',
+        \     'lightline': 'tender'
+        \   },
+        \   'gruvbox': {
+        \     'vim': 'gruvbox',
+        \     'lightline': 'gruvbox'
+        \   },
+        \   'typewriter': {
+        \     'vim': 'typewriter',
+        \     'lightline': 'typewriter_light'
+        \   },
+        \   'two-firewatch': {
+        \     'vim': 'two-firewatch',
+        \     'lightline': 'twofirewatch',
+        \     'settings': {
+        \       'two_firewatch_italics': 1
+        \     }
+        \   },
+        \   'github': {
+        \     'vim': 'github',
+        \     'lightline': 'github',
+        \     'settings': {
+        \       'github_colors_extra_functions': 1,
+        \       'github_colors_soft': 1
+        \     }
+        \   },
+        \   'spacegray': {
+        \     'vim': 'spacegray',
+        \   },
+        \   'sacredforest': {
+        \     'vim': 'sacredforest',
+        \     'lightline': 'sacredforest'
+        \   },
+        \   'onedark': {
+        \     'vim': 'onedark',
+        \     'lightline': 'onedark',
+        \     'settings': {
+        \       'onedark_terminal_italics': 1
+        \     }
+        \   },
+        \   'snow': {
+        \     'vim': 'snow',
+        \     'func': 'theme_apply_snow'
+        \   },
+        \   'janah': {
+        \     'vim': 'janah',
+        \   },
+        \   'moonfly': {
+        \     'vim': 'moonfly',
+        \     'lightline': 'moonfly',
+        \     'settings': {
+        \       'moonflyCursorLineNr': 0,
+        \       'moonflyCursorColor': 1,
+        \       'moonflyUnderlineMatchParen': 1
+        \     }
+        \   },
+        \   'night-owl': {
+        \     'vim': 'night-owl',
+        \   },
+        \   'soft-era': {
+        \     'vim': 'soft-era',
+        \   },
+        \   'cosmic_latte': {
+        \     'vim': 'cosmic_latte',
+        \     'func': 'theme_apply_cosmic_latte'
+        \   },
+        \   'edge': {
+        \     'vim': 'edge',
+        \     'lightline': 'edge'
+        \   }
+        \ }
 
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'challenger_deep'
-    endif
-  elseif l:theme ==# 'onehalf'
-    colorscheme onehalfdark
+  let l:theme_config = get(l:theme_map, l:theme, {
+        \   'vim': 'edge',
+        \   'lightline': 'edge'
+        \ })
 
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'onehalfdark'
-    endif
-  elseif l:theme ==# 'tender'
-    colorscheme tender
-
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'tender'
-    endif
-  elseif l:theme ==# 'gruvbox'
-    colorscheme gruvbox
-
-    hi Normal guibg=NONE ctermbg=NONE
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'gruvbox'
-    endif
-  elseif l:theme ==# 'typewriter'
-    colorscheme typewriter
-
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'typewriter_light'
-    endif
-  elseif l:theme ==# 'two-firewatch'
-    colorscheme two-firewatch
-
-    let g:two_firewatch_italics=1
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'twofirewatch'
-    endif
-  elseif l:theme ==# 'github'
-    colorscheme github
-
-    let g:github_colors_extra_functions = 1
-    let g:github_colors_soft = 1
-
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'github'
-    endif
-  elseif l:theme ==# 'spacegray'
-    colorscheme spacegray
-  elseif l:theme ==# 'sacredforest'
-    colorscheme sacredforest
-
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'sacredforest'
-    endif
-  elseif l:theme ==# 'onedark'
-    colorscheme onedark
-
-    let g:onedark_terminal_italics = 1
-
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'onedark'
-    endif
-  elseif l:theme ==# 'snow'
-    colorscheme snow
-
+  if has_key(l:theme_config, 'func')
+    call s:{l:theme_config['func']}()
+  else
     exec 'set background=' . get(s:vars, 'background', 'dark')
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'snow_' . get(s:vars, 'background', 'dark')
+    if has_key(l:theme_config, 'lightline')
+      let g:lightline.colorscheme = l:theme_config['lightline']
     endif
-  elseif l:theme ==# 'janah'
-    autocmd ColorScheme janah highlight Normal ctermbg=235
+  endif
 
-    colorscheme janah
-  elseif l:theme ==# 'moonfly'
-    let g:moonflyCursorLineNr = 0
-    let g:moonflyCursorColor = 1
-    let g:moonflyUnderlineMatchParen = 1
+  exec 'colorscheme ' . l:theme_config['vim']
 
-    colorscheme moonfly
+endfunction
 
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'moonfly'
-    endif
-  elseif l:theme ==# 'night-owl'
-    colorscheme night-owl
-  elseif l:theme ==# 'soft-era'
-    colorscheme soft-era
-  elseif l:theme ==# 'cosmic_latte'
-    exec 'set background=' . get(s:vars, 'background', 'light')
+function! s:theme_apply_snow() abort
+  exec 'set background=' . get(s:vars, 'background', 'dark')
+  if exists('g:lightline')
+    let g:lightline.colorscheme = 'snow_' . get(s:vars, 'background', 'dark')
+  endif
+endfunction
 
-    colorscheme cosmic_latte
+function! s:theme_apply_cosmic_latte() abort
+  exec 'set background=' . get(s:vars, 'background', 'light')
 
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'cosmic_latte_' . get(s:vars, 'background', 'light')
-    endif
-  elseif l:theme ==# 'edge'
-    exec 'set background=' . get(s:vars, 'background', 'light')
-
-    colorscheme edge
-
-    if exists('g:lightline')
-      let g:lightline.colorscheme = 'edge'
-    endif
+  if exists('g:lightline')
+    let g:lightline.colorscheme = 'cosmic_latte_' .
+          \ get(s:vars, 'background', 'light')
   endif
 endfunction
 

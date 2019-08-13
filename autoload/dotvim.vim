@@ -4,6 +4,7 @@ let s:logger = dotvim#api#import('logging').getLogger('main')
 let g:dotvim_root = $HOME . '/.dotvim'
 
 function! dotvim#bootstrap() abort
+  syntax on
   call s:read_custom_file()
 
   call dotvim#command#defineCommand()

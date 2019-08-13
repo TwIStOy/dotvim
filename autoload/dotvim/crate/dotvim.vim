@@ -191,7 +191,7 @@ function! dotvim#crate#dotvim#config() abort
   nnoremap <Plug>(window_x) <C-W>x
   nnoremap <Plug>(window_p) <C-W>p
 
-  if exists('&wildoptions')
+  if has('nvim')
     set wildoptions=pum
   endif
 

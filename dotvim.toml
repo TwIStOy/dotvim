@@ -1,27 +1,34 @@
 extra_plugins = []
+enabled_crates = [
+  'snippets', 'textobject', 'edit'
+]
 
 [global]
+# disable log
+minloglvl = 0
 
 [[crates]]
 name = 'better'
+axring_rings = [
+  ['true', 'false'],
+  ['True', 'False'],
+  ['Debug', 'Info', 'Warn', 'Error', 'Fatal'],
+  ['first', 'second'],
+  ['uint8_t', 'uint16_t', 'uint32_t', 'uint64_t'],
+]
 
 [[crates]]
-name = 'lsp'
+ame = 'lsp#coc'
+coc_show_signature_help = false
+coc_cursorhold_highlight = false
+updatetime = 300
+coc_start_at_startup = true
 
 [[crates]]
-name = 'cpp'
+name = 'lang#cpp'
 clang_format_exe = 'clang-format-7'
 
 [[crates]]
 name = 'theme'
-theme = 'gruvbox'
-
-[[crates]]
-name = 'edit'
-
-[[crates]]
-name = 'snippets'
-
-[[crates]]
-name = 'textobject'
-
+theme = 'edge'
+background = 'dark'

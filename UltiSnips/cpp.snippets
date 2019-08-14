@@ -32,6 +32,12 @@ def output_stream_generate_pair(matched_str, snip):
 	tmp = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
 	snip.rv = '"(" << ' + tmp + ' << ")"'
 
+def output_format_generate(matched_str, snip):
+	args = [it.strip() for it in str(matched_str).split(',')]
+	fmt_str =  ', '.join(["%s: {}" % (it) for it in args])
+	args_str = ', '.join(args)
+	snip.rv = '"{}"_format({})'.format(fmt_str, args_str)
+
 endglobal
 
 snippet fnc "c++ function with doxygen comment" b
@@ -65,6 +71,10 @@ endsnippet
 
 snippet "(\w[\w, ]*?)\.p" "comment" b
 `!p snip.rv = "(" + match.group(1) + ")"`
+endsnippet
+
+snippet "(\w[\w,\s\->._]*?)\.fmt" "comment" r
+`!p output_format_generate(match.group(1), snip)`${0}
 endsnippet
 
 snippet ns "namespace with comment (namespace)"
@@ -184,13 +194,13 @@ snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
 `!p snip.rv = simple_namespace_generate(match.group(1), snip)`
 endsnippet
 
-snippet ulk "std::unqiue_lock<base::shared_mutex>" b
-std::unique_lock<base::shared_mutex> ${2:lk}(${1:mutex_});
+snippet ulk "std::unqiue_lock<shared_mutex>" b
+std::unique_lock<shared_mutex> ${2:lk}(${1:mutex_});
 ${0}
 endsnippet
 
-snippet slk "std::unqiue_lock<base::shared_mutex>" b
-base::shared_lock<base::shared_mutex> ${2:lk}(${1:mutex_});
+snippet slk "shared_lock<shared_mutex>" b
+shared_lock<shared_mutex> ${2:lk}(${1:mutex_});
 ${0}
 endsnippet
 

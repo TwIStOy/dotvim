@@ -32,3 +32,4 @@ clang_format_exe = 'clang-format-7'
 name = 'theme'
 theme = 'edge'
 background = 'dark'
+

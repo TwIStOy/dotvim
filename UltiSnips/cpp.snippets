@@ -204,5 +204,20 @@ shared_lock<shared_mutex> ${2:lk}(${1:mutex_});
 ${0}
 endsnippet
 
+snippet itf "cpp interface common" b
+struct ${1:InterfaceName} {
+	${0}
+	virtual ~$1() = default;
+};
+endsnippet
+
+snippet vf "virtual function" b
+virtual ${3:ReturnType} ${1:FunctionName}(${2:args})${0};
+endsnippet
+
+snippet pvf "pure virtual function" b
+virtual ${3:ReturnType} ${1:FunctionName}(${2:args}) ${4} = 0;${0}
+endsnippet
+
 # vim: set fdm=marker
 

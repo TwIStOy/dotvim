@@ -176,7 +176,7 @@ LOCAL_LOG(Info) << ${0}
 endsnippet
 
 # common types-alias
-snippet "(p(?:(?:(?=\()\([\w\()]+\s*(?:,\s*[\w()]+)+\))|\w{2}))" "convert to std::pair or tuple format..." r
+snippet "(p(?:(?:(?=\()\([pius0-9\()]+\s*(?:,\s*[pius0-9()]+)+\))|[ius]{2}))" "convert to std::pair or tuple format..." r
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
 endsnippet
 

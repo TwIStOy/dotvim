@@ -1,6 +1,7 @@
 extra_plugins = []
 enabled_crates = [
-  'snippets', 'textobject', 'edit'
+  'snippets', 'textobject', 'edit',
+  'tool#sudo'
 ]
 
 [global]

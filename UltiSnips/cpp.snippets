@@ -219,5 +219,9 @@ snippet pvf "pure virtual function" b
 virtual ${3:ReturnType} ${1:FunctionName}(${2:args}) ${4} = 0;${0}
 endsnippet
 
+snippet "([iu])(\d+)" "int types..." r
+`!p simple_int_types(match.group(1), match.group(2), snip)`
+endsnippet
+
 # vim: set fdm=marker
 

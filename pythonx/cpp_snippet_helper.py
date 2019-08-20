@@ -128,3 +128,14 @@ def simple_namespace_generate(s, snip):
     gen_namespace(s.split('::'))
     return "\n".join(lines)
 
+
+def simple_int_types(base_type, length, snip):
+    if base_type == 'i':
+        int_base_type = 'int'
+    elif base_type == 'u':
+        int_base_type = 'uint'
+
+    suffix = '_t'
+
+    snip.rv = f'{int_base_type}{length}{suffix}'
+

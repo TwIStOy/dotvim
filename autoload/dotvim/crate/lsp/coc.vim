@@ -95,7 +95,9 @@ function! dotvim#crate#lsp#coc#config() abort
   let g:coc_global_extensions = [
         \ 'coc-json',
         \ 'coc-ultisnips',
-        \ 'coc-tsserver'
+        \ 'coc-tsserver',
+        \ 'coc-tabnine',
+        \ 'coc-git',
         \ ]
 
   " default settings
@@ -150,6 +152,12 @@ function! dotvim#crate#lsp#coc#postConfig() abort
     call timer_start(500, 'dotvim#crate#lsp#coc#_lazy_start')
 
     let g:lightline.component_function['cocstatus'] = 'coc#status'
+    let g:lightline.component_function['blame'] = 'dotvim#crate#lsp#coc#_git_blame'
+    if len(g:lightline.active.right) > 1
+      let g:lightline.active.right[-1] = extend(['blame'], g:lightline.active.right[1])
+    else
+      call add(g:lightline.active.right, ['blame'])
+    endif
 
     if get(s:vars, 'vista_enabled', 0)
       let g:lightline.component_function['vista'] =
@@ -158,6 +166,11 @@ function! dotvim#crate#lsp#coc#postConfig() abort
             \ g:lightline.active.left[1])
     endif
   endif
+endfunction
+
+function! dotvim#crate#lsp#coc#_git_blame() abort
+  let blame = get(b:, 'coc_git_blame', '')
+  return winwidth(0) > 120 ? blame : ''
 endfunction
 
 function! dotvim#crate#lsp#coc#_lazy_start(timer) abort

@@ -129,7 +129,8 @@ function! dotvim#crate#better#config() abort " {{{
 
   let g:lightline = {
         \ 'active': {
-        \   'left':[ [ 'mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ]
+        \   'left':[ [ 'mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ],
+        \   'right': [ ['lineinfo'], ['filetype', 'fileencoding', 'percent'] ],
         \ },
         \ 'component': {
         \   'lineinfo': ' %3l:%-2v',

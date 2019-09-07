@@ -43,6 +43,10 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'osyo-manga/vim-anzu')
 
+  call add(l:plugins, 'MattesGroeger/vim-bookmarks')
+
+  call add(l:plugins, 'farmergreg/vim-lastplace')
+
   " lazy group {{{
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
   call add(l:plugins, 'RRethy/vim-illuminate')
@@ -150,6 +154,10 @@ function! dotvim#crate#better#config() abort " {{{
   " vim-illuminate {{{
   let g:Illuminate_delay = 200
   let g:Illuminate_ftblacklist = ['nerdtree', 'defx']
+  " }}}
+
+  " vim-bookmark {{{
+  let g:bookmark_no_default_key_mappings = 1
   " }}}
 
   " osyo-manga/vim-anzu {{{

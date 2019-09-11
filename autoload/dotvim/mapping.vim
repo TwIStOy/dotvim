@@ -46,7 +46,8 @@ endfunction
 
 function! dotvim#mapping#_merge_dict(expr1, expr2) abort
   if type(a:expr1) != v:t_dict || type(a:expr2) != v:t_dict
-    throw 'Error'
+    " throw 'Error'
+    return
   endif
 
   for key in keys(a:expr2)
@@ -55,21 +56,19 @@ function! dotvim#mapping#_merge_dict(expr1, expr2) abort
       continue
     endif
 
-    let exp1 = a:expr1[key]
-    let exp2 = a:expr2[key]
+    call dotvim#mapping#_merge_dict(a:expr1[key], a:expr2[key])
+    " let exp1 = a:expr1[key]
+    " let exp2 = a:expr2[key]
 
-    if type(exp1) == type(exp2) && type(exp1) == type([])
-      call extend(exp1, exp2)
-      continue
-    endif
-
-    if type(exp1) == type(exp2) && type(exp1) == type({})
-      call dotvim#mapping#_merge_dict(exp1, exp2)
-      continue
-    endif
-
-    " final override
-    let a:expr1[key] = a:expr2[key]
+    " if type(exp1) == type(exp2) && type(exp1) == type({})
+    "   call dotvim#mapping#_merge_dict(exp1, exp2)
+    " elseif type(exp1) == type(exp2) && type(exp1) == type([])
+    "   call extend(exp1, exp2)
+    "   continue
+    " else
+    "   " final override
+    "   let a:expr1[key] = a:expr2[key]
+    " endif
   endfor
 endfunction
 

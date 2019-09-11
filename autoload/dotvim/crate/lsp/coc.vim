@@ -24,20 +24,20 @@ function! dotvim#crate#lsp#coc#config() abort
   call dotvim#mapping#define_leader('nmap', 'ga', '<Plug>(coc-codeaction)',
         \ 'lsp-codeaction')
   call dotvim#mapping#define_leader('nmap', 'gd', '<Plug>(coc-definition)',
-        \ 'goto-definition')
+        \ 'lsp-definition')
   call dotvim#mapping#define_leader('nmap', 'gy', '<Plug>(coc-type-definition)',
-        \ 'goto-type-def')
+        \ 'lsp-type-def')
   call dotvim#mapping#define_leader('nmap', 'gi', '<Plug>(coc-implementation)',
-        \ 'goto-implementation')
+        \ 'lsp-implementation')
   call dotvim#mapping#define_leader('nmap', 'gr', '<Plug>(coc-references)',
-        \ 'goto-references')
+        \ 'lsp-references')
   call dotvim#mapping#define_leader('nnoremap', 'gk',
         \ ':call dotvim#crate#lsp#coc#show_documentation()<CR>',
-        \ 'goto-doc')
+        \ 'lsp-doc')
   call dotvim#mapping#define_leader('nmap', 'gR',
         \ '<Plug>(coc-rename)', 'lsp-rename')
   call dotvim#mapping#define_leader('nmap', 'gf',
-        \ '<Plug>(coc-fix-current)', 'fix-current-line')
+        \ '<Plug>(coc-fix-current)', 'lsp-fix-current-line')
 
   call dotvim#mapping#define_name('l', '+list/search')
   call dotvim#mapping#define_leader('nnoremap', 'ld',

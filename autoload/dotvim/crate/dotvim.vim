@@ -193,10 +193,6 @@ function! dotvim#crate#dotvim#config() abort
   nnoremap <Plug>(window_x) <C-W>x
   nnoremap <Plug>(window_p) <C-W>p
 
-  if has('nvim')
-    set wildoptions=pum
-  endif
-
   call dotvim#mapping#define_name('w', '+window')
   call dotvim#mapping#define_leader('nnoremap', 'wv',
         \ ':call feedkeys("\<Plug>(window_v1)")<CR>', 'split-window-right')
@@ -236,11 +232,33 @@ function! dotvim#crate#dotvim#config() abort
 
   nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 
-  command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
-
   inoremap jk <Esc>
 
   " }}}
+
+  if has('nvim')
+    set wildoptions=pum
+  endif
+
+  command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+
+  " TODO(hawtian): add support clipboard here!
+  let l:clipboard_program = get(s:vars, 'clipboard_program', 'lemonade')
+  if l:clipboard_program == 'lemonade'
+    let l:lemonade_cmd = get(s:vars, 'lemonade_cmd', 'lemonade')
+    let g:clipboard = {
+          \   'name': 'remote-clipboard',
+          \   'copy': {
+          \     '+': l:lemonade_cmd . ' copy',
+          \     '*': l:lemonade_cmd . ' copy',
+          \   },
+          \   'paste': {
+          \     '+': l:lemonade_cmd . ' paste',
+          \     '*': l:lemonade_cmd . ' paste',
+          \   },
+          \   'cache_enabled': 1,
+          \ }
+  endif
 endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
@@ -253,3 +271,4 @@ function! dotvim#crate#dotvim#postConfig() abort
         \ })
 endfunction
 
+" vim: fdm=marker

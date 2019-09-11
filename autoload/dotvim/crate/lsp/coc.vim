@@ -2,7 +2,8 @@ let s:vars = get(s:, 'vars', {})
 
 function! dotvim#crate#lsp#coc#plugins() abort
   call dotvim#plugin#reg('neoclide/coc.nvim', {
-        \ 'build': 'yarn install'
+        \ 'on_event': 'InsertEnter',
+        \ 'build': 'yarn install',
         \ })
 
   let l:plugins = ['neoclide/coc.nvim']

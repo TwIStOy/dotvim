@@ -35,7 +35,9 @@ function! dotvim#crate#dotvim#plugins() abort
         \ })
   call add(l:plugins, 'Shougo/denite.nvim')
 
-  call add(l:plugins, 'tpope/vim-vividchalk')
+  if !dotvim#crate#hasLoaded('theme')
+    call add(l:plugins, 'tpope/vim-vividchalk')
+  endif
 
   call dotvim#plugin#reg('liuchengxu/vim-which-key', {
         \ 'on_cmd': ['WhichKey', 'WhichKey!'],
@@ -242,7 +244,9 @@ function! dotvim#crate#dotvim#config() abort
 endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
-  colorscheme vividchalk
+  if !dotvim#crate#hasLoaded('theme')
+    colorscheme vividchalk
+  endif
 
   call defx#custom#option('_', {
         \ 'ignored_files': '*.d',

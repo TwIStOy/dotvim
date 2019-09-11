@@ -150,6 +150,10 @@ function! dotvim#crate#theme#postConfig() abort
 
   exec 'colorscheme ' . l:theme_config['vim']
 
+  " make all background transparent
+  " FIXME(hawtian): this seems not work
+  hi NonText ctermbg=NONE guibg=NONE
+  hi Normal guibg=NONE ctermbg=NONE
 endfunction
 
 function! s:theme_apply_snow() abort

@@ -1,18 +1,8 @@
-let s:vars = get(s:, 'vars', {})
-
-function! dotvim#crate#tool#table#setVariables(vars) abort
-  let s:vars = deepcopy(a:vars)
-endfunction
-
 function! dotvim#crate#tool#table#plugins() abort
-  let l:plugins = []
-
   call dotvim#plug#reg('dhruvasagar/vim-table-mode', {
         \ 'on_cmd': ['TableModeEnable', 'TableModeToggle', 'TableModeRealign']
         \ })
-  call add(l:plugins, 'dhruvasagar/vim-table-mode')
-
-  return l:plugins
+  return [ 'dhruvasagar/vim-table-mode' ]
 endfunction
 
 function! dotvim#crate#tool#table#config() abort

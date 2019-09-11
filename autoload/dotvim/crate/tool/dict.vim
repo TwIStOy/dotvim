@@ -5,11 +5,7 @@ function! dotvim#crate#tool#dict#setVariables(vars) abort
 endfunction
 
 function! dotvim#crate#tool#dict#plugins() abort
-  let l:plugins = []
-
-  call add(l:plugins, 'voldikss/vim-translate-me')
-
-  return l:plugins
+  return [ 'voldikss/vim-translate-me' ]
 endfunction
 
 function! dotvim#crate#tool#dict#config() abort

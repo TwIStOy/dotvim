@@ -1,9 +1,3 @@
-let s:vars = get(s:, 'vars', {})
-
-function! dotvim#crate#tool#calendar#setVariables(vars) abort
-  let s:vars = deepcopy(a:vars)
-endfunction
-
 function! dotvim#crate#tool#calendar#plugins() abort
   let l:plugins = []
 

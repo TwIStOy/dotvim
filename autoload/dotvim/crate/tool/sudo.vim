@@ -1,15 +1,5 @@
-let s:vars = get(s:, 'vars', {})
-
-function! dotvim#crate#tool#sudo#setVariables(vars) abort
-  let s:vars = deepcopy(a:vars)
-endfunction
-
 function! dotvim#crate#tool#sudo#plugins() abort
-  let l:plugins = []
-
-  call add(l:plugins, 'lambdalisue/suda.vim')
-
-  return l:plugins
+  return ['lambdalisue/suda.vim']
 endfunction
 
 function! dotvim#crate#tool#sudo#config() abort

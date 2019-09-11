@@ -1,4 +1,3 @@
-let s:vars = get(s:, 'vars', {})
 let s:setted = get(s:, 'setted', 0)
 
 if get(s:, 'sourced', 0)
@@ -6,10 +5,6 @@ if get(s:, 'sourced', 0)
 endif
 
 let s:sourced = 1
-
-function! dotvim#crate#lang#lmake#setVariables(vars) abort
-  let s:vars = deepcopy(a:vars)
-endfunction
 
 function! dotvim#crate#lang#lmake#plugins() abort
   augroup dotvimLmakeProejct

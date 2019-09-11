@@ -1,18 +1,5 @@
-let s:vars = get(s:, 'vars', {})
-
-function! dotvim#crate#tool#wiki#setVariables(vars) abort
-  let s:vars = deepcopy(a:vars)
-endfunction
-
 function! dotvim#crate#tool#wiki#plugins() abort
-  let l:plugins = []
-
-  " call dotvim#plug#reg('vimwiki/vimwiki', {
-  "       \ 'on_ft': ['vimwiki']
-  "       \ })
-  call add(l:plugins, 'vimwiki/vimwiki')
-
-  return l:plugins
+  return [ 'vimwiki/vimwiki' ]
 endfunction
 
 function! dotvim#crate#tool#wiki#config() abort

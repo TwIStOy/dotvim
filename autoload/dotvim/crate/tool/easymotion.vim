@@ -4,16 +4,11 @@ function! dotvim#crate#tool#easymotion#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)
 endfunction
 
-
 function! dotvim#crate#tool#easymotion#plugins() abort
-  let l:plugins = []
-
   call dotvim#plugin#reg('easymotion/vim-easymotion', {
         \ 'on_map': '<Plug>(easymotion'
         \ })
-  call add(l:plugins, 'easymotion/vim-easymotion')
-
-  return l:plugins
+  return ['easymotion/vim-easymotion']
 endfunction
 
 function! dotvim#crate#tool#easymotion#config() abort

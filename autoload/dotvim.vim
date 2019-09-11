@@ -27,11 +27,6 @@ function! dotvim#bootstrap() abort
   call dotvim#crate#bootstrap()
 endfunction
 
-function! s:load_crates() abort
-  for l:crate in dotvim#crate#get()
-  endfor
-endfunction
-
 function! s:read_custom_file() abort
   let l:custom_file = $HOME . '/.dotvim.toml'
   if !filereadable(expand(l:custom_file))
@@ -40,7 +35,26 @@ function! s:read_custom_file() abort
     return
   endif
 
-  let g:dotvimCustomSetting = dotvim#api#import('data#toml').parseFile(l:custom_file)
+  if has('nvim')
+    " if nvim use lua version
+    call s:read_custom_file_lua(l:custom_file)
+  else
+    " if vim, use vimscript version
+    let g:dotvimCustomSetting = dotvim#api#import('data#toml').parseFile(l:custom_file)
+  endif
+endfunction
+
+function! s:read_custom_file_lua(filename) abort
+lua << EOL
+  f = io.open(vim.api.nvim_eval('a:filename'), "rb")
+  content = f:read('*all')
+  f:close()
+
+  TOML = require('toml')
+  settings = TOML.parse(content)
+
+  vim.api.nvim_set_var('dotvimCustomSetting', settings)
+EOL
 endfunction
 
 function! s:enabled_crates_from_config() abort

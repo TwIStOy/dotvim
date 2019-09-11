@@ -35,7 +35,7 @@ function! s:self.getLogger(name) abort
 endfunction
 
 function! dotvim#api#logging#log_enabled(lvl)
-  return a:lvl >= g:_dotvim_minlvl
+  return a:lvl > g:_dotvim_minlvl
 endfunction
 
 function! dotvim#api#logging#log_debug(msg) dict

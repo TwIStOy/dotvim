@@ -50,6 +50,8 @@ function! dotvim#crate#dotvim#plugins() abort
         \ })
   call add(l:plugins, 'wsdjeg/vim-todo')
 
+  call add(l:plugins, 'TwIStOy/multihighlight.nvim')
+
   return l:plugins
 endfunction
 
@@ -161,7 +163,19 @@ function! dotvim#crate#dotvim#config() abort
         \ ':call feedkeys("\<C-O>")<CR>', 'jump-back')
 
   call dotvim#mapping#define_name('n', '+no')
-  call dotvim#mapping#define_leader('nnoremap', 'nl', ':nohl<CR>', 'no-highlight')
+  call dotvim#mapping#define_leader('nnoremap', 'nl',
+        \ ':call dotvim#crate#dotvim#no_highlight()<CR>', 'no-highlight')
+
+  call dotvim#mapping#define_name('h', '+highlight')
+  call dotvim#mapping#define_leader('nnoremap', 'hn',
+        \ ':call multihighlight#new_highlight("n")<CR>', 'new-highlight')
+  call dotvim#mapping#define_leader('nnoremap', 'hj',
+        \ ':call multihighlight#navigation(1)<CR>', 'next-match')
+  call dotvim#mapping#define_leader('nnoremap', 'hk',
+        \ ':call multihighlight#navigation(0)<CR>', 'next-match')
+
+  nnoremap <silent> n :call multihighlight#navigation(1)<CR>
+  nnoremap <silent> N :call multihighlight#navigation(0)<CR>
 
   call dotvim#mapping#define_leader('nnoremap', 'q', ':q<CR>', 'quit')
   call dotvim#mapping#define_leader('nnoremap', 'x', ':wq<CR>', 'save-and-quit')
@@ -269,6 +283,11 @@ function! dotvim#crate#dotvim#postConfig() abort
   call defx#custom#option('_', {
         \ 'ignored_files': '*.d',
         \ })
+endfunction
+
+function! dotvim#crate#dotvim#no_highlight() abort
+  execute 'nohlsearch'
+  call multihighlight#nohighlight_all()
 endfunction
 
 " vim: fdm=marker

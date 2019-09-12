@@ -164,7 +164,8 @@ function! dotvim#crate#dotvim#config() abort
 
   call dotvim#mapping#define_name('n', '+no')
   call dotvim#mapping#define_leader('nnoremap', 'nl',
-        \ ':call dotvim#crate#dotvim#no_highlight()<CR>', 'no-highlight')
+        \ ':nohl<CR>:call multihighlight#nohighlight_all()<CR>',
+        \ 'no-highlight')
 
   call dotvim#mapping#define_name('h', '+highlight')
   call dotvim#mapping#define_leader('nnoremap', 'hn',

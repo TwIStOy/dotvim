@@ -61,7 +61,7 @@ function! dotvim#crate#dotvim#config() abort
     autocmd!
     autocmd VimEnter *
           \  if !argc()
-          \|   call dein#source('mhinz/vim-startify')
+          \|   call dein#source('vim-startify')
           \|   silent! Startify
           \| endif
   augroup END

@@ -12,8 +12,8 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'tpope/vim-surround')
 
   call dotvim#plugin#reg('Yggdroot/LeaderF', {
-        \ 'on_cmd': ['Leaderf', 'LeaderfMru', 'LeaderfBuffer'],
-        \ 'build': './install.sh'
+        \ 'on_cmd': ['Leaderf', 'LeaderfMru', 'LeaderfRgInteractive'],
+        \ 'build': './install.sh',
         \ })
   call add(l:plugins, 'Yggdroot/LeaderF')
 
@@ -21,6 +21,9 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'bogado/file-line')
 
+  call dotvim#plugin#reg('Yggdroot/indentLine', {
+        \ 'on_ft': ['python']
+        \ })
   call add(l:plugins, 'Yggdroot/indentLine')
 
   call dotvim#plugin#reg('godlygeek/tabular', {
@@ -157,6 +160,11 @@ function! dotvim#crate#better#config() abort " {{{
   " vim-bookmark {{{
   let g:bookmark_no_default_key_mappings = 1
   " }}}
+
+  augroup BetterLeaderf
+    autocmd!
+    autocmd User LeaderfNeeded call dotvim#crate#better#_load_leaderf()
+  augroup END
 endfunction " }}}
 
 function! dotvim#crate#better#postConfig() abort
@@ -167,6 +175,12 @@ function! dotvim#crate#better#_lazy_load(timer) abort
   call dotvim#vim#plug#source(
         \ 'vim-matchup',
         \ 'vim-illuminate')
+endfunction
+
+function! dotvim#crate#better#_load_leaderf() abort
+  if dein#is_sourced('LeaderF') == 0
+    call dein#source('LeaderF')
+  endif
 endfunction
 
 " vim:set foldmethod=marker ft=vim sw=2 sts=2 et:

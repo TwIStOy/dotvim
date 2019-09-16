@@ -27,6 +27,13 @@ function! dotvim#crate#lang#cpp#plugins() abort
         \ })
   call add(l:plugins, 'luochen1990/rainbow')
 
+  call dotvim#plugin#reg('TwIStOy/leaderf-cppinclude', {
+        \ 'lazy': 1,
+        \ 'on_cmd': ['LeaderfCppInclude'],
+        \ 'hook_source': 'execute "doautocmd User LeaderfNeeded"',
+        \ })
+  call add(l:plugins, 'TwIStOy/leaderf-cppinclude')
+
   return l:plugins
 endfunction
 
@@ -64,6 +71,8 @@ function! s:do_cpp() abort
         \ 'clang-format')
   call dotvim#mapping#define_leader('nnoremap', 'fa', ':FSHere<CR>',
         \ 'switch-file-here')
+  call dotvim#mapping#define_leader('nnoremap', 'fi', ':LeaderfCppInclude<CR>',
+        \ 'include-cpp-header-here')
   call dotvim#mapping#define_leader('nnoremap', 'fv', ':FSSplitRight<CR>',
         \ 'switch-file-split-right')
 

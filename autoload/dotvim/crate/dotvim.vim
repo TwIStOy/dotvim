@@ -175,6 +175,7 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'hk',
         \ ':call multihighlight#navigation(0)<CR>', 'next-match')
 
+  nnoremap <silent> * :call multihighlight#new_highlight('n')<CR>
   nnoremap <silent> n :call multihighlight#navigation(1)<CR>
   nnoremap <silent> N :call multihighlight#navigation(0)<CR>
 

@@ -41,8 +41,6 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 't9md/vim-choosewin')
 
-  call add(l:plugins, 'osyo-manga/vim-anzu')
-
   call add(l:plugins, 'MattesGroeger/vim-bookmarks')
 
   call add(l:plugins, 'farmergreg/vim-lastplace')
@@ -158,19 +156,6 @@ function! dotvim#crate#better#config() abort " {{{
 
   " vim-bookmark {{{
   let g:bookmark_no_default_key_mappings = 1
-  " }}}
-
-  " osyo-manga/vim-anzu {{{
-  nmap n <Plug>(anzu-n-with-echo)
-  nmap N <Plug>(anzu-N-with-echo)
-  nmap * <Plug>(anzu-star-with-echo)
-  nmap # <Plug>(anzu-sharp-with-echo)
-
-  nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
-
-  let g:lightline.component_function['anzu'] = 'anzu#search_status'
-  let g:lightline.active.left[1] = extend(['anzu'],
-        \ g:lightline.active.left[1])
   " }}}
 endfunction " }}}
 

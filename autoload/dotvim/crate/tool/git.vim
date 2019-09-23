@@ -19,13 +19,13 @@ function! dotvim#crate#tool#git#config() abort
         \ ':GitMessenger<CR>', 'check-git-message'
         \ )
   call dotvim#mapping#define_leader('nnoremap', 'v1',
-        \ ':call conflict_resolve#ourselves<CR>', 'diff-use-above'
+        \ ':call conflict_resolve#ourselves()<CR>', 'diff-use-above'
         \ )
   call dotvim#mapping#define_leader('nnoremap', 'v2',
-        \ ':call conflict_resolve#themselves<CR>', 'diff-use-bottom'
+        \ ':call conflict_resolve#themselves()<CR>', 'diff-use-bottom'
         \ )
   call dotvim#mapping#define_leader('nnoremap', 'vb',
-        \ ':call conflict_resolve#both<CR>', 'diff-use-both'
+        \ ':call conflict_resolve#both()<CR>', 'diff-use-both'
         \ )
 endfunction
 

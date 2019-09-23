@@ -9,13 +9,23 @@ function! dotvim#crate#tool#git#plugins() abort
         \ 'on_map' : '<Plug>(git-messenger',
         \ })
 
-  return ['tpope/vim-fugitive', 'junegunn/gv.vim', 'rhysd/git-messenger.vim']
+  return ['tpope/vim-fugitive', 'junegunn/gv.vim',
+        \ 'rhysd/git-messenger.vim', 'TwIStOy/conflict-resolve.nvim']
 endfunction
 
 function! dotvim#crate#tool#git#config() abort
   call dotvim#mapping#define_name('v', '+vcs/git')
   call dotvim#mapping#define_leader('nnoremap', 'vm',
         \ ':GitMessenger<CR>', 'check-git-message'
+        \ )
+  call dotvim#mapping#define_leader('nnoremap', 'v1',
+        \ ':call conflict_resolve#ourselves<CR>', 'diff-use-above'
+        \ )
+  call dotvim#mapping#define_leader('nnoremap', 'v2',
+        \ ':call conflict_resolve#themselves<CR>', 'diff-use-bottom'
+        \ )
+  call dotvim#mapping#define_leader('nnoremap', 'vb',
+        \ ':call conflict_resolve#both<CR>', 'diff-use-both'
         \ )
 endfunction
 

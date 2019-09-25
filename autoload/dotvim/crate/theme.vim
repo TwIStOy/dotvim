@@ -138,7 +138,7 @@ function! dotvim#crate#theme#postConfig() abort
         \     'lightline': 'equinusocio_material',
         \     'settings': {
         \       'equinusocio_material_vertsplit': 'visible',
-        \       'equinusocio_material_style': 'darker'
+        \       'equinusocio_material_style': 'default'
         \     }
         \   }
         \ }
@@ -149,6 +149,12 @@ function! dotvim#crate#theme#postConfig() abort
         \ })
 
   set termguicolors
+
+  if has_key(l:theme_config, 'settings')
+    for l:name in keys(l:theme_config['settings'])
+      let g:{l:name} = l:theme_config['settings'][l:name]
+    endfor
+  endif
 
   if has_key(l:theme_config, 'func')
     call s:{l:theme_config['func']}()

@@ -33,7 +33,8 @@ function! dotvim#crate#theme#plugins() abort
         \   'night-owl': 'haishanh/night-owl.vim',
         \   'soft-era': 'soft-aesthetic/soft-era-vim',
         \   'cosmic_latte': 'nightsense/cosmic_latte',
-        \   'edge': 'sainnhe/edge'
+        \   'edge': 'sainnhe/edge',
+        \   'equinusocio_material': 'chuling/vim_equinusocio_material',
         \ }
 
   let l:plugin = get(l:theme_map, l:theme, 'sainnhe/edge')
@@ -131,6 +132,14 @@ function! dotvim#crate#theme#postConfig() abort
         \   'edge': {
         \     'vim': 'edge',
         \     'lightline': 'edge'
+        \   },
+        \   'equinusocio_material': {
+        \     'vim': 'equinusocio_material',
+        \     'lightline': 'equinusocio_material',
+        \     'settings': {
+        \       'equinusocio_material_vertsplit': 'visible',
+        \       'equinusocio_material_style': 'darker'
+        \     }
         \   }
         \ }
 
@@ -138,6 +147,8 @@ function! dotvim#crate#theme#postConfig() abort
         \   'vim': 'edge',
         \   'lightline': 'edge'
         \ })
+
+  set termguicolors
 
   if has_key(l:theme_config, 'func')
     call s:{l:theme_config['func']}()

@@ -7,10 +7,17 @@ endfunction
 function! dotvim#crate#lang#cpp#plugins() abort
   let l:plugins = []
 
-  call dotvim#plugin#reg('octol/vim-cpp-enhanced-highlight', {
-        \ 'on_ft': ['cpp', 'c']
-        \ })
-  call add(l:plugins, 'octol/vim-cpp-enhanced-highlight')
+  if get(s:vars, 'semantic_highlight', 0)
+    call dotvim#plugin#reg('jackguo380/vim-lsp-cxx-highlight', {
+          \ 'on_ft': ['cpp', 'c']
+          \ })
+    call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
+  else
+    call dotvim#plugin#reg('octol/vim-cpp-enhanced-highlight', {
+          \ 'on_ft': ['cpp', 'c']
+          \ })
+    call add(l:plugins, 'octol/vim-cpp-enhanced-highlight')
+  endif
 
   call dotvim#plugin#reg('derekwyatt/vim-fswitch', {
         \ 'on_ft': ['cpp', 'c']
@@ -59,6 +66,11 @@ function! dotvim#crate#lang#cpp#config() abort
   if has_key(s:vars, 'clang_format_exe')
     let g:clang_format#command = s:vars['clang_format_exe']
   endif
+
+  " vim-lsp-cxx {{{
+  let g:lsp_cxx_hl_use_nvim_text_props = 1
+  let g:lsp_cxx_hl_syntax_priority = 100
+  " }}}
 
   augroup dotvimLangCppCommand
     autocmd!

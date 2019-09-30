@@ -12,10 +12,6 @@ function! dotvim#crate#lsp#coc#plugins() abort
     call add(l:plugins, 'liuchengxu/vista.vim')
   endif
 
-  if get(s:vars, 'highlight_enabled', 0)
-    call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
-  endif
-
   return l:plugins
 endfunction
 

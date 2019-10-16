@@ -87,7 +87,7 @@ function! s:do_cpp() abort
         \ 'include-cpp-header-here')
   call dotvim#mapping#define_leader('nnoremap', 'fv', ':FSSplitRight<CR>',
         \ 'switch-file-split-right')
-  inoremap <silent><C-i> <C-o>:LeaderfCppInclude<CR>
+  inoremap <silent><c-e><c-i> <C-o>:LeaderfCppInclude<CR>
 
   setlocal foldexpr=dotvim#lang#cpp#foldExpr(v:lnum)
 endfunction

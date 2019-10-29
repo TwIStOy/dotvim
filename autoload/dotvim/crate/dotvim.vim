@@ -259,7 +259,7 @@ function! dotvim#crate#dotvim#config() abort
   command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
   " TODO(hawtian): add support clipboard here!
-  let l:clipboard_program = get(s:vars, 'clipboard_program', 'lemonade')
+  let l:clipboard_program = get(s:vars, 'clipboard_program', '')
   if l:clipboard_program == 'lemonade'
     let l:lemonade_cmd = get(s:vars, 'lemonade_cmd', 'lemonade')
     let g:clipboard = {

@@ -109,6 +109,37 @@ def generate_cpp_header_filename(snip):
     if project_home is None:
         return template.format("{}{}")
 
+def cpp_c_style_header_guard(filename):
+    import os
+    def find_project_home(cur):
+        if cur == '/':
+            return None
+        f_path = os.path.join(cur, '.git')
+        if os.path.exists(f_path):
+            return cur
+        return find_project_home(os.path.dirname(cur))
+
+    def to_upper_style(n):
+        return n.replace('\\', '_').replace('/', '_').upper()
+
+    d, f = os.path.split(filename)
+    project_home = find_project_home(d)
+
+    template = """#ifndef {GUARD}_H_
+#define {GUARD}_H_
+
+{RES}
+
+#endif  // {GUARD}_H_"""
+
+    if project_home is None:
+        filepath = f
+    else:
+        filepath = os.path.relpath(filename, project_home)
+    basename, ext = os.path.splitext(filepath)
+    return template.format(GUARD=to_upper_style(basename),
+                           RES='${0:/* body */}')
+
 
 def simple_namespace_generate(s, snip):
     lines = []

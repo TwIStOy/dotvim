@@ -1,4 +1,4 @@
-let g:dotvim_last_updated_time = '2019.10.29'
+let g:dotvim_last_updated_time = '2019.11.04'
 
 function! dotvim#version#version() abort
   return g:dotvim_last_updated_time

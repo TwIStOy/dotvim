@@ -223,5 +223,10 @@ snippet "([iu])(\d+)" "int types..." r
 `!p simple_int_types(match.group(1), match.group(2), snip)` ${0}
 endsnippet
 
+post_jump "expand_anon(snip)"
+snippet cguard "c styple header guard" b
+`!p snip.rv = cpp_c_style_header_guard(path)`
+endsnippet
+
 # vim: set fdm=marker
 

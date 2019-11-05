@@ -228,5 +228,17 @@ snippet cguard "c styple header guard" b
 `!p snip.rv = cpp_c_style_header_guard(path)`
 endsnippet
 
+snippet externc "extern c guard for cpp" b
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+${0: /* body */}
+
+#ifdef __cplusplus
+}
+#endif
+endsnippet
+
 # vim: set fdm=marker
 

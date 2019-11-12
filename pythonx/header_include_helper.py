@@ -66,7 +66,7 @@ def generate_cpp_header_filename(vim):
 
     project_home = _find_project_home(dirname)
     if project_home is None:
-        project_home = dirname
+        project_home = vim.eval('getcwd()')
 
     header_ext = headers.get(ext, None)
     if header_ext is None:
@@ -90,9 +90,7 @@ def generate_cpp_header_filename(vim):
     if not selected:
         return '// no header files...'
 
-    home_path = vim.eval('getcwd()')
-
-    relp = os.path.relpath(selected[0], home_path)
+    relp = os.path.relpath(selected[0], project_home)
     # print('Selected:', selected[0], home_path, 'Relp:', relp)
 
     return f'#include "{relp}"'

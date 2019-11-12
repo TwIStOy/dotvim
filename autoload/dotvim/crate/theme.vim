@@ -35,6 +35,7 @@ function! dotvim#crate#theme#plugins() abort
         \   'cosmic_latte': 'nightsense/cosmic_latte',
         \   'edge': 'sainnhe/edge',
         \   'equinusocio_material': 'chuling/vim_equinusocio_material',
+        \   'ayu': 'ayu-theme/ayu-vim',
         \ }
 
   let l:plugin = get(l:theme_map, l:theme, 'sainnhe/edge')
@@ -140,6 +141,10 @@ function! dotvim#crate#theme#postConfig() abort
         \       'equinusocio_material_vertsplit': 'visible',
         \       'equinusocio_material_style': 'default'
         \     }
+        \   },
+        \   'ayu': {
+        \     'vim': 'ayu',
+        \     'func': 'theme_apply_ayu'
         \   }
         \ }
 
@@ -186,6 +191,14 @@ function! s:theme_apply_cosmic_latte() abort
   if exists('g:lightline')
     let g:lightline.colorscheme = 'cosmic_latte_' .
           \ get(s:vars, 'background', 'light')
+  endif
+endfunction
+
+function! s:theme_apply_ayu() abort
+  let g:ayucolor = get(s:vars, 'background', 'light')
+
+  if exists('g:lightline')
+    let g:lightline.colorscheme = 'ayu'
   endif
 endfunction
 

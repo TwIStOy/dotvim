@@ -12,7 +12,27 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'tpope/vim-surround')
 
   call dotvim#plugin#reg('Yggdroot/LeaderF', {
-        \ 'on_cmd': ['Leaderf', 'LeaderfMru', 'LeaderfRgInteractive'],
+        \ 'on_cmd': ['Leaderf',
+        \            "LeaderfFile",
+        \            "LeaderfBuffer",
+        \            "LeaderfBufferAll",
+        \            "LeaderfMru",
+        \            "LeaderfMruCwd",
+        \            "LeaderfTag",
+        \            "LeaderfBufTag",
+        \            "LeaderfBufTagAll",
+        \            "LeaderfFunction",
+        \            "LeaderfFunctionAll",
+        \            "LeaderfLine",
+        \            "LeaderfLineAll",
+        \            "LeaderfHistoryCmd",
+        \            "LeaderfHistorySearch",
+        \            "LeaderfSelf",
+        \            "LeaderfHelp",
+        \            "LeaderfColorscheme",
+        \            "LeaderfRgInteractive",
+        \            "LeaderfRgRecall"
+        \           ],
         \ 'build': './install.sh',
         \ })
   call add(l:plugins, 'Yggdroot/LeaderF')
@@ -104,6 +124,8 @@ function! dotvim#crate#better#config() abort " {{{
         \ ':LeaderfBuffer<CR>', 'buffer-list')
   call dotvim#mapping#define_leader('nnoremap', 'rg',
         \ ':LeaderfRgInteractive<CR>', 'rg')
+  call dotvim#mapping#define_leader('nnoremap', 'rr',
+        \ ':LeaderfRgRecall<CR>', 'rr')
 
   call dotvim#mapping#define_leader('xmap', 'ta',
         \ ':EasyAlign<CR>', 'easy-align')

@@ -1,10 +1,16 @@
 let s:vars = get(s:, 'vars', {})
 
 function! dotvim#crate#lsp#coc#plugins() abort
-  call dotvim#plugin#reg('neoclide/coc.nvim', {
-        \ 'on_event': 'InsertEnter',
-        \ 'build': 'yarn install',
-        \ })
+  if get(s:vars, 'lazy_load', 1)
+    call dotvim#plugin#reg('neoclide/coc.nvim', {
+          \ 'on_event': 'InsertEnter',
+          \ 'build': 'yarn install',
+          \ })
+  else
+    call dotvim#plugin#reg('neoclide/coc.nvim', {
+          \ 'build': 'yarn install',
+          \ })
+  endif
 
   let l:plugins = ['neoclide/coc.nvim']
 

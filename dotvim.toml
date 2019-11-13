@@ -1,7 +1,7 @@
 extra_plugins = []
 enabled_crates = [
   'snippets', 'textobject', 'edit',
-  'tool#sudo'
+  'tool#sudo', 'tool#wakatime',
 ]
 
 [global]
@@ -19,11 +19,12 @@ axring_rings = [
 ]
 
 [[crates]]
-ame = 'lsp#coc'
+name = 'lsp#coc'
 coc_show_signature_help = false
 coc_cursorhold_highlight = false
 updatetime = 300
 coc_start_at_startup = true
+lazy_load = true
 
 [[crates]]
 name = 'lang#cpp'
@@ -31,6 +32,6 @@ clang_format_exe = 'clang-format-7'
 
 [[crates]]
 name = 'theme'
-theme = 'edge'
-background = 'dark'
+theme = 'ayu'
+background = 'mirage'
 

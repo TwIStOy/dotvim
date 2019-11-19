@@ -73,6 +73,8 @@ function! dotvim#crate#better#plugins() abort
         \ })
   call add(l:plugins, 'Asheq/close-buffers.vim')
 
+  call add(l:plugins, 'aperezdc/vim-template')
+
   " lazy group {{{
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
   call add(l:plugins, 'RRethy/vim-illuminate')

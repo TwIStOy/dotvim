@@ -101,6 +101,9 @@ function! dotvim#crate#lsp#coc#config() abort
         \ 'coc-tsserver',
         \ 'coc-tabnine',
         \ 'coc-git',
+        \ 'coc-vimlsp',
+        \ 'coc-fish',
+        \ 'coc-template',
         \ ]
 
   " default settings

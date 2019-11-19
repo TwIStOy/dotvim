@@ -96,6 +96,7 @@ function! dotvim#crate#better#config() abort " {{{
 
   let g:Lf_ShortcutF = '<Leader>ff'
   let g:Lf_ShortcutB = '<Leader>ffb'
+  let g:Lf_WindowPosition = 'popup'
 
   let g:Lf_DefaultExternalTool = ""
   let g:Lf_UseVersionControlTool = 0

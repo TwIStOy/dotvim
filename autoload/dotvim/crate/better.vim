@@ -68,6 +68,11 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'farmergreg/vim-lastplace')
 
+  call dotvim#plugin#reg('Asheq/close-buffers.vim', {
+        \ 'on_cmd': 'Bdelete'
+        \ })
+  call add(l:plugins, 'Asheq/close-buffers.vim')
+
   " lazy group {{{
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
   call add(l:plugins, 'RRethy/vim-illuminate')

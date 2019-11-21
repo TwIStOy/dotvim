@@ -191,6 +191,10 @@ function! dotvim#crate#better#config() abort " {{{
   let g:bookmark_no_default_key_mappings = 1
   " }}}
 
+  " vim-template {{{
+  let g:templates_directory = $HOME . '/.dotvim/vim-templates'
+  " }}}
+
   augroup BetterLeaderf
     autocmd!
     autocmd User LeaderfNeeded call dotvim#crate#better#_load_leaderf()

@@ -216,7 +216,15 @@ function! dotvim#crate#better#config() abort " {{{
   " }}}
 
   " vim-template {{{
-  let g:templates_directory = $HOME . '/.dotvim/vim-templates'
+  let g:templates_directory = [ $HOME . '/.dotvim/vim-templates' ]
+  let g:templates_no_autocmd = 0
+  let g:templates_debug = 0
+  let g:templates_no_builtin_templates = 1
+  let g:templates_user_variables = [
+        \   [ 'GIT_USER',  'dotvim#utils#git_user' ],
+        \   [ 'GIT_EMAIL', 'dotvim#utils#git_email' ],
+        \   [ 'PROJECT_HEADER', 'dotvim#crate#better#_generate_cpp_header_filename' ],
+        \ ]
   " }}}
 
   augroup BetterLeaderf
@@ -239,6 +247,12 @@ function! dotvim#crate#better#_load_leaderf() abort
   if dein#is_sourced('LeaderF') == 0
     call dein#source('LeaderF')
   endif
+endfunction
+
+function! dotvim#crate#better#_generate_cpp_header_filename() abort
+  return py3eval(
+        \ '__import__("header_include_helper").generate_cpp_header_filename(__import__("vim"))'
+        \ )
 endfunction
 
 " vim:set foldmethod=marker ft=vim sw=2 sts=2 et:

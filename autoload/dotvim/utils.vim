@@ -20,3 +20,11 @@ function! dotvim#utils#repo_home() abort
   return trim(system('git rev-parse --show-toplevel'))
 endfunction
 
+function! dotvim#utils#git_user() abort
+  return trim(system('git config --get user.name'))
+endfunction
+
+function! dotvim#utils#git_email() abort
+  return trim(system('git config --get user.email'))
+endfunction
+

@@ -101,12 +101,33 @@ function! dotvim#crate#better#config() abort " {{{
   let g:surround_no_insert_mappings = 1
   " }}}
 
+  " leaderf settings {{{
+  let g:Lf_FollowLinks = 1
+  let g:Lf_WildIgnore = {
+        \   'dir': [ '.git', '.svn', '.hg' ],
+        \   'file': [
+        \     '*.exe', '*.o', '*.a', '*.so', '*.py[co]',
+        \     '*.sw?', '*.bak'
+        \   ]
+        \ }
+
   let g:Lf_ShortcutF = '<Leader>ff'
   let g:Lf_ShortcutB = '<Leader>ffb'
   let g:Lf_WindowPosition = 'popup'
 
-  let g:Lf_DefaultExternalTool = ""
-  let g:Lf_UseVersionControlTool = 0
+  let g:Lf_HideHelp = 1
+  let g:Lf_UseVersionControlTool = 1
+  let g:Lf_WorkingDirectoryMode = 'ac'
+  let g:Lf_PopupPosition = [1, 0]
+
+  let g:Lf_PopupWidth = &columns * 3 / 4
+  let g:Lf_PopupHeight = float2nr(&lines * 0.6)
+  let g:Lf_PopupShowStatusline = 0
+  let g:Lf_PreviewInPopup = 1
+  let g:Lf_PopupPreviewPosition = 'bottom'
+
+  let g:Lf_RememberLastSearch = 1
+  " }}}
 
   if has_key(s:vars, 'axring_rings')
     let g:axring_rings = deepcopy(s:vars['axring_rings'])
@@ -132,6 +153,9 @@ function! dotvim#crate#better#config() abort " {{{
         \ ':LeaderfBuffer<CR>', 'buffer-list')
   call dotvim#mapping#define_leader('nnoremap', 'rg',
         \ ':LeaderfRgInteractive<CR>', 'rg')
+
+  nnoremap <silent><F2> :LeaderfRgInteractive<CR>
+
   call dotvim#mapping#define_leader('nnoremap', 'rr',
         \ ':LeaderfRgRecall<CR>', 'rr')
 

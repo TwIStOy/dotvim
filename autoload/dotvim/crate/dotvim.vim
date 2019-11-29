@@ -154,8 +154,17 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_name('f', '+file')
   call dotvim#mapping#define_leader('nnoremap', 'fs',
         \ ':update<CR>', 'save')
+
+  let g:dotvim_defx_parameters = [
+        \ '-split=vertical',
+        \ '-winwidth=' . get(s:vars, 'defx_width', 35),
+        \ '-ignored-files=*.d',
+        \ '-toggle',
+        \ ]
+  nnoremap <silent><Plug>(toggle_defx) :call dotvim#crate#dotvim#_call_defx()<CR>
+
   call dotvim#mapping#define_leader('nnoremap', 'ft',
-        \ ':Defx -split=vertical -winwidth=30 -ignored-files=*.d -toggle<CR>',
+        \ ':call feedkeys("\<Plug>(toggle_defx)")<CR>',
         \ 'toggle-file-explorer')
 
   call dotvim#mapping#define_name('j', '+jump')
@@ -290,6 +299,11 @@ endfunction
 function! dotvim#crate#dotvim#no_highlight() abort
   execute 'nohlsearch'
   call multihighlight#nohighlight_all()
+endfunction
+
+function! dotvim#crate#dotvim#_call_defx() abort
+  let l:cmd = join(g:dotvim_defx_parameters, ' ')
+  execute 'Defx ' . l:cmd
 endfunction
 
 " vim: fdm=marker

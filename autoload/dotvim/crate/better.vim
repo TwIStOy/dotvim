@@ -87,7 +87,7 @@ function! dotvim#crate#better#plugins() abort
 
   if get(s:vars, 'enable_defx_icons', 0)
     call dotvim#plugin#reg('kristijanhusak/defx-icons', {
-          \ 'on_cmd': ['Defx']
+          \ 'on_source': ['defx.nvim']
           \ })
     call add(l:plugins, 'kristijanhusak/defx-icons')
   endif
@@ -128,7 +128,7 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PreviewInPopup = 1
   let g:Lf_PopupPreviewPosition = 'bottom'
 
-  let g:Lf_RememberLastSearch = 1
+  let g:Lf_RememberLastSearch = 0
   " }}}
 
   if has_key(s:vars, 'axring_rings')
@@ -157,6 +157,7 @@ function! dotvim#crate#better#config() abort " {{{
         \ ':LeaderfRgInteractive<CR>', 'rg')
 
   nnoremap <silent><F2> :LeaderfRgInteractive<CR>
+  nnoremap <silent><F3> :LeaderfMru<CR>
 
   call dotvim#mapping#define_leader('nnoremap', 'rr',
         \ ':LeaderfRgRecall<CR>', 'rr')
@@ -179,13 +180,9 @@ function! dotvim#crate#better#config() abort " {{{
 
   if get(s:vars, 'enable_defx_icons', 0)
     let g:defx_icons_enable_syntax_highlight = 1
-    let defx_cmd  = ':Defx '
-    let defx_cmd .= '-split=vertical -columns=icons:filename:type '
-    let defx_cmd .= '-ignored-files=*.d '
-    let defx_cmd .= '-winwidth=30 -toggle<CR>'
-    call dotvim#mapping#define_leader('nnoremap', 'ft',
-          \ defx_cmd,
-          \ 'toggle-file-explorer-with-icon')
+    let g:defx_icons_column_length = 2
+
+    call add(g:dotvim_defx_parameters, '-columns=icons:indent:filename:type')
   endif
 
   let g:lightline = {

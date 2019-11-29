@@ -107,7 +107,7 @@ function! dotvim#crate#better#config() abort " {{{
         \   'dir': [ '.git', '.svn', '.hg' ],
         \   'file': [
         \     '*.exe', '*.o', '*.a', '*.so', '*.py[co]',
-        \     '*.sw?', '*.bak'
+        \     '*.sw?', '*.bak', '*.d', '*.idx',
         \   ]
         \ }
 

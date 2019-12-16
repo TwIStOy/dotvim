@@ -261,7 +261,7 @@ function! dotvim#crate#dotvim#config() abort
 
   " }}}
 
-  if has('nvim')
+  if has('nvim') && !exists('g:fvim_loaded')
     set wildoptions=pum
   endif
 

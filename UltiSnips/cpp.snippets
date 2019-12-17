@@ -195,12 +195,12 @@ snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
 endsnippet
 
 snippet ulk "std::unqiue_lock<shared_mutex>" b
-std::unique_lock<shared_mutex> ${2:lk}(${1:mutex_});
+std::unique_lock<SharedMutex> ${2:lk}(${1:mutex_});
 ${0}
 endsnippet
 
 snippet slk "shared_lock<shared_mutex>" b
-shared_lock<shared_mutex> ${2:lk}(${1:mutex_});
+SharedLock<SharedMutex> ${2:lk}(${1:mutex_});
 ${0}
 endsnippet
 
@@ -238,6 +238,31 @@ ${0: /* body */}
 #ifdef __cplusplus
 }
 #endif
+endsnippet
+
+snippet ==a "ASSERT_EQ" b
+ASSERT_EQ(${1:lhs}, ${2:rhs});${0}
+endsnippet
+
+snippet !=a "ASSERT_NE" b
+ASSERT_NE(${1:lhs}, ${2:rhs});${0}
+endsnippet
+
+snippet ==e "EXPECT_EQ" b
+EXPECT_EQ(${1:lhs}, ${2:rhs});${0}
+endsnippet
+
+snippet !=e "EXPECT_NE" b
+EXPECT_NE(${1:lhs}, ${2:rhs});${0}
+endsnippet
+
+snippet find "find function in map" b
+auto it = ${1:map name}.find(${2:key});
+if (it == $1.end()) {
+	${3:not exists block}
+} else {
+	${4:exists block}
+}
 endsnippet
 
 # vim: set fdm=marker

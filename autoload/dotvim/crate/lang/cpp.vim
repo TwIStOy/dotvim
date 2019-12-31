@@ -8,10 +8,17 @@ function! dotvim#crate#lang#cpp#plugins() abort
   let l:plugins = []
 
   if get(s:vars, 'semantic_highlight', 0)
-    call dotvim#plugin#reg('jackguo380/vim-lsp-cxx-highlight', {
-          \ 'on_ft': ['cpp', 'c']
-          \ })
-    call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
+    if get(s:vars, 'standalone_semantic', 0)
+      call dotvim#plugin#reg('arakashic/chromatica.nvim', {
+            \ 'on_ft': ['cpp', 'c']
+            \ })
+      call add(l:plugins, 'arakashic/chromatica.nvim')
+    else
+      call dotvim#plugin#reg('jackguo380/vim-lsp-cxx-highlight', {
+            \ 'on_ft': ['cpp', 'c']
+            \ })
+      call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
+    endif
   else
     call dotvim#plugin#reg('octol/vim-cpp-enhanced-highlight', {
           \ 'on_ft': ['cpp', 'c']
@@ -65,6 +72,14 @@ function! dotvim#crate#lang#cpp#config() abort
 
   if has_key(s:vars, 'clang_format_exe')
     let g:clang_format#command = s:vars['clang_format_exe']
+  endif
+
+  if get(s:vars, 'semantic_highlight', 0) && get(s:vars, 'standalone_semantic', 0)
+    if has_key(s:vars, 'libclang_path')
+      let g:chromatica#libclang_path = s:vars['libclang_path']
+    endif
+    let g:chromatica#enable_at_startup = 1
+    let g:chromatica#responsive_mode = 1
   endif
 
   " vim-lsp-cxx {{{

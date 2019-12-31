@@ -74,12 +74,18 @@ function! dotvim#crate#lang#cpp#config() abort
     let g:clang_format#command = s:vars['clang_format_exe']
   endif
 
-  if get(s:vars, 'semantic_highlight', 0) && get(s:vars, 'standalone_semantic', 0)
-    if has_key(s:vars, 'libclang_path')
-      let g:chromatica#libclang_path = s:vars['libclang_path']
+  if get(s:vars, 'semantic_highlight', 0)
+    if get(s:vars, 'standalone_semantic', 0)
+      " settings for <chromatica>
+      if has_key(s:vars, 'libclang_path')
+        let g:chromatica#libclang_path = s:vars['libclang_path']
+      endif
+      let g:chromatica#enable_at_startup = 1
+      let g:chromatica#responsive_mode = 1
+    else
+      " settings for <vim-lsp-cxx-highlight>
+      autocmd VimEnter * hi LspCxxHlSymParameter cterm=underline gui=underline
     endif
-    let g:chromatica#enable_at_startup = 1
-    let g:chromatica#responsive_mode = 1
   endif
 
   " vim-lsp-cxx {{{

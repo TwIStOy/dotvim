@@ -62,7 +62,7 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'matze/vim-move')
 
-  call add(l:plugins, 't9md/vim-choosewin')
+  call add(l:plugins, 'dhruvasagar/vim-zoom')
 
   call add(l:plugins, 'MattesGroeger/vim-bookmarks')
 
@@ -74,6 +74,8 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'Asheq/close-buffers.vim')
 
   call add(l:plugins, 'aperezdc/vim-template')
+
+  call add(l:plugins, 'tomtom/tcomment_vim')
 
   " lazy group {{{
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
@@ -211,7 +213,7 @@ function! dotvim#crate#better#config() abort " {{{
   " }}}
 
   " vim-bookmark {{{
-  let g:bookmark_no_default_key_mappings = 1
+  let g:bookmark_no_default_key_mappings = 0
   " }}}
 
   " vim-template {{{

@@ -56,6 +56,10 @@ function! dotvim#crate#dotvim#plugins() abort
 endfunction
 
 function! dotvim#crate#dotvim#config() abort
+  if !has('nvim')
+    set term=xterm
+  endif
+
   " startify {{{
   augroup dotvimStartify
     autocmd!

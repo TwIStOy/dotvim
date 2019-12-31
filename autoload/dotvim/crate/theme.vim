@@ -172,6 +172,10 @@ function! dotvim#crate#theme#postConfig() abort
 
   exec 'colorscheme ' . l:theme_config['vim']
 
+  if !has('nvim')
+    autocmd VimEnter * syntax on
+  endif
+
   " make all background transparent
   " FIXME(hawtian): this seems not work
   hi NonText ctermbg=NONE guibg=NONE

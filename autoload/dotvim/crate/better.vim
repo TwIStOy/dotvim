@@ -77,6 +77,11 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'tomtom/tcomment_vim')
 
+  call dotvim#plugin#reg('AndrewRadev/linediff.vim', {
+        \ 'on_cmd': ['Linediff', 'LinediffReset']
+        \ })
+  call add(l:plugins, 'AndrewRadev/linediff.vim')
+
   " lazy group {{{
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
   call add(l:plugins, 'RRethy/vim-illuminate')

@@ -1,8 +1,8 @@
 function! dotvim#crate#tool#doc#plugins() abort
-  call dotvim#plugin#reg('kkoomen/vim-doge', {
+  call dotvim#plugin#reg('TwIStOy/vim-doge', {
         \ 'on_cmd': ['DogeGenerate', 'DogeCreateDocStandard']
         \ })
-  return ['kkoomen/vim-doge']
+  return ['TwIStOy/vim-doge']
 endfunction
 
 function! dotvim#crate#tool#doc#config() abort

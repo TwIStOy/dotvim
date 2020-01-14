@@ -15,6 +15,10 @@ function! dotvim#crate#lsp#coc#plugins() abort
   let l:plugins = ['neoclide/coc.nvim']
 
   if get(s:vars, 'vista_enabled', 0)
+    call dotvim#plugin#reg('liuchengxu/vista.vim', {
+          \  'on_cmd': ['Vista']
+          \ })
+
     call add(l:plugins, 'liuchengxu/vista.vim')
   endif
 
@@ -195,7 +199,7 @@ function! dotvim#crate#lsp#coc#setVariables(vars) abort
 endfunction
 
 function! dotvim#crate#lsp#coc#show_documentation()
-  if &filetype == 'vim'
+  if (index(['vim', 'help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
     call CocActionAsync('doHover')

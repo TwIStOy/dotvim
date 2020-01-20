@@ -191,6 +191,7 @@ function! dotvim#crate#dotvim#config() abort
   nnoremap <silent> * :call multihighlight#new_highlight('n')<CR>
   nnoremap <silent> n :call multihighlight#navigation(1)<CR>
   nnoremap <silent> N :call multihighlight#navigation(0)<CR>
+  " nnoremap <silent> / :call dotvim#crate#dotvim#input_pattern()<CR>
 
   call dotvim#mapping#define_leader('nnoremap', 'q', ':q<CR>', 'quit')
   call dotvim#mapping#define_leader('nnoremap', 'x', ':wq<CR>', 'save-and-quit')
@@ -308,6 +309,22 @@ endfunction
 function! dotvim#crate#dotvim#_call_defx() abort
   let l:cmd = join(g:dotvim_defx_parameters, ' ')
   execute 'Defx ' . l:cmd
+endfunction
+
+function! dotvim#crate#dotvim#input_pattern() abort " {{{
+  let l:pattern = input("Search and Highlight Pattern: ")
+
+  call multihighlight#highlight_word(l:pattern, 'n')
+endfunction " }}}
+
+function! dotvim#crate#dotvim#print(error, response) abort
+  if empty(a:error)
+    " Refer to coc.nvim 79cb11e
+    " No document symbol provider exists when response is null.
+    if a:response isnot v:null
+      echo a:response
+    endif
+  endif
 endfunction
 
 " vim: fdm=marker

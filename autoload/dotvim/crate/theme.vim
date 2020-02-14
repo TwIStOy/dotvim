@@ -36,6 +36,7 @@ function! dotvim#crate#theme#plugins() abort
         \   'edge': 'sainnhe/edge',
         \   'equinusocio_material': 'chuling/vim_equinusocio_material',
         \   'ayu': 'ayu-theme/ayu-vim',
+        \   'candid': 'flrnd/candid.vim'
         \ }
 
   let l:plugin = get(l:theme_map, l:theme, 'sainnhe/edge')
@@ -145,6 +146,10 @@ function! dotvim#crate#theme#postConfig() abort
         \   'ayu': {
         \     'vim': 'ayu',
         \     'func': 'theme_apply_ayu'
+        \   },
+        \   'candid': {
+        \     'vim': 'candid',
+        \     'lightline': 'candid'
         \   }
         \ }
 

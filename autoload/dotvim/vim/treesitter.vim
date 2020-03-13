@@ -19,3 +19,21 @@ function! dotvim#vim#treesitter#register_all() abort
   endfor
 endfunction
 
+function! dotvim#vim#treesitter#cpp() abort
+lua << EOL
+  local query = [[
+    "for" @keyword
+    "if" @keyword
+    "return" @keyword
+
+    (string_literal) @string
+    (number_literal) @number
+    (comment) @comment
+
+    (preproc_function_def name: (identifier) @function)
+  ]]
+
+  highlighter = vim.treesitter.TSHighlighter.new(query)
+EOL
+endfunction
+

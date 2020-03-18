@@ -108,6 +108,7 @@ function! dotvim#crate#lsp#coc#config() abort
         \ 'coc-vimlsp',
         \ 'coc-fish',
         \ 'coc-template',
+        \ 'coc-highlight',
         \ ]
 
   " default settings

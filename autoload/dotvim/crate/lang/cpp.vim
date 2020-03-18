@@ -113,4 +113,17 @@ function! s:do_cpp() abort
   setlocal foldexpr=dotvim#lang#cpp#foldExpr(v:lnum)
 endfunction
 
+function! s:HandleLSPResponse(error, response) abort
+  if empty(a:error)
+    echo a:response
+  else
+    echo a:error
+  endif
+endfunction
+
+function! dotvim#crate#lang#cpp#test() abort
+  echo CocRequest('clangd', 'textDocument/switchSourceHeader', {
+        \ "uri": "file://" . expand("%:p")
+        \ })
+endfunction
 

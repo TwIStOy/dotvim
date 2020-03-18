@@ -24,7 +24,7 @@ function! dotvim#crate#gui#_delay_loaded(timer) abort
 
     FVimUIPopupMenu v:false
     FVimFontAutoSnap v:true
-  else
+  elseif exists('g:GuiLoaded')
     " nvim-qt gui
 
     GuiTabline 1

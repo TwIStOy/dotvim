@@ -20,10 +20,10 @@ function! dotvim#crate#lang#cpp#plugins() abort
       call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
     endif
   else
-    call dotvim#plugin#reg('octol/vim-cpp-enhanced-highlight', {
+    call dotvim#plugin#reg('bfrg/vim-cpp-modern', {
           \ 'on_ft': ['cpp', 'c']
           \ })
-    call add(l:plugins, 'octol/vim-cpp-enhanced-highlight')
+    call add(l:plugins, 'bfrg/vim-cpp-modern')
   endif
 
   call dotvim#plugin#reg('derekwyatt/vim-fswitch', {
@@ -57,19 +57,6 @@ function! dotvim#crate#lang#cpp#config() abort
   call add(g:polyglot_disabled, 'c')
   call add(g:polyglot_disabled, 'cpp')
 
-  let g:cpp_class_scope_highlight =
-        \ get(s:vars, 'cpp_class_scope_highlight', 0)
-  let g:cpp_member_variable_highlight =
-        \ get(s:vars, 'cpp_member_variable_highlight', 0)
-  let g:cpp_class_decl_highlight =
-        \ get(s:vars, 'cpp_class_decl_highlight', 0)
-  let g:cpp_experimental_template_highlight =
-        \ get(s:vars, 'cpp_experimental_template_highlight', 0)
-  let g:cpp_concepts_highlight =
-        \ get(s:vars, 'cpp_concepts_highlight', 0)
-  let g:cpp_no_function_highlight =
-        \ get(s:vars, 'cpp_no_function_highlight', 0)
-
   if has_key(s:vars, 'clang_format_exe')
     let g:clang_format#command = s:vars['clang_format_exe']
   endif
@@ -97,6 +84,12 @@ function! dotvim#crate#lang#cpp#config() abort
     autocmd!
     autocmd FileType c,cpp call s:do_cpp()
   augroup END
+
+  let content = [
+        \   [ "&Fuzzy Include", 'LeaderfCppInclude' ],
+        \   [ "&ClangFormat", 'ClangFormat' ],
+        \ ]
+  call dotvim#quickui#append_context_menu(content, 'cpp')
 endfunction
 
 function! s:do_cpp() abort

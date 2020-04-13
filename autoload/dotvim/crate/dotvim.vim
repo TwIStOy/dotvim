@@ -29,12 +29,6 @@ function! dotvim#crate#dotvim#plugins() abort
         \ })
   call add(l:plugins, 'Shougo/defx.nvim')
 
-  call dotvim#plugin#reg('Shougo/denite.nvim', {
-        \ 'on_cmd': ['Denite', 'DeniteBufferDir',
-        \            'DeniteCursorWord', 'DeniteProjectDir']
-        \ })
-  call add(l:plugins, 'Shougo/denite.nvim')
-
   if !dotvim#crate#hasLoaded('theme')
     call add(l:plugins, 'tpope/vim-vividchalk')
   endif
@@ -45,12 +39,9 @@ function! dotvim#crate#dotvim#plugins() abort
         \ })
   call add(l:plugins, 'liuchengxu/vim-which-key')
 
-  call dotvim#plugin#reg('wsdjeg/vim-todo', {
-        \ 'on_cmd': ['OpenTodo']
-        \ })
-  call add(l:plugins, 'wsdjeg/vim-todo')
-
   call add(l:plugins, 'TwIStOy/multihighlight.nvim')
+
+  call add(l:plugins, 'skywind3000/vim-quickui')
 
   return l:plugins
 endfunction
@@ -149,6 +140,11 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#api#import('window').addAutocloseType('quickfix')
   call dotvim#api#import('window').addAutocloseType('defx')
   call dotvim#api#import('window').add_uncountable_type('defx')
+  call dotvim#api#import('window').add_uncountable_type('quickfix')
+
+  nnoremap <silent><F3> :call <SID>fast_forward_to_defx()<CR>
+  nnoremap <silent><F4> :call quickui#tools#list_buffer('e')<CR>
+  nnoremap <silent>;; :call dotvim#quickui#open_context(&ft)<CR>
 
   " default keybindings {{{
   for l:i in range(1, 9)
@@ -292,6 +288,16 @@ function! dotvim#crate#dotvim#config() abort
           \   'cache_enabled': 1,
           \ }
   endif
+
+  " quickui {{{
+  let g:quickui_border_style = 2
+  " TODO(hawtian): fix color
+  hi! QuickBG ctermfg=0 ctermbg=7 guifg=#EFEEEA guibg=#2F343F
+  " hi! QuickKey term=bold ctermfg=9 gui=bold guifg=#FFCE5B
+  " hi! QuickSel cterm=bold ctermfg=0 ctermbg=2 gui=bold guibg=#50c6d8 guifg=#A18BD3
+  " hi! QuickOff ctermfg=59 guifg=#4C8273
+  " hi! QuickHelp ctermfg=247 guifg=#959173
+  " }}}
 endfunction
 
 function! dotvim#crate#dotvim#postConfig() abort
@@ -328,6 +334,19 @@ function! dotvim#crate#dotvim#print(error, response) abort
       echo a:response
     endif
   endif
+endfunction
+
+function! s:fast_forward_to_defx() abort
+  for l:i in range(1, winnr('$'))
+    let l:tp = getbufvar(winbufnr(l:i), '&ft')
+
+    if l:tp == 'defx'
+      execute ':' . l:i . 'wincmd w'
+      return
+    endif
+  endfor
+
+  call dotvim#crate#dotvim#_call_defx()
 endfunction
 
 " vim: fdm=marker

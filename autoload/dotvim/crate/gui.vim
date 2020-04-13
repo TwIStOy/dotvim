@@ -29,6 +29,8 @@ function! dotvim#crate#gui#_delay_loaded(timer) abort
 
     GuiTabline 1
     GuiPopupmenu 0
+
+    call GuiWindowMaximized(1)
   endif
 endfunction
 

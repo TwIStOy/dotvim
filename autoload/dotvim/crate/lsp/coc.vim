@@ -155,6 +155,16 @@ function! dotvim#crate#lsp#coc#config() abort
     let g:vista_finder_alternative_executives = ['coc']
   endif
 
+  let content = [
+      \   [ "Goto &Definition", 'call feedkeys("\<Plug>(coc-definition)")' ],
+      \   [ "Goto T&ype Definition", 'call feedkeys("\<Plug>(coc-type-definition)")' ],
+      \   [ "Goto &Implementation", 'call feedkeys("\<Plug>(coc-implementation)")' ],
+      \   [ "Goto &References", 'call feedkeys("\<Plug>(coc-references)")' ],
+      \   ['-'],
+      \   [ "Help &Keyword", 'call ht#collection#lsp#show_documentation()' ],
+      \ ]
+  call dotvim#quickui#append_context_menu(content, 'cpp')
+
   " }}}
 endfunction
 

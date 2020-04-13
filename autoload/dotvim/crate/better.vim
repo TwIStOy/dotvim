@@ -170,7 +170,6 @@ function! dotvim#crate#better#config() abort " {{{
         \ ':LeaderfRgInteractive<CR>', 'rg')
 
   nnoremap <silent><F2> :LeaderfRgInteractive<CR>
-  nnoremap <silent><F3> :LeaderfMru<CR>
 
   call dotvim#mapping#define_leader('nnoremap', 'rr',
         \ ':LeaderfRgRecall<CR>', 'rr')

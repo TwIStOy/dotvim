@@ -11,6 +11,7 @@ EOL
 endfunction
 
 function! dotvim#vim#treesitter#register_all() abort
+  call system('mkdir -p ~/.tree-sitter/bin')
   let l:list = split(system('ls ~/.tree-sitter/bin'), '\n')
   for l:name in l:list
     let l:lang = split(l:name, '\.')[0]

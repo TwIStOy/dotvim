@@ -135,6 +135,12 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PreviewInPopup = 1
   let g:Lf_PopupPreviewPosition = 'bottom'
 
+  augroup LeaderfResizeTrigger
+    au!
+    au VimResized * let g:Lf_PopupWidth = &columns * 3 / 4
+                 \| let g:Lf_PopupHeight = float2nr(&lines * 0.6)
+  augroup END
+
   let g:Lf_RememberLastSearch = 0
   " }}}
 

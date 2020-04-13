@@ -5,7 +5,7 @@ function! dotvim#crate#gui#setVariables(vars) abort
 endfunction
 
 function! dotvim#crate#gui#config() abort
-  call timer_start(200, 'dotvim#crate#gui#_delay_loaded')
+  call timer_start(30, 'dotvim#crate#gui#_delay_loaded')
 endfunction
 
 function! dotvim#crate#gui#_delay_loaded(timer) abort

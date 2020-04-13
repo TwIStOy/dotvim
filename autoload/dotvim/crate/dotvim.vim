@@ -148,11 +148,14 @@ function! dotvim#crate#dotvim#config() abort
 
   call dotvim#api#import('window').addAutocloseType('quickfix')
   call dotvim#api#import('window').addAutocloseType('defx')
+  call dotvim#api#import('window').add_uncountable_type('defx')
 
   " default keybindings {{{
   for l:i in range(1, 9)
     call dotvim#mapping#define_leader('nnoremap',
-          \ string(l:i), ':' . l:i .  'wincmd w<CR>', 'Window ' . l:i)
+          \ string(l:i),
+          \ ':call dotvim#api#window#get().move_to(' .  l:i. ')<CR>',
+          \ 'Window ' . l:i)
   endfor
 
   call dotvim#mapping#define_name('f', '+file')

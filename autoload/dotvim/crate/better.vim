@@ -39,8 +39,6 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'tenfyzhong/axring.vim')
 
-  call add(l:plugins, 'bogado/file-line')
-
   call dotvim#plugin#reg('Yggdroot/indentLine', {
         \ 'on_ft': ['python']
         \ })
@@ -74,11 +72,6 @@ function! dotvim#crate#better#plugins() abort
   call add(l:plugins, 'aperezdc/vim-template')
 
   call add(l:plugins, 'tomtom/tcomment_vim')
-
-  call dotvim#plugin#reg('AndrewRadev/linediff.vim', {
-        \ 'on_cmd': ['Linediff', 'LinediffReset']
-        \ })
-  call add(l:plugins, 'AndrewRadev/linediff.vim')
 
   " lazy group {{{
   call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
@@ -152,7 +145,7 @@ function! dotvim#crate#better#config() abort " {{{
   let g:choosewin_overlay_enable = 1
   " }}}
 
-  call dotvim#mapping#define_name('b', '+buffer')
+  call dotvim#mapping#define_name('b', '+buffer/bookmark')
   call dotvim#mapping#define_name('r', '+rg')
 
   " key mappings {{{

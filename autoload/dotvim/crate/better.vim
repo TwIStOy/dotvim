@@ -62,8 +62,6 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'matze/vim-move')
 
-  call add(l:plugins, 'dhruvasagar/vim-zoom')
-
   call add(l:plugins, 'MattesGroeger/vim-bookmarks')
 
   call add(l:plugins, 'farmergreg/vim-lastplace')
@@ -223,7 +221,16 @@ function! dotvim#crate#better#config() abort " {{{
   " }}}
 
   " vim-bookmark {{{
-  let g:bookmark_no_default_key_mappings = 0
+  let g:bookmark_no_default_key_mappings = 1
+
+  call dotvim#mapping#define_leader('nnoremap', 'bm', ':BookmarkToggle<CR>',
+        \ 'toggle-bookmark')
+  call dotvim#mapping#define_leader('nnoremap', 'bc', ':BookmarkClearAll<CR>',
+        \ 'clear-all-bookmarks')
+  call dotvim#mapping#define_leader('nnoremap', 'bn', ':BookmarkNext<CR>',
+        \ 'next-bookmark')
+  call dotvim#mapping#define_leader('nnoremap', 'bp', ':BookmarkPrev<CR>',
+        \ 'previous-bookmark')
   " }}}
 
   " vim-template {{{

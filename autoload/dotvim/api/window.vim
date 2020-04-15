@@ -92,7 +92,11 @@ function s:CheckLastWindow() abort
   endfor
 
   if total == 0
-    quitall!
+    if tabpagenr('$') == 1
+      quitall!
+    else
+      tabclose
+    endif
   endif
 endfunction
 

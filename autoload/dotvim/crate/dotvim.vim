@@ -121,6 +121,7 @@ function! dotvim#crate#dotvim#config() abort
   set expandtab
   set smartindent
   set autoindent
+  let g:rust_recommended_style = 0
 
   set exrc
 

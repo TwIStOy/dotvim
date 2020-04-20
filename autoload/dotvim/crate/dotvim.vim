@@ -195,7 +195,7 @@ function! dotvim#crate#dotvim#config() abort
 
   call dotvim#mapping#define_leader('nnoremap', 'q', ':q<CR>', 'quit')
   call dotvim#mapping#define_leader('nnoremap', 'x', ':wq<CR>', 'save-and-quit')
-  call dotvim#mapping#define_leader('nnoremap', 'Q', ':qa!<CR>', 'force-quit')
+  call dotvim#mapping#define_leader('nnoremap', 'Q', ':confirm qall<CR>', 'quit-all')
 
   call dotvim#mapping#define_name('t', '+toggle')
   call dotvim#mapping#define_leader('nnoremap', 'tq',

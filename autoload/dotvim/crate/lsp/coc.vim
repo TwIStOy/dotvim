@@ -161,7 +161,7 @@ function! dotvim#crate#lsp#coc#config() abort
       \   [ "Goto &Implementation", 'call feedkeys("\<Plug>(coc-implementation)")' ],
       \   [ "Goto &References", 'call feedkeys("\<Plug>(coc-references)")' ],
       \   ['-'],
-      \   [ "Help &Keyword", 'call ht#collection#lsp#show_documentation()' ],
+      \   [ "Help &Keyword", 'call dotvim#crate#lsp#coc#show_documentation()' ],
       \ ]
   call dotvim#quickui#append_context_menu(content, 'cpp')
 

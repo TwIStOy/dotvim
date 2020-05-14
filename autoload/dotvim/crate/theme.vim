@@ -27,6 +27,7 @@ function! dotvim#crate#theme#plugins() abort
         \   'spacegray': 'ajh17/Spacegray.vim',
         \   'sacredforest': 'KKPMW/sacredforest-vim',
         \   'onedark': 'joshdick/onedark.vim',
+        \   'vim-one': 'rakr/vim-one',
         \   'snow': 'nightsense/snow',
         \   'janah': 'mhinz/vim-janah',
         \   'moonfly': 'bluz71/vim-moonfly-colors',
@@ -103,6 +104,12 @@ function! dotvim#crate#theme#postConfig() abort
         \     'lightline': 'onedark',
         \     'settings': {
         \       'onedark_terminal_italics': 1
+        \     }
+        \   },
+        \   'vim-one': {
+        \     'vim': 'one',
+        \     'settings': {
+        \       'one_allow_italics': 1
         \     }
         \   },
         \   'snow': {

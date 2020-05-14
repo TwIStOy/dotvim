@@ -77,7 +77,7 @@ function! dotvim#crate#dotvim#config() abort
   set title
   set ttyfast
 
-  set lazyredraw
+  set nolazyredraw
   set termguicolors
   if has('nvim') && exists('&pumblend')
     " make popupmenu semi-transparency

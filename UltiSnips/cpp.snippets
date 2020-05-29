@@ -99,19 +99,19 @@ ${0}
 endsnippet
 
 # simple snippets {{{
-snippet sc "static_cast"
+snippet sc "static_cast" w
 static_cast<${1}>(${2})${0}
 endsnippet
 
-snippet dc "dynamic_cast"
+snippet dc "dynamic_cast" w
 dynamic_cast<${1}>(${2})${0}
 endsnippet
 
-snippet rc "reinterpret_cast"
+snippet rc "reinterpret_cast" w
 reinterpret_cast<${1}>(${2})${0}
 endsnippet
 
-snippet cc "const_cast"
+snippet cc "const_cast" w
 const_cast<${1}>(${2})${0}
 endsnippet
 
@@ -194,16 +194,6 @@ snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
 `!p snip.rv = simple_namespace_generate(match.group(1), snip)`
 endsnippet
 
-snippet ulk "std::unqiue_lock<shared_mutex>" b
-std::unique_lock<SharedMutex> ${2:lk}(${1:mutex_});
-${0}
-endsnippet
-
-snippet slk "shared_lock<shared_mutex>" b
-SharedLock<SharedMutex> ${2:lk}(${1:mutex_});
-${0}
-endsnippet
-
 snippet itf "cpp interface common" b
 struct ${1:InterfaceName} {
 	${0}
@@ -263,6 +253,31 @@ if (it == $1.end()) {
 } else {
 	${4:exists block}
 }
+endsnippet
+
+snippet lambda "lambda function" w
+[=](${1:args}){
+	${2:body}
+}
+endsnippet
+
+snippet ainclude "common includes" b
+#include <vector>
+#include <map>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <memory>
+#include <utility>
+#include <algorithm>
+#include <typeinfo>
+#include <type_traits>
+#include <functional>
+#include <chrono>
+#include <tuple>
+#include <sstream>
+#include <thread>
+#include <mutex>
 endsnippet
 
 # vim: set fdm=marker

@@ -14,7 +14,7 @@ function! dotvim#crate#lang#markdown#plugins() abort
 
   if get(s:vars, 'enable_preview', 0)
     call dotvim#plugin#reg('iamcco/markdown-preview.nvim', {
-          \ 'on_ft': ['markdown'],
+          \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
           \ 'build': 'sh -c "cd app && yarn install"'
           \ })
     call add(l:plugins, 'iamcco/markdown-preview.nvim')

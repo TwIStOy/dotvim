@@ -43,6 +43,11 @@ function! dotvim#crate#dotvim#plugins() abort
 
   call add(l:plugins, 'skywind3000/vim-quickui')
 
+  call dotvim#plugin#reg('dstein64/vim-startuptime', {
+        \ 'on_cmd': ['StartupTime']
+        \ })
+  call add(l:plugins, 'dstein64/vim-startuptime')
+
   return l:plugins
 endfunction
 

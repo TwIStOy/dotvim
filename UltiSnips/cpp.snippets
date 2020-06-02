@@ -83,7 +83,7 @@ namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
 }${1/.+/  \/\/ namespace /m}$1
 endsnippet
 
-snippet beginend "$1.begin(), $1.end() (beginend)"
+snippet beginend "$1.begin(), $1.end() (beginend)" w
 ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
 endsnippet
 
@@ -278,6 +278,17 @@ snippet ainclude "common includes" b
 #include <sstream>
 #include <thread>
 #include <mutex>
+endsnippet
+
+snippet traitfun "Implements a type trait that uses inheritance and expression SFINAE to do the heavy work. This is typically used to check if a typedef exists." b
+struct _${1:name}Impl {
+  template<typename T, ${2:conditions}>
+  static std::true_type test(int);
+  template<typename...>
+  static std::false_type test(...);
+};
+template<typename T>
+struct $1 : decltype(_$1Impl::test<T>(0)) {};
 endsnippet
 
 # vim: set fdm=marker

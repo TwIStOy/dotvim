@@ -267,7 +267,7 @@ function! dotvim#crate#dotvim#config() abort
 
   nnoremap <silent><leader> :WhichKey '<Space>'<CR>
 
-  inoremap jk <Esc>
+  " inoremap jk <Esc>
 
   " }}}
 

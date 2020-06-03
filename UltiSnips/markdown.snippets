@@ -1,0 +1,25 @@
+global !p
+from pypinyin import lazy_pinyin
+import re
+
+def title_to_slug(title, snip):
+	pinyin = lazy_pinyin(title)
+	slug = "-".join(pinyin)
+	slug = slug.replace(' ', '-')
+	slug = re.sub(r'-+', '-', slug)
+	snip.rv = slug
+endglobal
+
+snippet ;meta "Zola Post MetaInfo" b
++++
+date = `date "+%Y-%02m-%02d"`
+slug = "`!p title_to_slug(t[1], snip)`"
+title = "${1:title}"
+
+[taxonomies]
+tags = [ ${2:tag} ]
+categories = ["${3:category}"]
++++
+
+${0}
+endsnippet

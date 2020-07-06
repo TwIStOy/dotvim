@@ -119,6 +119,9 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_DefaultExternalTool = ''
   let g:Lf_WorkingDirectoryMode = 'ac'
   let g:Lf_PopupPosition = [1, 0]
+  let g:Lf_WildIgnore = {
+        \   'dir': ['.build', '.clangd', '.git']
+        \ }
 
   let g:Lf_PopupWidth = &columns * 3 / 4
   let g:Lf_PopupHeight = float2nr(&lines * 0.6)
@@ -139,6 +142,8 @@ function! dotvim#crate#better#config() abort " {{{
     let g:axring_rings = deepcopy(s:vars['axring_rings'])
   endif
 
+  " disable cpp and rust
+  let g:polyglot_disabled = ['cpp', 'rust']
 
   " choosewin {{{
   nmap  -  <Plug>(choosewin)

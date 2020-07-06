@@ -20,6 +20,8 @@ function! dotvim#crate#edit#plugins() abort
 
   call add(l:plugins, 'AndrewRadev/sideways.vim')
 
+  call add(l:plugins, 'dense-analysis/ale')
+
   return l:plugins
 endfunction
 
@@ -44,6 +46,13 @@ function! dotvim#crate#edit#config() abort
         \ ':SidewaysLeft<CR>', 'move-argument-left')
   call dotvim#mapping#define_leader('nnoremap', 'ml',
         \ ':SidewaysRight<CR>', 'move-argument-right')
+  " }}}
+
+
+  " dense-analysis/ale {{{
+
+  let g:ale_linters = { 'cpp': ['cpplint', 'cppcheck'] }
+
   " }}}
 endfunction
 

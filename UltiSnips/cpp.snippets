@@ -291,5 +291,24 @@ template<typename T>
 struct $1 : decltype(_$1Impl::test<T>(0)) {};
 endsnippet
 
+snippet tfmt "formatter for fmt" b
+template<>
+struct formatter<${1:TypeName}> {
+  template<typename ParseContext>
+  auto parse(ParseContext &ctx) ->  // NOLINT(runtime/references)
+      typename ParseContext::iterator {
+    return ctx.begin();
+  }
+
+  template<typename FormatContext>
+  auto format(const $1 &v,
+              FormatContext &ctx)  // // NOLINT(runtime/references)
+      -> decltype(ctx.out()) {
+		${0}
+    return format_to(ctx.out(), "{}", v);
+  }
+};
+endsnippet
+
 # vim: set fdm=marker
 

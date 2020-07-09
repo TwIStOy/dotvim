@@ -1,7 +1,4 @@
 function! dotvim#crate#tool#term#plugins() abort
-  call dotvim#plugin#reg('chengzeyi/multiterm.vim', {
-        \ 'on_cmd': ['Multiterm']
-        \ })
   return ['chengzeyi/multiterm.vim']
 endfunction
 
@@ -13,6 +10,8 @@ function! dotvim#crate#tool#term#config() abort
   " If you want to toggle in insert mode and visual mode
   imap <F12> <Plug>(Multiterm)
   xmap <F12> <Plug>(Multiterm)
+
+  tnoremap <Esc> <C-\><C-N>
 endfunction
 
 

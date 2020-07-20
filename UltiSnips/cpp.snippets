@@ -27,6 +27,9 @@ def output_stream_generate(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
 	snip.rv = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
 
+def beginend_generate(matched_str, snip):
+	snip.rv = 'std::begin({}), std::end({})'.format(matched_str, matched_str)
+
 def output_stream_generate_pair(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
 	tmp = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
@@ -308,6 +311,10 @@ struct formatter<${1:TypeName}> {
     return format_to(ctx.out(), "{}", v);
   }
 };
+endsnippet
+
+snippet "([\w_][\w_\d]*?)\;be" "begin end..." r
+`!p beginend_generate(match.group(1), snip)`$0
 endsnippet
 
 # vim: set fdm=marker

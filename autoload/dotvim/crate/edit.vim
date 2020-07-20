@@ -51,7 +51,7 @@ function! dotvim#crate#edit#config() abort
 
   " dense-analysis/ale {{{
 
-  let g:ale_linters = { 'cpp': ['cpplint', 'cppcheck'] }
+  let g:ale_linters = { 'cpp': ['cpplint'] }
 
   " }}}
 endfunction

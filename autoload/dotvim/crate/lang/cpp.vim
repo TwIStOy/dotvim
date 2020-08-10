@@ -7,24 +7,24 @@ endfunction
 function! dotvim#crate#lang#cpp#plugins() abort
   let l:plugins = []
 
-  " if get(s:vars, 'semantic_highlight', 0)
-  "   if get(s:vars, 'standalone_semantic', 0)
-  "     call dotvim#plugin#reg('arakashic/chromatica.nvim', {
-  "           \ 'on_ft': ['cpp', 'c']
-  "           \ })
-  "     call add(l:plugins, 'arakashic/chromatica.nvim')
-  "   else
-  "     call dotvim#plugin#reg('jackguo380/vim-lsp-cxx-highlight', {
-  "           \ 'on_ft': ['cpp', 'c']
-  "           \ })
-  "     call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
-  "   endif
-  " else
-  "   call dotvim#plugin#reg('bfrg/vim-cpp-modern', {
-  "         \ 'on_ft': ['cpp', 'c']
-  "         \ })
-  "   call add(l:plugins, 'bfrg/vim-cpp-modern')
-  " endif
+  if get(s:vars, 'semantic_highlight', 0)
+    if get(s:vars, 'standalone_semantic', 0)
+      call dotvim#plugin#reg('arakashic/chromatica.nvim', {
+            \ 'on_ft': ['cpp', 'c']
+            \ })
+      call add(l:plugins, 'arakashic/chromatica.nvim')
+    else
+      call dotvim#plugin#reg('jackguo380/vim-lsp-cxx-highlight', {
+            \ 'on_ft': ['cpp', 'c']
+            \ })
+      call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
+    endif
+  else
+    call dotvim#plugin#reg('bfrg/vim-cpp-modern', {
+          \ 'on_ft': ['cpp', 'c']
+          \ })
+    call add(l:plugins, 'bfrg/vim-cpp-modern')
+  endif
 
   call dotvim#plugin#reg('derekwyatt/vim-fswitch', {
         \ 'on_ft': ['cpp', 'c']

@@ -37,7 +37,8 @@ function! dotvim#crate#theme#plugins() abort
         \   'edge': 'sainnhe/edge',
         \   'equinusocio_material': 'chuling/vim_equinusocio_material',
         \   'ayu': 'ayu-theme/ayu-vim',
-        \   'candid': 'flrnd/candid.vim'
+        \   'candid': 'flrnd/candid.vim',
+        \   'ci_dark': 'chuling/ci_dark'
         \ }
 
   let l:plugin = get(l:theme_map, l:theme, 'sainnhe/edge')
@@ -157,6 +158,10 @@ function! dotvim#crate#theme#postConfig() abort
         \   'candid': {
         \     'vim': 'candid',
         \     'lightline': 'candid'
+        \   },
+        \   'ci_dark': {
+        \     'vim': 'ci_dark',
+        \     'lightline': 'ci_dark'
         \   }
         \ }
 
@@ -176,7 +181,7 @@ function! dotvim#crate#theme#postConfig() abort
   if has_key(l:theme_config, 'func')
     call s:{l:theme_config['func']}()
   else
-    exec 'set background=' . get(s:vars, 'background', 'dark')
+    " exec 'set background=' . get(s:vars, 'background', 'dark')
     if has_key(l:theme_config, 'lightline')
       let g:lightline.colorscheme = l:theme_config['lightline']
     endif
@@ -188,6 +193,12 @@ function! dotvim#crate#theme#postConfig() abort
     autocmd VimEnter * syntax on
   endif
 
+  augroup ThemeTransparentBackground
+    autocmd! VimEnter * call s:set_background_transparent()
+  augroup END
+endfunction
+
+function! s:set_background_transparent()
   " make all background transparent
   " FIXME(hawtian): this seems not work
   hi NonText ctermbg=NONE guibg=NONE

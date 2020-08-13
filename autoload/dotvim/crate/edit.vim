@@ -20,7 +20,7 @@ function! dotvim#crate#edit#plugins() abort
 
   call add(l:plugins, 'AndrewRadev/sideways.vim')
 
-  call add(l:plugins, 'dense-analysis/ale')
+  " call add(l:plugins, 'dense-analysis/ale')
 
   return l:plugins
 endfunction

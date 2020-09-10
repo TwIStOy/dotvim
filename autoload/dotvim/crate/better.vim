@@ -140,7 +140,7 @@ function! dotvim#crate#better#config() abort " {{{
   endif
 
   " disable cpp and rust
-  let g:polyglot_disabled = ['cpp', 'rust']
+  let g:polyglot_disabled = ['cpp']
 
   " choosewin {{{
   nmap  -  <Plug>(choosewin)
@@ -153,6 +153,7 @@ function! dotvim#crate#better#config() abort " {{{
   " key mappings {{{
   call dotvim#mapping#define_leader('nnoremap', 'e',
         \ ':Leaderf file<CR>', 'edit[ pwd ]')
+  nnoremap <silent><C-r> :Leaderf file<CR>
   call dotvim#mapping#define_leader('nnoremap', 'ff',
         \ ':Leaderf file ~<CR>', 'edit[ $HOME ]')
   call dotvim#mapping#define_leader('nnoremap', 'fr',
@@ -196,7 +197,7 @@ function! dotvim#crate#better#config() abort " {{{
         \   'right': [ ['lineinfo'], ['filetype', 'fileencoding', 'percent'] ],
         \ },
         \ 'component': {
-        \   'lineinfo': ' %3l:%-2v',
+        \   'lineinfo': '%3l:%-2v',
         \ },
         \ 'component_function': {
         \   'gitbranch': 'fugitive#head',
@@ -206,7 +207,7 @@ function! dotvim#crate#better#config() abort " {{{
   let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
   let g:lightline.component_type   = {'buffers': 'tabsel'}
   let g:lightline.separator = { 'left': '', 'right': '' }
-  let g:lightline.subseparator = { 'left': '', 'right': '' }
+  let g:lightline.subseparator = { 'left': '|', 'right': '|' }
 
   let g:move_key_modifier = 'C'
 

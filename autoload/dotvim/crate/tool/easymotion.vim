@@ -14,6 +14,7 @@ endfunction
 function! dotvim#crate#tool#easymotion#config() abort
   let g:EasyMotion_smartcase = 1
   let g:EasyMotion_leader_key = get(s:vars, 'easymotion_leader_key', '\')
+  nmap ,, <Plug>(easymotion-bd-jk)
 
   call dotvim#mapping#define_leader('nmap', 'mf',
         \ '<Plug>(easymotion-bd-f)',

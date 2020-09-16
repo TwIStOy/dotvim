@@ -64,19 +64,19 @@ class ${1:`!p defined_class_name(snip)`} {
 };
 endsnippet
 
-snippet "(\w[\w, .\->_]*?)\.oss" "convert to output stream ..." r
+snippet "(\w[\d\w, .\->_]*?)\.oss" "convert to output stream ..." r
 `!p output_stream_generate(match.group(1), snip)`$0
 endsnippet
 
-snippet "\(([\w, .\->_]*?)\)\.oss" "convert to output stream with pair ..." r
+snippet "\(([\d\w, .\->_]*?)\)\.oss" "convert to output stream with pair ..." r
 `!p output_stream_generate_pair(match.group(1), snip)`$0
 endsnippet
 
-snippet "(\w[\w, ]*?)\.p" "comment" b
+snippet "(\w[\d\w, ]*?)\.p" "comment" b
 `!p snip.rv = "(" + match.group(1) + ")"`
 endsnippet
 
-snippet "(\w[\w,\s\->._]*?)\.fmt" "comment" r
+snippet "(\w[\d\w,\s\->._]*?)\.fmt" "comment" r
 `!p output_format_generate(match.group(1), snip)`${0}
 endsnippet
 
@@ -313,8 +313,32 @@ struct formatter<${1:TypeName}> {
 };
 endsnippet
 
-snippet "([\w_][\w_\d.]*?)\;be" "begin end..." r
+snippet "([\w_][\w_\d.->]*?)\;be" "begin end..." r
 `!p beginend_generate(match.group(1), snip)`$0
+endsnippet
+
+snippet clanggreater "Checks for Clang version definition greater than or equal to version specified (version $1.$2)." b
+defined(__clang__) && ((__clang_major__ > ${1:MajorVersion}) || (__clang_major__ == $1) && (__clang_minor__ >= ${2:MinorVersion}))
+endsnippet
+
+snippet clangless "Checks for Clang version definition less than or equal to version specified (version $1.$2)." b
+defined(__clang__) && ((__clang_major__ < ${1:MajorVersion}) || (__clang_major__ == $1) && (__clang_minor__ <= ${2:MinorVersion}))
+endsnippet
+
+snippet gccgreater "Checks for GCC version definition greater than or equal to version specified (version $1.$2.0)" b
+defined(__GNUC__) && ((__GNUC__ > ${1:MajorVersion}) || ((__GNUC__ == $1) && (__GNUC_MINOR__ >= ${2:MinorVersion})))
+endsnippet
+
+snippet gccless "Checks for GCC version definition less than or equal to version specified (version $1.$2.0)" b
+defined(__GNUC__) && ((__GNUC__ < ${1:MajorVersion}) || ((__GNUC__ == $1) && (__GNUC_MINOR__ <= ${2:MinorVersion})))
+endsnippet
+
+snippet functor "Functor class" b
+struct ${1:Name} {
+	${2:Ret} operator()(${3:Args}) const noexcept {
+		$0
+	}
+};
 endsnippet
 
 # vim: set fdm=marker

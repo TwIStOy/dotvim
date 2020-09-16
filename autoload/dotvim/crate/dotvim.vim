@@ -95,18 +95,17 @@ function! dotvim#crate#dotvim#config() abort
   set t_vb=
   " }}}
 
+  set number
   if get(s:vars, 'use_relativenumber', 1)
-    set number relativenumber
-
     if get(s:vars, 'enable_relativenumber_toggle', 0)
       augroup RelativeNumberToggle
         autocmd!
-        autocmd WinEnter,FocusGained,InsertLeave * set relativenumber
-        autocmd WinLeave,FocusLost,InsertEnter * set norelativenumber
+        autocmd WinEnter,FocusGained,InsertLeave * setlocal relativenumber
+        autocmd WinLeave,FocusLost,InsertEnter * setlocal norelativenumber
       augroup END
+    else
+      set relativenumber
     endif
-  else
-    set nu
   endif
 
   if get(s:vars, 'use_cursorline', 1)

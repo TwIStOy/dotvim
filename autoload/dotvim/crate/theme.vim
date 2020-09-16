@@ -38,7 +38,8 @@ function! dotvim#crate#theme#plugins() abort
         \   'equinusocio_material': 'chuling/vim_equinusocio_material',
         \   'ayu': 'ayu-theme/ayu-vim',
         \   'candid': 'flrnd/candid.vim',
-        \   'ci_dark': 'chuling/ci_dark'
+        \   'ci_dark': 'chuling/ci_dark',
+        \   'nightfly': 'bluz71/vim-nightfly-guicolors'
         \ }
 
   let l:plugin = get(l:theme_map, l:theme, 'sainnhe/edge')
@@ -162,6 +163,10 @@ function! dotvim#crate#theme#postConfig() abort
         \   'ci_dark': {
         \     'vim': 'ci_dark',
         \     'lightline': 'ci_dark'
+        \   },
+        \   'nightfly': {
+        \     'vim': 'nightfly',
+        \     'func': 'theme_apply_nightfly'
         \   }
         \ }
 
@@ -229,3 +234,11 @@ function! s:theme_apply_ayu() abort
   endif
 endfunction
 
+function! s:theme_apply_nightfly() abort
+  let g:nightflyCursorColor = 1
+  let g:nightflyUnderlineMatchParen = 1
+
+  if exists('g:lightline')
+    let g:lightline.colorscheme = 'nightfly'
+  endif
+endfunction

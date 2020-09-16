@@ -65,7 +65,6 @@ def generate_cpp_header_filename(vim):
 
     header_folders = [
         'include',
-        # ['include', '**'],
         ['..', 'include'],
         'inc',
     ]

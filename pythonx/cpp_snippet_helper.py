@@ -72,43 +72,6 @@ def expand_anon(snip):
     snip.buffer[snip.snippet_start[0]:snip.snippet_end[0] + 1] = ['']
     snip.expand_anon('\n'.join(anon))
 
-def generate_cpp_header_filename(snip):
-    import os
-
-    headers = {
-        '.cpp': ['.h', '.hpp'],
-        '.cc': ['.hh'],
-        '.cxx': ['.hxx']
-    }
-
-    template = '#include "{}"'
-    filename = snip.filename
-    d, f = os.path.split(filename)
-    basename, ext = os.path.splitext(f)
-
-    header_ext_list = headers.get(ext, None)
-    if header_ext_list is None:
-        return "// invalid cpp filename..."
-
-    def check_file_exists(*args):
-        p = os.path.join(*args)
-        if os.path.exists(p) and os.path.isfile(p):
-            return True
-        return False
-
-    def find_project_home(cur):
-        if cur == '/':
-            return None
-        f_path = os.path.join(cur, '.git')
-        if os.path.exists(f_path):
-            return cur
-        return find_project_home(os.path.dirname(cur))
-
-    # find project home (BLADE_ROOT)
-    project_home = find_project_home(d)
-    if project_home is None:
-        return template.format("{}{}")
-
 def cpp_c_style_header_guard(filename):
     import os
     def find_project_home(cur):

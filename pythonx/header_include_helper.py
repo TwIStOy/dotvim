@@ -26,6 +26,14 @@ def _flat_list(item, out):
     else:
         out.append(item)
 
+def _find_sub_directory(path, directory):
+    parts = os.path.normpath(path).split(os.sep)
+    parts = [i if i else '/' for i in parts]
+    for i in parts:
+        if i == directory:
+            return True
+    return False
+
 def _replace_path(path, old, new):
     parts = os.path.normpath(path).split(os.sep)
     parts = [i if i else '/' for i in parts]
@@ -55,10 +63,15 @@ def generate_cpp_header_filename(vim):
         '.cxx': ['.hxx']
     }
 
-    include_path_replace = [
-        ('src', 'include'),
-        ('src', 'include/**'),
-        ('src', '../include')
+    header_folders = [
+        'include',
+        # ['include', '**'],
+        ['..', 'include'],
+        'inc',
+    ]
+    source_files_folders = [
+        'src',
+        'source',
     ]
 
     dirname, filename = os.path.split(path)
@@ -75,10 +88,13 @@ def generate_cpp_header_filename(vim):
     header_filename_candidates = [f"{basename}{e}" for e in header_ext]
     folder_candidates = [dirname]
 
-    if re.match(r'\bsrc\b', dirname):
-        folder_candidates.append(_replace_path(dirname, 'src', 'include'))
-        folder_candidates.append(_replace_path(dirname, 'src',
-                                               ['..', 'include']))
+    for source_files_folder in source_files_folders:
+        if _find_sub_directory(dirname, source_files_folder):
+            for header_folder in header_folders:
+                folder_candidates.append(
+                    _replace_path(dirname,
+                                  source_files_folder,
+                                  header_folder))
 
     selected = [
         os.path.join(candidate[1], candidate[0])

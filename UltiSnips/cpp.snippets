@@ -313,7 +313,7 @@ struct formatter<${1:TypeName}> {
 };
 endsnippet
 
-snippet "([\w_][\w_\d]*?)\;be" "begin end..." r
+snippet "([\w_][\w_\d.]*?)\;be" "begin end..." r
 `!p beginend_generate(match.group(1), snip)`$0
 endsnippet
 

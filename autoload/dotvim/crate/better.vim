@@ -104,9 +104,6 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_ShortcutB = '<Leader>ffb'
   let g:Lf_WindowPosition = 'popup'
   let g:Lf_RecurseSubmodules = 1
-  let g:Lf_PreviewResult = {
-        \   'File': 1
-        \ }
 
   let g:Lf_HideHelp = 1
   let g:Lf_UseVersionControlTool = 0
@@ -115,7 +112,7 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PopupPosition = [1, 0]
   let g:Lf_FollowLinks = 1
   let g:Lf_WildIgnore = {
-        \   'dir': [ '.git', '.svn', '.hg', '.cache' ],
+        \   'dir': [ '.git', '.svn', '.hg', '.cache', '.build' ],
         \   'file': [
         \     '*.exe', '*.o', '*.a', '*.so', '*.py[co]',
         \     '*.sw?', '*.bak', '*.d', '*.idx', "*.lint",

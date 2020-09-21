@@ -104,6 +104,9 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_ShortcutB = '<Leader>ffb'
   let g:Lf_WindowPosition = 'popup'
   let g:Lf_RecurseSubmodules = 1
+  let g:Lf_PreviewResult = {
+        \   'File': 1
+        \ }
 
   let g:Lf_HideHelp = 1
   let g:Lf_UseVersionControlTool = 0
@@ -125,6 +128,9 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PopupShowStatusline = 0
   let g:Lf_PreviewInPopup = 1
   let g:Lf_PopupPreviewPosition = 'bottom'
+  let g:Lf_PreviewHorizontalPosition = 'right'
+  let g:Lf_RootMarkers = ['BLADE_ROOT', 'JK_ROOT', 'CMakeLists.txt']
+  let g:Lf_WorkingDirectoryMode = 'a'
 
   augroup LeaderfResizeTrigger
     au!
@@ -154,19 +160,9 @@ function! dotvim#crate#better#config() abort " {{{
   call dotvim#mapping#define_leader('nnoremap', 'e',
         \ ':Leaderf file<CR>', 'edit[ pwd ]')
   nnoremap <silent><C-r> :Leaderf file<CR>
-  call dotvim#mapping#define_leader('nnoremap', 'ff',
-        \ ':Leaderf file ~<CR>', 'edit[ $HOME ]')
-  call dotvim#mapping#define_leader('nnoremap', 'fr',
-        \ ':LeaderfMru<CR>', 'edit-recent-file')
-  call dotvim#mapping#define_leader('nnoremap', 'bb',
-        \ ':LeaderfBuffer<CR>', 'buffer-list')
+
   call dotvim#mapping#define_leader('nnoremap', 'rg',
         \ ':LeaderfRgInteractive<CR>', 'rg')
-
-  nnoremap <silent><F2> :LeaderfRgInteractive<CR>
-
-  call dotvim#mapping#define_leader('nnoremap', 'rr',
-        \ ':LeaderfRgRecall<CR>', 'rr')
 
   call dotvim#mapping#define_leader('xmap', 'ta',
         \ ':EasyAlign<CR>', 'easy-align')

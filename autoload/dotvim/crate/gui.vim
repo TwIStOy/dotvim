@@ -17,7 +17,6 @@ function! dotvim#crate#gui#_delay_loaded(timer) abort
     nnoremap <silent> <C-ScrollWheelUp> :set guifont=+<CR>
     nnoremap <silent> <C-ScrollWheelDown> :set guifont=-<CR>
 
-
     FVimCursorSmoothMove v:false
     FVimCursorSmoothBlink v:true
 

@@ -206,8 +206,10 @@ endfunction
 function! s:set_background_transparent()
   " make all background transparent
   " FIXME(hawtian): this seems not work
-  " hi NonText ctermbg=NONE guibg=NONE
-  " hi Normal guibg=NONE ctermbg=NONE
+  if !exists('g:fvim_loaded')
+    hi NonText ctermbg=NONE guibg=NONE
+    hi Normal guibg=NONE ctermbg=NONE
+  endif
 endfunction
 
 function! s:theme_apply_snow() abort

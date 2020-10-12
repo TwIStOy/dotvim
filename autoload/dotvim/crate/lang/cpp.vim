@@ -20,10 +20,14 @@ function! dotvim#crate#lang#cpp#plugins() abort
       call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
     endif
   else
-    call dotvim#plugin#reg('bfrg/vim-cpp-modern', {
+    if get(s:vars, 'treesitter_highlight', 0)
+      call add(l:plugins, 'nvim-treesitter/nvim-treesitter')
+    else
+      call dotvim#plugin#reg('bfrg/vim-cpp-modern', {
           \ 'on_ft': ['cpp', 'c']
           \ })
-    call add(l:plugins, 'bfrg/vim-cpp-modern')
+      call add(l:plugins, 'bfrg/vim-cpp-modern')
+    endif
   endif
 
   call dotvim#plugin#reg('derekwyatt/vim-fswitch', {
@@ -76,7 +80,11 @@ function! dotvim#crate#lang#cpp#config() abort
   endif
 
   " vim-lsp-cxx {{{
-  let g:lsp_cxx_hl_use_nvim_text_props = 1
+  if has('nvim')
+    let g:lsp_cxx_hl_use_nvim_text_props = 1
+  else
+    let g:lsp_cxx_hl_use_text_props = 1
+  endif
   let g:lsp_cxx_hl_syntax_priority = 100
   " }}}
 
@@ -90,6 +98,24 @@ function! dotvim#crate#lang#cpp#config() abort
         \   [ "&ClangFormat", 'ClangFormat' ],
         \ ]
   call dotvim#quickui#append_context_menu(content, 'cpp')
+endfunction
+
+function! dotvim#crate#lang#cpp#postConfig()
+  if get(s:vars, 'treesitter_highlight', 0)
+    call s:load_cpp_treesitter()
+  endif
+endfunction
+
+function! s:load_cpp_treesitter()
+lua <<EOF
+   require'nvim-treesitter.configs'.setup {
+     ensure_installed = "cpp",
+     highlight = {
+       enable = true, -- false will disable the whole extension
+       disable = {},  -- list of language that will be disabled
+     },
+   }
+EOF
 endfunction
 
 function! s:do_cpp() abort

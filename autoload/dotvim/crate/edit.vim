@@ -20,7 +20,7 @@ function! dotvim#crate#edit#plugins() abort
 
   call add(l:plugins, 'AndrewRadev/sideways.vim')
 
-  " call add(l:plugins, 'dense-analysis/ale')
+  call add(l:plugins, 'sbdchd/neoformat')
 
   return l:plugins
 endfunction
@@ -49,10 +49,7 @@ function! dotvim#crate#edit#config() abort
   " }}}
 
 
-  " dense-analysis/ale {{{
-
-  let g:ale_linters = { 'cpp': ['cpplint'] }
-
-  " }}}
+  call dotvim#mapping#define_leader('nnoremap', 'fc', ':<C-u>Neoformat<CR>',
+        \ 'format-current-file')
 endfunction
 

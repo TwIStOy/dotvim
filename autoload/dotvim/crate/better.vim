@@ -231,6 +231,7 @@ function! dotvim#crate#better#config() abort " {{{
         \   [ 'GIT_USER',  'dotvim#utils#git_user' ],
         \   [ 'GIT_EMAIL', 'dotvim#utils#git_email' ],
         \   [ 'PROJECT_HEADER', 'dotvim#crate#better#_generate_cpp_header_filename' ],
+        \   [ 'LAST_FOLDER', 'dotvim#crate#better#_last_folder_name' ],
         \ ]
   " }}}
 
@@ -260,6 +261,10 @@ function! dotvim#crate#better#_generate_cpp_header_filename() abort
   return py3eval(
         \ '__import__("header_include_helper").generate_cpp_header_filename(__import__("vim"))'
         \ )
+endfunction
+
+function! dotvim#crate#better#_last_folder_name() abort
+  return expand("%:p:h:t")
 endfunction
 
 " vim:set foldmethod=marker ft=vim sw=2 sts=2 et:

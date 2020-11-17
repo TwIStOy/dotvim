@@ -35,11 +35,6 @@ function! dotvim#crate#lang#cpp#plugins() abort
         \ })
   call add(l:plugins, 'derekwyatt/vim-fswitch')
 
-  call dotvim#plugin#reg('rhysd/vim-clang-format', {
-        \ 'on_cmd': ['ClangFormat']
-        \ })
-  call add(l:plugins, 'rhysd/vim-clang-format')
-
   call dotvim#plugin#reg('luochen1990/rainbow', {
         \ 'on_ft': ['cpp']
         \ })
@@ -60,10 +55,6 @@ function! dotvim#crate#lang#cpp#config() abort
 
   call add(g:polyglot_disabled, 'c')
   call add(g:polyglot_disabled, 'cpp')
-
-  if has_key(s:vars, 'clang_format_exe')
-    let g:clang_format#command = s:vars['clang_format_exe']
-  endif
 
   if get(s:vars, 'semantic_highlight', 0)
     if get(s:vars, 'standalone_semantic', 0)
@@ -98,6 +89,13 @@ function! dotvim#crate#lang#cpp#config() abort
         \   [ "&ClangFormat", 'ClangFormat' ],
         \ ]
   call dotvim#quickui#append_context_menu(content, 'cpp')
+
+  " clang-format settings for neoformat
+  if has_key(s:vars, 'clang_format_exe')
+    source $HOME/.dotvim/autoload/neoformat/formatters/cpp.vim
+    let g:_dotvim_clang_format_exe = s:vars['clang_format_exe']
+    let g:neoformat_enabled_cpp = ['myclangformat']
+  endif
 endfunction
 
 function! dotvim#crate#lang#cpp#postConfig()
@@ -119,8 +117,6 @@ EOF
 endfunction
 
 function! s:do_cpp() abort
-  call dotvim#mapping#define_leader('nnoremap', 'fc', ':<C-u>ClangFormat<CR>',
-        \ 'clang-format')
   call dotvim#mapping#define_leader('nnoremap', 'fa', ':FSHere<CR>',
         \ 'switch-file-here')
   call dotvim#mapping#define_leader('nnoremap', 'fi', ':LeaderfCppInclude<CR>',

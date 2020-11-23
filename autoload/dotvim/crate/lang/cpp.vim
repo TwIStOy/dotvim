@@ -35,6 +35,11 @@ function! dotvim#crate#lang#cpp#plugins() abort
         \ })
   call add(l:plugins, 'derekwyatt/vim-fswitch')
 
+  call dotvim#plugin#reg('TwIStOy/vim-cpp-toolkit', {
+        \ 'on_ft': ['cpp', 'c']
+        \ })
+  call add(l:plugins, 'TwIStOy/vim-cpp-toolkit')
+
   call dotvim#plugin#reg('luochen1990/rainbow', {
         \ 'on_ft': ['cpp']
         \ })
@@ -77,6 +82,16 @@ function! dotvim#crate#lang#cpp#config() abort
     let g:lsp_cxx_hl_use_text_props = 1
   endif
   let g:lsp_cxx_hl_syntax_priority = 100
+  " }}}
+
+
+  " vim-cpp-toolkit {{{
+  if has_key(s:vars, 'clang_library')
+    let g:cpp_toolkit_clang_library = get(s:vars, 'clang_library')
+  endif
+  if has_key(s:vars, 'project_marker')
+    let g:cpp_toolkit_project_marker = get(s:vars, 'project_marker')
+  endif
   " }}}
 
   augroup dotvimLangCppCommand
@@ -123,6 +138,12 @@ function! s:do_cpp() abort
         \ 'include-cpp-header-here')
   call dotvim#mapping#define_leader('nnoremap', 'fv', ':FSSplitRight<CR>',
         \ 'switch-file-split-right')
+  call dotvim#mapping#define_leader('nnoremap', 'cd',
+        \ ':call cpp_toolkit#mark_current_function_decl()<CR>',
+        \ 'mark-function')
+  call dotvim#mapping#define_leader('nnoremap', 'pd',
+        \ ':call cpp_toolkit#generate_function_define_here()<CR>',
+        \ 'generate-function-define-here')
   inoremap <silent><c-e><c-i> <C-o>:LeaderfCppInclude<CR>
 
   setlocal foldexpr=dotvim#lang#cpp#foldExpr(v:lnum)

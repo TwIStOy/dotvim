@@ -35,10 +35,12 @@ function! dotvim#crate#lang#cpp#plugins() abort
         \ })
   call add(l:plugins, 'derekwyatt/vim-fswitch')
 
-  call dotvim#plugin#reg('TwIStOy/vim-cpp-toolkit', {
-        \ 'on_ft': ['cpp', 'c']
+  call dotvim#plugin#reg('~/project/vim-cpp-toolkit', {
+        \ 'lazy': 1,
+        \ 'on_cmd': ['LeaderfHeaderFiles'],
+        \ 'hook_source': 'execute "doautocmd User LeaderfNeeded"',
         \ })
-  call add(l:plugins, 'TwIStOy/vim-cpp-toolkit')
+  call add(l:plugins, '~/project/vim-cpp-toolkit')
 
   call dotvim#plugin#reg('luochen1990/rainbow', {
         \ 'on_ft': ['cpp']

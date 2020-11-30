@@ -6,6 +6,7 @@ function! dotvim#command#defineCommand() abort
   endif
 
   let s:command_defined = 1
+
   command! DotvimStatus call dotvim#crate#showCrates()
 endfunction
 

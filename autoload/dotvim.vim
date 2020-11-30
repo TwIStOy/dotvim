@@ -26,8 +26,8 @@ function! dotvim#bootstrap() abort
   " crate bootstrap
   call dotvim#crate#bootstrap()
 
-  " register all treesitter parsers
-  " call dotvim#vim#treesitter#register_all()
+  " register mapping buffer events
+  call dotvim#mapping#register_buffer_event()
 endfunction
 
 function! s:read_custom_file() abort

@@ -32,14 +32,14 @@ local skip_uncountable_window = function(cnt)
 end
 -- }}}
 
-function toWindow(id)
+function ToWindow(id)
   local win_id = skip_uncountable_window(id)
   if win_id > 0 then
     vim.api.nvim_set_current_win(win_id)
   end
 end
 
-function regUncountableType(tp)
+function RegUncountableType(tp)
   uncountable_type = vim.tbl_extend('keep', uncountable_type, { tp })
 end
 

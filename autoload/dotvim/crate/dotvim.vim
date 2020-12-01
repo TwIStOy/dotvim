@@ -100,8 +100,8 @@ function! dotvim#crate#dotvim#config() abort
     if get(s:vars, 'enable_relativenumber_toggle', 0)
       augroup RelativeNumberToggle
         autocmd!
-        autocmd WinEnter,FocusGained,InsertLeave * setlocal relativenumber
-        autocmd WinLeave,FocusLost,InsertEnter * setlocal norelativenumber
+        autocmd WinEnter,FocusGained,InsertLeave,BufWinEnter * setlocal relativenumber
+        autocmd WinLeave,FocusLost,InsertEnter,BufWinLeave * setlocal norelativenumber
       augroup END
     else
       set relativenumber

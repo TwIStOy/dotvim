@@ -3,7 +3,7 @@ let s:crate_vars = {}
 
 let s:logger = dotvim#api#import('logging').getLogger('crate')
 
-function! dotvim#crate#load(crate, ...) abort
+function! dotvim#crate#load(crate, ...) abort " {{{
   if index(s:enabled_crates, a:crate) != -1
     return
   endif
@@ -17,17 +17,37 @@ function! dotvim#crate#load(crate, ...) abort
     catch /^Vim\%((\a\+)\)\=:E117/
     endtry
   endif
-endfunction
+endfunction " }}}
 
-function! dotvim#crate#get() abort
+function! dotvim#crate#get() abort " {{{
   return s:enabled_crates
-endfunction
+endfunction " }}}
 
-function! dotvim#crate#hasLoaded(crate) abort
+function! dotvim#crate#hasLoaded(crate) abort " {{{
   return index(s:enabled_crates, a:crate) != -1
-endfunction
+endfunction " }}}
 
-function! dotvim#crate#bootstrap() abort
+function! s:_plug_info(plug) abort " {{{
+  if type(a:plug) == v:t_string
+    if dotvim#plugin#hasOptions(a:plug)
+      let l:plug_opt = dotvim#plugin#getOptions(a:plug)
+      return [a:plug, l:plug_opt]
+    else
+      let l:plug_opt = v:null
+      return [a:plug, v:null]
+    endif
+  endif
+
+  if type(a:plug) == v:t_dict
+    return [ a:plug.name, a:plug.option ]
+  endif
+
+  if type(a:plug) == v:t_list
+    return [ a:plug[0], a:plug[1] ]
+  endif
+endfunction " }}}
+
+function! dotvim#crate#bootstrap() abort " {{{
   call dotvim#vim#plug#env()
 
   call dotvim#vim#plug#begin(g:_dotvim_dein_root)
@@ -41,15 +61,20 @@ function! dotvim#crate#bootstrap() abort
     let g:dotvim#crate#name = l:crate
     call s:logger.info('Bootstrap crate: ' . l:crate)
 
-    for l:plug in dotvim#crate#plugins(l:crate)
-      let l:plug_last = split(l:plug, '/')[-1]
+    for l:plug in s:_crate_plugins(l:crate)
+      let l:plug_info = s:_plug_info(l:plug)
 
-      if dotvim#plugin#hasOptions(l:plug)
-        let l:plug_opt = dotvim#plugin#getOptions(l:plug)
+      let l:plug_last = split(l:plug_info[0], '/')[-1]
+
+      if type(l:plug_info[1]) != v:t_dict
+        call s:logger.info('Add plug ' . l:plug_info[0] . ' without opt')
+        call dotvim#vim#plug#add(l:plug_info[0])
+      else
+        let l:plug_opt = l:plug_info[1]
 
         " add plug into dein
-        call s:logger.info('Add plug ' . l:plug . ' with opt: ' . string(l:plug_opt))
-        call dotvim#vim#plug#add(l:plug, l:plug_opt)
+        call s:logger.info('Add plug ' . l:plug_info[0] . ' with opt: ' . string(l:plug_opt))
+        call dotvim#vim#plug#add(l:plug_info[0], l:plug_opt)
 
         if dotvim#vim#plug#tap(l:plug_last)
           if get(l:plug_opt, 'builtin_conf', 0)
@@ -59,13 +84,10 @@ function! dotvim#crate#bootstrap() abort
             call dotvim#vim#plug#configBefore(l:plug_last)
           endif
         endif
-      else
-        call s:logger.info('Add plug ' . l:plug . ' without opt')
-        call dotvim#vim#plug#add(l:plug)
       endif
     endfor
 
-    call dotvim#crate#config(l:crate)
+    call s:_crate_config(l:crate)
 
     unlet g:dotvim#crate#name
     call s:logger.info('Bootstrap crate: ' . l:crate . ' done.')
@@ -87,11 +109,11 @@ function! dotvim#crate#bootstrap() abort
   call dotvim#vim#plug#end()
 
   for l:crate in dotvim#crate#get()
-    call dotvim#crate#postConfig(l:crate)
+    call s:_crate_post_config(l:crate)
   endfor
-endfunction
+endfunction " }}}
 
-function! dotvim#crate#plugins(crate) abort
+function! s:_crate_plugins(crate) abort " {{{
   let p = []
   try
     let p = dotvim#crate#{a:crate}#plugins()
@@ -99,25 +121,25 @@ function! dotvim#crate#plugins(crate) abort
     call s:logger.warn('No plugins function in crate: ' . a:crate)
   endtry
   return p
-endfunction
+endfunction " }}}
 
-function! dotvim#crate#config(crate) abort
+function! s:_crate_config(crate) abort " {{{
   try
     call dotvim#crate#{a:crate}#config()
   catch /^Vim\%((\a\+)\)\=:E117/
     call s:logger.warn('No config function in crate: ' . a:crate)
   endtry
-endfunction
+endfunction " }}}
 
-function! dotvim#crate#postConfig(crate) abort
+function! s:_crate_post_config(crate) abort " {{{
   try
     call dotvim#crate#{a:crate}#postConfig()
   catch /^Vim\%((\a\+)\)\=:E117/
     call s:logger.warn('No postConfig function in crate: ' . a:crate)
   endtry
-endfunction
+endfunction " }}}
 
-function! dotvim#crate#showCrates() abort
+function! dotvim#crate#showCrates() abort " {{{
   let l:content = [
         \ 'Dotvim Crates:',
         \ ]
@@ -158,9 +180,9 @@ function! dotvim#crate#showCrates() abort
         \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
   set nomodifiable
-endfunction
+endfunction " }}}
 
-function! s:dein_use_repo_name() abort
+function! s:dein_use_repo_name() abort " {{{
   let l:plugins = dein#get()
   let rst = {}
 
@@ -169,9 +191,9 @@ function! s:dein_use_repo_name() abort
   endfor
 
   return rst
-endfunction
+endfunction " }}}
 
-function! s:list_all_available_crates() abort
+function! s:list_all_available_crates() abort " {{{
   let crates = dotvim#utils#globpath(&rtp, 'autoload/dotvim/crate/**/*.vim')
   let pattern = '/autoload/dotvim/crate/'
 
@@ -201,6 +223,6 @@ function! s:list_all_available_crates() abort
   endfor
 
   return rst
-endfunction
+endfunction " }}}
 
-
+" vim: fdm=marker

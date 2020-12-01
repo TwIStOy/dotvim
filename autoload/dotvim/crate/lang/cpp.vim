@@ -31,7 +31,8 @@ function! dotvim#crate#lang#cpp#plugins() abort
 
   call add(l:plugins, ['~/project/vim-cpp-toolkit', {
         \ 'lazy': 1,
-        \ 'on_cmd': ['LeaderfHeaderFiles'],
+        \ 'on_cmd': ['LeaderfHeaderFiles', 'CppToolkitCurrentRoot'],
+        \ 'on_func': ['cpp_toolkit#project_root'],
         \ 'hook_source': 'execute "doautocmd User LeaderfNeeded"',
         \ }])
 
@@ -112,6 +113,10 @@ function! dotvim#crate#lang#cpp#config() abort
     let g:_dotvim_clang_format_exe = s:vars['clang_format_exe']
     let g:neoformat_enabled_cpp = ['myclangformat']
   endif
+
+  let g:templates_user_variables = get(g:, 'templates_user_variables', [])
+  call add(g:templates_user_variables, [
+        \  'PROJECT_HEADER', 'dotvim#crate#lang#cpp#header_filename' ])
 endfunction
 
 function! dotvim#crate#lang#cpp#postConfig()
@@ -132,6 +137,15 @@ lua <<EOF
 EOF
 endfunction
 
+function! dotvim#crate#lang#cpp#header_filename()
+  let res = cpp_toolkit#corresponding_file()
+  if len(res) == 0
+    return 'NO HEADER FOUND!'
+  else
+    return res[0]
+  endif
+endfunction
+
 function! s:do_cpp() abort
   nnoremap <buffer><silent><leader>fa :FSHere<CR>
   nnoremap <buffer><silent><leader>fv :FSSplitRight<CR>
@@ -140,5 +154,8 @@ function! s:do_cpp() abort
   inoremap <buffer><silent><c-e><c-i> <C-o>:LeaderfCppInclude<CR>
 
   setlocal foldexpr=dotvim#lang#cpp#foldExpr(v:lnum)
+
+  execute 'CppToolkitCurrentRoot'
+  let b:_dotvim_resolved_project_root = cpp_toolkit#project_root()
 endfunction
 

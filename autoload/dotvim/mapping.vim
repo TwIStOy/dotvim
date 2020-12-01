@@ -9,15 +9,27 @@ let s:filetype_mappings = get(s:, 'filetype_mappings', {})
 function! dotvim#mapping#add_desc(ft, key, desc)
   let keys = split(a:key, '\zs')
 
-  if !has_key(s:filetype_mappings, a:ft)
-    let s:filetype_mappings[a:ft] = {}
+  if type(a:ft) == v:t_string
+    let l:fts = [a:ft]
+  else
+    let l:fts = a:ft
   endif
 
-  call s:_add_desc_internal(s:filetype_mappings[a:ft], keys, a:desc)
+  for l:ftype in l:fts
+    if !has_key(s:filetype_mappings, l:ftype)
+      let s:filetype_mappings[l:ftype] = {}
+    endif
+
+    call s:_add_desc_internal(s:filetype_mappings[l:ftype], keys, a:desc)
+  endfor
+endfunction
+
+function! dotvim#mapping#dbg()
+  return s:filetype_mappings
 endfunction
 
 function! dotvim#mapping#ft_mappings(ft)
-  let l:res = get(s:filetype_mappings, '*', {})
+  let l:res = deepcopy(get(s:filetype_mappings, '*', {}))
   let l:ft_map = get(s:filetype_mappings, a:ft, {})
   call s:_merge_dict_recursive(l:res, l:ft_map)
   return l:res
@@ -73,7 +85,7 @@ function! s:_buffer_autocmd() abort
     return
   endif
 
-  let b:which_key_map = get(s:filetype_mappings, '*', {})
+  let b:which_key_map = deepcopy(get(s:filetype_mappings, '*', {}))
   let l:ft = &filetype
   let l:ft_map = get(s:filetype_mappings, l:ft, {})
 

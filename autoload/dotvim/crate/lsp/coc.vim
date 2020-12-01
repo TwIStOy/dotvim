@@ -15,11 +15,9 @@ function! dotvim#crate#lsp#coc#plugins() abort
   let l:plugins = ['neoclide/coc.nvim']
 
   if get(s:vars, 'vista_enabled', 0)
-    call dotvim#plugin#reg('liuchengxu/vista.vim', {
+    call add(l:plugins, ['liuchengxu/vista.vim', {
           \  'on_cmd': ['Vista']
-          \ })
-
-    call add(l:plugins, 'liuchengxu/vista.vim')
+          \ }])
   endif
 
   return l:plugins
@@ -109,6 +107,8 @@ function! dotvim#crate#lsp#coc#config() abort
         \ 'coc-fish',
         \ 'coc-template',
         \ 'coc-highlight',
+        \ 'coc-rust-analyzer',
+        \ 'coc-python'
         \ ]
 
   " default settings
@@ -155,17 +155,21 @@ function! dotvim#crate#lsp#coc#config() abort
     let g:vista_finder_alternative_executives = ['coc']
   endif
 
-  let content = [
-      \   [ "Goto &Definition", 'call feedkeys("\<Plug>(coc-definition)")' ],
-      \   [ "Goto T&ype Definition", 'call feedkeys("\<Plug>(coc-type-definition)")' ],
-      \   [ "Goto &Implementation", 'call feedkeys("\<Plug>(coc-implementation)")' ],
-      \   [ "Goto &References", 'call feedkeys("\<Plug>(coc-references)")' ],
-      \   ['-'],
-      \   [ "Help &Keyword", 'call dotvim#crate#lsp#coc#show_documentation()' ],
-      \ ]
-  call dotvim#quickui#append_context_menu(content, 'cpp')
-
   " }}}
+
+  let content = [
+      \   [ "Goto &Definition\t<leader>gd",
+      \     'call feedkeys("\<Plug>(coc-definition)")' ],
+      \   [ "Goto T&ype Definition\t<leader>gy",
+      \     'call feedkeys("\<Plug>(coc-type-definition)")' ],
+      \   [ "Goto &Implementation\t<leader>gi",
+      \     'call feedkeys("\<Plug>(coc-implementation)")' ],
+      \   [ "Goto &References\t<leader>gr",
+      \     'call feedkeys("\<Plug>(coc-references)")' ],
+      \   [ "Help &Keyword\t<leader>gk",
+      \     'call dotvim#crate#lsp#coc#show_documentation()' ],
+      \ ]
+  call dotvim#quickui#append_context_menu(content, '*')
 endfunction
 
 function! dotvim#crate#lsp#coc#postConfig() abort

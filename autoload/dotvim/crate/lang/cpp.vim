@@ -9,50 +9,41 @@ function! dotvim#crate#lang#cpp#plugins() abort
 
   if get(s:vars, 'semantic_highlight', 0)
     if get(s:vars, 'standalone_semantic', 0)
-      call dotvim#plugin#reg('arakashic/chromatica.nvim', {
+      call add(l:plugins, ['arakashic/chromatica.nvim', {
             \ 'on_ft': ['cpp', 'c']
-            \ })
-      call add(l:plugins, 'arakashic/chromatica.nvim')
+            \ }])
     else
-      call dotvim#plugin#reg('jackguo380/vim-lsp-cxx-highlight', {
+      call add(l:plugins, ['jackguo380/vim-lsp-cxx-highlight', {
             \ 'on_ft': ['cpp', 'c']
-            \ })
-      call add(l:plugins, 'jackguo380/vim-lsp-cxx-highlight')
+            \ }])
     endif
   else
-    if get(s:vars, 'treesitter_highlight', 0)
-      call add(l:plugins, 'nvim-treesitter/nvim-treesitter')
-    else
-      call dotvim#plugin#reg('bfrg/vim-cpp-modern', {
+    if !get(s:vars, 'treesitter_highlight', 0)
+      call add(l:plugins, ['bfrg/vim-cpp-modern', {
           \ 'on_ft': ['cpp', 'c']
-          \ })
-      call add(l:plugins, 'bfrg/vim-cpp-modern')
+          \ }])
     endif
   endif
 
-  call dotvim#plugin#reg('derekwyatt/vim-fswitch', {
+  call add(l:plugins, ['derekwyatt/vim-fswitch', {
         \ 'on_ft': ['cpp', 'c']
-        \ })
-  call add(l:plugins, 'derekwyatt/vim-fswitch')
+        \ }])
 
-  call dotvim#plugin#reg('~/project/vim-cpp-toolkit', {
+  call add(l:plugins, ['~/project/vim-cpp-toolkit', {
         \ 'lazy': 1,
         \ 'on_cmd': ['LeaderfHeaderFiles'],
         \ 'hook_source': 'execute "doautocmd User LeaderfNeeded"',
-        \ })
-  call add(l:plugins, '~/project/vim-cpp-toolkit')
+        \ }])
 
-  call dotvim#plugin#reg('luochen1990/rainbow', {
+  call add(l:plugins, ['luochen1990/rainbow', {
         \ 'on_ft': ['cpp']
-        \ })
-  call add(l:plugins, 'luochen1990/rainbow')
+        \ }])
 
-  call dotvim#plugin#reg('TwIStOy/leaderf-cppinclude', {
+  call add(l:plugins, ['TwIStOy/leaderf-cppinclude', {
         \ 'lazy': 1,
         \ 'on_cmd': ['LeaderfCppInclude'],
         \ 'hook_source': 'execute "doautocmd User LeaderfNeeded"',
-        \ })
-  call add(l:plugins, 'TwIStOy/leaderf-cppinclude')
+        \ }])
 
   return l:plugins
 endfunction
@@ -101,9 +92,17 @@ function! dotvim#crate#lang#cpp#config() abort
     autocmd FileType c,cpp call s:do_cpp()
   augroup END
 
+  call dotvim#mapping#add_desc('cpp', 'fa', 'switch-file-here')
+  call dotvim#mapping#add_desc('cpp', 'fv', 'switch-file-split-right')
+  call dotvim#mapping#add_desc('cpp', 'cd', 'copy-function-decl')
+  call dotvim#mapping#add_desc('cpp', 'pd', 'paste-function-def')
+
   let content = [
-        \   [ "&Fuzzy Include", 'LeaderfCppInclude' ],
-        \   [ "&ClangFormat", 'ClangFormat' ],
+        \   [ "Fuzzy &Include", 'LeaderfCppInclude' ],
+        \   [ "&Copy Function Decl\t<leader>cd",
+        \     'call cpp_toolkit#mark_current_function_decl()'],
+        \   [ "&Paste Function Def\t<leader>pd",
+        \     'call cpp_toolkit#generate_function_define_here()']
         \ ]
   call dotvim#quickui#append_context_menu(content, 'cpp')
 
@@ -134,34 +133,12 @@ EOF
 endfunction
 
 function! s:do_cpp() abort
-  call dotvim#mapping#define_leader('nnoremap', 'fa', ':FSHere<CR>',
-        \ 'switch-file-here')
-  call dotvim#mapping#define_leader('nnoremap', 'fi', ':LeaderfCppInclude<CR>',
-        \ 'include-cpp-header-here')
-  call dotvim#mapping#define_leader('nnoremap', 'fv', ':FSSplitRight<CR>',
-        \ 'switch-file-split-right')
-  call dotvim#mapping#define_leader('nnoremap', 'cd',
-        \ ':call cpp_toolkit#mark_current_function_decl()<CR>',
-        \ 'mark-function')
-  call dotvim#mapping#define_leader('nnoremap', 'pd',
-        \ ':call cpp_toolkit#generate_function_define_here()<CR>',
-        \ 'generate-function-define-here')
-  inoremap <silent><c-e><c-i> <C-o>:LeaderfCppInclude<CR>
+  nnoremap <buffer><silent><leader>fa :FSHere<CR>
+  nnoremap <buffer><silent><leader>fv :FSSplitRight<CR>
+  nnoremap <buffer><silent><leader>cd :call cpp_toolkit#mark_current_function_decl()<CR>
+  nnoremap <buffer><silent><leader>cd :call cpp_toolkit#generate_function_define_here()<CR>
+  inoremap <buffer><silent><c-e><c-i> <C-o>:LeaderfCppInclude<CR>
 
   setlocal foldexpr=dotvim#lang#cpp#foldExpr(v:lnum)
-endfunction
-
-function! s:HandleLSPResponse(error, response) abort
-  if empty(a:error)
-    echo a:response
-  else
-    echo a:error
-  endif
-endfunction
-
-function! dotvim#crate#lang#cpp#test() abort
-  echo CocRequest('clangd', 'textDocument/switchSourceHeader', {
-        \ "uri": "file://" . expand("%:p")
-        \ })
 endfunction
 

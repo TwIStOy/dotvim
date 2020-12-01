@@ -7,17 +7,15 @@ endfunction
 function! dotvim#crate#lang#markdown#plugins() abort
   let l:plugins = []
 
-  call dotvim#plugin#reg('plasticboy/vim-markdown', {
+  call add(l:plugins, ['plasticboy/vim-markdown', {
         \ 'on_ft': ['markdown']
-        \ })
-  call add(l:plugins, 'plasticboy/vim-markdown')
+        \ }])
 
   if get(s:vars, 'enable_preview', 0)
-    call dotvim#plugin#reg('iamcco/markdown-preview.nvim', {
+    call add(l:plugins, ['iamcco/markdown-preview.nvim', {
           \ 'on_ft': ['markdown', 'pandoc.markdown', 'rmd'],
           \ 'build': 'sh -c "cd app && yarn install"'
-          \ })
-    call add(l:plugins, 'iamcco/markdown-preview.nvim')
+          \ }])
   endif
 
   return l:plugins

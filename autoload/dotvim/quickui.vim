@@ -11,9 +11,14 @@ endfunction
 
 function! dotvim#quickui#open_context(ftype) abort
   let content = []
+
   call extend(content, get(s:context_menu, '*', []))
-  call add(content, ['-'])
-  call extend(content, get(s:context_menu, a:ftype, []))
+
+  let l:part = get(s:context_menu, a:ftype, [])
+  if len(l:part) > 0
+    call add(content, ['-'])
+    call extend(content, l:part)
+  endif
 
   let opts = {'index':g:quickui#context#cursor}
   if len(content) == 0

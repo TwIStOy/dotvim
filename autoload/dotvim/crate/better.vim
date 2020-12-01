@@ -118,7 +118,8 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PreviewInPopup = 1
   let g:Lf_PopupPreviewPosition = 'bottom'
   let g:Lf_PreviewHorizontalPosition = 'right'
-  let g:Lf_RootMarkers = ['BLADE_ROOT', 'JK_ROOT', 'CMakeLists.txt']
+  let g:Lf_RootMarkers = [
+        \ 'BLADE_ROOT', 'JK_ROOT', 'CMakeLists.txt', '.git']
   let g:Lf_WorkingDirectoryMode = 'A'
 
   augroup LeaderfResizeTrigger
@@ -144,8 +145,8 @@ function! dotvim#crate#better#config() abort " {{{
 
   " key mappings {{{
   call dotvim#mapping#define_leader('nnoremap', 'e',
-        \ ':Leaderf file<CR>', 'edit[ pwd ]')
-  nnoremap <silent><C-r> :Leaderf file<CR>
+        \ ':call dotvim#crate#better#leaderf_project_root()<CR>', 'edit[ pwd ]')
+  nnoremap <silent><C-r> :call dotvim#crate#better#leaderf_project_root<CR>
 
   call dotvim#mapping#define_leader('nnoremap', 'rg',
         \ ':LeaderfRgInteractive<CR>', 'rg')
@@ -216,12 +217,12 @@ function! dotvim#crate#better#config() abort " {{{
   let g:templates_no_autocmd = 0
   let g:templates_debug = 0
   let g:templates_no_builtin_templates = 1
-  let g:templates_user_variables = [
+  let g:templates_user_variables = get(g:, 'templates_user_variables', [])
+  call extend(g:templates_user_variables, [
         \   [ 'GIT_USER',  'dotvim#utils#git_user' ],
         \   [ 'GIT_EMAIL', 'dotvim#utils#git_email' ],
-        \   [ 'PROJECT_HEADER', 'dotvim#crate#better#_generate_cpp_header_filename' ],
         \   [ 'LAST_FOLDER', 'dotvim#crate#better#_last_folder_name' ],
-        \ ]
+        \ ])
   " }}}
 
   augroup BetterLeaderf
@@ -246,14 +247,16 @@ function! dotvim#crate#better#_load_leaderf() abort
   endif
 endfunction
 
-function! dotvim#crate#better#_generate_cpp_header_filename() abort
-  return py3eval(
-        \ '__import__("header_include_helper").generate_cpp_header_filename(__import__("vim"))'
-        \ )
-endfunction
-
 function! dotvim#crate#better#_last_folder_name() abort
   return expand("%:p:h:t")
+endfunction
+
+function! dotvim#crate#better#leaderf_project_root() abort
+  if has_key(b:, '_dotvim_resolved_project_root')
+    execute 'LeaderfFile ' . b:_dotvim_resolved_project_root
+  else
+    execute 'LeaderfFile'
+  endif
 endfunction
 
 " vim:set foldmethod=marker ft=vim sw=2 sts=2 et:

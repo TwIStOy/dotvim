@@ -6,12 +6,14 @@ function! dotvim#crate#better#setVariables(vars) abort
   let s:vars = deepcopy(a:vars)
 endfunction
 
-function! dotvim#crate#better#plugins() abort
+function! dotvim#crate#better#plugins() abort " {{{
   let l:plugins = []
 
   call add(l:plugins, 'tpope/vim-surround')
 
-  call dotvim#plugin#reg('Yggdroot/LeaderF', {
+  call add(l:plugins, 'nvim-treesitter/nvim-treesitter')
+
+  call add(l:plugins, ['Yggdroot/LeaderF', {
         \ 'on_cmd': ['Leaderf',
         \            "LeaderfFile",
         \            "LeaderfBuffer",
@@ -34,25 +36,21 @@ function! dotvim#crate#better#plugins() abort
         \            "LeaderfRgRecall"
         \           ],
         \ 'build': './install.sh',
-        \ })
-  call add(l:plugins, 'Yggdroot/LeaderF')
+        \ }])
 
   call add(l:plugins, 'tenfyzhong/axring.vim')
 
-  call dotvim#plugin#reg('Yggdroot/indentLine', {
+  call add(l:plugins, ['Yggdroot/indentLine', {
         \ 'on_ft': ['python']
-        \ })
-  call add(l:plugins, 'Yggdroot/indentLine')
+        \ }])
 
-  call dotvim#plugin#reg('godlygeek/tabular', {
+  call add(l:plugins, ['godlygeek/tabular', {
         \ 'on_cmd': 'Tabularize'
-        \ })
-  call add(l:plugins, 'godlygeek/tabular')
+        \ }])
 
-  call dotvim#plugin#reg('junegunn/vim-easy-align', {
+  call add(l:plugins, ['junegunn/vim-easy-align', {
         \ 'on_cmd': ['<Plug>(EasyAlign)', 'EsayAlign']
-        \ })
-  call add(l:plugins, 'junegunn/vim-easy-align')
+        \ }])
 
 
   call add(l:plugins, 'itchyny/lightline.vim')
@@ -64,34 +62,28 @@ function! dotvim#crate#better#plugins() abort
 
   call add(l:plugins, 'farmergreg/vim-lastplace')
 
-  call dotvim#plugin#reg('Asheq/close-buffers.vim', {
+  call add(l:plugins, ['Asheq/close-buffers.vim', {
         \ 'on_cmd': 'Bdelete'
-        \ })
-  call add(l:plugins, 'Asheq/close-buffers.vim')
+        \ }])
 
   call add(l:plugins, 'aperezdc/vim-template')
 
   call add(l:plugins, 'tomtom/tcomment_vim')
 
   " lazy group {{{
-  call dotvim#plugin#reg('RRethy/vim-illuminate', { 'lazy': 1 })
-  call add(l:plugins, 'RRethy/vim-illuminate')
-
+  call add(l:plugins, ['RRethy/vim-illuminate', { 'lazy': 1 }])
   call add(l:plugins, 'sheerun/vim-polyglot')
-
-  call dotvim#plugin#reg('andymass/vim-matchup', { 'lazy': 1 })
-  call add(l:plugins, 'andymass/vim-matchup')
+  call add(l:plugins, ['andymass/vim-matchup', { 'lazy': 1 }])
   " }}}
 
   if get(s:vars, 'enable_defx_icons', 0)
-    call dotvim#plugin#reg('kristijanhusak/defx-icons', {
+    call add(l:plugins, ['kristijanhusak/defx-icons', {
           \ 'on_source': ['defx.nvim']
-          \ })
-    call add(l:plugins, 'kristijanhusak/defx-icons')
+          \ }])
   endif
 
   return l:plugins
-endfunction
+endfunction " }}}
 
 function! dotvim#crate#better#config() abort " {{{
   " enable vim-surround default keybindings {{{
@@ -127,7 +119,7 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PopupPreviewPosition = 'bottom'
   let g:Lf_PreviewHorizontalPosition = 'right'
   let g:Lf_RootMarkers = ['BLADE_ROOT', 'JK_ROOT', 'CMakeLists.txt']
-  let g:Lf_WorkingDirectoryMode = 'a'
+  let g:Lf_WorkingDirectoryMode = 'A'
 
   augroup LeaderfResizeTrigger
     au!
@@ -141,9 +133,6 @@ function! dotvim#crate#better#config() abort " {{{
   if has_key(s:vars, 'axring_rings')
     let g:axring_rings = deepcopy(s:vars['axring_rings'])
   endif
-
-  " disable cpp and rust
-  let g:polyglot_disabled = ['cpp']
 
   " choosewin {{{
   nmap  -  <Plug>(choosewin)

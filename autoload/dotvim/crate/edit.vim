@@ -9,18 +9,20 @@ endfunction
 function! dotvim#crate#edit#plugins() abort
   let l:plugins = []
 
-  call dotvim#plugin#reg('osyo-manga/vim-jplus', {
-        \   'on_map' : '<Plug>(jplus'
-        \ })
-  call add(l:plugins, 'osyo-manga/vim-jplus')
+  call add(l:plugins, ['osyo-manga/vim-jplus', { 'on_map' : '<Plug>(jplus' }])
 
   call add(l:plugins, 'tpope/vim-repeat')
 
   call add(l:plugins, 'ntpeters/vim-better-whitespace')
 
-  call add(l:plugins, 'AndrewRadev/sideways.vim')
+  call add(l:plugins, ['AndrewRadev/sideways.vim', {
+        \   'on_cmd': [ 'SidewaysLeft', 'SidewaysRight' ]
+        \ }])
 
   call add(l:plugins, 'sbdchd/neoformat')
+
+  " for movement
+  call add(l:plugins, 'justinmk/vim-sneak')
 
   return l:plugins
 endfunction
@@ -29,6 +31,10 @@ function! dotvim#crate#edit#config() abort
   " osyo-manga/vim-jplus {{{
   nmap J <Plug>(jplus)
   vmap J <Plug>(jplus)
+  " }}}
+
+  " justinmk/vim-sneak {{{
+  let g:sneak#label = 1
   " }}}
 
   " ntpeters/vim-better-whitespace {{{
@@ -46,6 +52,9 @@ function! dotvim#crate#edit#config() abort
         \ ':SidewaysLeft<CR>', 'move-argument-left')
   call dotvim#mapping#define_leader('nnoremap', 'ml',
         \ ':SidewaysRight<CR>', 'move-argument-right')
+
+  nnoremap <M-h> :SidewaysLeft<CR>
+  nnoremap <M-l> :SidewaysRight<CR>
   " }}}
 
 

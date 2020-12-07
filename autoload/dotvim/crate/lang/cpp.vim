@@ -150,7 +150,7 @@ function! s:do_cpp() abort
   nnoremap <buffer><silent><leader>fa :FSHere<CR>
   nnoremap <buffer><silent><leader>fv :FSSplitRight<CR>
   nnoremap <buffer><silent><leader>cd :call cpp_toolkit#mark_current_function_decl()<CR>
-  nnoremap <buffer><silent><leader>cd :call cpp_toolkit#generate_function_define_here()<CR>
+  nnoremap <buffer><silent><leader>pd :call cpp_toolkit#generate_function_define_here()<CR>
   inoremap <buffer><silent><c-e><c-i> <C-o>:LeaderfCppInclude<CR>
 
   setlocal foldexpr=dotvim#lang#cpp#foldExpr(v:lnum)

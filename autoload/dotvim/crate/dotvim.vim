@@ -12,41 +12,35 @@ function! dotvim#crate#dotvim#plugins() abort
     call add(l:plugins, 'roxma/vim-hug-neovim-rpc')
   endif
 
-  call dotvim#plugin#reg('skywind3000/asyncrun.vim', {
-        \ 'on_cmd': ['AsyncRun', 'AsyncStop']
-        \ })
-  call add(l:plugins, 'skywind3000/asyncrun.vim')
+  call add(l:plugins, ['skywind3000/asyncrun.vim', {
+        \   'on_cmd': ['AsyncRun', 'AsyncStop']
+        \ }])
 
-  call dotvim#plugin#reg('mhinz/vim-startify', {
-        \ 'on_cmd': ['Startify'],
-        \ 'builtin_conf': 1
-        \ })
-  call add(l:plugins, 'mhinz/vim-startify')
+  call add(l:plugins, ['mhinz/vim-startify', {
+        \   'on_cmd': ['Startify'],
+        \   'builtin_conf': 1
+        \ }])
 
-  call dotvim#plugin#reg('Shougo/defx.nvim', {
-        \ 'on_cmd': ['Defx'],
-        \ 'builtin_conf': 1
-        \ })
-  call add(l:plugins, 'Shougo/defx.nvim')
+  call add(l:plugins, ['ms-jpq/chadtree', {
+        \   'on_cmd': ['CHADopen'],
+        \ }])
 
   if !dotvim#crate#hasLoaded('theme')
     call add(l:plugins, 'tpope/vim-vividchalk')
   endif
 
-  call dotvim#plugin#reg('liuchengxu/vim-which-key', {
-        \ 'on_cmd': ['WhichKey', 'WhichKey!'],
-        \ 'builtin_conf': 1
-        \ })
-  call add(l:plugins, 'liuchengxu/vim-which-key')
+  call add(l:plugins, ['liuchengxu/vim-which-key', {
+        \   'on_cmd': ['WhichKey', 'WhichKey!'],
+        \   'builtin_conf': 1
+        \ }])
 
   call add(l:plugins, 'TwIStOy/multihighlight.nvim')
 
   call add(l:plugins, 'skywind3000/vim-quickui')
 
-  call dotvim#plugin#reg('dstein64/vim-startuptime', {
-        \ 'on_cmd': ['StartupTime']
-        \ })
-  call add(l:plugins, 'dstein64/vim-startuptime')
+  call add(l:plugins, ['dstein64/vim-startuptime', {
+        \   'on_cmd': ['StartupTime']
+        \ }])
 
   return l:plugins
 endfunction
@@ -144,12 +138,23 @@ function! dotvim#crate#dotvim#config() abort
 
   call dotvim#api#import('window').addAutocloseType('quickfix')
   call dotvim#api#import('window').addAutocloseType('defx')
+  call dotvim#api#import('window').addAutocloseType('CHADTree')
   call dotvim#api#import('window').add_uncountable_type('defx')
   call dotvim#api#import('window').add_uncountable_type('quickfix')
+  call dotvim#api#import('window').add_uncountable_type('CHADTree')
 
-  nnoremap <silent><F3> :call <SID>fast_forward_to_defx()<CR>
+  nnoremap <silent><F3> :call <SID>fast_forward_to_file_explorer()<CR>
   nnoremap <silent><F4> :call quickui#tools#list_buffer('e')<CR>
   nnoremap <silent>;; :call dotvim#quickui#open_context(&ft)<CR>
+
+  " CHADTree settings {{{
+  let g:chadtree_ignores = get(s:vars, 'filetree_ignore', {
+        \   'name': ['.*', '.git']
+        \})
+  let g:chadtree_settings = {
+        \   'use_icons': 'emoji'
+        \ }
+  " }}}
 
   " default keybindings {{{
   for l:i in range(1, 9)
@@ -163,17 +168,8 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'fs',
         \ ':update<CR>', 'save')
 
-  let g:dotvim_defx_parameters = [
-        \ '-split=vertical',
-        \ '-winwidth=' . get(s:vars, 'defx_width', 35),
-        \ '-ignored-files=*.d',
-        \ '-toggle',
-        \ ]
-  nnoremap <silent><Plug>(toggle_defx) :call dotvim#crate#dotvim#_call_defx()<CR>
-
   call dotvim#mapping#define_leader('nnoremap', 'ft',
-        \ ':call feedkeys("\<Plug>(toggle_defx)")<CR>',
-        \ 'toggle-file-explorer')
+        \ ':CHADopen<CR>', 'toggle-file-explorer')
 
   call dotvim#mapping#define_name('j', '+jump')
   call dotvim#mapping#define_leader('nnoremap', 'jb',
@@ -320,11 +316,6 @@ function! dotvim#crate#dotvim#no_highlight() abort
   call multihighlight#nohighlight_all()
 endfunction
 
-function! dotvim#crate#dotvim#_call_defx() abort
-  let l:cmd = join(g:dotvim_defx_parameters, ' ')
-  execute 'Defx ' . l:cmd
-endfunction
-
 function! dotvim#crate#dotvim#input_pattern() abort " {{{
   let l:pattern = input("Search and Highlight Pattern: ")
 
@@ -341,7 +332,7 @@ function! dotvim#crate#dotvim#print(error, response) abort
   endif
 endfunction
 
-function! s:fast_forward_to_defx() abort
+function! s:fast_forward_to_file_explorer() abort
   for l:i in range(1, winnr('$'))
     let l:tp = getbufvar(winbufnr(l:i), '&ft')
 
@@ -349,9 +340,13 @@ function! s:fast_forward_to_defx() abort
       execute ':' . l:i . 'wincmd w'
       return
     endif
+    if l:tp == 'CHADTree'
+      execute ':' . l:i . 'wincmd w'
+      return
+    endif
   endfor
 
-  call dotvim#crate#dotvim#_call_defx()
+  execute 'CHADopen'
 endfunction
 
 " vim: fdm=marker

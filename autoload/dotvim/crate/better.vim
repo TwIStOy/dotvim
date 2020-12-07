@@ -76,12 +76,6 @@ function! dotvim#crate#better#plugins() abort " {{{
   call add(l:plugins, ['andymass/vim-matchup', { 'lazy': 1 }])
   " }}}
 
-  if get(s:vars, 'enable_defx_icons', 0)
-    call add(l:plugins, ['kristijanhusak/defx-icons', {
-          \ 'on_source': ['defx.nvim']
-          \ }])
-  endif
-
   return l:plugins
 endfunction " }}}
 
@@ -165,13 +159,6 @@ function! dotvim#crate#better#config() abort " {{{
 
   if has_key(s:vars, 'use_clipboard')
     execute 'set clipboard=' . s:vars['use_clipboard']
-  endif
-
-  if get(s:vars, 'enable_defx_icons', 0)
-    let g:defx_icons_enable_syntax_highlight = 1
-    let g:defx_icons_column_length = 2
-
-    call add(g:dotvim_defx_parameters, '-columns=icons:indent:filename:type')
   endif
 
   let g:lightline = {

@@ -219,8 +219,9 @@ endsnippet
 
 snippet itf "cpp interface common" b
 struct ${1:InterfaceName} {
-	${0}
 	virtual ~$1() = default;
+
+	${0}
 };
 endsnippet
 
@@ -269,7 +270,7 @@ snippet !=e "EXPECT_NE" b
 EXPECT_NE(${1:lhs}, ${2:rhs});${0}
 endsnippet
 
-snippet find "find function in map" b
+snippet mfd "find function in map" b
 auto it = ${1:map name}.find(${2:key});
 if (it == $1.end()) {
 	${3:not exists block}
@@ -317,6 +318,7 @@ endsnippet
 snippet tfmt "formatter for fmt" b
 template<>
 struct formatter<${1:TypeName}> {
+  using ValueType = $1;
   template<typename ParseContext>
   auto parse(ParseContext &ctx) ->  // NOLINT(runtime/references)
       typename ParseContext::iterator {
@@ -324,7 +326,7 @@ struct formatter<${1:TypeName}> {
   }
 
   template<typename FormatContext>
-  auto format(const $1 &v,
+  auto format(const ValueType &v,
               FormatContext &ctx)  // // NOLINT(runtime/references)
       -> decltype(ctx.out()) {
 		${0}

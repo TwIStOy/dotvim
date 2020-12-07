@@ -5,6 +5,7 @@ function! dotvim#crate#lsp#coc#plugins() abort
     call dotvim#plugin#reg('neoclide/coc.nvim', {
           \ 'on_event': 'InsertEnter',
           \ 'build': 'yarn install',
+          \ 'hook_source': function('dotvim#crate#lsp#coc#_hook_source'),
           \ })
   else
     call dotvim#plugin#reg('neoclide/coc.nvim', {
@@ -223,5 +224,12 @@ endfunction
 
 function! dotvim#crate#lsp#coc#_NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+function! dotvim#crate#lsp#coc#_hook_source() abort
+  nnoremap <nowait><expr> <c-d>
+              \ coc#float#has_scroll() ? coc#float#scroll(1) : "\<c-d>"
+  nnoremap <nowait><expr> <c-u>
+              \ coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-u>"
 endfunction
 

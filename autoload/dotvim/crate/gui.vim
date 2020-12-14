@@ -5,6 +5,16 @@ function! dotvim#crate#gui#setVariables(vars) abort
 endfunction
 
 function! dotvim#crate#gui#config() abort
+  if exists('g:fvim_loaded')
+    " fvim gui
+
+    let &guifont = get(s:vars, 'font', 'Iosevka SS06:h16')
+  elseif exists('g:GuiLoaded')
+    " nvim-qt gui
+
+    let &guifont = get(s:vars, 'font', 'Iosevka SS06:h16')
+  endif
+
   call timer_start(30, 'dotvim#crate#gui#_delay_loaded')
 endfunction
 
@@ -12,7 +22,7 @@ function! dotvim#crate#gui#_delay_loaded(timer) abort
   if exists('g:fvim_loaded')
     " fvim gui
 
-    let &guifont = get(s:vars, 'font', 'Iosevka SS06:h16')
+    " let &guifont = get(s:vars, 'font', 'Iosevka SS06:h16')
     " Ctrl-ScrollWheel for zooming in/out
     nnoremap <silent> <C-ScrollWheelUp> :set guifont=+<CR>
     nnoremap <silent> <C-ScrollWheelDown> :set guifont=-<CR>
@@ -25,7 +35,7 @@ function! dotvim#crate#gui#_delay_loaded(timer) abort
   elseif exists('g:GuiLoaded')
     " nvim-qt gui
 
-    let &guifont = get(s:vars, 'font', 'Iosevka SS06:h16')
+    " let &guifont = get(s:vars, 'font', 'Iosevka SS06:h16')
     " Ctrl-ScrollWheel for zooming in/out
     nnoremap <silent> <C-ScrollWheelUp> :set guifont=+<CR>
     nnoremap <silent> <C-ScrollWheelDown> :set guifont=-<CR>

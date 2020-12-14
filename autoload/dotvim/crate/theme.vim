@@ -206,7 +206,7 @@ endfunction
 function! s:set_background_transparent()
   " make all background transparent
   " FIXME(hawtian): this seems not work
-  if !exists('g:fvim_loaded')
+  if !exists('g:fvim_loaded') && !exists(':GonvimVersion')
     hi NonText ctermbg=NONE guibg=NONE
     hi Normal guibg=NONE ctermbg=NONE
   endif

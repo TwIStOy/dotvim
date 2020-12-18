@@ -110,16 +110,13 @@ function! dotvim#crate#dotvim#config() abort
     augroup END
   endif
 
-  " rainbow settings {{{
-  let g:rainbow_active = 1
-  " }}}
-
   set tabstop=2
   set shiftwidth=2
   set expandtab
   set smartindent
   set autoindent
   let g:rust_recommended_style = 0
+  set cmdheight=2
 
   set exrc
 

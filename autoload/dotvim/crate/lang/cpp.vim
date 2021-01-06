@@ -29,7 +29,7 @@ function! dotvim#crate#lang#cpp#plugins() abort
         \ 'on_ft': ['cpp', 'c']
         \ }])
 
-  call add(l:plugins, ['~/project/vim-cpp-toolkit', {
+  call add(l:plugins, ['TwIStOy/vim-cpp-toolkit', {
         \ 'lazy': 1,
         \ 'on_cmd': ['LeaderfHeaderFiles', 'CppToolkitCurrentRoot'],
         \ 'on_func': ['cpp_toolkit#project_root'],

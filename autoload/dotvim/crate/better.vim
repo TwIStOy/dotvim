@@ -98,7 +98,9 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PopupPosition = [1, 0]
   let g:Lf_FollowLinks = 1
   let g:Lf_WildIgnore = {
-        \   'dir': [ '.git', '.svn', '.hg', '.cache', '.build' ],
+        \   'dir': [
+        \     '.git', '.svn', '.hg', '.cache', '.build',
+        \     '.deps', '.third-party-build', 'build' ],
         \   'file': [
         \     '*.exe', '*.o', '*.a', '*.so', '*.py[co]',
         \     '*.sw?', '*.bak', '*.d', '*.idx', "*.lint",

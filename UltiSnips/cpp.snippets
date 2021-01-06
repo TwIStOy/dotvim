@@ -279,6 +279,18 @@ if (it == $1.end()) {
 }
 endsnippet
 
+snippet fmp "find function in map C++17" b
+if (auto it = ${1:map name}.find(${2:key}); it != $1.end()) {
+  ${3:exists block}
+}
+endsnippet
+
+snippet fmp! "find function in map C++17" b
+if (auto it = ${1:map name}.find(${2:key}); it == $1.end()) {
+  ${3:exists block}
+}
+endsnippet
+
 snippet lambda "lambda function" w
 [=](${1:args}){
 	${2:body}
@@ -365,6 +377,19 @@ endsnippet
 
 snippet inher "inherit comment" b
 // inherited from |$0|
+endsnippet
+
+snippet undef "undef if def" b
+#if defined(${1:Name})
+#undef $1
+#endif
+endsnippet
+
+snippet defd "if defined" b
+#if defined(${1:Name})
+$0
+#else
+#endif
 endsnippet
 
 # vim: set fdm=marker

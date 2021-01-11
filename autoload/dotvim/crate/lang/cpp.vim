@@ -147,6 +147,10 @@ function! dotvim#crate#lang#cpp#header_filename()
 endfunction
 
 function! s:do_cpp() abort
+  if get(b:, '_dotvim_cpp_done', 0)
+    return
+  endif
+
   nnoremap <buffer><silent><leader>fa :FSHere<CR>
   nnoremap <buffer><silent><leader>fv :FSSplitRight<CR>
   nnoremap <buffer><silent><leader>cd :call cpp_toolkit#mark_current_function_decl()<CR>
@@ -157,5 +161,6 @@ function! s:do_cpp() abort
 
   execute 'CppToolkitCurrentRoot'
   let b:_dotvim_resolved_project_root = cpp_toolkit#project_root()
+  let b:_dotvim_cpp_done = 1
 endfunction
 

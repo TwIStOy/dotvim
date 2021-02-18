@@ -287,6 +287,15 @@ function! dotvim#crate#dotvim#config() abort
           \ }
   endif
 
+  " vim which key {{{
+  augroup WhichKeySettings
+    au!
+    au FileType which_key set laststatus=0 noshowmode noruler
+          \| au BufLeave <buffer> set laststatus=2 showmode ruler
+  augroup END
+  let g:which_key_centered = 0
+  " }}}
+
   " quickui {{{
   let g:quickui_border_style = 2
   " TODO(hawtian): fix color

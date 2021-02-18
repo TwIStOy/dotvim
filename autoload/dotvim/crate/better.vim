@@ -135,7 +135,7 @@ function! dotvim#crate#better#config() abort " {{{
   " key mappings {{{
   call dotvim#mapping#define_leader('nnoremap', 'e',
         \ ':call dotvim#crate#better#leaderf_project_root()<CR>', 'edit[ pwd ]')
-  nnoremap <silent><C-r> :call dotvim#crate#better#leaderf_project_root<CR>
+  nnoremap <silent><C-r> :call dotvim#crate#better#leaderf_project_root()<CR>
 
   call dotvim#mapping#define_leader('nnoremap', 'rg',
         \ ':LeaderfRgInteractive<CR>', 'rg')

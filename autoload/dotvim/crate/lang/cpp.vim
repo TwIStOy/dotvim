@@ -7,24 +7,6 @@ endfunction
 function! dotvim#crate#lang#cpp#plugins() abort
   let l:plugins = []
 
-  if get(s:vars, 'semantic_highlight', 0)
-    if get(s:vars, 'standalone_semantic', 0)
-      call add(l:plugins, ['arakashic/chromatica.nvim', {
-            \ 'on_ft': ['cpp', 'c']
-            \ }])
-    else
-      call add(l:plugins, ['jackguo380/vim-lsp-cxx-highlight', {
-            \ 'on_ft': ['cpp', 'c']
-            \ }])
-    endif
-  else
-    if !get(s:vars, 'treesitter_highlight', 0)
-      call add(l:plugins, ['bfrg/vim-cpp-modern', {
-          \ 'on_ft': ['cpp', 'c']
-          \ }])
-    endif
-  endif
-
   call add(l:plugins, ['derekwyatt/vim-fswitch', {
         \ 'on_ft': ['cpp', 'c']
         \ }])
@@ -50,35 +32,6 @@ function! dotvim#crate#lang#cpp#plugins() abort
 endfunction
 
 function! dotvim#crate#lang#cpp#config() abort
-  let g:polyglot_disabled = get(g:, 'polyglot_disabled', [])
-
-  call add(g:polyglot_disabled, 'c')
-  call add(g:polyglot_disabled, 'cpp')
-
-  if get(s:vars, 'semantic_highlight', 0)
-    if get(s:vars, 'standalone_semantic', 0)
-      " settings for <chromatica>
-      if has_key(s:vars, 'libclang_path')
-        let g:chromatica#libclang_path = s:vars['libclang_path']
-      endif
-      let g:chromatica#enable_at_startup = 1
-      let g:chromatica#responsive_mode = 1
-    else
-      " settings for <vim-lsp-cxx-highlight>
-      autocmd VimEnter * hi LspCxxHlSymParameter cterm=underline gui=underline
-    endif
-  endif
-
-  " vim-lsp-cxx {{{
-  if has('nvim')
-    let g:lsp_cxx_hl_use_nvim_text_props = 1
-  else
-    let g:lsp_cxx_hl_use_text_props = 1
-  endif
-  let g:lsp_cxx_hl_syntax_priority = 100
-  " }}}
-
-
   " vim-cpp-toolkit {{{
   if has_key(s:vars, 'clang_library')
     let g:cpp_toolkit_clang_library = get(s:vars, 'clang_library')

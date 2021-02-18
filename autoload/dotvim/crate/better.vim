@@ -114,8 +114,7 @@ function! dotvim#crate#better#config() abort " {{{
   let g:Lf_PreviewInPopup = 1
   let g:Lf_PopupPreviewPosition = 'bottom'
   let g:Lf_PreviewHorizontalPosition = 'right'
-  let g:Lf_RootMarkers = [
-        \ 'BLADE_ROOT', 'JK_ROOT', 'CMakeLists.txt', '.git']
+  let g:Lf_RootMarkers = get(s:vars, 'leaderf_root_markers', ['.git'])
   let g:Lf_WorkingDirectoryMode = 'A'
 
   augroup LeaderfResizeTrigger
@@ -131,12 +130,6 @@ function! dotvim#crate#better#config() abort " {{{
     let g:axring_rings = deepcopy(s:vars['axring_rings'])
   endif
 
-  " choosewin {{{
-  nmap  -  <Plug>(choosewin)
-  let g:choosewin_overlay_enable = 1
-  " }}}
-
-  call dotvim#mapping#define_name('b', '+buffer/bookmark')
   call dotvim#mapping#define_name('r', '+rg')
 
   " key mappings {{{
@@ -218,10 +211,32 @@ function! dotvim#crate#better#config() abort " {{{
     autocmd!
     autocmd User LeaderfNeeded call dotvim#crate#better#_load_leaderf()
   augroup END
+
+  " polyglot {{{
+  let g:polyglot_disabled = get(g:, 'polyglot_disabled', [])
+
+  for l:tp in get(s:vars, 'treesitter_enabled_languages', [])
+    call add(g:polyglot_disabled, l:tp)
+  endfor
+  " }}}
 endfunction " }}}
+
+function! s:load_treesitter(tps)
+lua <<EOF
+   require'nvim-treesitter.configs'.setup {
+     ensure_installed = vim.api.nvim_eval('a:tps'),
+     highlight = {
+       enable = true, -- false will disable the whole extension
+       disable = {},  -- list of language that will be disabled
+     },
+   }
+EOF
+endfunction
 
 function! dotvim#crate#better#postConfig() abort
   call timer_start(400, 'dotvim#crate#better#_lazy_load')
+
+  call s:load_treesitter(get(s:vars, 'treesitter_enabled_languages', []))
 endfunction
 
 function! dotvim#crate#better#_lazy_load(timer) abort

@@ -61,7 +61,7 @@ def function_helpers(s, snip):
     gbl['ns'] = namespace_generator
 
     try:
-        snip.rv = eval(s,gbl)
+        snip.rv = eval(s, gbl)
     except:
         snip.rv = s
 
@@ -132,4 +132,21 @@ def simple_int_types(base_type, length, snip):
     suffix = '_t'
 
     snip.rv = f'{int_base_type}{length}{suffix}'
+
+
+_POSTFIX_TEMPLATES = {
+    "for": """for (auto&& item : {0}) {{
+  ${{0:/* body */}}
+}}""",
+    "fori": """for (auto i = 0u; i < {0}; ++i) {{
+  ${{0:/* body */}}
+}}""",
+    "if": """if ({0}) {{
+  ${{0:/* body */}}
+}}""",
+    "be": """std::begin({0}), std::end({0})""",
+}
+
+def postfix_templates(key, s, snip):
+    snip.rv = _POSTFIX_TEMPLATES.get(key, "{0}").format(s)
 

@@ -21,9 +21,7 @@ function! dotvim#crate#dotvim#plugins() abort
         \   'builtin_conf': 1
         \ }])
 
-  call add(l:plugins, ['ms-jpq/chadtree', {
-        \   'on_cmd': ['CHADopen'],
-        \ }])
+  call add(l:plugins, 'kyazdani42/nvim-tree.lua')
 
   if !dotvim#crate#hasLoaded('theme')
     call add(l:plugins, 'tpope/vim-vividchalk')
@@ -136,21 +134,21 @@ function! dotvim#crate#dotvim#config() abort
   call dotvim#api#import('window').addAutocloseType('quickfix')
   call dotvim#api#import('window').addAutocloseType('defx')
   call dotvim#api#import('window').addAutocloseType('CHADTree')
+  call dotvim#api#import('window').addAutocloseType('NvimTree')
   call dotvim#api#import('window').add_uncountable_type('defx')
   call dotvim#api#import('window').add_uncountable_type('quickfix')
   call dotvim#api#import('window').add_uncountable_type('CHADTree')
+  call dotvim#api#import('window').add_uncountable_type('NvimTree')
 
   nnoremap <silent><F3> :call <SID>fast_forward_to_file_explorer()<CR>
   nnoremap <silent><F4> :call quickui#tools#list_buffer('e')<CR>
   nnoremap <silent>;; :call dotvim#quickui#open_context(&ft)<CR>
 
-  " CHADTree settings {{{
-  let g:chadtree_ignores = get(s:vars, 'filetree_ignore', {
-        \   'name': ['.*', '.git']
-        \})
-  let g:chadtree_settings = {
-        \   'use_icons': 'emoji'
-        \ }
+  " nvim-tree.lua {{{
+  let g:nvim_tree_ignore = get(s:vars, 'filetree_ignore',
+        \ ['.git', 'node_modules', '.cache'])
+  let g:nvim_tree_auto_open = 1
+  let g:nvim_tree_git_hl = 1
   " }}}
 
   " default keybindings {{{
@@ -166,7 +164,7 @@ function! dotvim#crate#dotvim#config() abort
         \ ':update<CR>', 'save')
 
   call dotvim#mapping#define_leader('nnoremap', 'ft',
-        \ ':CHADopen<CR>', 'toggle-file-explorer')
+        \ ':NvimTreeToggle<CR>', 'toggle-file-explorer')
 
   call dotvim#mapping#define_name('j', '+jump')
   call dotvim#mapping#define_leader('nnoremap', 'jb',
@@ -346,13 +344,13 @@ function! s:fast_forward_to_file_explorer() abort
       execute ':' . l:i . 'wincmd w'
       return
     endif
-    if l:tp == 'CHADTree'
+    if l:tp == 'NvimTree'
       execute ':' . l:i . 'wincmd w'
       return
     endif
   endfor
 
-  execute 'CHADopen'
+  execute 'NvimTreeToggle'
 endfunction
 
 " vim: fdm=marker

@@ -106,10 +106,9 @@ function! dotvim#crate#lsp#coc#config() abort
         \ 'coc-git',
         \ 'coc-vimlsp',
         \ 'coc-fish',
-        \ 'coc-template',
         \ 'coc-highlight',
         \ 'coc-rust-analyzer',
-        \ 'coc-python'
+        \ 'coc-pyright'
         \ ]
 
   " default settings

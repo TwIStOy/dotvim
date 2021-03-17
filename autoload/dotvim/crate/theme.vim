@@ -239,6 +239,7 @@ endfunction
 function! s:theme_apply_nightfly() abort
   let g:nightflyCursorColor = 1
   let g:nightflyUnderlineMatchParen = 1
+  let g:nightflyTransparent = 1
 
   if exists('g:lightline')
     let g:lightline.colorscheme = 'nightfly'

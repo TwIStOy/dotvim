@@ -215,6 +215,8 @@ function! dotvim#crate#better#config() abort " {{{
   " polyglot {{{
   let g:polyglot_disabled = get(g:, 'polyglot_disabled', [])
 
+  call add(g:polyglot_disabled, 'autoindent')
+
   for l:tp in get(s:vars, 'treesitter_enabled_languages', [])
     call add(g:polyglot_disabled, l:tp)
   endfor

@@ -21,6 +21,7 @@ function! dotvim#crate#dotvim#plugins() abort
         \   'builtin_conf': 1
         \ }])
 
+  call add(l:plugins, 'kyazdani42/nvim-web-devicons')
   call add(l:plugins, 'kyazdani42/nvim-tree.lua')
 
   if !dotvim#crate#hasLoaded('theme')

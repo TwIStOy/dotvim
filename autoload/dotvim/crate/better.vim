@@ -53,8 +53,9 @@ function! dotvim#crate#better#plugins() abort " {{{
         \ }])
 
 
-  call add(l:plugins, 'itchyny/lightline.vim')
-  call add(l:plugins, 'mengelbrecht/lightline-bufferline')
+  call add(l:plugins, ['glepnir/galaxyline.nvim', { 'rev': 'main' }])
+  call add(l:plugins, 'akinsho/nvim-bufferline.lua')
+  call add(l:plugins, 'kyazdani42/nvim-web-devicons')
 
   call add(l:plugins, 'matze/vim-move')
 
@@ -156,23 +157,8 @@ function! dotvim#crate#better#config() abort " {{{
     execute 'set clipboard=' . s:vars['use_clipboard']
   endif
 
-  let g:lightline = {
-        \ 'active': {
-        \   'left':[ [ 'mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified' ] ],
-        \   'right': [ ['lineinfo'], ['filetype', 'fileencoding', 'percent'] ],
-        \ },
-        \ 'component': {
-        \   'lineinfo': '%3l:%-2v',
-        \ },
-        \ 'component_function': {
-        \   'gitbranch': 'fugitive#head',
-        \ }
-        \ }
-  let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
-  let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-  let g:lightline.component_type   = {'buffers': 'tabsel'}
-  let g:lightline.separator = { 'left': '', 'right': '' }
-  let g:lightline.subseparator = { 'left': '|', 'right': '|' }
+  " Setup galaxyline
+  lua require 'cfg.galaxyline'
 
   let g:move_key_modifier = 'C'
 
@@ -215,12 +201,15 @@ function! dotvim#crate#better#config() abort " {{{
   " polyglot {{{
   let g:polyglot_disabled = get(g:, 'polyglot_disabled', [])
 
-  " call add(g:polyglot_disabled, 'autoindent')
-
   for l:tp in get(s:vars, 'treesitter_enabled_languages', [])
     call add(g:polyglot_disabled, l:tp)
   endfor
   " }}}
+
+  lua require'bufferline'.setup{}
+  " bufferline keymappings
+  nnoremap <silent>[b :BufferLineCyclePrev<CR>
+  nnoremap <silent>]b :BufferLineCycleNext<CR>
 endfunction " }}}
 
 function! s:load_treesitter(tps)

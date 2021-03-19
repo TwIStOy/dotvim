@@ -9,7 +9,7 @@ function! dotvim#crate#tool#git#plugins() abort
         \ 'on_map' : '<Plug>(git-messenger',
         \ })
 
-  return ['tpope/vim-fugitive', 'junegunn/gv.vim',
+  return ['tpope/vim-fugitive', 'junegunn/gv.vim', 'airblade/vim-gitgutter',
         \ 'rhysd/git-messenger.vim', 'TwIStOy/conflict-resolve.nvim']
 endfunction
 
@@ -27,6 +27,10 @@ function! dotvim#crate#tool#git#config() abort
   call dotvim#mapping#define_leader('nnoremap', 'vb',
         \ ':call conflict_resolve#both()<CR>', 'diff-use-both'
         \ )
+
+  " GitGutterSignsDisable
+  let g:gitgutter_map_keys = 0
+  let g:gitgutter_signs = 0
 endfunction
 
 function! dotvim#crate#tool#git#postConfig() abort

@@ -130,7 +130,10 @@ function! dotvim#crate#dotvim#config() abort
 
   set scrolloff=5
 
-  set timeoutlen=500
+  set timeoutlen=300
+
+  let g:which_key_use_floating_win = 1
+  let g:which_key_floating_relative_win = 1
 
   call dotvim#api#import('window').addAutocloseType('quickfix')
   call dotvim#api#import('window').addAutocloseType('defx')
@@ -289,7 +292,7 @@ function! dotvim#crate#dotvim#config() abort
   " vim which key {{{
   augroup WhichKeySettings
     au!
-    au FileType which_key set laststatus=0 noshowmode noruler
+    au FileType which_key set noshowmode noruler
           \| au BufLeave <buffer> set laststatus=2 showmode ruler
   augroup END
   let g:which_key_centered = 0

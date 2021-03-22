@@ -43,6 +43,8 @@ def output_format_generate(matched_str, snip):
 
 endglobal
 
+priority -50
+
 snippet fnc "c++ function with doxygen comment" b
 /**
  * @brief ${4:brief}
@@ -346,29 +348,6 @@ struct formatter<${1:TypeName}> {
   }
 };
 endsnippet
-
-# Postfix Templates {{{
-
-snippet "([\w_][\w_\d.->]*?)\;be" "Postfix 'begin end' template" r
-`!p postfix_templates('be', match.group(1), snip)`
-endsnippet
-
-post_jump "expand_anon(snip)"
-snippet "([\w_][\d\w_.\->]*?);for" "Postfix 'for' template" r
-`!p postfix_templates('for', match.group(1), snip)`
-endsnippet
-
-post_jump "expand_anon(snip)"
-snippet "([\w_][\d\w_.\->]*?);fori" "Postfix 'for' template" r
-`!p postfix_templates('fori', match.group(1), snip)`
-endsnippet
-
-post_jump "expand_anon(snip)"
-snippet "([\w_][\d\w_.\->]*?);if" "Postfix 'for' template" r
-`!p postfix_templates('if', match.group(1), snip)`
-endsnippet
-
-# }}}
 
 snippet clanggreater "Checks for Clang version definition greater than or equal to version specified (version $1.$2)." b
 defined(__clang__) && ((__clang_major__ > ${1:MajorVersion}) || (__clang_major__ == $1) && (__clang_minor__ >= ${2:MinorVersion}))

@@ -157,9 +157,6 @@ function! dotvim#crate#better#config() abort " {{{
     execute 'set clipboard=' . s:vars['use_clipboard']
   endif
 
-  " Setup galaxyline
-  lua require 'cfg.galaxyline'
-
   let g:move_key_modifier = 'C'
 
   " vim-illuminate {{{
@@ -206,7 +203,6 @@ function! dotvim#crate#better#config() abort " {{{
   endfor
   " }}}
 
-  lua require'bufferline'.setup{}
   " bufferline keymappings
   nnoremap <silent>[b :BufferLineCyclePrev<CR>
   nnoremap <silent>]b :BufferLineCycleNext<CR>
@@ -226,6 +222,11 @@ endfunction
 
 function! dotvim#crate#better#postConfig() abort
   call timer_start(400, 'dotvim#crate#better#_lazy_load')
+
+  " Setup galaxyline
+  lua require 'cfg.galaxyline'
+
+  lua require'bufferline'.setup{}
 
   call s:load_treesitter(get(s:vars, 'treesitter_enabled_languages', []))
 endfunction

@@ -39,7 +39,8 @@ function! dotvim#crate#theme#plugins() abort
         \   'ayu': 'ayu-theme/ayu-vim',
         \   'candid': 'flrnd/candid.vim',
         \   'ci_dark': 'chuling/ci_dark',
-        \   'nightfly': 'bluz71/vim-nightfly-guicolors'
+        \   'nightfly': 'bluz71/vim-nightfly-guicolors',
+        \   'nord': 'arcticicestudio/nord-vim'
         \ }
 
   let l:plugin = get(l:theme_map, l:theme, 'sainnhe/edge')
@@ -167,6 +168,9 @@ function! dotvim#crate#theme#postConfig() abort
         \   'nightfly': {
         \     'vim': 'nightfly',
         \     'func': 'theme_apply_nightfly'
+        \   },
+        \   'nord': {
+        \     'vim': 'nord',
         \   }
         \ }
 

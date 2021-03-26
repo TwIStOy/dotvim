@@ -15,10 +15,10 @@ local function generate_desc_map(shortcut, desc)
   if #shortcut == 1 then
     return { [shortcut] = desc }
   end
-  for i = 1, #shortcut do
-    res = 
-  end
-  return res
+
+  return {
+    [shortcut:sub(1,1)] = generate_desc_map(shortcut:sub(2))
+  }
 end
 
 local function merge_element(left, right) -- {{{

@@ -1,5 +1,6 @@
 local M = {}
 
+-- convert to utf8
 function M.u(code)
   if type(code) == 'string' then code = tonumber('0x' .. code) end
   local c = string.char

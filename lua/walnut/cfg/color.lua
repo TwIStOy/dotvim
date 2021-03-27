@@ -46,6 +46,7 @@ local vim_nord_color_map = {
 
 -- nord
 local color_map = {
+  bg0 = vim_nord_color_map.nord0_gui,
   bg = vim_nord_color_map.nord1_gui,
   normal = vim_nord_color_map.nord4_gui,
   insert = vim_nord_color_map.nord1_gui,

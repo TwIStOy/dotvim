@@ -58,3 +58,26 @@ function fast_forward_to_file_explorer()
   require'nvim-tree'.toggle()
 end
 
+function quickfix_window_exists()
+  local n = vim.api.nvim_call_function('winnr', {'$'})
+  for i, n do
+    local win_id = vfun('win_getid', { i })
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local tp = va.nvim_buf_get_option(buf_id, 'buftype')
+
+    if tp == 'quickfix' then
+      return true
+    end
+  end
+
+  return false
+end
+
+function toggle_quickfix()
+  if quickfix_window_exists() then
+    cmd('cclose')
+  else
+    cmd('copen')
+  end
+end
+

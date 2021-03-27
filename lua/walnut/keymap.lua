@@ -1,25 +1,19 @@
 module('walnut.keymap', package.seeall)
 
+local va = vim.api
+local keymap = va.nvim_set_keymap
+
 local ft_keymappings = {}
 
--- map after <leader>
-function ftmap(ft, desc, mode, shortcut, ...)
-  -- ft_keymappings[ft] =
-end
-
-function ftdesc(ft, folder, name)
-  ft_keymappings[ft]
-end
-
-local function generate_desc_map(shortcut, desc)
+local function generate_desc_map(shortcut, desc) -- {{{
   if #shortcut == 1 then
     return { [shortcut] = desc }
   end
 
   return {
-    [shortcut:sub(1,1)] = generate_desc_map(shortcut:sub(2))
+    [shortcut:sub(1,1)] = generate_desc_map(shortcut:sub(2), desc)
   }
-end
+end -- }}}
 
 local function merge_element(left, right) -- {{{
   if type(left) == 'string' and type(right) == 'string' then
@@ -68,12 +62,31 @@ local function merge_element(left, right) -- {{{
   end
 end -- }}}
 
-local function update_ft_keymappings(ft, shortcut)
+local function update_ft_keymappings(ft, shortcut, desc) -- {{{
+  if ft_keymappings[ft] ~= nil then
+    ft_keymappings[ft] = merge_element(ft_keymappings[ft], generate_desc_map(shortcut, desc))
+  else
+    ft_keymappings[ft] = generate_desc_map(shortcut, desc)
+  end
+end -- }}}
+
+-- map after <leader>
+function ftmap(ft, desc, shortcut, command)
+  keymap('n', '<leader>' .. shortcut, command, { silent = true, noremap = true })
+  update_ft_keymappings(ft, shortcut, desc)
 end
 
--- for i = 1, #str do
---     local c = str:sub(i,i)
---     -- do something with c
--- end
+function inspect()
+  print(vim.inspect(ft_keymappings))
+end
+
+function ftdesc_folder(ft, folder, desc)
+  ft_keymappings[ft] = merge_element(
+    ft_keymappings[ft],
+    generate_desc_map(folder, {
+      name = desc
+    })
+  )
+end
 
 -- vim: fdm=marker

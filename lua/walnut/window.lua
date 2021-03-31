@@ -60,7 +60,7 @@ end
 
 function quickfix_window_exists()
   local n = vim.api.nvim_call_function('winnr', {'$'})
-  for i, n do
+  for i=1, n do
     local win_id = vfun('win_getid', { i })
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local tp = va.nvim_buf_get_option(buf_id, 'buftype')

@@ -1,4 +1,4 @@
-module('walnut.config.whichkey', package.seeall)
+module('walnut.pcfg.whichkey', package.seeall)
 
 local set_g_var = vim.api.nvim_set_var
 

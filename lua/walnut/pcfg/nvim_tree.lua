@@ -1,4 +1,4 @@
-module('walnut.config.nvim_tree', package.seeall)
+module('walnut.pcfg.nvim_tree', package.seeall)
 
 local va = vim.api
 

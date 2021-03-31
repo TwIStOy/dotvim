@@ -41,7 +41,7 @@ pkr.startup(function(use)
   use {
     'mhinz/vim-startify',
     cmd = {'Startify'},
-    config = function() require('walnut.pcfg.startify') end
+    setup = function() require('walnut.pcfg.startify') end
   }
 
   use {

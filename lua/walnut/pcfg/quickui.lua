@@ -1,4 +1,4 @@
-module('walnut.config.quickui', package.seeall)
+module('walnut.pcfg.quickui', package.seeall)
 
 local va = vim.api
 local cmd = vim.api.nvim_command

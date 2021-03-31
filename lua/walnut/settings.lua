@@ -10,23 +10,25 @@ local setopt = va.nvim_set_option
 
 cmd('autocmd VimEnter * if !argc() | silent! Startify | endif')
 
+va.nvim_set_var('mapleader', ' ')
+
 -- Disable arrows
-keymap('', '<Left>', '<Nop>')
-keymap('', '<Right>', '<Nop>')
-keymap('', '<Up>', '<Nop>')
-keymap('', '<Down>', '<Nop>')
+keymap('', '<Left>', '<Nop>', {})
+keymap('', '<Right>', '<Nop>', {})
+keymap('', '<Up>', '<Nop>', {})
+keymap('', '<Down>', '<Nop>', {})
 
 setopt('title', true)
 setopt('ttyfast', true)
 
-setopt('nolazyredraw', true)
+cmd('set nolazyredraw')
 setopt('termguicolors', true)
 
 setopt('pumblend', 40)
 
 -- no bells
-setopt('noerrorbells', true)
-setopt('novisualbell', true)
+cmd('set noerrorbells')
+cmd('set novisualbell')
 setopt('t_vb', '')
 
 -- numbers
@@ -47,7 +49,7 @@ setopt('tabstop', 2)
 setopt('shiftwidth', 2)
 
 setopt('cmdheight', 2)
-setopt('noshowmode', true)
+cmd('set noshowmode')
 
 setopt('exrc', true)
 
@@ -55,7 +57,7 @@ setopt('exrc', true)
 cmd('autocmd FileType qf wincmd J')
 
 -- default colorcolumn: 80
-setopt('colorcolumn', 80)
+setopt('colorcolumn', '80')
 
 setopt('scrolloff', 5)
 
@@ -69,18 +71,16 @@ ww.skip_type('CHADTree')
 ww.skip_type('NvimTree')
 
 local ftmap = require('walnut.keymap').ftmap
-local ftdesc_foler = require('walnut.keymap').ftdesc_foler
+local ftdesc_folder = require('walnut.keymap').ftdesc_folder
 
 keymap('n', '<F3>', [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]], { silent = true, noremap = true })
 keymap('n', '<F4>', ':call quickui#tools#list_buffer("e")<CR>', { silent = true, noremap = true })
 keymap('n', ';;',
-       [[:lua require('walnut.config.quickui').open_dropdown_menu(vim.api.nvim_get_option('ft'))<CR>]],
+       [[:lua require('walnut.pcfg.quickui').open_dropdown_menu(vim.api.nvim_get_option('ft'))<CR>]],
        { silent = true, noremap = true })
 
 for i = 1, 9 do
-  ftmap('*', 'Window ' .. 1, '<leader>' .. i,
-    [[ :lua require('walnut.window').goto_win(]] .. i .. ')')
-  -- keymap('n', '<leader>' .. i, [[ :lua require('walnut.window').goto_win(]] .. i .. ')', { silent = true, noremap = true })
+  ftmap('*', 'Window ' .. 1, '' .. i, [[:lua require('walnut.window').goto_win(]] .. i .. ')<CR>')
 end
 
 ftdesc_folder('*', 'f', 'file')
@@ -91,7 +91,7 @@ ftmap('*', 'toggle-file-explorer', 'ft',
 keymap('n', '<C-n>',
   ':nohl<CR>:call multihighlight#nohighlight_all()<CR>', { silent = true, noremap = true })
 
-keymap('n', '*', ':call multihighlight#new_highlight('n')<CR>', { silent = true, noremap = true })
+keymap('n', '*', [[:call multihighlight#new_highlight('n')<CR>]], { silent = true, noremap = true })
 keymap('n', 'n', ':call multihighlight#navigation(1)<CR>', { silent = true, noremap = true })
 keymap('n', 'N', ':call multihighlight#navigation(0)<CR>', { silent = true, noremap = true })
 
@@ -118,15 +118,4 @@ keymap('n', '<leader>', [[:WhichKey '<Space>'<CR>]], { silent = true, noremap = 
 if vim.g['fvim_loaded'] == nil then
   setopt('wildoptions', 'pum')
 end
-
-  -- " quickui {{{
-  -- let g:quickui_border_style = 2
-  -- " TODO(hawtian): fix color
-  -- hi! QuickBG ctermfg=0 ctermbg=7 guifg=#EFEEEA guibg=#2F343F
-  -- " hi! QuickKey term=bold ctermfg=9 gui=bold guifg=#FFCE5B
-  -- " hi! QuickSel cterm=bold ctermfg=0 ctermbg=2 gui=bold guibg=#50c6d8 guifg=#A18BD3
-  -- " hi! QuickOff ctermfg=59 guifg=#4C8273
-  -- " hi! QuickHelp ctermfg=247 guifg=#959173
-  -- " }}}
-
 

@@ -224,7 +224,7 @@ function! dotvim#crate#better#postConfig() abort
   call timer_start(400, 'dotvim#crate#better#_lazy_load')
 
   " Setup galaxyline
-  lua require 'cfg.galaxyline'
+  lua require 'walnut.pcfg.galaxyline'
 
   lua require'bufferline'.setup{}
 

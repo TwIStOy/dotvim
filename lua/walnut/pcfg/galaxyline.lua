@@ -2,7 +2,7 @@ local gl = require 'galaxyline'
 local fileinfo = require 'galaxyline.provider_fileinfo'
 local devicons = require 'nvim-web-devicons'
 local gls = gl.section
-local cl = require 'cfg.color'
+local cl = require 'walnut.cfg.color'
 
 local u = require('utils').u
 

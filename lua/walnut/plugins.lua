@@ -140,7 +140,8 @@ pkr.startup(function(use)
     'glepnir/galaxyline.nvim',
     branch = 'main',
     requires = {
-      'kyazdani42/nvim-web-devicons'
+      'kyazdani42/nvim-web-devicons',
+      'airblade/vim-gitgutter',
     },
     config = function() require('walnut.pcfg.galaxyline') end
   }
@@ -229,6 +230,15 @@ pkr.startup(function(use)
     end,
     config = function()
       require('walnut.pcfg.coc').config()
+    end
+  }
+
+  -- git tools
+  use {
+    'airblade/vim-gitgutter',
+    setup = function()
+      vim.api.nvim_set_var('gitgutter_map_keys', 0)
+      vim.api.nvim_set_var('gitgutter_signs', 0)
     end
   }
 end)

@@ -41,7 +41,6 @@ local function merge_element(left, right) -- {{{
   end
 
   if type(left) == 'table' and type(right) == 'table' then
-    -- TODO
     local res = {}
     for k, v in pairs(left) do
       if right[k] ~= nil then
@@ -87,6 +86,17 @@ function ftdesc_folder(ft, folder, desc)
       name = desc
     })
   )
+end
+
+function define_keymap_here()
+  local ft = vim.api.nvim_buf_get_option(0, 'ft')
+  local res
+  if ft_keymappings[ft] ~= nil then
+    res = merge_element(ft_keymappings['*'], ft_keymappings[ft])
+  else
+    res = ft_keymappings['*']
+  end
+  vim.api.nvim_buf_set_var(0, 'which_key_map', res)
 end
 
 -- vim: fdm=marker

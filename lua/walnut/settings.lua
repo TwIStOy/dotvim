@@ -8,7 +8,9 @@ local cmd = vim.api.nvim_command
 local keymap = va.nvim_set_keymap
 local setopt = va.nvim_set_option
 
-cmd('autocmd VimEnter * if !argc() | silent! Startify | endif')
+cmd [[autocmd VimEnter * if !argc() | silent! Startify | endif]]
+
+cmd [[autocmd BufEnter * lua require('walnut.keymap').define_keymap_here()]]
 
 va.nvim_set_var('mapleader', ' ')
 
@@ -80,6 +82,8 @@ keymap('n', '<F4>', ':call quickui#tools#list_buffer("e")<CR>', { silent = true,
 keymap('n', ';;',
        [[:lua require('walnut.pcfg.quickui').open_dropdown_menu(vim.api.nvim_get_option('ft'))<CR>]],
        { silent = true, noremap = true })
+
+ftdesc_folder('*', 'w', 'window')
 
 for i = 1, 9 do
   ftmap('*', 'Window ' .. 1, '' .. i, [[:lua require('walnut.window').goto_win(]] .. i .. ')<CR>')

@@ -7,7 +7,7 @@ vim.api.nvim_set_var('nvim_tree_ignore', {
   '.build'
 })
 
-vim.api.nvim_set_var('nvim_tree_auto_open', 1)
+vim.api.nvim_set_var('nvim_tree_auto_open', 0)
 
 vim.api.nvim_set_var('nvim_tree_git_hl', 1)
 

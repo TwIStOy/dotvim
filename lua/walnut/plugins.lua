@@ -220,4 +220,15 @@ pkr.startup(function(use)
       vim.api.nvim_set_var('sneak#label', 1)
     end
   }
+
+  use {
+    'neoclide/coc.nvim',
+    branch = 'release',
+    setup = function()
+      require('walnut.pcfg.coc').setup()
+    end,
+    config = function()
+      require('walnut.pcfg.coc').config()
+    end
+  }
 end)

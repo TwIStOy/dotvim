@@ -16,6 +16,15 @@ local function is_uncountable(win_id)
       or vim.tbl_contains(uncountable_type, bt)
 end
 
+local function is_not_blocking_vim_quit(win_id)
+  local buf_id = va.nvim_win_get_buf(win_id)
+  local ft = va.nvim_buf_get_option(buf_id, 'ft')
+  local bt = va.nvim_buf_get_option(buf_id, 'buftype')
+
+  return vim.tbl_contains(auto_close_type, ft)
+      or vim.tbl_contains(auto_close_type, bt)
+end
+
 local function skip_uncountable_window(cnt)
   local rest = cnt
   for k, win_id in pairs(va.nvim_list_wins()) do
@@ -60,7 +69,7 @@ end
 
 function quickfix_window_exists()
   local n = vim.api.nvim_call_function('winnr', {'$'})
-  for i=1, n do
+  for i = 1, n do
     local win_id = vfun('win_getid', { i })
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local tp = va.nvim_buf_get_option(buf_id, 'buftype')
@@ -78,6 +87,25 @@ function toggle_quickfix()
     cmd('cclose')
   else
     cmd('copen')
+  end
+end
+
+function check_last_window()
+  local n = vim.api.nvim_call_function('winnr', {'$'})
+  local total = n
+  for i = 1, n do
+    local win_id = vfun('win_getid', { i })
+    if is_not_blocking_vim_quit(win_id) then
+      total = total - 1
+    end
+  end
+
+  if total == 0 then
+    if vim.api.nvim_call_function('tabpagenr', {'$'}) == 1 then
+      cmd [[quitall!]]
+    else
+      cmd [[tabclose]]
+    end
   end
 end
 

@@ -20,3 +20,4 @@ $ cp ~/.dotvim/init.vim ~/.config/nvim/init.vim
 Update `let g:python3_host_prog = '/usr/local/bin/python3'` in `~/.config/nvim/init.vim` to the result of `which python3`.
 
 
+

@@ -70,6 +70,8 @@ ww.skip_type('defx')
 ww.skip_type('CHADTree')
 ww.skip_type('NvimTree')
 
+cmd [[au BufEnter * lua require('walnut.window').check_last_window() ]]
+
 local ftmap = require('walnut.keymap').ftmap
 local ftdesc_folder = require('walnut.keymap').ftdesc_folder
 

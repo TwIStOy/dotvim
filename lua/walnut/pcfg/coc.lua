@@ -6,7 +6,7 @@ local cmd = vim.api.nvim_command
 local keymap = vim.api.nvim_set_keymap
 
 function setup()
-  vim.g.coc_start_at_startup = 0
+  vim.g.coc_start_at_startup = 1
   vim.api.nvim_set_option('updatetime', 200)
 end
 

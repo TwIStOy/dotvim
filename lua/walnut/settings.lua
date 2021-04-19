@@ -20,38 +20,45 @@ keymap('', '<Right>', '<Nop>', {})
 keymap('', '<Up>', '<Nop>', {})
 keymap('', '<Down>', '<Nop>', {})
 
-setopt('title', true)
-setopt('ttyfast', true)
+-- nvim_set_option does not affect first window, use orginal `set` command instead
 
-cmd('set nolazyredraw')
-setopt('termguicolors', true)
+-- setopt('title', true)
+-- setopt('ttyfast', true)
+cmd[[set title ttyfast]]
 
-setopt('pumblend', 40)
+-- setopt('termguicolors', true)
+cmd[[set nolazyredraw termguicolors]]
+
+--setopt('pumblend', 40)
+cmd[[set pumblend=40]]
 
 -- no bells
-cmd('set noerrorbells')
-cmd('set novisualbell')
-setopt('t_vb', '')
+cmd[[set noerrorbells novisualbell t_vb=]]
 
 -- numbers
-setopt('number', true)
-setopt('relativenumber', true)
+-- setopt('number', true)
+-- setopt('relativenumber', true)
+cmd[[set nu]]
+cmd[[set relativenumber]]
 
 -- cursorline autocmd
+cmd[[set cursorline]]
 cmd('autocmd InsertLeave,WinEnter * set cursorline')
 cmd('autocmd InsertEnter,WinLeave * set nocursorline')
 
 -- edit settings
-setopt('expandtab', true)
-setopt('smartindent', true)
-setopt('autoindent', true)
+-- setopt('expandtab', true)
+-- setopt('smartindent', true)
+-- setopt('autoindent', true)
+cmd[[set expandtab smartindent autoindent]]
 
 -- default tab width: 2
-setopt('tabstop', 2)
-setopt('shiftwidth', 2)
+-- setopt('tabstop', 2)
+-- setopt('shiftwidth', 2)
+cmd[[set tabstop=2 shiftwidth=2]]
 
-setopt('cmdheight', 2)
-cmd('set noshowmode')
+-- setopt('cmdheight', 2)
+cmd('set noshowmode cmdheight=2')
 
 setopt('exrc', true)
 
@@ -59,11 +66,16 @@ setopt('exrc', true)
 cmd('autocmd FileType qf wincmd J')
 
 -- default colorcolumn: 80
-setopt('colorcolumn', '80')
+-- setopt('colorcolumn', '80')
+cmd[[set colorcolumn=80]]
 
-setopt('scrolloff', 5)
+-- setopt('scrolloff', 5)
+cmd[[set scrolloff=5]]
 
-setopt('timeoutlen', 300)
+--setopt('timeoutlen', 300)
+cmd[[set timeoutlen=300]]
+
+cmd[[set signcolumn=yes]]
 
 -- skip specify types when switching windows
 local ww = require('walnut.window')
@@ -121,6 +133,7 @@ keymap('n', '<M-l>', ':wincmd l<CR>', { silent = true, noremap = true })
 keymap('n', '<leader>', [[:WhichKey '<Space>'<CR>]], { silent = true, noremap = true })
 
 if vim.g['fvim_loaded'] == nil then
-  setopt('wildoptions', 'pum')
+  -- setopt('wildoptions', 'pum')
+  cmd[[set wildoptions=pum]]
 end
 

@@ -110,8 +110,7 @@ pkr.startup(function(use)
             'LeaderfHistorySearch', 'LeaderfSelf', 'LeaderfHelp',
             'LeaderfColorscheme', 'LeaderfRgInteractive', 'LeaderfRgRecall' },
     run = './install.sh',
-    setup = function() require('walnut.pcfg.leaderf') end,
-    config = function() require('walnut.pcfg.leaderf').update_color() end,
+    setup = function() require('walnut.pcfg.leaderf') end
   }
 
   use {

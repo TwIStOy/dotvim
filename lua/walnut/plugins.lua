@@ -26,6 +26,16 @@ pkr.init({
 pkr.startup(function(use)
   use { 'skywind3000/asyncrun.vim', cmd = {'AsyncRun', 'AsyncStop'} }
 
+  -- git tools
+  use {
+    'airblade/vim-gitgutter',
+    opt = true,
+    setup = function()
+      vim.api.nvim_set_var('gitgutter_map_keys', 0)
+      vim.api.nvim_set_var('gitgutter_signs', 0)
+    end
+  }
+
   use {
     'arcticicestudio/nord-vim',
     config = function()
@@ -59,6 +69,7 @@ pkr.startup(function(use)
   use 'skywind3000/vim-quickui'
 
   -- text-objects
+  use 'kana/vim-textobj-user'
   use { 'kana/vim-textobj-indent', requires = { 'kana/vim-textobj-user' }}
   use { 'kana/vim-textobj-line', requires = { 'kana/vim-textobj-user' }}
   use { 'kana/vim-textobj-entire', requires = { 'kana/vim-textobj-user' }}
@@ -99,7 +110,8 @@ pkr.startup(function(use)
             'LeaderfHistorySearch', 'LeaderfSelf', 'LeaderfHelp',
             'LeaderfColorscheme', 'LeaderfRgInteractive', 'LeaderfRgRecall' },
     run = './install.sh',
-    setup = function() require('walnut.pcfg.leaderf') end
+    setup = function() require('walnut.pcfg.leaderf') end,
+    config = function() require('walnut.pcfg.leaderf').update_color() end,
   }
 
   use {
@@ -157,7 +169,9 @@ pkr.startup(function(use)
 
   use {
     'Asheq/close-buffers.vim',
-    cmd = { 'Bdelete' }
+    cmd = {
+      'Bdelete'
+    }
   }
 
   use {
@@ -233,12 +247,5 @@ pkr.startup(function(use)
     end
   }
 
-  -- git tools
-  use {
-    'airblade/vim-gitgutter',
-    setup = function()
-      vim.api.nvim_set_var('gitgutter_map_keys', 0)
-      vim.api.nvim_set_var('gitgutter_signs', 0)
-    end
-  }
+  use 't9md/vim-quickhl'
 end)

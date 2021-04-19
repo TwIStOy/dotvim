@@ -13,7 +13,7 @@ end
 cmd('packadd packer.nvim')
 
 -- Auto recompile plugins when changes in plugin.lua
-cmd('autocmd BufWritePost */walnut/plugins.lua PackerCompile')
+cmd('autocmd BufWritePost */walnut/plugins.lua echo "Recompile!" | PackerCompile')
 
 local pkr = require('packer')
 pkr.init({
@@ -80,6 +80,26 @@ pkr.startup(function(use)
     'TwIStOy/ultisnips',
     setup = function() require('walnut.pcfg.ultisnips') end,
     config = function() require('walnut.pcfg.ultisnips').setup_cpp_snippets() end
+  }
+
+  use {
+    'TwIStOy/vim-cpp-toolkit',
+    ft = { 'cpp' },
+    setup = function()
+      require('walnut.keymap').ftmap('cpp', 'switch-header-source-here',
+          'fa', [[:call cpp_toolkit#switch_file_here('')<CR>]])
+    end
+  }
+
+  use {
+    'chengzeyi/multiterm.vim',
+    setup = function()
+      vim.api.nvim_set_keymap('n', '<F12>', '<Plug>(Multiterm)', { silent = true })
+      vim.api.nvim_set_keymap('t', '<F12>', '<Plug>(Multiterm)', { silent = true })
+      vim.api.nvim_set_keymap('x', '<F12>', '<Plug>(Multiterm)', { silent = true })
+      vim.api.nvim_set_keymap('i', '<F12>', '<Plug>(Multiterm)', { silent = true })
+      vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', { silent = true, noremap = true })
+    end
   }
 
   use 'tpope/vim-surround'
@@ -182,6 +202,8 @@ pkr.startup(function(use)
     'tomtom/tcomment_vim',
     setup = function()
       vim.api.nvim_set_var('tcomment_maps', 0)
+      vim.api.nvim_set_keymap('n', 'gcc', ':TComment<CR>', { silent = true, noremap = true })
+      vim.api.nvim_set_keymap('v', 'gcc', ':TCommentBlock<CR>', { silent = true, noremap = true })
     end
   }
 

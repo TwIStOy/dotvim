@@ -48,6 +48,7 @@ local vim_nord_color_map = {
 local color_map = {
   bg0 = vim_nord_color_map.nord0_gui,
   bg = vim_nord_color_map.nord1_gui,
+  bg1 = vim_nord_color_map.nord3_gui,
   normal = vim_nord_color_map.nord4_gui,
   insert = vim_nord_color_map.nord1_gui,
   replace = vim_nord_color_map.nord8_gui,
@@ -58,7 +59,10 @@ local color_map = {
   yellow_bright = vim_nord_color_map.nord13_gui,
   green_bright = vim_nord_color_map.nord14_gui,
   red_bright = vim_nord_color_map.nord11_gui,
+  orange_bright = vim_nord_color_map.nord12_gui,
+  purple_bright = vim_nord_color_map.nord15_gui,
   white_bright = vim_nord_color_map.nord6gui,
+  bg_bright = vim_nord_color_map.nord3_gui_bright,
 }
 
 -- nightfly

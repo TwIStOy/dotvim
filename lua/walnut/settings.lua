@@ -86,7 +86,7 @@ keymap('n', ';;',
 ftdesc_folder('*', 'w', 'window')
 
 for i = 1, 9 do
-  ftmap('*', 'Window ' .. 1, '' .. i, [[:lua require('walnut.window').goto_win(]] .. i .. ')<CR>')
+  ftmap('*', 'Window ' .. i, '' .. i, [[:lua require('walnut.window').goto_win(]] .. i .. ')<CR>')
 end
 
 ftdesc_folder('*', 'f', 'file')
@@ -94,12 +94,11 @@ ftmap('*', 'update', 'fs', ':update<CR>')
 ftmap('*', 'toggle-file-explorer', 'ft',
   [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
 
-keymap('n', '<C-n>',
-  ':nohl<CR>:call multihighlight#nohighlight_all()<CR>', { silent = true, noremap = true })
-
-keymap('n', '*', [[:call multihighlight#new_highlight('n')<CR>]], { silent = true, noremap = true })
-keymap('n', 'n', ':call multihighlight#navigation(1)<CR>', { silent = true, noremap = true })
-keymap('n', 'N', ':call multihighlight#navigation(0)<CR>', { silent = true, noremap = true })
+keymap('n', '*', '<Plug>(quickhl-manual-this-whole-word)', { silent = true })
+keymap('n', 'n', '<Plug>(quickhl-manual-go-to-next)', { silent = true })
+keymap('n', 'N', '<Plug>(quickhl-manual-go-to-prev)', { silent = true })
+keymap('n', '<M-n>', [[:nohl<CR>:QuickhlManualReset<CR>]], { silent = true, noremap = true })
+keymap('v', '*', '<Plug>(quickhl-manual-this)', { silent = true})
 
 ftmap('*', 'quit', 'q', ':q<CR>')
 ftmap('*', 'save-and-quit', 'x', ':wq<CR>')

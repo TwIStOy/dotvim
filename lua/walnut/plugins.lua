@@ -160,8 +160,10 @@ pkr.startup(function(use)
     },
     config = function()
       require('bufferline').setup{}
-      vim.api.nvim_set_keymap('n', '[b', ':BufferLineCyclePrev<CR>', { silent = true, noremap = true })
-      vim.api.nvim_set_keymap('n', ']b', ':BufferLineCycleNext<CR>', { silent = true, noremap = true })
+      vim.api.nvim_set_keymap('n', '<M-,>', ':BufferLineCyclePrev<CR>', { silent = true, noremap = true })
+      vim.api.nvim_set_keymap('n', '<M-.>', ':BufferLineCycleNext<CR>', { silent = true, noremap = true })
+      vim.api.nvim_set_keymap('n', '<M-<>', ':BufferLineMovePrev<CR>', { silent = true, noremap = true })
+      vim.api.nvim_set_keymap('n', '<M->>', ':BufferLineMoveNext<CR>', { silent = true, noremap = true })
     end
   }
 

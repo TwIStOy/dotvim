@@ -11,8 +11,12 @@ function setup()
 end
 
 function config()
-  cmd [[au CursorHoldI,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')]]
+  cmd [[autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')]]
+
   cmd [[au! CompleteDone * if pumvisible() == 0 | pclose | endif ]]
+
+  ftdesc_folder('*', 'l', 'list')
+  ftmap('*', 'list-outline', 'lo', ':<C-u>CocList outline<cr>')
 
   cmd [[source ~/.dotvim/pcfg/coc.vim]]
 end

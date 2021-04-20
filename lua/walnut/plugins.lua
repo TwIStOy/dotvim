@@ -272,4 +272,15 @@ pkr.startup(function(use)
   }
 
   use 't9md/vim-quickhl'
+
+  use {
+    'plasticboy/vim-markdown',
+    ft = { 'markdown', 'pandoc.markdown' }
+  }
+
+  use {
+    'iamcco/markdown-preview.nvim',
+    ft = { 'markdown', 'pandoc.markdown', 'rmd', },
+    run = 'sh -c "cd app && yarn install"'
+  }
 end)

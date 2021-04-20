@@ -71,7 +71,13 @@ end -- }}}
 
 -- map after <leader>
 function ftmap(ft, desc, shortcut, command)
-  keymap('n', '<leader>' .. shortcut, command, { silent = true, noremap = true })
+  if ft == '*' then
+    keymap('n', '<leader>' .. shortcut, command, { silent = true, noremap = true })
+  else
+    -- nnoremap <buffer><silent><leader>
+    vim.api.nvim_command(string.format(
+      [[au FileType %s nnoremap <buffer><silent><leader>%s %s]], ft, shortcut, command))
+  end
   update_ft_keymappings(ft, shortcut, desc)
 end
 

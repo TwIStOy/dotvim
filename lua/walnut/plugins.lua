@@ -29,7 +29,6 @@ pkr.startup(function(use)
   -- git tools
   use {
     'airblade/vim-gitgutter',
-    opt = true,
     setup = function()
       vim.api.nvim_set_var('gitgutter_map_keys', 0)
       vim.api.nvim_set_var('gitgutter_signs', 0)
@@ -83,12 +82,19 @@ pkr.startup(function(use)
   }
 
   use {
+    'Yggdroot/LeaderF',
+    run = './install.sh',
+    setup = function() require('walnut.pcfg.leaderf') end
+  }
+
+  use {
     'TwIStOy/vim-cpp-toolkit',
-    ft = { 'cpp' },
     setup = function()
-      require('walnut.keymap').ftmap('cpp', 'switch-header-source-here',
-          'fa', [[:call cpp_toolkit#switch_file_here('')<CR>]])
-    end
+      require('walnut.pcfg.vim_cpp_toolkit')
+    end,
+    require = {
+      'Yggdroot/LeaderF',
+    }
   }
 
   use {
@@ -111,7 +117,9 @@ pkr.startup(function(use)
       vim.api.nvim_set_var('surround_no_insert_mappings', 1)
       require'nvim-treesitter.configs'.setup {
         ensure_installed = {
-          'c', 'cpp'
+          'c', 'cpp', 'toml',
+          'python', 'rust', 'go',
+          'typescript', 'lua',
         },
         highlight = {
           enable = true, -- false will disable the whole extension
@@ -121,17 +129,7 @@ pkr.startup(function(use)
     end
   }
 
-  use {
-    'Yggdroot/LeaderF',
-    cmd = { 'Leaderf', 'LeaderfFile', 'LeaderfBuffer', 'LeaderfBufferAll',
-            'LeaderfMru', 'LeaderfMruCwd', 'LeaderfTag', 'LeaderfBufTag',
-            'LeaderfBufTagAll', 'LeaderfFunction', 'LeaderfFunctionAll',
-            'LeaderfLine', 'LeaderfLineAll', 'LeaderfHistoryCmd',
-            'LeaderfHistorySearch', 'LeaderfSelf', 'LeaderfHelp',
-            'LeaderfColorscheme', 'LeaderfRgInteractive', 'LeaderfRgRecall' },
-    run = './install.sh',
-    setup = function() require('walnut.pcfg.leaderf') end
-  }
+  use 'wakatime/vim-wakatime'
 
   use {
     'tenfyzhong/axring.vim',
@@ -245,6 +243,11 @@ pkr.startup(function(use)
 
   use {
     'sbdchd/neoformat',
+    setup = function()
+      vim.api.nvim_command[[source $HOME/.dotvim/autoload/neoformat/formatters/cpp.vim]]
+      vim.g._dotvim_clang_format_exe = vim.g.compiled_llvm_clang_directory .. '/bin/clang-format'
+      vim.g.neoformat_enabled_cpp = { 'myclangformat' }
+    end,
     config = function()
       require('walnut.keymap').ftmap('*', 'format-file', 'fc', ':<C-u>Neoformat<CR>')
     end

@@ -134,8 +134,10 @@ gls.right[3] = {
   DiffAdd = {
     provider = "DiffAdd",
     condition = wide_enough,
+    separator = ' ',
     icon = " ",
-    highlight = {cl.green_bright, cl.bg}
+    highlight = {cl.green_bright, cl.bg},
+    separator_highlight = {cl.none, cl.bg},
   }
 }
 
@@ -160,7 +162,7 @@ gls.right[5] = {
 gls.right[6] = {
   LineInfo = {
     provider = "LineColumn",
-    separator = "",
+    separator = " ",
     separator_highlight = {cl.normal, cl.bg},
     highlight = {cl.white_bright, cl.bg}
   }

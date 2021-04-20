@@ -25,15 +25,30 @@ function update_color()
   -- TODO(hawtian): update this color
   -- cmd(string.format([[hi! QuickHelp guifg=%s]], cl.cursorline_bg))
 
-  print('quickui colorscheme updated!')
+  -- print('quickui colorscheme updated!')
 end
 
-cmd([[au ColorScheme * lua require('walnut.config.quickui').update_color()]])
-update_color()
+-- cmd([[au ColorScheme * lua require('walnut.pcfg.quickui').update_color()]])
 
 local context_menu = {}
 
+function inspect()
+  print(vim.inspect(context_menu))
+end
+
+function append_context_menu_section(ft, section)
+  -- print('Append', ft, 'section:', vim.inspect(section))
+
+  if context_menu[ft] == nil then
+    context_menu[ft] = {}
+  end
+
+  table.insert(context_menu[ft], section)
+end
+
 function open_dropdown_menu(ft)
+  update_color()
+
   local res = {}
 
   if context_menu['*'] ~= nil then
@@ -41,8 +56,12 @@ function open_dropdown_menu(ft)
   end
 
   if context_menu[ft] ~= nil then
-    vim.list_extend(res, {'-'})
-    vim.list_extend(res, context_menu[ft])
+    for i,v in ipairs(context_menu[ft]) do
+      if #res > 0 then
+        vim.list_extend(res, {'-'})
+      end
+      vim.list_extend(res, v)
+    end
   end
 
   local current_cursor = 0
@@ -56,9 +75,5 @@ function open_dropdown_menu(ft)
   else
     vim.api.nvim_call_function('quickui#context#open', { res, opts })
   end
-end
-
-function insepct()
-  print(vim.inspect(context_menu))
 end
 

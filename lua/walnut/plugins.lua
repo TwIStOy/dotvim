@@ -159,7 +159,14 @@ pkr.startup(function(use)
       'kyazdani42/nvim-web-devicons'
     },
     config = function()
-      require('bufferline').setup{}
+      require('bufferline').setup{
+        options = {
+          view = 'multiwindow',
+          separator_style = 'slant',
+          numbers = 'both',
+          number_style = {"superscript", "subscript"},
+        }
+      }
       vim.api.nvim_set_keymap('n', '<M-,>', ':BufferLineCyclePrev<CR>', { silent = true, noremap = true })
       vim.api.nvim_set_keymap('n', '<M-.>', ':BufferLineCycleNext<CR>', { silent = true, noremap = true })
       vim.api.nvim_set_keymap('n', '<M-<>', ':BufferLineMovePrev<CR>', { silent = true, noremap = true })

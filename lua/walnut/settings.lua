@@ -20,14 +20,12 @@ keymap('', '<Right>', '<Nop>', {})
 keymap('', '<Up>', '<Nop>', {})
 keymap('', '<Down>', '<Nop>', {})
 
--- nvim_set_option does not affect first window, use orginal `set` command instead
-
--- setopt('title', true)
--- setopt('ttyfast', true)
-cmd[[set title ttyfast]]
+vim.api.nvim_set_option('title', true)
+vim.api.nvim_set_option('ttyfast', true)
 
 -- setopt('termguicolors', true)
-cmd[[set nolazyredraw termguicolors]]
+cmd[[set nolazyredraw]]
+vim.api.nvim_set_option('termguicolors', true)
 
 --setopt('pumblend', 40)
 cmd[[set pumblend=40]]
@@ -36,10 +34,10 @@ cmd[[set pumblend=40]]
 cmd[[set noerrorbells novisualbell t_vb=]]
 
 -- numbers
--- setopt('number', true)
--- setopt('relativenumber', true)
-cmd[[set nu]]
-cmd[[set relativenumber]]
+vim.api.nvim_set_option('number', true)
+vim.api.nvim_set_option('relativenumber', true)
+vim.api.nvim_win_set_option(0, 'number', true)
+vim.api.nvim_win_set_option(0, 'relativenumber', true)
 
 -- cursorline autocmd
 cmd[[set cursorline]]
@@ -92,7 +90,7 @@ local ftdesc_folder = require('walnut.keymap').ftdesc_folder
 keymap('n', '<F3>', [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]], { silent = true, noremap = true })
 keymap('n', '<F4>', ':call quickui#tools#list_buffer("e")<CR>', { silent = true, noremap = true })
 keymap('n', ';;',
-       [[:lua require('walnut.pcfg.quickui').open_dropdown_menu(vim.api.nvim_get_option('ft'))<CR>]],
+       [[:lua require('walnut.pcfg.quickui').open_dropdown_menu(vim.api.nvim_buf_get_option(0, 'ft'))<CR>]],
        { silent = true, noremap = true })
 
 ftdesc_folder('*', 'w', 'window')

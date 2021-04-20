@@ -57,7 +57,7 @@ function open_project_root()
   end
 end
 
-keymap('n', '<C-r>',
+keymap('n', '<C-p>',
        [[:lua require('walnut.pcfg.leaderf').open_project_root()<CR>]], {
          noremap = true,
          silent = true

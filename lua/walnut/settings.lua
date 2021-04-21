@@ -73,7 +73,7 @@ cmd[[set scrolloff=5]]
 --setopt('timeoutlen', 300)
 cmd[[set timeoutlen=300]]
 
-cmd[[set signcolumn=number]]
+cmd[[set signcolumn=yes]]
 
 -- skip specify types when switching windows
 local ww = require('walnut.window')

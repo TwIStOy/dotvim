@@ -22,13 +22,9 @@ function update_color()
   cmd(string.format([[hi! QuickKey gui=bold guifg=#%x]], error_bg))
   cmd(string.format([[hi! QuickSel gui=bold guibg=#%x guifg=#%x]], incsearch_bg, incsearch_fg))
   cmd(string.format([[hi! QuickOff guifg=%s]], cl.cursorline_bg))
-  -- TODO(hawtian): update this color
-  -- cmd(string.format([[hi! QuickHelp guifg=%s]], cl.cursorline_bg))
-
-  -- print('quickui colorscheme updated!')
 end
 
--- cmd([[au ColorScheme * lua require('walnut.pcfg.quickui').update_color()]])
+-- noremap <space><space> :call quickui#menu#open()<cr>
 
 local context_menu = {}
 
@@ -44,6 +40,12 @@ function append_context_menu_section(ft, section)
   end
 
   table.insert(context_menu[ft], section)
+end
+
+function open_top_menu()
+  update_color()
+
+  vim.api.nvim_call_function('quickui#menu#open', {})
 end
 
 function open_dropdown_menu(ft)

@@ -75,6 +75,8 @@ cmd[[set timeoutlen=300]]
 
 cmd[[set signcolumn=yes]]
 
+cmd[[set hidden]]
+
 -- skip specify types when switching windows
 local ww = require('walnut.window')
 ww.skip_type('quickfix')
@@ -92,8 +94,8 @@ keymap('n', '<F4>', ':call quickui#tools#list_buffer("e")<CR>', { silent = true,
 keymap('n', ';;',
        [[:lua require('walnut.pcfg.quickui').open_dropdown_menu(vim.api.nvim_buf_get_option(0, 'ft'))<CR>]],
        { silent = true, noremap = true })
-
-ftdesc_folder('*', 'w', 'window')
+keymap('n', '<leader><leader>',
+       [[:lua require('walnut.pcfg.quickui').open_top_menu()<CR>]], { silent = true, noremap = true })
 
 for i = 1, 9 do
   ftmap('*', 'Window ' .. i, '' .. i, [[:lua require('walnut.window').goto_win(]] .. i .. ')<CR>')
@@ -116,7 +118,7 @@ ftmap('*', 'quit-all', 'Q', ':confirm qall<CR>')
 
 keymap('n', 'tq', [[:lua require('walnut.window').toggle_quickfix()<CR>]], { silent = true, noremap = true })
 
-ftdesc_folder('w', 'win')
+ftdesc_folder('*', 'w', 'window')
 ftmap('*', 'split-window-vertical', 'wv',':wincmd v<CR>')
 ftmap('*', 'split-window-horizontal', 'w-',':wincmd s<CR>')
 ftmap('*', 'balance-window', 'w=',':wincmd =<CR>')

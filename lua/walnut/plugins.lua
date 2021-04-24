@@ -98,13 +98,21 @@ pkr.startup(function(use)
   }
 
   use {
-    'chengzeyi/multiterm.vim',
+    'akinsho/nvim-toggleterm.lua',
     setup = function()
-      vim.api.nvim_set_keymap('n', '<F12>', '<Plug>(Multiterm)', { silent = true })
-      vim.api.nvim_set_keymap('t', '<F12>', '<Plug>(Multiterm)', { silent = true })
-      vim.api.nvim_set_keymap('x', '<F12>', '<Plug>(Multiterm)', { silent = true })
-      vim.api.nvim_set_keymap('i', '<F12>', '<Plug>(Multiterm)', { silent = true })
-      vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-N>', { silent = true, noremap = true })
+      vim.api.nvim_set_var('toggleterm_terminal_mapping', '<C-t>')
+    end,
+    config = function()
+      require'toggleterm'.setup {
+        open_mapping = '<C-t>',
+        hide_numbers = true,
+        direction = 'float',
+        start_in_insert = true,
+        shell = vim.o.shell,
+        float_opts = {
+          border = 'shadow'
+        }
+      }
     end
   }
 
@@ -291,5 +299,15 @@ pkr.startup(function(use)
     'iamcco/markdown-preview.nvim',
     ft = { 'markdown', 'pandoc.markdown', 'rmd', },
     run = 'sh -c "cd app && yarn install"'
+  }
+
+  use {
+    'vimwiki/vimwiki',
+    setup = function()
+      require('walnut.pcfg.vimwiki')
+    end,
+    config = function()
+      require('walnut.pcfg.vimwiki').config()
+    end
   }
 end)

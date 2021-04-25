@@ -65,7 +65,12 @@ pkr.startup(function(use)
     config = function() require('walnut.pcfg.whichkey') end
   }
 
-  use 'skywind3000/vim-quickui'
+  use {
+    'skywind3000/vim-quickui',
+    config = function()
+      require('walnut.pcfg.quickui').install_default_menu_items()
+    end
+  }
 
   -- text-objects
   use 'kana/vim-textobj-user'
@@ -285,7 +290,10 @@ pkr.startup(function(use)
     end,
     config = function()
       require('walnut.pcfg.coc').config()
-    end
+    end,
+    requires = {
+      'skywind3000/vim-quickui',
+    }
   }
 
   use 't9md/vim-quickhl'
@@ -308,6 +316,19 @@ pkr.startup(function(use)
     end,
     config = function()
       require('walnut.pcfg.vimwiki').config()
+    end,
+    requires = {
+      'skywind3000/vim-quickui',
+    }
+  }
+
+  use {
+    'dstein64/nvim-scrollview',
+    setup = function()
+      vim.g.scrollview_on_startup = 1
+      vim.g.scrollview_current_only = 1
+      vim.g.scrollview_auto_workarounds = 1
+      vim.g.scrollview_nvim_14040_workaround = 1
     end
   }
 end)

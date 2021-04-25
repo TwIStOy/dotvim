@@ -19,6 +19,7 @@ function config()
     { '&Open Index', 'VimwikiIndex' },
     { 'Open Index(new &tab)', 'VimwikiTabIndex' },
     { '&Select', 'VimwikiUISelect' },
+    { '--', '' },
     { 'Open &Diary Index', 'VimwikiDiaryIndex' },
     { '&Crate Diary Note', 'VimwikiMakeDiaryNote' },
   }

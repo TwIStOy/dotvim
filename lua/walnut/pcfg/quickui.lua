@@ -24,7 +24,17 @@ function update_color()
   cmd(string.format([[hi! QuickOff guifg=%s]], cl.cursorline_bg))
 end
 
--- noremap <space><space> :call quickui#menu#open()<cr>
+function install_default_menu_items()
+  vim.api.nvim_call_function('quickui#menu#install', {
+    '&File', {
+      { '&Open File', [[lua require('walnut.pcfg.leaderf').open_project_root()]]},
+      { 'File &Explorer', [[lua require('walnut.window').fast_forward_to_file_explorer()]] },
+      { '--', '' },
+      { '&Save', 'update' },
+      { 'Save all', 'wa' },
+    }
+  })
+end
 
 local context_menu = {}
 

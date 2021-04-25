@@ -47,17 +47,19 @@ Update `vim.g.compiled_llvm_clang_directory` to where you installed llvm and cla
 | Q       | force quit                |
 
 ### Normal
-| Mapping        | Function                                   |
-| ---            | ---                                        |
-| F3             | toggle file explorer                       |
-| F4             | list all buffers                           |
-| tq             | toggle quickfix window                     |
-| M-n            | clear all highlight                        |
-| M-h            | move cursor to window left of current one  |
-| M-j            | move cursor to window below current one    |
-| M-k            | move cursor to window above current one    |
-| M-l            | move cursor to window right of current one |
-| ;;             | open dropdown context menu                 |
-| <Space><Space> | open title menu                            |
+| Mapping            | Function                                   |
+| ---                | ---                                        |
+| F3                 | toggle file explorer                       |
+| F4                 | list all buffers                           |
+| tq                 | toggle quickfix window                     |
+| M-n                | clear all highlight                        |
+| M-h                | move cursor to window left of current one  |
+| M-j                | move cursor to window below current one    |
+| M-k                | move cursor to window above current one    |
+| M-l                | move cursor to window right of current one |
+| M-,                | previous buffer                            |
+| M-.                | next buffer                                |
+| ;;                 | open dropdown context menu                 |
+| \<Space\>\<Space\> | open title menu                            |
 
 

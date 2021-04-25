@@ -68,7 +68,7 @@ pkr.startup(function(use)
   use {
     'skywind3000/vim-quickui',
     config = function()
-      require('walnut.pcfg.quickui').install_default_menu_items()
+      require('walnut.cfg.menu').setup_menu_items()
     end
   }
 

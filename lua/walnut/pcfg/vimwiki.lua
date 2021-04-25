@@ -14,18 +14,15 @@ set_g_var('vimwiki_list', {
   }
 })
 
+
+local context_menu = {
+  { '&Follow Link\t<cr>', 'VimwikiFollowLink' },
+  { '&Split Link\t<S-cr>', 'VimwikiSplitLink' },
+  { '&Back Link\t<Backspace>', 'VimwikiGoBackLink' },
+  { '&Next Link\t<Tab>', 'VimwikiNextLink' },
+  { '&Previous Link\t<S-Tab>', 'VimwikiPrevLink' },
+}
+
 function config()
-  local wiki_menu = {
-    { '&Open Index', 'VimwikiIndex' },
-    { 'Open Index(new &tab)', 'VimwikiTabIndex' },
-    { '&Select', 'VimwikiUISelect' },
-    { '--', '' },
-    { 'Open &Diary Index', 'VimwikiDiaryIndex' },
-    { '&Crate Diary Note', 'VimwikiMakeDiaryNote' },
-  }
-
-  vim.api.nvim_call_function('quickui#menu#install', {
-    '&Wiki', wiki_menu
-  })
+  require('walnut.pcfg.quickui').append_context_menu_section('vimwiki', context_menu)
 end
-

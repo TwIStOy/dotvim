@@ -8,6 +8,7 @@ local setopt = va.nvim_set_option
 local cl = require('walnut.cfg.color')
 
 vim.g.quickui_border_style = 2
+vim.g.quickui_show_tip = 1
 
 function update_color()
   local normal_bg = vim.api.nvim_get_hl_by_name('Normal', 1).background
@@ -22,18 +23,6 @@ function update_color()
   cmd(string.format([[hi! QuickKey gui=bold guifg=#%x]], error_bg))
   cmd(string.format([[hi! QuickSel gui=bold guibg=#%x guifg=#%x]], incsearch_bg, incsearch_fg))
   cmd(string.format([[hi! QuickOff guifg=%s]], cl.cursorline_bg))
-end
-
-function install_default_menu_items()
-  vim.api.nvim_call_function('quickui#menu#install', {
-    '&File', {
-      { '&Open File', [[lua require('walnut.pcfg.leaderf').open_project_root()]]},
-      { 'File &Explorer', [[lua require('walnut.window').fast_forward_to_file_explorer()]] },
-      { '--', '' },
-      { '&Save', 'update' },
-      { 'Save all', 'wa' },
-    }
-  })
 end
 
 local context_menu = {}

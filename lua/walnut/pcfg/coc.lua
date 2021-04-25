@@ -19,18 +19,6 @@ function config()
   ftmap('*', 'list-outline', 'lo', ':<C-u>CocList outline<cr>')
 
   cmd [[source ~/.dotvim/pcfg/coc.vim]]
-
-  vim.api.nvim_call_function('quickui#menu#install', {
-    '&LSP', {
-      { 'Start', 'CocStart' },
-      { '&Restart', 'CocRestart' },
-      { 'Enable', 'CocEnable' },
-      { 'Disable', 'CocDisable' },
-      { '--', '' },
-      { 'List &Outlines', 'CocList outline' },
-      { 'List &Diagnostics', 'CocList diagnostics' }
-    }
-  })
 end
 
 

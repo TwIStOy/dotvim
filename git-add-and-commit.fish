@@ -24,7 +24,7 @@ function git-add-and-commit --description "update time & add & commit"
   cd $repo_home
 
   set -l uncommit_changes (git status --porcelain)
-  if test -z $uncommit_changes
+  if test -z "$uncommit_changes"
     cd $curr_path
     echo (set_color green)"Working tree is clean..."(set_color normal)
     return

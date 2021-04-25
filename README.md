@@ -3,7 +3,7 @@ dotvim
 
 ## Prerequisites
 
-- [neovim](https://github.com/neovim/neovim)
+- [neovim nightly](https://github.com/neovim/neovim)
 - nodejs & yarn
 - python module: pynvim
 - node package: neovim

@@ -34,10 +34,13 @@ cmd[[set pumblend=40]]
 cmd[[set noerrorbells novisualbell t_vb=]]
 
 -- numbers
+--[[
 vim.api.nvim_set_option('number', true)
 vim.api.nvim_set_option('relativenumber', true)
 vim.api.nvim_win_set_option(0, 'number', true)
 vim.api.nvim_win_set_option(0, 'relativenumber', true)
+--]]
+cmd[[set nu relativenumber]]
 
 -- cursorline autocmd
 cmd[[set cursorline]]

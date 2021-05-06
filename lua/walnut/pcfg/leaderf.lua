@@ -50,8 +50,8 @@ set_g_var('Lf_PopupColorscheme', 'walnut')
 vim.api.nvim_command([[au VimResized * lua require('walnut.pcfg.leaderf').resize_leaderf_window()]])
 
 function open_project_root()
-  if vim.b._resolved_project_root ~= nil then
-    vim.api.nvim_command('LeaderfFile ' .. vim.b._resolved_project_root)
+  if vim.b._dotvim_resolved_project_root ~= nil then
+    vim.api.nvim_command('LeaderfFile ' .. vim.b._dotvim_resolved_project_root)
   else
     vim.api.nvim_command('LeaderfFile')
   end

@@ -22,6 +22,7 @@ nmap <silent> ]c <Plug>(coc-diagnostic-next)
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> ga <Plug>(coc-codeaction)
+nmap <silent> gf <Plug>(coc-fix-current)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -51,3 +52,4 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 
 let g:coc_snippet_next = "<C-f>"
 let g:coc_snippet_prev = "<C-b>"
+

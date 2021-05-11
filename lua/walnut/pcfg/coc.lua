@@ -8,6 +8,15 @@ local keymap = vim.api.nvim_set_keymap
 function setup()
   vim.g.coc_start_at_startup = 1
   vim.api.nvim_set_option('updatetime', 200)
+
+  require('walnut.pcfg.quickui').append_context_menu_section('cpp', {
+    { 'Goto &Definition\tgd', [[call feedkeys("\<Plug>(coc-definition)")]] },
+    { 'Goto &Type Definition', [[call feedkeys("\<Plug>(coc-type-definition)")]] },
+    { 'Goto &Implementation', [[call feedkeys("\<Plug>(coc-implementation)")]] },
+    { '&Rename', [[call feedkeys("\<Plug>(coc-rename)")]] },
+    { 'Code &Action\tga', [[call feedkeys("\<Plug>(coc-codeaction)")]] },
+    { 'List &Outline\t', [[:<C-u>CocList outline]] },
+  })
 end
 
 function config()
@@ -20,5 +29,4 @@ function config()
 
   cmd [[source ~/.dotvim/pcfg/coc.vim]]
 end
-
 

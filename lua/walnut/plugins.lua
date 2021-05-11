@@ -115,7 +115,7 @@ pkr.startup(function(use)
         start_in_insert = true,
         shell = vim.o.shell,
         float_opts = {
-          border = 'shadow'
+          border = 'double'
         }
       }
     end
@@ -272,6 +272,13 @@ pkr.startup(function(use)
     end,
     config = function()
       require('walnut.keymap').ftmap('*', 'format-file', 'fc', ':<C-u>Neoformat<CR>')
+
+      vim.g.neoformat_rust_rustfmt2 = {
+        exe = "rustfmt",
+        args = {},
+        stdin = 1,
+      }
+      vim.g.neoformat_enabled_rust =  { 'rustfmt2' }
     end
   }
 

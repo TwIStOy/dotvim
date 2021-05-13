@@ -75,6 +75,10 @@ cmd[[set signcolumn=yes]]
 
 cmd[[set hidden]]
 
+-- theme settings
+vim.o.background = 'dark'
+vim.g.colors_name = 'onedark_nvim'
+
 -- skip specify types when switching windows
 local ww = require('walnut.window')
 ww.skip_type('quickfix')

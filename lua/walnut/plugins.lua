@@ -38,13 +38,6 @@ pkr.startup(function(use)
   }
 
   use {
-    'arcticicestudio/nord-vim',
-    config = function()
-      vim.api.nvim_command [[colorscheme nord]]
-    end
-  }
-
-  use {
     'dstein64/vim-startuptime',
     cmd = 'StartupTime'
   }
@@ -126,6 +119,15 @@ pkr.startup(function(use)
   use 'TwIStOy/conflict-resolve.nvim'
 
   use 'tpope/vim-surround'
+
+  use 'rktjmp/lush.nvim'
+
+  use {
+    'olimorris/onedark.nvim',
+    requires = {
+      'rktjmp/lush.nvim',
+    },
+  }
 
   use {
     'nvim-treesitter/nvim-treesitter',

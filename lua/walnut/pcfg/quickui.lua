@@ -20,7 +20,6 @@ function update_color()
   local incsearch_fg = vim.api.nvim_get_hl_by_name('IncSearch', 1).foreground
 
   cmd(string.format([[hi! QuickBG guifg=%s guibg=%s]], normal_bg, normal_bg))
-  cmd(string.format([[hi! QuickKey gui=bold guifg=#%x]], error_bg))
   cmd(string.format([[hi! QuickSel gui=bold guibg=#%x guifg=#%x]], incsearch_bg, incsearch_fg))
   cmd(string.format([[hi! QuickOff guifg=%s]], cl.cursorline_bg))
 end

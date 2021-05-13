@@ -24,6 +24,8 @@ pkr.init({
 })
 
 pkr.startup(function(use)
+  use 'wbthomason/packer.nvim'
+
   use { 'skywind3000/asyncrun.vim', cmd = {'AsyncRun', 'AsyncStop'} }
 
   -- git tools
@@ -121,7 +123,7 @@ pkr.startup(function(use)
     end
   }
 
-  use 'TwIStOy/conflict-resolve.nvim '
+  use 'TwIStOy/conflict-resolve.nvim'
 
   use 'tpope/vim-surround'
 

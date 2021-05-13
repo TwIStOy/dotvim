@@ -79,11 +79,16 @@ gls.left[1] = {
 gls.left[2] = {
   CocStatus = {
     provider = function()
-      return vim.api.nvim_call_function('coc#status', {})
+      local s = vim.api.nvim_call_function('coc#status', {})
+      if s == '' then
+        return u'e780'
+      else
+        return s
+      end
     end,
     separator = " ",
     separator_highlight = {cl.normal, cl.bg},
-    highlight = {cl.green_bright, cl.bg}
+    highlight = {'#a1cd5e', cl.bg}
   }
 }
 

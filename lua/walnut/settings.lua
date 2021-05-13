@@ -130,6 +130,11 @@ keymap('n', '<M-l>', ':wincmd l<CR>', { silent = true, noremap = true })
 
 keymap('n', '<leader>', [[:WhichKey '<Space>'<CR>]], { silent = true, noremap = true })
 
+ftdesc_folder('*', 'v', 'vcs')
+ftmap('*', 'select-ours', 'v1', ':call conflict_resolve#ourselves()<CR>')
+ftmap('*', 'select-them', 'v2', ':call conflict_resolve#themselves()<CR>')
+ftmap('*', 'select-both', 'vb', ':call conflict_resolve#both()<CR>')
+
 if vim.g['fvim_loaded'] == nil then
   -- setopt('wildoptions', 'pum')
   cmd[[set wildoptions=pum]]

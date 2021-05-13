@@ -121,6 +121,8 @@ pkr.startup(function(use)
     end
   }
 
+  use 'TwIStOy/conflict-resolve.nvim '
+
   use 'tpope/vim-surround'
 
   use {

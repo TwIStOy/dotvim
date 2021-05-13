@@ -5,9 +5,9 @@ function update-dotvim-date
   set -l today (date +%Y.%m.%d)
 
   if [ (uname) = "Darwin" ]
-    gsed -i "3c last_updated_time = '$today'" $repo_home/autoload/dotvim/version.vim
+    gsed -i "3c last_updated_time = '$today'" $repo_home/lua/walnut/version.lua
   else
-    sed -i "3c last_updated_time = '$today'" $repo_home/autoload/dotvim/version.vim
+    sed -i "3c last_updated_time = '$today'" $repo_home/lua/walnut/version.lua
   end
   echo (set_color green)"version date updated..."(set_color normal)
 end

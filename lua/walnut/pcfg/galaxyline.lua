@@ -77,6 +77,17 @@ gls.left[1] = {
 }
 
 gls.left[2] = {
+  CocStatus = {
+    provider = function()
+      return vim.api.nvim_call_function('coc#status', {})
+    end,
+    separator = " ",
+    separator_highlight = {cl.normal, cl.bg},
+    highlight = {cl.green_bright, cl.bg}
+  }
+}
+
+gls.left[3] = {
   FileIcon = {
     provider = function()
       local fname, ext = vim.fn.expand '%:t', vim.fn.expand '%:e'
@@ -89,7 +100,7 @@ gls.left[2] = {
   }
 }
 
-gls.left[3] = {
+gls.left[4] = {
   FileName = {
     provider = function()
       if not buffer_not_empty() then return '' end

@@ -63,6 +63,22 @@ local color_map = {
   purple_bright = vim_nord_color_map.nord15_gui,
   white_bright = vim_nord_color_map.nord6gui,
   bg_bright = vim_nord_color_map.nord3_gui_bright,
+  get_hl_by_name_fg = function(name)
+    local v = vim.api.nvim_get_hl_by_name(name, 1).foreground
+    if v ~= nil then
+      return string.format("#%x", v)
+    else
+      return ''
+    end
+  end,
+  get_hl_by_name_bg = function(name)
+    local v = vim.api.nvim_get_hl_by_name(name, 1).background
+    if v ~= nil then
+      return string.format("#%x", v)
+    else
+      return ''
+    end
+  end,
 }
 
 return color_map

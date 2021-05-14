@@ -18,5 +18,7 @@ set_g_var('axring_rings_cpp', {
   { 'htons', 'ntohs' },
   { 'ASSERT_EQ', 'ASSERT_NE' },
   { 'EXPECT_EQ', 'EXPECT_NE' },
+  { '==', '!=' },
+  { 'static_cast', 'dynamic_cast', 'reinterpret_cast' },
 })
 

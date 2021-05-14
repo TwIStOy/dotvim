@@ -76,8 +76,16 @@ cmd[[set signcolumn=yes]]
 cmd[[set hidden]]
 
 -- theme settings
-vim.o.background = 'dark'
+vim.o.background = 'light'
 vim.g.colors_name = 'onedark_nvim'
+vim.g.onedark_settings = {
+  bold = true,
+  italic = true,
+  underline = true,
+  italic_strings = true,
+  underline_strings = true,
+  bold_strings = true,
+}
 
 -- skip specify types when switching windows
 local ww = require('walnut.window')

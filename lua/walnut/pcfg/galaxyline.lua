@@ -6,17 +6,35 @@ local cl = require 'walnut.cfg.color'
 
 local u = require('utils').u
 
+local my_cl = {
+  bg = cl.get_hl_by_name_bg('CursorLine'),
+  normal = cl.get_hl_by_name_fg('Normal'),
+  insert = cl.get_hl_by_name_fg('Comment'),
+  replace = cl.get_hl_by_name_fg('ErrorMsg'),
+  visual = cl.get_hl_by_name_fg('DiffAdd'),
+  command = cl.get_hl_by_name_fg('DiffChange'),
+  terminal = cl.get_hl_by_name_fg('DiffDelete'),
+  DiffAdd = cl.get_hl_by_name_fg('DiffAdd'),
+  DiffChange = cl.get_hl_by_name_fg('DiffChange'),
+  DiffDelete = cl.get_hl_by_name_fg('DiffDelete'),
+  NonText = cl.get_hl_by_name_fg('NonText'),
+  MoreMsg = cl.get_hl_by_name_fg('MoreMsg'),
+  MatchParen = cl.get_hl_by_name_fg('MatchParen'),
+  none = 'NONE',
+}
+
+
 local mode_map = {
-  ['n'] = { 'NORMAL', cl.normal },
-  ['i'] = { 'INSERT', cl.insert },
-  ['R'] = { 'REPLACE', cl.replace },
-  ['v'] = { 'VISUAL', cl.visual },
-  ['V'] = { 'V-LINE', cl.visual },
-  [''] = { 'V-BLOCK', cl.visual },
-  ['c'] = { 'COMMAND', cl.command },
-  ['s'] = { 'SELECT', cl.visual },
-  ['S'] = { 'S-LINE', cl.visual },
-  ['t'] = { 'TERMINAL', cl.terminal },
+  ['n'] = { 'NORMAL',   my_cl.normal },
+  ['i'] = { 'INSERT',   my_cl.insert },
+  ['R'] = { 'REPLACE',  my_cl.replace },
+  ['v'] = { 'VISUAL',   my_cl.visual },
+  ['V'] = { 'V-LINE',   my_cl.visual },
+  [''] = { 'V-BLOCK', my_cl.visual },
+  ['c'] = { 'COMMAND',  my_cl.command },
+  ['s'] = { 'SELECT',   my_cl.visual },
+  ['S'] = { 'S-LINE',   my_cl.visual },
+  ['t'] = { 'TERMINAL', my_cl.terminal },
   ['Rv'] = { 'VIRTUAL' },
   ['rm'] = { '--MORE' },
 }
@@ -45,7 +63,7 @@ local function mode_label()
 end
 
 local function mode_hl()
-  return (mode_map[vim.fn.mode()] and mode_map[vim.fn.mode()][2]) or cl.none
+  return (mode_map[vim.fn.mode()] and mode_map[vim.fn.mode()][2]) or my_cl.none
 end
 
 local function highlight(group, fg, bg, gui)
@@ -69,8 +87,8 @@ gls.left[1] = {
   ViMode = {
     provider = function()
       local modehl = mode_hl()
-      highlight('GalaxyViMode', modehl, cl.bg)
-      highlight('GalaxyViModeInv', cl.bg, modehl)
+      highlight('GalaxyViMode', modehl, my_cl.bg)
+      highlight('GalaxyViModeInv', my_cl.bg, modehl)
       return "     "
     end,
   },
@@ -87,8 +105,8 @@ gls.left[2] = {
       end
     end,
     separator = " ",
-    separator_highlight = {cl.normal, cl.bg},
-    highlight = {'#a1cd5e', cl.bg}
+    separator_highlight = {my_cl.normal, my_cl.bg},
+    highlight = {my_cl.MatchParen, my_cl.bg}
   }
 }
 
@@ -101,7 +119,7 @@ gls.left[3] = {
       return ' ' .. icon .. '  '
     end,
     condition = buffer_not_empty,
-    highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, cl.bg},
+    highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, my_cl.bg},
   }
 }
 
@@ -120,9 +138,9 @@ gls.left[4] = {
       if vim.bo.modified then fname = fname .. ' ' .. icons.unsaved end
       return ' ' .. fname .. ' '
     end,
-    highlight = {cl.fg, cl.bg},
+    highlight = {my_cl.normal, my_cl.bg},
     separator = ' ',
-    separator_highlight = {cl.normal, cl.bg},
+    separator_highlight = {my_cl.normal, my_cl.bg},
   },
 }
 
@@ -132,7 +150,7 @@ gls.right[1] = {
       return " "
     end,
     condition = require("galaxyline.provider_vcs").check_git_workspace,
-    highlight = {cl.yellow_bright, cl.bg}
+    highlight = {my_cl.MoreMsg, my_cl.bg}
   }
 }
 
@@ -141,8 +159,8 @@ gls.right[2] = {
     provider = "GitBranch",
     condition = require("galaxyline.provider_vcs").check_git_workspace,
     separator = "",
-    separator_highlight = {cl.none, cl.bg},
-    highlight = {cl.yellow_bright, cl.bg, "bold"}
+    separator_highlight = {my_cl.none, my_cl.bg},
+    highlight = {my_cl.MoreMsg, my_cl.bg, "bold"}
   }
 }
 
@@ -152,8 +170,8 @@ gls.right[3] = {
     condition = wide_enough,
     separator = ' ',
     icon = " ",
-    highlight = {cl.green_bright, cl.bg},
-    separator_highlight = {cl.none, cl.bg},
+    highlight = {my_cl.DiffAdd, my_cl.bg},
+    separator_highlight = {my_cl.none, my_cl.bg},
   }
 }
 
@@ -162,7 +180,7 @@ gls.right[4] = {
     provider = "DiffModified",
     condition = wide_enough,
     icon = "柳",
-    highlight = {cl.yellow_bright, cl.bg}
+    highlight = {my_cl.DiffChange, my_cl.bg}
   }
 }
 
@@ -171,7 +189,7 @@ gls.right[5] = {
     provider = "DiffRemove",
     condition = wide_enough,
     icon = " ",
-    highlight = {cl.red_bright, cl.bg}
+    highlight = {my_cl.DiffDelete, my_cl.bg}
   }
 }
 
@@ -179,8 +197,8 @@ gls.right[6] = {
   LineInfo = {
     provider = "LineColumn",
     separator = " ",
-    separator_highlight = {cl.normal, cl.bg},
-    highlight = {cl.white_bright, cl.bg}
+    separator_highlight = {my_cl.normal, my_cl.bg},
+    highlight = {my_cl.normal, my_cl.bg}
   }
 }
 
@@ -189,14 +207,15 @@ gls.right[7] = {
     provider = "FileSize",
     separator = " ",
     condition = buffer_not_empty,
-    separator_highlight = {cl.normal, cl.bg},
-    highlight = {cl.white_bright, cl.bg}
+    separator_highlight = {my_cl.normal, my_cl.bg},
+    highlight = {my_cl.normal, my_cl.bg}
   }
 }
 
 for k, v in pairs(gls.left) do
   gls.short_line_left[k] = v
 end
+table.remove(gls.short_line_left, 1)
 table.remove(gls.short_line_left, 1)
 
 for k, v in pairs(gls.right) do

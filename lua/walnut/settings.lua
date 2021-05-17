@@ -87,6 +87,20 @@ vim.g.onedark_settings = {
   bold_strings = true,
 }
 
+-- setup clipboard vis ssh, other settings: [[~/Dropbox/vimwiki/Remote Clipboard.wiki]]
+local copy_settings = {}
+copy_settings['+'] = { 'nc', 'localhost', '2224', '-w0' }
+copy_settings['*'] = { 'nc', 'localhost', '2224', '-w0' }
+local paste_settings = {}
+paste_settings['+'] = { 'nc', 'localhost', '2225', '-w1' }
+paste_settings['*'] = { 'nc', 'localhost', '2225', '-w1' }
+vim.g.clipboard = {
+  name = 'ssh-remote-clip',
+  copy = copy_settings,
+  paste = paste_settings,
+  cache_enabled = 1,
+}
+
 -- skip specify types when switching windows
 local ww = require('walnut.window')
 ww.skip_type('quickfix')

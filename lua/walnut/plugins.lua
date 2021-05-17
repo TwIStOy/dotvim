@@ -130,6 +130,13 @@ pkr.startup(function(use)
   }
 
   use {
+    'nacro90/numb.nvim',
+    config = function()
+      require('numb').setup()
+    end
+  }
+
+  use {
     'nvim-treesitter/nvim-treesitter',
     config = function()
       vim.api.nvim_set_var('surround_no_mappings', 0)

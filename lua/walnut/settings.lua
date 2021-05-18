@@ -76,7 +76,7 @@ cmd[[set signcolumn=yes]]
 cmd[[set hidden]]
 
 -- theme settings
-vim.o.background = 'light'
+vim.o.background = 'dark'
 vim.g.colors_name = 'onedark_nvim'
 vim.g.onedark_settings = {
   bold = true,

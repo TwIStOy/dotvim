@@ -100,6 +100,13 @@ function setup_menu_items()
     }, 6, 'vimwiki'
   })
 
+  vcall('quickui#menu#install', {
+    'VCS', {
+      { '&Status', 'CocList --normal gstatus', 'show the working tree status' },
+      { '&Stage Chunk', 'CocCommand git.chunkStage', 'stage current chunk' },
+    }, 9999
+  })
+
   -- Help
   vcall('quickui#menu#install', {
     '&Help', {

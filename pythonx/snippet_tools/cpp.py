@@ -28,6 +28,11 @@ _POSTFIX_RETURN_VALUE = 'return `!p snip.rv = match.group(1)`;${0}'
 
 
 def register_postfix_snippets():
+  import vim
+  if vim.vars.get('cpp_postfix_snippets_added', 0) > 0:
+    return
+  vim.vars['cpp_postfix_snippets_added'] = 1
+
   UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.for', _POSTFIX_FOR_LOOP_VALUE,
                                 "Postfix for-loop", 'r', 'cpp', -49)
   UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.fori', _POSTFIX_FOR_I_LOOP_VALUE,

@@ -13,7 +13,8 @@ function setup()
     { 'Goto &Definition\tgd', [[call feedkeys("\<Plug>(coc-definition)")]] },
     { 'Goto &Type Definition', [[call feedkeys("\<Plug>(coc-type-definition)")]] },
     { 'Goto &Implementation', [[call feedkeys("\<Plug>(coc-implementation)")]] },
-    { '&Rename', [[call feedkeys("\<Plug>(coc-rename)")]] },
+    { 'Goto &Reference', [[call feedkeys("\<Plug>(coc-reference)")]] },
+    { 'Rename', [[call feedkeys("\<Plug>(coc-rename)")]] },
     { 'Code &Action\tga', [[call feedkeys("\<Plug>(coc-codeaction)")]] },
     { 'List &Outline\t', [[:<C-u>CocList outline]] },
   })

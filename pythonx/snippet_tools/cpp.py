@@ -25,6 +25,7 @@ _POSTFIX_IGNORE_UNUSED_VALUE = '(void)`!p snip.rv = match.group(1)`${0}'
 
 _POSTFIX_RETURN_VALUE = 'return `!p snip.rv = match.group(1)`;${0}'
 
+_POSTFIX_REQUIRE_VALUE = 'REQUIRE(`!p snip.rv = match.group(1)`)'
 
 
 def register_postfix_snippets():
@@ -47,6 +48,8 @@ def register_postfix_snippets():
                                 "Postfix ignore unused value", 'r', 'cpp', -49)
   UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.rt', _POSTFIX_RETURN_VALUE,
                                 "Postfix return", 'r', 'cpp', -49)
+  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.rq', _POSTFIX_REQUIRE_VALUE,
+                                "Postfix REQUIRE(catch.hpp)", 'r', 'cpp', -49)
 
 
 # vim: et sw=2 ts=2

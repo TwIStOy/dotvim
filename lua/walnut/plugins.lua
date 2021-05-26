@@ -27,8 +27,24 @@ pkr.startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use { 'skywind3000/asyncrun.vim', cmd = {'AsyncRun', 'AsyncStop'} }
+  use {
+    'skywind3000/asynctasks.vim',
+    cmd = {
+      'AsyncTask',
+      'AsyncTaskMacro',
+      'AsyncTaskProfile',
+      'AsyncTaskEdit'
+    },
+    requires = {
+      'skywind3000/asyncrun.vim',
+    },
+    setup = function()
+      require('walnut.pcfg.asynctasks')
+    end
+  }
 
-  -- git tools
+  use 'powerman/vim-plugin-AnsiEsc'
+
   use {
     'airblade/vim-gitgutter',
     setup = function()

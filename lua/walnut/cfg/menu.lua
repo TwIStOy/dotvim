@@ -28,6 +28,27 @@ function setup_menu_items()
   -- Edit
   vcall('quickui#menu#install', {
     '&Edit', {
+      {
+        'New &Grep',
+        [[Leaderf rg]],
+        'grep keyword in project root',
+      },
+      {
+        '&Recall Grep',
+        [[Leaderf rg --recall]],
+        'reopen previous grep context',
+      },
+      { '--', '' },
+      {
+        'Toggle Line &Comment\tgcc',
+        [[TComment]],
+        'toggle line comment',
+      },
+      {
+        'Toggle &Block Comment\tgcc',
+        [[TCommentBlock]],
+        'toggle block comment',
+      },
     }, 2
   })
 
@@ -64,6 +85,9 @@ function setup_menu_items()
 
   vcall('quickui#menu#install', {
     '&Run', {
+      { '&File Build', 'AsyncTask file-build', 'build current file', },
+      { '&Project Build', 'AsyncTask project-build', 'build current project', },
+      { '&Upload Binary', 'AsyncTask upload-binary', 'upload binaries', }
     }, 4
   })
 

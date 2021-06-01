@@ -53,6 +53,51 @@ pkr.startup(function(use)
     end
   }
 
+  use 'nvim-lua/popup.nvim'
+
+  use 'nvim-lua/plenary.nvim'
+
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require('telescope').setup{}
+    end
+  }
+
+  use {
+    'fannheyward/telescope-coc.nvim',
+    requires = {
+      'nvim-telescope/telescope.nvim',
+    },
+    config = function()
+      require('telescope').load_extension('coc')
+    end
+  }
+
+  use {
+    'nvim-telescope/telescope-fzy-native.nvim',
+    requires = {
+      'nvim-telescope/telescope.nvim',
+    },
+    config = function()
+      require('telescope').load_extension('fzy_native')
+    end
+  }
+
+  use {
+    'fhill2/telescope-ultisnips.nvim',
+    requires = {
+      'nvim-telescope/telescope.nvim',
+    },
+    config = function()
+      require('telescope').load_extension('ultisnips')
+    end
+  }
+
   use {
     'dstein64/vim-startuptime',
     cmd = 'StartupTime'

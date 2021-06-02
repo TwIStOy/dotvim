@@ -20,63 +20,56 @@ keymap('', '<Right>', '<Nop>', {})
 keymap('', '<Up>', '<Nop>', {})
 keymap('', '<Down>', '<Nop>', {})
 
-vim.api.nvim_set_option('title', true)
-vim.api.nvim_set_option('ttyfast', true)
+vim.opt.title = true
+vim.opt.ttyfast = true
 
-vim.o.lazyredraw = false
-vim.o.termguicolors = true
+vim.opt.lazyredraw = false
+vim.opt.termguicolors = true
 
---setopt('pumblend', 40)
-cmd[[set pumblend=40]]
+vim.opt.pumblend = 40
 
 -- no bells
 cmd[[set noerrorbells novisualbell t_vb=]]
 
 -- numbers
-vim.wo.number = true
-vim.wo.relativenumber = true
-cmd('autocmd BufEnter * set nu relativenumber')
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- cursorline autocmd
-cmd[[set cursorline]]
+vim.opt.cursorline = true
 cmd('autocmd InsertLeave,WinEnter * set cursorline')
 cmd('autocmd InsertEnter,WinLeave * set nocursorline')
 
 -- edit settings
--- setopt('expandtab', true)
--- setopt('smartindent', true)
--- setopt('autoindent', true)
-cmd[[set expandtab smartindent autoindent]]
+vim.opt.expandtab = true
+vim.opt.smartindent = true
+vim.opt.autoindent = true
 
 -- default tab width: 2
--- setopt('tabstop', 2)
--- setopt('shiftwidth', 2)
-cmd[[set tabstop=2 shiftwidth=2]]
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 
--- setopt('cmdheight', 2)
-cmd('set noshowmode cmdheight=2')
+vim.opt.showmode = false
+vim.opt.cmdheight = 2
 
-setopt('exrc', true)
+vim.opt.exrc = true
 
 -- move quickfix windows to botright automatically
 cmd('autocmd FileType qf wincmd J')
 
 -- default colorcolumn: 80
--- setopt('colorcolumn', '80')
-cmd[[set colorcolumn=80]]
+vim.opt.colorcolumn = '80'
 
--- setopt('scrolloff', 5)
-cmd[[set scrolloff=5]]
+vim.opt.scrolloff = 5
 
---setopt('timeoutlen', 300)
-cmd[[set timeoutlen=300]]
+vim.opt.timeoutlen = 300
 
-cmd[[set signcolumn=yes]]
+vim.opt.signcolumn = 'yes'
 
-cmd[[set hidden]]
+vim.opt.hidden = true
 
 -- theme settings
-vim.o.background = 'dark'
+vim.opt.background = 'dark'
 vim.g.colors_name = 'onedark_nvim'
 vim.g.onedark_settings = {
   bold = true,

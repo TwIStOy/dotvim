@@ -10,3 +10,7 @@ vim.api.nvim_call_function('which_key#register', {
     '<Space>', 'b:which_key_map'
 })
 
+vim.cmd[[hi WhichKeyFloating guibg=NONE]]
+
+vim.g.which_key_floating_opts = { row = -2 }
+

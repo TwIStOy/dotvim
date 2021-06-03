@@ -22,4 +22,19 @@ function M.u(code)
   return table.concat(t)
 end
 
+function M.get_value(d, k, v)
+  if d[k] ~= nil then
+    return d[k]
+  else
+    return v
+  end
+end
+
+function M.reverse_list(lst)
+  for i = 1, math.floor(#lst / 2) do
+    local j = #lst - i + 1
+    lst[i], lst[j] = lst[j], lst[i]
+  end
+end
+
 return M

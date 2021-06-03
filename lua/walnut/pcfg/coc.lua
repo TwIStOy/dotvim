@@ -9,6 +9,16 @@ function setup()
   vim.g.coc_start_at_startup = 1
   vim.api.nvim_set_option('updatetime', 200)
 
+  vim.g.coc_global_extensions = {
+    'coc-vimlsp',
+    'coc-tabnine',
+    'coc-tsserver',
+    'coc-rust-analyzer',
+    'coc-pyright',
+    'coc-json',
+    'coc-clangd',
+  }
+
   require('walnut.pcfg.quickui').append_context_menu_section('cpp', {
     { 'Goto &Definition\tgd', [[call feedkeys("\<Plug>(coc-definition)")]] },
     { 'Goto &Type Definition', [[call feedkeys("\<Plug>(coc-type-definition)")]] },

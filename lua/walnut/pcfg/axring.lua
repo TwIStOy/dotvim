@@ -1,16 +1,14 @@
 module('walnut.pcfg.axring', package.seeall)
 
-local set_g_var = vim.api.nvim_set_var
-
-set_g_var('axring_rings', {
+vim.g.axring_rings = {
   { 'true', 'false' },
   { 'True', 'False' },
   { 'OFF', 'ON' },
   { 'YES', 'NO' },
   { '||', '&&' },
-})
+}
 
-set_g_var('axring_rings_cpp', {
+vim.g.axring_rings_cpp = {
   { 'Debug', 'Info', 'Warn', 'Error', 'Fatal' },
   { 'first', 'second' },
   { 'uint8_t', 'uint16_t', 'uint32_t', 'uint64_t' },
@@ -20,5 +18,5 @@ set_g_var('axring_rings_cpp', {
   { 'EXPECT_EQ', 'EXPECT_NE' },
   { '==', '!=' },
   { 'static_cast', 'dynamic_cast', 'reinterpret_cast' },
-})
+}
 

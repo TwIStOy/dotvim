@@ -99,6 +99,19 @@ pkr.startup(function(use)
   }
 
   use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require('gitsigns').setup{
+        current_line_blame = false,
+        sign_priority = 6,
+      }
+    end
+  }
+
+  use {
     'dstein64/vim-startuptime',
     cmd = 'StartupTime'
   }
@@ -261,6 +274,7 @@ pkr.startup(function(use)
     end
   }
 
+  --[[
   use {
     'glepnir/galaxyline.nvim',
     branch = 'main',
@@ -269,6 +283,18 @@ pkr.startup(function(use)
       'airblade/vim-gitgutter',
     },
     config = function() require('walnut.pcfg.galaxyline') end
+  }
+  --]]
+
+  use {
+    'famiu/feline.nvim',
+    requires = {
+      'kyazdani42/nvim-web-devicons',
+      'lewis6991/gitsigns.nvim',
+    },
+    config = function()
+      require('walnut.pcfg.feline.config')
+    end
   }
 
   use {

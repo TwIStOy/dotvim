@@ -34,6 +34,7 @@ cmd[[set noerrorbells novisualbell t_vb=]]
 -- numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
+cmd[[autocmd WinEnter,BufEnter * set nu rnu]]
 
 -- cursorline autocmd
 vim.opt.cursorline = true

@@ -34,7 +34,9 @@ cmd[[set noerrorbells novisualbell t_vb=]]
 -- numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
-cmd[[autocmd WinEnter,BufEnter * set nu rnu]]
+cmd[[autocmd TermEnter * setlocal nonu nornu]]
+cmd[[autocmd BufEnter,FocusGained,WinEnter * set nu rnu]]
+cmd[[autocmd BufLeave,FocusLost,WinLeave * set nu nornu]]
 
 -- cursorline autocmd
 vim.opt.cursorline = true
@@ -66,6 +68,7 @@ vim.opt.scrolloff = 5
 vim.opt.timeoutlen = 300
 
 vim.opt.signcolumn = 'yes'
+cmd[[autocmd BufEnter,FocusGained,WinEnter set signcolumn=yes]]
 
 vim.opt.hidden = true
 

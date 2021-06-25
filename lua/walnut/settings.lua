@@ -150,6 +150,8 @@ keymap('n', '<M-h>', ':wincmd h<CR>', { silent = true, noremap = true })
 keymap('n', '<M-j>', ':wincmd j<CR>', { silent = true, noremap = true })
 keymap('n', '<M-k>', ':wincmd k<CR>', { silent = true, noremap = true })
 keymap('n', '<M-l>', ':wincmd l<CR>', { silent = true, noremap = true })
+keymap('n', '<M-,>', ':SidewaysLeft<CR>', { silent = true, noremap = true })
+keymap('n', '<M-.>', ':SidewaysRight<CR>', { silent = true, noremap = true })
 
 keymap('n', '<leader>', [[:WhichKey '<Space>'<CR>]], { silent = true, noremap = true })
 

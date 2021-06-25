@@ -356,11 +356,7 @@ pkr.startup(function(use)
 
   use {
     'AndrewRadev/sideways.vim',
-    cmd = { 'SidewaysLeft', 'SidewaysRight' },
-    config = function()
-      vim.api.nvim_set_keymap('n', '<M-h>', ':SidewaysLeft<CR>', { silent = true, noremap = true })
-      vim.api.nvim_set_keymap('n', '<M-l>', ':SidewaysRight<CR>', { silent = true, noremap = true })
-    end
+    cmd = { 'SidewaysLeft', 'SidewaysRight' }
   }
 
   use {

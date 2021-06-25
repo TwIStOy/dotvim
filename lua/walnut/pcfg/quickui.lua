@@ -52,7 +52,12 @@ function open_dropdown_menu(ft)
   local res = {}
 
   if context_menu['*'] ~= nil then
-    vim.list_extend(res, context_menu['*'])
+    for i,v in ipairs(context_menu['*']) do
+      if #res > 0 then
+        vim.list_extend(res, {'-'})
+      end
+      vim.list_extend(res, v)
+    end
   end
 
   if context_menu[ft] ~= nil then
@@ -77,3 +82,8 @@ function open_dropdown_menu(ft)
   end
 end
 
+-- add default menu section
+append_context_menu_section('*', {
+  { 'Move Object Left',  'SidewaysLeft' },
+  { 'Move Object Right', 'SidewaysRight' },
+})

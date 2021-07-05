@@ -66,10 +66,14 @@ def function_helpers(s, snip):
         snip.rv = s
 
 def expand_anon(snip):
+    import vim
     anon = []
     for i in range(snip.snippet_start[0], snip.snippet_end[0] + 1):
         anon.append(snip.buffer[i])
+    old_line = snip.snippet_start[0]
+    # delete these lines
     snip.buffer[snip.snippet_start[0]:snip.snippet_end[0] + 1] = ['']
+    vim.current.window.cursor = (old_line, 0)
     snip.expand_anon('\n'.join(anon))
 
 def cpp_c_style_header_guard(filename):
@@ -120,7 +124,8 @@ def simple_namespace_generate(s, snip):
             lines.append('')
 
     gen_namespace(s.split('::'))
-    return "\n".join(lines)
+    for line in lines:
+        snip += line
 
 
 def simple_int_types(base_type, length, snip):

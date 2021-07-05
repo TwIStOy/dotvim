@@ -205,7 +205,7 @@ snippet "(p(?:(?:(?=\()\([pius0-9\()]+\s*(?:,\s*[pius0-9()]+)+\))|[ius]{2}))" "c
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
 endsnippet
 
-post_jump "expand_anon(snip)"
+post_expand "expand_anon(snip)"
 snippet "@\[(.*?)\]" "all helper functions..." r
 `!p function_helpers(match.group(1), snip)`
 endsnippet
@@ -216,7 +216,7 @@ endsnippet
 
 post_jump "expand_anon(snip)"
 snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
-`!p snip.rv = simple_namespace_generate(match.group(1), snip)`
+`!p simple_namespace_generate(match.group(1), snip)`
 endsnippet
 
 snippet itf "cpp interface common" b

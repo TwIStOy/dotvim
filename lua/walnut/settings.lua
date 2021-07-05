@@ -37,6 +37,7 @@ vim.opt.relativenumber = true
 cmd[[autocmd TermEnter * setlocal nonu nornu]]
 cmd[[autocmd BufEnter,FocusGained,WinEnter * set nu rnu]]
 cmd[[autocmd BufLeave,FocusLost,WinLeave * set nu nornu]]
+-- startify
 
 -- cursorline autocmd
 vim.opt.cursorline = true

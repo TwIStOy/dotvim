@@ -197,7 +197,7 @@ pkr.startup(function(use)
   use 'rktjmp/lush.nvim'
 
   use {
-    'olimorris/onedark.nvim',
+    'savq/melange',
     requires = {
       'rktjmp/lush.nvim',
     },

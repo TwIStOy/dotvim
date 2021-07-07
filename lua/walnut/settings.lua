@@ -34,10 +34,13 @@ cmd[[set noerrorbells novisualbell t_vb=]]
 -- numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.g.relative_number_blacklist = {
+  'startify',
+  'NvimTree',
+}
 cmd[[autocmd TermEnter * setlocal nonu nornu]]
-cmd[[autocmd BufEnter,FocusGained,WinEnter * set nu rnu]]
-cmd[[autocmd BufLeave,FocusLost,WinLeave * set nu nornu]]
--- startify
+cmd[[autocmd BufEnter,FocusGained,WinEnter * if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif]]
+cmd[[autocmd BufLeave,FocusLost,WinLeave * if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif]]
 
 -- cursorline autocmd
 vim.opt.cursorline = true
@@ -75,7 +78,8 @@ vim.opt.hidden = true
 
 -- theme settings
 vim.opt.background = 'dark'
-vim.g.colors_name = 'onedark_nvim'
+vim.g.colors_name = 'melange'
+--[[
 vim.g.onedark_settings = {
   bold = true,
   italic = true,
@@ -84,6 +88,7 @@ vim.g.onedark_settings = {
   underline_strings = true,
   bold_strings = true,
 }
+--]]
 
 -- setup clipboard vis ssh, other settings: [[~/Dropbox/vimwiki/Remote Clipboard.wiki]]
 local copy_settings = {}

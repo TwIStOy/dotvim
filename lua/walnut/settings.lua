@@ -79,16 +79,9 @@ vim.opt.hidden = true
 -- theme settings
 vim.opt.background = 'dark'
 vim.g.colors_name = 'melange'
---[[
-vim.g.onedark_settings = {
-  bold = true,
-  italic = true,
-  underline = true,
-  italic_strings = true,
-  underline_strings = true,
-  bold_strings = true,
-}
---]]
+
+-- jump options
+vim.opt.jumpoptions = 'stack'
 
 -- setup clipboard vis ssh, other settings: [[~/Dropbox/vimwiki/Remote Clipboard.wiki]]
 local copy_settings = {}

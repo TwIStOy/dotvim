@@ -64,6 +64,9 @@ function fast_forward_to_file_explorer()
     end
   end
 
+  if packer_plugins['nvim-tree.lua'] and not packer_plugins['nvim-tree.lua'].loaded then
+    require('packer').loader('nvim-tree.lua')
+  end
   require'nvim-tree'.toggle()
 end
 

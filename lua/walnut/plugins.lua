@@ -19,7 +19,12 @@ local pkr = require('packer')
 pkr.init({
   ensure_dependencies = true,
   display = {
-    auto_clean = false
+    auto_clean = false,
+    open_fn = function()
+      return require('packer.util').float {
+        border = 'single',
+      }
+    end
   }
 })
 
@@ -43,25 +48,30 @@ pkr.startup(function(use)
     end
   }
 
-  use 'powerman/vim-plugin-AnsiEsc'
-
   use {
-    'airblade/vim-gitgutter',
-    setup = function()
-      vim.api.nvim_set_var('gitgutter_map_keys', 0)
-      vim.api.nvim_set_var('gitgutter_signs', 0)
-    end
+    'powerman/vim-plugin-AnsiEsc',
+    cmd = {
+      'AnsiEsc',
+    }
   }
 
-  use 'nvim-lua/popup.nvim'
-
   use 'nvim-lua/plenary.nvim'
+
+  use {
+    'nvim-lua/popup.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+    }
+  }
 
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/popup.nvim',
       'nvim-lua/plenary.nvim'
+    },
+    cmd = {
+      'Telescope',
     },
     config = function()
       require('telescope').setup{}
@@ -70,6 +80,9 @@ pkr.startup(function(use)
 
   use {
     'fannheyward/telescope-coc.nvim',
+    cmd = {
+      'Telescope',
+    },
     requires = {
       'nvim-telescope/telescope.nvim',
     },
@@ -80,6 +93,9 @@ pkr.startup(function(use)
 
   use {
     'nvim-telescope/telescope-fzy-native.nvim',
+    cmd = {
+      'Telescope',
+    },
     requires = {
       'nvim-telescope/telescope.nvim',
     },
@@ -90,24 +106,14 @@ pkr.startup(function(use)
 
   use {
     'fhill2/telescope-ultisnips.nvim',
+    cmd = {
+      'Telescope',
+    },
     requires = {
       'nvim-telescope/telescope.nvim',
     },
     config = function()
       require('telescope').load_extension('ultisnips')
-    end
-  }
-
-  use {
-    'lewis6991/gitsigns.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim'
-    },
-    config = function()
-      require('gitsigns').setup{
-        current_line_blame = false,
-        sign_priority = 6,
-      }
     end
   }
 
@@ -122,8 +128,11 @@ pkr.startup(function(use)
     setup = function() require('walnut.pcfg.startify') end
   }
 
+  use 'kyazdani42/nvim-web-devicons'
+
   use {
     'kyazdani42/nvim-tree.lua',
+    opt = true,
     config = function() require('walnut.pcfg.nvim_tree') end,
     requires = { 'kyazdani42/nvim-web-devicons' }
   }
@@ -136,6 +145,12 @@ pkr.startup(function(use)
 
   use {
     'skywind3000/vim-quickui',
+    fn = {
+      'quickui#menu#open',
+      'quickui#listbox#open',
+      'quickui#context#open',
+      'quickui#textbox#open',
+    },
     config = function()
       require('walnut.cfg.menu').setup_menu_items()
     end
@@ -143,26 +158,31 @@ pkr.startup(function(use)
 
   -- text-objects
   use 'kana/vim-textobj-user'
-  use { 'kana/vim-textobj-indent', requires = { 'kana/vim-textobj-user' }}
-  use { 'kana/vim-textobj-line', requires = { 'kana/vim-textobj-user' }}
-  use { 'kana/vim-textobj-entire', requires = { 'kana/vim-textobj-user' }}
   use { 'lucapette/vim-textobj-underscore', requires = { 'kana/vim-textobj-user' }}
   use { 'sgur/vim-textobj-parameter', requires = { 'kana/vim-textobj-user' }}
 
   use {
     'TwIStOy/ultisnips',
+    ft = {
+      'cpp', 'c', 'markdown', 'vimwiki', 'rust', 'go', 'python',
+    },
     setup = function() require('walnut.pcfg.ultisnips') end,
     config = function() require('walnut.pcfg.ultisnips').setup_cpp_snippets() end
   }
 
   use {
     'Yggdroot/LeaderF',
+    cmd = { 'LeaderF', 'LeaderfFile', },
     run = './install.sh',
     setup = function() require('walnut.pcfg.leaderf') end
   }
 
   use {
     'TwIStOy/vim-cpp-toolkit',
+    cmd = { 'LeaderF' },
+    fn = {
+      'cpp_toolkit#project_root',
+    },
     setup = function()
       require('walnut.pcfg.vim_cpp_toolkit')
     end,
@@ -173,6 +193,12 @@ pkr.startup(function(use)
 
   use {
     'akinsho/nvim-toggleterm.lua',
+    keys = {
+      '<C-t>',
+    },
+    module = {
+      'toggleterm',
+    },
     setup = function()
       vim.api.nvim_set_var('toggleterm_terminal_mapping', '<C-t>')
     end,
@@ -231,9 +257,15 @@ pkr.startup(function(use)
 
   use 'wakatime/vim-wakatime'
 
+  use 'kevinhwang91/nvim-bqf'
+
   use {
     'tenfyzhong/axring.vim',
-    config = function() require('walnut.pcfg.axring') end
+    keys = {
+      '<C-a>',
+      '<C-x>',
+    },
+    setup = function() require('walnut.pcfg.axring') end
   }
 
   use {
@@ -246,11 +278,7 @@ pkr.startup(function(use)
     cmd = { 'EsayAlign' },
     requires = {
       'godlygeek/tabular',
-    },
-    config = function()
-      ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')
-      vim.api.nvim_set_keymap('x', '<leader>ta', ':EasyAlign<CR>', { silent = true })
-    end
+    }
   }
 
   use {
@@ -274,18 +302,6 @@ pkr.startup(function(use)
     end
   }
 
-  --[[
-  use {
-    'glepnir/galaxyline.nvim',
-    branch = 'main',
-    requires = {
-      'kyazdani42/nvim-web-devicons',
-      'airblade/vim-gitgutter',
-    },
-    config = function() require('walnut.pcfg.galaxyline') end
-  }
-  --]]
-
   use {
     'famiu/feline.nvim',
     requires = {
@@ -299,6 +315,16 @@ pkr.startup(function(use)
 
   use {
     'matze/vim-move',
+    keys = {
+      '<C-h>',
+      '<C-j>',
+      '<C-k>',
+      '<C-l>',
+      { 'v', '<C-h>', },
+      { 'v', '<C-j>', },
+      { 'v', '<C-k>', },
+      { 'v', '<C-l>', },
+    },
     setup = function()
       vim.api.nvim_set_var('move_key_modifier', 'C')
     end
@@ -339,6 +365,10 @@ pkr.startup(function(use)
 
   use {
     'osyo-manga/vim-jplus',
+    keys = {
+      'J',
+      { 'v', 'J' },
+    },
     config = function()
       vim.api.nvim_set_keymap('n', 'J', '<Plug>(jplus)', { silent = true })
       vim.api.nvim_set_keymap('v', 'J', '<Plug>(jplus)', { silent = true })
@@ -361,6 +391,7 @@ pkr.startup(function(use)
 
   use {
     'sbdchd/neoformat',
+    event = 'BufRead',
     setup = function()
       vim.api.nvim_command[[source $HOME/.dotvim/autoload/neoformat/formatters/cpp.vim]]
       vim.g._dotvim_clang_format_exe = vim.g.compiled_llvm_clang_directory .. '/bin/clang-format'
@@ -414,6 +445,16 @@ pkr.startup(function(use)
 
   use {
     'vimwiki/vimwiki',
+    cmd = {
+      'VimwikiIndex',
+      'VimwikiTabIndex',
+      'VimwikiUISelect',
+      'VimwikiDiaryIndex',
+      'VimwikiMakeDiaryNote',
+      'VimwikiTabMakeDiaryNote',
+      'VimwikiMakeYesterdayDiaryNote',
+      'VimwikiMakeTomorrowDiaryNote',
+    },
     setup = function()
       require('walnut.pcfg.vimwiki')
     end,

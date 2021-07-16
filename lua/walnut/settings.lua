@@ -37,6 +37,7 @@ vim.opt.relativenumber = true
 vim.g.relative_number_blacklist = {
   'startify',
   'NvimTree',
+  'packer',
 }
 cmd[[autocmd TermEnter * setlocal nonu nornu]]
 cmd[[autocmd BufEnter,FocusGained,WinEnter * if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif]]
@@ -163,4 +164,7 @@ if vim.g['fvim_loaded'] == nil then
   -- setopt('wildoptions', 'pum')
   cmd[[set wildoptions=pum]]
 end
+
+ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')
+vim.api.nvim_set_keymap('x', '<leader>ta', ':EasyAlign<CR>', { silent = true })
 

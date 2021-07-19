@@ -1,10 +1,13 @@
 module('walnut.cfg.menu', package.seeall)
 
 local vcall = vim.api.nvim_call_function
+local quickui = require('walnut.pcfg.quickui')
 
 -- Setup Menu Items
 
 function setup_menu_items()
+  quickui.update_color()
+
   vcall('quickui#menu#reset', {})
 
   -- File

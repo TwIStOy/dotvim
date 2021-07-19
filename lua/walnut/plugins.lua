@@ -149,10 +149,7 @@ pkr.startup(function(use)
   use {
     'skywind3000/vim-quickui',
     fn = {
-      'quickui#menu#open',
-      'quickui#listbox#open',
-      'quickui#context#open',
-      'quickui#textbox#open',
+      'quickui#*',
     },
     config = function()
       require('walnut.cfg.menu').setup_menu_items()
@@ -237,14 +234,7 @@ pkr.startup(function(use)
     end
   }
 
-  use 'rktjmp/lush.nvim'
-
-  use {
-    'savq/melange',
-    requires = {
-      'rktjmp/lush.nvim',
-    },
-  }
+  use 'savq/melange'
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
 
@@ -379,6 +369,8 @@ pkr.startup(function(use)
     },
     setup = function()
       vim.api.nvim_set_var('tcomment_maps', 0)
+    end,
+    config = function()
       vim.api.nvim_set_keymap('n', 'gcc', ':TComment<CR>', { silent = true, noremap = true })
       vim.api.nvim_set_keymap('v', 'gcc', ':TCommentBlock<CR>', { silent = true, noremap = true })
     end

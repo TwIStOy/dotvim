@@ -83,13 +83,9 @@ snippet "(\w[\d\w,\s\->._]*?)\.fmt" "comment" r
 endsnippet
 
 snippet ns "namespace with comment (namespace)" b
-namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
+namespace ${1:`!p snip.rv = snip.basename or "name"`} {
   ${0:/* body */}
 }${1/.+/  \/\/ namespace /m}$1
-endsnippet
-
-snippet beginend "$1.begin(), $1.end() (beginend)" w
-${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
 endsnippet
 
 snippet once "pragma once (pragma)"
@@ -97,7 +93,7 @@ snippet once "pragma once (pragma)"
 endsnippet
 
 snippet copyright "copyright"
-// Copyright (c) 2020 ${1}
+// Copyright (c) 2021 ${1}
 //
 
 ${0}
@@ -126,18 +122,6 @@ endsnippet
 
 snippet incc "#include<>"
 #include <${1}>${0}
-endsnippet
-
-snippet fin "for...in"
-for (auto& iter : ${1}) {
-  ${0}
-}
-endsnippet
-
-snippet cfin "const...for...in"
-for (const auto& iter : ${1}) {
-  ${0}
-}
 endsnippet
 
 snippet map "std::map"
@@ -203,11 +187,6 @@ endsnippet
 # common types-alias
 snippet "(p(?:(?:(?=\()\([pius0-9\()]+\s*(?:,\s*[pius0-9()]+)+\))|[ius]{2}))" "convert to std::pair or tuple format..." r
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
-endsnippet
-
-post_expand "expand_anon(snip)"
-snippet "@\[(.*?)\]" "all helper functions..." r
-`!p function_helpers(match.group(1), snip)`
 endsnippet
 
 snippet inh "include corresponding header..." b
@@ -293,12 +272,6 @@ if (auto it = ${1:map name}.find(${2:key}); it == $1.end()) {
 }
 endsnippet
 
-snippet lambda "lambda function" w
-[=](${1:args}){
-	${2:body}
-}
-endsnippet
-
 snippet ainclude "common includes" b
 #include <vector>
 #include <map>
@@ -377,25 +350,24 @@ snippet inher "inherit comment" b
 // inherited from |$0|
 endsnippet
 
-snippet undef "undef if def" b
-#if defined(${1:Name})
-#undef $1
-#endif
+snippet cout "printing to std::cout" b
+std::cout << ${1:/* message */} << std::endl;
 endsnippet
 
-snippet def "if defined" b
-#if defined(${1:Name})
-$0
-#endif
+snippet cerr "printing to std::cout" b
+std::cerr << ${1:/* message */} << std::endl;
 endsnippet
 
-snippet mv "std::move(...)" w
-std::move($0)
+snippet switch "switch statement" b
+switch (${1:/* condition */}) {
+	$0
+}
 endsnippet
 
-snippet if "if (condition) { statments; }" b
-if (${1:condition}) {
-  $0
+snippet case "switch case" b
+cast ${1:/* selection */}: {
+	$0
+	break;
 }
 endsnippet
 

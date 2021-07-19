@@ -20,7 +20,7 @@ def get_uncommit_changes():
 def update_version():
   version_template = '''module('walnut.version', package.seeall)
 
-last_updated_time = '{}.{}.{}'
+last_updated_time = '{}.{:02d}.{:02d}'
 
 '''
   now = datetime.datetime.now()

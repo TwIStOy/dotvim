@@ -3,6 +3,8 @@ module('walnut.plugins', package.seeall)
 local fn = vim.fn
 local cmd = vim.api.nvim_command
 local ftmap = require('walnut.keymap').ftmap
+local _config = require('ht.plugs.utils')._config
+local _setup = require('ht.plugs.utils')._setup
 
 local packer_install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
@@ -32,6 +34,7 @@ pkr.startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use { 'skywind3000/asyncrun.vim', cmd = {'AsyncRun', 'AsyncStop'} }
+
   use {
     'skywind3000/asynctasks.vim',
     cmd = {
@@ -44,7 +47,7 @@ pkr.startup(function(use)
       'skywind3000/asyncrun.vim',
     },
     setup = function()
-      require('walnut.pcfg.asynctasks')
+      require('walnut.pcfg.asynctasks').setup()
     end
   }
 
@@ -166,6 +169,7 @@ pkr.startup(function(use)
     ft = {
       'cpp', 'c', 'markdown', 'vimwiki', 'rust', 'go', 'python',
     },
+    event = 'InsertEnter',
     setup = function() require('walnut.pcfg.ultisnips') end,
     config = function() require('walnut.pcfg.ultisnips').setup_cpp_snippets() end
   }
@@ -216,9 +220,22 @@ pkr.startup(function(use)
     end
   }
 
-  use 'TwIStOy/conflict-resolve.nvim'
+  use {
+    'TwIStOy/conflict-resolve.nvim',
+    fn = 'conflict_resolve#*',
+  }
 
-  use 'tpope/vim-surround'
+  use {
+    'tpope/vim-surround',
+    keys = {
+      'sd', 'cs', 'cS', 'ys', 'yS', 'yss', 'ygs', {'x', 's'},
+      {'x', 'gS'},
+    },
+    setup = function()
+      vim.api.nvim_set_var('surround_no_mappings', 0)
+      vim.api.nvim_set_var('surround_no_insert_mappings', 1)
+    end
+  }
 
   use 'rktjmp/lush.nvim'
 
@@ -229,8 +246,11 @@ pkr.startup(function(use)
     },
   }
 
+  use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
+
   use {
     'nacro90/numb.nvim',
+    opt = true,
     config = function()
       require('numb').setup()
     end
@@ -239,8 +259,6 @@ pkr.startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      vim.api.nvim_set_var('surround_no_mappings', 0)
-      vim.api.nvim_set_var('surround_no_insert_mappings', 1)
       require'nvim-treesitter.configs'.setup {
         ensure_installed = {
           'c', 'cpp', 'toml',
@@ -255,9 +273,16 @@ pkr.startup(function(use)
     end
   }
 
-  use 'wakatime/vim-wakatime'
+  use {
+    'wakatime/vim-wakatime',
+    opt = true,
+  }
 
-  use 'kevinhwang91/nvim-bqf'
+  use {
+    'kevinhwang91/nvim-bqf',
+    ft = 'qf',
+    config = _config('bqf'),
+  }
 
   use {
     'tenfyzhong/axring.vim',
@@ -330,8 +355,6 @@ pkr.startup(function(use)
     end
   }
 
-  use 'farmergreg/vim-lastplace'
-
   use {
     'Asheq/close-buffers.vim',
     cmd = {
@@ -341,11 +364,19 @@ pkr.startup(function(use)
 
   use {
     'aperezdc/vim-template',
+    cmd = {
+      'Template',
+      'TemplateHere',
+    },
     config = function() require('walnut.pcfg.template') end
   }
 
   use {
     'tomtom/tcomment_vim',
+    keys = {
+      'gcc',
+      {'v', 'gcc'},
+    },
     setup = function()
       vim.api.nvim_set_var('tcomment_maps', 0)
       vim.api.nvim_set_keymap('n', 'gcc', ':TComment<CR>', { silent = true, noremap = true })
@@ -355,13 +386,12 @@ pkr.startup(function(use)
 
   use {
     'RRethy/vim-illuminate',
+    opt = true,
     setup = function()
       vim.api.nvim_set_var('Illuminate_delay', 200)
       vim.api.nvim_set_var('Illuminate_ftblacklist', { 'nerdtree', 'defx' })
     end
   }
-
-  use 'andymass/vim-matchup'
 
   use {
     'osyo-manga/vim-jplus',
@@ -410,15 +440,9 @@ pkr.startup(function(use)
   }
 
   use {
-    'justinmk/vim-sneak',
-    setup = function()
-      vim.api.nvim_set_var('sneak#label', 1)
-    end
-  }
-
-  use {
     'neoclide/coc.nvim',
     branch = 'release',
+    opt = true,
     setup = function()
       require('walnut.pcfg.coc').setup()
     end,
@@ -430,7 +454,10 @@ pkr.startup(function(use)
     }
   }
 
-  use 't9md/vim-quickhl'
+  use {
+    't9md/vim-quickhl',
+    keys = { 'n', 'N', '*', '#', '/', '?', 'g*', 'g#', }
+  }
 
   use {
     'plasticboy/vim-markdown',
@@ -468,6 +495,7 @@ pkr.startup(function(use)
 
   use {
     'dstein64/nvim-scrollview',
+    opt = true,
     setup = function()
       vim.g.scrollview_on_startup = 1
       vim.g.scrollview_current_only = 1

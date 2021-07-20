@@ -1,4 +1,4 @@
-module('walnut.pcfg.matchup', package.seeall)
+module('ht.plugs.matchup', package.seeall)
 
 local keymap = vim.api.nvim_set_keymap
 

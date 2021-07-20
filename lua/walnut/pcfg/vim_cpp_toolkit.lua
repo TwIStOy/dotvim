@@ -25,9 +25,11 @@ require('walnut.pcfg.quickui').append_context_menu_section('cpp', {
   }
 })
 
+--[[
 vim.api.nvim_command [[
 let g:templates_user_variables = get(g:, 'templates_user_variables', [])
 
 call add(g:templates_user_variables, [ 'PROJECT_HEADER', 'cpp_toolkit#fast_include_header_file' ])
 ]]
+--]]
 

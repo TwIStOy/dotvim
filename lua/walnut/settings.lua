@@ -172,3 +172,8 @@ end
 ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')
 vim.api.nvim_set_keymap('x', '<leader>ta', ':EasyAlign<CR>', {silent = true})
 
+-- add default menu section
+require('walnut.pcfg.quickui').append_context_menu_section('*', {
+  {'Move Object Left', 'SidewaysLeft'}, {'Move Object Right', 'SidewaysRight'}
+})
+

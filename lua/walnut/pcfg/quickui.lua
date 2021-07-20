@@ -75,7 +75,3 @@ function open_dropdown_menu(ft)
   end
 end
 
--- add default menu section
-append_context_menu_section('*', {
-  {'Move Object Left', 'SidewaysLeft'}, {'Move Object Right', 'SidewaysRight'}
-})

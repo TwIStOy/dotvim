@@ -150,9 +150,7 @@ pkr.startup(function(use)
 
   use {
     'tpope/vim-surround',
-    keys = {
-      'sd', 'cs', 'cS', 'ys', 'yS', 'yss', 'ygs', {'x', 's'}, {'x', 'gS'}, 'ds'
-    },
+    opt = true,
     setup = [[require('ht.plugs.config').surround()]]
   }
 

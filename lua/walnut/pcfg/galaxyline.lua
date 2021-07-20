@@ -20,23 +20,22 @@ local my_cl = {
   NonText = cl.get_hl_by_name_fg('NonText'),
   MoreMsg = cl.get_hl_by_name_fg('MoreMsg'),
   MatchParen = cl.get_hl_by_name_fg('MatchParen'),
-  none = 'NONE',
+  none = 'NONE'
 }
 
-
 local mode_map = {
-  ['n'] = { 'NORMAL',   my_cl.normal },
-  ['i'] = { 'INSERT',   my_cl.insert },
-  ['R'] = { 'REPLACE',  my_cl.replace },
-  ['v'] = { 'VISUAL',   my_cl.visual },
-  ['V'] = { 'V-LINE',   my_cl.visual },
-  [''] = { 'V-BLOCK', my_cl.visual },
-  ['c'] = { 'COMMAND',  my_cl.command },
-  ['s'] = { 'SELECT',   my_cl.visual },
-  ['S'] = { 'S-LINE',   my_cl.visual },
-  ['t'] = { 'TERMINAL', my_cl.terminal },
-  ['Rv'] = { 'VIRTUAL' },
-  ['rm'] = { '--MORE' },
+  ['n'] = {'NORMAL', my_cl.normal},
+  ['i'] = {'INSERT', my_cl.insert},
+  ['R'] = {'REPLACE', my_cl.replace},
+  ['v'] = {'VISUAL', my_cl.visual},
+  ['V'] = {'V-LINE', my_cl.visual},
+  [''] = {'V-BLOCK', my_cl.visual},
+  ['c'] = {'COMMAND', my_cl.command},
+  ['s'] = {'SELECT', my_cl.visual},
+  ['S'] = {'S-LINE', my_cl.visual},
+  ['t'] = {'TERMINAL', my_cl.terminal},
+  ['Rv'] = {'VIRTUAL'},
+  ['rm'] = {'--MORE'}
 }
 
 local sep = {
@@ -45,7 +44,7 @@ local sep = {
   -- right = u '2503',
   -- left = u '2503',
   right = u 'e0b3',
-  left = u 'e0b1',
+  left = u 'e0b1'
 }
 
 local icons = {
@@ -55,12 +54,10 @@ local icons = {
   unix = u 'f17c',
   mac = u 'f179',
   lsp_warn = u 'f071',
-  lsp_error = u 'f46e',
+  lsp_error = u 'f46e'
 }
 
-local function mode_label()
-  return mode_map[vim.fn.mode()][1] or 'N/A'
-end
+local function mode_label() return mode_map[vim.fn.mode()][1] or 'N/A' end
 
 local function mode_hl()
   return (mode_map[vim.fn.mode()] and mode_map[vim.fn.mode()][2]) or my_cl.none
@@ -90,8 +87,8 @@ gls.left[1] = {
       highlight('GalaxyViMode', modehl, my_cl.bg)
       highlight('GalaxyViModeInv', my_cl.bg, modehl)
       return "     "
-    end,
-  },
+    end
+  }
 }
 
 gls.left[2] = {
@@ -99,7 +96,7 @@ gls.left[2] = {
     provider = function()
       local s = vim.api.nvim_call_function('coc#status', {})
       if s == '' then
-        return u'e780'
+        return u 'e780'
       else
         return s
       end
@@ -119,7 +116,9 @@ gls.left[3] = {
       return ' ' .. icon .. '  '
     end,
     condition = buffer_not_empty,
-    highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, my_cl.bg},
+    highlight = {
+      require("galaxyline.provider_fileinfo").get_file_icon_color, my_cl.bg
+    }
   }
 }
 
@@ -140,15 +139,13 @@ gls.left[4] = {
     end,
     highlight = {my_cl.normal, my_cl.bg},
     separator = ' ',
-    separator_highlight = {my_cl.normal, my_cl.bg},
-  },
+    separator_highlight = {my_cl.normal, my_cl.bg}
+  }
 }
 
 gls.right[1] = {
   GitIcon = {
-    provider = function()
-      return " "
-    end,
+    provider = function() return " " end,
     condition = require("galaxyline.provider_vcs").check_git_workspace,
     highlight = {my_cl.MoreMsg, my_cl.bg}
   }
@@ -171,7 +168,7 @@ gls.right[3] = {
     separator = ' ',
     icon = " ",
     highlight = {my_cl.DiffAdd, my_cl.bg},
-    separator_highlight = {my_cl.none, my_cl.bg},
+    separator_highlight = {my_cl.none, my_cl.bg}
   }
 }
 
@@ -212,18 +209,13 @@ gls.right[7] = {
   }
 }
 
-for k, v in pairs(gls.left) do
-  gls.short_line_left[k] = v
-end
+for k, v in pairs(gls.left) do gls.short_line_left[k] = v end
 table.remove(gls.short_line_left, 1)
 table.remove(gls.short_line_left, 1)
 
-for k, v in pairs(gls.right) do
-  gls.short_line_right[k] = v
-end
+for k, v in pairs(gls.right) do gls.short_line_right[k] = v end
 table.remove(gls.short_line_right, 1)
 table.remove(gls.short_line_right, 1)
 table.remove(gls.short_line_right)
 table.remove(gls.short_line_right)
-
 

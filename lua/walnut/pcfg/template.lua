@@ -5,7 +5,8 @@ local get_opt = vim.api.nvim_get_option
 local ftmap = require('walnut.keymap').ftmap
 local keymap = vim.api.nvim_set_keymap
 
-set_g_var('templates_directory', { os.getenv('HOME') .. [[/.dotvim/vim-templates]] })
+set_g_var('templates_directory',
+          {os.getenv('HOME') .. [[/.dotvim/vim-templates]]})
 set_g_var('templates_no_autocmd', 0)
 set_g_var('templates_debug', 0)
 set_g_var('templates_no_builtin_templates', 1)

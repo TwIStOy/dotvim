@@ -20,22 +20,19 @@ function update_color()
   local incsearch_fg = vim.api.nvim_get_hl_by_name('IncSearch', 1).foreground
 
   cmd(string.format([[hi! QuickBG guifg=%s guibg=%s]], normal_bg, normal_bg))
-  cmd(string.format([[hi! QuickSel gui=bold guibg=#%x guifg=#%x]], incsearch_bg, incsearch_fg))
+  cmd(string.format([[hi! QuickSel gui=bold guibg=#%x guifg=#%x]], incsearch_bg,
+                    incsearch_fg))
   cmd(string.format([[hi! QuickOff guifg=%s]], cl.cursorline_bg))
 end
 
 local context_menu = {}
 
-function inspect()
-  print(vim.inspect(context_menu))
-end
+function inspect() print(vim.inspect(context_menu)) end
 
 function append_context_menu_section(ft, section)
   -- print('Append', ft, 'section:', vim.inspect(section))
 
-  if context_menu[ft] == nil then
-    context_menu[ft] = {}
-  end
+  if context_menu[ft] == nil then context_menu[ft] = {} end
 
   table.insert(context_menu[ft], section)
 end
@@ -52,19 +49,15 @@ function open_dropdown_menu(ft)
   local res = {}
 
   if context_menu['*'] ~= nil then
-    for i,v in ipairs(context_menu['*']) do
-      if #res > 0 then
-        vim.list_extend(res, {'-'})
-      end
+    for i, v in ipairs(context_menu['*']) do
+      if #res > 0 then vim.list_extend(res, {'-'}) end
       vim.list_extend(res, v)
     end
   end
 
   if context_menu[ft] ~= nil then
-    for i,v in ipairs(context_menu[ft]) do
-      if #res > 0 then
-        vim.list_extend(res, {'-'})
-      end
+    for i, v in ipairs(context_menu[ft]) do
+      if #res > 0 then vim.list_extend(res, {'-'}) end
       vim.list_extend(res, v)
     end
   end
@@ -74,16 +67,15 @@ function open_dropdown_menu(ft)
     current_cursor = vim.g['quickui#context#cursor']
   end
 
-  local opts = { index = current_cursor }
+  local opts = {index = current_cursor}
   if #res == 0 then
     print('No Context Menu Item!')
   else
-    vim.api.nvim_call_function('quickui#context#open', { res, opts })
+    vim.api.nvim_call_function('quickui#context#open', {res, opts})
   end
 end
 
 -- add default menu section
 append_context_menu_section('*', {
-  { 'Move Object Left',  'SidewaysLeft' },
-  { 'Move Object Right', 'SidewaysRight' },
+  {'Move Object Left', 'SidewaysLeft'}, {'Move Object Right', 'SidewaysRight'}
 })

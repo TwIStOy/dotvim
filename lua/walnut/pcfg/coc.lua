@@ -10,23 +10,18 @@ function setup()
   vim.api.nvim_set_option('updatetime', 200)
 
   vim.g.coc_global_extensions = {
-    'coc-vimlsp',
-    'coc-tabnine',
-    'coc-tsserver',
-    'coc-rust-analyzer',
-    'coc-pyright',
-    'coc-json',
-    'coc-clangd',
+    'coc-vimlsp', 'coc-tabnine', 'coc-tsserver', 'coc-rust-analyzer',
+    'coc-pyright', 'coc-json', 'coc-clangd'
   }
 
   require('walnut.pcfg.quickui').append_context_menu_section('cpp', {
-    { 'Goto &Definition\tgd', [[call feedkeys("\<Plug>(coc-definition)")]] },
-    { 'Goto &Type Definition', [[call feedkeys("\<Plug>(coc-type-definition)")]] },
-    { 'Goto &Implementation', [[call feedkeys("\<Plug>(coc-implementation)")]] },
-    { 'Goto &Reference', [[call feedkeys("\<Plug>(coc-reference)")]] },
-    { 'Rename', [[call feedkeys("\<Plug>(coc-rename)")]] },
-    { 'Code &Action\tga', [[call feedkeys("\<Plug>(coc-codeaction)")]] },
-    { 'List &Outline\t', [[:<C-u>CocList outline]] },
+    {'Goto &Definition\tgd', [[call feedkeys("\<Plug>(coc-definition)")]]},
+    {'Goto &Type Definition', [[call feedkeys("\<Plug>(coc-type-definition)")]]},
+    {'Goto &Implementation', [[call feedkeys("\<Plug>(coc-implementation)")]]},
+    {'Goto &Reference', [[call feedkeys("\<Plug>(coc-reference)")]]},
+    {'Rename', [[call feedkeys("\<Plug>(coc-rename)")]]},
+    {'Code &Action\tga', [[call feedkeys("\<Plug>(coc-codeaction)")]]},
+    {'List &Outline\t', [[:<C-u>CocList outline]]}
   })
 end
 

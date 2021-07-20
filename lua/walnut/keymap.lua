@@ -6,13 +6,9 @@ local keymap = va.nvim_set_keymap
 local ft_keymappings = {}
 
 local function generate_desc_map(shortcut, desc) -- {{{
-  if #shortcut == 1 then
-    return { [shortcut] = desc }
-  end
+  if #shortcut == 1 then return {[shortcut] = desc} end
 
-  return {
-    [shortcut:sub(1,1)] = generate_desc_map(shortcut:sub(2), desc)
-  }
+  return {[shortcut:sub(1, 1)] = generate_desc_map(shortcut:sub(2), desc)}
 end -- }}}
 
 local function merge_element(left, right) -- {{{
@@ -29,9 +25,7 @@ local function merge_element(left, right) -- {{{
     else
       res['name'] = left
     end
-    for k, v in pairs(right) do
-      res[k] = v
-    end
+    for k, v in pairs(right) do res[k] = v end
 
     return res
   end
@@ -51,11 +45,7 @@ local function merge_element(left, right) -- {{{
       end
     end
 
-    for k, v in pairs(right) do
-      if left[k] == nil then
-        res[k] = v
-      end
-    end
+    for k, v in pairs(right) do if left[k] == nil then res[k] = v end end
 
     return res
   end
@@ -63,7 +53,8 @@ end -- }}}
 
 local function update_ft_keymappings(ft, shortcut, desc) -- {{{
   if ft_keymappings[ft] ~= nil then
-    ft_keymappings[ft] = merge_element(ft_keymappings[ft], generate_desc_map(shortcut, desc))
+    ft_keymappings[ft] = merge_element(ft_keymappings[ft],
+                                       generate_desc_map(shortcut, desc))
   else
     ft_keymappings[ft] = generate_desc_map(shortcut, desc)
   end
@@ -72,26 +63,21 @@ end -- }}}
 -- map after <leader>
 function ftmap(ft, desc, shortcut, command)
   if ft == '*' then
-    keymap('n', '<leader>' .. shortcut, command, { silent = true, noremap = true })
+    keymap('n', '<leader>' .. shortcut, command, {silent = true, noremap = true})
   else
     -- nnoremap <buffer><silent><leader>
     vim.api.nvim_command(string.format(
-      [[au FileType %s nnoremap <buffer><silent><leader>%s %s]], ft, shortcut, command))
+                             [[au FileType %s nnoremap <buffer><silent><leader>%s %s]],
+                             ft, shortcut, command))
   end
   update_ft_keymappings(ft, shortcut, desc)
 end
 
-function inspect()
-  print(vim.inspect(ft_keymappings))
-end
+function inspect() print(vim.inspect(ft_keymappings)) end
 
 function ftdesc_folder(ft, folder, desc)
-  ft_keymappings[ft] = merge_element(
-    ft_keymappings[ft],
-    generate_desc_map(folder, {
-      name = desc
-    })
-  )
+  ft_keymappings[ft] = merge_element(ft_keymappings[ft],
+                                     generate_desc_map(folder, {name = desc}))
 end
 
 function define_keymap_here()

@@ -154,7 +154,8 @@ pkr.startup(function(use)
     setup = [[require('ht.plugs.config').surround()]]
   }
 
-  use 'savq/melange'
+  -- use 'savq/melange'
+  use 'monsonjeremy/onedark.nvim'
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
 

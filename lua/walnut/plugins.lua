@@ -132,10 +132,9 @@ pkr.startup(function(use)
 
   use {
     'TwIStOy/vim-cpp-toolkit',
-    cmd = {'LeaderF'},
-    fn = {'cpp_toolkit#project_root'},
+    fn = {'cpp_toolkit#*'},
     setup = [[require('walnut.pcfg.vim_cpp_toolkit')]],
-    require = {'Yggdroot/LeaderF'}
+    requires = {'Yggdroot/LeaderF'}
   }
 
   use {

@@ -177,3 +177,13 @@ require('walnut.pcfg.quickui').append_context_menu_section('*', {
   {'Move Object Left', 'SidewaysLeft'}, {'Move Object Right', 'SidewaysRight'}
 })
 
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    'c', 'cpp', 'toml', 'python', 'rust', 'go', 'typescript', 'lua'
+  },
+  highlight = {
+    enable = true, -- false will disable the whole extension
+    disable = {} -- list of language that will be disabled
+  }
+}
+

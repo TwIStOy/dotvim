@@ -5,18 +5,6 @@ function surround()
   vim.g.surround_no_insert_mappings = 1
 end
 
-function treesitter()
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = {
-      'c', 'cpp', 'toml', 'python', 'rust', 'go', 'typescript', 'lua'
-    },
-    highlight = {
-      enable = true, -- false will disable the whole extension
-      disable = {} -- list of language that will be disabled
-    }
-  }
-end
-
 function tcomment()
   vim.api.nvim_set_keymap('n', 'gcc', ':TComment<CR>',
                           {silent = true, noremap = true})

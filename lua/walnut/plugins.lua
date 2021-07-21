@@ -160,9 +160,11 @@ pkr.startup(function(use)
 
   use {'nacro90/numb.nvim', opt = true, config = [[require('numb').setup()]]}
 
+  use {'TwIStOy/nvim-treesitter', run = ':TSUpdate'}
+
   use {
-    'nvim-treesitter/nvim-treesitter',
-    config = [[require('ht.plugs.config').treesitter()]]
+    'nvim-treesitter/playground',
+    cmd = {'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor'}
   }
 
   use {'wakatime/vim-wakatime', opt = true}
@@ -231,7 +233,7 @@ pkr.startup(function(use)
   use {
     'osyo-manga/vim-jplus',
     keys = {'J', {'v', 'J'}},
-    config = [[require('ht.plugs.config').vim_jplus()]],
+    config = [[require('ht.plugs.config').vim_jplus()]]
   }
 
   use 'tpope/vim-repeat'
@@ -291,4 +293,10 @@ pkr.startup(function(use)
   }
 
   use {'dstein64/nvim-scrollview', opt = true, setup = setup('scrollview')}
+
+  use {
+    'kkoomen/vim-doge',
+    run = function() vim.fn['doge#install']() end,
+    cmd = {'DogeGenerate', 'DogeCreateDocStandard'}
+  }
 end)

@@ -166,6 +166,7 @@ ftdesc_folder('*', 'v', 'vcs')
 ftmap('*', 'select-ours', 'v1', ':call conflict_resolve#ourselves()<CR>')
 ftmap('*', 'select-them', 'v2', ':call conflict_resolve#themselves()<CR>')
 ftmap('*', 'select-both', 'vb', ':call conflict_resolve#both()<CR>')
+ftmap('*', 'show-commit', 'vm', ':CocCommand git.showCommit<CR>')
 
 if vim.g['fvim_loaded'] == nil then
   -- setopt('wildoptions', 'pum')

@@ -128,7 +128,7 @@ function define_popup_colorscheme()
   cmd [[highlight def link Lf_hl_popup_cursor Cursor]]
 
   -- the color of the cursorline
-  define_hl('Lf_hl_cursorline', {guifg = incsearch_fg})
+  define_hl('Lf_hl_cursorline', {guifg = incsearch_bg})
 
   -- the color of matching character
   define_hl('Lf_hl_match', {guifg = string_fg, gui = 'bold'})

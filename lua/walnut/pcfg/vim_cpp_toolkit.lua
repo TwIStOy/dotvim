@@ -25,6 +25,10 @@ require('walnut.pcfg.quickui').append_context_menu_section('cpp', {
   }
 })
 
+if not _G.packer_plugins['LeaderF'].loaded then
+  require('packer').loader('LeaderF')
+end
+
 --[[
 vim.api.nvim_command [[
 let g:templates_user_variables = get(g:, 'templates_user_variables', [])

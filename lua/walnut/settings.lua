@@ -75,7 +75,7 @@ vim.opt.hidden = true
 
 -- theme settings
 vim.opt.background = 'dark'
-vim.g.colors_name = 'onedark'
+cmd[[colorscheme onedark]]
 vim.g.onedark_italic_functions = true
 vim.g.onedark_italic_variables = true
 vim.g.onedark_sidebars = {"qf", "vista_kind", "terminal", "packer"}

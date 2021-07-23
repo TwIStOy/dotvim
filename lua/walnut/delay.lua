@@ -18,10 +18,6 @@ vim.schedule(function()
   end, 1500)
 
   vim.defer_fn(function()
-    cmd[[pa vim-wakatime]]
-  end, 1500)
-
-  vim.defer_fn(function()
     require('packer').loader('nvim-scrollview')
   end, 2000)
 end)

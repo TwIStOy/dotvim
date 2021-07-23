@@ -178,8 +178,6 @@ pkr.startup(function(use)
     cmd = {'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor'}
   }
 
-  use {'wakatime/vim-wakatime', opt = true}
-
   use {'kevinhwang91/nvim-bqf', ft = 'qf', config = config('bqf')}
 
   use {

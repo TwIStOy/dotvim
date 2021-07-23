@@ -6,6 +6,15 @@ local ftmap = require('walnut.keymap').ftmap
 local config = require('ht.plugs.utils').config
 local setup = require('ht.plugs.utils').setup
 
+
+-- packer.nvim
+--
+-- Install packer.nvim if it's not ready.
+--
+-- To know whether packer.nvim is installn or not, check this folder exists:
+--
+--  $DATA/site/pack/packer/start/packer.nvim
+--
 local packer_install_path = fn.stdpath('data') ..
                                 '/site/pack/packer/start/packer.nvim'
 
@@ -16,7 +25,9 @@ end
 
 cmd('packadd packer.nvim')
 
+--
 -- Auto recompile plugins when changes in plugin.lua
+--
 vim.cmd [[
 augroup packer_recompile
   autocmd!

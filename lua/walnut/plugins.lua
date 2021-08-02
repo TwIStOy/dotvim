@@ -6,7 +6,6 @@ local ftmap = require('walnut.keymap').ftmap
 local config = require('ht.plugs.utils').config
 local setup = require('ht.plugs.utils').setup
 
-
 -- packer.nvim
 --
 -- Install packer.nvim if it's not ready.
@@ -164,7 +163,6 @@ pkr.startup(function(use)
     setup = [[require('ht.plugs.config').surround()]]
   }
 
-  -- use 'savq/melange'
   use 'monsonjeremy/onedark.nvim'
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
@@ -307,5 +305,15 @@ pkr.startup(function(use)
     'kkoomen/vim-doge',
     run = function() vim.fn['doge#install']() end,
     cmd = {'DogeGenerate', 'DogeCreateDocStandard'}
+  }
+
+  use {
+    'phaazon/hop.nvim',
+    cmd = {
+      'HopWord', 'HopPattern', 'HopChar1', 'HopChar2', 'HopLine', 'HopLineStart'
+    },
+    config = function()
+      require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'}
+    end
   }
 end)

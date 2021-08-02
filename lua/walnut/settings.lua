@@ -191,3 +191,7 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
+-- keymappings for hop
+keymap('n', ',,', [[:HopWord<CR>]], { silent = true, noremap = true})
+keymap('n', ',l', [[:HopWord<CR>]], { silent = true, noremap = true})
+

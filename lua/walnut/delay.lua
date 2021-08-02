@@ -14,6 +14,10 @@ vim.schedule(function()
   end, 500)
 
   vim.defer_fn(function()
+    require('packer').loader('vim-textobj-user')
+  end, 1000)
+
+  vim.defer_fn(function()
     require('packer').loader('coc.nvim')
   end, 1500)
 

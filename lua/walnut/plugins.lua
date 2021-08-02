@@ -57,8 +57,6 @@ pkr.startup(function(use)
     setup = [[require('walnut.pcfg.asynctasks').setup()]]
   }
 
-  use {'powerman/vim-plugin-AnsiEsc', cmd = {'AnsiEsc'}}
-
   use 'nvim-lua/plenary.nvim'
 
   use {'nvim-lua/popup.nvim', requires = {'nvim-lua/plenary.nvim'}}
@@ -72,21 +70,24 @@ pkr.startup(function(use)
 
   use {
     'fannheyward/telescope-coc.nvim',
-    cmd = {'Telescope'},
+    opt = true,
+    after = 'telescope.nvim',
     requires = {'nvim-telescope/telescope.nvim'},
     config = [[require('telescope').load_extension('coc')]]
   }
 
   use {
     'nvim-telescope/telescope-fzy-native.nvim',
-    cmd = {'Telescope'},
+    opt = true,
+    after = 'telescope.nvim',
     requires = {'nvim-telescope/telescope.nvim'},
     config = [[require('telescope').load_extension('fzy_native')]]
   }
 
   use {
     'fhill2/telescope-ultisnips.nvim',
-    cmd = {'Telescope'},
+    opt = true,
+    after = 'telescope.nvim',
     requires = {'nvim-telescope/telescope.nvim'},
     config = [[require('telescope').load_extension('ultisnips')]]
   }
@@ -121,9 +122,19 @@ pkr.startup(function(use)
   }
 
   -- text-objects
-  use 'kana/vim-textobj-user'
-  use {'lucapette/vim-textobj-underscore', requires = {'kana/vim-textobj-user'}}
-  use {'sgur/vim-textobj-parameter', requires = {'kana/vim-textobj-user'}}
+  use {'kana/vim-textobj-user', opt = true}
+  use {
+    'lucapette/vim-textobj-underscore',
+    opt = true,
+    after = 'vim-textobj-user',
+    requires = {'kana/vim-textobj-user'}
+  }
+  use {
+    'sgur/vim-textobj-parameter',
+    opt = true,
+    after = 'vim-textobj-user',
+    requires = {'kana/vim-textobj-user'}
+  }
 
   use {
     'TwIStOy/ultisnips',
@@ -315,8 +326,6 @@ pkr.startup(function(use)
     cmd = {
       'HopWord', 'HopPattern', 'HopChar1', 'HopChar2', 'HopLine', 'HopLineStart'
     },
-    config = function()
-      require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'}
-    end
+    config = function() require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'} end
   }
 end)

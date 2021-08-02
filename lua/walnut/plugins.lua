@@ -202,9 +202,9 @@ pkr.startup(function(use)
   }
 
   use {
-    'famiu/feline.nvim',
+    'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', 'lewis6991/gitsigns.nvim'},
-    config = [[require('walnut.pcfg.feline.config')]]
+    config = config('lualine')
   }
 
   use {

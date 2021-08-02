@@ -163,7 +163,10 @@ pkr.startup(function(use)
     setup = [[require('ht.plugs.config').surround()]]
   }
 
-  use 'monsonjeremy/onedark.nvim'
+  use {
+    'monsonjeremy/onedark.nvim',
+    config = [[require('walnut.pcfg.onedark').config()]]
+  }
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
 

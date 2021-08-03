@@ -65,9 +65,8 @@ function ftmap(ft, desc, shortcut, command)
   if ft == '*' then
     keymap('n', '<leader>' .. shortcut, command, {silent = true, noremap = true})
   else
-    -- nnoremap <buffer><silent><leader>
     vim.api.nvim_command(string.format(
-                             [[au FileType %s nnoremap <buffer><silent><leader>%s %s]],
+                             "au FileType %s nnoremap <buffer><silent><leader>%s %s",
                              ft, shortcut, command))
   end
   update_ft_keymappings(ft, shortcut, desc)

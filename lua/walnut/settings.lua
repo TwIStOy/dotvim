@@ -165,8 +165,7 @@ ftmap('*', 'select-both', 'vb', ':call conflict_resolve#both()<CR>')
 ftmap('*', 'show-commit', 'vm', ':CocCommand git.showCommit<CR>')
 
 if vim.g['fvim_loaded'] == nil then
-  -- setopt('wildoptions', 'pum')
-  cmd [[set wildoptions=pum]]
+  vim.opt.wildoptions = 'pum'
 end
 
 ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')

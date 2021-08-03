@@ -108,6 +108,9 @@ local ftdesc_folder = require('walnut.keymap').ftdesc_folder
 keymap('n', '<F3>',
        [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]],
        {silent = true, noremap = true})
+keymap('n', '<C-n>',
+       [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]],
+       {silent = true, noremap = true})
 keymap('n', '<F4>', ':call quickui#tools#list_buffer("e")<CR>',
        {silent = true, noremap = true})
 keymap('n', ';;',

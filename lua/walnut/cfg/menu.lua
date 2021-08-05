@@ -128,7 +128,7 @@ function setup_menu_items()
   })
 
   vcall('quickui#menu#install', {
-    'VCS', {
+    '&VCS', {
       { '&Status', 'CocList --normal gstatus', 'show the working tree status' },
       { '&Stage Chunk', 'CocCommand git.chunkStage', 'stage current chunk' },
     }, 9999

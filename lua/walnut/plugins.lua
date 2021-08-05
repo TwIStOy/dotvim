@@ -336,4 +336,6 @@ pkr.startup(function(use)
     },
     config = function() require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'} end
   }
+
+  use 'rcarriga/nvim-notify'
 end)

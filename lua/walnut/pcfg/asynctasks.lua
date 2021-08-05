@@ -1,7 +1,7 @@
 module('walnut.pcfg.asynctasks', package.seeall)
 
 function setup()
-  vim.g.asyncrun_open = 6
+  vim.g.asyncrun_open = 10
 
   vim.g.asyncrun_rootmarks = {'BLADE_ROOT', 'JK_ROOT', 'CMakeLists.txt'}
 

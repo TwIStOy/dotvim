@@ -102,12 +102,14 @@ pkr.startup(function(use)
 
   use 'kyazdani42/nvim-web-devicons'
 
+  --[[
   use {
     'kyazdani42/nvim-tree.lua',
     opt = true,
-    config = [[require('walnut.pcfg.nvim_tree')]],
+    config = "require('walnut.pcfg.nvim_tree')",
     requires = {'kyazdani42/nvim-web-devicons'}
   }
+  --]]
 
   use {
     'liuchengxu/vim-which-key',
@@ -202,7 +204,7 @@ pkr.startup(function(use)
 
   use {
     'junegunn/vim-easy-align',
-    cmd = {'EsayAlign'},
+    cmd = {'EasyAlign'},
     requires = {'godlygeek/tabular'}
   }
 

@@ -13,5 +13,5 @@ function setup()
 end
 
 function cmd_finish()
-  vim.notify("Async job finished.", "info", {title = "Async", timeout = 10000})
+  vim.notify("Job:\n" .. vim.g.asyncrun_cmd .. "\nfinished.", "info", {title = "Async", timeout = 10000})
 end

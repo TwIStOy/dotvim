@@ -167,9 +167,7 @@ ftmap('*', 'select-them', 'v2', ':call conflict_resolve#themselves()<CR>')
 ftmap('*', 'select-both', 'vb', ':call conflict_resolve#both()<CR>')
 ftmap('*', 'show-commit', 'vm', ':CocCommand git.showCommit<CR>')
 
-if vim.g['fvim_loaded'] == nil then
-  vim.opt.wildoptions = 'pum'
-end
+if vim.g['fvim_loaded'] == nil then vim.opt.wildoptions = 'pum' end
 
 ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')
 vim.api.nvim_set_keymap('x', '<leader>ta', ':EasyAlign<CR>', {silent = true})
@@ -190,10 +188,21 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- keymappings for hop
-keymap('n', ',,', [[:HopWord<CR>]], { silent = true, noremap = true})
-keymap('n', ',l', [[:HopWord<CR>]], { silent = true, noremap = true})
+keymap('n', ',,', [[:HopWord<CR>]], {silent = true, noremap = true})
+keymap('n', ',l', [[:HopWord<CR>]], {silent = true, noremap = true})
 
 vim.notify = function(msg, ...)
-  require('notify')(" " .. msg, ...)
+  local res = ''
+  local first = true
+  for str in string.gmatch(msg, "([^\n]+)") do
+    if first then
+      first = false
+    else
+      res = res .. '\n'
+    end
+    res = res .. ' ' .. str
+  end
+
+  require('notify')(res, ...)
 end
 

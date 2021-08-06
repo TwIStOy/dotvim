@@ -193,3 +193,7 @@ require'nvim-treesitter.configs'.setup {
 keymap('n', ',,', [[:HopWord<CR>]], { silent = true, noremap = true})
 keymap('n', ',l', [[:HopWord<CR>]], { silent = true, noremap = true})
 
+vim.notify = function(msg, ...)
+  require('notify')(" " .. msg, ...)
+end
+

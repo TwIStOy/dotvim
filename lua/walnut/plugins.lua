@@ -340,7 +340,6 @@ pkr.startup(function(use)
   use 'rcarriga/nvim-notify'
 
   use { 'haringsrob/nvim_context_vt',
-    ft = { 'cpp', 'lua' },
     config = config('nvim_context_vt'),
   }
 end)

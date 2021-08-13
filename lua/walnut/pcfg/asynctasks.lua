@@ -15,3 +15,4 @@ end
 function cmd_finish()
   vim.notify("Job:\n" .. vim.g.asyncrun_cmd .. "\nfinished.", "info", {title = "Async", timeout = 10000})
 end
+

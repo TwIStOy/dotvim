@@ -342,4 +342,6 @@ pkr.startup(function(use)
   use { 'haringsrob/nvim_context_vt',
     config = config('nvim_context_vt'),
   }
+
+  use_rocks "lualogging"
 end)

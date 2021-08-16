@@ -25,6 +25,7 @@ require('walnut.pcfg.quickui').append_context_menu_section('cpp', {
   }
 })
 
+print("CONFIG VIM-CPP-TOOLKIT")
 if not _G.packer_plugins['LeaderF'].loaded then
   require('packer').loader('LeaderF')
 end

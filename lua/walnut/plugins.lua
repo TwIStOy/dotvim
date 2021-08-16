@@ -30,7 +30,7 @@ cmd('packadd packer.nvim')
 vim.cmd [[
 augroup packer_recompile
   autocmd!
-  autocmd BufWritePost */walnut/plugins.lua echo "Recompile!" | source <afile> | PackerCompile
+  autocmd BufWritePost */walnut/plugins.lua echom "Recompile!" | source <afile> | PackerCompile
 augroup END
 ]]
 
@@ -156,8 +156,10 @@ pkr.startup(function(use)
   use {
     'TwIStOy/vim-cpp-toolkit',
     fn = {'cpp_toolkit#*'},
-    setup = [[require('walnut.pcfg.vim_cpp_toolkit')]],
-    requires = {'Yggdroot/LeaderF'}
+    opt = true,
+    config = [[require('walnut.pcfg.vim_cpp_toolkit')]],
+    requires = {'Yggdroot/LeaderF'},
+    wants = 'LeaderF'
   }
 
   use {
@@ -325,7 +327,9 @@ pkr.startup(function(use)
 
   use {
     'kkoomen/vim-doge',
-    run = function() vim.fn['doge#install']() end,
+    run = function()
+      vim.fn['doge#install']()
+    end,
     cmd = {'DogeGenerate', 'DogeCreateDocStandard'}
   }
 
@@ -334,14 +338,14 @@ pkr.startup(function(use)
     cmd = {
       'HopWord', 'HopPattern', 'HopChar1', 'HopChar2', 'HopLine', 'HopLineStart'
     },
-    config = function() require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'} end
+    config = function()
+      require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'}
+    end
   }
 
   use 'rcarriga/nvim-notify'
 
-  use { 'haringsrob/nvim_context_vt',
-    config = config('nvim_context_vt'),
-  }
+  use {'haringsrob/nvim_context_vt', config = config('nvim_context_vt')}
 
   use_rocks "lualogging"
 end)

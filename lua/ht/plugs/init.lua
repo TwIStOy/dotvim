@@ -39,5 +39,14 @@ function IsLoaded(name)
   return packer_plugins and packer_plugins[name] and packer_plugins[name].loaded
 end
 
+function Config(plug)
+  return ([[require('ht.plugs.%s').config()]]):format(plug)
+end
+
+function Setup(plug)
+  return ([[require('ht.plugs.%s').setup()]]):format(plug)
+end
+
+
 -- vim: et sw=2 ts=2
 

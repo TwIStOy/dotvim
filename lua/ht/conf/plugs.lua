@@ -12,7 +12,8 @@ function UsePlugins(use)
     'skywind3000/asynctasks.vim',
     cmd = {'AsyncTask', 'AsyncTaskMacro', 'AsyncTaskProfile', 'AsyncTaskEdit'},
     requires = {'skywind3000/asyncrun.vim'},
-    setup = [[require('walnut.pcfg.asynctasks').setup()]]
+    setup = Setup('asynctasks'),
+    wants = {'asyncrun.vim'}
   }
 
   use 'nvim-lua/plenary.nvim'
@@ -52,11 +53,7 @@ function UsePlugins(use)
 
   use {'dstein64/vim-startuptime', cmd = 'StartupTime'}
 
-  use {
-    'mhinz/vim-startify',
-    cmd = {'Startify'},
-    setup = [[require('walnut.pcfg.startify')]]
-  }
+  use {'mhinz/vim-startify', cmd = {'Startify'}, setup = Config('startify')}
 
   use 'kyazdani42/nvim-web-devicons'
 
@@ -72,7 +69,7 @@ function UsePlugins(use)
   use {
     'liuchengxu/vim-which-key',
     cmd = {'WhichKey'},
-    config = [[require('walnut.pcfg.whichkey')]]
+    config = Config('whichkey')
   }
 
   use {
@@ -100,8 +97,8 @@ function UsePlugins(use)
     'TwIStOy/ultisnips',
     ft = {'cpp', 'c', 'markdown', 'vimwiki', 'rust', 'go', 'python'},
     event = 'InsertEnter',
-    setup = [[require('walnut.pcfg.ultisnips')]],
-    config = [[require('walnut.pcfg.ultisnips').setup_cpp_snippets()]]
+    setup = Setup('ultisnips'),
+    config = Config('ultisnips')
   }
 
   use {
@@ -296,9 +293,7 @@ function UsePlugins(use)
     cmd = {
       'HopWord', 'HopPattern', 'HopChar1', 'HopChar2', 'HopLine', 'HopLineStart'
     },
-    config = function()
-      require'hop'.setup {keys = 'etovxqpdygfblzhckisuran'}
-    end
+    config = Config('hop')
   }
 
   use 'rcarriga/nvim-notify'
@@ -309,5 +304,4 @@ function UsePlugins(use)
 end
 
 -- vim: et sw=2 ts=2 fdm=marker
-
 

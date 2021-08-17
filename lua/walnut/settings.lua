@@ -188,8 +188,8 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- keymappings for hop
-keymap('n', ',,', [[:HopWord<CR>]], {silent = true, noremap = true})
-keymap('n', ',l', [[:HopWord<CR>]], {silent = true, noremap = true})
+keymap('n', ',,', [[<cmd>HopWord<CR>]], {silent = true, noremap = true})
+keymap('n', ',l', [[<cmd>HopLine<CR>]], {silent = true, noremap = true})
 
 vim.notify = function(msg, ...)
   local res = ''

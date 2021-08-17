@@ -5,6 +5,7 @@ local cmd = vim.api.nvim_command
 require'ht.plugs'.InitPacker()
 
 local pkr = require'packer'
+local use_plugins = require'ht.conf.plugs'.UsePlugins
 
 pkr.init({
   ensure_dependencies = true,
@@ -20,7 +21,5 @@ pkr.init({
   }
 })
 
-pkr.startup(function(use)
-
-end)
+pkr.startup(use_plugins)
 

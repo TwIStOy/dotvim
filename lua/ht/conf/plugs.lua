@@ -151,10 +151,20 @@ function UsePlugins(use)
 
   use {'kevinhwang91/nvim-bqf', ft = 'qf', config = Config('bqf')}
 
+  --[[
   use {
     'tenfyzhong/axring.vim',
     keys = {'<C-a>', '<C-x>'},
-    setup = [[require('walnut.pcfg.axring')]]
+    setup = "require('walnut.pcfg.axring')"
+  }
+  --]]
+
+  use {
+    'monaqa/dial.nvim',
+    keys = {
+      '<C-a>', '<C-x>',
+    },
+    config = Config('dial')
   }
 
   use {'godlygeek/tabular', cmd = {'Tabularize'}}

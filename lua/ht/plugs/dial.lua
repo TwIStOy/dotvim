@@ -16,11 +16,11 @@ function config()
 
   __augends['*'] = {
     "number#decimal", "number#hex", "number#binary", "date#[%Y/%m/%d]",
-    define_custom {"true", "false"}, define_custom {"True", "False"},
-    define_custom {'on', 'off'}, define_custom {'ON', 'OFF'},
-    define_custom {'yes', 'no'}, define_custom {'YES', 'NO'},
-    define_custom {'||', '&&'}, define_custom {'enable', 'disable'},
-    define_custom {
+    "date#[%Y-%m-%d]", define_custom {"true", "false"},
+    define_custom {"True", "False"}, define_custom {'on', 'off'},
+    define_custom {'ON', 'OFF'}, define_custom {'yes', 'no'},
+    define_custom {'YES', 'NO'}, define_custom {'||', '&&'},
+    define_custom {'enable', 'disable'}, define_custom {
       'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
       'Sunday'
     }, define_custom {
@@ -38,6 +38,8 @@ function config()
     define_custom {'EXPECT_EQ', 'EXPECT_NE'}, define_custom {'==', '!='},
     define_custom {'static_cast', 'dynamic_cast', 'reinterpret_cast'}
   }
+
+  __augends['markdown'] = {'markup#markdown#header'}
 
   vim.api.nvim_set_keymap('n', '<C-a>',
                           [[<cmd>lua require'dial'.cmd.increment_normal(vim.v.count1, require'ht.plugs.dial'.GenerateOverwriteList())<CR>]],

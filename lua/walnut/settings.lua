@@ -130,12 +130,16 @@ ftmap('*', 'update', 'fs', ':update<CR>')
 ftmap('*', 'toggle-file-explorer', 'ft',
       [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
 
-keymap('n', '*', '<Plug>(quickhl-manual-this-whole-word)', {silent = true})
-keymap('n', 'n', '<Plug>(quickhl-manual-go-to-next)', {silent = true})
-keymap('n', 'N', '<Plug>(quickhl-manual-go-to-prev)', {silent = true})
+keymap('n', '*', [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]],
+       {silent = true, noremap = true})
+keymap('n', 'n', [[<cmd>call quickhl#manual#go_to_next('s')<CR>]],
+       {silent = true, noremap = true})
+keymap('n', 'N', [[<cmd>call quickhl#manual#go_to_prev('s')<CR>]],
+       {silent = true, noremap = true})
 keymap('n', '<M-n>', [[:nohl<CR>:QuickhlManualReset<CR>]],
        {silent = true, noremap = true})
-keymap('v', '*', '<Plug>(quickhl-manual-this)', {silent = true})
+keymap('v', '*', [[<cmd>call quickhl#manual#this('v')<CR>]],
+       {silent = true, noremap = true})
 
 ftmap('*', 'quit', 'q', ':q<CR>')
 ftmap('*', 'save-and-quit', 'x', ':wq<CR>')
@@ -167,7 +171,9 @@ ftmap('*', 'select-them', 'v2', ':call conflict_resolve#themselves()<CR>')
 ftmap('*', 'select-both', 'vb', ':call conflict_resolve#both()<CR>')
 ftmap('*', 'show-commit', 'vm', ':CocCommand git.showCommit<CR>')
 
-if vim.g['fvim_loaded'] == nil then vim.opt.wildoptions = 'pum' end
+if vim.g['fvim_loaded'] == nil then
+  vim.opt.wildoptions = 'pum'
+end
 
 ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')
 vim.api.nvim_set_keymap('x', '<leader>ta', ':EasyAlign<CR>', {silent = true})

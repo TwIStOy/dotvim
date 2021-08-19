@@ -159,13 +159,7 @@ function UsePlugins(use)
   }
   --]]
 
-  use {
-    'monaqa/dial.nvim',
-    keys = {
-      '<C-a>', '<C-x>',
-    },
-    config = Config('dial')
-  }
+  use {'monaqa/dial.nvim', keys = {'<C-a>', '<C-x>'}, config = Config('dial')}
 
   use {'godlygeek/tabular', cmd = {'Tabularize'}}
 
@@ -259,7 +253,11 @@ function UsePlugins(use)
     requires = {'skywind3000/vim-quickui'}
   }
 
-  use {'t9md/vim-quickhl', keys = {'n', 'N', '*', '#', '/', '?', 'g*', 'g#'}}
+  use {
+    't9md/vim-quickhl',
+    cmd = {'QuickhlManualReset'},
+    fn = {'quickhl#*'},
+  }
 
   use {'plasticboy/vim-markdown', ft = {'markdown', 'pandoc.markdown'}}
 

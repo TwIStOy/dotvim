@@ -134,8 +134,13 @@ function UsePlugins(use)
   }
 
   use {
-    'monsonjeremy/onedark.nvim',
-    config = [[require('walnut.pcfg.onedark').config()]]
+    "Mofiqul/vscode.nvim",
+    setup = function()
+      vim.g.vscode_style = "dark"
+    end,
+    config = function()
+      vim.cmd [[colorscheme vscode]]
+    end
   }
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
@@ -253,11 +258,7 @@ function UsePlugins(use)
     requires = {'skywind3000/vim-quickui'}
   }
 
-  use {
-    't9md/vim-quickhl',
-    cmd = {'QuickhlManualReset'},
-    fn = {'quickhl#*'},
-  }
+  use {'t9md/vim-quickhl', cmd = {'QuickhlManualReset'}, fn = {'quickhl#*'}}
 
   use {'plasticboy/vim-markdown', ft = {'markdown', 'pandoc.markdown'}}
 

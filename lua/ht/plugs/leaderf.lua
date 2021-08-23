@@ -54,12 +54,6 @@ function config()
       }
     }
   })
-
-  keymap('n', '<C-p>',
-         [[<cmd>lua require('ht.plugs.leaderf').OpenProjectRoot()<CR>]],
-         {noremap = true, silent = true})
-  ftmap('*', 'edit-file-pwd', 'e',
-        [[<cmd>lua require('ht.plugs.leaderf').OpenProjectRoot()<CR>]])
 end
 
 function OpenProjectRoot()

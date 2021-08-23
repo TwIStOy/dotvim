@@ -46,6 +46,9 @@ vim.opt.cursorline = true
 cmd('autocmd InsertLeave,WinEnter * set cursorline')
 cmd('autocmd InsertEnter,WinLeave * set nocursorline')
 
+-- mouse mode
+vim.opt.mouse = 'a'
+
 -- edit settings
 vim.opt.expandtab = true
 vim.opt.smartindent = true

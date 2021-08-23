@@ -24,21 +24,14 @@ function UsePlugins(use)
     'nvim-telescope/telescope.nvim',
     requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
     cmd = {'Telescope'},
-    config = [[require('telescope').setup {}]]
-  }
-
-  use {
-    'fannheyward/telescope-coc.nvim',
-    opt = true,
-    after = 'telescope.nvim',
-    requires = {'nvim-telescope/telescope.nvim'},
-    config = [[require('telescope').load_extension('coc')]]
+    config = Config('telescope'),
   }
 
   use {
     'nvim-telescope/telescope-fzy-native.nvim',
     opt = true,
     after = 'telescope.nvim',
+    wants = 'telescope.nvim',
     requires = {'nvim-telescope/telescope.nvim'},
     config = [[require('telescope').load_extension('fzy_native')]]
   }

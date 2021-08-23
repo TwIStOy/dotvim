@@ -55,12 +55,6 @@ function open_project_root()
   end
 end
 
-keymap('n', '<C-p>',
-       [[:lua require('walnut.pcfg.leaderf').open_project_root()<CR>]],
-       {noremap = true, silent = true})
-ftmap('*', 'edit-file-pwd', 'e',
-      [[:lua require('walnut.pcfg.leaderf').open_project_root()<CR>]])
-
 local define_hl = function(group, color_map)
   local cmd = 'highlight def ' .. group
 

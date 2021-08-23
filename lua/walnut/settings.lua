@@ -131,6 +131,12 @@ ftdesc_folder('*', 'f', 'file')
 ftmap('*', 'update', 'fs', ':update<CR>')
 ftmap('*', 'toggle-file-explorer', 'ft',
       [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
+keymap('n', '<C-p>',
+       [[<cmd>lua require('ht.plugs.telescope').OpenProjectRoot()<CR>]],
+       {noremap = true, silent = true})
+ftmap('*', 'edit-file-pwd', 'e',
+      [[<cmd>lua require('ht.plugs.telescope').OpenProjectRoot()<CR>]])
+
 
 keymap('n', '*', [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]],
        {silent = true, noremap = true})

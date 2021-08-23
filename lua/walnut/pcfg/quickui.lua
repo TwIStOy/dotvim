@@ -6,6 +6,7 @@ local keymap = va.nvim_set_keymap
 local setopt = va.nvim_set_option
 
 local cl = require('walnut.cfg.color')
+local hi = require('ht.core.highlight').Hi
 
 vim.g.quickui_border_style = 2
 vim.g.quickui_show_tip = 1
@@ -19,20 +20,25 @@ function update_color()
   local incsearch_bg = vim.api.nvim_get_hl_by_name('IncSearch', 1).background
   local incsearch_fg = vim.api.nvim_get_hl_by_name('IncSearch', 1).foreground
 
-  cmd(string.format([[hi! QuickBG guifg=%s guibg=%s]], normal_bg, normal_bg))
-  cmd(string.format([[hi! QuickSel gui=bold guibg=#%x guifg=#%x]], incsearch_bg,
-                    incsearch_fg))
-  cmd(string.format([[hi! QuickOff guifg=%s]], cl.cursorline_bg))
+  hi {
+    QuickBG = {guifg = normal_fg, guibg = normal_bg},
+    QuickSel = {gui = 'bold', guibg = incsearch_bg, guifg = incsearch_fg},
+    QuickOff = {guifg = cl.cursorline_bg}
+  }
 end
 
 local context_menu = {}
 
-function inspect() print(vim.inspect(context_menu)) end
+function inspect()
+  print(vim.inspect(context_menu))
+end
 
 function append_context_menu_section(ft, section)
   -- print('Append', ft, 'section:', vim.inspect(section))
 
-  if context_menu[ft] == nil then context_menu[ft] = {} end
+  if context_menu[ft] == nil then
+    context_menu[ft] = {}
+  end
 
   table.insert(context_menu[ft], section)
 end
@@ -50,14 +56,18 @@ function open_dropdown_menu(ft)
 
   if context_menu['*'] ~= nil then
     for i, v in ipairs(context_menu['*']) do
-      if #res > 0 then vim.list_extend(res, {'-'}) end
+      if #res > 0 then
+        vim.list_extend(res, {'-'})
+      end
       vim.list_extend(res, v)
     end
   end
 
   if context_menu[ft] ~= nil then
     for i, v in ipairs(context_menu[ft]) do
-      if #res > 0 then vim.list_extend(res, {'-'}) end
+      if #res > 0 then
+        vim.list_extend(res, {'-'})
+      end
       vim.list_extend(res, v)
     end
   end

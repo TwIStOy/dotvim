@@ -230,8 +230,8 @@ function UsePlugins(use)
     'neoclide/coc.nvim',
     branch = 'release',
     opt = true,
-    setup = [[require('walnut.pcfg.coc').setup()]],
-    config = [[require('walnut.pcfg.coc').config()]],
+    setup = Setup('coc'),
+    config = Config('coc'),
     requires = {'skywind3000/vim-quickui'}
   }
 

@@ -1,2 +1,2 @@
-lua require('walnut.pcfg.leaderf').define_popup_colorscheme()
+lua require('ht.plugs.leaderf').define_popup_colorscheme()
 

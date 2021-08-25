@@ -14,7 +14,7 @@ function setup()
     'coc-pyright', 'coc-json', 'coc-clangd', 'coc-git',
   }
 
-  require('walnut.pcfg.quickui').append_context_menu_section('cpp', {
+  require('ht.core.dropdown').AppendContext('cpp', {
     {'Goto &Definition\tgd', [[call feedkeys("\<Plug>(coc-definition)")]]},
     {'Goto &Type Definition', [[call feedkeys("\<Plug>(coc-type-definition)")]]},
     {'Goto &Implementation', [[call feedkeys("\<Plug>(coc-implementation)")]]},

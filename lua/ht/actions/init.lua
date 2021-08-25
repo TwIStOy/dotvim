@@ -16,5 +16,11 @@ function OpenMenu()
   call('quickui#menu#open', {})
 end
 
+function OpenDropdown()
+  require'ht.plugs.quickui'.update_color()
+
+  require'ht.plugs.quickui'.OpenDropdown(vim.api.nvim_buf_get_option(0, 'ft'))
+end
+
 -- vim: et sw=2 ts=2 fdm=marker
 

@@ -68,7 +68,8 @@ function UsePlugins(use)
   use {
     'skywind3000/vim-quickui',
     fn = {'quickui#*'},
-    config = [[require('walnut.cfg.menu').setup_menu_items()]]
+    setup = Setup('quickui'),
+    config = Config('quickui')
   }
 
   -- text-objects
@@ -105,7 +106,7 @@ function UsePlugins(use)
     'TwIStOy/vim-cpp-toolkit',
     fn = {'cpp_toolkit#*'},
     opt = true,
-    config = [[require('walnut.pcfg.vim_cpp_toolkit')]],
+    config = Config('vim_cpp_toolkit'),
     requires = {'Yggdroot/LeaderF'},
     wants = 'LeaderF'
   }
@@ -238,8 +239,8 @@ function UsePlugins(use)
   use {
     'sbdchd/neoformat',
     event = 'BufRead',
-    setup = [[require('walnut.pcfg.neoformat').setup()]],
-    config = [[require('walnut.pcfg.neoformat').config()]]
+    setup = Setup('neoformat'),
+    config = Config('neoformat')
   }
 
   use {

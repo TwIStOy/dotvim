@@ -19,6 +19,6 @@ function setup()
 end
 
 function config()
-  require('walnut.pcfg.quickui').append_context_menu_section('vimwiki',
-                                                             context_menu)
+  require('ht.core.dropdown').AppendContext('vimwiki', context_menu)
 end
+

@@ -118,11 +118,10 @@ keymap('n', '<C-n>',
        {silent = true, noremap = true})
 keymap('n', '<F4>', ':call quickui#tools#list_buffer("e")<CR>',
        {silent = true, noremap = true})
-keymap('n', ';;',
-       [[:lua require('walnut.pcfg.quickui').open_dropdown_menu(vim.api.nvim_buf_get_option(0, 'ft'))<CR>]],
+keymap('n', ';;', [[:lua require('ht.actions').OpenDropdown()<CR>]],
        {silent = true, noremap = true})
 keymap('n', '<leader><leader>',
-        [[<cmd>lua require('ht.actions').OpenMenu()<cr>]],
+       [[<cmd>lua require('ht.actions').OpenMenu()<cr>]],
        {silent = true, noremap = true})
 
 for i = 1, 9 do
@@ -139,7 +138,6 @@ keymap('n', '<C-p>',
        {noremap = true, silent = true})
 ftmap('*', 'edit-file-pwd', 'e',
       [[<cmd>lua require('ht.actions.file').OpenProjectRoot()<CR>]])
-
 
 keymap('n', '*', [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]],
        {silent = true, noremap = true})
@@ -190,8 +188,8 @@ ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')
 vim.api.nvim_set_keymap('x', '<leader>ta', ':EasyAlign<CR>', {silent = true})
 
 -- add default menu section
-require('walnut.pcfg.quickui').append_context_menu_section('*', {
-  {'Move Object Left', 'SidewaysLeft'}, {'Move Object Right', 'SidewaysRight'}
+require('ht.core.dropdown').AppendContext('*', {
+  {'Move Object &Left', 'SidewaysLeft'}, {'Move Object &Right', 'SidewaysRight'}
 })
 
 require'nvim-treesitter.configs'.setup {

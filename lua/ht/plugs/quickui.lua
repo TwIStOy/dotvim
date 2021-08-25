@@ -21,13 +21,6 @@ local function foreground(hi)
   return vim.api.nvim_get_hl_by_name(hi, 1).foreground
 end
 
-function config()
-  vim.g.quickui_border_style = 2
-  vim.g.quickui_show_tip = 1
-
-  cmd [[au ColorScheme * lua require("ht.plugs.quickui").update_color()]]
-end
-
 --[[
 Update Quickui's highlight colors.
 - Before any window displays
@@ -43,6 +36,16 @@ function update_color()
     },
     QuickOff = {guifg = background('CursorLine')}
   }
+end
+
+function setup()
+  vim.g.quickui_border_style = 2
+  vim.g.quickui_show_tip = 1
+  cmd [[au ColorScheme * lua require("ht.plugs.quickui").update_color()]]
+end
+
+function config()
+  update_color()
 end
 
 function OpenDropdown(ft)

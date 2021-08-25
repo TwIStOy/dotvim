@@ -17,7 +17,7 @@ function config()
     max_length = math.max(max_length, #line)
   end
 
-  local version_header_line = '[ walnut, last updated: ' ..
+  local version_header_line = '[ ht.nvim, last updated: ' ..
                                   require('walnut.version').last_updated_time ..
                                   ' ]'
   local maintainer_header_line =

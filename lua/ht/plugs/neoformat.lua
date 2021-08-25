@@ -15,7 +15,8 @@ function config()
                                        '/bin/clang-format'
   vim.g.neoformat_enabled_cpp = {'myclangformat'}
 
-  require('walnut.keymap').ftmap('*', 'format-file', 'fc', ':<C-u>Neoformat<CR>')
+  require('ht.keymap.keymap').nmap('<leader>fc', ':<C-u>Neoformat<CR>',
+                                   {description = 'format-file'})
   dropdown.AppendContext('*', {{'Format', 'Neoformat'}})
 
   vim.g.neoformat_rust_rustfmt2 = {exe = "rustfmt", args = {}, stdin = 1}

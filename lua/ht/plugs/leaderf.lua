@@ -1,8 +1,6 @@
 module('ht.plugs.leaderf', package.seeall)
 
 local get_opt = vim.api.nvim_get_option
-local ftmap = require('walnut.keymap').ftmap
-local keymap = vim.api.nvim_set_keymap
 local cl = require('walnut.cfg.color')
 local cmd = vim.api.nvim_command
 local augroup = require'ht.core.vim'.AutocmdGroups

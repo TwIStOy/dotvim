@@ -21,7 +21,7 @@ local function keymap_description_table(key, description)
 end
 
 local function merge_description_table(left, right)
-  if type(left) == 'string' and type(right) = 'string' then
+  if type(left) == 'string' and type(right) == 'string' then
     return left .. '/' .. right
   end
 
@@ -75,15 +75,25 @@ local function register_keymap_description(ft, key, description)
   end
 end
 
+local function remove_custom_keys(opts)
+  local t = vim.deepcopy(opts)
+  for k, v in pairs(t) do
+    if type(v) == "string" then
+      t[k] = nil
+    end
+  end
+  return t
+end
+
 local function create_keymap(mode, key, action, opts)
   if type(action) == "string" then
-    set_keymap(mode, key, action, opts)
+    set_keymap(mode, key, action, remove_custom_keys(opts))
   else
     if type(action) == "function" then
       local storage_key = #__keymap_actions_storage
       __keymap_actions_storage[storage_key] = action
       set_keymap(mode, key,
-                 string.format([[<cmd>lua require('ht.keymap.base').ExecuteAction(%d)<CR>]], storage_key), opts)
+                 string.format([[<cmd>lua require('ht.keymap.base').ExecuteAction(%d)<CR>]], storage_key), remove_custom_keys(opts))
     else
       print('Not supported action type')
     end
@@ -98,34 +108,51 @@ local function create_keymap(mode, key, action, opts)
     else
       ft = opts.ft
     end
-    register_keymap_description(ft, key, opts.description)
+
+    -- remove leading '<leader>'
+    register_keymap_description(ft, key:sub(9), opts.description)
   end
 end
 
-function nnoremap(key, action)
-  create_keymap('n', key, action, {
+function nmap(key, action, a_opts)
+  if a_opts == nil then
+    a_opts = {}
+  end
+  local opts = vim.tbl_extend("keep", a_opts, {
     silent = true,
     noremap = true
   })
+
+  create_keymap('n', key, action, opts)
 end
 
-function vnoremap(key, action)
-  create_keymap('v', key, action, {
+function vmap(key, action, a_opts)
+  if a_opts == nil then
+    a_opts = {}
+  end
+  local opts = vim.tbl_extend("keep", a_opts, {
     silent = true,
     noremap = true
   })
+
+  create_keymap('v', key, action, opts)
 end
 
-function xnoremap(key, action)
-  create_keymap('x', key, action, {
+function xmap(key, action)
+  if a_opts == nil then
+    a_opts = {}
+  end
+  local opts = vim.tbl_extend("keep", a_opts, {
     silent = true,
     noremap = true
   })
+
+  create_keymap('x', key, action, opts)
 end
 
 function SetFolderName(ft, folder, name)
   __keymap_description[ft] = merge_description_table(
-    __keymap_description[ft], keymap_description_table(folder, { name = name })
+    __keymap_description[ft], keymap_description_table(folder, { name = name }))
 end
 
 -- returns keymap description table for vim-which-key of current buffer

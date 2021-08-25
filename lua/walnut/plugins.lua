@@ -2,7 +2,6 @@ module('walnut.plugins', package.seeall)
 
 local fn = vim.fn
 local cmd = vim.api.nvim_command
-local ftmap = require('walnut.keymap').ftmap
 local config = require('ht.plugs.utils').config
 local setup = require('ht.plugs.utils').setup
 

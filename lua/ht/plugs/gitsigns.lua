@@ -1,10 +1,12 @@
 module('ht.plugs.gitsigns', package.seeall)
 
-local ftmap = require('walnut.keymap').ftmap
+local nmap = require('ht.keymap.keymap').nmap
 
 function config()
-  ftmap('*', 'stage-hunk', 'vs', [[<cmd>lua require"gitsigns".stage_hunk()<CR>]])
-  ftmap('*', 'undo-stage-hunk', 'vu', [[<cmd>lua require"gitsigns".undo_stage_hunk()<CR>]])
+  nmap('<leader>vs', [[<cmd>lua require"gitsigns".stage_hunk()<CR>]],
+       {description = 'stage-hunk'})
+  nmap('<leader>vu', [[<cmd>lua require"gitsigns".undo_stage_hunk()<CR>]],
+       {description = 'undo-stage-hunk'})
 end
 
 -- vim: et sw=2 ts=2

@@ -2,9 +2,8 @@ module('ht.plugs.coc', package.seeall)
 
 local cmd = vim.api.nvim_command
 local help_types = {vim = 1, help = 1}
-local ftmap = require('walnut.keymap').ftmap
-local ftdesc_folder = require('walnut.keymap').ftdesc_folder
-
+local nmap = require('ht.keymap.keymap').nmap
+local SetFolderName = require('ht.keymap.keymap').SetFolderName
 
 function ShowDocumentation()
   local ft = vim.api.nvim_buf_get_option(0, '&ft')
@@ -19,30 +18,6 @@ function ShowDocumentation()
   end
 
   cmd [[execute '!' . &keywordprg . ' ' . expand('<cword>')]]
-end
-
-local function key_bindings()
-  local keymap = function(mode, key, action)
-    vim.api.nvim_set_keymap(mode, key, action, {
-      silent = true,
-      nowait = true,
-      expr = true,
-      noremap = true
-    })
-  end
-
-  keymap('n', '<C-d>',
-         [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"]])
-  keymap('n', '<C-u>',
-         [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"]])
-  keymap('i', '<C-d>',
-         [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<C-d>"]])
-  keymap('i', '<C-u>',
-         [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<C-u>"]])
-  keymap('v', '<C-d>',
-         [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"]])
-  keymap('v', '<C-u>',
-         [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"]])
 end
 
 function config()
@@ -60,8 +35,8 @@ function config()
 
   cmd [[au! CompleteDone * if pumvisible() == 0 | pclose | endif ]]
 
-  ftdesc_folder('*', 'l', 'list')
-  ftmap('*', 'list-outline', 'lo', ':<C-u>CocList outline<cr>')
+  SetFolderName('*', 'l', 'list')
+  nmap('<leader>lo', ':<C-u>CocList outline<cr>', {description = 'list-outline'})
 
   cmd [[source ~/.dotvim/pcfg/coc.vim]]
 end

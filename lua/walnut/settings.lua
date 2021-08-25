@@ -10,7 +10,7 @@ local setopt = va.nvim_set_option
 
 cmd [[autocmd VimEnter * if !argc() | silent! Startify | endif]]
 
-cmd [[autocmd BufEnter * lua require('walnut.keymap').define_keymap_here()]]
+cmd [[autocmd BufEnter * lua require('ht.keymap.keymap').SetKeymapDescriptionToBuffer()]]
 
 va.nvim_set_var('mapleader', ' ')
 
@@ -107,85 +107,79 @@ ww.skip_type('NvimTree')
 
 cmd [[au BufEnter * lua require('walnut.window').check_last_window() ]]
 
-local ftmap = require('walnut.keymap').ftmap
-local ftdesc_folder = require('walnut.keymap').ftdesc_folder
+local SetFolderName = require('ht.keymap.keymap').SetFolderName
+local nmap = require'ht.keymap.keymap'.nmap
+local vmap = require'ht.keymap.keymap'.vmap
+local xmap = require'ht.keymap.keymap'.xmap
 
-keymap('n', '<F3>',
-       [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]],
-       {silent = true, noremap = true})
-keymap('n', '<C-n>',
-       [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]],
-       {silent = true, noremap = true})
-keymap('n', '<F4>', ':call quickui#tools#list_buffer("e")<CR>',
-       {silent = true, noremap = true})
-keymap('n', ';;', [[:lua require('ht.actions').OpenDropdown()<CR>]],
-       {silent = true, noremap = true})
-keymap('n', '<leader><leader>',
-       [[<cmd>lua require('ht.actions').OpenMenu()<cr>]],
-       {silent = true, noremap = true})
+nmap('<F3>',
+     [[<cmd>lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
+nmap('<C-n>',
+     [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
+nmap('<F4>', '<cmd>call quickui#tools#list_buffer("e")<CR>')
+nmap(';;', [[<cmd>lua require('ht.actions').OpenDropdown()<CR>]])
+nmap('<leader><leader>', [[<cmd>lua require('ht.actions').OpenMenu()<cr>]])
 
 for i = 1, 9 do
-  ftmap('*', 'Window ' .. i, '' .. i,
-        [[:lua require('walnut.window').goto_win(]] .. i .. ')<CR>')
+  nmap('<leader>' .. i,
+       [[<cmd>lua require('walnut.window').goto_win(]] .. i .. ')<CR>',
+       {description = 'Window ' .. i})
 end
 
-ftdesc_folder('*', 'f', 'file')
-ftmap('*', 'update', 'fs', ':update<CR>')
-ftmap('*', 'toggle-file-explorer', 'ft',
-      [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
-keymap('n', '<C-p>',
-       [[<cmd>lua require('ht.plugs.telescope').OpenProjectRoot()<CR>]],
-       {noremap = true, silent = true})
-ftmap('*', 'edit-file-pwd', 'e',
-      [[<cmd>lua require('ht.actions.file').OpenProjectRoot()<CR>]])
+SetFolderName('*', 'f', 'file')
+nmap('<leader>fs', '<cmd>update<CR>', {description = 'update'})
+nmap('<C-p>', [[<cmd>lua require('ht.actions.file').OpenProjectRoot()<CR>]])
+nmap('<leader>e', [[<cmd>lua require('ht.actions.file').OpenProjectRoot()<CR>]],
+     {description = 'edit-file-pwd'})
 
-keymap('n', '*', [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]],
-       {silent = true, noremap = true})
-keymap('n', 'n', [[<cmd>call quickhl#manual#go_to_next('s')<CR>]],
-       {silent = true, noremap = true})
-keymap('n', 'N', [[<cmd>call quickhl#manual#go_to_prev('s')<CR>]],
-       {silent = true, noremap = true})
-keymap('n', '<M-n>', [[:nohl<CR>:QuickhlManualReset<CR>]],
-       {silent = true, noremap = true})
-keymap('v', '*', [[<cmd>call quickhl#manual#this('v')<CR>]],
-       {silent = true, noremap = true})
+nmap('*', [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]])
+nmap('n', [[<cmd>call quickhl#manual#go_to_next('s')<CR>]])
+nmap('N', [[<cmd>call quickhl#manual#go_to_prev('s')<CR>]])
+nmap('<M-n>', [[:nohl<CR>:QuickhlManualReset<CR>]])
+vmap('*', [[<cmd>call quickhl#manual#this('v')<CR>]])
 
-ftmap('*', 'quit', 'q', ':q<CR>')
-ftmap('*', 'save-and-quit', 'x', ':wq<CR>')
-ftmap('*', 'quit-all', 'Q', ':confirm qall<CR>')
+nmap('<leader>q', '<cmd>q<CR>', {description = 'quit'})
+nmap('<leader>x', '<cmd>wq<CR>', {description = 'save-and-quit'})
+nmap('<leader>Q', '<cmd>confirm qall<CR>', {description = 'quit-all'})
 
-keymap('n', 'tq', [[:lua require('walnut.window').toggle_quickfix()<CR>]],
-       {silent = true, noremap = true})
+nmap('tq', [[:lua require('walnut.window').toggle_quickfix()<CR>]])
 
-ftdesc_folder('*', 'w', 'window')
-ftmap('*', 'split-window-vertical', 'wv', ':wincmd v<CR>')
-ftmap('*', 'split-window-horizontal', 'w-', ':wincmd s<CR>')
-ftmap('*', 'balance-window', 'w=', ':wincmd =<CR>')
-ftmap('*', 'rotate-window-rightwards', 'wr', ':wincmd r<CR>')
-ftmap('*', 'exchange-window-with-next', 'wx', ':wincmd x<CR>')
+SetFolderName('*', 'w', 'window')
+nmap('<leader>wv', '<cmd>wincmd v<CR>', {description = 'split-window-vertical'})
+nmap('<leader>w-', '<cmd>wincmd s<CR>',
+     {description = 'split-window-horizontal'})
+nmap('<leader>w=', '<cmd>wincmd =<CR>', {description = 'balance-window'})
+nmap('<leader>wr', '<cmd>wincmd r<CR>',
+     {description = 'rotate-window-rightwards'})
+nmap('<leader>wx', '<cmd>wincmd x<CR>',
+     {description = 'exchange-window-with-next'})
 
-keymap('n', '<M-h>', ':wincmd h<CR>', {silent = true, noremap = true})
-keymap('n', '<M-j>', ':wincmd j<CR>', {silent = true, noremap = true})
-keymap('n', '<M-k>', ':wincmd k<CR>', {silent = true, noremap = true})
-keymap('n', '<M-l>', ':wincmd l<CR>', {silent = true, noremap = true})
-keymap('n', '<M-b>', ':SidewaysLeft<CR>', {silent = true, noremap = true})
-keymap('n', '<M-f>', ':SidewaysRight<CR>', {silent = true, noremap = true})
+nmap('<M-h>', '<cmd>wincmd h<CR>')
+nmap('<M-j>', '<cmd>wincmd j<CR>')
+nmap('<M-k>', '<cmd>wincmd k<CR>')
+nmap('<M-l>', '<cmd>wincmd l<CR>')
+nmap('<M-b>', '<cmd>SidewaysLeft<CR>')
+nmap('<M-f>', '<cmd>SidewaysRight<CR>')
 
-keymap('n', '<leader>', [[:WhichKey '<Space>'<CR>]],
-       {silent = true, noremap = true})
+-- whichkey
+nmap('<leader>', [[:WhichKey '<Space>'<CR>]])
 
-ftdesc_folder('*', 'v', 'vcs')
-ftmap('*', 'select-ours', 'v1', ':call conflict_resolve#ourselves()<CR>')
-ftmap('*', 'select-them', 'v2', ':call conflict_resolve#themselves()<CR>')
-ftmap('*', 'select-both', 'vb', ':call conflict_resolve#both()<CR>')
-ftmap('*', 'show-commit', 'vm', ':CocCommand git.showCommit<CR>')
+SetFolderName('*', 'v', 'vcs')
+nmap('<leader>v1', '<cmd>call conflict_resolve#ourselves()<CR>',
+     {description = 'select-ours'})
+nmap('<leader>v2', '<cmd>call conflict_resolve#themselves()<CR>',
+     {description = 'select-them'})
+nmap('<leader>vb', '<cmd>call conflict_resolve#both()<CR>',
+     {description = 'select-both'})
+nmap('<leader>vm', '<cmd>CocCommand git.showCommit<CR>',
+     {description = 'show-commit'})
 
 if vim.g['fvim_loaded'] == nil then
   vim.opt.wildoptions = 'pum'
 end
 
-ftmap('*', 'easy-align', 'ta', ':EasyAlign<CR>')
-vim.api.nvim_set_keymap('x', '<leader>ta', ':EasyAlign<CR>', {silent = true})
+nmap('<leader>ta', '<cmd>EasyAlign<CR>', { description = 'easy-align' })
+xmap('<leader>ta', '<cmd>EasyAlign<CR>')
 
 -- add default menu section
 require('ht.core.dropdown').AppendContext('*', {
@@ -203,8 +197,8 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- keymappings for hop
-keymap('n', ',,', [[<cmd>HopWord<CR>]], {silent = true, noremap = true})
-keymap('n', ',l', [[<cmd>HopLine<CR>]], {silent = true, noremap = true})
+nmap(',,', [[<cmd>HopWord<CR>]])
+nmap(',l', [[<cmd>HopLine<CR>]])
 
 vim.notify = function(msg, ...)
   local res = ''

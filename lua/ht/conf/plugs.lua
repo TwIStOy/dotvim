@@ -50,15 +50,6 @@ function UsePlugins(use)
 
   use 'kyazdani42/nvim-web-devicons'
 
-  --[[
-  use {
-    'kyazdani42/nvim-tree.lua',
-    opt = true,
-    config = "require('walnut.pcfg.nvim_tree')",
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
-  --]]
-
   use {
     'liuchengxu/vim-which-key',
     cmd = {'WhichKey'},
@@ -99,7 +90,7 @@ function UsePlugins(use)
     'Yggdroot/LeaderF',
     cmd = {'LeaderF', 'LeaderfFile'},
     run = './install.sh',
-    setup = [[require('walnut.pcfg.leaderf')]]
+    setup = Setup('leaderf')
   }
 
   use {
@@ -150,14 +141,6 @@ function UsePlugins(use)
 
   use {'kevinhwang91/nvim-bqf', ft = 'qf', config = Config('bqf')}
 
-  --[[
-  use {
-    'tenfyzhong/axring.vim',
-    keys = {'<C-a>', '<C-x>'},
-    setup = "require('walnut.pcfg.axring')"
-  }
-  --]]
-
   use {'monaqa/dial.nvim', keys = {'<C-a>', '<C-x>'}, config = Config('dial')}
 
   use {'godlygeek/tabular', cmd = {'Tabularize'}}
@@ -200,7 +183,7 @@ function UsePlugins(use)
   use {
     'aperezdc/vim-template',
     cmd = {'Template', 'TemplateHere'},
-    config = [[require('walnut.pcfg.template')]]
+    setup = Setup('template'),
   }
 
   use {

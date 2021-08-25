@@ -5,14 +5,14 @@ local ftmap = require('walnut.keymap').ftmap
 local keymap = vim.api.nvim_set_keymap
 local cl = require('walnut.cfg.color')
 local cmd = vim.api.nvim_command
-local augroup = require'ht.core.autocmd'.CreateAugroups
+local augroup = require'ht.core.vim'.AutocmdGroups
 
 function ResizeLeaderfWindow()
   vim.g.Lf_PopupWidth = get_opt('columns') * 3 / 4
   vim.g.Lf_PopupHeight = math.floor(get_opt('lines') * 0.6)
 end
 
-function config()
+function setup()
   vim.g.Lf_ShortcutF = '<Leader>ff'
   vim.g.Lf_ShortcutB = '<Leader>ffb'
   vim.g.Lf_WindowPosition = 'popup'

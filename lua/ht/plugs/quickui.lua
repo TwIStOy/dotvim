@@ -2,7 +2,8 @@ module('ht.plugs.quickui', package.seeall)
 
 local cmd = vim.api.nvim_command
 local vcall = vim.api.nvim_call_function
-local dropdown = require'ht.core.dropdown'
+local dropdown = require 'ht.core.dropdown'
+local hi = require('ht.core.vim').HighlightGroups
 
 local context_registers = {}
 
@@ -24,7 +25,7 @@ function config()
   vim.g.quickui_border_style = 2
   vim.g.quickui_show_tip = 1
 
-  cmd[[au ColorScheme * lua require("ht.plugs.quickui").update_color()]]
+  cmd [[au ColorScheme * lua require("ht.plugs.quickui").update_color()]]
 end
 
 --[[
@@ -33,10 +34,15 @@ Update Quickui's highlight colors.
 - After new colorscheme is loaded.
 --]]
 function update_color()
-  cmd(string.format([[hi! QuickBG guifg=%s guibg=%s]], background('Normal'), background('Normal')))
-  cmd(string.format([[hi! QuickSel gui=bold guibg=#%x guifg=#%x]], background('IncSearch'),
-                    foreground('IncSearch')))
-  cmd(string.format([[hi! QuickOff guifg=%s]], background('CursorLine')))
+  hi {
+    QuickBG = {guifg = foreground('Normal'), guibg = background('Normal')},
+    QuickSel = {
+      gui = 'bold',
+      guibg = background('IncSearch'),
+      guifg = foreground('IncSearch')
+    },
+    QuickOff = {guifg = background('CursorLine')}
+  }
 end
 
 function OpenDropdown(ft)
@@ -51,9 +57,7 @@ function OpenDropdown(ft)
     current_cursor = vim.g['quickui#context#cursor']
   end
 
-  local opts = {
-    index = current_cursor
-  }
+  local opts = {index = current_cursor}
   vcall('quickui#context#open', {context, opts})
 end
 

@@ -122,7 +122,7 @@ keymap('n', ';;',
        [[:lua require('walnut.pcfg.quickui').open_dropdown_menu(vim.api.nvim_buf_get_option(0, 'ft'))<CR>]],
        {silent = true, noremap = true})
 keymap('n', '<leader><leader>',
-       [[:lua require('walnut.pcfg.quickui').open_top_menu()<CR>]],
+        [[<cmd>lua require('ht.actions').OpenMenu()<cr>]],
        {silent = true, noremap = true})
 
 for i = 1, 9 do
@@ -138,7 +138,7 @@ keymap('n', '<C-p>',
        [[<cmd>lua require('ht.plugs.telescope').OpenProjectRoot()<CR>]],
        {noremap = true, silent = true})
 ftmap('*', 'edit-file-pwd', 'e',
-      [[<cmd>lua require('ht.plugs.telescope').OpenProjectRoot()<CR>]])
+      [[<cmd>lua require('ht.actions.file').OpenProjectRoot()<CR>]])
 
 
 keymap('n', '*', [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]],

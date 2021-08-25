@@ -1,4 +1,4 @@
-module('walnut.init', package.seeall)
+module('walnut', package.seeall)
 
 require('walnut.plugins')
 require('walnut.settings')

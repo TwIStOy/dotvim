@@ -178,6 +178,7 @@ if vim.g['fvim_loaded'] == nil then
   vim.opt.wildoptions = 'pum'
 end
 
+SetFolderName('*', 't', 'table')
 nmap('<leader>ta', '<cmd>EasyAlign<CR>', { description = 'easy-align' })
 xmap('<leader>ta', '<cmd>EasyAlign<CR>')
 

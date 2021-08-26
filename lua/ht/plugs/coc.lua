@@ -48,7 +48,8 @@ function setup()
 
   vim.g.coc_global_extensions = {
     'coc-vimlsp', 'coc-tabnine', 'coc-tsserver', 'coc-rust-analyzer',
-    'coc-pyright', 'coc-json', 'coc-clangd', 'coc-git'
+    'coc-pyright', 'coc-json', 'coc-clangd', 'coc-git',
+    'coc-clang-format-style-options'
   }
 end
 

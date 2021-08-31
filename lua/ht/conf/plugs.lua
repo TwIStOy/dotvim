@@ -160,7 +160,7 @@ function UsePlugins(use)
   use {
     'akinsho/bufferline.nvim',
     requires = {'kyazdani42/nvim-web-devicons'},
-    config = Config('bufferline')
+    setup = Setup('bufferline')
   }
 
   use {

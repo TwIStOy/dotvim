@@ -1,6 +1,6 @@
 module('ht.plugs.bufferline', package.seeall)
 
-function config()
+function setup()
   require('bufferline').setup {
     options = {
       view = 'multiwindow',

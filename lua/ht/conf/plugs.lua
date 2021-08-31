@@ -6,6 +6,12 @@ local Setup = require'ht.plugs'.Setup
 function UsePlugins(use)
   use 'wbthomason/packer.nvim'
 
+  use {
+    'lewis6991/impatient.nvim',
+    opt = false,
+    setup = [[require('impatient')]]
+  }
+
   use {'skywind3000/asyncrun.vim', cmd = {'AsyncRun', 'AsyncStop'}}
 
   use {
@@ -152,7 +158,7 @@ function UsePlugins(use)
   }
 
   use {
-    'akinsho/nvim-bufferline.lua',
+    'akinsho/bufferline.nvim',
     requires = {'kyazdani42/nvim-web-devicons'},
     config = Config('bufferline')
   }
@@ -286,7 +292,9 @@ function UsePlugins(use)
 
   use {'haringsrob/nvim_context_vt', config = Config('nvim_context_vt')}
 
-  use_rocks "lualogging"
+  use_rocks 'lualogging'
+
+  use_rocks 'luachild'
 end
 
 -- vim: et sw=2 ts=2 fdm=marker

@@ -5,8 +5,10 @@ function config()
     options = {
       view = 'multiwindow',
       separator_style = 'slant',
-      numbers = 'both',
-      number_style = {"superscript", "subscript"}
+      numbers = function(opts)
+        return string.format('%s·%s', opts.raise(opts.id),
+                             opts.lower(opts.ordinal))
+      end
     }
   }
   vim.api.nvim_set_keymap('n', '<M-,>', ':BufferLineCyclePrev<CR>',

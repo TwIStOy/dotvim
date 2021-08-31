@@ -17,6 +17,10 @@ end
 
 function DelayLoader()
   vim.schedule(function()
+    require 'ht.plugs.bufferline'.setup()
+  end)
+
+  vim.schedule(function()
     _load('numb.nvim', 30)
     _load('vim-illuminate', 300)
     _load('vim-surround', 500)

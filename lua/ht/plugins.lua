@@ -9,6 +9,8 @@ local use_plugins = require'ht.conf.plugs'.UsePlugins
 
 pkr.init({
   ensure_dependencies = true,
+  opt_default = false,
+  transitive_opt = false,
   display = {
     auto_clean = false,
     open_fn = function()

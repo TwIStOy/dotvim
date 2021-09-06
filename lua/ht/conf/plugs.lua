@@ -6,11 +6,7 @@ local Setup = require'ht.plugs'.Setup
 function UsePlugins(use)
   use 'wbthomason/packer.nvim'
 
-  use {
-    'lewis6991/impatient.nvim',
-    opt = false,
-    setup = [[require('impatient')]]
-  }
+  use 'lewis6991/impatient.nvim'
 
   use {'skywind3000/asyncrun.vim', cmd = {'AsyncRun', 'AsyncStop'}}
 
@@ -159,8 +155,7 @@ function UsePlugins(use)
 
   use {
     'akinsho/bufferline.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'},
-    setup = Setup('bufferline')
+    requires = {'kyazdani42/nvim-web-devicons'}
   }
 
   use {

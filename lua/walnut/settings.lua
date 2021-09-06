@@ -8,6 +8,11 @@ local cmd = vim.api.nvim_command
 local keymap = va.nvim_set_keymap
 local setopt = va.nvim_set_option
 
+-- run impatient.nvim
+require 'impatient'
+
+require('ht.plugs.bufferline').setup()
+
 cmd [[autocmd VimEnter * if !argc() | silent! Startify | endif]]
 
 cmd [[autocmd BufEnter * lua require('ht.keymap.keymap').SetKeymapDescriptionToBuffer()]]

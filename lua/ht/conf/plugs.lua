@@ -122,12 +122,7 @@ function UsePlugins(use)
 
   use {
     'yorik1984/newpaper.nvim',
-    config = function()
-      require('newpaper').setup{
-        style = 'light',
-        lualine_style = 'light'
-      }
-    end
+    config = Config('newpaper')
   }
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}

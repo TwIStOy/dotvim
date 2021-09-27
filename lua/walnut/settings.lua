@@ -48,8 +48,9 @@ cmd [[autocmd BufLeave,FocusLost,WinLeave * if index(g:relative_number_blacklist
 
 -- cursorline autocmd
 vim.opt.cursorline = true
-cmd('autocmd InsertLeave,WinEnter * set cursorline')
-cmd('autocmd InsertEnter,WinLeave * set nocursorline')
+vim.opt.cursorcolumn = true
+cmd('autocmd InsertLeave,WinEnter * set cursorline cursorcolumn')
+cmd('autocmd InsertEnter,WinLeave * set nocursorline nocursorcolumn')
 
 -- mouse mode
 vim.opt.mouse = 'a'

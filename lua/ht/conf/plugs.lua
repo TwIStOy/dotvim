@@ -121,12 +121,12 @@ function UsePlugins(use)
   }
 
   use {
-    "Mofiqul/vscode.nvim",
-    setup = function()
-      vim.g.vscode_style = "dark"
-    end,
+    'yorik1984/newpaper.nvim',
     config = function()
-      vim.cmd [[colorscheme vscode]]
+      require('newpaper').setup{
+        style = 'light',
+        lualine_style = 'light'
+      }
     end
   }
 
@@ -285,7 +285,7 @@ function UsePlugins(use)
 
   use 'rcarriga/nvim-notify'
 
-  use {'haringsrob/nvim_context_vt', config = Config('nvim_context_vt')}
+  -- use {'haringsrob/nvim_context_vt', config = Config('nvim_context_vt')}
 
   use_rocks 'lualogging'
 

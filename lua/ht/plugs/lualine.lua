@@ -3,7 +3,7 @@ module('ht.plugs.lualine', package.seeall)
 local options = {
   section_separators = {'', ''},
   component_separators = {'', ''},
-  theme = 'vscode'
+  theme = 'newpaper'
 }
 
 local function coc_status()

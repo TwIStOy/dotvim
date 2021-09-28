@@ -88,12 +88,14 @@ namespace ${1:`!p snip.rv = snip.basename or "name"`} {
 }${1/.+/  \/\/ namespace /m}$1
 endsnippet
 
-snippet once "pragma once (pragma)"
+snippet once "pragma once (pragma)" "all_lines_before_are_comments(snip)" bAe
 #pragma once  // NOLINT(build/header_guard)
+
+${0}
 endsnippet
 
-snippet copyright "copyright"
-// Copyright (c) 2021 ${1}
+snippet cr "copyright" "snip.line == 0" bAe
+// Copyright (c) 2020 - present, `!p snip.rv = license_name(os.path.abspath(path))`
 //
 
 ${0}
@@ -140,12 +142,20 @@ snippet uptr "std::unique_ptr"
 std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet
 
-snippet todo "TODO comments" b
+snippet todo "TODO comments" bA
 // TODO(hawtian): ${0}
 endsnippet
 
-snippet fixme "FIXME comments" b
+snippet fixme "FIXME comments" bA
 // FIXME(hawtian): ${0}
+endsnippet
+
+snippet tn "typename" w
+typename ${1:T}${0}
+endsnippet
+
+snippet tns "typenames..." w
+typename... ${1:Args}${0}
 endsnippet
 
 # }}}

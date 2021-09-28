@@ -133,25 +133,54 @@ def simple_int_types(base_type, length, snip):
         int_base_type = 'int'
     elif base_type == 'u':
         int_base_type = 'uint'
+    else:
+        int_base_type = 'unknown'
 
     suffix = '_t'
 
     snip.rv = f'{int_base_type}{length}{suffix}'
 
 
-_POSTFIX_TEMPLATES = {
-    "for": """for (auto&& item : {0}) {{
-  ${{0:/* body */}}
-}}""",
-    "fori": """for (auto i = 0u; i < {0}; ++i) {{
-  ${{0:/* body */}}
-}}""",
-    "if": """if ({0}) {{
-  ${{0:/* body */}}
-}}""",
-    "be": """std::begin({0}), std::end({0})""",
-}
+# Only be used when I'm in Agora.io
+def license_name(path):
+    p = path.lower()
+    if 'agora' in p:
+        return 'Agora.io, Inc.'
+    else:
+        return 'Hawtian Wang (twistoy.wang@gmail.com)'
 
-def postfix_templates(key, s, snip):
-    snip.rv = _POSTFIX_TEMPLATES.get(key, "{0}").format(s)
+
+def all_lines_before_are_comments(snip):
+    if snip.line > 30:
+        return False
+
+    from pygments import lex
+    from pygments.token import Token as ParseToken
+    from pygments.lexers.c_like import CLexer
+
+    def strip_comments(replace_query, lexer):
+        generator = lex(replace_query, lexer)
+        line = []
+        lines = []
+        for token in generator:
+            token_type = token[0]
+            token_text = token[1]
+            print(">>>", token_type, token_text)
+            if token_type in ParseToken.Comment and \
+               token_type != ParseToken.Comment.Preproc:
+                continue
+            line.append(token_text)
+            if token_text == '\n':
+                lines.append(''.join(line))
+                line = []
+        if line:
+            line.append('\n')
+            lines.append(''.join(line))
+        strip_query = "\n".join(lines)
+        return strip_query
+
+    lines = "\n".join([str(snip.buffer[i]) for i in range(snip.line)])
+
+    result = strip_comments(lines, CLexer()).strip()
+    return result == ""
 

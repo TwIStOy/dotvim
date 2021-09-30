@@ -118,11 +118,11 @@ snippet cc "const_cast" w
 const_cast<${1}>(${2})${0}
 endsnippet
 
-snippet inc "#include"
+snippet #i" "include" bA
 #include "${1}"${0}
 endsnippet
 
-snippet incc "#include<>"
+snippet #i< "system include" bA
 #include <${1}>${0}
 endsnippet
 
@@ -186,12 +186,8 @@ inline __attribute__((always_inline)) void `!p snip.rv = underscore_to_big_camel
 }
 endsnippet
 
-snippet sl "SAFE_LOG2" b
-SAFE_LOG2(Info) << ${0}
-endsnippet
-
-snippet ll "LOCAL_LOG" b
-LOCAL_LOG(Info) << ${0}
+snippet ll "LLOG(Info, ...)" b
+LLOG(Info, ${0});
 endsnippet
 
 # common types-alias
@@ -199,8 +195,12 @@ snippet "(p(?:(?:(?=\()\([pius0-9\()]+\s*(?:,\s*[pius0-9()]+)+\))|[ius]{2}))" "c
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
 endsnippet
 
-snippet inh "include corresponding header..." b
+snippet #ih "include corresponding header..." bA
 `!p snip.rv = generate_cpp_header_filename(vim)`$0
+endsnippet
+
+snippet cons "current struct's constructor" "nearest_struct_name(snip)" be
+`!p snip.rv = context`(${1});${0}
 endsnippet
 
 post_jump "expand_anon(snip)"
@@ -358,27 +358,6 @@ endsnippet
 
 snippet inher "inherit comment" b
 // inherited from |$0|
-endsnippet
-
-snippet cout "printing to std::cout" b
-std::cout << ${1:/* message */} << std::endl;
-endsnippet
-
-snippet cerr "printing to std::cout" b
-std::cerr << ${1:/* message */} << std::endl;
-endsnippet
-
-snippet switch "switch statement" b
-switch (${1:/* condition */}) {
-	$0
-}
-endsnippet
-
-snippet case "switch case" b
-cast ${1:/* selection */}: {
-	$0
-	break;
-}
 endsnippet
 
 # vim: set fdm=marker

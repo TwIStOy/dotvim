@@ -184,3 +184,16 @@ def all_lines_before_are_comments(snip):
     result = strip_comments(lines, CLexer()).strip()
     return result == ""
 
+def nearest_struct_name(snip):
+    import re
+    cur = snip.line - 1
+    tried = 0
+    while cur >= 0 and tried < 30:
+        line = snip.buffer[cur]
+        m = re.match(r"(?:(?:struct)|(?:class))\s+(\w+)", line)
+        if m:
+            return m.group(1)
+        cur -= 1
+        tried += 1
+    return None
+

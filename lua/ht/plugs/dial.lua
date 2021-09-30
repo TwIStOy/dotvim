@@ -30,12 +30,17 @@ function config()
   }
 
   __augends['cpp'] = {
+    -- glog levels
     define_custom {'Debug', 'Info', 'Warn', 'Error', 'Fatal'},
+    -- pair
     define_custom {'first', 'second'},
     define_custom {'uint8_t', 'uint16_t', 'uint32_t', 'uint64_t'},
-    define_custom {'htonl', 'ntohl'}, define_custom {'htons', 'ntohs'},
+    define_custom {'int8_t', 'int16_t', 'int32_t', 'int64_t'},
+    define_custom {'htonl', 'ntohl'},
+    define_custom {'htons', 'ntohs'},
     define_custom {'ASSERT_EQ', 'ASSERT_NE'},
-    define_custom {'EXPECT_EQ', 'EXPECT_NE'}, define_custom {'==', '!='},
+    define_custom {'EXPECT_EQ', 'EXPECT_NE'},
+    define_custom {'==', '!='},
     define_custom {'static_cast', 'dynamic_cast', 'reinterpret_cast'}
   }
 

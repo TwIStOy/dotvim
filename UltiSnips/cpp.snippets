@@ -158,6 +158,20 @@ snippet tns "typenames..." w
 typename... ${1:Args}${0}
 endsnippet
 
+snippet try "try-catch block" b
+try {
+	${1:/* block */}
+} catch (${2:const std::exception& e}) {
+	${0:std::cerr << e.what() << std::endl;}
+}
+endsnippet
+
+snippet [] "lambda function" b
+[&](${1:Args}) {
+	${0}
+}
+endsnippet
+
 # }}}
 
 snippet getter "getter..." b
@@ -199,8 +213,20 @@ snippet #ih "include corresponding header..." bA
 `!p snip.rv = generate_cpp_header_filename(vim)`$0
 endsnippet
 
-snippet cons "current struct's constructor" "nearest_struct_name(snip)" be
+snippet cons "current struct's default-constructor" "nearest_struct_name(snip)" be
 `!p snip.rv = context`(${1});${0}
+endsnippet
+
+snippet ccons "current struct's copy-constructor" "nearest_struct_name(snip)" be
+`!p snip.rv = context`(const `!p snip.rv = context`&) = default;${0}
+endsnippet
+
+snippet mcons "current struct's move-constructor" "nearest_struct_name(snip)" be
+`!p snip.rv = context`(`!p snip.rv = context`&&) = default;${0}
+endsnippet
+
+snippet des "current struct's destructor" "nearest_struct_name(snip)" be
+~`!p snip.rv = context`() = default;${0}
 endsnippet
 
 post_jump "expand_anon(snip)"

@@ -21,11 +21,15 @@ _POSTFIX_BEGIN_END_VALUE = 'std::begin(`!p snip.rv = match.group(1)`), std::end(
 
 _POSTFIX_STD_MOVE_VALUE = 'std::move(`!p snip.rv = match.group(1)`)${0}'
 
-_POSTFIX_IGNORE_UNUSED_VALUE = '(void)`!p snip.rv = match.group(1)`${0}'
+_POSTFIX_STD_FORWARD_VALUE = 'std::forward<${1}>(`!p snip.rv = match.group(1)`)${0}'
+
+_POSTFIX_STD_DECLVAL_VALUE = 'std::declval<`!p snip.rv = match.group(1)`>()${0}'
+
+_POSTFIX_IGNORE_UNUSED_VALUE = '(void)`!p snip.rv = match.group(1)`;${0}'
 
 _POSTFIX_RETURN_VALUE = 'return `!p snip.rv = match.group(1)`;${0}'
 
-_POSTFIX_REQUIRE_VALUE = 'REQUIRE(`!p snip.rv = match.group(1)`)'
+_POSTFIX_REQUIRE_VALUE = 'REQUIRE(`!p snip.rv = match.group(1)`);'
 
 
 def register_postfix_snippets():
@@ -34,22 +38,22 @@ def register_postfix_snippets():
     return
   vim.vars['cpp_postfix_snippets_added'] = 1
 
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.for', _POSTFIX_FOR_LOOP_VALUE,
-                                "Postfix for-loop", 'r', 'cpp', -49)
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.fori', _POSTFIX_FOR_I_LOOP_VALUE,
-                                "Postfix for-i-loop", 'r', 'cpp', -49)
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.if', _POSTFIX_IF_VALUE,
-                                "Postfix if-expr", 'r', 'cpp', -49)
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.be', _POSTFIX_BEGIN_END_VALUE,
-                                "Postfix begin-end", 'r', 'cpp', -49)
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.mv', _POSTFIX_STD_MOVE_VALUE,
-                                "Postfix std::move", 'r', 'cpp', -49)
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.uu', _POSTFIX_IGNORE_UNUSED_VALUE,
-                                "Postfix ignore unused value", 'r', 'cpp', -49)
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.rt', _POSTFIX_RETURN_VALUE,
-                                "Postfix return", 'r', 'cpp', -49)
-  UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.rq', _POSTFIX_REQUIRE_VALUE,
-                                "Postfix REQUIRE(catch.hpp)", 'r', 'cpp', -49)
+  postfix_mappings = {
+    "for":  [ _POSTFIX_FOR_LOOP_VALUE, "for-loop" ],
+    'fori': [ _POSTFIX_FOR_I_LOOP_VALUE, "for-i-loop"],
+    'if':   [ _POSTFIX_IF_VALUE, "if-expr"],
+    'be':   [ _POSTFIX_BEGIN_END_VALUE, "begin-end"],
+    'mv':   [ _POSTFIX_STD_MOVE_VALUE, "std::move"],
+    'fwd':  [ _POSTFIX_STD_FORWARD_VALUE, "std::forward"],
+    'dv':   [ _POSTFIX_STD_DECLVAL_VALUE, "std::declval"],
+    'uu':   [ _POSTFIX_IGNORE_UNUSED_VALUE, "ignore unused value"],
+    'rt':   [ _POSTFIX_RETURN_VALUE, "return"],
+    'rq':   [ _POSTFIX_REQUIRE_VALUE, "REQUIRE(catch.hpp)"],
+  }
+
+  for postfix, action in postfix_mappings.items():
+    UltiSnips_Manager.add_snippet(EXPR_REGEX + r'\.' + postfix, action[0],
+                                  f"Postfix {action[1]}", 'r', 'cpp', -49)
 
 
 # vim: et sw=2 ts=2

@@ -27,9 +27,6 @@ def output_stream_generate(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
 	snip.rv = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
 
-def beginend_generate(matched_str, snip):
-	snip.rv = 'std::begin({}), std::end({})'.format(matched_str, matched_str)
-
 def output_stream_generate_pair(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
 	tmp = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])

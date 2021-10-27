@@ -87,7 +87,11 @@ cmd [[autocmd BufEnter,FocusGained,WinEnter set signcolumn=yes]]
 vim.opt.hidden = true
 
 -- theme settings
-vim.opt.background = 'dark'
+vim.g.nord_contrast = true
+vim.g.nord_borders = false
+vim.g.nord_disable_background = false
+vim.g.nord_italic = true
+require('nord').set()
 
 -- jump options
 vim.opt.jumpoptions = 'stack'

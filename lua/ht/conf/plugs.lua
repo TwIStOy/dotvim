@@ -120,10 +120,14 @@ function UsePlugins(use)
     setup = [[require('ht.plugs.config').surround()]]
   }
 
+  --[[
   use {
     'yorik1984/newpaper.nvim',
     config = Config('newpaper')
   }
+  --]]
+
+  use 'shaunsingh/nord.nvim'
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
 

@@ -26,7 +26,7 @@ function UsePlugins(use)
     'nvim-telescope/telescope.nvim',
     requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
     cmd = {'Telescope'},
-    config = Config('telescope'),
+    config = Config('telescope')
   }
 
   use {
@@ -127,7 +127,17 @@ function UsePlugins(use)
   }
   --]]
 
-  use 'shaunsingh/nord.nvim'
+  use {
+    'rose-pine/neovim',
+    as = 'rose-pine',
+
+    config = function()
+      vim.g.rose_pine_variant = 'moon'
+      vim.g.rose_pine_disable_italics = false
+      vim.g.rose_pine_bold_vertical_split_line = true
+      vim.cmd('colorscheme rose-pine')
+    end
+  }
 
   use {'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log'}
 
@@ -152,10 +162,7 @@ function UsePlugins(use)
     requires = {'godlygeek/tabular'}
   }
 
-  use {
-    'akinsho/bufferline.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
+  use {'akinsho/bufferline.nvim', requires = {'kyazdani42/nvim-web-devicons'}}
 
   use {
     'lewis6991/gitsigns.nvim',
@@ -183,7 +190,7 @@ function UsePlugins(use)
   use {
     'aperezdc/vim-template',
     cmd = {'Template', 'TemplateHere'},
-    setup = Setup('template'),
+    setup = Setup('template')
   }
 
   use {

@@ -31,7 +31,7 @@ vim.opt.ttyfast = true
 vim.opt.lazyredraw = false
 vim.opt.termguicolors = true
 
-vim.opt.pumblend = 40
+-- vim.opt.pumblend = 40
 
 vim.opt.updatetime = 200
 

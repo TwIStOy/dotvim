@@ -8,6 +8,8 @@ function UsePlugins(use)
 
   use 'lewis6991/impatient.nvim'
 
+  use 'kyazdani42/nvim-web-devicons'
+
   use {'skywind3000/asyncrun.vim', cmd = {'AsyncRun', 'AsyncStop'}}
 
   use {
@@ -49,8 +51,6 @@ function UsePlugins(use)
   use {'dstein64/vim-startuptime', cmd = 'StartupTime'}
 
   use {'mhinz/vim-startify', cmd = {'Startify'}, setup = Config('startify')}
-
-  use 'kyazdani42/nvim-web-devicons'
 
   use {
     'liuchengxu/vim-which-key',

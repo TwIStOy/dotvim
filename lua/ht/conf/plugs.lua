@@ -25,6 +25,12 @@ function UsePlugins(use)
   use {'nvim-lua/popup.nvim', requires = {'nvim-lua/plenary.nvim'}}
 
   use {
+    'sindrets/diffview.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'},
+    config = Config('diffview')
+  }
+
+  use {
     'nvim-telescope/telescope.nvim',
     requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
     cmd = {'Telescope'},

@@ -126,22 +126,17 @@ function UsePlugins(use)
     setup = [[require('ht.plugs.config').surround()]]
   }
 
-  --[[
   use {
-    'yorik1984/newpaper.nvim',
-    config = Config('newpaper')
-  }
-  --]]
-
-  use {
-    'rose-pine/neovim',
-    as = 'rose-pine',
-
+    'folke/tokyonight.nvim',
+    setup = function()
+      vim.g.tokyonight_style = 'storm'
+      vim.g.tokyonight_italic_variables = true
+      vim.g.tokyonight_hide_inactive_statusline = true
+      vim.g.tokyonight_sidebars = {"qf", "vista_kind", "terminal", "packer"}
+      vim.g.tokyonight_lualine_bold = true
+    end,
     config = function()
-      vim.g.rose_pine_variant = 'moon'
-      vim.g.rose_pine_disable_italics = false
-      vim.g.rose_pine_bold_vertical_split_line = true
-      vim.cmd('colorscheme rose-pine')
+      vim.cmd('colorscheme tokyonight')
     end
   }
 
@@ -297,7 +292,17 @@ function UsePlugins(use)
 
   use 'rcarriga/nvim-notify'
 
-  -- use {'haringsrob/nvim_context_vt', config = Config('nvim_context_vt')}
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      require("indent_blankline").setup {
+        char = "|",
+        buftype_exclude = {"terminal"},
+        indent_blankline_use_treesitter = true,
+        indent_blankline_filetype_exclude = {'startify', 'help'}
+      }
+    end
+  }
 
   use_rocks 'lualogging'
 

@@ -298,8 +298,8 @@ function UsePlugins(use)
       require("indent_blankline").setup {
         char = "|",
         buftype_exclude = {"terminal"},
-        indent_blankline_use_treesitter = true,
-        indent_blankline_filetype_exclude = {'startify', 'help'}
+        use_treesitter = true,
+        filetype_exclude = {'startify', 'help', 'packer'},
       }
     end
   }

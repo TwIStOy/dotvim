@@ -221,3 +221,6 @@ vim.notify = function(msg, ...)
   require('notify')(res, ...)
 end
 
+-- gui: neovide
+vim.g.neovide_refresh_rate = 144
+

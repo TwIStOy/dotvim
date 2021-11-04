@@ -223,4 +223,5 @@ end
 
 -- gui: neovide
 vim.g.neovide_refresh_rate = 144
+vim.o.guifont = 'RecMonoHawtian Nerd Font:h14'
 

@@ -131,7 +131,7 @@ function UsePlugins(use)
     setup = function()
       vim.g.tokyonight_style = 'storm'
       vim.g.tokyonight_italic_variables = true
-      vim.g.tokyonight_hide_inactive_statusline = true
+      vim.g.tokyonight_hide_inactive_statusline = false
       vim.g.tokyonight_sidebars = {"qf", "vista_kind", "terminal", "packer"}
       vim.g.tokyonight_lualine_bold = true
     end,

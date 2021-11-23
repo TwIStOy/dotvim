@@ -69,19 +69,19 @@ snippet #< "system include" bA
 #include <${1}>${0}
 endsnippet
 
-snippet map "std::map"
+snippet map "std::map" w
 std::map<${1:key}, ${2:value}> ${0:name};
 endsnippet
 
-snippet umap "std::unordered_map"
+snippet umap "std::unordered_map" w
 std::unordered_map<${1:key}, ${2:value}> ${0:name};
 endsnippet
 
-snippet vec "std::vector"
+snippet vec "std::vector" w
 std::vector<${1:type}> ${0:name};
 endsnippet
 
-snippet uptr "std::unique_ptr"
+snippet uptr "std::unique_ptr" w
 std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet
 
@@ -99,6 +99,10 @@ endsnippet
 
 snippet tns "typenames..." w
 typename... ${1:Args}${0}
+endsnippet
+
+snippet tp "template..." w
+template<${0}>
 endsnippet
 
 snippet try "try-catch block" b
@@ -143,7 +147,7 @@ inline __attribute__((always_inline)) void `!p snip.rv = underscore_to_big_camel
 }
 endsnippet
 
-snippet ll "LLOG(Info, ...)" b
+snippet ll "LLOG(Info, ...)" bA
 LLOG(Info, ${0});
 endsnippet
 

@@ -1,5 +1,20 @@
 global !p
 from general_snippet_helper import make_box
+
+
+def name_style_switch(name):
+    import re
+    # detect current style
+    if all([c.islower() or c == '_' for c in name]):
+        # underscore case
+        return "".join([p.capitalize() for p in name.split('_')])
+
+    name = re.sub(r"([A-Z]+)([A-Z][a-z])", r'\1_\2', name)
+    name = re.sub(r"([a-z\d])([A-Z])", r'\1_\2', name)
+    name = name.replace("-", "_")
+    return name.lower()
+
+
 endglobal
 
 
@@ -40,3 +55,8 @@ snip.rv = box[2]
 snip += box[3]`
 $0
 endsnippet
+
+snippet "([a-zA-Z_][\w_]+).cs" "case switch" r
+`!p snip.rv = name_style_switch(match.group(1))`
+endsnippet
+

@@ -31,6 +31,10 @@ _POSTFIX_RETURN_VALUE = 'return `!p snip.rv = match.group(1)`;${0}'
 
 _POSTFIX_REQUIRE_VALUE = 'REQUIRE(`!p snip.rv = match.group(1)`);'
 
+_POSTFIX_STATIC_CAST_VALUE = 'static_cast<${1}>(`!p snip.rv = match.group(1)`)${0}'
+
+_POSTFIX_REINTERPRET_CAST_VALUE = 'reinterpret_cast<${1}>(`!p snip.rv = match.group(1)`)${0}'
+
 
 def register_postfix_snippets():
   import vim
@@ -49,6 +53,8 @@ def register_postfix_snippets():
     'uu':   [ _POSTFIX_IGNORE_UNUSED_VALUE, "ignore unused value"],
     'rt':   [ _POSTFIX_RETURN_VALUE, "return"],
     'rq':   [ _POSTFIX_REQUIRE_VALUE, "REQUIRE(catch.hpp)"],
+    'sc':   [ _POSTFIX_STATIC_CAST_VALUE, "static_cast"],
+    'rc':   [ _POSTFIX_REINTERPRET_CAST_VALUE , "reinterpret_cast"],
   }
 
   for postfix, action in postfix_mappings.items():

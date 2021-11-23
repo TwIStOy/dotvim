@@ -2,27 +2,6 @@ global !p
 from cpp_snippet_helper import *
 from header_include_helper import generate_cpp_header_filename
 
-def write_docstring_args(arglist, snip):
-	args = str(arglist).split(',')
-
-	if len(args) > 1:
-		c = 0
-		for arg in args:
-			if c == 0:
-				snip.rv += arg
-				c = 1
-			else:
-				snip += ' * @param %s' % arg.strip()
-	else:
-		snip.rv = args[0]
-
-def defined_class_name(snip):
-	basename = snip.basename
-	if basename:
-		snip.rv = "".join([it.capitalize() for it in basename.split('_')])
-	else:
-		snip.rv = "name"
-
 def output_stream_generate(matched_str, snip):
 	args = [it.strip() for it in str(matched_str).split(',')]
 	snip.rv = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
@@ -42,27 +21,6 @@ endglobal
 
 priority -50
 
-snippet fnc "c++ function with doxygen comment" b
-/**
- * @brief ${4:brief}
- *
- * @param `!p write_docstring_args(t[3],snip)`
- *
- * @return `!p snip.rv = t[1]`
- */
-${1:ReturnType} ${2:FunctionName}(${3:param});
-endsnippet
-
-snippet cls "class ... (class)" b
-class ${1:`!p defined_class_name(snip)`} {
- public:
-  $1(${2:args});
-	virtual ~$1() = default;
-
- private:
-};
-endsnippet
-
 snippet "(\w[\d\w, .\->_]*?)\.oss" "convert to output stream ..." r
 `!p output_stream_generate(match.group(1), snip)`$0
 endsnippet
@@ -71,11 +29,7 @@ snippet "\(([\d\w, .\->_]*?)\)\.oss" "convert to output stream with pair ..." r
 `!p output_stream_generate_pair(match.group(1), snip)`$0
 endsnippet
 
-snippet "(\w[\d\w, ]*?)\.p" "comment" b
-`!p snip.rv = "(" + match.group(1) + ")"`
-endsnippet
-
-snippet "(\w[\d\w,\s\->._]*?)\.fmt" "comment" r
+snippet "(\w[\d\w,\s\->._]*?)\.fmt" "convert to fmt style" r
 `!p output_format_generate(match.group(1), snip)`${0}
 endsnippet
 
@@ -99,16 +53,8 @@ ${0}
 endsnippet
 
 # simple snippets {{{
-snippet sc "static_cast" w
-static_cast<${1}>(${2})${0}
-endsnippet
-
 snippet dc "dynamic_cast" w
 dynamic_cast<${1}>(${2})${0}
-endsnippet
-
-snippet rc "reinterpret_cast" w
-reinterpret_cast<${1}>(${2})${0}
 endsnippet
 
 snippet cc "const_cast" w
@@ -226,9 +172,10 @@ snippet des "current struct's destructor" "nearest_struct_name(snip)" be
 ~`!p snip.rv = context`() = default;${0}
 endsnippet
 
-post_jump "expand_anon(snip)"
 snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
-`!p simple_namespace_generate(match.group(1), snip)`
+namespace `!p snip.rv = match.group(1)` {
+${0:  /* body */}
+}  // namespace `!p snip.rv = match.group(1)`
 endsnippet
 
 snippet itf "cpp interface common" b

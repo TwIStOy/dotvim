@@ -117,10 +117,7 @@ local nmap = require'ht.keymap.keymap'.nmap
 local vmap = require'ht.keymap.keymap'.vmap
 local xmap = require'ht.keymap.keymap'.xmap
 
-nmap('<F3>',
-     [[<cmd>lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
-nmap('<C-n>',
-     [[:lua require('walnut.window').fast_forward_to_file_explorer()<CR>]])
+nmap('<C-n>', [[<cmd>HopLine<CR>]])
 nmap('<F4>', '<cmd>call quickui#tools#list_buffer("e")<CR>')
 nmap(';;', [[<cmd>lua require('ht.actions').OpenDropdown()<CR>]])
 nmap('<leader><leader>', [[<cmd>lua require('ht.actions').OpenMenu()<cr>]])

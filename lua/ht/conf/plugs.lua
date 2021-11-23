@@ -25,6 +25,12 @@ function UsePlugins(use)
   use {'nvim-lua/popup.nvim', requires = {'nvim-lua/plenary.nvim'}}
 
   use {
+    'kyazdani42/nvim-tree.lua',
+    config = Config('nvim_tree'),
+    requires = {'kyazdani42/nvim-web-devicons'}
+  }
+
+  use {
     'sindrets/diffview.nvim',
     requires = {'kyazdani42/nvim-web-devicons'},
     config = Config('diffview')

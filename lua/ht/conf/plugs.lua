@@ -293,6 +293,16 @@ function UsePlugins(use)
   use 'rcarriga/nvim-notify'
 
   use {
+    'anufrievroman/vim-angry-reviewer',
+    setup = function()
+      vim.g.AngryReviewerEnglish = 'american'
+    end,
+    cmd = {
+      'AngryReviewer'
+    }
+  }
+
+  use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
       require("indent_blankline").setup {
@@ -308,6 +318,4 @@ function UsePlugins(use)
 
   use_rocks 'luachild'
 end
-
--- vim: et sw=2 ts=2 fdm=marker
 

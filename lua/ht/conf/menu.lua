@@ -42,7 +42,9 @@ local menus = {
     {'&Recall Grep', [[Leaderf rg --recall]], 'reopen previous grep context'},
     {'--', ''},
     {'Toggle Line &Comment\tgcc', [[TComment]], 'toggle line comment'},
-    {'Toggle &Block Comment\tgcc', [[TCommentBlock]], 'toggle block comment'}
+    {'Toggle &Block Comment\tgcc', [[TCommentBlock]], 'toggle block comment'},
+    {'--', ''},
+    {'AngryReviewer', [[AngryReviewer]], 'open angry reviewer'},
   },
   ["&View:3"] = {
     {

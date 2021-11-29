@@ -334,5 +334,20 @@ snippet inher "inherit comment" b
 // inherited from |$0|
 endsnippet
 
+snippet awaiter "awaiter template" b
+struct awaiter {
+	bool await_ready() const noexcept {
+		return false;
+	}
+
+	template<typename P>
+	void await_suspend(std::coroutine_handle<P> co) const noexcept {
+	}
+
+	void await_resume() noexcept {
+	}
+};
+endsnippet
+
 # vim: set fdm=marker
 

@@ -349,5 +349,11 @@ struct awaiter {
 };
 endsnippet
 
+snippet cpp20 "macro greater cpp20" b
+#if __cplusplus >= 202002L
+${0}
+#endif
+endsnippet
+
 # vim: set fdm=marker
 

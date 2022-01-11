@@ -174,8 +174,6 @@ nmap('<leader>v2', '<cmd>call conflict_resolve#themselves()<CR>',
      {description = 'select-them'})
 nmap('<leader>vb', '<cmd>call conflict_resolve#both()<CR>',
      {description = 'select-both'})
-nmap('<leader>vm', '<cmd>CocCommand git.showCommit<CR>',
-     {description = 'show-commit'})
 
 if vim.g['fvim_loaded'] == nil then
   vim.opt.wildoptions = 'pum'

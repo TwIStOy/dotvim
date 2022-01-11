@@ -150,7 +150,7 @@ function UsePlugins(use)
 
   use {'nacro90/numb.nvim', opt = true, config = [[require('numb').setup()]]}
 
-  use {'TwIStOy/nvim-treesitter', run = ':TSUpdate'}
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 
   use {
     'nvim-treesitter/playground',

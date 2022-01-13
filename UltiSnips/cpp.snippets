@@ -198,7 +198,7 @@ snippet pvf "pure virtual function" b
 virtual ${3:ReturnType} ${1:FunctionName}(${2:args}) ${4} = 0;${0}
 endsnippet
 
-snippet "([iu])(\d+)" "int types..." r
+snippet "\b([iu])((?:8)|(?:32)|(?:64))" "int types..." rA
 `!p simple_int_types(match.group(1), match.group(2), snip)` ${0}
 endsnippet
 
@@ -219,31 +219,6 @@ ${0: /* body */}
 #endif
 endsnippet
 
-snippet ==a "ASSERT_EQ" b
-ASSERT_EQ(${1:lhs}, ${2:rhs});${0}
-endsnippet
-
-snippet !=a "ASSERT_NE" b
-ASSERT_NE(${1:lhs}, ${2:rhs});${0}
-endsnippet
-
-snippet ==e "EXPECT_EQ" b
-EXPECT_EQ(${1:lhs}, ${2:rhs});${0}
-endsnippet
-
-snippet !=e "EXPECT_NE" b
-EXPECT_NE(${1:lhs}, ${2:rhs});${0}
-endsnippet
-
-snippet mfd "find function in map" b
-auto it = ${1:map name}.find(${2:key});
-if (it == $1.end()) {
-	${3:not exists block}
-} else {
-	${4:exists block}
-}
-endsnippet
-
 snippet fmp "find function in map C++17" b
 if (auto it = ${1:map name}.find(${2:key}); it != $1.end()) {
   ${3:exists block}
@@ -254,25 +229,6 @@ snippet fmp! "find function in map C++17" b
 if (auto it = ${1:map name}.find(${2:key}); it == $1.end()) {
   ${3:exists block}
 }
-endsnippet
-
-snippet ainclude "common includes" b
-#include <vector>
-#include <map>
-#include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <memory>
-#include <utility>
-#include <algorithm>
-#include <typeinfo>
-#include <type_traits>
-#include <functional>
-#include <chrono>
-#include <tuple>
-#include <sstream>
-#include <thread>
-#include <mutex>
 endsnippet
 
 snippet traitfun "Implements a type trait that uses inheritance and expression SFINAE to do the heavy work. This is typically used to check if a typedef exists." b

@@ -18,7 +18,7 @@ function config()
   end
 
   local version_header_line = '[ ht.nvim, last updated: ' ..
-                                  require('walnut.version').last_updated_time ..
+                                  require('ht.version').last_updated_time ..
                                   ' ]'
   local maintainer_header_line =
       '< MAINTAINER: Hawtian Wang(twistoy.wang@gmail.com) >'

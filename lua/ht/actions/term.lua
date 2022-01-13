@@ -1,4 +1,4 @@
-module('walnut.cfg.term', package.seeall)
+module('ht.actions.term', package.seeall)
 
 local term = require('toggleterm')
 
@@ -10,7 +10,7 @@ local function cwd()
   end
 end
 
-function input_cmd_and_exec()
+function InputCmdThenExec()
   local cur = cwd()
   local cmd = vim.api.nvim_call_function('input', {cur .. ' > '})
   if #cmd > 0 then
@@ -18,4 +18,5 @@ function input_cmd_and_exec()
   end
 end
 
+-- vim: et sw=2 ts=2 fdm=marker
 

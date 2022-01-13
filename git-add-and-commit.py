@@ -18,14 +18,14 @@ def get_uncommit_changes():
 
 
 def update_version():
-  version_template = '''module('walnut.version', package.seeall)
+  version_template = '''module('ht.version', package.seeall)
 
 last_updated_time = '{}.{:02d}.{:02d}'
 
 '''
   now = datetime.datetime.now()
   version_str = version_template.format(now.year, now.month, now.day)
-  with open(os.path.join(repo_home(), 'lua/walnut/version.lua'), 'w') as fp:
+  with open(os.path.join(repo_home(), 'lua/ht/version.lua'), 'w') as fp:
     fp.write(version_str)
 
 

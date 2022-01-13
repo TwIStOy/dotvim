@@ -49,10 +49,10 @@ local menus = {
   ["&View:3"] = {
     {
       '&File Explorer\t<F3>',
-      [[lua require('walnut.window').fast_forward_to_file_explorer()]],
+      [[lua require('ht.core.window').JumpToFileExplorer()]],
       'fast forward to file explorer'
     }, {'&Terminal\t<C-t>', 'ToggleTerm', 'toggle term display'}, {
-      '&Quickfix\ttq', [[lua require('walnut.window').toggle_quickfix()]],
+      '&Quickfix\ttq', [[lua require('ht.core.window').ToggleQuickfix()]],
       'toggle quickfix window'
     },
     {'&Buffers\t<F4>', [[call quickui#tools#list_buffer('e')]], 'list buffers'},
@@ -71,7 +71,7 @@ local menus = {
   },
   ["&Terminal:5"] = {
     {'&Toggle\t<C-t>', 'ToggleTerm', 'toggle term display'}, {
-      '&Exec', [[lua require('walnut.cfg.term').input_cmd_and_exec()]],
+      '&Exec', [[lua require('ht.actions.term').InputCmdThenExec()]],
       'input command and exec'
     }
   },

@@ -25,12 +25,18 @@ function InitPacker()
 
   cmd [[pa packer.nvim]]
 
-  local au = require('ht.core.autocmd')
+  local au = require('ht.core.vim')
 
-  au.CreateAugroups({
+  au.AutocmdGroups({
     ht_packer_compile = {
-      "BufWritePost", "*/ht/plugins.lua",
-      [[echo "Recompile!" | source <afile> | PackerCompile]]
+      {
+        "BufWritePost", "*/ht/plugins.lua",
+        [[echo "Recompile!" | source <afile> | PackerCompile]],
+      },
+      {
+        'BufWritePost', '*/ht/conf/plugs.lua',
+        [[echo "Recompile!" | source <afile> | PackerCompile]],
+      }
     }
   })
 end
@@ -46,7 +52,6 @@ end
 function Setup(plug)
   return ([[require('ht.plugs.%s').setup()]]):format(plug)
 end
-
 
 -- vim: et sw=2 ts=2
 

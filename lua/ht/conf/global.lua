@@ -1,4 +1,4 @@
-module('walnut.settings', package.seeall)
+module('ht.conf.global', package.seeall)
 
 -- all autocmds waiting for https://github.com/neovim/neovim/pull/12378
 -- to register autocmd in lua natively
@@ -119,8 +119,7 @@ local nmap = require'ht.keymap.keymap'.nmap
 local vmap = require'ht.keymap.keymap'.vmap
 local xmap = require'ht.keymap.keymap'.xmap
 
-nmap('<F3>',
-     [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
+nmap('<F3>', [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
 nmap('<C-n>', [[<cmd>HopLine<CR>]])
 nmap('<F4>', '<cmd>call quickui#tools#list_buffer("e")<CR>')
 nmap(';;', [[<cmd>lua require('ht.actions').OpenDropdown()<CR>]])

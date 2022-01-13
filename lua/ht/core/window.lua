@@ -1,6 +1,13 @@
 module('ht.core.window', package.seeall)
 
--- uncountable filetypes and buftypes which will be ignored in window counting.
+local vcall = vim.api.nvim_call_function
+local cmd = vim.api.nvim_command
+local va = vim.api
+
+--[[
+uncountable filetypes and buftypes will be ignored when windows counting and
+will not block vim quiting.
+--]]
 local uncountable_types = {}
 
 function Skip(tp)
@@ -25,7 +32,7 @@ function GotoWindow(count)
     local rest = cnt
 
     for k, win_id in pairs(vim.api.nvim_list_wins()) do
-      if uncountable_types(win_id) then
+      if not is_uncountable(win_id) then
         rest = rest - 1
         if rest == 0 then
           return win_id
@@ -39,6 +46,64 @@ function GotoWindow(count)
   local win_id = skip_uncountable_windows(count)
   if win_id > 0 then
     vim.api.nvim_set_current_win(win_id)
+  end
+end
+
+-- Jump to file explorer window, open it if not exists before
+function JumpToFileExplorer()
+  local n = vcall('winnr', {'$'})
+  for i = 1, n do
+    local win_id = vcall('win_getid', {i})
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local tp = vim.api.nvim_buf_get_option(buf_id, 'ft')
+
+    if tp == 'NvimTree' then
+      cmd(i .. 'wincmd w')
+      return
+    end
+  end
+
+  if not require'ht.plugs'.IsLoaded('nvim-tree.lua') then
+    require'packer'.loader'nvim-tree.lua'
+  end
+  require'nvim-tree'.toggle()
+end
+
+local function quickfix_window_exists()
+  local n = vcall('winnr', {'$'})
+  for i = 1, n do
+    local win_id = vcall('win_getid', {i})
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local tp = va.nvim_buf_get_option(buf_id, 'buftype')
+
+    if tp == 'quickfix' then return true end
+  end
+
+  return false
+end
+
+function ToggleQuickfix()
+  if quickfix_window_exists() then
+    cmd'cclose'
+  else
+    cmd'copen'
+  end
+end
+
+function CheckLastWindow()
+  local n = vcall('winnr', {'$'})
+  local total = n
+  for i = 1, n do
+    local win_id = vcall('win_getid', {i})
+    if is_uncountable(win_id) then total = total - 1 end
+  end
+
+  if total == 0 then
+    if vim.api.nvim_call_function('tabpagenr', {'$'}) == 1 then
+      cmd [[quitall!]]
+    else
+      cmd [[tabclose]]
+    end
   end
 end
 

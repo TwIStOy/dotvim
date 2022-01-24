@@ -176,6 +176,18 @@ snippet des "current struct's destructor" "nearest_struct_name(snip)" be
 ~`!p snip.rv = context`() = default;${0}
 endsnippet
 
+snippet coreturn "co_return shortcut" bA
+co_return 
+endsnippet
+
+snippet coawait "co_return shortcut" bA
+co_await 
+endsnippet
+
+snippet coyield "co_return shortcut" bA
+co_yield 
+endsnippet
+
 snippet "ns\s+([\w_]+(::[\w_]+)*)" "simple namespace generator..." r
 namespace `!p snip.rv = match.group(1)` {
 ${0:  /* body */}
@@ -198,7 +210,7 @@ snippet pvf "pure virtual function" b
 virtual ${3:ReturnType} ${1:FunctionName}(${2:args}) ${4} = 0;${0}
 endsnippet
 
-snippet "\b([iu])((?:8)|(?:32)|(?:64))" "int types..." rA
+snippet "\b([iu])((?:8)|(?:16)|(?:32)|(?:64))" "int types..." rA
 `!p simple_int_types(match.group(1), match.group(2), snip)` ${0}
 endsnippet
 

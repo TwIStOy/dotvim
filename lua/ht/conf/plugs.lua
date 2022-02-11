@@ -240,6 +240,7 @@ function UsePlugins(use)
     config = Config('neoformat')
   }
 
+  --[[
   use {
     'neoclide/coc.nvim',
     branch = 'release',
@@ -248,6 +249,7 @@ function UsePlugins(use)
     config = Config('coc'),
     requires = {'skywind3000/vim-quickui'}
   }
+  --]]
 
   use {'t9md/vim-quickhl', cmd = {'QuickhlManualReset'}, fn = {'quickhl#*'}}
 
@@ -303,9 +305,7 @@ function UsePlugins(use)
     setup = function()
       vim.g.AngryReviewerEnglish = 'american'
     end,
-    cmd = {
-      'AngryReviewer'
-    }
+    cmd = {'AngryReviewer'}
   }
 
   use {
@@ -315,8 +315,49 @@ function UsePlugins(use)
         char = "|",
         buftype_exclude = {"terminal"},
         use_treesitter = true,
-        filetype_exclude = {'startify', 'help', 'packer'},
+        filetype_exclude = {'startify', 'help', 'packer'}
       }
+    end
+  }
+
+  use {
+    'hrsh7th/nvim-cmp',
+    config = Config('cmp'),
+    requires = {
+      "quangnguyen30192/cmp-nvim-ultisnips",
+      config = function()
+        require("cmp_nvim_ultisnips").setup {}
+      end
+    }
+  }
+
+  use {
+    'hrsh7th/cmp-nvim-lsp',
+    requires = {'hrsh7th/cmp-nvim-lsp'},
+    wants = 'nvim-cmp'
+  }
+
+  use {'neovim/nvim-lspconfig'}
+
+  use {
+    'p00f/clangd_extensions.nvim',
+    requires = 'neovim/nvim-lspconfig'
+  }
+
+  use {
+    'onsails/lspkind-nvim',
+    requires = 'neovim/nvim-lspconfig'
+  }
+
+  use 'ray-x/lsp_signature.nvim'
+
+  use {
+    'folke/trouble.nvim',
+    requires = {
+      'folke/lsp-colors.nvim'
+    },
+    config = function()
+      require'trouble'.setup{}
     end
   }
 

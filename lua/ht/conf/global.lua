@@ -224,3 +224,5 @@ end
 vim.g.neovide_refresh_rate = 144
 vim.o.guifont = 'RecMonoHawtian Nerd Font:h14'
 
+require'ht.conf.lsp'
+

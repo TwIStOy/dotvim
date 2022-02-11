@@ -29,9 +29,11 @@ function DelayLoader()
       require('packer').loader('vim-textobj-user')
     end, 1000)
 
+    --[[
     vim.defer_fn(function()
       require('packer').loader('coc.nvim')
     end, 1500)
+    --]]
 
     vim.defer_fn(function()
       require('packer').loader('nvim-scrollview')

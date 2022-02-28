@@ -3,7 +3,7 @@ module('ht.conf.lsp', package.seeall)
 local capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol
                                                                    .make_client_capabilities())
 
-require"lsp_signature".setup {handler_opts = {border = "rounded"}}
+-- require"lsp_signature".setup {handler_opts = {border = "rounded"}}
 
 local opts = {noremap = true, silent = true}
 vim.api.nvim_set_keymap('n', '[c', '<cmd>lua vim.diagnostic.goto_prev()<CR>',

@@ -16,14 +16,15 @@ function config()
                    :match('%s') == nil
   end
 
-  cmp.setup({
+  cmp.setup {
+    preselect = cmp.PreselectMode.None,
     snippet = {
       expand = function(args)
         vim.fn["UltiSnips#Anon"](args.body)
       end
     },
-    sources = {{name = "nvim_lsp"}, {name = "luasnip"}},
-    completion = {completeopt = "menu,menuone,noinsert"},
+    sources = {{name = "nvim_lsp"}, {name = "ultisnips"}},
+    completion = {completeopt = "menu,menuone,noselect,noinsert"},
     mapping = {
       ["<CR>"] = cmp.mapping(cmp.mapping.confirm(), {'i', 'c'}),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -39,21 +40,18 @@ function config()
       end, {"i"}),
       ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i'}),
       ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i'}),
-      ['<C-e>'] = cmp.mapping(
-        function(fallback)
-          cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-        end,
-        {'i'}
-      )
+      ['<C-f>'] = cmp.mapping(function(fallback)
+        cmp_ultisnips_mappings.compose {"expand", "jump_forwards"}(fallback)
+      end, {'i', 's'}),
+      ['<C-b>'] = cmp.mapping(function(fallback)
+        cmp_ultisnips_mappings.compose {"jump_backwards"}(fallback)
+      end, {'i', 's'})
     },
     formatting = {
-      format = lspkind.cmp_format({
-        mode = 'symbol_text',
-        maxwidth = 50,
-      })
+      format = lspkind.cmp_format({mode = 'symbol_text', maxwidth = 50})
     }
 
-  })
+  }
 
   cmp.setup.cmdline(':', {sources = {{name = 'path'}, {name = 'cmdline'}}})
 end

@@ -122,7 +122,6 @@ local xmap = require'ht.keymap.keymap'.xmap
 nmap('<F3>', [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
 nmap('<leader>ft', [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
 nmap('<C-n>', [[<cmd>HopLine<CR>]])
-nmap('<F4>', '<cmd>call quickui#tools#list_buffer("e")<CR>')
 nmap(';;', [[<cmd>lua require('ht.actions').OpenDropdown()<CR>]])
 nmap('<leader><leader>', [[<cmd>lua require('ht.actions').OpenMenu()<cr>]])
 

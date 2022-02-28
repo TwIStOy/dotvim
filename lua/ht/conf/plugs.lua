@@ -240,17 +240,6 @@ function UsePlugins(use)
     config = Config('neoformat')
   }
 
-  --[[
-  use {
-    'neoclide/coc.nvim',
-    branch = 'release',
-    opt = true,
-    setup = Setup('coc'),
-    config = Config('coc'),
-    requires = {'skywind3000/vim-quickui'}
-  }
-  --]]
-
   use {'t9md/vim-quickhl', cmd = {'QuickhlManualReset'}, fn = {'quickhl#*'}}
 
   use {'plasticboy/vim-markdown', ft = {'markdown', 'pandoc.markdown'}}
@@ -349,7 +338,7 @@ function UsePlugins(use)
     requires = 'neovim/nvim-lspconfig'
   }
 
-  use 'ray-x/lsp_signature.nvim'
+  -- use 'ray-x/lsp_signature.nvim'
 
   use {
     'folke/trouble.nvim',

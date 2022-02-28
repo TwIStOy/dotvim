@@ -2,13 +2,50 @@ module('ht.core.vim', package.seeall)
 
 local cmd = vim.api.nvim_command
 
-function AutocmdGroups(groups)
-  for name, group in pairs(groups) do
-    cmd(string.format("augroup %s", name))
-    for _, def in ipairs(group) do
-      cmd(table.concat(vim.tbl_flatten {'autocmd', def}, ' '))
+local function gen_event_table(tbl, event)
+  local register_function = function(base)
+    local func = function(pattern, callback, desc)
+      local opt = vim.tbl_extend("keep", {
+        event = event,
+        pattern = pattern,
+        desc = desc
+      }, base, tbl.__ex_autocmd_opt)
+      if type(callback) == 'string' then
+        opt.command = callback
+        if desc == nil then
+          opt.desc = callback
+        end
+      else
+        opt.callback = callback
+      end
+
+      vim.api.nvim_create_autocmd(opt)
     end
-    cmd "augroup END"
+    return func
+  end
+
+  local v = {
+    on = register_function({}),
+    once = register_function({once = true})
+  }
+  tbl[event] = v
+  return v
+end
+
+local function gen_group_table(tbl, group_name)
+  vim.api.nvim_create_augroup({name = group_name, clear = true})
+  local v = setmetatable({__ex_autocmd_opt = {group = group_name}},
+                         {__index = gen_event_table})
+  tbl[group_name] = v
+  return v
+end
+
+event = setmetatable({__ex_autocmd_opt = {}}, {__index = gen_event_table})
+group = setmetatable({__ex_autocmd_opt = {}}, {__index = gen_group_table})
+
+function multi_events(events, pattern, callback, desc)
+  for i,e in ipairs(events) do
+    event[e].on(pattern, callback, desc)
   end
 end
 

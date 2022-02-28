@@ -2,6 +2,7 @@ module('ht.plugs', package.seeall)
 
 local fn = vim.fn
 local cmd = vim.cmd
+local cv = require 'ht.core.vim'
 
 local packer_install_path = fn.stdpath('data') ..
                                 '/site/pack/packer/start/packer.nvim/'
@@ -25,20 +26,12 @@ function InitPacker()
 
   cmd [[pa packer.nvim]]
 
-  local au = require('ht.core.vim')
-
-  au.AutocmdGroups({
-    ht_packer_compile = {
-      {
-        "BufWritePost", "*/ht/plugins.lua",
-        [[echo "Recompile!" | source <afile> | PackerCompile]],
-      },
-      {
-        'BufWritePost', '*/ht/conf/plugs.lua',
-        [[echo "Recompile!" | source <afile> | PackerCompile]],
-      }
-    }
-  })
+  cv.group.ht_packer_compile.BufWritePost.on("*/ht/plugins.lua",
+                                             [[echo "Recompile!" | source <afile> | PackerCompile]],
+                                             "Recompile plugins.lua")
+  cv.group.ht_packer_compile.BufWritePost.on("*/ht/conf/plugs.lua",
+                                             [[echo "Recompile!" | source <afile> | PackerCompile]],
+                                             "Recompile plugins.lua")
 end
 
 function IsLoaded(name)

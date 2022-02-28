@@ -1,21 +1,20 @@
 module('ht.conf.global', package.seeall)
 
--- all autocmds waiting for https://github.com/neovim/neovim/pull/12378
--- to register autocmd in lua natively
-
 local va = vim.api
 local cmd = vim.api.nvim_command
 local keymap = va.nvim_set_keymap
 local setopt = va.nvim_set_option
+local cv = require('ht.core.vim')
 
 -- run impatient.nvim
 require 'impatient'
 
 require('ht.plugs.bufferline').setup()
 
-cmd [[autocmd VimEnter * if !argc() | silent! Startify | endif]]
-
-cmd [[autocmd BufEnter * lua require('ht.keymap.keymap').SetKeymapDescriptionToBuffer()]]
+cv.event.VimEnter.on('*', 'if !argc() | silent! Startify | endif')
+cv.event.BufEnter.on('*', function()
+  require('ht.keymap.keymap').SetKeymapDescriptionToBuffer()
+end, 'set keymap to buffer')
 
 va.nvim_set_var('mapleader', ' ')
 
@@ -42,14 +41,17 @@ cmd [[set noerrorbells novisualbell t_vb=]]
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.g.relative_number_blacklist = {'startify', 'NvimTree', 'packer'}
-cmd [[autocmd TermEnter * setlocal nonu nornu]]
-cmd [[autocmd BufEnter,FocusGained,WinEnter * if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif]]
-cmd [[autocmd BufLeave,FocusLost,WinLeave * if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif]]
+
+cv.event.TermEnter.on('*', 'setlocal nonu nornu')
+cv.multi_events({'BufEnter', 'FocusGained', 'WinEnter'}, '*',
+                'if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif')
+cv.multi_events({'BufLeave', 'FocusLost', 'WinLeave'}, '*',
+                'if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif')
 
 -- cursorline autocmd
 vim.opt.cursorline = true
-cmd('autocmd InsertLeave,WinEnter * set cursorline')
-cmd('autocmd InsertEnter,WinLeave * set nocursorline')
+cv.multi_events({'InsertLeave', 'WinEnter'}, '*', 'set cursorline')
+cv.multi_events({'InsertEnter', 'WinLeave'}, '*', 'set nocursorline')
 
 -- cursor settings
 vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:Cursor/lCursor'
@@ -72,7 +74,7 @@ vim.opt.cmdheight = 2
 vim.opt.exrc = true
 
 -- move quickfix windows to botright automatically
-cmd('autocmd FileType qf wincmd J')
+cv.event.FileType.on('qf', 'wincmd J')
 
 -- default colorcolumn: 80
 vim.opt.colorcolumn = '80'
@@ -82,7 +84,8 @@ vim.opt.scrolloff = 5
 vim.opt.timeoutlen = 300
 
 vim.opt.signcolumn = 'yes'
-cmd [[autocmd BufEnter,FocusGained,WinEnter set signcolumn=yes]]
+cv.multi_events({'BufEnter', 'FocusGained', 'WinEnter'}, '*',
+                'set signcolumn=yes')
 
 vim.opt.hidden = true
 
@@ -120,7 +123,8 @@ local vmap = require'ht.keymap.keymap'.vmap
 local xmap = require'ht.keymap.keymap'.xmap
 
 nmap('<F3>', [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
-nmap('<leader>ft', [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
+nmap('<leader>ft',
+     [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
 nmap('<C-n>', [[<cmd>HopLine<CR>]])
 nmap(';;', [[<cmd>lua require('ht.actions').OpenDropdown()<CR>]])
 nmap('<leader><leader>', [[<cmd>lua require('ht.actions').OpenMenu()<cr>]])
@@ -223,5 +227,5 @@ end
 vim.g.neovide_refresh_rate = 144
 vim.o.guifont = 'RecMonoHawtian Nerd Font:h14'
 
-require'ht.conf.lsp'
+require 'ht.conf.lsp'
 

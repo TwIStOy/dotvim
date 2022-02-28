@@ -2,7 +2,7 @@ module('ht.plugs.leaderf', package.seeall)
 
 local get_opt = vim.api.nvim_get_option
 local cmd = vim.api.nvim_command
-local augroup = require'ht.core.vim'.AutocmdGroups
+local cv = require 'ht.core.vim'
 
 function ResizeLeaderfWindow()
   vim.g.Lf_PopupWidth = get_opt('columns') * 3 / 4
@@ -43,14 +43,9 @@ function setup()
   vim.g.Lf_RememberLastSearch = 0
   vim.g.Lf_PopupColorscheme = 'walnut'
 
-  augroup({
-    leaderf_auto_resize = {
-      {
-        'VimResized', '*',
-        [[lua require"ht.plugs.leaderf".ResizeLeaderfWindow()]]
-      }
-    }
-  })
+  cv.group.leaderf_auto_resize.VimResized.on('*', function()
+    require"ht.plugs.leaderf".ResizeLeaderfWindow()
+  end)
 end
 
 function OpenProjectRoot()

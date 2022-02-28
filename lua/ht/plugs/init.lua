@@ -7,21 +7,10 @@ local cv = require 'ht.core.vim'
 local packer_install_path = fn.stdpath('data') ..
                                 '/site/pack/packer/start/packer.nvim/'
 
-local function exists(file)
-  local ok, err, code = os.rename(file, file)
-  if not ok then
-    if code == 13 then
-      -- Permission denied, but it exists
-      return true
-    end
-  end
-  return ok, err
-end
-
 function InitPacker()
-  if not exists(packer_install_path) then
-    cmd('!git clone https://github.com/wbthomason/packer.nvim ' ..
-            packer_install_path)
+  if not vim.loop.fs_stat(vim.fn.glob(packer_install_path)) then
+    os.execute('git clone https://github.com/wbthomason/packer.nvim ' ..
+                   packer_install_path)
   end
 
   cmd [[pa packer.nvim]]

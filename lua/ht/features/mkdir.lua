@@ -11,7 +11,7 @@ local function mkdir()
   end
 end
 
-cv.event.BufWritePre.on('*', function()
+cv.event:on('BufWritePre', '*', function()
   mkdir()
 end, 'create missing directories on saving a file')
 

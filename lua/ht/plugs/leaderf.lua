@@ -43,7 +43,7 @@ function setup()
   vim.g.Lf_RememberLastSearch = 0
   vim.g.Lf_PopupColorscheme = 'walnut'
 
-  cv.group.leaderf_auto_resize.VimResized.on('*', function()
+  cv.event:on('VimResized', '*', function()
     require"ht.plugs.leaderf".ResizeLeaderfWindow()
   end)
 end

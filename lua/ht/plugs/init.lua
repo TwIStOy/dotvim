@@ -15,12 +15,12 @@ function InitPacker()
 
   cmd [[pa packer.nvim]]
 
-  cv.group.ht_packer_compile.BufWritePost.on("*/ht/plugins.lua",
-                                             [[echo "Recompile!" | source <afile> | PackerCompile]],
-                                             "Recompile plugins.lua")
-  cv.group.ht_packer_compile.BufWritePost.on("*/ht/conf/plugs.lua",
-                                             [[echo "Recompile!" | source <afile> | PackerCompile]],
-                                             "Recompile plugins.lua")
+  cv.event:on('BufWritePost', "*/ht/plugins.lua",
+              [[echo "Recompile!" | source <afile> | PackerCompile]],
+              "Recompile plugins.lua")
+  cv.event:on('BufWritePost', "*/ht/conf/plugs.lua",
+              [[echo "Recompile!" | source <afile> | PackerCompile]],
+              "Recompile plugins.lua")
 end
 
 function IsLoaded(name)

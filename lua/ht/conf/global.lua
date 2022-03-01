@@ -11,8 +11,8 @@ require 'impatient'
 
 require('ht.plugs.bufferline').setup()
 
-cv.event.VimEnter.on('*', 'if !argc() | silent! Startify | endif')
-cv.event.BufEnter.on('*', function()
+cv.event:on('VimEnter', '*', 'if !argc() | silent! Startify | endif')
+cv.event:on('BufEnter', '*', function()
   require('ht.keymap.keymap').SetKeymapDescriptionToBuffer()
 end, 'set keymap to buffer')
 
@@ -42,16 +42,16 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.g.relative_number_blacklist = {'startify', 'NvimTree', 'packer'}
 
-cv.event.TermEnter.on('*', 'setlocal nonu nornu')
-cv.multi_events({'BufEnter', 'FocusGained', 'WinEnter'}, '*',
-                'if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif')
-cv.multi_events({'BufLeave', 'FocusLost', 'WinLeave'}, '*',
-                'if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif')
+cv.event:on('TermEnter', '*', 'setlocal nonu nornu')
+cv.event:on({'BufEnter', 'FocusGained', 'WinEnter'}, '*',
+            'if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif')
+cv.event:on({'BufLeave', 'FocusLost', 'WinLeave'}, '*',
+            'if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif')
 
 -- cursorline autocmd
 vim.opt.cursorline = true
-cv.multi_events({'InsertLeave', 'WinEnter'}, '*', 'set cursorline')
-cv.multi_events({'InsertEnter', 'WinLeave'}, '*', 'set nocursorline')
+cv.event:on({'InsertLeave', 'WinEnter'}, '*', 'set cursorline')
+cv.event:on({'InsertEnter', 'WinLeave'}, '*', 'set nocursorline')
 
 -- cursor settings
 vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:Cursor/lCursor'
@@ -74,7 +74,7 @@ vim.opt.cmdheight = 2
 vim.opt.exrc = true
 
 -- move quickfix windows to botright automatically
-cv.event.FileType.on('qf', 'wincmd J')
+cv.event:on('FileType', 'qf', 'wincmd J')
 
 -- default colorcolumn: 80
 vim.opt.colorcolumn = '80'
@@ -84,8 +84,7 @@ vim.opt.scrolloff = 5
 vim.opt.timeoutlen = 300
 
 vim.opt.signcolumn = 'yes'
-cv.multi_events({'BufEnter', 'FocusGained', 'WinEnter'}, '*',
-                'set signcolumn=yes')
+cv.event:on({'BufEnter', 'FocusGained', 'WinEnter'}, '*', 'set signcolumn=yes')
 
 vim.opt.hidden = true
 

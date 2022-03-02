@@ -11,7 +11,6 @@ require 'impatient'
 
 require('ht.plugs.bufferline').setup()
 
-cv.event:on('VimEnter', '*', 'if !argc() | silent! Startify | endif')
 cv.event:on('BufEnter', '*', function()
   require('ht.keymap.keymap').SetKeymapDescriptionToBuffer()
 end, 'set keymap to buffer')
@@ -40,7 +39,7 @@ cmd [[set noerrorbells novisualbell t_vb=]]
 -- numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.g.relative_number_blacklist = {'startify', 'NvimTree', 'packer'}
+vim.g.relative_number_blacklist = {'startify', 'NvimTree', 'packer', 'alpha'}
 
 cv.event:on('TermEnter', '*', 'setlocal nonu nornu')
 cv.event:on({'BufEnter', 'FocusGained', 'WinEnter'}, '*',

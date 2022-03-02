@@ -4,3 +4,11 @@ use_tab: false
 tab_width: 2
 keep_simple_control_block_one_line: false
 keep_simple_function_one_line: false
+extra_sep_at_table_end: true
+spaces_inside_table_braces: true
+align_table_field: true
+break_after_table_lb: true
+break_before_table_rb: true
+chop_down_table: true
+chop_down_kv_table: true
+

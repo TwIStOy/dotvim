@@ -63,7 +63,13 @@ function UsePlugins(use)
 
   use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
 
-  use { 'goolord/alpha-nvim', setup = Config('alpha') }
+  use { 'stevearc/dressing.nvim' }
+
+  use {
+    'goolord/alpha-nvim',
+    config = Config('alpha'),
+    requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim' },
+  }
 
   use {
     'liuchengxu/vim-which-key',
@@ -141,6 +147,7 @@ function UsePlugins(use)
       vim.g.tokyonight_hide_inactive_statusline = false
       vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
       vim.g.tokyonight_lualine_bold = true
+      vim.g.tokyonight_transparent = true
     end,
     config = function()
       vim.cmd('colorscheme tokyonight')

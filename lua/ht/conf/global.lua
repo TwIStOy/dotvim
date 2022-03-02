@@ -120,6 +120,9 @@ local nmap = require'ht.keymap.keymap'.nmap
 local vmap = require'ht.keymap.keymap'.vmap
 local xmap = require'ht.keymap.keymap'.xmap
 
+nmap('<F2>', [[<cmd>w<CR>]])
+nmap('<S-F2>', [[<cmd>wall<CR>]])
+
 nmap('<F3>', [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])
 nmap('<leader>ft',
      [[<cmd>lua require('ht.core.window').JumpToFileExplorer()<CR>]])

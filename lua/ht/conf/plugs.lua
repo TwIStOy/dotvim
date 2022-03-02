@@ -147,7 +147,7 @@ function UsePlugins(use)
       vim.g.tokyonight_hide_inactive_statusline = false
       vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
       vim.g.tokyonight_lualine_bold = true
-      vim.g.tokyonight_transparent = true
+      vim.g.tokyonight_transparent = false
     end,
     config = function()
       vim.cmd('colorscheme tokyonight')
@@ -358,8 +358,6 @@ function UsePlugins(use)
   use { 'p00f/clangd_extensions.nvim', requires = 'neovim/nvim-lspconfig' }
 
   use { 'onsails/lspkind-nvim', requires = 'neovim/nvim-lspconfig' }
-
-  -- use 'ray-x/lsp_signature.nvim'
 
   use {
     'folke/trouble.nvim',

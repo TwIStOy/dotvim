@@ -324,6 +324,7 @@ function UsePlugins(use)
     cmd = { 'AngryReviewer' },
   }
 
+  --[[
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
@@ -335,6 +336,7 @@ function UsePlugins(use)
       }
     end,
   }
+  --]]
 
   use {
     'hrsh7th/nvim-cmp',

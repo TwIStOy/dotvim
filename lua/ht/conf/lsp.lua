@@ -8,6 +8,13 @@ vim.api.nvim_set_keymap('n', '[c', '<cmd>lua vim.diagnostic.goto_prev()<CR>',
                         opts)
 vim.api.nvim_set_keymap('n', ']c', '<cmd>lua vim.diagnostic.goto_next()<CR>',
                         opts)
+vim.api.nvim_set_keymap('n', 'tt', '<cmd>TroubleToggle<CR>', opts)
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 local on_attach = function(client, bufnr)
   -- Mappings.
@@ -30,7 +37,16 @@ end
 
 require"clangd_extensions".setup {
   server = {
-    cmd = { vim.g.compiled_llvm_clang_directory .. '/bin/clangd' },
+    cmd = {
+      vim.g.compiled_llvm_clang_directory .. '/bin/clangd',
+      '--clang-tidy',
+      '--background-index',
+      '--cross-file-rename',
+      '--ranking-model=decision_forest',
+      '--limit-references=0',
+      '--limit-results=0',
+      '--pch-storage=memory',
+    },
     on_attach = on_attach,
     capabilities = capabilities,
   },

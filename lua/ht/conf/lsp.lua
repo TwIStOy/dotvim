@@ -69,5 +69,7 @@ require"clangd_extensions".setup {
   },
 }
 
+require'rust-tools'.setup {}
+
 -- vim: et sw=2 ts=2 fdm=marker
 

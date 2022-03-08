@@ -359,6 +359,8 @@ function UsePlugins(use)
 
   use { 'p00f/clangd_extensions.nvim', requires = 'neovim/nvim-lspconfig' }
 
+  use { 'simrat39/rust-tools.nvim', requires = 'neovim/nvim-lspconfig' }
+
   use { 'onsails/lspkind-nvim', requires = 'neovim/nvim-lspconfig' }
 
   use {

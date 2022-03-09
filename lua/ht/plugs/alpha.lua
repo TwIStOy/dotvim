@@ -172,7 +172,7 @@ function config()
       },
       { type = 'padding', val = 1 },
       dashboard.button('e', "  > New File", ":ene <BAR> startinsert <CR>"),
-      dashboard.button("s", "  > Settings",
+      dashboard.button("c", "  > Settings",
                        ':cd $HOME/.dotvim | Telescope find_files<CR>'),
       dashboard.button('u', "  > Update Plugins", ":PackerSync<CR>"),
       dashboard.button('q', '  > Quit', ':qa<CR>'),

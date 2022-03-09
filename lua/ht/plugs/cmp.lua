@@ -71,8 +71,10 @@ function config()
     },
   }
 
+  --[[
   cmp.setup.cmdline(':',
                     { sources = { { name = 'path' }, { name = 'cmdline' } } })
+  --]]
 end
 
 -- vim: et sw=2 ts=2

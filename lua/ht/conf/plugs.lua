@@ -342,41 +342,19 @@ function UsePlugins(use)
     'hrsh7th/nvim-cmp',
     config = Config('cmp'),
     requires = {
-      "quangnguyen30192/cmp-nvim-ultisnips",
-      config = function()
-        require("cmp_nvim_ultisnips").setup {}
-      end,
+      {
+        "quangnguyen30192/cmp-nvim-ultisnips",
+        config = function()
+          require("cmp_nvim_ultisnips").setup {}
+        end,
+      },
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-calc',
+      'dmitmel/cmp-digraphs',
+      'f3fora/cmp-spell',
     },
-  }
-
-  use {
-    'hrsh7th/cmp-nvim-lsp',
-    requires = { 'hrsh7th/nvim-cmp' },
-    wants = 'nvim-cmp',
-  }
-
-  use {
-    'hrsh7th/cmp-path',
-    requires = { 'hrsh7th/nvim-cmp' },
-    wants = 'nvim-cmp',
-  }
-
-  use {
-    'hrsh7th/cmp-calc',
-    requires = { 'hrsh7th/nvim-cmp' },
-    wants = 'nvim-cmp',
-  }
-
-  use {
-    'dmitmel/cmp-digraphs',
-    requires = { 'hrsh7th/nvim-cmp' },
-    wants = 'nvim-cmp',
-  }
-
-  use {
-    'f3fora/cmp-spell',
-    requires = { 'hrsh7th/nvim-cmp' },
-    wants = 'nvim-cmp',
   }
 
   use { 'neovim/nvim-lspconfig' }
@@ -393,6 +371,12 @@ function UsePlugins(use)
     config = function()
       require'trouble'.setup {}
     end,
+  }
+
+  use {
+    "danymat/neogen",
+    config = Config('neogen'),
+    requires = "nvim-treesitter/nvim-treesitter",
   }
 
   use_rocks 'lualogging'

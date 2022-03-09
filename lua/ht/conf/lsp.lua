@@ -33,6 +33,22 @@ local on_attach = function(client, bufnr)
                               '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr',
                               '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+
+  local dd = require 'ht.core.dropdown'
+  dd.AddBufContext(bufnr, {
+    { 'Goto Declaration', 'lua vim.lsp.buf.declaration()' },
+    { 'Goto &Definition', 'lua vim.lsp.buf.definition()' },
+    { 'Goto &Implementation', 'lua vim.lsp.buf.implementation()' },
+    { 'Inspect &References', 'lua vim.lsp.buf.references()' },
+    { 'Rname', 'lua vim.lsp.buf.rename()' },
+  })
+
+  if client.name == 'clangd' then
+    dd.AddBufContext(bufnr, {
+      { '&Symbol Info(C++)', 'ClangdSymbolInfo' },
+      { 'Type &Hierarchy(C++)', 'ClangdTypeHierarchy' },
+    })
+  end
 end
 
 require"clangd_extensions".setup {

@@ -4,7 +4,8 @@ function config()
   local augend = require("dial.augend")
 
   local function define_custom(strlist)
-    return augend.constant.new { elements = strlist }
+    return
+        augend.constant.new { elements = strlist, word = true, cyclic = true }
   end
 
   require'dial.config'.augends:register_group{
@@ -61,18 +62,14 @@ function config()
     },
   }
 
-  vim.api.nvim_set_keymap("n", "<C-a>", require("dial.map").inc_normal(),
-                          { noremap = true })
-  vim.api.nvim_set_keymap("n", "<C-x>", require("dial.map").dec_normal(),
-                          { noremap = true })
-  vim.api.nvim_set_keymap("v", "<C-a>", require("dial.map").inc_visual(),
-                          { noremap = true })
-  vim.api.nvim_set_keymap("v", "<C-x>", require("dial.map").dec_visual(),
-                          { noremap = true })
-  vim.api.nvim_set_keymap("v", "g<C-a>", require("dial.map").inc_gvisual(),
-                          { noremap = true })
-  vim.api.nvim_set_keymap("v", "g<C-x>", require("dial.map").dec_gvisual(),
-                          { noremap = true })
+  local opt = { noremap = true, silent = true }
+
+  vim.api.nvim_set_keymap("n", "<C-a>", require("dial.map").inc_normal(), opt)
+  vim.api.nvim_set_keymap("n", "<C-x>", require("dial.map").dec_normal(), opt)
+  vim.api.nvim_set_keymap("v", "<C-a>", require("dial.map").inc_visual(), opt)
+  vim.api.nvim_set_keymap("v", "<C-x>", require("dial.map").dec_visual(), opt)
+  vim.api.nvim_set_keymap("v", "g<C-a>", require("dial.map").inc_gvisual(), opt)
+  vim.api.nvim_set_keymap("v", "g<C-x>", require("dial.map").dec_gvisual(), opt)
 end
 
 -- vim: et sw=2 ts=2

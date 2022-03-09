@@ -23,7 +23,14 @@ function config()
         vim.fn["UltiSnips#Anon"](args.body)
       end,
     },
-    sources = { { name = "nvim_lsp" }, { name = "ultisnips" } },
+    sources = {
+      { name = "nvim_lsp" },
+      { name = "ultisnips" },
+      { name = 'path' },
+      { name = 'calc' },
+      { name = 'digraphs' },
+      { name = 'spell' },
+    },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
     mapping = {
       ["<CR>"] = cmp.mapping(cmp.mapping.confirm(), { 'i', 'c' }),

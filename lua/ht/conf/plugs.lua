@@ -351,7 +351,31 @@ function UsePlugins(use)
 
   use {
     'hrsh7th/cmp-nvim-lsp',
-    requires = { 'hrsh7th/cmp-nvim-lsp' },
+    requires = { 'hrsh7th/nvim-cmp' },
+    wants = 'nvim-cmp',
+  }
+
+  use {
+    'hrsh7th/cmp-path',
+    requires = { 'hrsh7th/nvim-cmp' },
+    wants = 'nvim-cmp',
+  }
+
+  use {
+    'hrsh7th/cmp-calc',
+    requires = { 'hrsh7th/nvim-cmp' },
+    wants = 'nvim-cmp',
+  }
+
+  use {
+    'dmitmel/cmp-digraphs',
+    requires = { 'hrsh7th/nvim-cmp' },
+    wants = 'nvim-cmp',
+  }
+
+  use {
+    'f3fora/cmp-spell',
+    requires = { 'hrsh7th/nvim-cmp' },
     wants = 'nvim-cmp',
   }
 

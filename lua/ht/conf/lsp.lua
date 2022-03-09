@@ -69,7 +69,40 @@ require"clangd_extensions".setup {
   },
 }
 
-require'rust-tools'.setup {}
+require'rust-tools'.setup {
+  server = { on_attach = on_attach, capabilities = capabilities },
+}
+
+require'lspconfig'.sumneko_lua.setup {
+  cmd = {
+    '/home/hawtian/project/lua-language-server/bin/lua-language-server',
+    '-E',
+    '/home/hawtian/project/lua-language-server/bin/main.lua',
+  },
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = vim.split(package.path, ';'),
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim' },
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+        },
+      },
+    },
+  },
+}
 
 -- vim: et sw=2 ts=2 fdm=marker
 

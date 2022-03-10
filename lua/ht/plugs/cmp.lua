@@ -28,7 +28,6 @@ function config()
       { name = "ultisnips" },
       { name = 'path' },
       { name = 'calc' },
-      { name = 'digraphs' },
       { name = 'spell' },
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },

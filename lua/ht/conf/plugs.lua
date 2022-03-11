@@ -370,6 +370,7 @@ function UsePlugins(use)
       'hrsh7th/cmp-calc',
       'dmitmel/cmp-digraphs',
       'f3fora/cmp-spell',
+      'lukas-reineke/cmp-under-comparator',
     },
   }
 

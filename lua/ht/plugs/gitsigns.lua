@@ -17,7 +17,7 @@ function config()
       delay = 200,
     },
   }
-  require'gitsigns.manager'.setup_signs()
+  require'gitsigns.highlight'.setup_highlights()
 end
 
 -- vim: et sw=2 ts=2

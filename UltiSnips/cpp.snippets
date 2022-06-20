@@ -61,7 +61,7 @@ snippet cc "const_cast" w
 const_cast<${1}>(${2})${0}
 endsnippet
 
-snippet #i" "include" bA
+snippet #" "include" bA
 #include "${1}"${0}
 endsnippet
 
@@ -156,7 +156,7 @@ snippet "(p(?:(?:(?=\()\([pius0-9\()]+\s*(?:,\s*[pius0-9()]+)+\))|[ius]{2}))" "c
 `!p snip.rv = short_nameset_parse(match.group(1))`$0
 endsnippet
 
-snippet #ih "include corresponding header..." bA
+snippet #h "include corresponding header..." bA
 `!p snip.rv = generate_cpp_header_filename(vim)`$0
 endsnippet
 

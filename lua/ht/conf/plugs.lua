@@ -51,6 +51,7 @@ function UsePlugins(use)
     wants = 'telescope.nvim',
     requires = { 'nvim-telescope/telescope.nvim' },
     config = [[require('telescope').load_extension('fzy_native')]],
+    run = 'make',
   }
 
   use {
@@ -382,6 +383,16 @@ function UsePlugins(use)
   }
 
   use { 'neovim/nvim-lspconfig' }
+
+  use {
+    'j-hui/fidget.nvim',
+    requires = 'neovim/nvim-lspconfig',
+    config = function()
+      require"fidget".setup {}
+    end,
+  }
+
+  use { 'simrat39/symbols-outline.nvim', requires = 'neovim/nvim-lspconfig' }
 
   use { 'p00f/clangd_extensions.nvim', requires = 'neovim/nvim-lspconfig' }
 

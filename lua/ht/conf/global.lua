@@ -39,18 +39,18 @@ cmd [[set noerrorbells novisualbell t_vb=]]
 -- numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.g.relative_number_blacklist = {'startify', 'NvimTree', 'packer', 'alpha'}
+vim.g.relative_number_blacklist = { 'startify', 'NvimTree', 'packer', 'alpha' }
 
 cv.event:on('TermEnter', '*', 'setlocal nonu nornu')
-cv.event:on({'BufEnter', 'FocusGained', 'WinEnter'}, '*',
+cv.event:on({ 'BufEnter', 'FocusGained', 'WinEnter' }, '*',
             'if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif')
-cv.event:on({'BufLeave', 'FocusLost', 'WinLeave'}, '*',
+cv.event:on({ 'BufLeave', 'FocusLost', 'WinLeave' }, '*',
             'if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif')
 
 -- cursorline autocmd
 vim.opt.cursorline = true
-cv.event:on({'InsertLeave', 'WinEnter'}, '*', 'set cursorline')
-cv.event:on({'InsertEnter', 'WinLeave'}, '*', 'set nocursorline')
+cv.event:on({ 'InsertLeave', 'WinEnter' }, '*', 'set cursorline')
+cv.event:on({ 'InsertEnter', 'WinLeave' }, '*', 'set nocursorline')
 
 -- cursor settings
 vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:Cursor/lCursor'
@@ -83,7 +83,7 @@ vim.opt.scrolloff = 5
 vim.opt.timeoutlen = 300
 
 vim.opt.signcolumn = 'yes'
-cv.event:on({'BufEnter', 'FocusGained', 'WinEnter'}, '*', 'set signcolumn=yes')
+cv.event:on({ 'BufEnter', 'FocusGained', 'WinEnter' }, '*', 'set signcolumn=yes')
 
 vim.opt.hidden = true
 
@@ -93,16 +93,16 @@ vim.opt.jumpoptions = 'stack'
 -- setup clipboard vis ssh, other settings: [[~/Dropbox/vimwiki/Remote Clipboard.wiki]]
 if vim.fn.has('linux') == 1 then
   local copy_settings = {}
-  copy_settings['+'] = {'nc', 'localhost', '2224', '-w0'}
-  copy_settings['*'] = {'nc', 'localhost', '2224', '-w0'}
+  copy_settings['+'] = { 'nc', 'localhost', '2224', '-w0' }
+  copy_settings['*'] = { 'nc', 'localhost', '2224', '-w0' }
   local paste_settings = {}
-  paste_settings['+'] = {'nc', 'localhost', '2225', '-w1'}
-  paste_settings['*'] = {'nc', 'localhost', '2225', '-w1'}
+  paste_settings['+'] = { 'nc', 'localhost', '2225', '-w1' }
+  paste_settings['*'] = { 'nc', 'localhost', '2225', '-w1' }
   vim.g.clipboard = {
     name = 'ssh-remote-clip',
     copy = copy_settings,
     paste = paste_settings,
-    cache_enabled = 1
+    cache_enabled = 1,
   }
 end
 
@@ -133,14 +133,14 @@ nmap('<leader><leader>', [[<cmd>lua require('ht.actions').OpenMenu()<cr>]])
 for i = 1, 9 do
   nmap('<leader>' .. i,
        [[<cmd>lua require('ht.core.window').GotoWindow(]] .. i .. ')<CR>',
-       {description = 'Window ' .. i})
+       { description = 'Window ' .. i })
 end
 
 SetFolderName('*', 'f', 'file')
-nmap('<leader>fs', '<cmd>update<CR>', {description = 'update'})
+nmap('<leader>fs', '<cmd>update<CR>', { description = 'update' })
 nmap('<C-p>', [[<cmd>lua require('ht.actions.file').OpenProjectRoot()<CR>]])
 nmap('<leader>e', [[<cmd>lua require('ht.actions.file').OpenProjectRoot()<CR>]],
-     {description = 'edit-file-pwd'})
+     { description = 'edit-file-pwd' })
 
 nmap('*', [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]])
 nmap('n', [[<cmd>call quickhl#manual#go_to_next('s')<CR>]])
@@ -148,21 +148,22 @@ nmap('N', [[<cmd>call quickhl#manual#go_to_prev('s')<CR>]])
 nmap('<M-n>', [[:nohl<CR>:QuickhlManualReset<CR>]])
 vmap('*', [[<cmd>call quickhl#manual#this('v')<CR>]])
 
-nmap('<leader>q', '<cmd>q<CR>', {description = 'quit'})
-nmap('<leader>x', '<cmd>wq<CR>', {description = 'save-and-quit'})
-nmap('<leader>Q', '<cmd>confirm qall<CR>', {description = 'quit-all'})
+nmap('<leader>q', '<cmd>q<CR>', { description = 'quit' })
+nmap('<leader>x', '<cmd>wq<CR>', { description = 'save-and-quit' })
+nmap('<leader>Q', '<cmd>confirm qall<CR>', { description = 'quit-all' })
 
 nmap('tq', [[:lua require('ht.core.window').ToggleQuickfix()<CR>]])
 
 SetFolderName('*', 'w', 'window')
-nmap('<leader>wv', '<cmd>wincmd v<CR>', {description = 'split-window-vertical'})
+nmap('<leader>wv', '<cmd>wincmd v<CR>',
+     { description = 'split-window-vertical' })
 nmap('<leader>w-', '<cmd>wincmd s<CR>',
-     {description = 'split-window-horizontal'})
-nmap('<leader>w=', '<cmd>wincmd =<CR>', {description = 'balance-window'})
+     { description = 'split-window-horizontal' })
+nmap('<leader>w=', '<cmd>wincmd =<CR>', { description = 'balance-window' })
 nmap('<leader>wr', '<cmd>wincmd r<CR>',
-     {description = 'rotate-window-rightwards'})
+     { description = 'rotate-window-rightwards' })
 nmap('<leader>wx', '<cmd>wincmd x<CR>',
-     {description = 'exchange-window-with-next'})
+     { description = 'exchange-window-with-next' })
 
 nmap('<M-h>', '<cmd>wincmd h<CR>')
 nmap('<M-j>', '<cmd>wincmd j<CR>')
@@ -176,33 +177,47 @@ nmap('<leader>', [[:WhichKey '<Space>'<CR>]])
 
 SetFolderName('*', 'v', 'vcs')
 nmap('<leader>v1', '<cmd>call conflict_resolve#ourselves()<CR>',
-     {description = 'select-ours'})
+     { description = 'select-ours' })
 nmap('<leader>v2', '<cmd>call conflict_resolve#themselves()<CR>',
-     {description = 'select-them'})
+     { description = 'select-them' })
 nmap('<leader>vb', '<cmd>call conflict_resolve#both()<CR>',
-     {description = 'select-both'})
+     { description = 'select-both' })
 
 if vim.g['fvim_loaded'] == nil then
   vim.opt.wildoptions = 'pum'
 end
 
 SetFolderName('*', 't', 'table')
-nmap('<leader>ta', '<cmd>EasyAlign<CR>', {description = 'easy-align'})
+nmap('<leader>ta', '<cmd>EasyAlign<CR>', { description = 'easy-align' })
 xmap('<leader>ta', '<cmd>EasyAlign<CR>')
+
+SetFolderName('*', 'l', 'list')
+nmap('<leader>ls', '<cmd>Telescope lsp_document_symbols<CR>',
+     { description = 'document-symbols' })
+nmap('<leader>lw', '<cmd>Telescope lsp_workspace_symbols<CR>',
+     { description = 'workspace-symbols' })
 
 -- add default menu section
 require('ht.core.dropdown').AppendContext('*', {
-  {'Move Object &Left', 'SidewaysLeft'}, {'Move Object &Right', 'SidewaysRight'}
+  { 'Move Object &Left', 'SidewaysLeft' },
+  { 'Move Object &Right', 'SidewaysRight' },
 })
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    'c', 'cpp', 'toml', 'python', 'rust', 'go', 'typescript', 'lua'
+    'c',
+    'cpp',
+    'toml',
+    'python',
+    'rust',
+    'go',
+    'typescript',
+    'lua',
   },
   highlight = {
     enable = true, -- false will disable the whole extension
-    disable = {} -- list of language that will be disabled
-  }
+    disable = {}, -- list of language that will be disabled
+  },
 }
 
 -- keymappings for hop

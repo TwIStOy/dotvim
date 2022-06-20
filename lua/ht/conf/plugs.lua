@@ -141,6 +141,7 @@ function UsePlugins(use)
 
   use {
     'akinsho/nvim-toggleterm.lua',
+    tag = 'v1.*',
     keys = { '<C-t>' },
     module = { 'toggleterm' },
     setup = Setup('toggleterm'),
@@ -194,8 +195,11 @@ function UsePlugins(use)
     requires = { 'godlygeek/tabular' },
   }
 
-  use { 'akinsho/bufferline.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons' } }
+  use {
+    'akinsho/bufferline.nvim',
+    tag = 'v2.*',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+  }
 
   use {
     'lewis6991/gitsigns.nvim',
@@ -221,7 +225,10 @@ function UsePlugins(use)
       { 'v', '<C-k>' },
       { 'v', '<C-l>' },
     },
-    setup = [[vim.g.move_key_modifier = 'C']],
+    setup = [[
+      vim.g.move_key_modifier = 'C'
+      vim.g.move_key_modifier_visualmode = 'C'
+    ]],
   }
 
   use { 'Asheq/close-buffers.vim', cmd = { 'Bdelete' } }

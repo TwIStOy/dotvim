@@ -26,7 +26,7 @@ function UsePlugins(use)
 
   use {
     'kyazdani42/nvim-tree.lua',
-    keys = { '<leader>ft' },
+    opt = true,
     config = Config('nvim_tree'),
     requires = { 'kyazdani42/nvim-web-devicons' },
   }

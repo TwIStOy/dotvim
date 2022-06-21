@@ -3,7 +3,8 @@ module('ht.plugs.lualine', package.seeall)
 local options = {
   section_separators = {'', ''},
   component_separators = {'', ''},
-  theme = 'tokyonight'
+  -- theme = 'github-theme'
+  theme = 'auto',
 }
 
 local function coc_status()

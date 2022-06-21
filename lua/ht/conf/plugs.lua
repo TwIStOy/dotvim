@@ -157,10 +157,11 @@ function UsePlugins(use)
     setup = [[require('ht.plugs.config').surround()]],
   }
 
+  --[[
   use {
     'folke/tokyonight.nvim',
     setup = function()
-      vim.g.tokyonight_style = 'storm'
+      vim.g.tokyonight_style = 'day'
       vim.g.tokyonight_italic_variables = true
       vim.g.tokyonight_hide_inactive_statusline = false
       vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
@@ -169,6 +170,18 @@ function UsePlugins(use)
     end,
     config = function()
       vim.cmd('colorscheme tokyonight')
+    end,
+  }
+  --]]
+
+  use {
+    'projekt0n/github-nvim-theme',
+    config = function()
+      require("github-theme").setup {
+        theme_style = 'light',
+        sidebars = { "qf", "vista_kind", "terminal", "packer" },
+        function_style = "underlineline",
+      }
     end,
   }
 
@@ -348,19 +361,17 @@ function UsePlugins(use)
     cmd = { 'AngryReviewer' },
   }
 
-  --[[
   use {
-    'lukas-reineke/indent-blankline.nvim',
+    'nvim-neotest/neotest',
+    requires = {
+      'antoinemadec/FixCursorHold.nvim',
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
     config = function()
-      require("indent_blankline").setup {
-        char = "|",
-        buftype_exclude = { "terminal" },
-        use_treesitter = true,
-        filetype_exclude = { 'startify', 'help', 'packer', 'alpha' },
-      }
+      require("neotest").setup {}
     end,
   }
-  --]]
 
   use {
     'hrsh7th/nvim-cmp',

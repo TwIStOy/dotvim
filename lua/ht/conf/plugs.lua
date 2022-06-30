@@ -178,10 +178,28 @@ function UsePlugins(use)
     'projekt0n/github-nvim-theme',
     config = function()
       require("github-theme").setup {
-        theme_style = 'light',
+        theme_style = 'dimmed',
         sidebars = { "qf", "vista_kind", "terminal", "packer" },
         function_style = "underlineline",
       }
+    end,
+  }
+
+  use {
+    'jedrzejboczar/possession.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    after = 'telescope.nvim',
+    wants = 'telescope.nvim',
+    config = function()
+      require'possession'.setup {
+        commands = {
+          save = 'SSave',
+          load = 'SLoad',
+          delete = 'SDelete',
+          list = 'SList',
+        },
+      }
+      require('telescope').load_extension('possession')
     end,
   }
 

@@ -64,7 +64,6 @@ require"clangd_extensions".setup {
       '--limit-references=0',
       '--limit-results=100',
       '--pch-storage=memory',
-      '--use-dirty-headers',
       '-j=20',
     },
     on_attach = on_attach,

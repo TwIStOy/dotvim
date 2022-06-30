@@ -242,6 +242,7 @@ function UsePlugins(use)
   use {
     'hoob3rt/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
+    after = 'github-nvim-theme',
     config = Config('lualine'),
   }
 
@@ -428,6 +429,21 @@ function UsePlugins(use)
   use { 'simrat39/rust-tools.nvim', requires = 'neovim/nvim-lspconfig' }
 
   use { 'onsails/lspkind-nvim', requires = 'neovim/nvim-lspconfig' }
+
+  use {
+    'seblj/nvim-echo-diagnostics',
+    requires = 'neovim/nvim-lspconfig',
+    config = function()
+      require("echo-diagnostics").setup {
+        show_diagnostic_number = true,
+        show_diagnostic_source = false,
+      }
+
+      require'ht.core.vim'.event:on('CursorHold', '*', function()
+        require('echo-diagnostics').echo_line_diagnostic()
+      end)
+    end,
+  }
 
   use {
     'folke/trouble.nvim',

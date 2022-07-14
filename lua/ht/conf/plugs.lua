@@ -180,7 +180,6 @@ function UsePlugins(use)
       require("github-theme").setup {
         theme_style = 'dimmed',
         sidebars = { "qf", "vista_kind", "terminal", "packer" },
-        function_style = "underlineline",
       }
     end,
   }

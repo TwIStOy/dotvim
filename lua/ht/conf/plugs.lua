@@ -157,23 +157,6 @@ function UsePlugins(use)
     setup = [[require('ht.plugs.config').surround()]],
   }
 
-  --[[
-  use {
-    'folke/tokyonight.nvim',
-    setup = function()
-      vim.g.tokyonight_style = 'day'
-      vim.g.tokyonight_italic_variables = true
-      vim.g.tokyonight_hide_inactive_statusline = false
-      vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
-      vim.g.tokyonight_lualine_bold = true
-      vim.g.tokyonight_transparent = false
-    end,
-    config = function()
-      vim.cmd('colorscheme tokyonight')
-    end,
-  }
-  --]]
-
   use {
     'projekt0n/github-nvim-theme',
     config = function()

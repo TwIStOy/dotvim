@@ -224,6 +224,7 @@ require'nvim-treesitter.configs'.setup {
 nmap(',,', [[<cmd>HopWord<CR>]])
 nmap(',l', [[<cmd>HopLine<CR>]])
 
+--[[
 vim.notify = function(msg, ...)
   local res = ''
   local first = true
@@ -238,6 +239,7 @@ vim.notify = function(msg, ...)
 
   require('notify')(res, ...)
 end
+--]]
 
 -- gui: neovide
 vim.g.neovide_refresh_rate = 144

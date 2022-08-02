@@ -141,8 +141,8 @@ function UsePlugins(use)
   }
 
   use {
-    'akinsho/nvim-toggleterm.lua',
-    tag = 'v1.*',
+    'akinsho/toggleterm.nvim',
+    tag = 'v2.*',
     keys = { '<C-t>' },
     module = { 'toggleterm' },
     setup = Setup('toggleterm'),

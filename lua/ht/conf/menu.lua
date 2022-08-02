@@ -56,7 +56,7 @@ local menus = {
       'toggle quickfix window'
     },
     {'&Buffers\t<F4>', [[call quickui#tools#list_buffer('e')]], 'list buffers'},
-    {'--', ''}, {'&Outlines', 'SymblosOutline', 'view outlines'},
+    {'--', ''}, {'&Outlines', 'SymbolsOutline', 'view outlines'},
     {'&Problems', 'TroubleToggle', 'view diagnostics'}, {'--', ''},
     {'&Wiki Index', 'VimwikiIndex', 'open wiki index'},
     {'Wiki Index(new &tab)', 'VimwikiTabIndex', 'open wiki index in new tab'},

@@ -39,19 +39,24 @@ function UsePlugins(use)
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
+    requires = {
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim',
+      "tami5/sqlite.lua",
+      { "tami5/sql.nvim", opt = true },
+    },
     cmd = { 'Telescope' },
     config = Config('telescope'),
   }
 
   use {
-    'nvim-telescope/telescope-fzy-native.nvim',
+    'nvim-telescope/telescope-fzf-native.nvim',
     opt = true,
     after = 'telescope.nvim',
     wants = 'telescope.nvim',
     requires = { 'nvim-telescope/telescope.nvim' },
-    config = [[require('telescope').load_extension('fzy_native')]],
-    run = 'make',
+    config = [[require('telescope').load_extension('fzf')]],
+    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
   }
 
   use {
@@ -385,13 +390,22 @@ function UsePlugins(use)
         end,
       },
       'hrsh7th/cmp-cmdline',
+      'dmitmel/cmp-cmdline-history',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-calc',
       'dmitmel/cmp-digraphs',
       'f3fora/cmp-spell',
+      'hrsh7th/cmp-buffer',
       'lukas-reineke/cmp-under-comparator',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'rcarriga/cmp-dap',
     },
+  }
+
+  use {
+    'rcarriga/nvim-dap-ui',
+    requires = { 'mfussenegger/nvim-dap', 'theHamsta/nvim-dap-virtual-text' },
   }
 
   use { 'neovim/nvim-lspconfig' }

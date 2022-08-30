@@ -5,6 +5,19 @@ function config()
 
   require('telescope').setup {
     defaults = {
+      selection_caret = "➤ ",
+
+      selection_strategy = "reset",
+      sorting_strategy = "descending",
+      layout_strategy = "horizontal",
+
+      history = { path = '~/.local/share/nvim/telescope_history.sqlite3' },
+
+      winblend = 0,
+      border = {},
+      borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+      color_devicons = true,
+
       mappings = {
         i = {
           ["<C-n>"] = false,
@@ -12,10 +25,10 @@ function config()
 
           ["<C-j>"] = actions.move_selection_next,
           ["<C-k>"] = actions.move_selection_previous,
-          ["<Esc>"] = actions.close
-        }
-      }
-    }
+          ["<Esc>"] = actions.close,
+        },
+      },
+    },
   }
 end
 

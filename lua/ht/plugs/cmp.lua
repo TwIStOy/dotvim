@@ -22,6 +22,34 @@ function config()
     autocmd! ColorScheme * highlight CompBorder guifg=#ffaa55 guibg=None
   ]]
 
+  local kind_icons = {
+    Text = " ",
+    Method = "",
+    Function = "",
+    Constructor = "",
+    Field = "",
+    Variable = "",
+    Class = "ﴯ",
+    Interface = "",
+    Module = "",
+    Property = " ",
+    Unit = "",
+    Value = "",
+    Enum = "",
+    Keyword = "",
+    Snippet = "",
+    Color = "",
+    File = "",
+    Reference = "",
+    Folder = "",
+    EnumMember = "",
+    Constant = "",
+    Struct = "",
+    Event = "",
+    Operator = "",
+    TypeParameter = " ",
+  }
+
   cmp.setup {
     preselect = cmp.PreselectMode.None,
     snippet = {
@@ -44,9 +72,11 @@ function config()
     sources = {
       { name = "nvim_lsp" },
       { name = "ultisnips" },
+      { name = 'nvim_lsp_signature_help' },
       { name = 'path' },
       { name = 'calc' },
       { name = 'spell' },
+      { name = 'buffer' },
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
     mapping = {
@@ -74,8 +104,34 @@ function config()
       end, { 'i', 's' }),
     },
     formatting = {
-      format = lspkind.cmp_format({ mode = 'symbol_text', maxwidth = 50 }),
+      format = function(entry, vim_item)
+        -- Kind icons
+        -- This concatonates the icons with the name of the item kind
+        vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind],
+                                      vim_item.kind)
+        -- Source
+        vim_item.menu = ({
+          buffer = "[Buf]",
+          nvim_lsp = "[LSP]",
+          ultisnips = "[Snip]",
+          nvim_lua = "[Lua]",
+          orgmode = "[Org]",
+          path = "[Path]",
+          dap = "[DAP]",
+          emoji = "[Emoji]",
+          calc = "[CALC]",
+          latex_symbols = "[LaTeX]",
+          cmdline_history = "[History]",
+          cmdline = "[Command]",
+        })[entry.source.name]
+        return vim_item
+      end,
+
     },
+    enabled = function()
+      return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or
+                 require("cmp_dap").is_dap_buffer()
+    end,
     sorting = {
       comparators = {
         cmp.config.compare.offset,
@@ -92,6 +148,11 @@ function config()
     },
   }
 
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = { { name = 'buffer' } },
+  })
+
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources {
@@ -99,6 +160,9 @@ function config()
       { { name = 'cmdline' }, { name = 'cmdline_history' } },
     },
   })
+
+  require("cmp").setup.filetype({ "dap-repl", "dapui_watches" },
+                                { sources = { { name = "dap" } } })
 end
 
 -- vim: et sw=2 ts=2

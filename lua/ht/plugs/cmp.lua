@@ -16,12 +16,30 @@ function config()
                    :match('%s') == nil
   end
 
+  vim.cmd [[
+    highlight CompNormal guibg=None guifg=None
+    highlight CompBorder guifg=#ffaa55 guibg=#None
+    autocmd! ColorScheme * highlight CompBorder guifg=#ffaa55 guibg=None
+  ]]
+
   cmp.setup {
     preselect = cmp.PreselectMode.None,
     snippet = {
       expand = function(args)
         vim.fn["UltiSnips#Anon"](args.body)
       end,
+    },
+    window = {
+      completion = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        -- winhighlight = 'NormalFloat:NormalFloat,CompBorder:CompBorder',
+        winhighlight = 'NormalFloat:CompNormal,FloatBorder:CompBorder',
+      },
+      documentation = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        -- winhighlight = 'NormalFloat:CompNormal,FloatBorder:CompDocBorder',
+        winhighlight = 'NormalFloat:CompNormal,FloatBorder:FloatBorder',
+      },
     },
     sources = {
       { name = "nvim_lsp" },
@@ -35,6 +53,8 @@ function config()
       ["<CR>"] = cmp.mapping(cmp.mapping.confirm(), { 'i', 'c' }),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
+      ["<C-k>"] = cmp.mapping.select_prev_item(),
+      ["<C-j>"] = cmp.mapping.select_next_item(),
       ["<TAB>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -72,10 +92,13 @@ function config()
     },
   }
 
-  --[[
-  cmp.setup.cmdline(':',
-                    { sources = { { name = 'path' }, { name = 'cmdline' } } })
-  --]]
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources {
+      { name = 'path' },
+      { { name = 'cmdline' }, { name = 'cmdline_history' } },
+    },
+  })
 end
 
 -- vim: et sw=2 ts=2

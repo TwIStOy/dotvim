@@ -176,15 +176,15 @@ snippet des "current struct's destructor" "nearest_struct_name(snip)" be
 ~`!p snip.rv = context`() = default;${0}
 endsnippet
 
-snippet coreturn "co_return shortcut" bA
+snippet coreturn "co_return shortcut" wA
 co_return 
 endsnippet
 
-snippet coawait "co_return shortcut" bA
+snippet coawait "co_return shortcut" wA
 co_await 
 endsnippet
 
-snippet coyield "co_return shortcut" bA
+snippet coyield "co_return shortcut" wA
 co_yield 
 endsnippet
 
@@ -321,6 +321,14 @@ snippet cpp20 "macro greater cpp20" b
 #if __cplusplus >= 202002L
 ${0}
 #endif
+endsnippet
+
+snippet da "decltype(auto)" w
+decltype(auto)
+endsnippet
+
+snippet ca& "const auto&" w
+const auto&
 endsnippet
 
 # vim: set fdm=marker

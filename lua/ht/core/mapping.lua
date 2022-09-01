@@ -40,6 +40,8 @@ M.append_folder_name = function(self, ft, folder, name)
   self.filetypes[ft]:append_folder_name(folder, name)
 end
 
+M.
+
 return M
 
 -- vim: et sw=2 ts=2

@@ -1,0 +1,120 @@
+local M = {}
+
+M.core = {
+  'sindrets/diffview.nvim',
+  requires = { 'kyazdani42/nvim-web-devicons' },
+}
+
+M.setup = function() -- code to run before plugin loaded
+end
+
+M.config = function() -- code to run after plugin loaded
+  local cb = require'diffview.config'.diffview_callback
+
+  require'diffview'.setup {
+    diff_binaries = false,
+    enhanced_diff_hl = true,
+    use_icons = true,
+    icons = { folder_closed = "Óóø", folder_open = "Óóæ" },
+    signs = { fold_closed = "Ôë†", fold_open = "Ôëº" },
+    file_panel = {
+      win_config = { position = "left", width = 35, height = 10 },
+      listing_style = "tree",
+      tree_options = { flatten_dirs = true, folder_statuses = "always" },
+    },
+    file_history_panel = {
+      win_config = { position = "bottom", width = 35, height = 16 },
+      log_options = {
+        single_file = {
+          max_count = 512,
+          follow = true,
+          all = false,
+          merges = false,
+          no_merges = false,
+          reverse = false,
+        },
+        multi_file = {
+          max_count = 128,
+          follow = false,
+          all = false,
+          merges = false,
+          no_merges = false,
+          reverse = false,
+        },
+      },
+    },
+    default_args = { DiffviewOpen = {}, DiffviewFileHistory = {} },
+    key_bindings = {
+      disable_defaults = false, -- Disable the default key bindings
+      -- The `view` bindings are active in the diff buffers, only when the current
+      -- tabpage is a Diffview.
+      view = {
+        ["<tab>"] = cb("select_next_entry"), -- Open the diff for the next file
+        ["<s-tab>"] = cb("select_prev_entry"), -- Open the diff for the previous file
+        ["gf"] = cb("goto_file"), -- Open the file in a new split in previous tabpage
+        ["<C-w><C-f>"] = cb("goto_file_split"), -- Open the file in a new split
+        ["<C-w>gf"] = cb("goto_file_tab"), -- Open the file in a new tabpage
+        ["<leader>e"] = cb("focus_files"), -- Bring focus to the files panel
+        ["<leader>b"] = cb("toggle_files"), -- Toggle the files panel.
+      },
+      file_panel = {
+        ["j"] = cb("next_entry"), -- Bring the cursor to the next file entry
+        ["<down>"] = cb("next_entry"),
+        ["k"] = cb("prev_entry"), -- Bring the cursor to the previous file entry.
+        ["<up>"] = cb("prev_entry"),
+        ["<cr>"] = cb("select_entry"), -- Open the diff for the selected entry.
+        ["o"] = cb("select_entry"),
+        ["<2-LeftMouse>"] = cb("select_entry"),
+        ["-"] = cb("toggle_stage_entry"), -- Stage / unstage the selected entry.
+        ["S"] = cb("stage_all"), -- Stage all entries.
+        ["U"] = cb("unstage_all"), -- Unstage all entries.
+        ["X"] = cb("restore_entry"), -- Restore entry to the state on the left side.
+        ["R"] = cb("refresh_files"), -- Update stats and entries in the file list.
+        ["<tab>"] = cb("select_next_entry"),
+        ["<s-tab>"] = cb("select_prev_entry"),
+        ["gf"] = cb("goto_file"),
+        ["<C-w><C-f>"] = cb("goto_file_split"),
+        ["<C-w>gf"] = cb("goto_file_tab"),
+        ["i"] = cb("listing_style"), -- Toggle between 'list' and 'tree' views
+        ["f"] = cb("toggle_flatten_dirs"), -- Flatten empty subdirectories in tree listing style.
+        ["<leader>e"] = cb("focus_files"),
+        ["<leader>b"] = cb("toggle_files"),
+      },
+      file_history_panel = {
+        ["g!"] = cb("options"), -- Open the option panel
+        ["<C-A-d>"] = cb("open_in_diffview"), -- Open the entry under the cursor in a diffview
+        ["y"] = cb("copy_hash"), -- Copy the commit hash of the entry under the cursor
+        ["zR"] = cb("open_all_folds"),
+        ["zM"] = cb("close_all_folds"),
+        ["j"] = cb("next_entry"),
+        ["<down>"] = cb("next_entry"),
+        ["k"] = cb("prev_entry"),
+        ["<up>"] = cb("prev_entry"),
+        ["<cr>"] = cb("select_entry"),
+        ["o"] = cb("select_entry"),
+        ["<2-LeftMouse>"] = cb("select_entry"),
+        ["<tab>"] = cb("select_next_entry"),
+        ["<s-tab>"] = cb("select_prev_entry"),
+        ["gf"] = cb("goto_file"),
+        ["<C-w><C-f>"] = cb("goto_file_split"),
+        ["<C-w>gf"] = cb("goto_file_tab"),
+        ["<leader>e"] = cb("focus_files"),
+        ["<leader>b"] = cb("toggle_files"),
+      },
+      option_panel = { ["<tab>"] = cb("select"), ["q"] = cb("close") },
+    },
+  }
+end
+
+M.mappings = function() -- code for mappings
+  return {
+    default = { -- pass to vim.api.nvim_set_keymap
+    },
+    wk = { -- send to which-key
+    },
+  }
+end
+
+return M
+-- vim: et sw=2 ts=2 fdm=marker
+

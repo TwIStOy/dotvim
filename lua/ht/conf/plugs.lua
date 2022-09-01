@@ -4,14 +4,19 @@ local Config = require'ht.plugs'.Config
 local Setup = require'ht.plugs'.Setup
 
 function UsePlugins(use)
+  local loader = require'ht.plugins.init'.loader:new(use)
+
   use 'wbthomason/packer.nvim'
 
   use 'lewis6991/impatient.nvim'
 
   use 'kyazdani42/nvim-web-devicons'
 
-  use { 'skywind3000/asyncrun.vim', cmd = { 'AsyncRun', 'AsyncStop' } }
+  use 'nvim-lua/plenary.nvim'
 
+  loader:setup 'asynctasks'
+  --[[
+  use { 'skywind3000/asyncrun.vim', cmd = { 'AsyncRun', 'AsyncStop' } }
   use {
     'skywind3000/asynctasks.vim',
     cmd = { 'AsyncTask', 'AsyncTaskMacro', 'AsyncTaskProfile', 'AsyncTaskEdit' },
@@ -19,24 +24,31 @@ function UsePlugins(use)
     setup = Setup('asynctasks'),
     wants = { 'asyncrun.vim' },
   }
-
-  use 'nvim-lua/plenary.nvim'
+  --]]
 
   use { 'nvim-lua/popup.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
+  loader:setup 'nvim_tree'
+  --[[
   use {
     'kyazdani42/nvim-tree.lua',
     opt = true,
     config = Config('nvim_tree'),
     requires = { 'kyazdani42/nvim-web-devicons' },
   }
+  --]]
 
+  loader:setup 'diffview'
+  --[[
   use {
     'sindrets/diffview.nvim',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = Config('diffview'),
   }
+  --]]
 
+  loader:setup 'telescope'
+  --[[
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
@@ -55,7 +67,7 @@ function UsePlugins(use)
     after = 'telescope.nvim',
     wants = 'telescope.nvim',
     requires = { 'nvim-telescope/telescope.nvim' },
-    config = [[require('telescope').load_extension('fzf')]],
+    config = "require('telescope').load_extension('fzf')",
     run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
   }
 
@@ -64,8 +76,9 @@ function UsePlugins(use)
     opt = true,
     after = 'telescope.nvim',
     requires = { 'nvim-telescope/telescope.nvim' },
-    config = [[require('telescope').load_extension('ultisnips')]],
+    config = "require('telescope').load_extension('ultisnips')",
   }
+  --]]
 
   use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
 

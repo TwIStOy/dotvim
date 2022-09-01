@@ -1,7 +1,6 @@
 local M = {}
 
-M.requires = function() -- return required packages
-end
+M.core = { 'monaqa/dial.nvim', keys = { '<C-a>', '<C-x>' } }
 
 M.setup = function() -- code to run before plugin loaded
 end
@@ -94,19 +93,50 @@ M.config = function() -- code to run after plugin loaded
 end
 
 M.mappings = function() -- code for mappings
-  local opt = { noremap = true, silent = true }
-  return {
-    default = {
-      ['*'] = {
-        { "n", "<C-a>", require("dial.map").inc_normal(), opt },
-        { "n", "<C-x>", require("dial.map").dec_normal(), opt },
-        { "v", "<C-a>", require("dial.map").inc_visual(), opt },
-        { "v", "<C-x>", require("dial.map").dec_visual(), opt },
-        { "v", "g<C-a>", require("dial.map").inc_gvisual(), opt },
-        { "v", "g<C-x>", require("dial.map").dec_gvisual(), opt },
-      },
-    },
-  }
+  local mapping = require 'ht.core.mapping'
+
+  mapping:map('*', {
+    mode = 'n',
+    keys = { '<C-a>' },
+    action = function()
+      require'dial.map'.inc_normal()
+    end,
+  })
+  mapping:map('*', {
+    mode = "n",
+    keys = { "<C-x>" },
+    action = function()
+      require("dial.map").dec_normal()
+    end,
+  })
+  mapping:map('*', {
+    mode = "v",
+    keys = { "<C-a>" },
+    action = function()
+      require("dial.map").inc_visual()
+    end,
+  })
+  mapping:map('*', {
+    mode = "v",
+    keys = { "<C-x>" },
+    action = function()
+      require("dial.map").dec_visual()
+    end,
+  })
+  mapping:map('*', {
+    mode = "v",
+    keys = { "g", "<C-a>" },
+    action = function()
+      require("dial.map").inc_gvisual()
+    end,
+  })
+  mapping:map('*', {
+    mode = "v",
+    keys = { "g", "<C-x>" },
+    action = function()
+      require("dial.map").dec_gvisual()
+    end,
+  })
 end
 
 return M

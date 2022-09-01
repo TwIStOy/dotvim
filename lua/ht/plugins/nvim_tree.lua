@@ -62,18 +62,19 @@ local jump_to_nvim_tree = function()
 end
 
 M.mappings = function() -- code for mappings
-  return {
-    default = { -- pass to vim.api.nvim_set_keymap
-      ["*"] = {
-        { 'n', '<F3>', jump_to_nvim_tree, { silent = true, noremap = true } },
-      },
-    },
-    wk = { -- send to which-key
-      ['*'] = {
-        f = { name = 'file', t = { jump_to_nvim_tree, 'file-explorer' } },
-      },
-    },
-  }
+  local mapping = require 'ht.core.mapping'
+
+  mapping:map('*', {
+    keys = { '<F3>' },
+    action = jump_to_nvim_tree,
+    desc = 'file-explorer',
+  })
+
+  mapping:map('*', {
+    keys = { '<leader>', 'f' },
+    action = jump_to_nvim_tree,
+    desc = 'file-explorer',
+  })
 end
 
 return M

@@ -107,12 +107,6 @@ M.config = function() -- code to run after plugin loaded
 end
 
 M.mappings = function() -- code for mappings
-  return {
-    default = { -- pass to vim.api.nvim_set_keymap
-    },
-    wk = { -- send to which-key
-    },
-  }
 end
 
 return M

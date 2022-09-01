@@ -15,109 +15,32 @@ function UsePlugins(use)
   use 'nvim-lua/plenary.nvim'
 
   loader:setup 'asynctasks'
-  --[[
-  use { 'skywind3000/asyncrun.vim', cmd = { 'AsyncRun', 'AsyncStop' } }
-  use {
-    'skywind3000/asynctasks.vim',
-    cmd = { 'AsyncTask', 'AsyncTaskMacro', 'AsyncTaskProfile', 'AsyncTaskEdit' },
-    requires = { 'skywind3000/asyncrun.vim' },
-    setup = Setup('asynctasks'),
-    wants = { 'asyncrun.vim' },
-  }
-  --]]
 
   use { 'nvim-lua/popup.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
   loader:setup 'nvim_tree'
-  --[[
-  use {
-    'kyazdani42/nvim-tree.lua',
-    opt = true,
-    config = Config('nvim_tree'),
-    requires = { 'kyazdani42/nvim-web-devicons' },
-  }
-  --]]
 
   loader:setup 'diffview'
-  --[[
-  use {
-    'sindrets/diffview.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-    config = Config('diffview'),
-  }
-  --]]
 
   loader:setup 'telescope'
-  --[[
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/popup.nvim',
-      'nvim-lua/plenary.nvim',
-      "tami5/sqlite.lua",
-      { "tami5/sql.nvim", opt = true },
-    },
-    cmd = { 'Telescope' },
-    config = Config('telescope'),
-  }
-
-  use {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    opt = true,
-    after = 'telescope.nvim',
-    wants = 'telescope.nvim',
-    requires = { 'nvim-telescope/telescope.nvim' },
-    config = "require('telescope').load_extension('fzf')",
-    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
-  }
-
-  use {
-    'fhill2/telescope-ultisnips.nvim',
-    opt = true,
-    after = 'telescope.nvim',
-    requires = { 'nvim-telescope/telescope.nvim' },
-    config = "require('telescope').load_extension('ultisnips')",
-  }
-  --]]
 
   use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
 
   use 'stevearc/dressing.nvim'
 
-  use {
-    'ethanholz/nvim-lastplace',
-    config = function()
-      require'nvim-lastplace'.setup {
-        lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-        lastplace_ignore_filetype = {
-          "gitcommit",
-          "gitrebase",
-          "svn",
-          "hgcommit",
-        },
-        lastplace_open_folds = false,
-      }
-    end,
-  }
+  loader:setup 'lastplace'
 
-  use {
-    'goolord/alpha-nvim',
-    config = Config('alpha'),
-    requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim' },
-  }
+  loader:setup 'alpha'
 
+  --[[
   use {
     'liuchengxu/vim-which-key',
     cmd = { 'WhichKey' },
     config = Config('whichkey'),
   }
+  --]]
 
-  use {
-    'skywind3000/vim-quickui',
-    fn = { 'quickui#*' },
-    setup = Setup('quickui'),
-    config = Config('quickui'),
-  }
+  loader:setup 'quickui'
 
   -- text-objects
   use { 'kana/vim-textobj-user', opt = true }
@@ -134,20 +57,9 @@ function UsePlugins(use)
     requires = { 'kana/vim-textobj-user' },
   }
 
-  use {
-    'TwIStOy/ultisnips',
-    ft = { 'cpp', 'c', 'markdown', 'vimwiki', 'rust', 'go', 'python' },
-    event = 'InsertEnter',
-    setup = Setup('ultisnips'),
-    config = Config('ultisnips'),
-  }
+  loader:setup 'ultisnips'
 
-  use {
-    'Yggdroot/LeaderF',
-    cmd = { 'LeaderF', 'LeaderfFile' },
-    run = './install.sh',
-    setup = Setup('leaderf'),
-  }
+  loader:setup 'leaderf'
 
   use {
     'TwIStOy/vim-cpp-toolkit',
@@ -211,13 +123,13 @@ function UsePlugins(use)
 
   use {
     'nvim-treesitter/playground',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
     cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
   }
 
-  use { 'kevinhwang91/nvim-bqf', ft = 'qf', config = Config('bqf') }
+  loader:setup 'nvim_bqf'
 
-  use { 'monaqa/dial.nvim', keys = { '<C-a>', '<C-x>' },
-        config = Config('dial') }
+  loader:setup 'dial'
 
   use { 'godlygeek/tabular', cmd = { 'Tabularize' } }
 
@@ -227,24 +139,11 @@ function UsePlugins(use)
     requires = { 'godlygeek/tabular' },
   }
 
-  use {
-    'akinsho/bufferline.nvim',
-    tag = 'v2.*',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-  }
+  loader:setup 'bufferline'
 
-  use {
-    'lewis6991/gitsigns.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-    config = Config('gitsigns'),
-  }
+  loader:setup 'gitsigns'
 
-  use {
-    'hoob3rt/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-    after = 'github-nvim-theme',
-    config = Config('lualine'),
-  }
+  loader:setup 'lualine'
 
   use {
     'matze/vim-move',
@@ -305,12 +204,7 @@ function UsePlugins(use)
 
   use { 'AndrewRadev/sideways.vim', cmd = { 'SidewaysLeft', 'SidewaysRight' } }
 
-  use {
-    'sbdchd/neoformat',
-    event = 'BufRead',
-    setup = Setup('neoformat'),
-    config = Config('neoformat'),
-  }
+  loader:setup 'neoformat'
 
   use { 't9md/vim-quickhl', cmd = { 'QuickhlManualReset' },
         fn = { 'quickhl#*' } }
@@ -324,51 +218,15 @@ function UsePlugins(use)
   }
 
   use {
-    'vimwiki/vimwiki',
-    cmd = {
-      'VimwikiIndex',
-      'VimwikiTabIndex',
-      'VimwikiUISelect',
-      'VimwikiDiaryIndex',
-      'VimwikiMakeDiaryNote',
-      'VimwikiTabMakeDiaryNote',
-      'VimwikiMakeYesterdayDiaryNote',
-      'VimwikiMakeTomorrowDiaryNote',
-    },
-    setup = Setup('vimwiki'),
-    config = Config('vimwiki'),
-    requires = { 'skywind3000/vim-quickui' },
-  }
-
-  use {
     'andymass/vim-matchup',
     keys = { { 'n', '%' }, { 'x', '%' }, { 'o', '%' } },
     setup = Setup('matchup'),
     config = Config('matchup'),
   }
 
-  use { 'dstein64/nvim-scrollview', opt = true, setup = Setup('scrollview') }
+  loader:setup 'scrollview'
 
-  use {
-    'kkoomen/vim-doge',
-    run = function()
-      vim.fn['doge#install']()
-    end,
-    cmd = { 'DogeGenerate', 'DogeCreateDocStandard' },
-  }
-
-  use {
-    'phaazon/hop.nvim',
-    cmd = {
-      'HopWord',
-      'HopPattern',
-      'HopChar1',
-      'HopChar2',
-      'HopLine',
-      'HopLineStart',
-    },
-    config = Config('hop'),
-  }
+  loader:setup 'hop'
 
   use 'rcarriga/nvim-notify'
 
@@ -380,41 +238,7 @@ function UsePlugins(use)
     cmd = { 'AngryReviewer' },
   }
 
-  use {
-    'nvim-neotest/neotest',
-    requires = {
-      'antoinemadec/FixCursorHold.nvim',
-      'nvim-lua/plenary.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    config = function()
-      require("neotest").setup {}
-    end,
-  }
-
-  use {
-    'hrsh7th/nvim-cmp',
-    config = Config('cmp'),
-    requires = {
-      {
-        "quangnguyen30192/cmp-nvim-ultisnips",
-        config = function()
-          require("cmp_nvim_ultisnips").setup {}
-        end,
-      },
-      'hrsh7th/cmp-cmdline',
-      'dmitmel/cmp-cmdline-history',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-calc',
-      'dmitmel/cmp-digraphs',
-      'f3fora/cmp-spell',
-      'hrsh7th/cmp-buffer',
-      'lukas-reineke/cmp-under-comparator',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      'rcarriga/cmp-dap',
-    },
-  }
+  loader:setup 'nvim_cmp'
 
   use {
     'rcarriga/nvim-dap-ui',
@@ -462,11 +286,7 @@ function UsePlugins(use)
     end,
   }
 
-  use {
-    "danymat/neogen",
-    config = Config('neogen'),
-    requires = "nvim-treesitter/nvim-treesitter",
-  }
+  loader:setup 'neogen'
 
   use_rocks 'lualogging'
 

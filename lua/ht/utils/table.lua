@@ -34,6 +34,22 @@ M.slice = function(tbl, first, last, step)
   return sliced
 end
 
+M.table_get_value = function(t, k, default)
+  if t[k] ~= nil then
+    return t[k]
+  else
+    return default
+  end
+end
+
+-- reverse given list-like table
+M.list_reverse = function(lst)
+  for i = 1, math.floor(#lst / 2) do
+    local j = #lst - i + 1
+    lst[i], lst[j] = lst[j], lst[i]
+  end
+end
+
 return M
 -- vim: et sw=2 ts=2 fdm=marker
 

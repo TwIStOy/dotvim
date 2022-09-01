@@ -1,7 +1,6 @@
 local M = {}
 
-M.requires = function() -- return required packages
-end
+M.core = { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 
 M.setup = function() -- code to run before plugin loaded
 end

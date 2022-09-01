@@ -70,28 +70,31 @@ local function open_project_root()
 end
 
 M.mappings = function() -- code for mappings
-  return {
-    default = { -- pass to vim.api.nvim_set_keymap
-      ['*'] = {
-        {
-          'n',
-          '<F4>',
-          '<cmd>Telescope buffers<CR>',
-          { silent = true, noremap = true },
-        },
-      },
-    },
-    wk = { -- send to which-key
-      ['*'] = {
-        e = { open_project_root, 'edit-file-project' },
-        l = {
-          name = 'list',
-          s = { '<cmd>Telescope lsp_document_symbols<CR>', 'document-symbols' },
-          w = { '<cmd>Telescope lsp_workspace_symbols<CR>', 'workspace-symbols' },
-        },
-      },
-    },
-  }
+  local mapping = require 'ht.core.mapping'
+
+  mapping:map('*', {
+    keys = { '<F4>' },
+    action = '<cmd>Telescope buffers<CR>',
+    desc = 'f-buffers',
+  })
+
+  mapping:map('*', {
+    keys = { '<leader>', 'e' },
+    action = open_project_root,
+    desc = 'edit-project-file',
+  })
+
+  mapping:append_folder_name('*', { '<leader>', 'l' }, 'list'})
+  mapping:map('*', {
+    keys = {'<leader>', 'l', 's'},
+    action = '<cmd>Telescope lsp_document_symbols<CR>',
+    desc = 'document-symbols'
+  })
+  mapping:map('*', {
+    keys = {'<leader>', 'l', 'w'},
+    action = '<cmd>Telescope lsp_workspace_symbols<CR>',
+    desc = 'workspace-symbols'
+  })
 end
 
 return M

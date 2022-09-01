@@ -51,10 +51,10 @@ filetype_mappings.map = function(self, opt, buffer)
   local tbl = create_table(opt.keys, opt.action, opt.desc)
   local mapping_opt = {}
 
-  mapping_opt.mode = opt.mode
-  mapping_opt.silent = opt.silent
-  mapping_opt.noremap = opt.noremap
-  mapping_opt.nowait = opt.nowait
+  mapping_opt.mode = opt.mode or 'n'
+  mapping_opt.silent = opt.silent or true
+  mapping_opt.noremap = opt.noremap or true
+  mapping_opt.nowait = opt.nowait or false
 
   if self.ft == '*' then
     mapping_opt.buffer = nil

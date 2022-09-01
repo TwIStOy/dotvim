@@ -1,7 +1,10 @@
 local M = {}
 
-M.requires = function() -- return required packages
-end
+M.core = {
+  'akinsho/bufferline.nvim',
+  tag = 'v2.*',
+  requires = { 'kyazdani42/nvim-web-devicons' },
+}
 
 M.setup = function() -- code to run before plugin loaded
 end
@@ -29,17 +32,15 @@ M.config = function() -- code to run after plugin loaded
 end
 
 M.mappings = function() -- code for mappings
-  local opt = { silent = true, noremap = true }
-  return {
-    default = {
-      ['*'] = {
-        { 'n', '<M-,>', '<cmd>BufferLineCyclePrev<CR>', opt },
-        { 'n', '<M-.>', '<cmd>BufferLineCycleNext<CR>', opt },
-        { 'n', '<M-<>', '<cmd>BufferLineMovePrev<CR>', opt },
-        { 'n', '<M->>', '<cmd>BufferLineMoveNext<CR>', opt },
-      },
-    },
-  }
+  local mapping = require 'ht.core.mapping'
+  mapping:map('*',
+              { keys = { '<M-,>' }, action = '<cmd>BufferLineCyclePrev<CR>' })
+  mapping:map('*',
+              { keys = { '<M-.>' }, action = '<cmd>BufferLineCycleNext<CR>' })
+  mapping:map('*',
+              { keys = { '<M-<>' }, action = '<cmd>BufferLineMovePrev<CR>' })
+  mapping:map('*',
+              { keys = { '<M->>' }, action = '<cmd>BufferLineMoveNext<CR>' })
 end
 
 return M

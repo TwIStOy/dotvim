@@ -1,7 +1,16 @@
 local M = {}
 
-M.requires = function() -- return required packages
-end
+M.core = {
+  'phaazon/hop.nvim',
+  cmd = {
+    'HopWord',
+    'HopPattern',
+    'HopChar1',
+    'HopChar2',
+    'HopLine',
+    'HopLineStart',
+  },
+}
 
 M.setup = function() -- code to run before plugin loaded
 end
@@ -11,12 +20,6 @@ M.config = function() -- code to run after plugin loaded
 end
 
 M.mappings = function() -- code for mappings
-  return {
-    default = { -- pass to vim.api.nvim_set_keymap
-    },
-    wk = { -- send to which-key
-    },
-  }
 end
 
 return M

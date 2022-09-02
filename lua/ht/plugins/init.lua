@@ -15,8 +15,8 @@ M.loader = {
   setup = function(self, name)
     local m = require('ht.plugins.' .. name)
     local opt = m.core
-    opt.setup = m.setup
-    opt.config = m.config
+    opt.setup = "require'ht.plugins."..name.."'.setup()"
+    opt.config = "require'ht.plugins."..name.."'.config()"
     self._use(opt)
 
     table.insert(self.mappings, m.mappings)

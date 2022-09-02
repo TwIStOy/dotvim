@@ -20,6 +20,25 @@ M.config = function() -- code to run after plugin loaded
 end
 
 M.mappings = function() -- code for mappings
+  local mapping = require 'ht.core.mapping'
+
+  mapping.map {
+    keys = { ',', ',' },
+    action = '<cmd>HopWord<CR>',
+    desc = 'jump-word',
+  }
+
+  mapping.map {
+    keys = { ',', 'l' },
+    action = '<cmd>HopLine<CR>',
+    desc = 'jump-line',
+  }
+
+  mapping.map {
+    keys = { '<C-n>' },
+    action = '<cmd>HopLine<CR>',
+    desc = 'jump-line',
+  }
 end
 
 return M

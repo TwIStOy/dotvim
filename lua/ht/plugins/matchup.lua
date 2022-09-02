@@ -34,9 +34,9 @@ M.config = function() -- code to run after plugin loaded
 end
 
 M.mappings = function() -- code for mappings
-  vim.api.nvim_set_keymap('n', '%', [[<Plug>(matchup-%)]], { silent = true })
-  vim.api.nvim_set_keymap('x', '%', [[<Plug>(matchup-%)]], { silent = true })
-  vim.api.nvim_set_keymap('o', '%', [[<Plug>(matchup-%)]], { silent = true })
+  vim.api.nvim_set_keymap('n', '%', '<Plug>(matchup-%)', { silent = true })
+  vim.api.nvim_set_keymap('x', '%', '<Plug>(matchup-%)', { silent = true })
+  vim.api.nvim_set_keymap('o', '%', '<Plug>(matchup-%)', { silent = true })
   vim.api.nvim_set_keymap('n', '[[', '<Plug>(matchup-[%)', { silent = true })
   vim.api.nvim_set_keymap('x', '[[', '<Plug>(matchup-[%)', { silent = true })
   vim.api.nvim_set_keymap('o', '[[', '<Plug>(matchup-[%)', { silent = true })

@@ -22,8 +22,10 @@ M.loader = {
     table.insert(self.mappings, m.mappings)
   end,
 
-  setup_mappings = function()
-    -- TODO(hawtian):
+  setup_mappings = function(self)
+    for _, v in ipairs(self.mappings) do
+      v()
+    end
   end,
 }
 

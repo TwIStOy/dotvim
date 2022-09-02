@@ -8,6 +8,7 @@ M.core = {
 
 local cmd = vim.api.nvim_command
 local event = require 'ht.core.event'
+local get_opt = vim.api.nvim_get_option
 
 M.resize_leaderf_window = function()
   vim.g.Lf_PopupWidth = get_opt('columns') * 3 / 4

@@ -17,28 +17,28 @@ end
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping:set_folder_name('*', { '<leader>', 'v' }, 'vcs')
-  mapping:map('*', {
+  mapping.append_folder_name({ '<leader>', 'v' }, 'vcs')
+  mapping.map {
     keys = { '<leader>', 'v', 's' },
     action = function()
       require'gitsigns'.stage_hunk()
     end,
     desc = 'stage-hunk',
-  })
-  mapping:map('*', {
+  }
+  mapping.map {
     keys = { '<leader>', 'v', 'u' },
     action = function()
       require'gitsigns'.undo_stage_hunk()
     end,
     desc = 'undo-stage-hunk',
-  })
-  mapping:map('*', {
+  }
+  mapping.map {
     keys = { '<leader>', 'v', 'm' },
     action = function()
       require'gitsigns'.blame_line { full = true }
     end,
     desc = 'show-commit',
-  })
+  }
 end
 
 return M

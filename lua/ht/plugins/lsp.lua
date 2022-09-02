@@ -15,37 +15,34 @@ M.core = {
 local function on_buffer_attach(client, bufnr)
   local mapping = require 'ht.core.mapping'
 
-  mapping:map('*', {
+  mapping.map({
     key = { 'g', 'D' },
     action = vim.lsp.buf.declaration,
     desc = 'goto-declaration',
   }, bufnr)
-  mapping:map('*', {
+  mapping.map({
     key = { 'g', 'd' },
     action = vim.lsp.buf.definition,
     desc = 'goto-definition',
   }, bufnr)
-  mapping:map('*', {
-    key = { 'K' },
-    action = vim.lsp.buf.hover,
-    desc = 'show-hover',
-  }, bufnr)
-  mapping:map('*', {
+  mapping.map(
+      { key = { 'K' }, action = vim.lsp.buf.hover, desc = 'show-hover' }, bufnr)
+  mapping.map({
     key = { 'g', 'i' },
     action = vim.lsp.buf.implementation,
     desc = 'goto-impl',
   }, bufnr)
-  mapping:map('*', {
+  mapping.map({
     key = { 'g', 'R' },
     action = vim.lsp.buf.rename,
     desc = 'rename-symbol',
   }, bufnr)
-  mapping:map('*', {
+  mapping.map({
     key = { 'g', 'a' },
     action = vim.lsp.buf.code_action,
     desc = 'code-action',
   }, bufnr)
-  mapping:map('*', {
+  mapping.map({
     key = { 'g', 'r' },
     action = vim.lsp.buf.references,
     desc = 'inspect-references',
@@ -158,10 +155,7 @@ M.config = function() -- code to run after plugin loaded
     capabilities = capabilities,
     settings = {
       Lua = {
-        runtime = {
-          version = 'LuaJIT',
-          path = vim.split(package.path, ';'),
-        },
+        runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
         diagnostics = { globals = { 'vim' } },
         workspace = {
           library = {
@@ -177,13 +171,13 @@ end
 
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
-  mapping:map('*', {
+  mapping.map({
     keys = { '[', 'c' },
     action = function()
       vim.diagnostic.goto_prev()
     end,
   })
-  mapping:map('*', {
+  mapping.map({
     keys = { ']', 'c' },
     action = function()
       vim.diagnostic.goto_next()

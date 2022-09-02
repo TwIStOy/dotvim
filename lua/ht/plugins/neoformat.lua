@@ -26,11 +26,11 @@ end
 
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
-  mapping:map('*', {
+  mapping.map {
     keys = { '<leader>', 'f', 'c' },
     action = '<cmd><C-u>Neoformat<CR>',
     desc = 'format-file',
-  })
+  }
 end
 
 return M

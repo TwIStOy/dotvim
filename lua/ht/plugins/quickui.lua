@@ -16,6 +16,32 @@ local function foreground(hi)
   return vim.api.nvim_get_hl_by_name(hi, 1).foreground
 end
 
+local function color_value(v)
+  if type(v) == 'string' then
+    return v
+  end
+  if type(v) == 'number' then
+    return string.format('#%x', v)
+  end
+  return ''
+end
+
+local function hi(groups, default)
+  for group_name, highlights in pairs(groups) do
+    local options = {}
+    for k, v in pairs(highlights) do
+      if v ~= nil then
+        table.insert(options, string.format("%s=%s", k, color_value(v)))
+      end
+    end
+
+    if #options > 0 then
+      vim.cmd(string.format("highlight %s %s %s", default and "default" or "",
+                            group_name, table.concat(options, ' ')))
+    end
+  end
+end
+
 --[[
 Update Quickui's highlight colors.
 - Before any window displays
@@ -51,7 +77,7 @@ M.config = function() -- code to run after plugin loaded
   update_color()
 end
 
-M.open_dropbox = function(ft)
+local open_dropbox = function(ft)
   local dropbox = require 'ht.core.dropbox'
 
   local context = dropbox.setup(ft)
@@ -69,6 +95,14 @@ M.open_dropbox = function(ft)
 end
 
 M.mappings = function() -- code for mappings
+  local mapping = require 'ht.core.mapping'
+  mapping.map {
+    keys = { ';', ';' },
+    action = function()
+      open_dropbox(vim.api.nvim_buf_get_var(0, '&ft'))
+    end,
+    desc = 'open-dropbox'
+  }
 end
 
 return M

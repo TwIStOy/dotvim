@@ -72,29 +72,29 @@ end
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping:map('*', {
+  mapping.map {
     keys = { '<F4>' },
     action = '<cmd>Telescope buffers<CR>',
     desc = 'f-buffers',
-  })
+  }
 
-  mapping:map('*', {
+  mapping.map {
     keys = { '<leader>', 'e' },
     action = open_project_root,
     desc = 'edit-project-file',
-  })
+  }
 
-  mapping:append_folder_name('*', { '<leader>', 'l' }, 'list'})
-  mapping:map('*', {
-    keys = {'<leader>', 'l', 's'},
+  mapping.append_folder_name({ '<leader>', 'l' }, 'list')
+  mapping.map {
+    keys = { '<leader>', 'l', 's' },
     action = '<cmd>Telescope lsp_document_symbols<CR>',
-    desc = 'document-symbols'
-  })
-  mapping:map('*', {
-    keys = {'<leader>', 'l', 'w'},
+    desc = 'document-symbols',
+  }
+  mapping.map {
+    keys = { '<leader>', 'l', 'w' },
     action = '<cmd>Telescope lsp_workspace_symbols<CR>',
-    desc = 'workspace-symbols'
-  })
+    desc = 'workspace-symbols',
+  }
 end
 
 return M

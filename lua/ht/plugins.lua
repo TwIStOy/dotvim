@@ -25,3 +25,5 @@ pkr.init({
 
 pkr.startup(use_plugins)
 
+dotvim_plugins_loader:setup_mappings()
+

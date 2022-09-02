@@ -32,30 +32,12 @@ function UsePlugins(use)
 
   loader:setup 'alpha'
 
-  --[[
-  use {
-    'liuchengxu/vim-which-key',
-    cmd = { 'WhichKey' },
-    config = Config('whichkey'),
-  }
-  --]]
+  loader:setup 'whichkey'
 
   loader:setup 'quickui'
 
   -- text-objects
-  use { 'kana/vim-textobj-user', opt = true }
-  use {
-    'lucapette/vim-textobj-underscore',
-    opt = true,
-    after = 'vim-textobj-user',
-    requires = { 'kana/vim-textobj-user' },
-  }
-  use {
-    'sgur/vim-textobj-parameter',
-    opt = true,
-    after = 'vim-textobj-user',
-    requires = { 'kana/vim-textobj-user' },
-  }
+  loader:setup 'textobject'
 
   loader:setup 'ultisnips'
 
@@ -70,14 +52,7 @@ function UsePlugins(use)
     wants = 'LeaderF',
   }
 
-  use {
-    'akinsho/toggleterm.nvim',
-    tag = 'v2.*',
-    keys = { '<C-t>' },
-    module = { 'toggleterm' },
-    setup = Setup('toggleterm'),
-    config = Config('toggleterm'),
-  }
+  loader:setup 'toggleterm'
 
   use { 'TwIStOy/conflict-resolve.nvim', fn = 'conflict_resolve#*' }
 
@@ -101,7 +76,6 @@ function UsePlugins(use)
     'jedrzejboczar/possession.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     after = 'telescope.nvim',
-    wants = 'telescope.nvim',
     config = function()
       require'possession'.setup {
         commands = {
@@ -245,46 +219,9 @@ function UsePlugins(use)
     requires = { 'mfussenegger/nvim-dap', 'theHamsta/nvim-dap-virtual-text' },
   }
 
-  use { 'neovim/nvim-lspconfig' }
+  loader:setup 'lsp'
 
-  use {
-    'j-hui/fidget.nvim',
-    requires = 'neovim/nvim-lspconfig',
-    config = function()
-      require"fidget".setup {}
-    end,
-  }
-
-  use { 'simrat39/symbols-outline.nvim', requires = 'neovim/nvim-lspconfig' }
-
-  use { 'p00f/clangd_extensions.nvim', requires = 'neovim/nvim-lspconfig' }
-
-  use { 'simrat39/rust-tools.nvim', requires = 'neovim/nvim-lspconfig' }
-
-  use { 'onsails/lspkind-nvim', requires = 'neovim/nvim-lspconfig' }
-
-  use {
-    'seblj/nvim-echo-diagnostics',
-    requires = 'neovim/nvim-lspconfig',
-    config = function()
-      require("echo-diagnostics").setup {
-        show_diagnostic_number = true,
-        show_diagnostic_source = false,
-      }
-
-      require'ht.core.vim'.event:on('CursorHold', '*', function()
-        require('echo-diagnostics').echo_line_diagnostic()
-      end)
-    end,
-  }
-
-  use {
-    'folke/trouble.nvim',
-    requires = { 'folke/lsp-colors.nvim' },
-    config = function()
-      require'trouble'.setup {}
-    end,
-  }
+  loader:setup 'trouble'
 
   loader:setup 'neogen'
 

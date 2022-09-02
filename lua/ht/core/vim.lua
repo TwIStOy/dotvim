@@ -2,26 +2,6 @@ module('ht.core.vim', package.seeall)
 
 local cmd = vim.api.nvim_command
 
-event = {}
-
-function event:make_create_autocmd_opt(pattern, callback, desc)
-  local opt = {pattern = pattern, desc = desc}
-  if type(callback) == 'string' then
-    opt.command = callback
-    if desc == nil then
-      opt.desc = callback
-    end
-  else
-    opt.callback = callback
-  end
-  return opt
-end
-
-function event:on(event, pattern, callback, desc)
-  local opt = self:make_create_autocmd_opt(pattern, callback, desc)
-  return vim.api.nvim_create_autocmd(event, opt)
-end
-
 local function color_value(v)
   if type(v) == 'string' then
     return v

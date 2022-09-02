@@ -1,7 +1,5 @@
 local M = {}
 
-local mapping = require 'ht.core.mapping'
-
 M.core = {
   'skywind3000/asynctasks.vim',
   cmd = { 'AsyncTask', 'AsyncTaskMacro', 'AsyncTaskProfile', 'AsyncTaskEdit' },
@@ -30,7 +28,9 @@ M.config = function() -- code to run after plugin loaded
 end
 
 M.mappings = function() -- code for mappings
-  mapping:append_folder_name('*', { 'b' }, 'build')
+  local mapping = require 'ht.core.mapping'
+
+  mapping:append_folder_name('*', { '<leader>', 'b' }, 'build')
   mapping:map('*', {
     keys = { '<leader>', 'b', 'f' },
     action = '<cmd>AsyncTask file-build<CR>',

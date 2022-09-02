@@ -45,34 +45,6 @@ M.config = function() -- code to run after plugin loaded
     autocmd! ColorScheme * highlight CompBorder guifg=#ffaa55 guibg=None
   ]]
 
-  local kind_icons = {
-    Text = " ",
-    Method = "",
-    Function = "",
-    Constructor = "",
-    Field = "",
-    Variable = "",
-    Class = "ﴯ",
-    Interface = "",
-    Module = "",
-    Property = " ",
-    Unit = "",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "",
-    Event = "",
-    Operator = "",
-    TypeParameter = " ",
-  }
-
   cmp.setup {
     preselect = cmp.PreselectMode.None,
     snippet = {
@@ -127,29 +99,26 @@ M.config = function() -- code to run after plugin loaded
       end, { 'i', 's' }),
     },
     formatting = {
-      format = function(entry, vim_item)
-        -- Kind icons
-        -- This concatonates the icons with the name of the item kind
-        vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind],
-                                      vim_item.kind)
-        -- Source
-        vim_item.menu = ({
-          buffer = "[Buf]",
-          nvim_lsp = "[LSP]",
-          ultisnips = "[Snip]",
-          nvim_lua = "[Lua]",
-          orgmode = "[Org]",
-          path = "[Path]",
-          dap = "[DAP]",
-          emoji = "[Emoji]",
-          calc = "[CALC]",
-          latex_symbols = "[LaTeX]",
-          cmdline_history = "[History]",
-          cmdline = "[Command]",
-        })[entry.source.name]
-        return vim_item
-      end,
-
+      format = lspkind.cmp_format {
+        maxwidth = 50,
+        before = function(entry, vim_item)
+          vim_item.menu = ({
+            buffer = "[Buf]",
+            nvim_lsp = "[LSP]",
+            ultisnips = "[Snip]",
+            nvim_lua = "[Lua]",
+            orgmode = "[Org]",
+            path = "[Path]",
+            dap = "[DAP]",
+            emoji = "[Emoji]",
+            calc = "[CALC]",
+            latex_symbols = "[LaTeX]",
+            cmdline_history = "[History]",
+            cmdline = "[Command]",
+          })[entry.source.name]
+          return vim_item
+        end,
+      },
     },
     enabled = function()
       return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or

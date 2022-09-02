@@ -36,8 +36,10 @@ pkr.init({
   }
 })
 
-local loader = require'ht.plugins.init'.loader:new(use)
+local loader
 pkr.startup(function(use)
+  loader = require'ht.plugins.init'.loader:new(use)
+
   use 'wbthomason/packer.nvim'
 
   use 'lewis6991/impatient.nvim'

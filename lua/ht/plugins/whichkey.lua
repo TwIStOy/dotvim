@@ -1,6 +1,6 @@
 local M = {}
 
-M.core = { "folke/which-key.nvim" }
+M.core = { "folke/which-key.nvim", opt = false }
 
 M.setup = function() -- code to run before plugin loaded
 end

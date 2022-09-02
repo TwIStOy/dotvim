@@ -5,7 +5,6 @@ M.core = {
   run = ':TSUpdate',
   requires = {
     {
-
       'nvim-treesitter/playground',
       cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
     },

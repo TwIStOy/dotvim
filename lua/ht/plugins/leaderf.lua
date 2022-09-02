@@ -6,16 +6,16 @@ M.core = {
   run = './install.sh',
 }
 
-local cmd = vim.api.nvim_command
-local event = require 'ht.core.event'
-local get_opt = vim.api.nvim_get_option
-
-M.resize_leaderf_window = function()
-  vim.g.Lf_PopupWidth = get_opt('columns') * 3 / 4
-  vim.g.Lf_PopupHeight = math.floor(get_opt('lines') * 0.6)
-end
-
 M.setup = function() -- code to run before plugin loaded
+  local cmd = vim.api.nvim_command
+  local event = require 'ht.core.event'
+  local get_opt = vim.api.nvim_get_option
+
+  local function resize_leaderf_window()
+    vim.g.Lf_PopupWidth = get_opt('columns') * 3 / 4
+    vim.g.Lf_PopupHeight = math.floor(get_opt('lines') * 0.6)
+  end
+
   vim.g.Lf_ShortcutF = '<Leader>ff'
   vim.g.Lf_ShortcutB = '<Leader>ffb'
   vim.g.Lf_WindowPosition = 'popup'
@@ -53,7 +53,7 @@ M.setup = function() -- code to run before plugin loaded
     },
   }
 
-  M.resize_leaderf_window()
+  resize_leaderf_window()
 
   vim.g.Lf_PopupShowStatusline = 0
   vim.g.Lf_PreviewInPopup = 1
@@ -73,7 +73,7 @@ M.setup = function() -- code to run before plugin loaded
   event.on({ 'VimResized' }, {
     pattern = '*',
     callback = function()
-      require"ht.plugins.leaderf".resize_leaderf_window()
+      resize_leaderf_window()
     end,
   })
 end

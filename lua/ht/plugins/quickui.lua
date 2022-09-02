@@ -99,7 +99,8 @@ M.mappings = function() -- code for mappings
   mapping.map {
     keys = { ';', ';' },
     action = function()
-      open_dropbox(vim.api.nvim_buf_get_var(0, '&ft'))
+      update_color()
+      open_dropbox(vim.api.nvim_buf_get_option(0, 'ft'))
     end,
     desc = 'open-dropbox'
   }

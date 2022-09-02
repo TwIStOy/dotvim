@@ -1,8 +1,5 @@
 module('ht.conf.plugs', package.seeall)
 
-local Config = require'ht.plugs'.Config
-local Setup = require'ht.plugs'.Setup
-
 function UsePlugins(use)
   local loader = require'ht.plugins.init'.loader:new(use)
 
@@ -14,19 +11,19 @@ function UsePlugins(use)
 
   use 'nvim-lua/plenary.nvim'
 
-  loader:setup 'asynctasks'
-
   use { 'nvim-lua/popup.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+
+  use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
+
+  use 'stevearc/dressing.nvim'
+
+  loader:setup 'asynctasks'
 
   loader:setup 'nvim_tree'
 
   loader:setup 'diffview'
 
   loader:setup 'telescope'
-
-  use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
-
-  use 'stevearc/dressing.nvim'
 
   loader:setup 'lastplace'
 
@@ -36,21 +33,13 @@ function UsePlugins(use)
 
   loader:setup 'quickui'
 
-  -- text-objects
   loader:setup 'textobject'
 
   loader:setup 'ultisnips'
 
   loader:setup 'leaderf'
 
-  use {
-    'TwIStOy/vim-cpp-toolkit',
-    fn = { 'cpp_toolkit#*' },
-    opt = true,
-    config = Config('vim_cpp_toolkit'),
-    requires = { 'Yggdroot/LeaderF' },
-    wants = 'LeaderF',
-  }
+  loader:setup 'vim_cpp_toolkit'
 
   loader:setup 'toggleterm'
 
@@ -139,11 +128,7 @@ function UsePlugins(use)
 
   use { 'Asheq/close-buffers.vim', cmd = { 'Bdelete' } }
 
-  use {
-    'aperezdc/vim-template',
-    cmd = { 'Template', 'TemplateHere' },
-    setup = Setup('template'),
-  }
+  loader:setup 'template'
 
   use {
     'tomtom/tcomment_vim',
@@ -180,9 +165,6 @@ function UsePlugins(use)
 
   loader:setup 'neoformat'
 
-  use { 't9md/vim-quickhl', cmd = { 'QuickhlManualReset' },
-        fn = { 'quickhl#*' } }
-
   use { 'plasticboy/vim-markdown', ft = { 'markdown', 'pandoc.markdown' } }
 
   use {
@@ -191,12 +173,7 @@ function UsePlugins(use)
     run = 'sh -c "cd app && yarn install"',
   }
 
-  use {
-    'andymass/vim-matchup',
-    keys = { { 'n', '%' }, { 'x', '%' }, { 'o', '%' } },
-    setup = Setup('matchup'),
-    config = Config('matchup'),
-  }
+  loader:setup 'matchup'
 
   loader:setup 'scrollview'
 

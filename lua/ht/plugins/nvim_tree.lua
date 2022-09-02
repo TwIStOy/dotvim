@@ -1,7 +1,5 @@
 local M = {}
 
-local vcall = vim.api.nvim_call_function
-
 M.core = {
   'kyazdani42/nvim-tree.lua',
   opt = true,
@@ -40,10 +38,10 @@ M.config = function() -- code to run after plugin loaded
 end
 
 local jump_to_nvim_tree = function()
-  local n = vcall('winnr', { '$' })
+  local n = vim.api.nvim_call_function('winnr', { '$' })
   -- find existing nvim-tree-window
   for i = 1, n do
-    local win_id = vcall('win_getid', { i })
+    local win_id = vim.api.nvim_call_function('win_getid', { i })
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local tp = vim.api.nvim_buf_get_option(buf_id, 'ft')
 

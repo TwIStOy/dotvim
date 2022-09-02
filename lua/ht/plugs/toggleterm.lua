@@ -1,6 +1,8 @@
 module('ht.plugs.toggleterm', package.seeall)
 
-function setup() vim.api.nvim_set_var('toggleterm_terminal_mapping', '<C-t>') end
+function setup()
+  vim.api.nvim_set_var('toggleterm_terminal_mapping', '<C-t>')
+end
 
 function config()
   require'toggleterm'.setup {
@@ -9,7 +11,7 @@ function config()
     direction = 'float',
     start_in_insert = true,
     shell = vim.o.shell,
-    float_opts = {border = 'double'}
+    float_opts = { border = 'double' },
   }
 end
 

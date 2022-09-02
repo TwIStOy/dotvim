@@ -57,7 +57,7 @@ filetype_mappings.map = function(self, opt, buffer)
   mapping_opt.nowait = opt.nowait or false
 
   if self.ft == '*' then
-    mapping_opt.buffer = nil
+    mapping_opt.buffer = buffer
     local wk = require("which-key")
     wk.register(tbl, mapping_opt)
   else
@@ -95,12 +95,12 @@ M.append_folder_name = function(self, ft, folder, name)
   self.filetypes[ft]:append_folder_name(folder, name)
 end
 
-M.map = function(self, ft, opt)
+M.map = function(self, ft, opt, buffer)
   if self.filetypes[ft] ~= nil then
     self.filetypes[ft] = filetype_mappings:new(ft)
   end
 
-  self.filetypes[ft]:map(opt)
+  self.filetypes[ft]:map(opt, buffer)
 end
 
 return M

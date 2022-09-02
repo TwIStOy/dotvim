@@ -16,15 +16,10 @@ end
 
 local function get_buffer_context(bufnr)
   if F['exists']('b:' .. _DROPBOX_VAR_) == 0 then
-    va.nvim_buf_set_var(bufnr, _DROPBOX_VAR_, {})
+    A.nvim_buf_set_var(bufnr, _DROPBOX_VAR_, {})
   end
 
   return A.nvim_buf_get_var(bufnr, _DROPBOX_VAR_) or {}
-end
-
-local function append_buffer_context(bufnr, ctx)
-  local r = get_buffer_context(bufnr)
-  A.nvim_buf_set_var(bufnr, _DROPBOX_VAR_, simple_extend_context(r, ctx))
 end
 
 M.append_context = function(self, ft, ctx)
@@ -50,6 +45,11 @@ M.get_context = function(self, ft)
   end
 
   return ctx
+end
+
+M.append_buf_context = function(bufnr, _ctx)
+  local ctx = get_buffer_context(bufnr)
+  A.nvim_buf_set_var(bufnr, _DROPBOX_VAR_, simple_extend_context(ctx, _ctx))
 end
 
 M.setup = function(self, ft, bufnr)

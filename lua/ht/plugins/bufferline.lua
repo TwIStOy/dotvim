@@ -33,14 +33,10 @@ end
 
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
-  mapping:map('*',
-              { keys = { '<M-,>' }, action = '<cmd>BufferLineCyclePrev<CR>' })
-  mapping:map('*',
-              { keys = { '<M-.>' }, action = '<cmd>BufferLineCycleNext<CR>' })
-  mapping:map('*',
-              { keys = { '<M-<>' }, action = '<cmd>BufferLineMovePrev<CR>' })
-  mapping:map('*',
-              { keys = { '<M->>' }, action = '<cmd>BufferLineMoveNext<CR>' })
+  mapping.map { keys = { '<M-,>' }, action = '<cmd>BufferLineCyclePrev<CR>' }
+  mapping.map { keys = { '<M-.>' }, action = '<cmd>BufferLineCycleNext<CR>' }
+  mapping.map { keys = { '<M-<>' }, action = '<cmd>BufferLineMovePrev<CR>' }
+  mapping.map { keys = { '<M->>' }, action = '<cmd>BufferLineMoveNext<CR>' }
 end
 
 return M

@@ -30,23 +30,17 @@ end
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping:append_folder_name('*', { '<leader>', 'b' }, 'build')
-  mapping:map('*', {
+  mapping.append_folder_name({ '<leader>', 'b' }, 'build')
+  mapping.map {
     keys = { '<leader>', 'b', 'f' },
     action = '<cmd>AsyncTask file-build<CR>',
     desc = 'build-file',
-    noremap = true,
-    nowait = false,
-    mode = 'n',
-  })
-  mapping:map('*', {
+  }
+  mapping.map {
     keys = { '<leader>', 'b', 'p' },
     action = '<cmd>AsyncTask project-build<CR>',
     desc = 'build-project',
-    noremap = true,
-    nowait = false,
-    mode = 'n',
-  })
+  }
 end
 
 return M

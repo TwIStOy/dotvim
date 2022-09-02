@@ -29,7 +29,7 @@ end
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping:map('cpp', {
+  mapping.ft_map('cpp', {
     keys = { '<leader>', 'f', 'a' },
     action = [[:call cpp_toolkit#switch_file_here('')<CR>]],
     desc = 'switch-header-source-here',

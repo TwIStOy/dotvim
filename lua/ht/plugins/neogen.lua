@@ -12,7 +12,7 @@ end
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping:map('*', {
+  mapping.map({
     keys = { '<leader>', 'n', 'f' },
     action = function()
       require'neogen'.generate()

@@ -12,19 +12,19 @@ end
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping:append_folder_name('*', { '<leader>', 'x' }, 'x-ray')
+  mapping.append_folder_name({ '<leader>', 'x' }, 'x-ray')
 
-  mapping:map('*', {
+  mapping.map({
     keys = { '<leader>', 'x', 'x' },
     action = '<cmd>TroubleToggle<CR>',
     desc = 'toggle-trouble-window',
   })
-  mapping:map('*', {
+  mapping.map({
     keys = { '<leader>', 'x', 'w' },
     action = '<cmd>TroubleToggle workspace_diagnostics<CR>',
     desc = 'workspace-diagnostics',
   })
-  mapping:map('*', {
+  mapping.map({
     keys = { '<leader>', 'x', 'd' },
     action = '<cmd>TroubleToggle document_diagnostics<CR>',
     desc = 'document-diagnostics',

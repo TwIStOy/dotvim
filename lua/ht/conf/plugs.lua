@@ -205,5 +205,7 @@ function UsePlugins(use)
   use_rocks 'lualogging'
 
   use_rocks 'luachild'
+
+  _G['dotvim_plugins_loader'] = loader
 end
 

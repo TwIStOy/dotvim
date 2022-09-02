@@ -64,17 +64,17 @@ end
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping:map('*', {
+  mapping.map {
     keys = { '<F3>' },
     action = jump_to_nvim_tree,
     desc = 'file-explorer',
-  })
+  }
 
-  mapping:map('*', {
+  mapping.map {
     keys = { '<leader>', 'f' },
     action = jump_to_nvim_tree,
     desc = 'file-explorer',
-  })
+  }
 end
 
 return M

@@ -1,14 +1,15 @@
 local M = {}
 
-M.core = { 'tpope/vim-surround', opt = true }
+M.core = { 'RRethy/vim-illuminate', opt = true }
 
 M.setup = function() -- code to run before plugin loaded
-  vim.g.surround_no_mappings = 0
-  vim.g.surround_no_insert_mappings = 1
-
   vim.defer_fn(function()
-    vim.cmd([[pa vim-surround]])
-  end, 500)
+    vim.cmd [[pa vim-illuminate]]
+
+  end, 300)
+
+  vim.g.Illuminate_delay = 200
+  vim.g.Illuminate_ftblacklist = { 'nerdtree', 'defx' }
 end
 
 M.config = function() -- code to run after plugin loaded
@@ -18,5 +19,6 @@ M.mappings = function() -- code for mappings
 end
 
 return M
+
 -- vim: et sw=2 ts=2 fdm=marker
 

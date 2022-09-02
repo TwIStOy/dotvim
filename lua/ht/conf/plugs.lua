@@ -45,11 +45,7 @@ function UsePlugins(use)
 
   use { 'TwIStOy/conflict-resolve.nvim', fn = 'conflict_resolve#*' }
 
-  use {
-    'tpope/vim-surround',
-    opt = true,
-    setup = [[require('ht.plugs.config').surround()]],
-  }
+  loader:setup 'surround'
 
   use {
     'projekt0n/github-nvim-theme',
@@ -130,27 +126,11 @@ function UsePlugins(use)
 
   loader:setup 'template'
 
-  use {
-    'tomtom/tcomment_vim',
-    keys = { 'gcc', { 'v', 'gcc' } },
-    setup = [[vim.g.tcomment_maps = 0]],
-    config = [[require('ht.plugs.config').tcomment()]],
-  }
+  loader:setup 'tcomment'
 
-  use {
-    'RRethy/vim-illuminate',
-    opt = true,
-    setup = function()
-      vim.api.nvim_set_var('Illuminate_delay', 200)
-      vim.api.nvim_set_var('Illuminate_ftblacklist', { 'nerdtree', 'defx' })
-    end,
-  }
+  loader:setup 'illuminate'
 
-  use {
-    'osyo-manga/vim-jplus',
-    keys = { 'J', { 'v', 'J' } },
-    config = [[require('ht.plugs.config').vim_jplus()]],
-  }
+  loader:setup 'jplus'
 
   use 'tpope/vim-repeat'
 
@@ -195,6 +175,9 @@ function UsePlugins(use)
     'rcarriga/nvim-dap-ui',
     requires = { 'mfussenegger/nvim-dap', 'theHamsta/nvim-dap-virtual-text' },
   }
+
+  use { 't9md/vim-quickhl', cmd = { 'QuickhlManualReset' },
+        fn = { 'quickhl#*' } }
 
   loader:setup 'lsp'
 

@@ -80,7 +80,7 @@ end
 local open_dropbox = function(ft)
   local dropbox = require 'ht.core.dropbox'
 
-  local context = dropbox.setup(ft)
+  local context = dropbox:setup(ft)
   if #context == 0 then
     return
   end

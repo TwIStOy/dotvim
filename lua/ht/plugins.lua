@@ -214,10 +214,6 @@ pkr.startup(function(use)
   use_rocks 'lualogging'
 
   use_rocks 'luachild'
-
-  if packer_bootstrap then
-    require'packer'.sync()
-  end
 end)
 
 loader:setup_mappings()

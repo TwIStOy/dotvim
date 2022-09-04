@@ -2,26 +2,26 @@ local M = {}
 
 M.core = {
   'hrsh7th/nvim-cmp',
-  {
+  requires = {
     "quangnguyen30192/cmp-nvim-ultisnips",
-    config = function()
-      require("cmp_nvim_ultisnips").setup {}
-    end,
-  },
-  'hrsh7th/cmp-cmdline',
-  'dmitmel/cmp-cmdline-history',
-  'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-calc',
-  'dmitmel/cmp-digraphs',
-  'f3fora/cmp-spell',
-  'hrsh7th/cmp-buffer',
-  'lukas-reineke/cmp-under-comparator',
-  'hrsh7th/cmp-nvim-lsp-signature-help',
-  'rcarriga/cmp-dap',
+    'hrsh7th/cmp-cmdline',
+    'dmitmel/cmp-cmdline-history',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-calc',
+    'dmitmel/cmp-digraphs',
+    'f3fora/cmp-spell',
+    'hrsh7th/cmp-buffer',
+    'lukas-reineke/cmp-under-comparator',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    'rcarriga/cmp-dap',
+  }
 }
 
 M.config = function() -- code to run after plugin loaded
+  require("cmp_nvim_ultisnips").setup {}
+
+  print'config cmp'
   local cmp = require 'cmp'
   local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
   local lspkind = require('lspkind')

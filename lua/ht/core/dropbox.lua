@@ -54,7 +54,8 @@ end
 
 M.setup = function(self, ft, bufnr)
   local ctx = self:get_context(ft)
-  A.nvim_buf_set_var(bufnr or 0, _DROPBOX_VAR_, ctx)
+  -- A.nvim_buf_set_var(bufnr or 0, _DROPBOX_VAR_, ctx)
+  return ctx
 end
 
 return M

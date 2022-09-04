@@ -5,8 +5,13 @@ M.core = {
   opt = true,
   requires = {
     { 'lucapette/vim-textobj-underscore', opt = true,
-      after = 'vim-textobj-user' },
-    { 'sgur/vim-textobj-parameter', opt = true, after = 'vim-textobj-user' },
+      wants = 'vim-textobj-user',
+      after = 'vim-textobj-user'
+    },
+    { 'sgur/vim-textobj-parameter', opt = true,
+    wants = 'vim-textobj-user',
+    after = 'vim-textobj-user'
+  },
   },
 }
 

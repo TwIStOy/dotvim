@@ -2,46 +2,48 @@ local M = {}
 
 M.core = {
   'neovim/nvim-lspconfig',
-  'j-hui/fidget.nvim',
-  'simrat39/symbols-outline.nvim',
-  'p00f/clangd_extensions.nvim',
-  'simrat39/rust-tools.nvim',
-  'onsails/lspkind-nvim',
-  'hrsh7th/nvim-cmp',
+  requires = {
+    'j-hui/fidget.nvim',
+    'simrat39/symbols-outline.nvim',
+    'p00f/clangd_extensions.nvim',
+    'simrat39/rust-tools.nvim',
+    'onsails/lspkind-nvim',
+    'hrsh7th/nvim-cmp',
+  },
 }
 
 local function on_buffer_attach(client, bufnr)
   local mapping = require 'ht.core.mapping'
 
   mapping.map({
-    key = { 'g', 'D' },
+    keys = { 'g', 'D' },
     action = vim.lsp.buf.declaration,
     desc = 'goto-declaration',
   }, bufnr)
   mapping.map({
-    key = { 'g', 'd' },
+    keys = { 'g', 'd' },
     action = vim.lsp.buf.definition,
     desc = 'goto-definition',
   }, bufnr)
   mapping.map(
-      { key = { 'K' }, action = vim.lsp.buf.hover, desc = 'show-hover' }, bufnr)
+      { keys = { 'K' }, action = vim.lsp.buf.hover, desc = 'show-hover' }, bufnr)
   mapping.map({
-    key = { 'g', 'i' },
+    keys = { 'g', 'i' },
     action = vim.lsp.buf.implementation,
     desc = 'goto-impl',
   }, bufnr)
   mapping.map({
-    key = { 'g', 'R' },
+    keys = { 'g', 'R' },
     action = vim.lsp.buf.rename,
     desc = 'rename-symbol',
   }, bufnr)
   mapping.map({
-    key = { 'g', 'a' },
+    keys = { 'g', 'a' },
     action = vim.lsp.buf.code_action,
     desc = 'code-action',
   }, bufnr)
   mapping.map({
-    key = { 'g', 'r' },
+    keys = { 'g', 'r' },
     action = vim.lsp.buf.references,
     desc = 'inspect-references',
   }, bufnr)

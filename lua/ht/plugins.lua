@@ -19,6 +19,7 @@ end
 init_packer()
 
 local pkr = require'packer'
+local util = require'packer.util'
 
 pkr.init({
   ensure_dependencies = true,
@@ -33,7 +34,8 @@ pkr.init({
   profile = {
     enable = true,
     threshold = 1,
-  }
+  },
+  compile_path = util.join_paths(vim.fn.stdpath('config'), 'lua', 'packer_compiled.lua'),
 })
 
 local loader
@@ -212,6 +214,10 @@ pkr.startup(function(use)
   use_rocks 'lualogging'
 
   use_rocks 'luachild'
+
+  if packer_bootstrap then
+    require'packer'.sync()
+  end
 end)
 
 loader:setup_mappings()

@@ -5,6 +5,7 @@ M.core = {
   fn = { 'cpp_toolkit#*' },
   opt = true,
   requires = { 'Yggdroot/LeaderF' },
+  wants = 'LeaderF',
   after = 'LeaderF',
 }
 

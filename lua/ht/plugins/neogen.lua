@@ -1,9 +1,6 @@
 local M = {}
 
-M.core = { 'danymat/neogen', requires = 'nvim-treesitter/nvim-treesitter' }
-
-M.setup = function() -- code to run before plugin loaded
-end
+M.core = { 'danymat/neogen', requires = 'nvim-treesitter/nvim-treesitter', module = 'neogen' }
 
 M.config = function() -- code to run after plugin loaded
   require'neogen'.setup {}

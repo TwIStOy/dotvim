@@ -6,9 +6,6 @@ M.core = {
   event = 'InsertEnter',
 }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   vim.cmd [[py3 from snippet_tools.cpp import register_postfix_snippets]]
   vim.cmd [[py3 register_postfix_snippets()]]

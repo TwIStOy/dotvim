@@ -31,7 +31,7 @@ M.ft_map = function(ft, opt)
   local event = require 'ht.core.event'
   event.on('FileType', {
     pattern = ft,
-    callbacck = function()
+    callback = function()
       M.map(opt, 0)
     end,
   })

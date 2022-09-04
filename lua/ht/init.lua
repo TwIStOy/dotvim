@@ -1,4 +1,5 @@
 require'ht.plugins'
-require'ht.conf.global'
-require'ht.conf.delay'.DelayLoader()
-require'ht.features.mkdir'
+require'ht.settings'
+
+local mkdir = require'ht.features.mkdir'
+mkdir.register_create_directory_before_save()

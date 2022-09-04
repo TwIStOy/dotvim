@@ -2,12 +2,6 @@ local M = {}
 
 M.core = { 'TwIStOy/conflict-resolve.nvim', fn = 'conflict_resolve#*' }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
-M.config = function() -- code to run after plugin loaded
-end
-
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 

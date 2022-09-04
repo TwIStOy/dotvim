@@ -2,9 +2,6 @@ local M = {}
 
 M.core = { 'folke/trouble.nvim', requires = { 'folke/lsp-colors.nvim' } }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   require'trouble'.setup { use_diagnostic_signs = true }
 end

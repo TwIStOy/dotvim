@@ -6,9 +6,6 @@ M.core = {
   requires = { 'kyazdani42/nvim-web-devicons' },
 }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   require'nvim-tree'.setup {
     disable_netrw = true,

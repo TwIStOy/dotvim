@@ -2,29 +2,24 @@ local M = {}
 
 M.core = {
   'hrsh7th/nvim-cmp',
-  requires = {
-    {
-      "quangnguyen30192/cmp-nvim-ultisnips",
-      config = function()
-        require("cmp_nvim_ultisnips").setup {}
-      end,
-    },
-    'hrsh7th/cmp-cmdline',
-    'dmitmel/cmp-cmdline-history',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-calc',
-    'dmitmel/cmp-digraphs',
-    'f3fora/cmp-spell',
-    'hrsh7th/cmp-buffer',
-    'lukas-reineke/cmp-under-comparator',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    'rcarriga/cmp-dap',
+  {
+    "quangnguyen30192/cmp-nvim-ultisnips",
+    config = function()
+      require("cmp_nvim_ultisnips").setup {}
+    end,
   },
+  'hrsh7th/cmp-cmdline',
+  'dmitmel/cmp-cmdline-history',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-calc',
+  'dmitmel/cmp-digraphs',
+  'f3fora/cmp-spell',
+  'hrsh7th/cmp-buffer',
+  'lukas-reineke/cmp-under-comparator',
+  'hrsh7th/cmp-nvim-lsp-signature-help',
+  'rcarriga/cmp-dap',
 }
-
-M.setup = function() -- code to run before plugin loaded
-end
 
 M.config = function() -- code to run after plugin loaded
   local cmp = require 'cmp'

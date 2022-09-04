@@ -2,9 +2,6 @@ local M = {}
 
 M.core = { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   require'gitsigns'.setup {
     attach_to_untracked = false,

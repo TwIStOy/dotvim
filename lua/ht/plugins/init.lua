@@ -15,8 +15,12 @@ M.loader = {
   setup = function(self, name)
     local m = require('ht.plugins.' .. name)
     local opt = m.core
-    opt.setup = "require'ht.plugins."..name.."'.setup()"
-    opt.config = "require'ht.plugins."..name.."'.config()"
+    if m.setup ~= nil then
+      opt.setup = "require'ht.plugins."..name.."'.setup()"
+    end
+    if m.config ~= nil then
+      opt.config = "require'ht.plugins."..name.."'.config()"
+    end
     self._use(opt)
 
     table.insert(self.mappings, m.mappings)

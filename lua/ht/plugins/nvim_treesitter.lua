@@ -11,9 +11,6 @@ M.core = {
   },
 }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   require'nvim-treesitter.configs'.setup {
     ensure_installed = {

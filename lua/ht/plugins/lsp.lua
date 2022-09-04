@@ -2,14 +2,12 @@ local M = {}
 
 M.core = {
   'neovim/nvim-lspconfig',
-  requires = {
-    'j-hui/fidget.nvim',
-    'simrat39/symbols-outline.nvim',
-    'p00f/clangd_extensions.nvim',
-    'simrat39/rust-tools.nvim',
-    'onsails/lspkind-nvim',
-    'hrsh7th/nvim-cmp',
-  },
+  'j-hui/fidget.nvim',
+  'simrat39/symbols-outline.nvim',
+  'p00f/clangd_extensions.nvim',
+  'simrat39/rust-tools.nvim',
+  'onsails/lspkind-nvim',
+  'hrsh7th/nvim-cmp',
 }
 
 local function on_buffer_attach(client, bufnr)

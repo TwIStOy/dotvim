@@ -2,9 +2,6 @@ local M = {}
 
 M.core = { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   require'bqf'.setup {
     auto_enable = true,

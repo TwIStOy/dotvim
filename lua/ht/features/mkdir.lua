@@ -1,7 +1,7 @@
-module('ht.features.mkdir', package.seeall)
+local M = {}
 
 local fn = vim.fn
-local cv = require 'ht.core.vim'
+local event = require 'ht.core.event'
 
 local function mkdir()
   local dir = fn.expand('<afile>:p:h')
@@ -11,9 +11,16 @@ local function mkdir()
   end
 end
 
-cv.event:on('BufWritePre', '*', function()
-  mkdir()
-end, 'create missing directories on saving a file')
+function M.register_create_directory_before_save()
+  event.on('BufWritePre', {
+    pattern = '*',
+    callback = function()
+      mkdir()
+    end
+  })
+end
+
+return M
 
 -- vim: et sw=2 ts=2 fdm=marker
 

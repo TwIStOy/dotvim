@@ -6,9 +6,6 @@ M.core = {
   requires = { { 'godlygeek/tabular', cmd = { 'Tabularize' } } },
 }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
 end
 

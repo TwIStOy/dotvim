@@ -6,9 +6,6 @@ M.core = {
   after = 'github-nvim-theme',
 }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 local options = {
   section_separators = { '', '' },
   component_separators = { '', '' },

@@ -8,9 +8,6 @@ M.core = {
   after = 'LeaderF',
 }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   vim.g.cpp_toolkit_clang_library = vim.g.compiled_llvm_clang_directory
 

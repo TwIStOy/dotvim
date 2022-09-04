@@ -2,22 +2,17 @@ local M = {}
 
 M.core = {
   'nvim-telescope/telescope.nvim',
-  requires = {
-    'nvim-lua/popup.nvim',
-    'nvim-lua/plenary.nvim',
-    "tami5/sqlite.lua",
-    { "tami5/sql.nvim", opt = true },
-    {
-      'nvim-telescope/telescope-fzf-native.nvim',
-      run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+  'nvim-lua/popup.nvim',
+  'nvim-lua/plenary.nvim',
+  "tami5/sqlite.lua",
+  { "tami5/sql.nvim", opt = true },
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
 
-    },
-    { 'fhill2/telescope-ultisnips.nvim' },
   },
+  { 'fhill2/telescope-ultisnips.nvim' },
 }
-
-M.setup = function() -- code to run before plugin loaded
-end
 
 M.config = function() -- code to run after plugin loaded
   require('telescope').load_extension('fzf')

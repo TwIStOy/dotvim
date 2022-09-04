@@ -2,9 +2,6 @@ local M = {}
 
 M.core = { "folke/which-key.nvim", opt = false }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   require("which-key").setup {
     key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },

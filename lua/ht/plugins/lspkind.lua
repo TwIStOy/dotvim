@@ -1,7 +1,8 @@
 local M = {}
 
-M.requires = function() -- return required packages
-end
+M.core = {
+  'onsails/lspkind.nvim'
+}
 
 M.setup = function() -- code to run before plugin loaded
   local lspkind = require 'lspkind'

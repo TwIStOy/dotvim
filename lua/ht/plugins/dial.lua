@@ -2,9 +2,6 @@ local M = {}
 
 M.core = { 'monaqa/dial.nvim', keys = { '<C-a>', '<C-x>' } }
 
-M.setup = function() -- code to run before plugin loaded
-end
-
 M.config = function() -- code to run after plugin loaded
   local augend = require 'dial.augend'
 

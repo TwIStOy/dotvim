@@ -24,9 +24,6 @@ M.setup = function() -- code to run before plugin loaded
   vim.g.asynctasks_extra_config = { '~/.dotfiles/dots/tasks/asynctasks.ini' }
 end
 
-M.config = function() -- code to run after plugin loaded
-end
-
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 

@@ -24,7 +24,14 @@ M.map = function(opt, bufnr)
   mapping_opt.noremap = opt.noremap or true
   mapping_opt.nowait = opt.nowait or false
   mapping_opt.buffer = bufnr
-  wk.register(opt, mapping_opt)
+
+  local key = table.concat(opt.keys, '')
+  wk.register({
+    [key] = {
+      opt.action,
+      opt.desc
+    }
+  }, mapping_opt)
 end
 
 M.ft_map = function(ft, opt)

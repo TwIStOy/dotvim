@@ -3,6 +3,7 @@ local M = {}
 M.core = {
   'hoob3rt/lualine.nvim',
   requires = { 'kyazdani42/nvim-web-devicons' },
+  wants = 'github-nvim-theme',
   after = 'github-nvim-theme',
 }
 

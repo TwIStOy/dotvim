@@ -30,7 +30,7 @@ M.mappings = function() -- code for mappings
 
   mapping.map {
     mode = 'v',
-    keys = '*',
+    keys = {'*'},
     action = [[<cmd>call quickhl#manual#this('v')<CR>]],
   }
 end

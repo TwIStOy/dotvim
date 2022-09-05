@@ -194,6 +194,19 @@ pkr.startup(function(use)
   loader:setup 'nvim_cmp'
 
   use {
+    'B4mbus/todo-comments.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function()
+      require("todo-comments").setup {
+        highlight = {
+          keyword = 'bg',
+          pattern = [[.*<(KEYWORDS)\([^)]*\):]]
+        }
+      }
+    end,
+  }
+
+  use {
     'rcarriga/nvim-dap-ui',
     requires = { 'mfussenegger/nvim-dap', 'theHamsta/nvim-dap-virtual-text' },
   }

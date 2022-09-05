@@ -8,6 +8,7 @@ M.core = {
       'nvim-treesitter/playground',
       cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
     },
+    'RRethy/nvim-treesitter-endwise',
   },
 }
 
@@ -27,6 +28,7 @@ M.config = function() -- code to run after plugin loaded
       enable = true, -- false will disable the whole extension
       disable = {}, -- list of language that will be disabled
     },
+    endwise = { enable = true },
   }
 end
 

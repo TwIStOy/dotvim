@@ -31,9 +31,7 @@ M.config = function() -- code to run after plugin loaded
       au TermOpen * let [b:matchup_matchparen_enabled, b:matchup_matchparen_fallback] = [0, 0]
     aug END
   ]]
-end
 
-M.mappings = function() -- code for mappings
   vim.api.nvim_set_keymap('n', '%', '<Plug>(matchup-%)', { silent = true })
   vim.api.nvim_set_keymap('x', '%', '<Plug>(matchup-%)', { silent = true })
   vim.api.nvim_set_keymap('o', '%', '<Plug>(matchup-%)', { silent = true })
@@ -43,6 +41,9 @@ M.mappings = function() -- code for mappings
   vim.api.nvim_set_keymap('n', ']]', '<Plug>(matchup-]%)', { silent = true })
   vim.api.nvim_set_keymap('x', ']]', '<Plug>(matchup-]%)', { silent = true })
   vim.api.nvim_set_keymap('o', ']]', '<Plug>(matchup-]%)', { silent = true })
+end
+
+M.mappings = function() -- code for mappings
 end
 
 return M

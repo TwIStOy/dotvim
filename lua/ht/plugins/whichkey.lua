@@ -6,6 +6,9 @@ M.config = function() -- code to run after plugin loaded
   require("which-key").setup {
     key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
     layout = { align = 'center' },
+    ignore_missing = false,
+    hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
+    show_help = true,
   }
 end
 

@@ -1,16 +1,5 @@
 local M = {}
 
-local hut = require 'ht.utils.table'
-
-local function create_table(keys, name)
-  local res = { name = name }
-  if #keys == 0 then
-    return res
-  end
-  res[keys[1]] = res[hut.slice(keys, 2)]
-  return res
-end
-
 M.append_folder_name = function(keys, name)
   local wk = require 'which-key'
   local key = table.concat(keys, '')
@@ -26,8 +15,12 @@ M.map = function(opt, bufnr)
   mapping_opt.nowait = opt.nowait or false
   mapping_opt.buffer = bufnr
 
-  if type(opt.action) == "function" and opt.desc == nil then
-    opt.desc = 'NO-TAG'
+  if opt.desc == nil then
+    if type(opt.action) == "function" then
+      opt.desc = 'NO-TAG'
+    else
+      opt.desc = opt.action
+    end
   end
 
   local key = table.concat(opt.keys, '')

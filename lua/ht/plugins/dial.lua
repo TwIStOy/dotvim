@@ -69,66 +69,56 @@ M.config = function() -- code to run after plugin loaded
     local res = {}
     res.default = vim.deepcopy(default_group)
     for k, v in pairs(filetype_groups) do
-      res[k] = vim.deepcopy(default_group)
-      vim.list_extend(res[k], v)
+      local tmp = vim.deepcopy(default_group)
+      vim.list_extend(tmp, v)
+      res[k] = tmp
     end
     return res
   end
 
   require'dial.config'.augends:register_group(build_group())
-end
 
-M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
   mapping.map {
     mode = 'n',
     keys = { '<C-a>' },
-    action = function()
-      require'dial.map'.inc_normal()
-    end,
+    action = require'dial.map'.inc_normal(),
     desc = 'dial inc',
   }
   mapping.map {
     mode = "n",
     keys = { "<C-x>" },
-    action = function()
-      require("dial.map").dec_normal()
-    end,
+    action = require("dial.map").dec_normal(),
     desc = 'dial dec',
   }
   mapping.map {
     mode = "v",
     keys = { "<C-a>" },
-    action = function()
-      require("dial.map").inc_visual()
-    end,
+    action = require("dial.map").inc_visual(),
     desc = 'dial inc',
   }
   mapping.map {
     mode = "v",
     keys = { "<C-x>" },
-    action = function()
-      require("dial.map").dec_visual()
-    end,
+    action = require("dial.map").dec_visual(),
     desc = 'dial dec',
   }
   mapping.map {
     mode = "v",
     keys = { "g", "<C-a>" },
-    action = function()
-      require("dial.map").inc_gvisual()
-    end,
+    action = require("dial.map").inc_gvisual(),
     desc = 'dial inc',
   }
   mapping.map {
     mode = "v",
     keys = { "g", "<C-x>" },
-    action = function()
-      require("dial.map").dec_gvisual()
-    end,
+    action = require("dial.map").dec_gvisual(),
     desc = 'dial dec',
   }
+end
+
+M.mappings = function() -- code for mappings
 end
 
 return M

@@ -11,6 +11,7 @@ end
 
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
+
   mapping.map {
     keys = { '*' },
     action = [[<cmd>call quickhl#manual#this_whole_word('n')<CR>]],
@@ -30,7 +31,7 @@ M.mappings = function() -- code for mappings
 
   mapping.map {
     mode = 'v',
-    keys = {'*'},
+    keys = { '*' },
     action = [[<cmd>call quickhl#manual#this('v')<CR>]],
   }
 end

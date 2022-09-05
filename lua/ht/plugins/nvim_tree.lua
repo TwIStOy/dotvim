@@ -43,7 +43,7 @@ local jump_to_nvim_tree = function()
     local tp = vim.api.nvim_buf_get_option(buf_id, 'ft')
 
     if tp == 'NvimTree' then
-      vim.cmd [[i .. 'wincmd w']]
+      vim.cmd(i..'wincmd w')
       return
     end
   end
@@ -66,7 +66,7 @@ M.mappings = function() -- code for mappings
   }
 
   mapping.map {
-    keys = { '<leader>', 'f' },
+    keys = { '<leader>', 'f', 't' },
     action = jump_to_nvim_tree,
     desc = 'file-explorer',
   }

@@ -28,7 +28,7 @@ M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
   mapping.map {
     keys = { '<leader>', 'f', 'c' },
-    action = '<cmd><C-u>Neoformat<CR>',
+    action = '<cmd>Neoformat<CR>',
     desc = 'format-file',
   }
 end

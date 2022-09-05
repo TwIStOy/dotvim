@@ -2,13 +2,13 @@ local M = {}
 
 M.core = {
   'nvim-telescope/telescope.nvim',
-  {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
-
-  },
-  { 'fhill2/telescope-ultisnips.nvim' },
   requires = {
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+
+    },
+    { 'fhill2/telescope-ultisnips.nvim' },
     'nvim-lua/popup.nvim',
     'nvim-lua/plenary.nvim',
     "tami5/sqlite.lua",

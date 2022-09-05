@@ -52,6 +52,9 @@ vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:Cursor/lCursor'
 -- mouse mode
 vim.opt.mouse = 'a'
 
+-- statusline
+vim.opt.laststatus = 3
+
 -- edit settings
 vim.opt.expandtab = true
 vim.opt.smartindent = true

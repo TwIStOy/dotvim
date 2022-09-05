@@ -5,7 +5,7 @@ M.core = { 'TwIStOy/conflict-resolve.nvim', fn = 'conflict_resolve#*' }
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
 
-  mapping.append_folder_name({ 'v' }, 'vcs')
+  mapping.append_folder_name({ '<leader>', 'v' }, 'vcs')
   mapping.map({
     keys = { '<leader>', 'v', '1' },
     action = '<cmd>call conflict_resolve#ourselves()<CR>',

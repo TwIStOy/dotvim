@@ -21,7 +21,6 @@ M.core = {
 M.config = function() -- code to run after plugin loaded
   require("cmp_nvim_ultisnips").setup {}
 
-  print'config cmp'
   local cmp = require 'cmp'
   local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
   local lspkind = require('lspkind')

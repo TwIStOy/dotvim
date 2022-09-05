@@ -120,7 +120,7 @@ mapping.map { keys = { '<M-l>' }, action = '<cmd>wincmd l<CR>' }
 mapping.map { keys = { '<M-b>' }, action = '<cmd>SidewaysLeft<CR>' }
 mapping.map { keys = { '<M-f>' }, action = '<cmd>SidewaysRight<CR>' }
 
-mapping.append_folder_name({ 'w' }, 'window')
+mapping.append_folder_name({ '<leader>', 'w' }, 'window')
 mapping.map {
   keys = { '<leader>', 'w', 'v' },
   action = '<cmd>wincmd v<CR>',
@@ -157,7 +157,7 @@ for i = 1, 9 do
   }
 end
 
-mapping.append_folder_name({ 'f' }, 'file')
+mapping.append_folder_name({ '<leader>', 'f' }, 'file')
 mapping.map {
   keys = { '<leader>', 'f', 's' },
   action = '<cmd>update<CR>',
@@ -168,11 +168,6 @@ mapping.map { keys = { '<F2>' }, action = '<cmd>w<CR>' }
 mapping.map { keys = { '<S-F2>' }, action = '<cmd>wall<CR>' }
 
 mapping.map { keys = { '<leader>', 'q' }, action = '<cmd>q<CR>', desc = 'quit' }
-mapping.map {
-  keys = { '<leader>', 'x' },
-  action = '<cmd>wq<CR>',
-  desc = 'save-and-quit',
-}
 mapping.map {
   keys = { '<leader>', 'Q' },
   action = '<cmd>confirm qall<CR>',

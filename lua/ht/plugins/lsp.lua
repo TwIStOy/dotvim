@@ -176,12 +176,14 @@ M.mappings = function() -- code for mappings
     action = function()
       vim.diagnostic.goto_prev()
     end,
+    desc = 'previous-diagnostic',
   })
   mapping.map({
     keys = { ']', 'c' },
     action = function()
       vim.diagnostic.goto_next()
     end,
+    desc = 'next-diagnostic',
   })
 end
 

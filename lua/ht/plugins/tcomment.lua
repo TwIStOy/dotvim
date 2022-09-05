@@ -24,7 +24,7 @@ M.mappings = function() -- code for mappings
   mapping.map({
     mode = 'v',
     keys = { 'g', 'c', 'c' },
-    action = '<cmd>TCommentBlock<CR>',
+    action = ':TCommentBlock<CR>',
     desc = 'toggle-comment',
   })
 end

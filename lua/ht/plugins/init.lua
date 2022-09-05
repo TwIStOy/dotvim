@@ -16,10 +16,10 @@ M.loader = {
     local m = require('ht.plugins.' .. name)
     local opt = m.core
     if m.setup ~= nil then
-      opt.setup = "require'ht.plugins."..name.."'.setup()"
+      opt.setup = "require'ht.plugins." .. name .. "'.setup()"
     end
     if m.config ~= nil then
-      opt.config = "require'ht.plugins."..name.."'.config()"
+      opt.config = "require'ht.plugins." .. name .. "'.config()"
     end
     self._use(opt)
 
@@ -31,7 +31,23 @@ M.loader = {
       v()
     end
   end,
+
+  append_mappings = function(self, m)
+    table.insert(self.mappings, m)
+  end,
 }
+
+function M.use_config(name)
+  return string.format([[require 'ht.plugins.%s'.config()]], name)
+end
+
+function M.use_setup(name)
+  return string.format([[require 'ht.plugins.%s'.setup()]], name)
+end
+
+function M.get_setup(name)
+  return require(string.format('ht.plugins.%s', name)).mappings
+end
 
 return M
 -- vim: et sw=2 ts=2 fdm=marker

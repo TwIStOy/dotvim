@@ -15,11 +15,10 @@ local function init_packer()
   cmd [[pa packer.nvim]]
 end
 
-
 init_packer()
 
-local pkr = require'packer'
-local util = require'packer.util'
+local pkr = require 'packer'
+local util = require 'packer.util'
 
 pkr.init({
   ensure_dependencies = true,
@@ -28,19 +27,20 @@ pkr.init({
   display = {
     auto_clean = false,
     open_fn = function()
-      return require('packer.util').float {border = 'single'}
-    end
+      return require('packer.util').float { border = 'single' }
+    end,
   },
-  profile = {
-    enable = true,
-    threshold = 1,
-  },
-  compile_path = util.join_paths(vim.fn.stdpath('config'), 'lua', 'packer_compiled.lua'),
+  profile = { enable = true, threshold = 1 },
+  compile_path = util.join_paths(vim.fn.stdpath('config'), 'lua',
+                                 'packer_compiled.lua'),
 })
 
 local loader
 pkr.startup(function(use)
   loader = require'ht.plugins.init'.loader:new(use)
+  local use_config = require'ht.plugins.init'.use_config
+  local use_setup = require'ht.plugins.init'.use_config
+  local get_mappings = require'ht.plugins.init'.get_mappings
 
   use 'wbthomason/packer.nvim'
 
@@ -161,12 +161,7 @@ pkr.startup(function(use)
 
   use 'tpope/vim-repeat'
 
-  use {
-    'ntpeters/vim-better-whitespace',
-    config = function()
-      vim.api.nvim_command [[au FileType which_key DisableWhitespace]]
-    end,
-  }
+  loader:setup 'better_whitespace'
 
   loader:setup 'sideways'
 
@@ -201,6 +196,12 @@ pkr.startup(function(use)
   use {
     'rcarriga/nvim-dap-ui',
     requires = { 'mfussenegger/nvim-dap', 'theHamsta/nvim-dap-virtual-text' },
+  }
+
+  use {
+    'mbbill/undotree',
+    cmd = 'UndotreeToggle',
+    config = [[vim.g.undotree_SetFocusWhenToggle = 1]],
   }
 
   loader:setup 'quickhl'

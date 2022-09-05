@@ -11,7 +11,7 @@ end
 
 M.mappings = function() -- code for mappings
   local mapping = require 'ht.core.mapping'
-  mapping.append_folder_name({ 't' }, 'table')
+  mapping.append_folder_name({ '<leader>', 't' }, 'table')
   mapping.map({
     keys = { '<leader>', 't', 'a' },
     action = '<cmd>EasyAlign<CR>',

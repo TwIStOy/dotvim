@@ -13,7 +13,8 @@ end
 
 M.append_folder_name = function(keys, name)
   local wk = require 'which-key'
-  wk.register(create_table(keys, name))
+  local key = table.concat(keys, '')
+  wk.register { [key] = { name = name } }
 end
 
 M.map = function(opt, bufnr)
@@ -25,13 +26,16 @@ M.map = function(opt, bufnr)
   mapping_opt.nowait = opt.nowait or false
   mapping_opt.buffer = bufnr
 
+  if type(opt.action) == "function" and opt.desc == nil then
+    opt.desc = 'NO-TAG'
+  end
+
   local key = table.concat(opt.keys, '')
-  wk.register({
-    [key] = {
-      opt.action,
-      opt.desc
-    }
-  }, mapping_opt)
+  if opt.action ~= nil then
+    wk.register({ [key] = { opt.action, opt.desc } }, mapping_opt)
+  else
+    wk.register({ [key] = { opt.desc } }, mapping_opt)
+  end
 end
 
 M.ft_map = function(ft, opt)

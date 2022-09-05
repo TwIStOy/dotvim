@@ -87,6 +87,7 @@ M.mappings = function() -- code for mappings
     action = function()
       require'dial.map'.inc_normal()
     end,
+    desc = 'dial inc',
   }
   mapping.map {
     mode = "n",
@@ -94,6 +95,7 @@ M.mappings = function() -- code for mappings
     action = function()
       require("dial.map").dec_normal()
     end,
+    desc = 'dial dec',
   }
   mapping.map {
     mode = "v",
@@ -101,6 +103,7 @@ M.mappings = function() -- code for mappings
     action = function()
       require("dial.map").inc_visual()
     end,
+    desc = 'dial inc',
   }
   mapping.map {
     mode = "v",
@@ -108,6 +111,7 @@ M.mappings = function() -- code for mappings
     action = function()
       require("dial.map").dec_visual()
     end,
+    desc = 'dial dec',
   }
   mapping.map {
     mode = "v",
@@ -115,6 +119,7 @@ M.mappings = function() -- code for mappings
     action = function()
       require("dial.map").inc_gvisual()
     end,
+    desc = 'dial inc',
   }
   mapping.map {
     mode = "v",
@@ -122,6 +127,7 @@ M.mappings = function() -- code for mappings
     action = function()
       require("dial.map").dec_gvisual()
     end,
+    desc = 'dial dec',
   }
 end
 

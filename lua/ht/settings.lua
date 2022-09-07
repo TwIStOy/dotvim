@@ -189,10 +189,9 @@ if vim.g['fvim_loaded'] == nil then
   vim.opt.wildoptions = 'pum'
 end
 
-vim.o.guifont = 'JetBrains Mono:h14'
-
 -- gui: neovide
 if vim.g["neovide"]  then
+  vim.o.guifont = 'JetBrainsMono Nerd Font:h14'
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_input_use_logo = true
   vim.g.neovide_input_macos_alt_is_meta = true

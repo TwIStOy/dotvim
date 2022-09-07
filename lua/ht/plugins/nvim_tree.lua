@@ -3,7 +3,7 @@ local M = {}
 M.core = {
   'kyazdani42/nvim-tree.lua',
   opt = true,
-  requires = { 'kyazdani42/nvim-web-devicons' },
+  requires = { 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim' },
 }
 
 M.config = function() -- code to run after plugin loaded
@@ -43,7 +43,7 @@ local jump_to_nvim_tree = function()
     local tp = vim.api.nvim_buf_get_option(buf_id, 'ft')
 
     if tp == 'NvimTree' then
-      vim.cmd(i..'wincmd w')
+      vim.cmd(i .. 'wincmd w')
       return
     end
   end
@@ -54,6 +54,43 @@ local jump_to_nvim_tree = function()
     require'packer'.loader 'nvim-tree.lua'
   end
   require'nvim-tree'.toggle()
+end
+
+local change_root = function()
+  local input = require 'nui.input'
+  local event = require'nui.utils.autocmd'.event
+  local input_box = input({
+    position = '50%',
+    size = { width = 50 },
+    border = {
+      style = 'single',
+      text = { top = '[New Root]', top_align = 'center' },
+    },
+    win_options = { winhighlight = 'Normal:Normal,FloatBorder:Normal' },
+  }, {
+    prompt = '> ',
+    default_value = '',
+    on_close = function()
+    end,
+    on_submit = function(value)
+      require'nvim-tree.api'.tree.change_root(value)
+    end,
+  })
+
+  input_box:on(event.BufLeave, function()
+    input_box:unmount()
+  end)
+
+  input_box:map('i', '<Esc>', function()
+    input_box:unmount()
+  end, { noremap = true })
+
+  input_box:map('n', '<Esc>', function()
+    input_box:unmount()
+  end, { noremap = true })
+
+  input_box:mount()
+
 end
 
 M.mappings = function() -- code for mappings
@@ -69,6 +106,12 @@ M.mappings = function() -- code for mappings
     keys = { '<leader>', 'f', 't' },
     action = jump_to_nvim_tree,
     desc = 'file-explorer',
+  }
+
+  mapping.map {
+    keys = { '<leader>', 'f', '.' },
+    action = change_root,
+    desc = 'change-tree-root',
   }
 end
 

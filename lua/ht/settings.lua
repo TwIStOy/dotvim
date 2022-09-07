@@ -191,12 +191,12 @@ end
 
 -- gui: neovide
 if vim.g["neovide"]  then
-  vim.o.guifont = 'JetBrainsMono Nerd Font:h14'
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_input_use_logo = true
   vim.g.neovide_input_macos_alt_is_meta = true
   vim.g.neovide_cursor_animation_length = 0
   vim.g.neovide_cursor_trail_size = 0
 end
+vim.o.guifont = 'JetBrainsMono Nerd Font:h14'
 
 return M

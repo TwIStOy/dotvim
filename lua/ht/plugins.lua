@@ -24,6 +24,7 @@ pkr.init({
   ensure_dependencies = true,
   opt_default = false,
   transitive_opt = false,
+  max_jobs = 4,
   display = {
     auto_clean = false,
     open_fn = function()

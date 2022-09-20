@@ -107,7 +107,7 @@ M.config = function() -- code to run after plugin loaded
     server = {
       cmd = {
         vim.g.compiled_llvm_clang_directory .. '/bin/clangd',
-        -- '--clang-tidy',
+        '--clang-tidy',
         '--background-index',
         '--ranking-model=decision_forest',
         '--completion-style=detailed',
@@ -146,11 +146,7 @@ M.config = function() -- code to run after plugin loaded
   }
 
   require'lspconfig'.sumneko_lua.setup {
-    cmd = {
-      '/home/hawtian/project/lua-language-server/bin/lua-language-server',
-      '-E',
-      '/home/hawtian/project/lua-language-server/bin/main.lua',
-    },
+    cmd = vim.g.lua_language_server_cmd,
     on_attach = on_buffer_attach,
     capabilities = capabilities,
     settings = {

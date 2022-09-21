@@ -109,14 +109,14 @@ M.config = function() -- code to run after plugin loaded
         vim.g.compiled_llvm_clang_directory .. '/bin/clangd',
         '--clang-tidy',
         '--background-index',
-        '--ranking-model=decision_forest',
-        '--completion-style=detailed',
-        '--header-insertion=iwyu',
-        '--limit-references=100',
-        '--limit-results=100',
-        '--pch-storage=disk',
-        '--use-dirty-headers',
-        '--include-cleaner-stdlib',
+        -- '--ranking-model=decision_forest',
+        -- '--completion-style=detailed',
+        -- '--header-insertion=iwyu',
+        -- '--limit-references=100',
+        -- '--limit-results=100',
+        -- '--pch-storage=disk',
+        -- '--use-dirty-headers',
+        -- '--include-cleaner-stdlib',
         '-j=20',
       },
       on_attach = on_buffer_attach,
@@ -143,6 +143,11 @@ M.config = function() -- code to run after plugin loaded
 
   require'rust-tools'.setup {
     server = { on_attach = on_buffer_attach, capabilities = capabilities },
+  }
+
+  require'lspconfig'.pyright.setup {
+    on_attach = on_buffer_attach,
+    capabilities = capabilities,
   }
 
   require'lspconfig'.sumneko_lua.setup {

@@ -168,6 +168,10 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
+  require 'lspconfig'.sourcekit.setup {
+    on_attach = on_buffer_attach,
+    capabilities = capabilities
+  }
 end
 
 M.mappings = function() -- code for mappings

@@ -110,7 +110,7 @@ M.config = function() -- code to run after plugin loaded
         '--clang-tidy',
         '--background-index',
         -- '--ranking-model=decision_forest',
-        -- '--completion-style=detailed',
+        '--completion-style=detailed',
         -- '--header-insertion=iwyu',
         -- '--limit-references=100',
         -- '--limit-results=100',

@@ -195,14 +195,11 @@ pkr.startup(function(use)
   loader:setup 'nvim_cmp'
 
   use {
-    'B4mbus/todo-comments.nvim',
+    'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function()
       require("todo-comments").setup {
-        highlight = {
-          keyword = 'bg',
-          pattern = [[.*<(KEYWORDS)\([^)]*\):]]
-        }
+        highlight = { keyword = 'bg', pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
       }
     end,
   }

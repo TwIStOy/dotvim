@@ -168,10 +168,17 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
-  require 'lspconfig'.sourcekit.setup {
-    on_attach = on_buffer_attach,
-    capabilities = capabilities
-  }
+  if vim.fn.has('macunix') then
+    require 'lspconfig'.sourcekit.setup {
+      filetypes = {
+        'swift',
+        'objective-c',
+        'objective-cpp',
+      },
+      on_attach = on_buffer_attach,
+      capabilities = capabilities
+    }
+  end
 end
 
 M.mappings = function() -- code for mappings

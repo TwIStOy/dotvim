@@ -13,15 +13,6 @@ local options = {
   theme = 'auto',
 }
 
-local sections = {
-  lualine_a = { 'mode' },
-  lualine_b = { 'branch', 'diff' },
-  lualine_c = { 'filename' },
-  lualine_x = { 'encoding', 'fileformat', 'filetype' },
-  lualine_y = { 'progress' },
-  lualine_z = { 'location' },
-}
-
 local inactive_sections = {
   lualine_a = {},
   lualine_b = {},
@@ -32,9 +23,21 @@ local inactive_sections = {
 }
 
 M.config = function() -- code to run after plugin loaded
+  local navic = require 'nvim-navic'
+
   require'lualine'.setup {
     options = options,
-    sections = sections,
+    sections = {
+      lualine_a = { 'mode' },
+      lualine_b = { 'branch', 'diff' },
+      lualine_c = {
+        'filename',
+        { navic.get_location, cond = navic.is_available },
+      },
+      lualine_x = { 'encoding', 'fileformat', 'filetype' },
+      lualine_y = { 'progress' },
+      lualine_z = { 'location' },
+    },
     inactive_sections = inactive_sections,
     tabline = {},
     extensions = {},

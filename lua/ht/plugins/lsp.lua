@@ -9,11 +9,13 @@ M.core = {
     'simrat39/rust-tools.nvim',
     'onsails/lspkind-nvim',
     'hrsh7th/nvim-cmp',
+    'SmiteshP/nvim-navic',
   },
 }
 
 local function on_buffer_attach(client, bufnr)
   local mapping = require 'ht.core.mapping'
+  local navic = require 'nvim-navic'
 
   mapping.map({
     keys = { 'g', 'D' },
@@ -64,6 +66,8 @@ local function on_buffer_attach(client, bufnr)
       { 'Type &Hierarchy(C++)', 'ClangdTypeHierarchy' },
     })
   end
+
+  navic.attach(client, bufnr)
 end
 
 M.setup = function() -- code to run before plugin loaded
@@ -88,6 +92,38 @@ M.setup = function() -- code to run before plugin loaded
       vim.diagnostic.open_float(nil, { focus = false, border = "rounded" })
     end,
   })
+
+  require'nvim-navic'.setup {
+    icons = {
+      File = ' ',
+      Module = ' ',
+      Namespace = ' ',
+      Package = ' ',
+      Class = ' ',
+      Method = ' ',
+      Property = ' ',
+      Field = ' ',
+      Constructor = ' ',
+      Enum = ' ',
+      Interface = ' ',
+      Function = ' ',
+      Variable = ' ',
+      Constant = ' ',
+      String = ' ',
+      Number = ' ',
+      Boolean = ' ',
+      Array = ' ',
+      Object = ' ',
+      Key = ' ',
+      Null = ' ',
+      EnumMember = ' ',
+      Struct = ' ',
+      Event = ' ',
+      Operator = ' ',
+      TypeParameter = ' ',
+    },
+  }
+
 end
 
 M.config = function() -- code to run after plugin loaded
@@ -169,14 +205,10 @@ M.config = function() -- code to run after plugin loaded
   }
 
   if vim.fn.has('macunix') then
-    require 'lspconfig'.sourcekit.setup {
-      filetypes = {
-        'swift',
-        'objective-c',
-        'objective-cpp',
-      },
+    require'lspconfig'.sourcekit.setup {
+      filetypes = { 'swift', 'objective-c', 'objective-cpp' },
       on_attach = on_buffer_attach,
-      capabilities = capabilities
+      capabilities = capabilities,
     }
   end
 end

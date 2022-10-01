@@ -23,6 +23,17 @@ M.config = function() -- code to run after plugin loaded
       'go',
       'typescript',
       'lua',
+      'html',
+      'javascript',
+      'typescript',
+      'latex',
+      'cmake',
+      'css',
+      'fish',
+      'make',
+      'proto',
+      'markdown',
+      'vim',
     },
     highlight = {
       enable = true, -- false will disable the whole extension

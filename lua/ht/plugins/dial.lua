@@ -1,6 +1,6 @@
 local M = {}
 
-M.core = { 'monaqa/dial.nvim', keys = { '<C-a>', '<C-x>' } }
+M.core = { 'monaqa/dial.nvim', event = 'VimEnter' }
 
 M.config = function() -- code to run after plugin loaded
   local augend = require 'dial.augend'
@@ -49,7 +49,7 @@ M.config = function() -- code to run after plugin loaded
     },
   }
   local filetype_groups = {
-    ["cpp"] = {
+    cpp = {
       -- glog levels
       define_custom { 'Debug', 'Info', 'Warn', 'Error', 'Fatal' },
       -- pair
@@ -76,7 +76,8 @@ M.config = function() -- code to run after plugin loaded
     return res
   end
 
-  require'dial.config'.augends:register_group(build_group())
+  local groups = build_group()
+  require'dial.config'.augends:register_group(groups)
 
   local mapping = require 'ht.core.mapping'
 
@@ -92,6 +93,20 @@ M.config = function() -- code to run after plugin loaded
     action = require("dial.map").dec_normal(),
     desc = 'dial dec',
   }
+
+  mapping.ft_map('cpp', {
+    mode = 'n',
+    keys = { '<C-a>' },
+    action = require'dial.map'.inc_normal('cpp'),
+    desc = 'dial inc',
+  })
+  mapping.ft_map('cpp', {
+    mode = "n",
+    keys = { "<C-x>" },
+    action = require("dial.map").dec_normal('cpp'),
+    desc = 'dial dec',
+  })
+
   mapping.map {
     mode = "v",
     keys = { "<C-a>" },
@@ -116,6 +131,24 @@ M.config = function() -- code to run after plugin loaded
     action = require("dial.map").dec_gvisual(),
     desc = 'dial dec',
   }
+
+  for _, nr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_get_option(nr, 'ft') == 'cpp' then
+      print('TMP')
+      mapping.map({
+        mode = 'n',
+        keys = { '<C-a>' },
+        action = require'dial.map'.inc_normal('cpp'),
+        desc = 'dial inc',
+      }, nr)
+      mapping.map({
+        mode = "n",
+        keys = { "<C-x>" },
+        action = require("dial.map").dec_normal('cpp'),
+        desc = 'dial dec',
+      }, nr)
+    end
+  end
 end
 
 M.mappings = function() -- code for mappings

@@ -204,6 +204,12 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
+  require'lspconfig'.cmake.setup {
+    on_attach = on_buffer_attach,
+    capabilities = capabilities,
+    initializationOptions = { buildDirectory = 'build' },
+  }
+
   if vim.fn.has('macunix') then
     require'lspconfig'.sourcekit.setup {
       filetypes = { 'swift', 'objective-c', 'objective-cpp' },

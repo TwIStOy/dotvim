@@ -25,7 +25,6 @@ M.config = function() -- code to run after plugin loaded
     filters = { dotfiles = false, custom = {} },
     view = {
       width = 30,
-      height = 30,
       hide_root_folder = false,
       side = 'left',
       mappings = { custom_only = false, list = {} },

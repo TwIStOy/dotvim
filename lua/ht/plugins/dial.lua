@@ -134,7 +134,6 @@ M.config = function() -- code to run after plugin loaded
 
   for _, nr in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_get_option(nr, 'ft') == 'cpp' then
-      print('TMP')
       mapping.map({
         mode = 'n',
         keys = { '<C-a>' },

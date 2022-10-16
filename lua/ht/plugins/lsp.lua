@@ -198,6 +198,7 @@ M.config = function() -- code to run after plugin loaded
           library = {
             [vim.fn.expand('$VIMRUNTIME/lua')] = true,
             [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+            [vim.fn.expand('$HOME/.dotvim/lua')] = true,
           },
         },
       },

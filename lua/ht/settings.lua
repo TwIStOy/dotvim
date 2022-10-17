@@ -209,6 +209,12 @@ mapping.ft_map('cpp', {
   end,
 })
 mapping.ft_map('cpp', {
+  keys = { '<leader>', 'n', 'c' },
+  desc = 'copy-function-decl',
+  mode = 'v',
+  action = [[:lua require'ht.features.cpp.copy_decl'.copy_declare_from_selection()<CR>]],
+})
+mapping.ft_map('cpp', {
   keys = { '<leader>', 'n', 'p' },
   desc = 'generate-function-defination',
   action = function()

@@ -1,3 +1,9 @@
+local parsers = require "nvim-treesitter.parsers"
+local TSRange = require'nvim-treesitter.tsrange'.TSRange
+local ts_utils = require 'nvim-treesitter.ts_utils'
+local import = require'ht.utils.import'.import
+local selection = import 'ht.features.selection'
+
 local M = {}
 
 -- Expect node is `field_declaration`
@@ -111,7 +117,6 @@ function M.inspect_node(node)
   if node == nil then
     return 'nil'
   end
-  local ts_utils = require 'nvim-treesitter.ts_utils'
 
   local start_row, start_col, end_row, end_col = ts_utils.get_node_range(node)
 
@@ -120,6 +125,49 @@ function M.inspect_node(node)
   res = res .. ' [' .. end_row .. ', ' .. end_col .. ']'
 
   return res
+end
+
+local function get_nodes_in_range_impl(root, start_row, start_col, end_row,
+                                       end_col)
+  if root == nil then
+    return {}
+  end
+  local n_start_row, n_start_col, n_end_row, n_end_col = root:range()
+
+  if selection.compare_pos(end_row, end_col, n_start_row, n_start_col) < 0 then
+    return {}
+  end
+
+  if selection.compare_pos(n_end_row, n_end_col, start_row, start_col) < 0 then
+    return {}
+  end
+
+  if selection.compare_pos(start_row, start_col, n_start_row, n_start_col) <= 0 and
+      selection.compare_pos(end_row, end_col, n_end_row, n_end_col) >= 0 then
+    return { root }
+  end
+
+  local res = {}
+
+  for i = 0, root:child_count() - 1, 1 do
+    local c = root:child(i)
+    table.insert(res, get_nodes_in_range_impl(c, start_row, start_col, end_row,
+                                              end_col))
+  end
+
+  return vim.tbl_flatten(res)
+end
+
+function M.get_nodes_in_range(winnr, start_row, start_col, end_row, end_col)
+  local bufnr = vim.api.nvim_win_get_buf(winnr)
+
+  local root_lang_tree = parsers.get_parser(bufnr)
+  local root = ts_utils.get_root_for_position(start_row, start_col,
+                                              root_lang_tree)
+
+  local nodes = get_nodes_in_range_impl(root, start_row, start_col, end_row,
+                                        end_col)
+  return nodes
 end
 
 return M

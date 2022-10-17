@@ -188,7 +188,10 @@ function M.generate_defination()
 
   local line = 'auto '
   if copyed_signatures.class_name then
-    if not copyed_signatures.class_template_specialization then
+    if not copyed_signatures.class_template_specialization and
+        copyed_signatures.class_template_parameters ~= nil and
+        copyed_signatures.class_template_parameters_name ~= nil then
+      -- no specialization or not a template class
       line = line ..
                  string.format('%s<%s>', copyed_signatures.class_name,
                                table.concat(

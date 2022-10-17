@@ -2,6 +2,7 @@ local M = {}
 
 local mapping = require 'ht.core.mapping'
 local event = require 'ht.core.event'
+local import = require'ht.utils.import'.import
 
 -- run impatient.nvim
 require 'impatient'
@@ -190,7 +191,7 @@ if vim.g['fvim_loaded'] == nil then
 end
 
 -- gui: neovide
-if vim.g["neovide"]  then
+if vim.g["neovide"] then
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_input_use_logo = true
   vim.g.neovide_input_macos_alt_is_meta = true
@@ -198,5 +199,21 @@ if vim.g["neovide"]  then
   vim.g.neovide_cursor_trail_size = 0
   vim.o.guifont = 'JetBrainsMono Nerd Font:h14'
 end
+
+-- def ft-related settings
+mapping.ft_map('cpp', {
+  keys = { '<leader>', 'n', 'c' },
+  desc = 'copy-function-decl',
+  action = function()
+    require('ht.features.cpp.copy_decl').copy_declare()
+  end,
+})
+mapping.ft_map('cpp', {
+  keys = { '<leader>', 'n', 'p' },
+  desc = 'generate-function-defination',
+  action = function()
+    require('ht.features.cpp.copy_decl').generate_at_cursor()
+  end,
+})
 
 return M

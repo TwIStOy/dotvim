@@ -224,8 +224,8 @@ pkr.startup(function(use)
   loader:setup 'neogen'
 
   use_rocks 'lualogging'
-
   use_rocks 'luachild'
+  use_rocks 'middleclass'
 end)
 
 loader:setup_mappings()

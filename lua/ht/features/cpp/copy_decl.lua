@@ -23,47 +23,7 @@ function M.copy_declare()
 end
 
 function M.generate_defination()
-  local lines = {}
-
-  if copyed_signatures.class ~= nil then
-    if copyed_signatures.class.template ~= nil then
-      local line = string.format('template<%s>', table.concat(
-                                     copyed_signatures.class.template.parameters,
-                                     ', '))
-
-      table.insert(lines, line)
-    end
-  end
-
-  local line = 'auto '
-  if copyed_signatures.class ~= nil then
-    if copyed_signatures.class.template ~= nil and
-        not copyed_signatures.class.template.is_specialization then
-      -- no specialization or not a template class
-      line = line ..
-                 string.format('%s<%s>', copyed_signatures.class.name,
-                               table.concat(
-                                   copyed_signatures.class.template
-                                       .parameter_names, ', ')) .. '::'
-    else
-      line = line .. copyed_signatures.class.name .. '::'
-    end
-  end
-
-  if copyed_signatures.template ~= nil then
-    table.insert(lines, string.format('template<%s>', table.concat(
-                                          copyed_signatures.template, ', ')))
-  end
-
-  line = line .. string.format('%s(%s) %s -> %s {', copyed_signatures.name,
-                               table.concat(copyed_signatures.parameters, ', '),
-                               table.concat(copyed_signatures.specifiers, ' '),
-                               copyed_signatures.return_type)
-  table.insert(lines, line)
-  table.insert(lines, '  // TODO(hawtian): impl')
-  table.insert(lines, '}')
-
-  return lines
+  return function_sig.function_signature_to_code_lines(copyed_signatures)
 end
 
 function M.generate_at_cursor()

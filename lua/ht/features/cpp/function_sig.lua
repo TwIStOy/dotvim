@@ -225,5 +225,45 @@ function M.extract_function_signature_from_node(node)
   return true, sig
 end
 
+function M.function_signature_to_code_lines(sig)
+  local lines = {}
+
+  if sig.class ~= nil then
+    if sig.class.template ~= nil then
+      local line = string.format('template<%s>', table.concat(
+                                     sig.class.template.parameters, ', '))
+
+      table.insert(lines, line)
+    end
+  end
+
+  local line = 'auto '
+  if sig.class ~= nil then
+    if sig.class.template ~= nil and not sig.class.template.is_specialization then
+      -- no specialization or not a template class
+      line = line .. string.format('%s<%s>', sig.class.name, table.concat(
+                                       sig.class.template.parameter_names, ', ')) ..
+                 '::'
+    else
+      line = line .. sig.class.name .. '::'
+    end
+  end
+
+  if sig.template ~= nil then
+    table.insert(lines, string.format('template<%s>',
+                                      table.concat(sig.template, ', ')))
+  end
+
+  line = line ..
+             string.format('%s(%s) %s -> %s {', sig.name,
+                           table.concat(sig.parameters, ', '),
+                           table.concat(sig.specifiers, ' '), sig.return_type)
+  table.insert(lines, line)
+  table.insert(lines, '  // TODO(hawtian): impl')
+  table.insert(lines, '}')
+
+  return lines
+end
+
 return M
 

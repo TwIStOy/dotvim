@@ -87,6 +87,7 @@ pkr.startup(function(use)
 
   loader:setup 'surround'
 
+  --[[
   use {
     'projekt0n/github-nvim-theme',
     config = function()
@@ -94,6 +95,24 @@ pkr.startup(function(use)
         theme_style = 'dimmed',
         sidebars = { "qf", "vista_kind", "terminal", "packer" },
       }
+    end,
+  }
+  --]]
+
+  use {
+    'EdenEast/nightfox.nvim',
+    config = function()
+      require('nightfox').setup({
+        options = {
+          styles = {
+            comments = "italic",
+            keywords = "bold",
+            types = "italic,bold",
+          },
+        },
+      })
+
+      vim.cmd("colorscheme nightfox")
     end,
   }
 

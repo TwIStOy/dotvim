@@ -85,6 +85,10 @@ snippet uptr "std::unique_ptr" w
 std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet
 
+snippet sptr "std::shared_ptr" w
+std::shared_ptr<${1:type}>(new $1{${2:args}})${0}
+endsnippet
+
 snippet todo "TODO comments" bA
 // TODO(hawtian): ${0}
 endsnippet

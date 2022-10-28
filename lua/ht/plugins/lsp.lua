@@ -67,7 +67,9 @@ local function on_buffer_attach(client, bufnr)
     })
   end
 
-  navic.attach(client, bufnr)
+  if client.server_capabilities['documentSymbolProvider'] then
+    navic.attach(client, bufnr)
+  end
 end
 
 M.setup = function() -- code to run before plugin loaded

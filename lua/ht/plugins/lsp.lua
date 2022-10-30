@@ -180,7 +180,11 @@ M.config = function() -- code to run after plugin loaded
   }
 
   require'rust-tools'.setup {
-    server = { on_attach = on_buffer_attach, capabilities = capabilities },
+    server = {
+      cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
+      on_attach = on_buffer_attach,
+      capabilities = capabilities,
+    },
   }
 
   require'lspconfig'.pyright.setup {

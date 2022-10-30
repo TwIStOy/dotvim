@@ -133,6 +133,8 @@ pkr.startup(function(use)
     end,
   }
 
+  loader:setup 'cphelper'
+
   use { 'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log' }
 
   use { 'nacro90/numb.nvim', opt = true, config = [[require('numb').setup()]] }

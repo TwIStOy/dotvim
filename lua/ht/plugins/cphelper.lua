@@ -8,7 +8,7 @@ M.core = {
 
 M.setup = function() -- code to run before plugin loaded
   vim.g['cph#dir'] = '/Users/hawtian/Projects/competitive-programming'
-  vim.g['cph#lang'] = 'rust'
+  vim.g['cph#lang'] = 'cpp'
   vim.g['cph#rust#createjson'] = true
 
   local mapping = require 'ht.core.mapping'

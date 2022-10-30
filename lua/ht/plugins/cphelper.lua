@@ -10,6 +10,7 @@ M.setup = function() -- code to run before plugin loaded
   vim.g['cph#dir'] = '/Users/hawtian/Projects/competitive-programming'
   vim.g['cph#lang'] = 'cpp'
   vim.g['cph#rust#createjson'] = true
+  vim.g['cph#cpp#compile_command'] = 'g++ solution.cpp -std=c++20 -o cpp.out'
 
   local mapping = require 'ht.core.mapping'
   mapping.map {

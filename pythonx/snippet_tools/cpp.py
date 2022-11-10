@@ -21,7 +21,7 @@ _POSTFIX_BEGIN_END_VALUE = 'std::begin(`!p snip.rv = match.group(1)`), std::end(
 
 _POSTFIX_STD_MOVE_VALUE = 'std::move(`!p snip.rv = match.group(1)`)${0}'
 
-_POSTFIX_STD_FORWARD_VALUE = 'std::forward<${1}>(`!p snip.rv = match.group(1)`)${0}'
+_POSTFIX_STD_FORWARD_VALUE = 'std::forward<decltype(`!p snip.rv = match.group(1)`)>(`!p snip.rv = match.group(1)`)${0}'
 
 _POSTFIX_STD_DECLVAL_VALUE = 'std::declval<`!p snip.rv = match.group(1)`>()${0}'
 

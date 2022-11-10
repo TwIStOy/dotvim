@@ -81,6 +81,10 @@ snippet vec "std::vector" w
 std::vector<${1:type}> ${0:name};
 endsnippet
 
+snippet vst "std::vector<std::string>" w
+std::vector<std::string> 
+endsnippet
+
 snippet uptr "std::unique_ptr" w
 std::unique_ptr<${1:type}>(new $1{${2:args}})${0}
 endsnippet

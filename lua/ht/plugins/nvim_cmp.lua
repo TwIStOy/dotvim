@@ -60,6 +60,7 @@ M.config = function() -- code to run after plugin loaded
     },
     sources = {
       { name = "nvim_lsp" },
+      { name = "cmp_tabnine" },
       { name = "ultisnips" },
       { name = 'nvim_lsp_signature_help' },
       { name = 'path' },
@@ -109,7 +110,7 @@ M.config = function() -- code to run after plugin loaded
             latex_symbols = "[LaTeX]",
             cmdline_history = "[History]",
             cmdline = "[Command]",
-          })[entry.source.name]
+          })[entry.source.name] or entry.source.name
           return vim_item
         end,
       },

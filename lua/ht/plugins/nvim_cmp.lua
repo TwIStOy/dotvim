@@ -15,15 +15,20 @@ M.core = {
     'lukas-reineke/cmp-under-comparator',
     'hrsh7th/cmp-nvim-lsp-signature-help',
     'rcarriga/cmp-dap',
+    { 'zbirenbaum/copilot-cmp', requires = { 'zbirenbaum/copilot.lua' } },
   },
 }
 
 M.config = function() -- code to run after plugin loaded
   require("cmp_nvim_ultisnips").setup {}
 
+  -- init copilot
+  require'copilot'.setup()
+  require'copilot_cmp'.setup()
+
   local cmp = require 'cmp'
-  local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
-  local lspkind = require('lspkind')
+  local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
+  local lspkind = require 'lspkind'
 
   local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -60,7 +65,7 @@ M.config = function() -- code to run after plugin loaded
     },
     sources = {
       { name = "nvim_lsp" },
-      { name = "cmp_tabnine" },
+      { name = "copilot" },
       { name = "ultisnips" },
       { name = 'nvim_lsp_signature_help' },
       { name = 'path' },
@@ -96,6 +101,7 @@ M.config = function() -- code to run after plugin loaded
     formatting = {
       format = lspkind.cmp_format {
         maxwidth = 50,
+        ellipsis_char = '...',
         before = function(entry, vim_item)
           vim_item.menu = ({
             buffer = "[Buf]",
@@ -110,7 +116,7 @@ M.config = function() -- code to run after plugin loaded
             latex_symbols = "[LaTeX]",
             cmdline_history = "[History]",
             cmdline = "[Command]",
-          })[entry.source.name] or entry.source.name
+          })[entry.source.name] or ('[' .. entry.source.name .. ']')
           return vim_item
         end,
       },
@@ -121,6 +127,9 @@ M.config = function() -- code to run after plugin loaded
     end,
     sorting = {
       comparators = {
+        require"copilot_cmp.comparators".prioritize,
+        require"copilot_cmp.comparators".score,
+
         cmp.config.compare.offset,
         cmp.config.compare.exact,
         cmp.config.compare.score,

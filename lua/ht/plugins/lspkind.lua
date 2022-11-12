@@ -7,7 +7,7 @@ M.core = {
 M.setup = function() -- code to run before plugin loaded
   local lspkind = require 'lspkind'
 
-  lspkind.setup {
+  lspkind.init {
     mode = 'symbol_text',
 
     symbol_map = {
@@ -36,6 +36,7 @@ M.setup = function() -- code to run before plugin loaded
       Event = "",
       Operator = "",
       TypeParameter = " ",
+      Copilot = "",
     },
   }
 end

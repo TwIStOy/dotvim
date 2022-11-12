@@ -141,6 +141,9 @@ M.config = function() -- code to run after plugin loaded
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
   end
 
+  -- force utf16 only
+  capabilities.offsetEncoding = { 'utf-16' }
+
   require"clangd_extensions".setup {
     server = {
       cmd = {

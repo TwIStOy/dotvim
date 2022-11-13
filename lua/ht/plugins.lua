@@ -89,19 +89,32 @@ pkr.startup(function(use)
 
   loader:setup 'indent_guide'
 
+  --[[
   use {
     'projekt0n/github-nvim-theme',
     config = function()
       require("github-theme").setup {
         theme_style = 'dark',
-
         comment_style = "NONE",
-
         sidebars = { "qf", "vista_kind", "terminal", "packer" },
       }
     end,
   }
+  --]]
 
+  use {
+    'folke/tokyonight.nvim',
+    config = function()
+      require('tokyonight').setup {
+        style = 'storm',
+        styles = {
+          comments = {},
+        },
+        sidebars = { "qf", "vista_kind", "terminal", "packer" },
+      }
+      vim.cmd[[colorscheme tokyonight]]
+    end,
+  }
   --[[
   use {
     'EdenEast/nightfox.nvim',

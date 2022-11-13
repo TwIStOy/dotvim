@@ -89,18 +89,20 @@ pkr.startup(function(use)
 
   loader:setup 'indent_guide'
 
-  --[[
   use {
     'projekt0n/github-nvim-theme',
     config = function()
       require("github-theme").setup {
-        theme_style = 'dimmed',
+        theme_style = 'dark',
+
+        comment_style = "NONE",
+
         sidebars = { "qf", "vista_kind", "terminal", "packer" },
       }
     end,
   }
-  --]]
 
+  --[[
   use {
     'EdenEast/nightfox.nvim',
     config = function()
@@ -117,6 +119,7 @@ pkr.startup(function(use)
       vim.cmd("colorscheme nightfox")
     end,
   }
+  --]]
 
   loader:setup 'possession'
 

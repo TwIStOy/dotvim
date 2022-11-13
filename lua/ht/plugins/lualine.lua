@@ -3,8 +3,6 @@ local M = {}
 M.core = {
   'hoob3rt/lualine.nvim',
   requires = { 'kyazdani42/nvim-web-devicons' },
-  wants = 'nightfox.nvim',
-  after = 'nightfox.nvim',
 }
 
 local options = {

@@ -11,7 +11,7 @@ M.config = function() -- code to run after plugin loaded
     options = {
       view = 'multiwindow',
       hover = { enabled = true, delay = 200 },
-      separator_style = 'slant',
+      separator_style = 'thin',
       close_command = "Bdelete! %d",
       numbers = function(opts)
         return string.format('%s¬∑%s', opts.raise(opts.id),

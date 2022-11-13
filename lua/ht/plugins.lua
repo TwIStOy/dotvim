@@ -118,22 +118,7 @@ pkr.startup(function(use)
     end,
   }
 
-  use {
-    'jedrzejboczar/possession.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-    after = 'telescope.nvim',
-    config = function()
-      require'possession'.setup {
-        commands = {
-          save = 'SSave',
-          load = 'SLoad',
-          delete = 'SDelete',
-          list = 'SList',
-        },
-      }
-      require('telescope').load_extension('possession')
-    end,
-  }
+  loader:setup 'possession'
 
   loader:setup 'cphelper'
 

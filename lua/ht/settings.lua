@@ -159,6 +159,13 @@ for i = 1, 9 do
     end,
     desc = 'goto-win-' .. i,
   }
+  mapping.map {
+    keys = { ',', '' .. i },
+    action = function()
+      require'ht.core.window'.goto_window(i)
+    end,
+    desc = 'goto-win-' .. i,
+  }
 end
 
 mapping.append_folder_name({ '<leader>', 'f' }, 'file')

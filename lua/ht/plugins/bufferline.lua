@@ -10,7 +10,9 @@ M.config = function() -- code to run after plugin loaded
   require('bufferline').setup {
     options = {
       view = 'multiwindow',
-      separator_style = 'thin',
+      hover = { enabled = true, delay = 200 },
+      separator_style = 'slant',
+      close_command = "Bdelete! %d",
       numbers = function(opts)
         return string.format('%s¬∑%s', opts.raise(opts.id),
                              opts.lower(opts.ordinal))

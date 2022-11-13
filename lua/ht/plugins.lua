@@ -87,6 +87,8 @@ pkr.startup(function(use)
 
   loader:setup 'surround'
 
+  loader:setup 'indent_guide'
+
   --[[
   use {
     'projekt0n/github-nvim-theme',

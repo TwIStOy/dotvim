@@ -1,7 +1,6 @@
 local ts_utils = require 'nvim-treesitter.ts_utils'
 local import = require'ht.utils.import'.import
 local tbl_utils = require 'ht.utils.table'
-local middleclass = require 'middleclass'
 local TS = import 'ht.utils.ts'
 
 local M = {}
@@ -68,9 +67,19 @@ local function get_return_type_info(node)
     return ''
   end
 
-  local prefix = get_node_text(type_node)
+  local prefix = ''
+  local child_count = node:child_count()
 
   local declarator = node:field('declarator')[1]
+
+  for i = 0, child_count - 1, 1 do
+    local c = node:child(i)
+    if c:id() ~= declarator:id() then
+      prefix = prefix .. ' ' .. get_node_text(c)
+    else
+      break
+    end
+  end
 
   return prefix ..
              table.concat(

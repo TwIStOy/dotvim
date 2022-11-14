@@ -2,6 +2,7 @@ local M = {}
 
 M.core = {
   'goolord/alpha-nvim',
+  event = 'BufWinEnter',
   requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/plenary.nvim' },
 }
 

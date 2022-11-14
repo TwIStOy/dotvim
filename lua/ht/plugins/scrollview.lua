@@ -1,7 +1,8 @@
 local M = {}
 
-M.core = { 'dstein64/nvim-scrollview', opt = true }
+M.core = { 'dstein64/nvim-scrollview', opt = true, events = { 'BufReadPost' } }
 
+--[[
 M.setup = function() -- code to run before plugin loaded
   vim.g.scrollview_on_startup = 1
   vim.g.scrollview_current_only = 1
@@ -12,11 +13,10 @@ M.setup = function() -- code to run before plugin loaded
     require'packer'.loader 'nvim-scrollview'
   end, 2000)
 end
+--]]
 
-M.config = function() -- code to run after plugin loaded
-end
-
-M.mappings = function() -- code for mappings
+M.config = function()
+  require'scrollview'.setup({})
 end
 
 return M

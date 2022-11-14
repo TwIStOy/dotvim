@@ -135,7 +135,7 @@ pkr.startup(function(use)
 
   loader:setup 'possession'
 
-  loader:setup 'cphelper'
+  -- loader:setup 'cphelper'
 
   use { 'MTDL9/vim-log-highlighting', event = 'BufNewFile,BufRead *.log' }
 

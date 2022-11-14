@@ -8,8 +8,9 @@ M.core = {
       'nvim-treesitter/playground',
       cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
     },
-    'RRethy/nvim-treesitter-endwise',
+    { 'RRethy/nvim-treesitter-endwise', opt = true, after = 'nvim-treesitter' },
   },
+  event = { 'BufReadPost' },
 }
 
 M.config = function() -- code to run after plugin loaded

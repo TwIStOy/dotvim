@@ -6,7 +6,6 @@ M.core = {
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
-
     },
     { 'fhill2/telescope-ultisnips.nvim' },
     'nvim-lua/popup.nvim',
@@ -14,6 +13,7 @@ M.core = {
     "tami5/sqlite.lua",
     { "tami5/sql.nvim", opt = true },
   },
+  cmd = { 'Telescope' },
 }
 
 M.config = function() -- code to run after plugin loaded

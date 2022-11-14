@@ -3,20 +3,25 @@ local M = {}
 M.core = {
   'hrsh7th/nvim-cmp',
   requires = {
-    "quangnguyen30192/cmp-nvim-ultisnips",
-    'hrsh7th/cmp-cmdline',
-    'dmitmel/cmp-cmdline-history',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-calc',
-    'dmitmel/cmp-digraphs',
-    'f3fora/cmp-spell',
-    'hrsh7th/cmp-buffer',
-    'lukas-reineke/cmp-under-comparator',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    'rcarriga/cmp-dap',
-    { 'zbirenbaum/copilot-cmp', requires = { 'zbirenbaum/copilot.lua' } },
+    { "quangnguyen30192/cmp-nvim-ultisnips", after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
+    { 'dmitmel/cmp-cmdline-history', after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-calc', after = 'nvim-cmp' },
+    { 'dmitmel/cmp-digraphs', after = 'nvim-cmp' },
+    { 'f3fora/cmp-spell', after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
+    { 'lukas-reineke/cmp-under-comparator', after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help', after = 'nvim-cmp' },
+    { 'rcarriga/cmp-dap', after = 'nvim-cmp' },
+    {
+      'zbirenbaum/copilot-cmp',
+      requires = { 'zbirenbaum/copilot.lua' },
+      after = 'nvim-cmp',
+    },
   },
+  event = 'InsertEnter',
 }
 
 M.config = function() -- code to run after plugin loaded

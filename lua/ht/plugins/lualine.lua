@@ -3,6 +3,7 @@ local M = {}
 M.core = {
   'hoob3rt/lualine.nvim',
   requires = { 'kyazdani42/nvim-web-devicons' },
+  after = 'nvim-lspconfig',
 }
 
 local options = {

@@ -1,6 +1,10 @@
 local M = {}
 
-M.core = { 'folke/trouble.nvim', requires = { 'folke/lsp-colors.nvim' } }
+M.core = {
+  'folke/trouble.nvim',
+  requires = { 'folke/lsp-colors.nvim' },
+  cmd = { 'Trouble', 'TroubleClose', 'TroubleToggle', 'TroubleRefresh' },
+}
 
 M.config = function() -- code to run after plugin loaded
   require'trouble'.setup { use_diagnostic_signs = true }

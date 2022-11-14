@@ -3,6 +3,7 @@ local M = {}
 M.core = {
   'sindrets/diffview.nvim',
   requires = { 'kyazdani42/nvim-web-devicons' },
+  cmd = { 'DiffviewOpen' },
 }
 
 M.config = function() -- code to run after plugin loaded

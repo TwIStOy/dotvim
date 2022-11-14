@@ -74,7 +74,7 @@ local function on_buffer_attach(client, bufnr)
   end
 end
 
-M.setup = function() -- code to run before plugin loaded
+M.config = function() -- code to run after plugin loaded
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
       vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false,
@@ -90,6 +90,7 @@ M.setup = function() -- code to run before plugin loaded
                                                        vim.lsp.handlers
                                                            .signature_help,
                                                        { border = "rounded" })
+
   require'ht.core.event'.on('CursorHold', {
     pattern = '*',
     callback = function()
@@ -97,6 +98,7 @@ M.setup = function() -- code to run before plugin loaded
     end,
   })
 
+  require'fidget'.setup {}
   require'nvim-navic'.setup {
     icons = {
       File = ' ',
@@ -127,11 +129,6 @@ M.setup = function() -- code to run before plugin loaded
       TypeParameter = ' ',
     },
   }
-
-end
-
-M.config = function() -- code to run after plugin loaded
-  require'fidget'.setup {}
 
   vim.api.nvim_command [[packadd cmp-nvim-lsp]]
 

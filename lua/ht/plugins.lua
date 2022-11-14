@@ -88,7 +88,7 @@ pkr.startup(function(use)
   loader:setup 'surround'
 
   -- NOTE(hawtian): maybe performance problem
-  -- loader:setup 'indent_guide'
+  loader:setup 'indent_guide'
 
   --[[
   use {
@@ -108,12 +108,10 @@ pkr.startup(function(use)
     config = function()
       require('tokyonight').setup {
         style = 'storm',
-        styles = {
-          comments = {},
-        },
+        styles = { comments = {} },
         sidebars = { "qf", "vista_kind", "terminal", "packer" },
       }
-      vim.cmd[[colorscheme tokyonight]]
+      vim.cmd [[colorscheme tokyonight]]
     end,
   }
   --[[
@@ -216,6 +214,8 @@ pkr.startup(function(use)
     end,
     cmd = { 'AngryReviewer' },
   }
+
+  loader:setup 'copilot'
 
   loader:setup 'nvim_cmp'
 

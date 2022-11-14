@@ -1,10 +1,14 @@
 local M = {}
 
-M.core = { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+M.core = {
+  'lewis6991/gitsigns.nvim',
+  requires = { 'nvim-lua/plenary.nvim' },
+  event = { 'BufReadPost', 'BufNewFile' },
+}
 
 M.config = function() -- code to run after plugin loaded
   require'gitsigns'.setup {
-    debug_mode = true,
+    debug_mode = false,
     attach_to_untracked = false,
     current_line_blame = true,
     current_line_blame_opts = { virt_text = true, delay = 200 },

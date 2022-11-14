@@ -3,7 +3,7 @@ local M = {}
 M.core = {
   'TwIStOy/ultisnips',
   ft = { 'cpp', 'c', 'markdown', 'vimwiki', 'rust', 'go', 'python', 'snippet' },
-  event = 'InsertEnter',
+  after = 'nvim-cmp',
 }
 
 M.config = function() -- code to run after plugin loaded

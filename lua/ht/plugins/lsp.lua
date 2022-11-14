@@ -11,6 +11,8 @@ M.core = {
     'hrsh7th/nvim-cmp',
     'SmiteshP/nvim-navic',
   },
+  opt = true,
+  event = 'BufReadPre',
 }
 
 local function on_buffer_attach(client, bufnr)
@@ -130,6 +132,8 @@ end
 
 M.config = function() -- code to run after plugin loaded
   require'fidget'.setup {}
+
+  vim.api.nvim_command [[packadd cmp-nvim-lsp]]
 
   local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp
                                                                       .protocol

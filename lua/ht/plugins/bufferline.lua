@@ -4,6 +4,7 @@ M.core = {
   'akinsho/bufferline.nvim',
   tag = 'v2.*',
   requires = { 'kyazdani42/nvim-web-devicons' },
+  event = 'BufReadPost',
 }
 
 M.config = function() -- code to run after plugin loaded

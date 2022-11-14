@@ -3,22 +3,25 @@ local M = {}
 M.core = {
   'hrsh7th/nvim-cmp',
   requires = {
-    { "quangnguyen30192/cmp-nvim-ultisnips", after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
-    { 'dmitmel/cmp-cmdline-history', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-calc', after = 'nvim-cmp' },
-    { 'dmitmel/cmp-digraphs', after = 'nvim-cmp' },
-    { 'f3fora/cmp-spell', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
-    { 'lukas-reineke/cmp-under-comparator', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-nvim-lsp-signature-help', after = 'nvim-cmp' },
-    { 'rcarriga/cmp-dap', after = 'nvim-cmp' },
+    { 'onsails/lspkind.nvim' },
+    { 'lukas-reineke/cmp-under-comparator' },
+
+    -- all should be loaded in-order
+    { "quangnguyen30192/cmp-nvim-ultisnips", after = 'ultisnips' },
+    { 'hrsh7th/cmp-cmdline', after = 'cmp-nvim-ultisnips' },
+    { 'dmitmel/cmp-cmdline-history', after = 'cmp-cmdline' },
+    { 'hrsh7th/cmp-nvim-lsp', after = 'cmp-cmdline-history' },
+    { 'hrsh7th/cmp-path', after = 'cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-calc', after = 'cmp-path' },
+    { 'dmitmel/cmp-digraphs', after = 'cmp-calc' },
+    { 'f3fora/cmp-spell', after = 'cmp-digraphs' },
+    { 'hrsh7th/cmp-buffer', after = 'cmp-spell' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help', after = 'cmp-buffer' },
+    { 'rcarriga/cmp-dap', after = 'cmp-nvim-lsp-signature-help' },
     {
       'zbirenbaum/copilot-cmp',
       requires = { 'zbirenbaum/copilot.lua' },
-      after = 'nvim-cmp',
+      after = 'copilot.lua',
     },
   },
   event = 'InsertEnter',
@@ -28,11 +31,9 @@ M.config = function() -- code to run after plugin loaded
   require("cmp_nvim_ultisnips").setup {}
 
   -- init copilot
-  require'copilot'.setup()
   require'copilot_cmp'.setup()
 
   local cmp = require 'cmp'
-  local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
   local lspkind = require 'lspkind'
 
   local has_words_before = function()
@@ -100,9 +101,11 @@ M.config = function() -- code to run after plugin loaded
       ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i' }),
       ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i' }),
       ['<C-f>'] = cmp.mapping(function(fallback)
+        local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
         cmp_ultisnips_mappings.compose { "expand", "jump_forwards" }(fallback)
       end, { 'i', 's' }),
       ['<C-b>'] = cmp.mapping(function(fallback)
+        local cmp_ultisnips_mappings = require "cmp_nvim_ultisnips.mappings"
         cmp_ultisnips_mappings.compose { "jump_backwards" }(fallback)
       end, { 'i', 's' }),
     },

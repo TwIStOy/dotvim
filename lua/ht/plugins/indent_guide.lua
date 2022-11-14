@@ -3,6 +3,7 @@ local M = {}
 M.core = {
   'lukas-reineke/indent-blankline.nvim',
   requires = { 'nvim-treesitter/nvim-treesitter' },
+  event = 'BufReadPost',
 }
 
 M.config = function() -- code to run after plugin loaded

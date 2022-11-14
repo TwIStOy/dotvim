@@ -196,7 +196,9 @@ function M.extract_function_signature_from_node(node)
     sig.template = {}
     for i = 0, parameters_node:child_count() - 1, 1 do
       local c = parameters_node:child(i)
-      if c:type() == 'type_parameter_declaration' then
+
+      if c:type() == 'type_parameter_declaration' or c:type() ==
+          'variadic_type_parameter_declaration' then
         table.insert(sig.template, get_node_text(c))
       end
     end
@@ -205,7 +207,8 @@ function M.extract_function_signature_from_node(node)
   local parameters_node = function_declarator_node:field('parameters')[1]
   for i = 0, parameters_node:child_count() - 1, 1 do
     local c = parameters_node:child(i)
-    if c:type() == 'parameter_declaration' then
+    if c:type() == 'parameter_declaration' or c:type() ==
+        'variadic_parameter_declaration' then
       table.insert(sig.parameters, get_node_text(c))
     end
   end

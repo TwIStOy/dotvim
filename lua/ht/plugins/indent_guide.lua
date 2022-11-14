@@ -19,6 +19,7 @@ M.config = function() -- code to run after plugin loaded
     show_current_context = true,
     show_current_context_start = true,
     context_highlight_list = { 'IndentBlanklineIndent3' },
+    context_char_list = {'▏'},
     char = '▏',
 
     bufname_exclude = { '' },

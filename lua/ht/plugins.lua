@@ -207,6 +207,7 @@ pkr.startup(function(use)
 
   use 'rcarriga/nvim-notify'
 
+  --[[
   use {
     'anufrievroman/vim-angry-reviewer',
     setup = function()
@@ -214,6 +215,7 @@ pkr.startup(function(use)
     end,
     cmd = { 'AngryReviewer' },
   }
+  --]]
 
   loader:setup 'copilot'
 

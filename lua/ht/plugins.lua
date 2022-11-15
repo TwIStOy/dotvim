@@ -20,11 +20,10 @@ init_packer()
 local pkr = require 'packer'
 local util = require 'packer.util'
 
-pkr.init({
+local packer_init_config = {
   ensure_dependencies = true,
   opt_default = false,
   transitive_opt = false,
-  max_jobs = 4,
   display = {
     auto_clean = false,
     open_fn = function()
@@ -34,14 +33,17 @@ pkr.init({
   profile = { enable = true, threshold = 1 },
   compile_path = util.join_paths(vim.fn.stdpath('config'), 'lua',
                                  'packer_compiled.lua'),
-})
+}
+
+if vim.loop.os_uname().sysname == 'Darwin' then
+  packer_init_config.max_jobs = 6
+end
+
+pkr.init(packer_init_config)
 
 local loader
 pkr.startup(function(use)
   loader = require'ht.plugins.init'.loader:new(use)
-  local use_config = require'ht.plugins.init'.use_config
-  local use_setup = require'ht.plugins.init'.use_config
-  local get_mappings = require'ht.plugins.init'.get_mappings
 
   use 'wbthomason/packer.nvim'
 
@@ -114,6 +116,7 @@ pkr.startup(function(use)
       vim.cmd [[colorscheme tokyonight]]
     end,
   }
+
   --[[
   use {
     'EdenEast/nightfox.nvim',

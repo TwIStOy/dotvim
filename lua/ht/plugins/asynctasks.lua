@@ -3,7 +3,7 @@ local M = {}
 M.core = {
   'skywind3000/asynctasks.vim',
   cmd = { 'AsyncTask', 'AsyncTaskMacro', 'AsyncTaskProfile', 'AsyncTaskEdit' },
-  wants = { 'asyncrun.vim' },
+  after = { 'asyncrun.vim' },
   requires = { { 'skywind3000/asyncrun.vim', cmd = { 'AsyncRun', 'AsyncStop' } } },
 }
 

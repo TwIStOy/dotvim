@@ -3,7 +3,13 @@ local M = {}
 M.core = {
   'neovim/nvim-lspconfig',
   requires = {
-    { 'j-hui/fidget.nvim', event = 'BufReadPost' },
+    {
+      'j-hui/fidget.nvim',
+      event = 'BufReadPost',
+      config = function()
+        require'fidget'.setup { window = { blend = 0 } }
+      end,
+    },
     'simrat39/symbols-outline.nvim',
     'p00f/clangd_extensions.nvim',
     'simrat39/rust-tools.nvim',
@@ -98,7 +104,6 @@ M.config = function() -- code to run after plugin loaded
     end,
   })
 
-  require'fidget'.setup { window = { blend = 0 } }
   require'nvim-navic'.setup {
     icons = {
       File = ' ',

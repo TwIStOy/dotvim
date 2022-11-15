@@ -1,5 +1,5 @@
-require'ht.plugins'
-require'ht.settings'
+require 'ht.plugins'
+require 'ht.settings'
 
-local mkdir = require'ht.features.mkdir'
+local mkdir = require 'ht.features.mkdir'
 mkdir.register_create_directory_before_save()

@@ -7,7 +7,6 @@ M.core = {
       'nvim-telescope/telescope-fzf-native.nvim',
       run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
     },
-    { 'fhill2/telescope-ultisnips.nvim' },
     'nvim-lua/popup.nvim',
     'nvim-lua/plenary.nvim',
     "tami5/sqlite.lua",
@@ -18,7 +17,6 @@ M.core = {
 
 M.config = function() -- code to run after plugin loaded
   require('telescope').load_extension('fzf')
-  require('telescope').load_extension('ultisnips')
 
   local actions = require 'telescope.actions'
 

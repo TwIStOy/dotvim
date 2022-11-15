@@ -10,8 +10,8 @@ M.config = function() -- code to run after plugin loaded
   require'gitsigns'.setup {
     debug_mode = false,
     attach_to_untracked = false,
-    current_line_blame = true,
-    current_line_blame_opts = { virt_text = true, delay = 200 },
+    -- current_line_blame = true,
+    -- current_line_blame_opts = { virt_text = true, delay = 200 },
   }
   require'gitsigns.highlight'.setup_highlights()
 end

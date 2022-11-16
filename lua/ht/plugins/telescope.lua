@@ -9,7 +9,7 @@ M.core = {
     },
     'nvim-lua/popup.nvim',
     'nvim-lua/plenary.nvim',
-    "tami5/sqlite.lua",
+    { "tami5/sqlite.lua", event = 'BufReadPost' },
     { "tami5/sql.nvim", opt = true },
   },
   cmd = { 'Telescope' },

@@ -10,12 +10,15 @@ M.core = {
         require'fidget'.setup { window = { blend = 0 } }
       end,
     },
-    'simrat39/symbols-outline.nvim',
-    'p00f/clangd_extensions.nvim',
-    'simrat39/rust-tools.nvim',
-    'onsails/lspkind-nvim',
+    {
+      'simrat39/symbols-outline.nvim',
+      cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
+    },
+    { 'p00f/clangd_extensions.nvim', module = 'clangd_extensions' },
+    { 'simrat39/rust-tools.nvim', opt = true },
+    { 'SmiteshP/nvim-navic', opt = true },
+    'onsails/lspkind.nvim',
     'hrsh7th/nvim-cmp',
-    'SmiteshP/nvim-navic',
   },
   opt = true,
   event = 'BufReadPre',
@@ -104,6 +107,10 @@ M.config = function() -- code to run after plugin loaded
     end,
   })
 
+  vim.cmd [[packadd nvim-navic]]
+  vim.cmd [[packadd rust-tools.nvim]]
+  vim.cmd [[packadd cmp-nvim-lsp]]
+
   require'nvim-navic'.setup {
     icons = {
       File = ' ',
@@ -134,8 +141,6 @@ M.config = function() -- code to run after plugin loaded
       TypeParameter = ' ',
     },
   }
-
-  vim.api.nvim_command [[packadd cmp-nvim-lsp]]
 
   local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp
                                                                       .protocol

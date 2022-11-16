@@ -57,7 +57,7 @@ pkr.startup(function(use)
 
   use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
 
-  use 'stevearc/dressing.nvim'
+  -- use 'stevearc/dressing.nvim'
 
   loader:setup 'asynctasks'
 
@@ -105,7 +105,6 @@ pkr.startup(function(use)
   }
   --]]
 
-  --[[
   use {
     'folke/tokyonight.nvim',
     config = function()
@@ -117,7 +116,6 @@ pkr.startup(function(use)
       vim.cmd 'colorscheme tokyonight'
     end,
   }
-  --]]
 
   --[[
   use {
@@ -331,6 +329,7 @@ pkr.startup(function(use)
   }
   --]]
 
+  --[[
   use {
     'EdenEast/nightfox.nvim',
     config = function()
@@ -347,6 +346,7 @@ pkr.startup(function(use)
       vim.cmd("colorscheme nightfox")
     end,
   }
+  --]]
 
   loader:setup 'possession'
 
@@ -437,7 +437,11 @@ pkr.startup(function(use)
 
   use {
     'rcarriga/nvim-dap-ui',
-    requires = { 'mfussenegger/nvim-dap', 'theHamsta/nvim-dap-virtual-text' },
+    opt = true,
+    requires = {
+      { 'mfussenegger/nvim-dap', opt = true },
+      { 'theHamsta/nvim-dap-virtual-text', opt = true },
+    },
   }
 
   use {

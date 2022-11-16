@@ -3,7 +3,10 @@ local M = {}
 M.core = {
   'kyazdani42/nvim-tree.lua',
   opt = true,
-  requires = { 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim' },
+  requires = {
+    'kyazdani42/nvim-web-devicons',
+    { 'MunifTanjim/nui.nvim', opt = true },
+  },
 }
 
 M.config = function() -- code to run after plugin loaded
@@ -48,6 +51,7 @@ local jump_to_nvim_tree = function()
   end
 
   -- force load nvim-tree and open window
+  local name = 'nvim-tree.lua'
   if not (packer_plugins and packer_plugins[name] and
       packer_plugins[name].loaded) then
     require'packer'.loader 'nvim-tree.lua'
@@ -56,6 +60,12 @@ local jump_to_nvim_tree = function()
 end
 
 local change_root = function()
+  local name = 'nui.nvim'
+  if not (packer_plugins and packer_plugins[name] and
+      packer_plugins[name].loaded) then
+    require'packer'.loader 'nui.nvim'
+  end
+
   local input = require 'nui.input'
   local event = require'nui.utils.autocmd'.event
   local input_box = input({

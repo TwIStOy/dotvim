@@ -4,7 +4,6 @@ M.core = {
   'hrsh7th/nvim-cmp',
   requires = {
     { 'onsails/lspkind.nvim' },
-    { 'lukas-reineke/cmp-under-comparator' },
 
     -- all should be loaded in-order
     { "quangnguyen30192/cmp-nvim-ultisnips", after = 'ultisnips' },
@@ -17,7 +16,8 @@ M.core = {
     { 'f3fora/cmp-spell', after = 'cmp-digraphs' },
     { 'hrsh7th/cmp-buffer', after = 'cmp-spell' },
     { 'hrsh7th/cmp-nvim-lsp-signature-help', after = 'cmp-buffer' },
-    { 'rcarriga/cmp-dap', after = 'cmp-nvim-lsp-signature-help' },
+    -- { 'rcarriga/cmp-dap', after = 'cmp-nvim-lsp-signature-help' },
+    { 'lukas-reineke/cmp-under-comparator', module = 'cmp-under-comparator' },
     {
       'zbirenbaum/copilot-cmp',
       requires = { 'zbirenbaum/copilot.lua' },
@@ -168,8 +168,10 @@ M.config = function() -- code to run after plugin loaded
     },
   })
 
+  --[[
   require("cmp").setup.filetype({ "dap-repl", "dapui_watches" },
                                 { sources = { { name = "dap" } } })
+  --]]
 end
 
 M.mappings = function() -- code for mappings

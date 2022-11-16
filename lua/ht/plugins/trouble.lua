@@ -2,7 +2,7 @@ local M = {}
 
 M.core = {
   'folke/trouble.nvim',
-  requires = { 'folke/lsp-colors.nvim' },
+  requires = { { 'folke/lsp-colors.nvim', event = 'BufReadPost' } },
   cmd = { 'Trouble', 'TroubleClose', 'TroubleToggle', 'TroubleRefresh' },
 }
 

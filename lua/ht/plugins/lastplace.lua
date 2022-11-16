@@ -1,6 +1,6 @@
 local M = {}
 
-M.core = { 'ethanholz/nvim-lastplace' }
+M.core = { 'ethanholz/nvim-lastplace', event = 'BufReadPre' }
 
 M.config = function() -- code to run after plugin loaded
   require'nvim-lastplace'.setup {

@@ -1,7 +1,9 @@
 local M = {}
 
 M.core = {
-  'onsails/lspkind.nvim'
+  'onsails/lspkind.nvim',
+  module = { 'lspkind' },
+  event = { 'BufReadPre' },
 }
 
 M.setup = function() -- code to run before plugin loaded

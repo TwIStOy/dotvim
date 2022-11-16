@@ -119,6 +119,7 @@ pkr.startup(function(use)
   }
   --]]
 
+  --[[
   use {
     'catppuccin/nvim',
     as = 'catppuccin',
@@ -328,8 +329,8 @@ pkr.startup(function(use)
       vim.cmd 'colorscheme catppuccin'
     end,
   }
+  --]]
 
-  --[[
   use {
     'EdenEast/nightfox.nvim',
     config = function()
@@ -346,7 +347,6 @@ pkr.startup(function(use)
       vim.cmd("colorscheme nightfox")
     end,
   }
-  --]]
 
   loader:setup 'possession'
 

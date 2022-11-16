@@ -1,6 +1,6 @@
 local M = {}
 
-M.core = { 'osyo-manga/vim-jplus' }
+M.core = { 'osyo-manga/vim-jplus', opt = true }
 
 M.setup = function() -- code to run before plugin loaded
   vim.defer_fn(function()

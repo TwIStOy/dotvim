@@ -1,6 +1,6 @@
 local M = {}
 
-M.core = { 'sbdchd/neoformat', event = 'BufRead' }
+M.core = { 'sbdchd/neoformat', event = 'BufReadPost' }
 
 M.setup = function() -- code to run before plugin loaded
   vim.g.neoformat_only_msg_on_error = 1

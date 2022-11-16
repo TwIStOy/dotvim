@@ -1,11 +1,11 @@
 local M = {}
 
-M.core = { 'zbirenbaum/copilot.lua', event = 'VimEnter' }
+M.core = { 'zbirenbaum/copilot.lua', event = 'BufReadPost' }
 
 M.config = function() -- code to run after plugin loaded
-  vim.defer_fn(function()
+  vim.schedule(function()
     require'copilot'.setup()
-  end, 100)
+  end)
 end
 
 return M

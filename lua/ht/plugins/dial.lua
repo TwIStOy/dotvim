@@ -1,6 +1,6 @@
 local M = {}
 
-M.core = { 'monaqa/dial.nvim', event = 'VimEnter' }
+M.core = { 'monaqa/dial.nvim', event = 'BufReadPost' }
 
 M.config = function() -- code to run after plugin loaded
   local augend = require 'dial.augend'

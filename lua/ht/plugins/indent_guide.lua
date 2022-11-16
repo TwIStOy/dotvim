@@ -3,6 +3,7 @@ local M = {}
 M.core = {
   'lukas-reineke/indent-blankline.nvim',
   requires = { 'nvim-treesitter/nvim-treesitter' },
+  after = 'nvim-treesitter',
   event = 'BufReadPost',
 }
 

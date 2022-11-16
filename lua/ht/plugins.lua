@@ -90,7 +90,7 @@ pkr.startup(function(use)
   loader:setup 'surround'
 
   -- NOTE(hawtian): maybe performance problem
-  -- loader:setup 'indent_guide'
+  loader:setup 'indent_guide'
 
   --[[
   use {

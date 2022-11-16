@@ -1,12 +1,12 @@
 local M = {}
 
-M.core = { 'tomtom/tcomment_vim', opt = true }
+M.core = { 'tomtom/tcomment_vim', event = 'BufReadPost' }
 
 M.setup = function() -- code to run before plugin loaded
   vim.g.tcomment_maps = 0
-  vim.defer_fn(function()
+  vim.schedule(function()
     require'packer'.loader('tcomment_vim')
-  end, 700)
+  end)
 end
 
 M.config = function() -- code to run after plugin loaded

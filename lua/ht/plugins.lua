@@ -423,6 +423,8 @@ pkr.startup(function(use)
 
   loader:setup 'copilot'
 
+  loader:setup 'lspkind'
+
   loader:setup 'nvim_cmp'
 
   use {

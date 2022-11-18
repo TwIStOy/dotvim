@@ -115,26 +115,27 @@ M.config = function() -- code to run after plugin loaded
         ellipsis_char = '...',
         before = function(entry, vim_item)
           vim_item.menu = ({
-            buffer = "[Buf]",
-            nvim_lsp = "[LSP]",
-            ultisnips = "[Snip]",
-            nvim_lua = "[Lua]",
-            orgmode = "[Org]",
-            path = "[Path]",
-            dap = "[DAP]",
-            emoji = "[Emoji]",
-            calc = "[CALC]",
-            latex_symbols = "[LaTeX]",
-            cmdline_history = "[History]",
-            cmdline = "[Command]",
+            buffer = '[Buf]',
+            nvim_lsp = '[LSP]',
+            ultisnips = '[Snip]',
+            nvim_lua = '[Lua]',
+            orgmode = '[Org]',
+            path = '[Path]',
+            dap = '[DAP]',
+            emoji = '[Emoji]',
+            calc = '[CALC]',
+            latex_symbols = '[LaTeX]',
+            cmdline_history = '[History]',
+            cmdline = '[Command]',
+            copilot = '[Copilot]',
           })[entry.source.name] or ('[' .. entry.source.name .. ']')
           return vim_item
         end,
       },
     },
     enabled = function()
-      return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or
-                 require("cmp_dap").is_dap_buffer()
+      return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+      -- or require("cmp_dap").is_dap_buffer()
     end,
     sorting = {
       comparators = {

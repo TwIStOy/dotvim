@@ -6,7 +6,7 @@ M.core = {
   event = { 'BufReadPre' },
 }
 
-M.setup = function() -- code to run before plugin loaded
+M.config = function() -- code to run after plugin loaded
   local lspkind = require 'lspkind'
 
   lspkind.init {
@@ -41,12 +41,6 @@ M.setup = function() -- code to run before plugin loaded
       Copilot = "",
     },
   }
-end
-
-M.config = function() -- code to run after plugin loaded
-end
-
-M.mappings = function() -- code for mappings
 end
 
 return M

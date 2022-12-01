@@ -13,8 +13,6 @@ M.config = function() -- code to run after plugin loaded
     diff_binaries = false,
     enhanced_diff_hl = true,
     use_icons = true,
-    icons = { folder_closed = "Óóø", folder_open = "Óóæ" },
-    signs = { fold_closed = "Ôë†", fold_open = "Ôëº" },
     file_panel = {
       win_config = { position = "left", width = 35, height = 10 },
       listing_style = "tree",
@@ -41,7 +39,10 @@ M.config = function() -- code to run after plugin loaded
         },
       },
     },
-    default_args = { DiffviewOpen = {}, DiffviewFileHistory = {} },
+    default_args = {
+      DiffviewOpen = { 'origin/master...HEAD' },
+      DiffviewFileHistory = {},
+    },
     key_bindings = {
       disable_defaults = false, -- Disable the default key bindings
       -- The `view` bindings are active in the diff buffers, only when the current

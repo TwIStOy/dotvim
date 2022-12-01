@@ -105,6 +105,7 @@ pkr.startup(function(use)
   }
   --]]
 
+  --[[
   use {
     'folke/tokyonight.nvim',
     config = function()
@@ -116,8 +117,8 @@ pkr.startup(function(use)
       vim.cmd 'colorscheme tokyonight'
     end,
   }
+  --]]
 
-  --[[
   use {
     'catppuccin/nvim',
     as = 'catppuccin',
@@ -327,7 +328,6 @@ pkr.startup(function(use)
       vim.cmd 'colorscheme catppuccin'
     end,
   }
-  --]]
 
   --[[
   use {

@@ -112,6 +112,7 @@ M.config = function() -- code to run after plugin loaded
   vim.cmd [[packadd cmp-nvim-lsp]]
 
   require'nvim-navic'.setup {
+    highlight = true,
     icons = {
       File = ' ',
       Module = ' ',

@@ -5,10 +5,12 @@ M.core = {
   tag = 'v2.*',
   requires = { 'kyazdani42/nvim-web-devicons' },
   event = 'BufReadPost',
+  after = 'catppuccin',
 }
 
 M.config = function() -- code to run after plugin loaded
   require('bufferline').setup {
+    highlights = require("catppuccin.groups.integrations.bufferline").get(),
     options = {
       view = 'multiwindow',
       hover = { enabled = true, delay = 200 },

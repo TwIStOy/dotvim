@@ -129,6 +129,7 @@ pkr.startup(function(use)
               information = { "underline" },
             },
           },
+          navic = { enabled = true, custom_bg = "NONE" },
           lsp_trouble = true,
           gitsigns = true,
           telescope = true,

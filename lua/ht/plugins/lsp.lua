@@ -19,6 +19,7 @@ M.core = {
     { 'SmiteshP/nvim-navic', opt = true },
     'onsails/lspkind.nvim',
     'hrsh7th/nvim-cmp',
+    -- 'williamboman/mason.nvim',
   },
   opt = true,
   event = 'BufReadPre',
@@ -84,6 +85,20 @@ local function on_buffer_attach(client, bufnr)
 end
 
 M.config = function() -- code to run after plugin loaded
+  --[[
+  require("mason").setup {
+    ui = {
+      icons = {
+        package_installed = "✓",
+        package_pending = "➜",
+        package_uninstalled = "✗",
+      },
+    },
+    pip = { install_args = { '-i', 'https://pypi.tuna.tsinghua.edu.cn/simple' } },
+
+  }
+  --]]
+
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
       vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false,

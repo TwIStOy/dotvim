@@ -106,6 +106,7 @@ M.config = function() -- code to run after plugin loaded
         update_in_insert = false,
         underline = true,
       })
+
   --[[
   vim.lsp.handlers["textDocument/hover"] =
       vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -128,7 +129,7 @@ M.config = function() -- code to run after plugin loaded
   vim.cmd [[packadd cmp-nvim-lsp]]
 
   require'nvim-navic'.setup {
-    highlight = true,
+    highlight = false,
     icons = {
       File = ' ',
       Module = ' ',

@@ -34,7 +34,10 @@ M.config = function() -- code to run after plugin loaded
       'make',
       'proto',
       'markdown',
+      'markdown_inline',
       'vim',
+      'bash',
+      'regex',
     },
     highlight = {
       enable = true, -- false will disable the whole extension

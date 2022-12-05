@@ -241,6 +241,8 @@ pkr.startup(function(use)
 
   loader:setup 'copilot'
 
+  loader:setup 'noice'
+
   loader:setup 'lspkind'
 
   loader:setup 'nvim_cmp'

@@ -1,11 +1,11 @@
 local M = {}
 
 M.core = {
-  'kyazdani42/nvim-tree.lua',
+  'nvim-tree/nvim-tree.lua',
   opt = true,
   requires = {
-    'kyazdani42/nvim-web-devicons',
-    { 'MunifTanjim/nui.nvim', opt = true },
+    'nvim-tree/nvim-web-devicons',
+    'MunifTanjim/nui.nvim',
   },
 }
 

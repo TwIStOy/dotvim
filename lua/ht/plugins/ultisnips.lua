@@ -2,7 +2,7 @@ local M = {}
 
 M.core = {
   'TwIStOy/ultisnips',
-  ft = { 'cpp', 'c', 'markdown', 'vimwiki', 'rust', 'go', 'python', 'snippet' },
+  -- ft = { 'cpp', 'c', 'markdown', 'vimwiki', 'rust', 'go', 'python', 'snippet' },
   opt = true,
   after = 'nvim-cmp',
 }

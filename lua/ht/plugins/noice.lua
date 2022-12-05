@@ -8,8 +8,16 @@ M.core = {
 M.config = function() -- code to run after plugin loaded
   require('noice').setup {
     lsp = {
-      signature = { enabled = false, auto_open = false },
-      hover = { enabled = false },
+      signature = { enabled = true, auto_open = false },
+      hover = { enabled = true },
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+        ["cmp.entry.get_documentation"] = true,
+      },
+    },
+    messages = {
+      enabled = false,
     },
     presets = {
       bottom_search = false,

@@ -106,7 +106,7 @@ M.config = function() -- code to run after plugin loaded
         update_in_insert = false,
         underline = true,
       })
-
+  --[[
   vim.lsp.handlers["textDocument/hover"] =
       vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
@@ -114,6 +114,7 @@ M.config = function() -- code to run after plugin loaded
                                                        vim.lsp.handlers
                                                            .signature_help,
                                                        { border = "rounded" })
+  --]]
 
   require'ht.core.event'.on('CursorHold', {
     pattern = '*',

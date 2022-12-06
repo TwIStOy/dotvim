@@ -92,6 +92,7 @@ pkr.startup(function(use)
   -- NOTE(hawtian): maybe performance problem
   loader:setup 'indent_guide'
 
+  --[[
   use {
     'catppuccin/nvim',
     as = 'catppuccin',
@@ -146,8 +147,43 @@ pkr.startup(function(use)
       vim.cmd 'colorscheme catppuccin'
     end,
   }
+  --]]
 
   --[[
+  use {
+    'katawful/kat.nvim',
+    tag = '3.1',
+    config = function()
+      vim.cmd 'colorscheme kat.nvim'
+    end,
+  }
+  --]]
+
+  --[[
+  use {
+    'uloco/bluloco.nvim',
+    requires = { 'rktjmp/lush.nvim' },
+    config = function()
+      require("bluloco").setup({
+        style = "auto",
+        transparent = false,
+        italics = false,
+      })
+      vim.cmd('colorscheme bluloco')
+    end,
+  }
+  --]]
+
+  --[[
+  use {
+    'luisiacc/gruvbox-baby',
+    branch = 'main',
+    config = function()
+      vim.cmd 'colorscheme gruvbox-baby'
+    end,
+  }
+  --]]
+
   use {
     'EdenEast/nightfox.nvim',
     config = function()
@@ -164,7 +200,6 @@ pkr.startup(function(use)
       vim.cmd("colorscheme nightfox")
     end,
   }
-  --]]
 
   loader:setup 'possession'
 

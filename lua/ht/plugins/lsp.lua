@@ -118,6 +118,20 @@ M.config = function() -- code to run after plugin loaded
         vim.cmd 'ClangdTypeHierarchy'
       end,
     }),
+    Menu.item("Clangd More", {
+      items = {
+        Menu.item("View AST", {
+          action = function()
+            vim.cmd 'ClangdAST'
+          end,
+        }),
+        Menu.item("Memory Usage", {
+          action = function()
+            vim.cmd 'ClangdMemoryUsage'
+          end,
+        }),
+      },
+    }),
   })
 
   menu:append_section("rust", {
@@ -299,6 +313,8 @@ M.config = function() -- code to run after plugin loaded
           TemplateParamObject = "🅃",
         },
       },
+      memory_usage = { border = "rounded" },
+      symbol_info = { border = "rounded" },
     },
   }
 

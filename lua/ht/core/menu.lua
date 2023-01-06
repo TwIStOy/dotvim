@@ -140,6 +140,11 @@ local function display_menu(_sections, winnr, r, c, previous)
       close = { "<ESC>", "<C-c>", "h" },
       submit = { "<CR>" },
     },
+    on_close = function()
+      if previous == nil then
+        vim.api.nvim_set_current_win(winnr)
+      end
+    end,
     on_change = function(item, m)
       -- complex menu item, open sub-menu
       local pos = nil
@@ -174,9 +179,11 @@ local function display_menu(_sections, winnr, r, c, previous)
 end
 
 M.show_menu = function(self)
+  local first_line = F.line('w0')
   local r, c = unpack(vim.api.nvim_win_get_cursor(0))
-  display_menu(self:get_ft_sections(vim.bo.filetype),
-               vim.api.nvim_get_current_win(), r + 1, c + 8)
+  local winnr = vim.api.nvim_get_current_win()
+  display_menu(self:get_ft_sections(vim.bo.filetype), winnr,
+               r - first_line + 1 + 1, c + 8)
 end
 
 return M

@@ -3,6 +3,7 @@ local M = {}
 M.core = {
   'neovim/nvim-lspconfig',
   requires = {
+    --[[
     {
       'j-hui/fidget.nvim',
       event = 'BufReadPost',
@@ -10,6 +11,7 @@ M.core = {
         require'fidget'.setup { window = { blend = 0 } }
       end,
     },
+    --]]
     {
       'simrat39/symbols-outline.nvim',
       cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
@@ -19,6 +21,7 @@ M.core = {
     { 'SmiteshP/nvim-navic', opt = true },
     'onsails/lspkind.nvim',
     'hrsh7th/nvim-cmp',
+    'MunifTanjim/nui.nvim',
     -- 'williamboman/mason.nvim',
   },
   opt = true,
@@ -62,29 +65,110 @@ local function on_buffer_attach(client, bufnr)
     desc = 'inspect-references',
   }, bufnr)
 
-  local dropbox = require 'ht.core.dropbox'
-
-  dropbox.append_buf_context(bufnr, {
-    { 'Goto Declaration', 'lua vim.lsp.buf.declaration()' },
-    { 'Goto &Definition', 'lua vim.lsp.buf.definition()' },
-    { 'Goto &Implementation', 'lua vim.lsp.buf.implementation()' },
-    { 'Inspect &References', 'lua vim.lsp.buf.references()' },
-    { 'Rname', 'lua vim.lsp.buf.rename()' },
-  })
-
-  if client.name == 'clangd' then
-    dropbox.append_buf_context(bufnr, {
-      { '&Symbol Info(C++)', 'ClangdSymbolInfo' },
-      { 'Type &Hierarchy(C++)', 'ClangdTypeHierarchy' },
-    })
-  end
-
   if client.server_capabilities['documentSymbolProvider'] then
     navic.attach(client, bufnr)
   end
 end
 
 M.config = function() -- code to run after plugin loaded
+  --- add menus for specific types
+  local menu = require 'ht.core.menu'
+  local Menu = require 'nui.menu'
+
+  menu:append_section("*", {
+    Menu.item("Goto Declaration", {
+      action = function()
+        vim.lsp.buf.declaration()
+      end,
+    }),
+    Menu.item('Goto Definition', {
+      action = function()
+        vim.lsp.buf.definition()
+      end,
+    }),
+    Menu.item('Goto Implementation', {
+      action = function()
+        vim.lsp.buf.implementation()
+      end,
+    }),
+    Menu.item('Inspect References', {
+      action = function()
+        vim.lsp.buf.references()
+      end,
+    }),
+    Menu.item('Rname', {
+      action = function()
+        vim.lsp.buf.rename()
+      end,
+    }),
+  })
+
+  menu:append_section("cpp", {
+    Menu.item("Symbol Info", {
+      action = function()
+        vim.cmd 'ClangdSymbolInfo'
+      end,
+    }),
+    Menu.item("Type Hierarchy", {
+      action = function()
+        vim.cmd 'ClangdTypeHierarchy'
+      end,
+    }),
+  })
+
+  local rust_sections = {
+    Menu.item("Hover Actions", {
+      action = function()
+        require'rust-tools'.hover_actions.hover_actions()
+      end,
+    }),
+    Menu.item("Move Item Up", {
+      action = function()
+        require'rust-tools'.move_item.move_item(true)
+      end,
+    }),
+    Menu.item("Expand Macro", {
+      action = function()
+        require'rust-tools'.expand_macro.expand_macro()
+      end,
+    }),
+    Menu.item("Parent Module", {
+      action = function()
+        require'rust-tools'.parent_module.parent_module()
+      end,
+    }),
+  }
+  menu:append_section("rust", {
+    Menu.item("Rust-tools", {
+      items = rust_sections,
+    })
+  })
+
+  --[[
+  menu:append_section("rust", {
+    Menu.item("Hover Actions", {
+      action = function()
+        require'rust-tools'.hover_actions.hover_actions()
+      end,
+    }),
+    Menu.item("Move Item Up", {
+      action = function()
+        require'rust-tools'.move_item.move_item(true)
+      end,
+    }),
+    Menu.item("Expand Macro", {
+      action = function()
+        require'rust-tools'.expand_macro.expand_macro()
+      end,
+    }),
+    Menu.item("Parent Module", {
+      action = function()
+        require'rust-tools'.parent_module.parent_module()
+      end,
+    }),
+  })
+  --]]
+
   --[[
   require("mason").setup {
     ui = {
@@ -179,14 +263,14 @@ M.config = function() -- code to run after plugin loaded
         vim.g.compiled_llvm_clang_directory .. '/bin/clangd',
         '--clang-tidy',
         '--background-index',
+        '--background-index-priority=normal',
         '--ranking-model=decision_forest',
         '--completion-style=detailed',
         '--header-insertion=iwyu',
         '--limit-references=100',
         '--limit-results=100',
-        -- '--pch-storage=disk',
-        -- '--use-dirty-headers',
         '--include-cleaner-stdlib',
+        '--malloc-trim',
         '-j=20',
       },
       on_attach = on_buffer_attach,

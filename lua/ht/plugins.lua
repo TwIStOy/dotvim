@@ -44,6 +44,7 @@ pkr.init(packer_init_config)
 local loader
 pkr.startup(function(use)
   loader = require'ht.plugins.init'.loader:new(use)
+  local mod = require'ht.plugins.init'.use_mod(use)
 
   use 'wbthomason/packer.nvim'
 
@@ -55,9 +56,7 @@ pkr.startup(function(use)
 
   use { 'nvim-lua/popup.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
-  use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
-
-  -- use 'stevearc/dressing.nvim'
+  mod 'ui'
 
   loader:setup 'asynctasks'
 
@@ -72,8 +71,6 @@ pkr.startup(function(use)
   loader:setup 'alpha'
 
   loader:setup 'whichkey'
-
-  loader:setup 'quickui'
 
   loader:setup 'textobject'
 
@@ -92,7 +89,6 @@ pkr.startup(function(use)
   -- NOTE(hawtian): maybe performance problem
   loader:setup 'indent_guide'
 
-  --[[
   use {
     'catppuccin/nvim',
     as = 'catppuccin',
@@ -147,7 +143,6 @@ pkr.startup(function(use)
       vim.cmd 'colorscheme catppuccin'
     end,
   }
-  --]]
 
   --[[
   use {
@@ -176,6 +171,25 @@ pkr.startup(function(use)
 
   --[[
   use {
+    "clpi/cyu.lua",
+    config = function()
+      vim.g.cayu_style = "night"
+      vim.g.cayu_italic_functions = true
+      vim.g.cayu_sidebars = {
+        'nvim_tree',
+        "qf",
+        "vista_kind",
+        "terminal",
+        "packer",
+      }
+
+      vim.cmd'colorscheme cayu'
+    end,
+  }
+  --]]
+
+  --[[
+  use {
     'luisiacc/gruvbox-baby',
     branch = 'main',
     config = function()
@@ -184,6 +198,7 @@ pkr.startup(function(use)
   }
   --]]
 
+  --[[
   use {
     'EdenEast/nightfox.nvim',
     config = function()
@@ -200,6 +215,7 @@ pkr.startup(function(use)
       vim.cmd("colorscheme nightfox")
     end,
   }
+  --]]
 
   loader:setup 'possession'
 
@@ -241,6 +257,13 @@ pkr.startup(function(use)
     ]],
   }
 
+  use {
+    "nvim-zh/colorful-winsep.nvim",
+    config = function()
+      require('colorful-winsep').setup()
+    end,
+  }
+
   use { 'Asheq/close-buffers.vim', cmd = { 'Bdelete' } }
 
   loader:setup 'template'
@@ -276,7 +299,7 @@ pkr.startup(function(use)
 
   loader:setup 'copilot'
 
-  loader:setup 'noice'
+  -- loader:setup 'noice'
 
   loader:setup 'lspkind'
 

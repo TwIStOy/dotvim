@@ -49,6 +49,15 @@ function M.get_setup(name)
   return require(string.format('ht.plugins.%s', name)).mappings
 end
 
+function M.use_mod(use)
+  return function(name)
+    local m = require('ht.mods.' .. name)
+    for _, v in ipairs(m) do
+      use(v)
+    end
+  end
+end
+
 return M
 -- vim: et sw=2 ts=2 fdm=marker
 

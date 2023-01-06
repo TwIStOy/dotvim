@@ -84,11 +84,15 @@ M.config = function() -- code to run after plugin loaded
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
     mapping = {
-      ["<CR>"] = cmp.mapping(cmp.mapping.confirm(), { 'i', 'c' }),
+      ["<CR>"] = cmp.mapping(cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      }, { 'i', 'c' }),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
       ["<C-k>"] = cmp.mapping.select_prev_item(),
       ["<C-j>"] = cmp.mapping.select_next_item(),
+      ["<C-e>"] = cmp.mapping.abort(),
       ["<TAB>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()

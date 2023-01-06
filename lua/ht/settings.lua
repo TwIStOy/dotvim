@@ -29,7 +29,13 @@ vim.cmd [[set noerrorbells novisualbell t_vb=]]
 -- numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.g.relative_number_blacklist = { 'startify', 'NvimTree', 'packer', 'alpha' }
+vim.g.relative_number_blacklist = {
+  'startify',
+  'NvimTree',
+  'packer',
+  'alpha',
+  'nuipopup',
+}
 
 event.on('TermEnter', { pattern = '*', command = 'setlocal nonu nornu' })
 event.on({ 'BufEnter', 'FocusGained', 'WinEnter' }, {
@@ -39,6 +45,11 @@ event.on({ 'BufEnter', 'FocusGained', 'WinEnter' }, {
 event.on({ 'BufLeave', 'FocusLost', 'WinLeave' }, {
   pattern = '*',
   command = 'if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif',
+})
+vim.opt.signcolumn = 'yes'
+event.on({ 'BufEnter', 'FocusGained', 'WinEnter' }, {
+  pattern = '*',
+  command = 'if index(g:relative_number_blacklist, &ft) == -1 | set signcolumn=yes | endif',
 })
 
 vim.opt.cursorline = true
@@ -79,10 +90,6 @@ vim.opt.colorcolumn = '80'
 vim.opt.scrolloff = 5
 
 vim.opt.timeoutlen = 300
-
-vim.opt.signcolumn = 'yes'
-event.on({ 'BufEnter', 'FocusGained', 'WinEnter' },
-         { pattern = '*', command = 'set signcolumn=yes' })
 
 vim.opt.hidden = true
 
@@ -173,6 +180,22 @@ mapping.map {
   keys = { '<leader>', 'f', 's' },
   action = '<cmd>update<CR>',
   desc = 'update',
+}
+mapping.map { keys = { '<C-s>' }, action = '<cmd>update<CR>', desc = 'update' }
+mapping.map {
+  keys = { '<C-s>' },
+  action = '<cmd>update<CR>',
+  desc = 'update',
+  mode = 'i',
+}
+
+mapping.map {
+  keys = { ';', ';' },
+  action = function()
+    local menu = require 'ht.core.menu'
+    menu:show_menu()
+  end,
+  desc = 'show-menu',
 }
 
 mapping.map { keys = { '<F2>' }, action = '<cmd>w<CR>' }

@@ -11,16 +11,20 @@ M.core = {
 
 M.config = function() -- code to run after plugin loaded
   vim.g.cpp_toolkit_clang_library = vim.g.compiled_llvm_clang_directory
+  local Menu = require 'nui.menu'
+  local menu = require 'ht.core.menu'
 
-  require('ht.core.dropbox'):append_context('cpp', {
-    {
-      '&Copy Function Decl\t<leader>cd',
-      'call cpp_toolkit#mark_current_function_decl()',
-    },
-    {
-      '&Paste Function Def\t<leader>pd',
-      'call cpp_toolkit#generate_function_define_here()',
-    },
+  menu:append_section('cpp', {
+    Menu.item('Copy Function Decl', {
+      action = function()
+        vim.cmd 'call cpp_toolkit#mark_current_function_decl()'
+      end
+    }),
+    Menu.item('Paste Function Def', {
+      action = function()
+        vim.cmd 'call cpp_toolkit#generate_function_define_here()'
+      end
+    }),
   })
 end
 

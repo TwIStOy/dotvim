@@ -10,14 +10,21 @@ M.setup = function() -- code to run before plugin loaded
 end
 
 M.config = function() -- code to run after plugin loaded
-  local dropbox = require 'ht.core.dropbox'
+  local Menu = require 'nui.menu'
+  local menu = require 'ht.core.menu'
 
   vim.cmd [[source $HOME/.dotvim/autoload/neoformat/formatters/cpp.vim]]
   vim.g._dotvim_clang_format_exe = vim.g.compiled_llvm_clang_directory ..
                                        '/bin/clang-format'
   vim.g.neoformat_enabled_cpp = { 'myclangformat' }
 
-  dropbox:append_context('*', { { 'Format', 'Neoformat' } })
+  menu:append_section('*', {
+    Menu.item(
+      'Format File', {
+        action = function()
+          vim.cmd 'Neoformat'
+        end
+      })})
 
   vim.g.neoformat_rust_rustfmt2 = { exe = "rustfmt", args = {}, stdin = 1 }
   vim.g.neoformat_enabled_rust = { 'rustfmt2' }

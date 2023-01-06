@@ -76,30 +76,34 @@ M.config = function() -- code to run after plugin loaded
   local Menu = require 'nui.menu'
 
   menu:append_section("*", {
-    Menu.item("Goto Declaration", {
-      action = function()
-        vim.lsp.buf.declaration()
-      end,
-    }),
-    Menu.item('Goto Definition', {
-      action = function()
-        vim.lsp.buf.definition()
-      end,
-    }),
-    Menu.item('Goto Implementation', {
-      action = function()
-        vim.lsp.buf.implementation()
-      end,
-    }),
-    Menu.item('Inspect References', {
-      action = function()
-        vim.lsp.buf.references()
-      end,
-    }),
-    Menu.item('Rname', {
-      action = function()
-        vim.lsp.buf.rename()
-      end,
+    Menu.item("LSP", {
+      items = {
+        Menu.item("Goto Declaration", {
+          action = function()
+            vim.lsp.buf.declaration()
+          end,
+        }),
+        Menu.item('Goto Definition', {
+          action = function()
+            vim.lsp.buf.definition()
+          end,
+        }),
+        Menu.item('Goto Implementation', {
+          action = function()
+            vim.lsp.buf.implementation()
+          end,
+        }),
+        Menu.item('Inspect References', {
+          action = function()
+            vim.lsp.buf.references()
+          end,
+        }),
+        Menu.item('Rname', {
+          action = function()
+            vim.lsp.buf.rename()
+          end,
+        }),
+      },
     }),
   })
 

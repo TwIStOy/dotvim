@@ -150,7 +150,7 @@ local function display_menu(_sections, winnr, r, c, previous)
       end
 
       if item.items ~= nil then
-        display_menu(item.items, winnr, r + pos, c + m.win_config.width + 4,
+        display_menu(item.items, winnr, r + pos - 1, c + m.win_config.width + 4,
                      { m })
       end
     end,

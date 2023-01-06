@@ -116,58 +116,42 @@ M.config = function() -- code to run after plugin loaded
     }),
   })
 
-  local rust_sections = {
-    Menu.item("Hover Actions", {
-      action = function()
-        require'rust-tools'.hover_actions.hover_actions()
-      end,
-    }),
-    Menu.item("Move Item Up", {
-      action = function()
-        require'rust-tools'.move_item.move_item(true)
-      end,
-    }),
-    Menu.item("Expand Macro", {
-      action = function()
-        require'rust-tools'.expand_macro.expand_macro()
-      end,
-    }),
-    Menu.item("Parent Module", {
-      action = function()
-        require'rust-tools'.parent_module.parent_module()
-      end,
-    }),
-  }
   menu:append_section("rust", {
     Menu.item("Rust-tools", {
-      items = rust_sections,
-    })
+      items = {
+        Menu.item("Hover Actions", {
+          action = function()
+            require'rust-tools'.hover_actions.hover_actions()
+          end,
+        }),
+        Menu.item("Open Cargo", {
+          action = function()
+            require'rust-tools'.open_cargo_toml.open_cargo_toml()
+          end,
+        }),
+        Menu.item("Move Item Up", {
+          action = function()
+            require'rust-tools'.move_item.move_item(true)
+          end,
+        }),
+        Menu.item("Expand Macro", {
+          action = function()
+            require'rust-tools'.expand_macro.expand_macro()
+          end,
+        }),
+        Menu.item("Parent Module", {
+          action = function()
+            require'rust-tools'.parent_module.parent_module()
+          end,
+        }),
+        Menu.item("Join Lines", {
+          action = function()
+            require'rust-tools'.join_lines.join_lines()
+          end,
+        }),
+      },
+    }),
   })
-
-  --[[
-  menu:append_section("rust", {
-    Menu.item("Hover Actions", {
-      action = function()
-        require'rust-tools'.hover_actions.hover_actions()
-      end,
-    }),
-    Menu.item("Move Item Up", {
-      action = function()
-        require'rust-tools'.move_item.move_item(true)
-      end,
-    }),
-    Menu.item("Expand Macro", {
-      action = function()
-        require'rust-tools'.expand_macro.expand_macro()
-      end,
-    }),
-    Menu.item("Parent Module", {
-      action = function()
-        require'rust-tools'.parent_module.parent_module()
-      end,
-    }),
-  })
-  --]]
 
   --[[
   require("mason").setup {

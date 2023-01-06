@@ -150,16 +150,19 @@ local function display_menu(_sections, winnr, r, c, previous)
       end
 
       if item.items ~= nil then
-        display_menu(item.items, winnr, r + pos, c + m.win_config.width + 4, m)
+        display_menu(item.items, winnr, r + pos, c + m.win_config.width + 4,
+                     { m })
       end
     end,
     on_submit = function(item)
-      -- close previous menu?
-      if previous ~= nil then
-        previous:unmount()
-      end
-
       if item.action ~= nil then
+        -- close previous menus
+        if previous ~= nil then
+          for _, v in ipairs(previous) do
+            v:unmount()
+          end
+        end
+
         -- action field exists, simple menu item, call action
         vim.api.nvim_set_current_win(winnr)
         item.action()

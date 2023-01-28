@@ -225,6 +225,8 @@ pkr.startup(function(use)
 
   use { 'nacro90/numb.nvim', opt = true, config = [[require('numb').setup()]] }
 
+  use { 'wakatime/vim-wakatime', event = 'BufRead' }
+
   loader:setup 'nvim_treesitter'
 
   loader:setup 'nvim_bqf'

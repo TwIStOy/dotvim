@@ -56,8 +56,6 @@ pkr.startup(function(use)
 
   use { 'nvim-lua/popup.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
-  mod 'ui'
-
   loader:setup 'asynctasks'
 
   loader:setup 'nvim_tree'

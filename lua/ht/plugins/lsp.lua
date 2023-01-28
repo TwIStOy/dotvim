@@ -320,7 +320,7 @@ M.config = function() -- code to run after plugin loaded
 
   require'rust-tools'.setup {
     server = {
-      cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
+      cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' },
       on_attach = on_buffer_attach,
       capabilities = capabilities,
     },

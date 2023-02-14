@@ -8,28 +8,6 @@ return {
     end,
   },
 
-  {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
-    dependencies = {
-      'TwIStOy/ultisnips',
-      'onsails/lspkind.nvim',
-      'lukas-reineke/cmp-under-comparator',
-      'hrsh7th/cmp-cmdline',
-      'dmitmel/cmp-cmdline-history',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-calc',
-      'dmitmel/cmp-digraphs',
-      'f3fora/cmp-spell',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      'zbirenbaum/copilot-cmp',
-      'zbirenbaum/copilot.lua',
-    },
-    config = require'lazy_plugs.coding.nvim-cmp'.config,
-  },
-
   -- text-object groups
   { 'kana/vim-textobj-user', event = 'VeryLazy' },
   {

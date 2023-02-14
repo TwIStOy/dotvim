@@ -85,7 +85,7 @@ pkr.startup(function(use)
   loader:setup 'surround'
 
   -- NOTE(hawtian): maybe performance problem
-  loader:setup 'indent_guide'
+  -- loader:setup 'indent_guide'
 
   use {
     'catppuccin/nvim',
@@ -254,7 +254,7 @@ pkr.startup(function(use)
     setup = [[
       vim.g.move_key_modifier = 'C'
       vim.g.move_key_modifier_visualmode = 'C'
-    ]],
+      ]],
   }
 
   use {

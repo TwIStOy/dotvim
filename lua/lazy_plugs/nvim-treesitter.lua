@@ -3,6 +3,7 @@ return {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     event = 'BufReadPost',
+    dependencies = { 'RRethy/nvim-treesitter-endwise' },
     opts = {
       ensure_installed = {
         'c',
@@ -42,7 +43,7 @@ return {
   },
   {
     'nvim-treesitter/playground',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
   },
-  { 'RRethy/nvim-treesitter-endwise', lazy = true },
 }

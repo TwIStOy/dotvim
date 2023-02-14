@@ -13,9 +13,5 @@ vim.g.lua_language_server_cmd = {
   '/home/hawtian/project/lua-language-server/bin/main.lua',
 }
 
-pcall(function()
-  require'packer_compiled'
-end)
-require'ht.init'
-
+require 'ht.lazy'
 

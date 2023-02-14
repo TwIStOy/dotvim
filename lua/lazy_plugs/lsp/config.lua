@@ -1,33 +1,5 @@
 local M = {}
 
-M.core = {
-  'neovim/nvim-lspconfig',
-  requires = {
-    --[[
-    {
-      'j-hui/fidget.nvim',
-      event = 'BufReadPost',
-      config = function()
-        require'fidget'.setup { window = { blend = 0 } }
-      end,
-    },
-    --]]
-    {
-      'simrat39/symbols-outline.nvim',
-      cmd = { 'SymbolsOutline', 'SymbolsOutlineOpen', 'SymbolsOutlineClose' },
-    },
-    { 'p00f/clangd_extensions.nvim', module = 'clangd_extensions' },
-    { 'simrat39/rust-tools.nvim', opt = true },
-    { 'SmiteshP/nvim-navic', opt = true },
-    'onsails/lspkind.nvim',
-    'hrsh7th/nvim-cmp',
-    'MunifTanjim/nui.nvim',
-    -- 'williamboman/mason.nvim',
-  },
-  opt = true,
-  event = 'BufReadPre',
-}
-
 local function on_buffer_attach(client, bufnr)
   local mapping = require 'ht.core.mapping'
   local navic = require 'nvim-navic'
@@ -63,6 +35,20 @@ local function on_buffer_attach(client, bufnr)
     keys = { 'g', 'r' },
     action = vim.lsp.buf.references,
     desc = 'inspect-references',
+  }, bufnr)
+  mapping.map({
+    keys = { '[', 'c' },
+    action = function()
+      vim.diagnostic.goto_prev()
+    end,
+    desc = 'previous-diagnostic',
+  }, bufnr)
+  mapping.map({
+    keys = { ']', 'c' },
+    action = function()
+      vim.diagnostic.goto_next()
+    end,
+    desc = 'next-diagnostic',
   }, bufnr)
 
   if client.server_capabilities['documentSymbolProvider'] then
@@ -356,6 +342,7 @@ M.config = function() -- code to run after plugin loaded
     initializationOptions = { buildDirectory = 'build' },
   }
 
+  -- init sourcekip in macos
   if vim.fn.has('macunix') then
     require'lspconfig'.sourcekit.setup {
       filetypes = { 'swift', 'objective-c', 'objective-cpp' },
@@ -365,25 +352,5 @@ M.config = function() -- code to run after plugin loaded
   end
 end
 
-M.mappings = function() -- code for mappings
-  local mapping = require 'ht.core.mapping'
-  mapping.map({
-    keys = { '[', 'c' },
-    action = function()
-      vim.diagnostic.goto_prev()
-    end,
-    desc = 'previous-diagnostic',
-  })
-  mapping.map({
-    keys = { ']', 'c' },
-    action = function()
-      vim.diagnostic.goto_next()
-    end,
-    desc = 'next-diagnostic',
-  })
-end
-
 return M
-
--- vim: et sw=2 ts=2 fdm=marker
 

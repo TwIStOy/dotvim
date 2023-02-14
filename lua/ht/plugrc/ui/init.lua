@@ -46,6 +46,6 @@ return {
     'goolord/alpha-nvim',
     event = 'BufWinEnter',
     dependencies = { 'nvim-tree/nvim-web-devicons', 'nvim-lua/plenary.nvim' },
-    config = require'lazy_plugs.ui.alpha-nvim'.config,
+    config = require'ht.plugrc.ui.alpha-nvim'.config,
   },
 }

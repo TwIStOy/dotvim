@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("lazy_plugs", {
+require("lazy").setup("ht.plugrc", {
   performance = {
     rtp = {
       paths = {

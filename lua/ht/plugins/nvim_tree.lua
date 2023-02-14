@@ -3,11 +3,22 @@ local M = {}
 M.core = {
   'nvim-tree/nvim-tree.lua',
   opt = true,
-  requires = {
-    'nvim-tree/nvim-web-devicons',
-    'MunifTanjim/nui.nvim',
-  },
+  requires = { 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim' },
+  cmd = { 'NvimTreeFindFile' },
 }
+
+M.setup = function()
+  local Menu = require 'nui.menu'
+  local menu = require 'ht.core.menu'
+
+  menu:append_section('*', {
+    Menu.item('Find file in FileExplorer', {
+      action = function()
+        vim.cmd 'NvimTreeFindFile'
+      end,
+    }),
+  })
+end
 
 M.config = function() -- code to run after plugin loaded
   require'nvim-tree'.setup {

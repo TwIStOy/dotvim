@@ -18,10 +18,11 @@ vim.api.nvim_set_keymap('', '<Down>', '<Nop>', {})
 vim.opt.title = true
 vim.opt.ttyfast = true
 
-vim.opt.lazyredraw = false
+vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 
 vim.opt.updatetime = 200
+vim.cmd[[ set bufhidden=wipe ]]
 
 -- no bells
 vim.cmd [[set noerrorbells novisualbell t_vb=]]
@@ -224,11 +225,12 @@ end
 -- gui: neovide
 if vim.g["neovide"] then
   vim.g.neovide_refresh_rate = 60
+  vim.g.neovide_no_idle = true
   vim.g.neovide_input_use_logo = true
   vim.g.neovide_input_macos_alt_is_meta = true
   vim.g.neovide_cursor_animation_length = 0
   vim.g.neovide_cursor_trail_size = 0
-  vim.o.guifont = 'JetBrainsMono Nerd Font:h14'
+  vim.o.guifont = { 'JetBrainsMono Nerd Font Mono', 'h14' }
 end
 
 -- def ft-related settings

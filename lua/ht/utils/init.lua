@@ -1,6 +1,19 @@
 local M = {}
 
 local U = require 'lazy.core.util'
+local T = require 'ht.utils.table'
+
+M.tbl_keys = T.tbl_keys
+M.tbl_unique = T.tbl_unique
+M.tbl_slice = T.tbl_slice
+M.tbl_get_value = T.table_get_value
+M.list_reverse = T.list_reverse
+
+-- replace of 'require', remove mode before loading
+function M.import(modname)
+  package.loaded[modname] = nil
+  return require(modname)
+end
 
 -- delay notifications till vim.notify was replaced or after 500ms
 function M.delay_nofiy_invocations()

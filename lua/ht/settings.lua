@@ -2,12 +2,11 @@ local M = {}
 
 local mapping = require 'ht.core.mapping'
 local event = require 'ht.core.event'
-local import = require'ht.utils.import'.import
 
 -- run impatient.nvim
-require 'impatient'
+-- require 'impatient'
 
-vim.api.nvim_set_var('mapleader', ' ')
+-- vim.api.nvim_set_var('mapleader', ' ')
 
 -- Disable arrows
 vim.api.nvim_set_keymap('', '<Left>', '<Nop>', {})
@@ -18,7 +17,7 @@ vim.api.nvim_set_keymap('', '<Down>', '<Nop>', {})
 vim.opt.title = true
 vim.opt.ttyfast = true
 
-vim.opt.lazyredraw = true
+-- vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 
 vim.opt.updatetime = 200

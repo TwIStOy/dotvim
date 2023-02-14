@@ -1,6 +1,5 @@
 local M = {}
 
-local U = require 'lazy.core.util'
 local T = require 'ht.utils.table'
 
 M.tbl_keys = T.tbl_keys
@@ -16,7 +15,7 @@ function M.import(modname)
 end
 
 -- delay notifications till vim.notify was replaced or after 500ms
-function M.delay_nofiy_invocations()
+function M.delay_notify_invocations()
   local notifs = {}
   local function temp(...)
     table.insert(notifs, vim.F.pack_len(...))
@@ -35,7 +34,6 @@ function M.delay_nofiy_invocations()
       vim.notify = orig -- put back the original notify if needed
     end
     vim.schedule(function()
-      ---@diagnostic disable-next-line: no-unknown
       for _, notif in ipairs(notifs) do
         vim.notify(vim.F.unpack_len(notif))
       end
@@ -53,13 +51,8 @@ function M.delay_nofiy_invocations()
 end
 
 -- Print deprecated message
-function M.deprecated(msg)
-  if U == nil then
-    U = require 'lazy.core.util'
-  end
-  if U == nil then
-    return
-  end
+function M.deprecated(old, new)
+  local U = require 'lazy.core.util'
 
   U.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new),
          { title = "HT" })

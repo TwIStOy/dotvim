@@ -17,7 +17,6 @@ local M = {
       'zbirenbaum/copilot-cmp',
       'zbirenbaum/copilot.lua',
     },
-    config = require'lazy_plugs.coding.nvim-cmp'.config,
 }
 
 local has_words_before = function()

@@ -38,7 +38,7 @@ local M = {
   },
 }
 
-M.config = function()
+M.opts = function()
   require('telescope').load_extension('fzf')
 
   local actions = require 'telescope.actions'

@@ -19,6 +19,11 @@ M.all_snippets = function()
   local l = extras.l
   local postfix = require"luasnip.extras.postfix".postfix
 
+  -- simple snippets
+
+
+
+
   local copyright = {
     {
       trig = 'cr',

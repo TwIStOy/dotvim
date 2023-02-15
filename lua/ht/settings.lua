@@ -128,6 +128,10 @@ require'ht.core.window'.skip_filetype('quickfix')
 require'ht.core.window'.skip_filetype('defx')
 require'ht.core.window'.skip_filetype('CHADTree')
 require'ht.core.window'.skip_filetype('NvimTree')
+require'ht.core.window'.skip_filetype('noice')
+require'ht.core.window'.skip_filetype('fidget')
+require'ht.core.window'.skip_filetype('scrollview')
+require'ht.core.window'.skip_filetype('nofile')
 
 event.on('BufEnter', {
   pattern = '*',

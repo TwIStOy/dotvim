@@ -28,6 +28,7 @@ return {
     event = 'VeryLazy',
     opts = {
       highlight = { keyword = 'bg', pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
+      search = { pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
     },
     keys = {
       {

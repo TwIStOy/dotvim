@@ -15,7 +15,7 @@ M.init = function()
         vim.cmd 'NvimTreeFindFile'
       end,
     }),
-  })
+  }, 100)
 end
 
 M.config = function() -- code to run after plugin loaded

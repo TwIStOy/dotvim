@@ -125,7 +125,7 @@ return {
             vim.cmd 'Neoformat'
           end,
         }),
-      })
+      }, 2)
 
       vim.g.neoformat_rust_rustfmt2 = { exe = "rustfmt", args = {}, stdin = 1 }
       vim.g.neoformat_enabled_rust = { 'rustfmt2' }
@@ -152,7 +152,7 @@ return {
             vim.cmd 'SidewaysRight'
           end,
         }),
-      })
+      }, 1)
     end,
   },
 

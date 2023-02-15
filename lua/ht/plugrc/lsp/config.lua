@@ -126,7 +126,7 @@ M.config = function() -- code to run after plugin loaded
         }),
       },
     }),
-  })
+  }, 3)
 
   menu:append_section("cpp", {
     Menu.item("Symbol Info", {
@@ -153,7 +153,7 @@ M.config = function() -- code to run after plugin loaded
         }),
       },
     }),
-  })
+  }, 4)
 
   menu:append_section("rust", {
     Menu.item("Rust-tools", {
@@ -190,7 +190,7 @@ M.config = function() -- code to run after plugin loaded
         }),
       },
     }),
-  })
+  }, 4)
 
   --[[
   require("mason").setup {

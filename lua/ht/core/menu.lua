@@ -45,26 +45,41 @@ local function get_buffer_var(bufnr)
   return A.nvim_buf_get_var(bufnr, _MENU_VAR_) or {}
 end
 
-M.append_section = function(self, ft, ctx)
-  if self.menus[ft] == nil then
-    self.menus[ft] = {}
-  end
-  vim.list_extend(self.menus[ft], { ctx })
-end
-
-M.get_ft_sections = function(self, ft)
+M.collect_menu_items = function(self, ft)
   local ctx = {}
 
   if self.menus['*'] ~= nil then
     for _, v in ipairs(self.menus['*']) do
-      ctx = add_section(ctx, v)
+      ctx = vim.list_extend(ctx, { v })
     end
   end
 
   if self.menus[ft] ~= nil then
     for _, v in ipairs(self.menus[ft]) do
-      ctx = add_section(ctx, v)
+      ctx = vim.list_extend(ctx, { v })
     end
+  end
+
+  table.sort(ctx, function(a, b)
+    return a.idx < b.idx
+  end)
+
+  return ctx
+end
+
+M.append_section = function(self, ft, ctx, idx)
+  if self.menus[ft] == nil then
+    self.menus[ft] = {}
+  end
+  vim.list_extend(self.menus[ft], { { items = ctx, idx = idx or 0 } })
+end
+
+M.get_ft_sections = function(self, ft)
+  local ctx = {}
+
+  local collected = self:collect_menu_items(ft)
+  for _, v in ipairs(collected) do
+    ctx = add_section(ctx, v.items)
   end
 
   return ctx
@@ -100,7 +115,7 @@ local function display_menu(_sections, winnr, r, c, previous)
     },
     win_options = {
       winblend = 0,
-      winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:MenuSel",
+      winhighlight = "NormalSB:Normal,FloatBorder:FloatBorder,CursorLine:MenuSel",
     },
   }
 
@@ -124,7 +139,7 @@ local function display_menu(_sections, winnr, r, c, previous)
   for _, v in ipairs(sections) do
     if v.items ~= nil then
       -- append (max_width - #v.text) spaces
-      for i = 1, max_width - #v.text do
+      for _ = 1, max_width - #v.text do
         v.text = v.text .. ' '
       end
       v.text = v.text .. ' ▶'
@@ -133,7 +148,8 @@ local function display_menu(_sections, winnr, r, c, previous)
 
   local menu = Menu(popup_options, {
     lines = sections,
-    max_width = 40,
+    min_width = 20,
+    max_width = 120,
     keymap = {
       focus_next = { "j", "<DOWN>", "<C-n>", "<TAB>" },
       focus_prev = { "k", "<UP>", "<C-p>", "<S-TAB>" },

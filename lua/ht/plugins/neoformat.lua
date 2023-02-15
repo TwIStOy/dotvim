@@ -19,12 +19,12 @@ M.config = function() -- code to run after plugin loaded
   vim.g.neoformat_enabled_cpp = { 'myclangformat' }
 
   menu:append_section('*', {
-    Menu.item(
-      'Format File', {
-        action = function()
-          vim.cmd 'Neoformat'
-        end
-      })})
+    Menu.item('Format File', {
+      action = function()
+        vim.cmd 'Neoformat'
+      end,
+    }),
+  })
 
   vim.g.neoformat_rust_rustfmt2 = { exe = "rustfmt", args = {}, stdin = 1 }
   vim.g.neoformat_enabled_rust = { 'rustfmt2' }

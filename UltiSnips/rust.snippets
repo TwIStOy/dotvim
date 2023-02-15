@@ -2,6 +2,22 @@ snippet der "derive" b
 #[derive(${1:derive})]
 endsnippet
 
+snippet allow "allow attribute" b
+#[allow(${1:unused_variables})]
+endsnippet
+
+snippet attr "#[...]" b
+#[${1:inline}]
+endsnippet
+
+snippet opt "Option<T>" b
+Option<${1:i32}>${0}
+end
+
+snippet res "Result<T, E>" b
+Result<${1:i32}, ${2:()}>${0}
+end
+
 snippet pc "pub(crate)" bA
 pub(crate) ${0}
 endsnippet
@@ -32,5 +48,67 @@ endsnippet
 
 snippet ddc "derive debug" bw
 #[derive(Debug, Clone)]
+endsnippet
+
+snippet ifo "if let Ok(...)" bw
+if let Ok($1) = ${1:foo} {
+  ${0}
+}
+endsnippet
+
+snippet ifs "if let Some(...)" bw
+if let Some($1) = ${1:foo} {
+  ${0}
+}
+endsnippet
+
+snippet iferr "if let Err(e) = ..." bw
+if let Err(e) = ${1:object} {
+	${2:println!("{}", e)}
+}
+let $1 = unsafe { $1.unwrap_unchecked() };
+endsnippet
+
+snippet ifopt "if let Some(...)" bw
+if ${1:object}.is_none() {
+	// do nothing...
+}
+let $1 = unsafe { $1.unwrap_unchecked() };
+endsnippet
+
+snippet fmt "fast format" bw
+format!("{:?}", ${1:obj});
+endsnippet
+
+snippet pl "fast print" bw
+println!("{:?}", ${1:obj});
+endsnippet
+
+snippet adc "allow dead code" bw
+#[allow(dead_code)]
+endsnippet
+
+snippet todo "TODO comments" bA
+// TODO(hawtian): ${0}
+endsnippet
+
+snippet fixme "FIXME comments" bA
+// FIXME(hawtian): ${0}
+endsnippet
+
+snippet def "macro_rules!" b
+macro_rules! ${1:name} {
+  (${2:matcher}) => {
+	  ${0}
+	}
+}
+endsnippet
+
+snippet chan "tokio.channel" w
+let (${1:tx}, ${2:rx}} = tokio::sync::mpsc::channel(${3:128});
+endsnippet
+
+snippet uchan "tokio.unbounded_channel" w
+let (${1:tx}, ${2:rx}} = tokio::sync::mpsc::unbounded_channel();
 endsnippet
 

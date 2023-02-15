@@ -28,8 +28,16 @@ M.config = function() -- code to run after plugin loaded
     hijack_cursor = false,
     update_cwd = false,
     diagnostics = {
-      enable = false,
+      enable = true,
+      show_on_dirs = true,
+      severity = {
+        min = vim.diagnostic.severity.HINT,
+        max = vim.diagnostic.severity.ERROR,
+      },
       icons = { hint = "", info = "", warning = "", error = "" },
+    },
+    modified = {
+      enable = true,
     },
     update_focused_file = { enable = false, update_cwd = false,
                             ignore_list = {} },

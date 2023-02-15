@@ -300,6 +300,14 @@ M.config = function() -- code to run after plugin loaded
       cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' },
       on_attach = on_buffer_attach,
       capabilities = capabilities,
+      settings = {
+        ["rust-analyzer"] = {
+          check = {
+            command = 'clippy',
+            extraArgs = { "--all", "--", "-W", "clippy::all" },
+          },
+        },
+      },
     },
   }
 

@@ -216,6 +216,7 @@ mapping.map {
 
 mapping.map { keys = { '<F2>' }, action = '<cmd>w<CR>' }
 mapping.map { keys = { '<S-F2>' }, action = '<cmd>wall<CR>' }
+mapping.map { keys = { '<M-n>' }, action = '<cmd>nohl<CR>' }
 
 mapping.map { keys = { '<leader>', 'q' }, action = '<cmd>q<CR>', desc = 'quit' }
 mapping.map {

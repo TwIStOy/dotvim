@@ -20,8 +20,12 @@ vim.opt.ttyfast = true
 -- vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 
-vim.opt.updatetime = 200
-vim.cmd [[ set bufhidden=wipe ]]
+vim.o.updatetime = 100
+vim.o.redrawtime = 1500
+vim.o.timeout = true
+vim.o.ttimeout = true
+vim.o.timeoutlen = 500
+vim.o.ttimeoutlen = 10
 
 -- no bells
 vim.cmd [[set noerrorbells novisualbell t_vb=]]

@@ -11,14 +11,25 @@ local function on_buffer_attach(client, bufnr)
   }, bufnr)
   mapping.map({
     keys = { 'g', 'd' },
-    action = vim.lsp.buf.definition,
+    action = function()
+      require'telescope.builtin'.lsp_definitions {}
+    end,
+    desc = 'goto-definition',
+  }, bufnr)
+  mapping.map({
+    keys = { 'g', 't' },
+    action = function()
+      require'telescope.builtin'.lsp_type_definitions {}
+    end,
     desc = 'goto-definition',
   }, bufnr)
   mapping.map(
       { keys = { 'K' }, action = vim.lsp.buf.hover, desc = 'show-hover' }, bufnr)
   mapping.map({
     keys = { 'g', 'i' },
-    action = vim.lsp.buf.implementation,
+    action = function()
+      require'telescope.builtin'.lsp_implementations {}
+    end,
     desc = 'goto-impl',
   }, bufnr)
   mapping.map({
@@ -33,7 +44,9 @@ local function on_buffer_attach(client, bufnr)
   }, bufnr)
   mapping.map({
     keys = { 'g', 'r' },
-    action = vim.lsp.buf.references,
+    action = function()
+      require'telescope.builtin'.lsp_references {}
+    end,
     desc = 'inspect-references',
   }, bufnr)
   mapping.map({

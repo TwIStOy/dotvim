@@ -45,6 +45,7 @@ return {
       },
       { 'p00f/clangd_extensions.nvim', lazy = true },
       { 'simrat39/rust-tools.nvim', lazy = true },
+      { 'j-hui/fidget.nvim', lazy = true, opts = { window = { blend = 0 } } },
       'SmiteshP/nvim-navic',
       'onsails/lspkind.nvim',
       'hrsh7th/nvim-cmp',

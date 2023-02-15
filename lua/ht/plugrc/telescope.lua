@@ -46,16 +46,14 @@ local M = {
           require'telescope.builtin'.live_grep {}
         end
       end,
-      desc = 'live-grep'
+      desc = 'live-grep',
     },
   },
 }
 
-M.opts = function()
-  require('telescope').load_extension('fzf')
-
+M.config = function()
   local actions = require 'telescope.actions'
-  return {
+  require'telescope'.setup {
     defaults = {
       selection_caret = "➤ ",
 
@@ -65,7 +63,7 @@ M.opts = function()
 
       history = { path = '~/.local/share/nvim/telescope_history.sqlite3' },
 
-      winblend = 0,
+      winblend = 20,
       border = {},
       borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
       color_devicons = true,
@@ -75,13 +73,27 @@ M.opts = function()
           ["<C-n>"] = false,
           ["<C-p>"] = false,
 
+          ["<C-u>"] = actions.preview_scrolling_down,
+          ["<C-d>"] = actions.preview_scrolling_up,
           ["<C-j>"] = actions.move_selection_next,
           ["<C-k>"] = actions.move_selection_previous,
           ["<Esc>"] = actions.close,
         },
+        n = { ["q"] = actions.close },
+      },
+    },
+    extensions = {
+      fzf = {
+        fuzzy = true,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+        case_mode = "smart_case",
       },
     },
   }
+
+  require('telescope').load_extension('fzf')
+  require("telescope").load_extension('notify')
 end
 
 return M

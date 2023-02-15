@@ -2,7 +2,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    event = 'BufReadPost',
+    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = { 'RRethy/nvim-treesitter-endwise' },
     opts = {
       ensure_installed = {
@@ -15,6 +15,7 @@ return {
         'typescript',
         'lua',
         'html',
+        'help',
         'javascript',
         'typescript',
         'latex',
@@ -28,6 +29,8 @@ return {
         'vim',
         'bash',
         'regex',
+        'tsx',
+        'yaml',
       },
       highlight = {
         enable = true, -- false will disable the whole extension
@@ -35,7 +38,6 @@ return {
       },
       endwise = { enable = true },
       context_commentstring = { enable = true, enable_autocmd = false },
-
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)

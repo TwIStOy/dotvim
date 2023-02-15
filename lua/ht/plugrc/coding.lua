@@ -29,6 +29,29 @@ return {
     opts = {
       highlight = { keyword = 'bg', pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
     },
+    keys = {
+      {
+        "]t",
+        function()
+          require'todo-comments'.jump_next()
+        end,
+        desc = 'goto-next-todo',
+      },
+      {
+        "[t",
+        function()
+          require'todo-comments'.jump_prev()
+        end,
+        desc = 'goto-prev-todo',
+      },
+      { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "open-todo-trouble" },
+      {
+        "<leader>xT",
+        "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",
+        desc = "open-TFF-trouble",
+      },
+      { "<leader>lt", "<cmd>TodoTelescope<cr>", desc = "list-todos" },
+    },
   },
 
   -- asynctask

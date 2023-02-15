@@ -22,6 +22,11 @@ return {
         ["["] = { name = "+prev" },
 
         ["<leader>l"] = { name = "+list" },
+        ["<leader>n"] = { name = "+no" },
+        ["<leader>x"] = { name = "+xray" },
+        ["<leader>b"] = { name = "+build" },
+        ["<leader>t"] = { name = "+toggle" },
+        ["<leader>v"] = { name = "+vcs" },
       }
     end,
   },

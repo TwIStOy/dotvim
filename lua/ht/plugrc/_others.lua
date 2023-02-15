@@ -6,4 +6,8 @@ return {
   { "tpope/vim-repeat", event = "VeryLazy" },
 
   { 'wakatime/vim-wakatime', event = 'BufRead' },
+
+  { 'nvim-tree/nvim-web-devicons', lazy = true },
+
+  { "MunifTanjim/nui.nvim", lazy = true },
 }

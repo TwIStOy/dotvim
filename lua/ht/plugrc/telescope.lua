@@ -35,6 +35,19 @@ local M = {
       '<cmd>Telescope lsp_workspace_symbols<CR>',
       desc = 'workspace-symbols',
     },
+    {
+      '<leader>lg',
+      function()
+        if vim.b._dotvim_resolved_project_root ~= nil then
+          require'telescope.builtin'.live_grep {
+            cwd = vim.b._dotvim_resolved_project_root,
+          }
+        else
+          require'telescope.builtin'.live_grep {}
+        end
+      end,
+      desc = 'live-grep'
+    },
   },
 }
 

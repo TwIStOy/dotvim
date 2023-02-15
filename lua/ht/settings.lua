@@ -21,7 +21,7 @@ vim.opt.ttyfast = true
 vim.opt.termguicolors = true
 
 vim.opt.updatetime = 200
-vim.cmd[[ set bufhidden=wipe ]]
+vim.cmd [[ set bufhidden=wipe ]]
 
 -- no bells
 vim.cmd [[set noerrorbells novisualbell t_vb=]]
@@ -96,6 +96,13 @@ vim.opt.hidden = true
 
 -- jump options
 vim.opt.jumpoptions = 'stack'
+
+-- highlight on yank
+event.on('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
 
 -- setup clipboard vis ssh, other settings: [[~/Dropbox/vimwiki/Remote Clipboard.wiki]]
 if vim.fn.has('linux') == 1 then

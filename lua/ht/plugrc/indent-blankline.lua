@@ -21,6 +21,9 @@ return {
         char = '▏',
 
         bufname_exclude = { '' },
+        filetype_exclude = {
+          "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy"
+        },
       }
     end,
   },

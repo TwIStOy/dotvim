@@ -40,6 +40,7 @@ vim.g.relative_number_blacklist = {
   'alpha',
   'nuipopup',
   'toggleterm',
+  'noice',
 }
 
 event.on('TermEnter', { pattern = '*', command = 'setlocal nonu nornu' })

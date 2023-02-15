@@ -1,5 +1,14 @@
 local M = {}
 
+local function get_client_capabilities()
+  local cmp_lsp = require 'cmp_nvim_lsp'
+  local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+  local capabilities = cmp_lsp.default_capabilities(default_capabilities)
+  return capabilities
+end
+
+local current_diagnostic_win = nil
+
 local function on_buffer_attach(client, bufnr)
   local mapping = require 'ht.core.mapping'
   local navic = require 'nvim-navic'
@@ -23,8 +32,21 @@ local function on_buffer_attach(client, bufnr)
     end,
     desc = 'goto-definition',
   }, bufnr)
-  mapping.map(
-      { keys = { 'K' }, action = vim.lsp.buf.hover, desc = 'show-hover' }, bufnr)
+  mapping.map({
+    keys = { 'K' },
+    action = function()
+      if current_diagnostic_win ~= nil then
+        vim.api.nvim_win_close(current_diagnostic_win, true)
+        vim.api.nvim_command('redraw')
+        current_diagnostic_win = nil
+      end
+
+      vim.o.eventignore = 'CursorHold'
+      vim.lsp.buf.hover()
+      vim.cmd([[autocmd CursorMoved <buffer> ++once set eventignore=""]])
+    end,
+    desc = 'show-hover',
+  }, bufnr)
   mapping.map({
     keys = { 'g', 'i' },
     action = function()
@@ -192,28 +214,18 @@ M.config = function() -- code to run after plugin loaded
         underline = true,
       })
 
-  --[[
-  vim.lsp.handlers["textDocument/hover"] =
-      vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-  --]]
-
-  --[[
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-                                                       vim.lsp.handlers
-                                                           .signature_help,
-                                                       { border = "rounded" })
-  --]]
-
   require'ht.core.event'.on('CursorHold', {
     pattern = '*',
     callback = function()
-      vim.diagnostic.open_float(nil, { focus = false, border = "rounded" })
+      local buf, win = vim.diagnostic.open_float(nil, {
+        focus = false,
+        border = "rounded",
+      })
+      current_diagnostic_win = win
     end,
   })
 
-  local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp
-                                                                      .protocol
-                                                                      .make_client_capabilities())
+  local capabilities = get_client_capabilities()
 
   local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
   for type, icon in pairs(signs) do

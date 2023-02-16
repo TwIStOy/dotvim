@@ -139,10 +139,7 @@ local function display_menu(_sections, winnr, r, c, previous)
   for _, v in ipairs(sections) do
     if v.items ~= nil then
       -- append (max_width - #v.text) spaces
-      for _ = 1, max_width - #v.text do
-        v.text = v.text .. ' '
-      end
-      v.text = v.text .. ' ▶'
+      v.text = v.text .. string.rep(' ', max_width - #v.text) .. ' ▶'
     end
   end
 

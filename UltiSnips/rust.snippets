@@ -62,16 +62,16 @@ if let Some($1) = ${1:foo} {
 }
 endsnippet
 
-snippet iferr "if let Err(e) = ..." bw
+snippet ue "if let Err(e) = ..." bw
 if let Err(e) = ${1:object} {
 	${2:println!("{}", e)}
 }
 let $1 = unsafe { $1.unwrap_unchecked() };
 endsnippet
 
-snippet ifopt "if let Some(...)" bw
+snippet us "if let Some(...)" bw
 if ${1:object}.is_none() {
-	// do nothing...
+	${2:// do nothing...}
 }
 let $1 = unsafe { $1.unwrap_unchecked() };
 endsnippet

@@ -67,7 +67,6 @@ M.config = function()
       { name = 'nvim_lsp_signature_help' },
       { name = 'path' },
       { name = 'calc' },
-      { name = 'spell' },
       { name = 'buffer' },
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
@@ -82,10 +81,8 @@ M.config = function()
       ["<C-j>"] = cmp.mapping.select_next_item(),
       ["<C-e>"] = cmp.mapping.abort(),
       ["<TAB>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif has_words_before() then
-          cmp.complete()
+        if cmp.visible() and has_words_before() then
+          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
         else
           fallback()
         end
@@ -127,19 +124,18 @@ M.config = function()
     },
     enabled = function()
       return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-      -- or require("cmp_dap").is_dap_buffer()
     end,
     sorting = {
       comparators = {
-        require"copilot_cmp.comparators".prioritize,
-        require"copilot_cmp.comparators".score,
+        -- require"copilot_cmp.comparators".prioritize,
+        -- require"copilot_cmp.comparators".score,
 
         cmp.config.compare.offset,
         cmp.config.compare.exact,
         cmp.config.compare.score,
         cmp.config.compare.recently_used,
         -- require "clangd_extensions.cmp_scores",
-        require"cmp-under-comparator".under,
+        -- require"cmp-under-comparator".under,
         cmp.config.compare.kind,
         cmp.config.compare.sort_text,
         cmp.config.compare.length,
@@ -147,19 +143,6 @@ M.config = function()
       },
     },
   }
-
-  -- cmp.setup.cmdline('/', {
-  --   mapping = cmp.mapping.preset.cmdline(),
-  --   sources = { { name = 'buffer' } },
-  -- })
-
-  -- cmp.setup.cmdline(':', {
-  --   mapping = cmp.mapping.preset.cmdline(),
-  --   sources = cmp.config.sources {
-  --     { name = 'path' },
-  --     { { name = 'cmdline' }, { name = 'cmdline_history' } },
-  --   },
-  -- })
 end
 
 return M

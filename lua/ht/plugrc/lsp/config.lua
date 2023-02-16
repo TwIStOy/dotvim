@@ -308,6 +308,7 @@ M.config = function() -- code to run after plugin loaded
             command = 'clippy',
             extraArgs = { "--all", "--", "-W", "clippy::all" },
           },
+          completion = { privateEditable = { enable = true } },
         },
       },
     },

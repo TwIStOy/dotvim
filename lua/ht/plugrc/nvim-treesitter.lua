@@ -1,9 +1,17 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
+    lazy = true,
+    build = function()
+      if #vim.api.nvim_list_uis() ~= 0 then
+        vim.api.nvim_command("TSUpdate")
+      end
+    end,
     event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = { 'RRethy/nvim-treesitter-endwise' },
+    dependencies = {
+      'RRethy/nvim-treesitter-endwise',
+      'mrjones2014/nvim-ts-rainbow',
+    },
     opts = {
       ensure_installed = {
         'c',
@@ -38,6 +46,7 @@ return {
       },
       endwise = { enable = true },
       context_commentstring = { enable = true, enable_autocmd = false },
+      rainbow = { enable = true, extended_mode = true, max_file_lines = 2000 },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
@@ -45,7 +54,34 @@ return {
   },
   {
     'nvim-treesitter/playground',
+    lazy = true,
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
+  },
+  {
+    'Wansmer/treesj',
+    lazy = true,
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    cmd = { 'TSJToggle', 'TSJSplit', 'TSJJoin' },
+    init = function()
+      local menu = require 'ht.core.menu'
+      local Menu = require 'nui.menu'
+      menu:append_section("*", {
+        Menu.item("Toggle Split/Join", {
+          action = function()
+            vim.api.nvim_command("TSJToggle")
+          end,
+        }),
+      }, 99)
+    end,
+    config = function()
+      local tsj = require('treesj')
+
+      tsj.setup {
+        use_default_keymaps = false,
+        check_syntax_error = false,
+        max_join_length = 120,
+      }
+    end,
   },
 }

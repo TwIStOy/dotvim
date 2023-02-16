@@ -146,6 +146,29 @@ local function display_menu(_sections, winnr, r, c, previous)
     end
   end
 
+  local function on_change(item, m)
+    -- complex menu item, open sub-menu
+    local pos = nil
+    for i, val in ipairs(m._tree.nodes.root_ids) do
+      if val == item._id then
+        pos = i
+      end
+    end
+
+    if item.items ~= nil then
+      display_menu(item.items, winnr, r + pos - 1, c + m.win_config.width + 4,
+                   { m })
+      return
+    end
+
+    if item.desc ~= nil then
+      print(item.desc)
+    else
+      -- clear print
+      print('')
+    end
+  end
+
   local menu = Menu(popup_options, {
     lines = sections,
     min_width = 20,
@@ -153,7 +176,7 @@ local function display_menu(_sections, winnr, r, c, previous)
     keymap = {
       focus_next = { "j", "<DOWN>", "<C-n>", "<TAB>" },
       focus_prev = { "k", "<UP>", "<C-p>", "<S-TAB>" },
-      close = { "<ESC>", "<C-c>", "h" },
+      close = { "<ESC>", "<C-c>" },
       submit = { "<CR>" },
     },
     on_close = function()
@@ -162,18 +185,7 @@ local function display_menu(_sections, winnr, r, c, previous)
       end
     end,
     on_change = function(item, m)
-      -- complex menu item, open sub-menu
-      local pos = nil
-      for i, val in ipairs(m._tree.nodes.root_ids) do
-        if val == item._id then
-          pos = i
-        end
-      end
-
-      if item.items ~= nil then
-        display_menu(item.items, winnr, r + pos - 1, c + m.win_config.width + 4,
-                     { m })
-      end
+      on_change(item, m)
     end,
     on_submit = function(item)
       if item.action ~= nil then
@@ -190,6 +202,18 @@ local function display_menu(_sections, winnr, r, c, previous)
       end
     end,
   })
+  menu:map('n', 'h', function()
+    if previous ~= nil then
+      menu.menu_props.on_close()
+    end
+  end, { noremap = true, nowait = true, silent = true })
+  menu:map('n', 'l', function()
+    local item = menu.tree:get_node()
+    if item.items ~= nil then
+      -- has sub-menu
+      on_change(item, menu)
+    end
+  end, { noremap = true, nowait = true, silent = true })
 
   menu:mount()
 end

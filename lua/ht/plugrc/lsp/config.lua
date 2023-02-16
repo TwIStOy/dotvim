@@ -106,17 +106,17 @@ M.config = function() -- code to run after plugin loaded
         }),
         Menu.item('Goto Definition', {
           action = function()
-            vim.lsp.buf.definition()
+            require'telescope.builtin'.lsp_definitions {}
           end,
         }),
         Menu.item('Goto Implementation', {
           action = function()
-            vim.lsp.buf.implementation()
+            require'telescope.builtin'.lsp_implementations {}
           end,
         }),
         Menu.item('Inspect References', {
           action = function()
-            vim.lsp.buf.references()
+            require'telescope.builtin'.lsp_references {}
           end,
         }),
         Menu.item('Rname', {
@@ -167,6 +167,7 @@ M.config = function() -- code to run after plugin loaded
           action = function()
             require'rust-tools'.open_cargo_toml.open_cargo_toml()
           end,
+          desc = 'open project Cargo.toml',
         }),
         Menu.item("Move Item Up", {
           action = function()
@@ -177,6 +178,7 @@ M.config = function() -- code to run after plugin loaded
           action = function()
             require'rust-tools'.expand_macro.expand_macro()
           end,
+          desc = 'expand macros recursively',
         }),
         Menu.item("Parent Module", {
           action = function()

@@ -134,7 +134,7 @@ require'ht.core.window'.skip_filetype('fidget')
 require'ht.core.window'.skip_filetype('scrollview')
 require'ht.core.window'.skip_filetype('notify')
 
-event.on('BufEnter', {
+event.on('BufEnter,WinClosed', {
   pattern = '*',
   callback = function()
     require'ht.core.window'.check_last_window()

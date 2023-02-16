@@ -59,7 +59,21 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local null_ls = require 'null-ls'
-      null_ls.setup { sources = { null_ls.builtins.diagnostics.cpplint, } }
+      null_ls.setup { sources = { null_ls.builtins.diagnostics.cpplint } }
+    end,
+  },
+
+  {
+    "zbirenbaum/neodim",
+    lazy = true,
+    event = "LspAttach",
+    config = function()
+      require("neodim").setup({
+        alpha = 0.75,
+        blend_color = "#000000",
+        update_in_insert = { enable = true, delay = 100 },
+        hide = { virtual_text = true, signs = false, underline = false },
+      })
     end,
   },
 }

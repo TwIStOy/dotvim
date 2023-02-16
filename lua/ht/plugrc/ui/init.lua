@@ -6,7 +6,7 @@ return {
   { 'nvim-lua/popup.nvim', lazy = true },
 
   -- colorful windows seperators
-  { "nvim-zh/colorful-winsep.nvim", event = 'WinResized' },
+  { "nvim-zh/colorful-winsep.nvim", event = 'VeryLazy' },
 
   -- show whitespace
   {

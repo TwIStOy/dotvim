@@ -10,7 +10,6 @@ return {
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
       'RRethy/nvim-treesitter-endwise',
-      'mrjones2014/nvim-ts-rainbow',
     },
     opts = {
       ensure_installed = {
@@ -45,8 +44,6 @@ return {
         disable = {}, -- list of language that will be disabled
       },
       endwise = { enable = true },
-      context_commentstring = { enable = true, enable_autocmd = false },
-      rainbow = { enable = true, extended_mode = true, max_file_lines = 2000 },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)

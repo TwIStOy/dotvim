@@ -53,6 +53,20 @@ local M = {
 
 M.config = function()
   local actions = require 'telescope.actions'
+
+  local extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    },
+  }
+
+  if vim.fn.has('maxunix') then
+    extensions.dash = {}
+  end
+
   require'telescope'.setup {
     defaults = {
       selection_caret = "➤ ",
@@ -82,14 +96,7 @@ M.config = function()
         n = { ["q"] = actions.close },
       },
     },
-    extensions = {
-      fzf = {
-        fuzzy = true,
-        override_generic_sorter = true,
-        override_file_sorter = true,
-        case_mode = "smart_case",
-      },
-    },
+    extensions = extensions,
   }
 
   require('telescope').load_extension('fzf')

@@ -304,6 +304,8 @@ M.config = function() -- code to run after plugin loaded
       capabilities = capabilities,
       settings = {
         ["rust-analyzer"] = {
+          cargo = { buildScripts = { enable = true } },
+          procMacro = { enable = true },
           check = {
             command = 'clippy',
             extraArgs = { "--all", "--", "-W", "clippy::all" },

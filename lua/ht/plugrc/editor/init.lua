@@ -100,4 +100,27 @@ return {
       { '<leader>ta', '<cmd>EasyAlign<CR>', mode = 'x', desc = 'easy-align' },
     },
   },
+
+  -- dash, only macos supported
+  {
+    'mrjones2014/dash.nvim',
+    build = 'make install',
+    lazy = true,
+    cmd = { 'Dash', 'DashWord' },
+    cond = function()
+      return vim.fn.has('macunix')
+    end,
+    opts = {
+      dash_app_path = '/Applications/Setapp/Dash.app',
+      search_engine = 'google',
+      file_type_keywords = {
+        dashboard = false,
+        NvimTree = false,
+        TelescopePrompt = false,
+        terminal = false,
+        packer = false,
+        fzf = false,
+      },
+    },
+  },
 }

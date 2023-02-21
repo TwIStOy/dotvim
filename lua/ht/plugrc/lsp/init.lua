@@ -2,6 +2,7 @@ return {
   {
     'folke/trouble.nvim',
     dependencies = { 'folke/lsp-colors.nvim' },
+    lazy = true,
     cmd = { 'Trouble', 'TroubleClose', 'TroubleToggle', 'TroubleRefresh' },
     keys = {
       { '<leader>xx', '<cmd>TroubleToggle<CR>', desc = 'toggle-trouble-window' },
@@ -14,6 +15,13 @@ return {
         '<leader>xd',
         '<cmd>TroubleToggle document_diagnostics<CR>',
         desc = 'document-diagnostics',
+      },
+      {
+        ']e',
+        function()
+          require('trouble').next { skip_groups = true, jump = true }
+        end,
+        desc = "jump-to-next-diagnostic",
       },
     },
   },

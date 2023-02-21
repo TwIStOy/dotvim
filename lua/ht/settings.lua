@@ -14,7 +14,7 @@ vim.api.nvim_set_keymap('', '<Right>', '<Nop>', {})
 vim.api.nvim_set_keymap('', '<Up>', '<Nop>', {})
 vim.api.nvim_set_keymap('', '<Down>', '<Nop>', {})
 
-vim.opt.title = true
+vim.opt.title = false
 vim.opt.ttyfast = true
 
 -- vim.opt.lazyredraw = true

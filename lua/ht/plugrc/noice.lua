@@ -4,6 +4,12 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
+    enabled = function()
+      if vim.g["neovide"] then
+        return false
+      end
+      return true
+    end,
     opts = {
       lsp = {
         progress = {

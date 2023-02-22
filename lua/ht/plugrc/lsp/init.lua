@@ -23,6 +23,13 @@ return {
         end,
         desc = "jump-to-next-diagnostic",
       },
+      {
+        '[e',
+        function()
+          require('trouble').previous { skip_groups = true, jump = true }
+        end,
+        desc = "jump-to-previous-diagnostic",
+      },
     },
   },
 

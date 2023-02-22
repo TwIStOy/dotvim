@@ -1,9 +1,17 @@
-snippet der "derive" b
-#[derive(${1:derive})]
+snippet der "#[derive(...)]" b
+#[derive(${1:Debug, Clone})]
 endsnippet
 
-snippet allow "allow attribute" b
-#[allow(${1:unused_variables})]
+snippet al "#[allow(...)]" b
+#[allow(${1:dead_code})]
+endsnippet
+
+snippet cfg "#[cfg(...)]" b
+#[cfg(${1:target_os = "linux"})]
+endsnippet
+
+snippet cff "#[cfg(feature = ...)]" b
+#[cfg(feature = "${1:feature_name}")]
 endsnippet
 
 snippet attr "#[...]" b
@@ -40,16 +48,6 @@ async fn ${1:function_name}(${2}) ${3} {
 }
 endsnippet
 
-snippet new "constructor" bw
-pub fn new(${2}) -> ${1:Self} {
-  $1 { ${3} }
-}
-endsnippet
-
-snippet ddc "derive debug" bw
-#[derive(Debug, Clone)]
-endsnippet
-
 snippet ifo "if let Ok(...)" bw
 if let Ok($1) = ${1:foo} {
   ${0}
@@ -59,6 +57,23 @@ endsnippet
 snippet ifs "if let Some(...)" bw
 if let Some($1) = ${1:foo} {
   ${0}
+}
+endsnippet
+
+snippet mo "match option { ... }" b
+match ${1:foo} {
+	Some($1) => $1,
+	None => (),
+}
+endsnippet
+
+snippet mr "match result { ... }" b
+match ${1:foo} {
+	Ok($1) => $1,
+	Err(e) => {
+	  info!("error: {e}");
+		return;
+	},
 }
 endsnippet
 
@@ -76,30 +91,41 @@ if ${1:object}.is_none() {
 let $1 = unsafe { $1.unwrap_unchecked() };
 endsnippet
 
-snippet fmt "fast format" bw
+snippet fmt "format!(...)" bw
 format!("{:?}", ${1:obj});
 endsnippet
 
-snippet pl "fast print" bw
-println!("{:?}", ${1:obj});
+snippet pdb "println! dbg obj" bw
+println!("$1 = {:?}", ${1:obj});
 endsnippet
 
-snippet adc "allow dead code" bw
-#[allow(dead_code)]
+snippet pln "println!(...)" bw
+println!("{:?}", ${1:foo});
 endsnippet
 
-snippet todo "TODO comments" bA
+snippet todo "TODO comments" b
 // TODO(hawtian): ${0}
 endsnippet
 
-snippet fixme "FIXME comments" bA
+snippet fixme "FIXME comments" b
 // FIXME(hawtian): ${0}
 endsnippet
 
-snippet def "macro_rules!" b
-macro_rules! ${1:name} {
-  (${2:matcher}) => {
-	  ${0}
+snippet testfn "#[test] fn" b
+#[test]
+fn test_${1:foo}() {
+	${0}
+}
+endsnippet
+
+snippet testm "test module" b
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+	#[test]
+	fn test_works() {
+	  println!("works");
 	}
 }
 endsnippet

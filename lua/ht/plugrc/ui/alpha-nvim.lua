@@ -174,7 +174,7 @@ M.config = function() -- code to run after plugin loaded
       dashboard.button('e', "  > New File", ":ene <BAR> startinsert <CR>"),
       dashboard.button("c", "  > Settings",
                        ':cd $HOME/.dotvim | Telescope find_files<CR>'),
-      dashboard.button('u', "  > Update Plugins", ":PackerSync<CR>"),
+      dashboard.button('u', "  > Update Plugins", ":Lazy update<CR>"),
       dashboard.button('q', '  > Quit', ':qa<CR>'),
     },
     position = 'center',

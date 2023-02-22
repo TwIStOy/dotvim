@@ -6,8 +6,6 @@ local event = require 'ht.core.event'
 -- run impatient.nvim
 -- require 'impatient'
 
--- vim.api.nvim_set_var('mapleader', ' ')
-
 -- Disable arrows
 vim.api.nvim_set_keymap('', '<Left>', '<Nop>', {})
 vim.api.nvim_set_keymap('', '<Right>', '<Nop>', {})

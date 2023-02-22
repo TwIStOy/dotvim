@@ -123,4 +123,40 @@ return {
       },
     },
   },
+
+  -- remove buffers
+  {
+    "kazhala/close-buffers.nvim",
+    lazy = true,
+    cmd = { 'BDelete', 'BWipeout' },
+    config = function()
+      require('close_buffers').setup {
+        filetype_ignore = {
+          'dashboard',
+          'NvimTree',
+          'TelescopePrompt',
+          'terminal',
+          'packer',
+          'fzf',
+        },
+        preserve_window_layout = { 'this' },
+        next_buffer_cmd = function(windows)
+          require('bufferline').cycle(1)
+          local bufnr = vim.api.nvim_get_current_buf()
+          for _, window in ipairs(windows) do
+            vim.api.nvim_win_set_buf(window, bufnr)
+          end
+        end,
+      }
+    end,
+    keys = {
+      {
+        "<leader>ch",
+        function()
+          require('close_buffers').delete({ type = 'hidden' })
+        end,
+        desc = 'clear-hidden-buffers',
+      },
+    },
+  },
 }

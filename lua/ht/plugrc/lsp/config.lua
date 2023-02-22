@@ -298,6 +298,14 @@ M.config = function() -- code to run after plugin loaded
   }
 
   require'rust-tools'.setup {
+    tools = {
+      on_initialized = function()
+        vim.notify("rust-analyzer initialize done")
+      end,
+      inlay_hints = {
+        auto = false,
+      }
+    },
     server = {
       cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' },
       on_attach = on_buffer_attach,

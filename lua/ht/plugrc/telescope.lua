@@ -4,8 +4,7 @@ local M = {
   cmd = { 'Telescope' },
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'tami5/sqlite.lua',
-    'tami5/sql.nvim',
+    'kkharji/sqlite.lua',
     'nvim-telescope/telescope-fzf-native.nvim',
   },
   keys = {

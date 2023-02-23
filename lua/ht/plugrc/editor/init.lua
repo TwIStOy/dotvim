@@ -136,6 +136,7 @@ return {
           'NvimTree',
           'TelescopePrompt',
           'terminal',
+          'toggleterm',
           'packer',
           'fzf',
         },
@@ -154,6 +155,8 @@ return {
         "<leader>ch",
         function()
           require('close_buffers').delete({ type = 'hidden' })
+          vim.cmd("redrawtabline")
+          vim.cmd("redraw")
         end,
         desc = 'clear-hidden-buffers',
       },

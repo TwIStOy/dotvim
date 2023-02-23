@@ -24,7 +24,7 @@ return {
     priority = 1000,
     config = function()
       require('catppuccin').setup {
-        flavor = "frappe",
+        flavour = "frappe",
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
         styles = {
           comments = { "italic" },

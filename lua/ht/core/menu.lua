@@ -143,8 +143,7 @@ local function display_menu(_sections, winnr, r, c, previous)
     end
   end
 
-  local function on_change(item, m)
-    -- complex menu item, open sub-menu
+  local function open_submenu(item, m)
     local pos = nil
     for i, val in ipairs(m._tree.nodes.root_ids) do
       if val == item._id then
@@ -157,7 +156,9 @@ local function display_menu(_sections, winnr, r, c, previous)
                    { m })
       return
     end
+  end
 
+  local function on_change(item, m)
     if item.desc ~= nil then
       print(item.desc)
     else
@@ -208,7 +209,7 @@ local function display_menu(_sections, winnr, r, c, previous)
     local item = menu.tree:get_node()
     if item.items ~= nil then
       -- has sub-menu
-      on_change(item, menu)
+      open_submenu(item, menu)
     end
   end, { noremap = true, nowait = true, silent = true })
 

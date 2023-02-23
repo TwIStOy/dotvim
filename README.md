@@ -4,9 +4,7 @@ dotvim
 ## Prerequisites
 
 - [neovim nightly](https://github.com/neovim/neovim)
-- nodejs & yarn
-- python module: pynvim, re
-- node package: neovim
+- python module: pynvim, regex, pygments
 
 ## Setup
 

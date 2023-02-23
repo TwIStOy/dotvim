@@ -8,9 +8,7 @@ return {
       end
     end,
     event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = {
-      'RRethy/nvim-treesitter-endwise',
-    },
+    dependencies = { 'RRethy/nvim-treesitter-endwise' },
     opts = {
       ensure_installed = {
         'c',
@@ -41,6 +39,7 @@ return {
       },
       highlight = {
         enable = true, -- false will disable the whole extension
+        additional_vim_regex_highlighting = false,
         disable = {}, -- list of language that will be disabled
       },
       endwise = { enable = true },

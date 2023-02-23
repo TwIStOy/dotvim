@@ -13,6 +13,7 @@ return {
     opts = {
       options = {
         view = 'multiwindow',
+        highlights = require("catppuccin.groups.integrations.bufferline").get(),
         hover = { enabled = true, delay = 200 },
         separator_style = 'thin',
         close_command = "Bdelete! %d",

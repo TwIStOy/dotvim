@@ -3,14 +3,13 @@ local M = {}
 M = {
   'hoob3rt/lualine.nvim',
   event = "VeryLazy",
-  dependencies = {
-    'nvim-tree/nvim-web-devicons',
-  }
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
 }
 
 local options = {
-  section_separators = { '', '' },
-  component_separators = { '', '' },
+  component_separators = "|",
+  section_separators = { left = "", right = "" },
+
   theme = 'auto',
 }
 
@@ -23,16 +22,23 @@ local inactive_sections = {
   lualine_z = {},
 }
 
-M.opts = function() -- code to run after plugin loaded
-  -- local navic = require 'nvim-navic'
+local function get_cwd()
+  local cwd = vim.fn.getcwd()
+  local home = os.getenv("HOME")
+  if cwd:find(home, 1, true) == 1 then
+    cwd = "~" .. cwd:sub(#home + 1)
+  end
+  return cwd
+end
 
+M.opts = function() -- code to run after plugin loaded
   require'lualine'.setup {
     options = options,
     sections = {
       lualine_a = { 'mode' },
-      lualine_b = {
-        'branch',
-        'diff',
+      lualine_b = { 'branch', 'diff' },
+      lualine_c = {
+        { 'filename', path = 1 },
         {
           'diagnostics',
           sources = { 'nvim_diagnostic', 'coc' },
@@ -49,13 +55,13 @@ M.opts = function() -- code to run after plugin loaded
           always_visible = false,
         },
       },
-      lualine_c = {
-        'filename',
-        -- { navic.get_location, cond = navic.is_available },
+      lualine_x = { get_cwd },
+      lualine_y = {
+        { "filetype", colored = true, icon_only = false },
+        'encoding',
+        'fileformat',
       },
-      lualine_x = { 'encoding', 'fileformat', 'filetype' },
-      lualine_y = { 'progress' },
-      lualine_z = { 'location' },
+      lualine_z = { 'progress', 'location' },
     },
     inactive_sections = inactive_sections,
     tabline = {},
@@ -64,3 +70,4 @@ M.opts = function() -- code to run after plugin loaded
 end
 
 return M
+

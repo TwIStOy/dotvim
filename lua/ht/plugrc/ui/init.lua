@@ -39,7 +39,29 @@ return {
   },
 
   -- scroll
-  { 'dstein64/nvim-scrollview', event = { 'BufReadPost' } },
+  {
+    'petertriho/nvim-scrollbar',
+    lazy = true,
+    event = { 'BufReadPost' },
+    dependencies = { "kevinhwang91/nvim-hlslens" },
+    config = function()
+      require("scrollbar.handlers.search").setup()
+      require("scrollbar").setup({
+        show = true,
+        show_in_active_only = true,
+        set_highlights = true,
+        hide_if_all_visible = true,
+        excluded_buftypes = { "terminal" },
+        excluded_filetypes = {
+          "prompt",
+          "TelescopePrompt",
+          "noice",
+          "toggleterm",
+        },
+        handlers = { diagnostic = true, search = true, gitsigns = false },
+      })
+    end,
+  },
 
   -- alpha
   {
@@ -48,4 +70,6 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons', 'nvim-lua/plenary.nvim' },
     config = require'ht.plugrc.ui.alpha-nvim'.config,
   },
+
+  { 'edkolev/tmuxline.vim', lazy = true, cmd = { 'Tmuxline' } },
 }

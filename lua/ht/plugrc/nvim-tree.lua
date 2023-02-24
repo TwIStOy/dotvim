@@ -36,13 +36,12 @@ M.config = function() -- code to run after plugin loaded
       },
       icons = { hint = "", info = "", warning = "", error = "" },
     },
-    modified = {
-      enable = true,
-    },
+    modified = { enable = true },
     update_focused_file = { enable = false, update_cwd = false,
                             ignore_list = {} },
     system_open = { cmd = nil, args = {} },
     filters = { dotfiles = false, custom = {} },
+    git = { ignore = false },
     view = {
       width = 30,
       hide_root_folder = false,

@@ -8,6 +8,7 @@ return {
       end
     end,
     event = { 'BufReadPost', 'BufNewFile' },
+    cmd = { 'TSUpdate', 'TSUpdateSync' },
     dependencies = { 'RRethy/nvim-treesitter-endwise' },
     opts = {
       ensure_installed = {
@@ -40,7 +41,17 @@ return {
       highlight = {
         enable = true, -- false will disable the whole extension
         additional_vim_regex_highlighting = false,
-        disable = {}, -- list of language that will be disabled
+        disable = function(lang, bufnr)
+          if lang == 'html' and vim.api.nvim_buf_line_count(bufnr) > 500 then
+            return true
+          end
+          for _, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, 3, false)) do
+            if #line > 500 then
+              return true
+            end
+          end
+          return false
+        end,
       },
       endwise = { enable = true },
     },

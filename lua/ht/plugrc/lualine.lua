@@ -32,6 +32,8 @@ local function get_cwd()
 end
 
 M.opts = function() -- code to run after plugin loaded
+  local navic = require 'nvim-navic'
+
   require'lualine'.setup {
     options = options,
     sections = {
@@ -54,6 +56,7 @@ M.opts = function() -- code to run after plugin loaded
           update_in_insert = false,
           always_visible = false,
         },
+        { navic.get_location, cond = navic.is_available },
       },
       lualine_x = { get_cwd },
       lualine_y = {

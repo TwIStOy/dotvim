@@ -2,6 +2,7 @@ return {
   -- indent guides for Neovim
   {
     "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
     event = "BufReadPost",
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = function() -- code to run after plugin loaded

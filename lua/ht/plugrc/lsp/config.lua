@@ -86,6 +86,16 @@ local function on_buffer_attach(client, bufnr)
     desc = 'next-diagnostic',
   }, bufnr)
 
+  if client.name == "clangd" then
+    mapping.map({
+      keys = { 'f', 'a' },
+      action = function()
+        vim.cmd 'ClangdSwitchSourceHeader'
+      end,
+      desc = 'clangd-switch-header',
+    }, bufnr)
+  end
+
   if client.server_capabilities['documentSymbolProvider'] then
     navic.attach(client, bufnr)
   end
@@ -302,9 +312,7 @@ M.config = function() -- code to run after plugin loaded
       on_initialized = function()
         vim.notify("rust-analyzer initialize done")
       end,
-      inlay_hints = {
-        auto = false,
-      }
+      inlay_hints = { auto = false },
     },
     server = {
       cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' },

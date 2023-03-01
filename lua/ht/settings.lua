@@ -139,12 +139,10 @@ event.on('BufEnter,WinClosed', {
   end,
 })
 
-mapping.map { keys = { '<M-h>' }, action = '<cmd>wincmd h<CR>' }
-mapping.map { keys = { '<M-j>' }, action = '<cmd>wincmd j<CR>' }
-mapping.map { keys = { '<M-k>' }, action = '<cmd>wincmd k<CR>' }
-mapping.map { keys = { '<M-l>' }, action = '<cmd>wincmd l<CR>' }
-mapping.map { keys = { '<M-b>' }, action = '<cmd>SidewaysLeft<CR>' }
-mapping.map { keys = { '<M-f>' }, action = '<cmd>SidewaysRight<CR>' }
+--[[
+mapping.map { keys = { '<M-h>' }, action = '<cmd>SidewaysLeft<CR>' }
+mapping.map { keys = { '<M-l>' }, action = '<cmd>SidewaysRight<CR>' }
+--]]
 
 mapping.append_folder_name({ '<leader>', 'w' }, 'window')
 mapping.map {

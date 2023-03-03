@@ -145,9 +145,6 @@ M.config = function()
             return vim_item
           end,
         })(entry, vim_item)
-
-        vim.pretty_print(kind)
-
         local strings = vim.split(kind.kind, "%s", { trimempty = true })
         kind.abbr = fix_menu_abbr(kind.abbr)
         kind.kind = " " .. strings[1] .. " "

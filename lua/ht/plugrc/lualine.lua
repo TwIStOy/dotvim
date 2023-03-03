@@ -33,6 +33,7 @@ end
 
 M.opts = function() -- code to run after plugin loaded
   local navic = require 'nvim-navic'
+  local rime = require 'ht.plugrc.lsp.custom.rime'
 
   require'lualine'.setup {
     options = options,
@@ -60,6 +61,7 @@ M.opts = function() -- code to run after plugin loaded
       },
       lualine_x = { get_cwd },
       lualine_y = {
+        { rime.rime_state },
         { "filetype", colored = true, icon_only = false },
         'encoding',
         'fileformat',

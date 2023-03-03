@@ -96,6 +96,18 @@ local function on_buffer_attach(client, bufnr)
     }, bufnr)
   end
 
+  if client.name == 'rime_ls' then
+    mapping.map({
+      keys = { '<leader>', 'r', 's' },
+      action = function()
+        vim.lsp.buf.execute_command({ command = "rime-ls.sync-user-data" })
+      end,
+      desc = 'rime-sync-user-data',
+    }, bufnr)
+
+    require'ht.plugrc.lsp.custom.rime'.attach(client, bufnr)
+  end
+
   if client.server_capabilities['documentSymbolProvider'] then
     navic.attach(client, bufnr)
   end
@@ -360,6 +372,23 @@ M.config = function() -- code to run after plugin loaded
     on_attach = on_buffer_attach,
     capabilities = capabilities,
     initializationOptions = { buildDirectory = 'build' },
+  }
+
+  local rime = require 'ht.plugrc.lsp.custom.rime'
+  rime.setup()
+  require'lspconfig'.rime_ls.setup {
+    cmd = vim.g.rime_ls_cmd,
+    init_options = {
+      enabled = false,
+      shared_data_dir = "/usr/share/rime-data",
+      user_data_dir = "~/.local/share/rime-ls",
+      log_dir = "~/.local/share/rime-ls/log",
+      max_candidates = 9,
+      trigger_characters = {},
+      schema_trigger_character = "&",
+    },
+    on_attach = on_buffer_attach,
+    capabilities = capabilities,
   }
 
   -- init sourcekip in macos

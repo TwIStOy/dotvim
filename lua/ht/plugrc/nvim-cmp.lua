@@ -88,6 +88,14 @@ M.config = function()
         behavior = cmp.ConfirmBehavior.Replace,
         select = true,
       }, { 'i', 'c' }),
+      ["<Space>"] = cmp.mapping(function(fallback)
+        if cmp.visible() and vim.g.global_rime_enabled then
+          -- cmp enabled
+          cmp.confirm({ select = true })
+        else
+          fallback()
+        end
+      end, { "i" }),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
       ["<C-k>"] = cmp.mapping.select_prev_item(),
@@ -138,10 +146,16 @@ M.config = function()
           end,
         })(entry, vim_item)
 
+        vim.pretty_print(kind)
+
         local strings = vim.split(kind.kind, "%s", { trimempty = true })
         kind.abbr = fix_menu_abbr(kind.abbr)
         kind.kind = " " .. strings[1] .. " "
-        kind.menu = "    (" .. strings[2] .. ")"
+        if #strings[2] > 0 then
+          kind.menu = "    (" .. strings[2] .. ")"
+        else
+          kind.menu = ""
+        end
         return kind
       end,
     },

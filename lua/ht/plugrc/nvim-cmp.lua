@@ -64,23 +64,21 @@ M.config = function()
     window = {
       completion = {
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        -- winhighlight = 'NormalFloat:NormalFloat,CompBorder:CompBorder',
         winhighlight = 'NormalFloat:CompNormal,FloatBorder:CompBorder',
       },
       documentation = {
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        -- winhighlight = 'NormalFloat:CompNormal,FloatBorder:CompDocBorder',
         winhighlight = 'NormalFloat:CompNormal,FloatBorder:FloatBorder',
       },
     },
     sources = {
-      { name = "nvim_lsp" },
-      { name = "copilot" },
-      { name = "ultisnips" },
-      { name = 'nvim_lsp_signature_help' },
-      { name = 'path' },
-      { name = 'calc' },
-      { name = 'buffer' },
+      { name = "nvim_lsp", group_index = 1 },
+      { name = "copilot", group_index = 1 },
+      { name = "ultisnips", group_index = 1 },
+      { name = 'nvim_lsp_signature_help', group_index = 1 },
+      { name = 'path', group_index = 1 },
+      { name = 'calc', group_index = 2 },
+      { name = 'buffer', group_index = 2 },
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
     mapping = {

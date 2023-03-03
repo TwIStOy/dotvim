@@ -31,6 +31,19 @@ local has_words_before = function()
                  '^%s*$') == nil
 end
 
+local fix_menu_abbr = function(abbr)
+  -- if length greater than 1
+  if #abbr < 1 then
+    return abbr
+  end
+
+  local ch = abbr:sub(1, 1)
+  if ch == ' ' or ch == '•' then
+    return abbr
+  end
+  return ' ' .. abbr
+end
+
 M.config = function()
   local cmp = require 'cmp'
   local lspkind = require 'lspkind'
@@ -99,28 +112,38 @@ M.config = function()
       end, { 'i', 's' }),
     },
     formatting = {
-      format = lspkind.cmp_format {
-        maxwidth = 50,
-        ellipsis_char = '...',
-        before = function(entry, vim_item)
-          vim_item.menu = ({
-            buffer = '[Buf]',
-            nvim_lsp = '[LSP]',
-            ultisnips = '[Snip]',
-            nvim_lua = '[Lua]',
-            orgmode = '[Org]',
-            path = '[Path]',
-            dap = '[DAP]',
-            emoji = '[Emoji]',
-            calc = '[CALC]',
-            latex_symbols = '[LaTeX]',
-            cmdline_history = '[History]',
-            cmdline = '[Command]',
-            copilot = '[Copilot]',
-          })[entry.source.name] or ('[' .. entry.source.name .. ']')
-          return vim_item
-        end,
-      },
+      fields = { 'kind', 'abbr', 'menu' },
+      format = function(entry, vim_item)
+        local kind = lspkind.cmp_format({
+          mode = "symbol_text",
+          maxwidth = 50,
+          ellipsis_char = '...',
+          before = function(entry, vim_item)
+            vim_item.menu = ({
+              buffer = '[Buf]',
+              nvim_lsp = '[LSP]',
+              ultisnips = '[Snip]',
+              nvim_lua = '[Lua]',
+              orgmode = '[Org]',
+              path = '[Path]',
+              dap = '[DAP]',
+              emoji = '[Emoji]',
+              calc = '[CALC]',
+              latex_symbols = '[LaTeX]',
+              cmdline_history = '[History]',
+              cmdline = '[Command]',
+              copilot = '[Copilot]',
+            })[entry.source.name] or ('[' .. entry.source.name .. ']')
+            return vim_item
+          end,
+        })(entry, vim_item)
+
+        local strings = vim.split(kind.kind, "%s", { trimempty = true })
+        kind.abbr = fix_menu_abbr(kind.abbr)
+        kind.kind = " " .. strings[1] .. " "
+        kind.menu = "    (" .. strings[2] .. ")"
+        return kind
+      end,
     },
     enabled = function()
       return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"

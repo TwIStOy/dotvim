@@ -374,22 +374,24 @@ M.config = function() -- code to run after plugin loaded
     initializationOptions = { buildDirectory = 'build' },
   }
 
-  local rime = require 'ht.plugrc.lsp.custom.rime'
-  rime.setup()
-  require'lspconfig'.rime_ls.setup {
-    cmd = vim.g.rime_ls_cmd,
-    init_options = {
-      enabled = false,
-      shared_data_dir = "/usr/share/rime-data",
-      user_data_dir = "~/.local/share/rime-ls",
-      log_dir = "~/.local/share/rime-ls/log",
-      max_candidates = 9,
-      trigger_characters = {},
-      schema_trigger_character = "&",
-    },
-    on_attach = on_buffer_attach,
-    capabilities = capabilities,
-  }
+  if not vim.fn.has('maxunix') then
+    local rime = require 'ht.plugrc.lsp.custom.rime'
+    rime.setup()
+    require'lspconfig'.rime_ls.setup {
+      cmd = vim.g.rime_ls_cmd,
+      init_options = {
+        enabled = false,
+        shared_data_dir = "/usr/share/rime-data",
+        user_data_dir = "~/.local/share/rime-ls",
+        log_dir = "~/.local/share/rime-ls/log",
+        max_candidates = 9,
+        trigger_characters = {},
+        schema_trigger_character = "&",
+      },
+      on_attach = on_buffer_attach,
+      capabilities = capabilities,
+    }
+  end
 
   -- init sourcekip in macos
   if vim.fn.has('macunix') then

@@ -212,4 +212,6 @@ return {
       },
     },
   },
+
+  { import = 'ht.plugrc.editor.obsidian' },
 }

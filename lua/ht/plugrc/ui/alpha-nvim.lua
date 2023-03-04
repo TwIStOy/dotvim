@@ -174,11 +174,19 @@ M.config = function() -- code to run after plugin loaded
       dashboard.button('e', "  > New File", ":ene <BAR> startinsert <CR>"),
       dashboard.button("c", "  > Settings",
                        ':cd $HOME/.dotvim | Telescope find_files<CR>'),
-      dashboard.button('u', "  > Update Plugins", ":Lazy update<CR>"),
-      dashboard.button('q', '  > Quit', ':qa<CR>'),
     },
     position = 'center',
   }
+  local globals = require('ht.core.globals')
+  if vim.fn.has('maxunix') then
+    table.insert(buttons.val,
+                 dashboard.button('f', "  > Obsidian Vault", ":cd " ..
+                                      globals.obsidian_vault() ..
+                                      ' | Telescope find_files<CR>'))
+  end
+  table.insert(buttons.val, dashboard.button('u', "  > Update Plugins",
+                                             ":Lazy update<CR>"))
+  table.insert(buttons.val, dashboard.button('q', '  > Quit', ':qa<CR>'))
 
   local opts = {
     layout = {

@@ -23,6 +23,7 @@ local M = {
 function M.config()
   local obsidian = require'obsidian'.setup {
     dir = require'ht.core.globals'.obsidian_vault(),
+    notes_subdir = 'Database',
     completion = { nvim_cmp = true },
   }
 

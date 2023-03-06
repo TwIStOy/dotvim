@@ -1,7 +1,6 @@
 return {
   {
-    dir = '/home/hawtian/project/cpp-toolkit.nvim',
-    dev = true,
+    'TwIStOy/cpp-toolkit.nvim',
     config = function()
       require'cpp-toolkit'.setup()
     end,

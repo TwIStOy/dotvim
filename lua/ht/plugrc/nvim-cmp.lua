@@ -74,11 +74,26 @@ M.config = function()
     sources = {
       { name = "nvim_lsp", group_index = 1 },
       { name = "copilot", group_index = 1 },
-      { name = "ultisnips", group_index = 1 },
-      { name = 'nvim_lsp_signature_help', group_index = 1 },
-      { name = 'path', group_index = 1 },
-      { name = 'calc', group_index = 2 },
-      { name = 'buffer', group_index = 2 },
+      { name = "ultisnips", group_index = 2 },
+      { name = 'nvim_lsp_signature_help', group_index = 3 },
+      { name = 'path', group_index = 4 },
+      { name = 'calc', group_index = 5 },
+      {
+        name = 'buffer',
+        group_index = 5,
+        option = {
+          get_bufnrs = function()
+            local buf = vim.api.nvim_get_current_buf()
+            local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api
+                                                              .nvim_buf_line_count(
+                                                              buf))
+            if byte_size > 1024 * 1024 then -- 1 Megabyte max
+              return {}
+            end
+            return { buf }
+          end,
+        },
+      },
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
     mapping = {
@@ -158,16 +173,13 @@ M.config = function()
       return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
     end,
     sorting = {
+      priority_weight = 2,
       comparators = {
-        -- require"copilot_cmp.comparators".prioritize,
-        -- require"copilot_cmp.comparators".score,
-
         cmp.config.compare.offset,
         cmp.config.compare.exact,
         cmp.config.compare.score,
         cmp.config.compare.recently_used,
-        -- require "clangd_extensions.cmp_scores",
-        -- require"cmp-under-comparator".under,
+        require"cmp-under-comparator".under,
         cmp.config.compare.kind,
         cmp.config.compare.sort_text,
         cmp.config.compare.length,

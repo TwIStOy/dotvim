@@ -24,8 +24,6 @@ require'ht.utils'.delay_notify_invocations()
 
 bootstrap_plugin_manager()
 
--- require 'ht.plugins'
-
 require 'ht.settings'
 
 local mkdir = require 'ht.features.mkdir'

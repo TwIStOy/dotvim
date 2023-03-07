@@ -15,14 +15,14 @@ local M = {
   lazy = true,
   dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
   cond = function()
-    return vim.fn.has('macunix')
+    return require'ht.core.globals'.has_obsidian_vault
   end,
   ft = { 'markdown' },
 }
 
 function M.config()
   local obsidian = require'obsidian'.setup {
-    dir = require'ht.core.globals'.obsidian_vault(),
+    dir = require'ht.core.globals'.obsidian_vault,
     notes_subdir = 'Database',
     completion = { nvim_cmp = true },
   }

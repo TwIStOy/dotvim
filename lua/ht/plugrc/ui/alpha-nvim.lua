@@ -178,11 +178,10 @@ M.config = function() -- code to run after plugin loaded
     position = 'center',
   }
   local globals = require('ht.core.globals')
-  if vim.fn.has('maxunix') then
-    table.insert(buttons.val,
-                 dashboard.button('f', "  > Obsidian Vault", ":cd " ..
-                                      globals.obsidian_vault() ..
-                                      ' | Telescope find_files<CR>'))
+  if globals.has_obsidian_vault then
+    table.insert(buttons.val, dashboard.button('f', "  > Obsidian Vault",
+                                               ":cd " .. globals.obsidian_vault ..
+                                                   ' | Telescope find_files<CR>'))
   end
   table.insert(buttons.val, dashboard.button('u', "  > Update Plugins",
                                              ":Lazy update<CR>"))

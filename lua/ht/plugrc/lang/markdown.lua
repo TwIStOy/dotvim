@@ -8,6 +8,7 @@ local M = {
     end,
     init = function()
       vim.g.mkdp_open_to_the_world = true
+      vim.g.mkdp_echo_preview_url = true
     end,
   },
 }

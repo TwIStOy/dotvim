@@ -8,35 +8,5 @@ def title_to_slug(title, snip):
 	slug = slug.replace(' ', '-')
 	slug = re.sub(r'-+', '-', slug)
 	snip.rv = slug
-
-
-def roamresearch_table_row_generate(matched_str, snip):
-	args = [it.strip() for it in str(matched_str).split(',')]
-
-	lines = []
-	current = 0
-	for item in args:
-		lines.append(' ' * current + '- ' + item)
-		current += 2
-
-	snip.rv = "\n".join(lines)
-	# snip.rv = ' << ", " << '.join(['"%s: " << %s' % (it, it) for it in args])
 endglobal
 
-snippet ;meta "Zola Post MetaInfo" b
-+++
-date = `date "+%Y-%m-%d"`
-slug = "`!p title_to_slug(t[1], snip)`"
-title = "${1:title}"
-
-[taxonomies]
-tags = [ ${2:tag} ]
-categories = ["${3:category}"]
-+++
-
-${0}
-endsnippet
-
-snippet '(.*)\.rtr' "Roamresearch Table tr" r
-`!p roamresearch_table_row_generate(match.group(1), snip)`$0
-endsnippet

@@ -31,6 +31,14 @@ local function get_cwd()
   return cwd
 end
 
+local function session_name()
+  local session = require('possession.session')
+  if session ~= nil then
+    return session.session_name or ''
+  end
+  return ''
+end
+
 M.opts = function() -- code to run after plugin loaded
   local navic = require 'nvim-navic'
   local rime = require 'ht.plugrc.lsp.custom.rime'
@@ -66,7 +74,7 @@ M.opts = function() -- code to run after plugin loaded
         'encoding',
         'fileformat',
       },
-      lualine_z = { 'progress', 'location' },
+      lualine_z = { 'progress', 'location', session_name },
     },
     inactive_sections = inactive_sections,
     tabline = {},

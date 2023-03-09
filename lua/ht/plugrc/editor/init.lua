@@ -213,5 +213,22 @@ return {
     },
   },
 
+  -- obsidian
   { import = 'ht.plugrc.editor.obsidian' },
+
+  -- session management
+  {
+    'jedrzejboczar/possession.nvim',
+    event = 'VeryLazy',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    lazy = true,
+    opts = {
+      commands = {
+        save = 'SSave',
+        load = 'SLoad',
+        delete = 'SDelete',
+        list = 'SList',
+      },
+    },
+  },
 }

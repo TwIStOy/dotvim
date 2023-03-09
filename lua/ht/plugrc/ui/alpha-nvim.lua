@@ -132,6 +132,12 @@ M.config = function() -- code to run after plugin loaded
       }
       table.insert(lines, line)
     end
+    -- table.insert(lines, { type = 'padding', val = 1 })
+    table.insert(lines, {
+      type = 'text',
+      val = 'Last updated: ' .. require'ht.version'.last_updated_time,
+      opts = { hl = 'SpecialComment', position = 'center' },
+    })
 
     local output = { type = "group", val = lines,
                      opts = { position = "center" } }
@@ -155,7 +161,7 @@ M.config = function() -- code to run after plugin loaded
       {
         type = "group",
         val = function()
-          return { mru(1, cdir, 9) }
+          return { mru(1, vim.fn.getcwd(), 9) }
         end,
         opts = { shrink_margin = false },
       },

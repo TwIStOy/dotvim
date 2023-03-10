@@ -241,7 +241,8 @@ M.config = function() -- code to run after plugin loaded
   require'ht.core.event'.on('CursorHold', {
     pattern = '*',
     callback = function()
-      local buf, win = vim.diagnostic.open_float(nil, {
+      local buf, win = vim.diagnostic.open_float({
+        scope = 'cursor',
         focus = false,
         border = "rounded",
       })

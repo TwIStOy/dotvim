@@ -223,6 +223,7 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
     lazy = true,
     opts = {
+      silent = true,
       commands = {
         save = 'SSave',
         load = 'SLoad',

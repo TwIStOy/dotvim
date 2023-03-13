@@ -101,6 +101,12 @@ return {
     },
   },
 
+  -- markdown table
+  {
+    'dhruvasagar/vim-table-mode',
+    ft = { 'markdown' },
+  },
+
   -- dash, only macos supported
   {
     'mrjones2014/dash.nvim',

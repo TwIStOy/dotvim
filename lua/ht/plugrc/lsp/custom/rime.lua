@@ -65,6 +65,30 @@ function M.attach(client, bufnr)
     mode = { 'n', 'i' },
     desc = 'rime-toggle',
   }, bufnr)
+
+  if vim.api.nvim_buf_get_option(bufnr, 'ft') == 'markdown' then
+    local toggle_markdown_code = function()
+      if vim.g.previous_markdown_code ~= nil then
+        if vim.g.previous_markdown_code ~= vim.g.global_rime_enabled then
+          toggle_rime()
+        end
+        vim.g.previous_markdown_code = nil
+      else
+        vim.g.previous_markdown_code = vim.g.global_rime_enabled
+        if vim.g.global_rime_enabled then
+          toggle_rime()
+        end
+      end
+    end
+    mapping.map({
+      keys = { '`' },
+      action = function()
+        toggle_markdown_code()
+        vim.fn.feedkeys('`', 'n')
+      end,
+      mode = { 'i' },
+    }, bufnr)
+  end
 end
 
 return M

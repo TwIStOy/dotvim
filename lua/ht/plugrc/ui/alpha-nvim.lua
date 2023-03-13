@@ -1,5 +1,38 @@
 local M = {}
 
+local function get_extension(fn)
+  local match = fn:match('^.+(%..+)$')
+  local ext = ''
+  if match ~= nil then
+    ext = match:sub(2)
+  end
+  return ext
+end
+
+local function button(sc, txt, callback)
+  if type(callback) == "string" then
+    callback = function()
+      vim.cmd(callback)
+    end
+  end
+
+  local opts = {
+    position = "center",
+    shortcut = sc,
+    cursor = 5,
+    width = 50,
+    align_shortcut = "right",
+    hl_shortcut = "Keyword",
+    keymap = {
+      'n',
+      sc,
+      '',
+      { noremap = true, silent = true, nowait = true, callback = callback },
+    },
+  }
+  return { type = "button", val = txt, on_press = callback, opts = opts }
+end
+
 M.config = function() -- code to run after plugin loaded
   local alpha = require 'alpha'
   local dashboard = require 'alpha.themes.dashboard'
@@ -17,15 +50,6 @@ M.config = function() -- code to run after plugin loaded
   } -- }}}
 
   local nvim_web_devicons = require 'nvim-web-devicons'
-
-  local function get_extension(fn)
-    local match = fn:match('^.+(%..+)$')
-    local ext = ''
-    if match ~= nil then
-      ext = match:sub(2)
-    end
-    return ext
-  end
 
   local function icon(fn)
     local ext = get_extension(fn)
@@ -178,16 +202,19 @@ M.config = function() -- code to run after plugin loaded
       },
       { type = 'padding', val = 1 },
       dashboard.button('e', "  > New File", ":ene <BAR> startinsert <CR>"),
-      dashboard.button("c", "  > Settings",
-                       ':cd $HOME/.dotvim | Telescope find_files<CR>'),
+      button("c", "  > Settings", function()
+        local builtin = require('telescope.builtin')
+        builtin.find_files({ cwd = "$HOME/.dotvim" })
+      end),
     },
     position = 'center',
   }
   local globals = require('ht.core.globals')
   if globals.has_obsidian_vault then
-    table.insert(buttons.val, dashboard.button('f', "  > Obsidian Vault",
-                                               ":cd " .. globals.obsidian_vault ..
-                                                   ' | Telescope find_files<CR>'))
+    table.insert(buttons.val, button('f', "  > Obsidian Vault", function()
+      local builtin = require('telescope.builtin')
+      builtin.find_files({ cwd = globals.obsidian_vault })
+    end))
   end
   table.insert(buttons.val, dashboard.button('u', "  > Update Plugins",
                                              ":Lazy update<CR>"))

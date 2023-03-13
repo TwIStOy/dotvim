@@ -4,9 +4,9 @@ local default_vault_path = '~/Dropbox/Obsidian/Main'
 
 local function resolve_obsidian_vault()
   if vim.g.obsidian_vault_path then
-    return vim.fn.expand(vim.g.obsidian_vault_path)
+    return vim.fn.resolve(vim.fn.expand(vim.g.obsidian_vault_path))
   end
-  return vim.fn.expand(default_vault_path)
+  return vim.fn.resolve(vim.fn.expand(default_vault_path))
 end
 
 local function resolve_has_obsidian_vault()

@@ -71,5 +71,13 @@ return {
     config = require'ht.plugrc.ui.alpha-nvim'.config,
   },
 
+  {
+    'folke/drop.nvim',
+    ft = { 'dashboard', 'alpha', 'starter' },
+    config = function()
+      require'drop'.setup { screensaver = false }
+    end,
+  },
+
   { 'edkolev/tmuxline.vim', lazy = true, cmd = { 'Tmuxline' } },
 }

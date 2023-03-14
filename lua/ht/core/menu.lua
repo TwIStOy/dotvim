@@ -7,6 +7,7 @@ local A = vim.api
 local _MENU_VAR_ = '_dotvim_menu_info'
 
 M.menus = {}
+M.filename_menus = {}
 
 --[[
 Simple menu item
@@ -45,7 +46,7 @@ local function get_buffer_var(bufnr)
   return A.nvim_buf_get_var(bufnr, _MENU_VAR_) or {}
 end
 
-M.collect_menu_items = function(self, ft)
+M.collect_menu_items = function(self, ft, filename)
   local ctx = {}
 
   if self.menus['*'] ~= nil then
@@ -57,6 +58,14 @@ M.collect_menu_items = function(self, ft)
   if self.menus[ft] ~= nil then
     for _, v in ipairs(self.menus[ft]) do
       ctx = vim.list_extend(ctx, { v })
+    end
+  end
+
+  if filename ~= nil then
+    if self.filename_menus[filename] ~= nil then
+      for _, v in ipairs(self.filename_menus[filename]) do
+        ctx = vim.list_extend(ctx, { v })
+      end
     end
   end
 
@@ -74,10 +83,18 @@ M.append_section = function(self, ft, ctx, idx)
   vim.list_extend(self.menus[ft], { { items = ctx, idx = idx or 0 } })
 end
 
-M.get_ft_sections = function(self, ft)
+M.append_file_section = function(self, filename, ctx, idx)
+  if self.filename_menus[filename] == nil then
+    self.filename_menus[filename] = {}
+  end
+  vim.list_extend(self.filename_menus[filename],
+                  { { items = ctx, idx = idx or 0 } })
+end
+
+M.get_ft_sections = function(self, ft, filename)
   local ctx = {}
 
-  local collected = self:collect_menu_items(ft)
+  local collected = self:collect_menu_items(ft, filename)
   for _, v in ipairs(collected) do
     ctx = add_section(ctx, v.items)
   end
@@ -152,8 +169,15 @@ local function display_menu(_sections, winnr, r, c, previous)
     end
 
     if item.items ~= nil then
+      local new_previous = {}
+      if previous ~= nil then
+        for _, v in ipairs(previous) do
+          table.insert(new_previous, v)
+        end
+      end
+      table.insert(new_previous, m)
       display_menu(item.items, winnr, r + pos - 1, c + m.win_config.width + 4,
-                   { m })
+                   new_previous)
       return
     end
   end
@@ -220,8 +244,8 @@ M.show_menu = function(self)
   local first_line = F.line('w0')
   local r, c = unpack(vim.api.nvim_win_get_cursor(0))
   local winnr = vim.api.nvim_get_current_win()
-  display_menu(self:get_ft_sections(vim.bo.filetype), winnr,
-               r - first_line + 1 + 1, c + 8)
+  display_menu(self:get_ft_sections(vim.bo.filetype, vim.fn.expand('%:t')),
+               winnr, r - first_line + 1 + 1, c + 8)
 end
 
 return M

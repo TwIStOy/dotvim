@@ -39,6 +39,7 @@ vim.g.relative_number_blacklist = {
   'nuipopup',
   'toggleterm',
   'noice',
+  'crates.nvim',
 }
 
 event.on('TermEnter', { pattern = '*', command = 'setlocal nonu nornu' })

@@ -66,7 +66,12 @@ local jump_to_nvim_tree = function()
     end
   end
 
-  require'nvim-tree'.toggle()
+  require("nvim-tree.api").tree.toggle {
+    find_file = false,
+    focus = true,
+    path = nil,
+    update_root = false,
+  }
 end
 
 M.keys = {

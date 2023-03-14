@@ -25,6 +25,7 @@ function M.config()
     dir = require'ht.core.globals'.obsidian_vault,
     notes_subdir = 'Database',
     completion = { nvim_cmp = true },
+    use_advanced_uri = true,
     note_id_func = function(title)
       local suffix = ""
       if title ~= nil then

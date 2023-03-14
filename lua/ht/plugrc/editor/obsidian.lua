@@ -25,6 +25,17 @@ function M.config()
     dir = require'ht.core.globals'.obsidian_vault,
     notes_subdir = 'Database',
     completion = { nvim_cmp = true },
+    note_id_func = function(title)
+      local suffix = ""
+      if title ~= nil then
+        suffix = title:gsub(' ', '-'):lower()
+      else
+        for _ = 1, 4 do
+          suffix = suffix .. string.char(math.random(97, 122))
+        end
+      end
+      return tostring(os.time()) .. '-' .. suffix
+    end,
   }
 
   local au_group = vim.api.nvim_create_augroup("obsidian_extra_setup",

@@ -102,13 +102,15 @@ M.config = function()
         select = true,
       }, { 'i', 'c' }),
       ["<Space>"] = cmp.mapping(function(fallback)
-        if cmp.visible() and vim.g.global_rime_enabled then
+        local entry = cmp.get_selected_entry()
+        if cmp.visible() and vim.g.global_rime_enabled and entry.source.name ==
+            'nvim_lsp' and entry.source.source.client.name == 'rime_ls' then
           -- cmp enabled
-          cmp.confirm({ select = true })
+          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
         else
           fallback()
         end
-      end, { "i" }),
+      end, { 'i', 's' }),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
       ["<C-k>"] = cmp.mapping.select_prev_item(),

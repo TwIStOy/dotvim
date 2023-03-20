@@ -102,8 +102,14 @@ M.config = function()
         select = true,
       }, { 'i', 'c' }),
       ["<Space>"] = cmp.mapping(function(fallback)
+        if not cmp.visible() then
+          fallback()
+        end
         local entry = cmp.get_selected_entry()
-        if cmp.visible() and vim.g.global_rime_enabled and entry.source.name ==
+        if entry == nil then
+          entry = cmp.core.view:get_first_entry()
+        end
+        if entry ~= nil and vim.g.global_rime_enabled and entry.source.name ==
             'nvim_lsp' and entry.source.source.client.name == 'rime_ls' then
           -- cmp enabled
           cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })

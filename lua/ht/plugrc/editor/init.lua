@@ -1,4 +1,6 @@
 return {
+  { import = "ht.plugrc.editor.hop" },
+
   -- matchup parens
   {
     'andymass/vim-matchup',
@@ -102,10 +104,7 @@ return {
   },
 
   -- markdown table
-  {
-    'dhruvasagar/vim-table-mode',
-    ft = { 'markdown' },
-  },
+  { 'dhruvasagar/vim-table-mode', ft = { 'markdown' } },
 
   -- dash, only macos supported
   {

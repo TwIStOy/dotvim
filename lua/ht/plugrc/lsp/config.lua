@@ -387,6 +387,7 @@ M.config = function() -- code to run after plugin loaded
       max_candidates = 9,
       trigger_characters = {},
       schema_trigger_character = "&",
+      max_tokens = 4,
       override_server_capabilities = {
         trigger_characters = {
           'a',

@@ -100,6 +100,7 @@ M.config = function()
       ["<CR>"] = cmp.mapping(function(fallback)
         if not cmp.visible() then
           fallback()
+          return
         end
         local entry = cmp.get_selected_entry()
         if entry == nil then
@@ -107,8 +108,11 @@ M.config = function()
         end
         if entry == nil then
           fallback()
+          return
         end
-        if vim.g.global_rime_enabled and entry.source.name == 'nvim_lsp' and
+        if vim.g.global_rime_enabled and entry.source ~= nil and
+            entry.source.name == 'nvim_lsp' and entry.source.source ~= nil and
+            entry.source.source.client ~= nil and
             entry.source.source.client.name == 'rime_ls' then
           -- if rime enabled, do not confirm
           cmp.abort()
@@ -119,6 +123,7 @@ M.config = function()
       ["<Space>"] = cmp.mapping(function(fallback)
         if not cmp.visible() then
           fallback()
+          return
         end
         local entry = cmp.get_selected_entry()
         if entry == nil then
@@ -126,6 +131,7 @@ M.config = function()
         end
         if entry == nil then
           fallback()
+          return
         end
         if entry ~= nil and vim.g.global_rime_enabled and entry.source.name ==
             'nvim_lsp' and entry.source.source.client.name == 'rime_ls' then

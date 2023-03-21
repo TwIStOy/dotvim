@@ -97,10 +97,25 @@ M.config = function()
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
     mapping = {
-      ["<CR>"] = cmp.mapping(cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      }, { 'i', 'c' }),
+      ["<CR>"] = cmp.mapping(function(fallback)
+        if not cmp.visible() then
+          fallback()
+        end
+        local entry = cmp.get_selected_entry()
+        if entry == nil then
+          entry = cmp.core.view:get_first_entry()
+        end
+        if entry == nil then
+          fallback()
+        end
+        if vim.g.global_rime_enabled and entry.source.name == 'nvim_lsp' and
+            entry.source.source.client.name == 'rime_ls' then
+          -- if rime enabled, do not confirm
+          cmp.abort()
+        else
+          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+        end
+      end, { 'i', 'c' }),
       ["<Space>"] = cmp.mapping(function(fallback)
         if not cmp.visible() then
           fallback()
@@ -108,6 +123,9 @@ M.config = function()
         local entry = cmp.get_selected_entry()
         if entry == nil then
           entry = cmp.core.view:get_first_entry()
+        end
+        if entry == nil then
+          fallback()
         end
         if entry ~= nil and vim.g.global_rime_enabled and entry.source.name ==
             'nvim_lsp' and entry.source.source.client.name == 'rime_ls' then

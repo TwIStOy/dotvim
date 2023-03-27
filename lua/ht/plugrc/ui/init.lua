@@ -57,6 +57,7 @@ return {
           "TelescopePrompt",
           "noice",
           "toggleterm",
+          "nuipopup",
         },
         handlers = { diagnostic = true, search = true, gitsigns = false },
       })

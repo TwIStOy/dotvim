@@ -26,7 +26,7 @@ return {
       require('catppuccin').setup {
         flavour = "frappe",
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
-        dim_inactive = { enabled = true, shade = 'dark', percentage = 0.15 },
+        dim_inactive = { enabled = false, shade = 'dark', percentage = 0.15 },
         styles = {
           comments = { "italic" },
           properties = {},

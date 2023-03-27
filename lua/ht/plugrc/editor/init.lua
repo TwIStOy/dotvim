@@ -1,5 +1,5 @@
 return {
-  { import = "ht.plugrc.editor.hop" },
+  { import = "ht.plugrc.editor.motion" },
 
   -- matchup parens
   {

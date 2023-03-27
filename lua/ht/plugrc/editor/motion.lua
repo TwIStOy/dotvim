@@ -17,4 +17,17 @@ return {
       { ',l', '<cmd>HopLine<CR>', desc = 'jump-line' },
     },
   },
+
+  -- motion in line with f/F
+  {
+    'jinh0/eyeliner.nvim',
+    cmd = { 'EyelinerEnable', 'EyelinerDisable', 'EyelinerToggle' },
+    keys = {
+      { 'f', nil, mode = { 'n' } },
+      { 'F', nil, mode = { 'n' } },
+      { 't', nil, mode = { 'n' } },
+      { 'T', nil, mode = { 'n' } },
+    },
+    opts = { highlight_on_key = true, dim = true },
+  },
 }

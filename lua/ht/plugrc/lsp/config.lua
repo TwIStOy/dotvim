@@ -88,7 +88,7 @@ local function on_buffer_attach(client, bufnr)
 
   if client.name == "clangd" then
     mapping.map({
-      keys = { 'f', 'a' },
+      keys = { '<leader>', 'f', 'a' },
       action = function()
         vim.cmd 'ClangdSwitchSourceHeader'
       end,

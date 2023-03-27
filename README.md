@@ -18,3 +18,4 @@ Update `vim.g.python3_host_prog = '/usr/local/bin/python3'` in `~/.config/nvim/i
 Update `vim.g.compiled_llvm_clang_directory` to where you installed llvm and clang.  
 Update `vim.g.lua_language_server_cmd` to where you installed lua_language_server.
 
+---

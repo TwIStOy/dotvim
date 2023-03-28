@@ -121,7 +121,7 @@ M.config = function()
             cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace,
                           select = false })
           else
-            fallback()
+            cmp.abort()
           end
         end
       end, { 'i', 'c' }),

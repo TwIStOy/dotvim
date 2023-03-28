@@ -117,7 +117,12 @@ M.config = function()
           -- if rime enabled, do not confirm
           cmp.abort()
         else
-          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+          if cmp.get_selected_entry() ~= nil then
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace,
+                          select = false })
+          else
+            fallback()
+          end
         end
       end, { 'i', 'c' }),
       ["<Space>"] = cmp.mapping(function(fallback)

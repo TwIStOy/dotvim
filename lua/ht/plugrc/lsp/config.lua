@@ -7,11 +7,31 @@ local function get_client_capabilities()
   return capabilities
 end
 
-local current_diagnostic_win = nil
-
 local function on_buffer_attach(client, bufnr)
   local mapping = require 'ht.core.mapping'
   local navic = require 'nvim-navic'
+
+  -- display diagnostic win on CursorHold
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+      local opts = {
+        focusable = false,
+        close_events = {
+          "BufLeave",
+          "CursorMoved",
+          "InsertEnter",
+          "FocusLost",
+          "User ShowHover",
+        },
+        border = 'rounded',
+        source = 'always',
+        prefix = ' ',
+        scope = 'cursor',
+      }
+      vim.diagnostic.open_float(nil, opts)
+    end,
+  })
 
   mapping.map({
     keys = { 'g', 'D' },
@@ -35,13 +55,8 @@ local function on_buffer_attach(client, bufnr)
   mapping.map({
     keys = { 'K' },
     action = function()
-      if current_diagnostic_win ~= nil then
-        vim.api.nvim_win_close(current_diagnostic_win, true)
-        vim.api.nvim_command('redraw')
-        current_diagnostic_win = nil
-      end
-
       vim.o.eventignore = 'CursorHold'
+      vim.cmd([[doautocmd User ShowHover]])
       vim.lsp.buf.hover()
       vim.cmd([[autocmd CursorMoved <buffer> ++once set eventignore=""]])
     end,
@@ -216,20 +231,6 @@ M.config = function() -- code to run after plugin loaded
     }),
   }, 4)
 
-  --[[
-  require("mason").setup {
-    ui = {
-      icons = {
-        package_installed = "✓",
-        package_pending = "➜",
-        package_uninstalled = "✗",
-      },
-    },
-    pip = { install_args = { '-i', 'https://pypi.tuna.tsinghua.edu.cn/simple' } },
-
-  }
-  --]]
-
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
       vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false,
@@ -237,18 +238,6 @@ M.config = function() -- code to run after plugin loaded
         update_in_insert = false,
         underline = true,
       })
-
-  require'ht.core.event'.on('CursorHold', {
-    pattern = '*',
-    callback = function()
-      local buf, win = vim.diagnostic.open_float({
-        scope = 'cursor',
-        focus = false,
-        border = "rounded",
-      })
-      current_diagnostic_win = win
-    end,
-  })
 
   local capabilities = get_client_capabilities()
 

@@ -396,6 +396,11 @@ M.config = function() -- code to run after plugin loaded
     capabilities = capabilities,
   }
 
+  require'lspconfig'.tsserver.setup {
+    on_attach = on_buffer_attach,
+    capabilities = capabilities,
+  }
+
   -- init sourcekip in macos
   if vim.fn.has('macunix') then
     require'lspconfig'.sourcekit.setup {

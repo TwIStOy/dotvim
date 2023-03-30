@@ -9,7 +9,14 @@ return {
     end,
     event = { 'BufReadPost', 'BufNewFile' },
     cmd = { 'TSUpdate', 'TSUpdateSync' },
-    dependencies = { 'RRethy/nvim-treesitter-endwise' },
+    dependencies = {
+      {
+        'RRethy/nvim-treesitter-endwise',
+        lazy = true,
+        ft = { 'lua', 'ruby', 'vimscript' },
+      },
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
     opts = {
       ensure_installed = {
         'c',
@@ -54,9 +61,44 @@ return {
         end,
       },
       endwise = { enable = true },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["i,"] = "@parameter.inner",
+            ["a,"] = "@parameter.outer",
+            ["i="] = "@assignment.rhs",
+            ["ir"] = "@return.inner",
+            ["ar"] = "@return.outer",
+          },
+        },
+        swap = { enable = true },
+      },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
+
+      local Menu = require 'nui.menu'
+      local menu = require 'ht.core.menu'
+
+      local swap = require 'nvim-treesitter.textobjects.swap'
+
+      menu:append_section('*', {
+        Menu.item('Move Object Left', {
+          action = function()
+            swap.swap_previous('@parameter.inner')
+          end,
+        }),
+        Menu.item('Move Object Right', {
+          action = function()
+            swap.swap_next('@parameter.inner')
+          end,
+        }),
+      }, 1)
+
     end,
   },
   {

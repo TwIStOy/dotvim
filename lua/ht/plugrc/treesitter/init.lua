@@ -1,5 +1,3 @@
 return {
-  {
-    import = 'ht.plugrc.treesitter.select-ease'
-  }
+  { import = 'ht.plugrc.treesitter.select-ease' },
 }

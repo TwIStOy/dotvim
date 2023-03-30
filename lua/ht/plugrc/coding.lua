@@ -9,19 +9,6 @@ return {
     end,
   },
 
-  -- text-object groups
-  { 'kana/vim-textobj-user', event = 'BufReadPost' },
-  {
-    'lucapette/vim-textobj-underscore',
-    event = 'BufReadPost',
-    dependencies = { 'kana/vim-textobj-user' },
-  },
-  {
-    'sgur/vim-textobj-parameter',
-    event = 'BufReadPost',
-    dependencies = { 'kana/vim-textobj-user' },
-  },
-
   -- highlight todo comments
   {
     'folke/todo-comments.nvim',
@@ -130,29 +117,6 @@ return {
       vim.g.neoformat_rust_rustfmt2 = { exe = "rustfmt", args = {}, stdin = 1 }
       vim.g.neoformat_enabled_rust = { 'rustfmt2' }
       vim.g.neoformat_enabled_lua = { 'luaformat' }
-    end,
-  },
-
-  -- move arguments
-  {
-    'AndrewRadev/sideways.vim',
-    cmd = { 'SidewaysLeft', 'SidewaysRight' },
-    init = function()
-      local Menu = require 'nui.menu'
-      local menu = require 'ht.core.menu'
-
-      menu:append_section('*', {
-        Menu.item('Move Object Left', {
-          action = function()
-            vim.cmd 'SidewaysLeft'
-          end,
-        }),
-        Menu.item('Move Object Right', {
-          action = function()
-            vim.cmd 'SidewaysRight'
-          end,
-        }),
-      }, 1)
     end,
   },
 

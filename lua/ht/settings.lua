@@ -40,6 +40,7 @@ vim.g.relative_number_blacklist = {
   'toggleterm',
   'noice',
   'crates.nvim',
+  'lazy',
 }
 
 event.on('TermEnter', { pattern = '*', command = 'setlocal nonu nornu' })

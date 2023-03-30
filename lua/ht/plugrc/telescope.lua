@@ -1,7 +1,7 @@
 local M = {
   'nvim-telescope/telescope.nvim',
-  event = 'VeryLazy',
   cmd = { 'Telescope' },
+  lazy = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'kkharji/sqlite.lua',

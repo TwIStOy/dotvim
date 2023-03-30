@@ -10,15 +10,15 @@ return {
   },
 
   -- text-object groups
-  { 'kana/vim-textobj-user', event = 'VeryLazy' },
+  { 'kana/vim-textobj-user', event = 'BufReadPost' },
   {
     'lucapette/vim-textobj-underscore',
-    event = 'VeryLazy',
+    event = 'BufReadPost',
     dependencies = { 'kana/vim-textobj-user' },
   },
   {
     'sgur/vim-textobj-parameter',
-    event = 'VeryLazy',
+    event = 'BufReadPost',
     dependencies = { 'kana/vim-textobj-user' },
   },
 

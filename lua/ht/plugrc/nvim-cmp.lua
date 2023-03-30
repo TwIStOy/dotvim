@@ -14,7 +14,7 @@ local M = {
     'dmitmel/cmp-digraphs',
     'f3fora/cmp-spell',
     'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
+    -- 'hrsh7th/cmp-nvim-lsp-signature-help',
     'zbirenbaum/copilot-cmp',
     'zbirenbaum/copilot.lua',
   },

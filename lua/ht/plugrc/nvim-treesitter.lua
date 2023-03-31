@@ -76,6 +76,18 @@ return {
           },
         },
         swap = { enable = true },
+        move = {
+          enable = true,
+          set_jumps = true,
+          goto_next_start = {
+            ["],"] = "@parameter.inner",
+            ["]a"] = "@parameter.inner",
+          },
+          goto_previous_start = {
+            ["[,"] = "@parameter.inner",
+            ["[a"] = "@parameter.inner",
+          },
+        },
       },
     },
     config = function(_, opts)

@@ -16,6 +16,8 @@ local function bootstrap_plugin_manager()
                         { performance = { rtp = { paths = { '~/.dotvim' } } } })
 end
 
+require 'ht._G'
+
 -- set mapleader at very beginning of profile
 vim.api.nvim_set_var('mapleader', ' ')
 

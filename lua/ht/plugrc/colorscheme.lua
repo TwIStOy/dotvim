@@ -3,8 +3,6 @@ return {
   {
     "folke/tokyonight.nvim",
     enabled = false,
-    lazy = false,
-    priority = 1000,
     config = function()
       require'tokyonight'.setup {
         style = 'storm',
@@ -19,19 +17,18 @@ return {
 
   {
     "catppuccin/nvim",
-    lazy = false,
     name = "catppuccin",
-    priority = 1000,
+    build = ":CatppuccinCompile",
     config = function()
       require('catppuccin').setup {
-        flavour = "frappe",
+        flavour = "mocha",
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
-        dim_inactive = { enabled = false, shade = 'dark', percentage = 0.15 },
+        dim_inactive = { enabled = false },
         styles = {
           comments = { "italic" },
           properties = {},
           functions = {},
-          keywords = {},
+          keywords = { 'bold' },
           operators = {},
           conditionals = {},
           loops = {},
@@ -94,8 +91,10 @@ return {
               information = { "undercurl" },
             },
           },
-          -- navic = { enabled = true, custom_bg = "NONE" },
+          semantic_tokens = true,
           lsp_trouble = true,
+          markdown = true,
+          noice = true,
           gitsigns = true,
           telescope = true,
           nvimtree = true,

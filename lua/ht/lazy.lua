@@ -12,12 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("ht.plugrc", {
-  performance = {
-    rtp = {
-      paths = {
-        '~/.dotvim'
-      },
-    }
-  }
+  install = { colorscheme = { "catppuccin" } },
+  performance = { rtp = { paths = { '~/.dotvim' } } },
 })
 

@@ -86,40 +86,6 @@ return {
     end,
   },
 
-  -- formatters
-  {
-    'sbdchd/neoformat',
-    event = 'BufReadPost',
-    keys = { { '<leader>fc', '<cmd>Neoformat<CR>', desc = 'format-file' } },
-    init = function() -- code to run before plugin loaded
-      vim.g.neoformat_only_msg_on_error = 1
-      vim.g.neoformat_basic_format_align = 1
-      vim.g.neoformat_basic_format_retab = 1
-      vim.g.neoformat_basic_format_trim = 1
-    end,
-    config = function() -- code to run after plugin loaded
-      local Menu = require 'nui.menu'
-      local menu = require 'ht.core.menu'
-
-      vim.cmd [[source $HOME/.dotvim/autoload/neoformat/formatters/cpp.vim]]
-      vim.g._dotvim_clang_format_exe = vim.g.compiled_llvm_clang_directory ..
-                                           '/bin/clang-format'
-      vim.g.neoformat_enabled_cpp = { 'myclangformat' }
-
-      menu:append_section('*', {
-        Menu.item('Format File', {
-          action = function()
-            vim.cmd 'Neoformat'
-          end,
-        }),
-      }, 2)
-
-      vim.g.neoformat_rust_rustfmt2 = { exe = "rustfmt", args = {}, stdin = 1 }
-      vim.g.neoformat_enabled_rust = { 'rustfmt2' }
-      vim.g.neoformat_enabled_lua = { 'luaformat' }
-    end,
-  },
-
   -- templates
   {
     'aperezdc/vim-template',

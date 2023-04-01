@@ -8,7 +8,13 @@ local M = {
     'nvim-telescope/telescope-fzf-native.nvim',
   },
   keys = {
-    { '<F4>', '<cmd>Telescope buffers<CR>', desc = 'f-buffers' },
+    {
+      '<F4>',
+      function()
+        require'telescope.builtin'.buffers {}
+      end,
+      desc = 'f-buffers',
+    },
     {
       '<leader>e',
       function()
@@ -26,12 +32,16 @@ local M = {
     },
     {
       '<leader>ls',
-      '<cmd>Telescope lsp_document_symbols<CR>',
+      function()
+        require'telescope.builtin'.lsp_document_symbols()
+      end,
       desc = 'document-symbols',
     },
     {
       '<leader>lw',
-      '<cmd>Telescope lsp_workspace_symbols<CR>',
+      function()
+        require'telescope.builtin'.lsp_workspace_symbols()
+      end,
       desc = 'workspace-symbols',
     },
     {

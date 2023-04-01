@@ -64,6 +64,7 @@ return {
       'onsails/lspkind.nvim',
       'hrsh7th/nvim-cmp',
       'MunifTanjim/nui.nvim',
+      "jose-elias-alvarez/null-ls.nvim",
     },
     config = require'ht.plugrc.lsp.config'.config,
   },
@@ -74,7 +75,17 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local null_ls = require 'null-ls'
-      null_ls.setup { sources = { null_ls.builtins.diagnostics.cpplint } }
+      local formatting = null_ls.builtins.formatting
+
+      null_ls.setup {
+        sources = {
+          null_ls.builtins.diagnostics.cpplint,
+          formatting.clang_format.with {
+            command = vim.g.compiled_llvm_clang_directory .. '/bin/clang-format',
+          },
+          formatting.lua_format,
+        },
+      }
     end,
   },
 

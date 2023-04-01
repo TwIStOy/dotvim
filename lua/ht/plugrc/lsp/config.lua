@@ -8,7 +8,6 @@ local function get_client_capabilities()
 end
 
 local function on_buffer_attach(client, bufnr)
-  local mapping = require 'ht.core.mapping'
   local navic = require 'nvim-navic'
 
   -- display diagnostic win on CursorHold
@@ -33,92 +32,66 @@ local function on_buffer_attach(client, bufnr)
     end,
   })
 
-  mapping.map({
-    keys = { 'g', 'D' },
-    action = vim.lsp.buf.declaration,
-    desc = 'goto-declaration',
-  }, bufnr)
-  mapping.map({
-    keys = { 'g', 'd' },
-    action = function()
-      require'telescope.builtin'.lsp_definitions {}
-    end,
-    desc = 'goto-definition',
-  }, bufnr)
-  mapping.map({
-    keys = { 'g', 't' },
-    action = function()
-      require'telescope.builtin'.lsp_type_definitions {}
-    end,
-    desc = 'goto-definition',
-  }, bufnr)
-  mapping.map({
-    keys = { 'K' },
-    action = function()
-      vim.o.eventignore = 'CursorHold'
-      vim.cmd([[doautocmd User ShowHover]])
-      vim.lsp.buf.hover()
-      vim.cmd([[autocmd CursorMoved <buffer> ++once set eventignore=""]])
-    end,
-    desc = 'show-hover',
-  }, bufnr)
-  mapping.map({
-    keys = { 'g', 'i' },
-    action = function()
-      require'telescope.builtin'.lsp_implementations {}
-    end,
-    desc = 'goto-impl',
-  }, bufnr)
-  mapping.map({
-    keys = { 'g', 'R' },
-    action = vim.lsp.buf.rename,
-    desc = 'rename-symbol',
-  }, bufnr)
-  mapping.map({
-    keys = { 'g', 'a' },
-    action = vim.lsp.buf.code_action,
-    desc = 'code-action',
-  }, bufnr)
-  mapping.map({
-    keys = { 'g', 'r' },
-    action = function()
-      require'telescope.builtin'.lsp_references {}
-    end,
-    desc = 'inspect-references',
-  }, bufnr)
-  mapping.map({
-    keys = { '[', 'c' },
-    action = function()
-      vim.diagnostic.goto_prev()
-    end,
-    desc = 'previous-diagnostic',
-  }, bufnr)
-  mapping.map({
-    keys = { ']', 'c' },
-    action = function()
-      vim.diagnostic.goto_next()
-    end,
-    desc = 'next-diagnostic',
-  }, bufnr)
+  ---comment normal map
+  ---@param lhs string
+  ---@param rhs any
+  ---@param desc string
+  local nmap = function(lhs, rhs, desc)
+    vim.keymap.set('n', lhs, rhs, { desc = desc, buffer = bufnr })
+  end
+
+  nmap('gD', vim.lsp.buf.declaration, 'goto-declaration')
+
+  nmap('gd', function()
+    require'telescope.builtin'.lsp_definitions {}
+  end, 'goto-definition')
+
+  nmap('gt', function()
+    require'telescope.builtin'.lsp_type_definitions {}
+  end, 'goto-type-definition')
+
+  nmap('<leader>fc', function()
+    vim.lsp.buf.format({
+      bufnr = bufnr,
+      filter = function(c)
+        return c.name == "null-ls"
+      end,
+    })
+  end, 'format-code')
+
+  nmap('K', function()
+    vim.o.eventignore = 'CursorHold'
+    vim.cmd([[doautocmd User ShowHover]])
+    vim.lsp.buf.hover()
+    vim.cmd([[autocmd CursorMoved <buffer> ++once set eventignore=""]])
+  end, 'show-hover')
+
+  nmap('gi', function()
+    require'telescope.builtin'.lsp_implementations {}
+  end, 'goto-impl')
+
+  nmap('gR', vim.lsp.buf.rename, 'rename-symbol')
+
+  nmap('ga', vim.lsp.buf.code_action, 'code-action')
+
+  nmap('gr', function()
+    require'telescope.builtin'.lsp_references {}
+  end, 'inspect-references')
+
+  nmap('[c', vim.diagnostic.goto_prev, 'previous-diagnostic')
+
+  nmap(']c', vim.diagnostic.goto_next, 'next-diagnostic')
 
   if client.name == "clangd" then
-    mapping.map({
-      keys = { '<leader>', 'f', 'a' },
-      action = function()
-        vim.cmd 'ClangdSwitchSourceHeader'
-      end,
-      desc = 'clangd-switch-header',
-    }, bufnr)
+    nmap('<leader>fa', function()
+      vim.cmd 'ClangdSwitchSourceHeader'
+    end, 'clangd-switch-header')
   end
 
   if client.name == 'rime_ls' then
-    mapping.map({
-      keys = { '<leader>', 'r', 's' },
-      action = function()
-        vim.lsp.buf.execute_command({ command = "rime-ls.sync-user-data" })
-      end,
-      desc = 'rime-sync-user-data',
-    }, bufnr)
+    nmap('<leader>rs', function()
+      vim.lsp.buf.execute_command { command = "rime-ls.sync-user-data" }
+    end, 'rime-sync-user-data')
 
     require'ht.plugrc.lsp.custom.rime'.attach(client, bufnr)
   end
@@ -401,4 +374,3 @@ M.config = function() -- code to run after plugin loaded
 end
 
 return M
-

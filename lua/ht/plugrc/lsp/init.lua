@@ -76,13 +76,15 @@ return {
     config = function()
       local null_ls = require 'null-ls'
       local formatting = null_ls.builtins.formatting
+      local diagnostics = null_ls.builtins.diagnostics
 
       null_ls.setup {
         sources = {
-          null_ls.builtins.diagnostics.cpplint.with {
+          diagnostics.cpplint.with {
             command = vim.g.python3_host_prog,
             args = { '-m', 'cpplint', '$FILENAME' },
           },
+          diagnostics.cppcheck,
           formatting.clang_format.with {
             command = vim.g.compiled_llvm_clang_directory .. '/bin/clang-format',
           },

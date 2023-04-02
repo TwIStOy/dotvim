@@ -7,6 +7,16 @@ local function get_client_capabilities()
   return capabilities
 end
 
+local function is_null_ls_formatting_enabled(bufnr)
+  local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  local generators = require("null-ls.generators")
+  local methods = require("null-ls.methods")
+  local available_generators = generators.get_available(file_type,
+                                                        methods.internal
+                                                            .FORMATTING)
+  return #available_generators > 0
+end
+
 local function on_buffer_attach(client, bufnr)
   local navic = require 'nvim-navic'
 
@@ -50,14 +60,16 @@ local function on_buffer_attach(client, bufnr)
     require'telescope.builtin'.lsp_type_definitions {}
   end, 'goto-type-definition')
 
-  nmap('<leader>fc', function()
-    vim.lsp.buf.format({
-      bufnr = bufnr,
-      filter = function(c)
-        return c.name == "null-ls"
-      end,
-    })
-  end, 'format-code')
+  if is_null_ls_formatting_enabled(bufnr) then
+    nmap('<leader>fc', function()
+      vim.lsp.buf.format({
+        bufnr = bufnr,
+        filter = function(c)
+          return c.name == "null-ls"
+        end,
+      })
+    end, 'format-code')
+  end
 
   nmap('K', function()
     vim.o.eventignore = 'CursorHold'

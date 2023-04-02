@@ -30,7 +30,7 @@ function M.setup()
       default_config = {
         name = "rime_ls",
         cmd = { 'rime_ls' },
-        filetypes = { '*' },
+        filetypes = { 'markdown', 'txt' },
         single_file_support = true,
       },
       settings = {},

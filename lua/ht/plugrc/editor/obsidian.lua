@@ -1,13 +1,9 @@
 local function setup_keymaps()
-  local mapping = require 'ht.core.mapping'
-  mapping.map({
-    keys = { 'g', 'f' },
-    action = function()
-      if require'obsidian'.util.cursor_on_markdown_link() then
-        vim.api.nvim_command('ObsidianFollowLink')
-      end
-    end,
-  }, 0)
+  NMAP('gf', function()
+    if require'obsidian'.util.cursor_on_markdown_link() then
+      vim.api.nvim_command('ObsidianFollowLink')
+    end
+  end, 'obsidian-follow-link', { buffer = true })
 end
 
 local M = {

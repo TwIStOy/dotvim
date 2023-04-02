@@ -77,80 +77,45 @@ M.config = function() -- code to run after plugin loaded
   local groups = build_group()
   require'dial.config'.augends:register_group(groups)
 
-  local mapping = require 'ht.core.mapping'
+  NMAP('<C-a>', function()
+    require'dial.map'.inc_normal()
+  end, 'dial inc')
 
-  mapping.map {
-    mode = 'n',
-    keys = { '<C-a>' },
-    action = require'dial.map'.inc_normal(),
-    desc = 'dial inc',
-  }
-  mapping.map {
-    mode = "n",
-    keys = { "<C-x>" },
-    action = require("dial.map").dec_normal(),
-    desc = 'dial dec',
-  }
+  NMAP('<C-x>', function()
+    require'dial.map'.dec_normal()
+  end, 'dial dec')
 
-  mapping.ft_map('cpp', {
-    mode = 'n',
-    keys = { '<C-a>' },
-    action = require'dial.map'.inc_normal('cpp'),
-    desc = 'dial inc',
-  })
-  mapping.ft_map('cpp', {
-    mode = "n",
-    keys = { "<C-x>" },
-    action = require("dial.map").dec_normal('cpp'),
-    desc = 'dial dec',
+  vim.api.nvim_create_autocmd({ 'FileType' }, {
+    pattern = 'cpp',
+    callback = function()
+      NMAP('<C-a>', function()
+        require'dial.map'.inc_normal('cpp')
+      end, 'dial inc', { buffer = true })
+      NMAP('<C-x>', function()
+        require'dial.map'.dec_normal('cpp')
+      end, 'dial dec', { buffer = true })
+    end,
   })
 
-  mapping.map {
-    mode = "v",
-    keys = { "<C-a>" },
-    action = require("dial.map").inc_visual(),
-    desc = 'dial inc',
-  }
-  mapping.map {
-    mode = "v",
-    keys = { "<C-x>" },
-    action = require("dial.map").dec_visual(),
-    desc = 'dial dec',
-  }
-  mapping.map {
-    mode = "v",
-    keys = { "g", "<C-a>" },
-    action = require("dial.map").inc_gvisual(),
-    desc = 'dial inc',
-  }
-  mapping.map {
-    mode = "v",
-    keys = { "g", "<C-x>" },
-    action = require("dial.map").dec_gvisual(),
-    desc = 'dial dec',
-  }
+  VMAP('<C-a>', function()
+    require'dial.map'.inc_visual()
+  end, 'dial inc')
+
+  VMAP('<C-x>', function()
+    require'dial.map'.dec_visual()
+  end, 'dial dec')
 
   for _, nr in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_get_option(nr, 'ft') == 'cpp' then
-      mapping.map({
-        mode = 'n',
-        keys = { '<C-a>' },
-        action = require'dial.map'.inc_normal('cpp'),
-        desc = 'dial inc',
-      }, nr)
-      mapping.map({
-        mode = "n",
-        keys = { "<C-x>" },
-        action = require("dial.map").dec_normal('cpp'),
-        desc = 'dial dec',
-      }, nr)
+      NMAP('<C-a>', function()
+        require'dial.map'.inc_normal('cpp')
+      end, 'dial inc', { buffer = nr })
+      NMAP('<C-x>', function()
+        require'dial.map'.dec_normal('cpp')
+      end, 'dial dec', { buffer = nr })
     end
   end
 end
 
-M.mappings = function() -- code for mappings
-end
-
 return M
 -- vim: et sw=2 ts=2 fdm=marker
-

@@ -1,6 +1,3 @@
-local M = {}
-
-local mapping = require 'ht.core.mapping'
 local event = require 'ht.core.event'
 
 -- run impatient.nvim
@@ -141,96 +138,40 @@ event.on('BufEnter,WinClosed', {
   end,
 })
 
---[[
-mapping.map { keys = { '<M-h>' }, action = '<cmd>SidewaysLeft<CR>' }
-mapping.map { keys = { '<M-l>' }, action = '<cmd>SidewaysRight<CR>' }
---]]
+NMAP('<leader>wv', '<cmd>wincmd v<CR>', 'split-window-vertical')
 
-mapping.append_folder_name({ '<leader>', 'w' }, 'window')
-mapping.map {
-  keys = { '<leader>', 'w', 'v' },
-  action = '<cmd>wincmd v<CR>',
-  desc = 'split-window-vertical',
-}
-mapping.map {
-  keys = { '<leader>', 'w', '-' },
-  action = '<cmd>wincmd s<CR>',
-  desc = 'split-window-horizontal',
-}
-mapping.map {
-  keys = { '<leader>', 'w', '=' },
-  action = '<cmd>wincmd =<CR>',
-  desc = 'balance-window',
-}
-mapping.map {
-  keys = { '<leader>', 'w', 'r' },
-  action = '<cmd>wincmd r<CR>',
-  desc = 'rotate-window-rightwards',
-}
-mapping.map {
-  keys = { '<leader>', 'w', 'x' },
-  action = '<cmd>wincmd x<CR>',
-  desc = 'exchange-window-with-next',
-}
+NMAP('<leader>w-', '<cmd>wincmd s<CR>', 'split-window-horizontal')
+
+NMAP('<leader>w=', '<cmd>wincmd =<CR>', 'balance-window')
+
+NMAP('<leader>wr', '<cmd>wincmd r<CR>', 'rotate-window-rightwards')
+
+NMAP('<leader>wx', '<cmd>wincmd x<CR>', 'exchange-window-with-next')
 
 for i = 1, 9 do
-  mapping.map {
-    keys = { '<leader>', '' .. i },
-    action = function()
-      require'ht.core.window'.goto_window(i)
-    end,
-    desc = 'goto-win-' .. i,
-  }
-  mapping.map {
-    keys = { ',', '' .. i },
-    action = function()
-      require'ht.core.window'.goto_window(i)
-    end,
-    desc = 'goto-win-' .. i,
-  }
+  NMAP('<leader>' .. i, function()
+    require'ht.core.window'.goto_window(i)
+  end, 'goto-win-' .. i)
 end
 
-mapping.append_folder_name({ '<leader>', 'f' }, 'file')
-mapping.map {
-  keys = { '<leader>', 'f', 's' },
-  action = '<cmd>update<CR>',
-  desc = 'update',
-}
-mapping.map { keys = { '<C-s>' }, action = '<cmd>update<CR>', desc = 'update' }
-mapping.map {
-  keys = { '<C-s>' },
-  action = '<cmd>update<CR>',
-  desc = 'update',
-  mode = 'i',
-}
+NMAP('<leader>fs', '<cmd>update<CR>', 'update')
 
-mapping.map {
-  keys = { ';', ';' },
-  action = function()
-    local menu = require 'ht.core.menu'
-    menu:show_menu()
-  end,
-  desc = 'show-menu',
-}
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-s>', '<cmd>update<CR>',
+               { desc = true, silent = true })
 
-mapping.map { keys = { '<F2>' }, action = '<cmd>w<CR>' }
-mapping.map { keys = { '<S-F2>' }, action = '<cmd>wall<CR>' }
-mapping.map { keys = { '<M-n>' }, action = '<cmd>nohl<CR>' }
+NMAP(';;', function()
+  local menu = require 'ht.core.menu'
+  menu:show_menu()
+end, 'show-menu')
 
-mapping.map { keys = { '<leader>', 'q' }, action = '<cmd>q<CR>', desc = 'quit' }
-mapping.map {
-  keys = { '<leader>', 'Q' },
-  action = '<cmd>confirm qall<CR>',
-  desc = 'quit-all',
-}
+NMAP('<M-n>', '<cmd>nohl<CR>', 'nohl')
 
-mapping.map {
-  keys = { 't', 'q' },
-  action = function()
-    require'ht.core.window'.toggle_quickfix()
-  end,
-  desc = 'toggle-quickfix',
-}
+NMAP('<leader>q', '<cmd>q<CR>', 'quit')
+NMAP('<leader>Q', '<cmd>confirm qall<CR>', 'quit-all')
+
+NMAP('tq', function()
+  require'ht.core.window'.toggle_quickfix()
+end, 'toggle-quickfix')
 
 if vim.g['fvim_loaded'] == nil then
   vim.opt.wildoptions = 'pum'
@@ -246,27 +187,3 @@ if vim.g["neovide"] then
   vim.g.neovide_cursor_trail_size = 0
   vim.o.guifont = 'JetBrainsMono Nerd Font Mono:h14'
 end
-
--- def ft-related settings
-mapping.ft_map('cpp', {
-  keys = { '<leader>', 'n', 'c' },
-  desc = 'copy-function-decl',
-  action = function()
-    require('ht.features.cpp.copy_decl').copy_declare()
-  end,
-})
-mapping.ft_map('cpp', {
-  keys = { '<leader>', 'n', 'c' },
-  desc = 'copy-function-decl',
-  mode = 'v',
-  action = [[:lua require'ht.features.cpp.copy_decl'.copy_declare_from_selection()<CR>]],
-})
-mapping.ft_map('cpp', {
-  keys = { '<leader>', 'n', 'p' },
-  desc = 'generate-function-defination',
-  action = function()
-    require('ht.features.cpp.copy_decl').generate_at_cursor()
-  end,
-})
-
-return M

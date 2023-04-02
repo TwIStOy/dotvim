@@ -21,12 +21,14 @@ return {
         ["]"] = { name = "+next" },
         ["["] = { name = "+prev" },
 
+        ["<leader>b"] = { name = "+build" },
+        ["<leader>f"] = { name = "+file" },
         ["<leader>l"] = { name = "+list" },
         ["<leader>n"] = { name = "+no" },
-        ["<leader>x"] = { name = "+xray" },
-        ["<leader>b"] = { name = "+build" },
         ["<leader>t"] = { name = "+toggle" },
         ["<leader>v"] = { name = "+vcs" },
+        ["<leader>w"] = { name = "+window" },
+        ["<leader>x"] = { name = "+xray" },
       }
     end,
   },

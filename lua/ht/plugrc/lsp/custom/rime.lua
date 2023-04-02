@@ -56,15 +56,9 @@ function M.attach(client, bufnr)
     end)
   end
 
-  local mapping = require 'ht.core.mapping'
-  mapping.map({
-    keys = { '<M-;>' },
-    action = function()
-      toggle_rime()
-    end,
-    mode = { 'n', 'i' },
-    desc = 'rime-toggle',
-  }, bufnr)
+  vim.keymap.set({ 'n', 'i' }, '<M-;>', function()
+    toggle_rime()
+  end, { silent = true, desc = 'rime-toggle', buffer = bufnr })
 
   if vim.api.nvim_buf_get_option(bufnr, 'ft') == 'markdown' then
     local toggle_markdown_code = function()
@@ -80,14 +74,11 @@ function M.attach(client, bufnr)
         end
       end
     end
-    mapping.map({
-      keys = { '`' },
-      action = function()
-        toggle_markdown_code()
-        vim.fn.feedkeys('`', 'n')
-      end,
-      mode = { 'i' },
-    }, bufnr)
+
+    vim.keymap.set({ 'i' }, '`', function()
+      toggle_markdown_code()
+      vim.fn.feedkeys('`', 'n')
+    end, { silent = true, desc = 'rime-toggle', buffer = bufnr })
   end
 end
 

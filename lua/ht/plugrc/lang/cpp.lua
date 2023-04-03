@@ -4,7 +4,7 @@ return {
     config = function()
       require'cpp-toolkit'.setup()
     end,
-    cmd = { 'CppGenDef', 'Telescope' },
+    cmd = { 'CppGenDef' },
     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope.nvim' },
     keys = {
       {
@@ -18,4 +18,3 @@ return {
     },
   },
 }
-

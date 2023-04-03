@@ -12,24 +12,26 @@ return {
       show_help = true,
     },
     config = function(_, opts)
-      local wk = require("which-key")
-      wk.setup(opts)
-      wk.register {
-        mode = { "n", "v" },
+      vim.defer_fn(function()
+        local wk = require("which-key")
+        wk.setup(opts)
+        wk.register {
+          mode = { "n", "v" },
 
-        ["g"] = { name = "+goto" },
-        ["]"] = { name = "+next" },
-        ["["] = { name = "+prev" },
+          ["g"] = { name = "+goto" },
+          ["]"] = { name = "+next" },
+          ["["] = { name = "+prev" },
 
-        ["<leader>b"] = { name = "+build" },
-        ["<leader>f"] = { name = "+file" },
-        ["<leader>l"] = { name = "+list" },
-        ["<leader>n"] = { name = "+no" },
-        ["<leader>t"] = { name = "+toggle" },
-        ["<leader>v"] = { name = "+vcs" },
-        ["<leader>w"] = { name = "+window" },
-        ["<leader>x"] = { name = "+xray" },
-      }
+          ["<leader>b"] = { name = "+build" },
+          ["<leader>f"] = { name = "+file" },
+          ["<leader>l"] = { name = "+list" },
+          ["<leader>n"] = { name = "+no" },
+          ["<leader>t"] = { name = "+toggle" },
+          ["<leader>v"] = { name = "+vcs" },
+          ["<leader>w"] = { name = "+window" },
+          ["<leader>x"] = { name = "+xray" },
+        }
+      end, 100)
     end,
   },
 }

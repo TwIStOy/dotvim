@@ -39,7 +39,7 @@ local function session_name()
   return ''
 end
 
-M.opts = function() -- code to run after plugin loaded
+M.config = function() -- code to run after plugin loaded
   local navic = require 'nvim-navic'
   local rime = require 'ht.plugrc.lsp.custom.rime'
 
@@ -83,4 +83,3 @@ M.opts = function() -- code to run after plugin loaded
 end
 
 return M
-

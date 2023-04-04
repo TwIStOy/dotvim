@@ -22,6 +22,11 @@ vim.o.ttimeout = true
 vim.o.timeoutlen = 500
 vim.o.ttimeoutlen = 10
 
+vim.o.foldcolumn = '1'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
 -- no bells
 vim.cmd [[set noerrorbells novisualbell t_vb=]]
 

@@ -221,6 +221,9 @@ return {
   -- obsidian
   { import = 'ht.plugrc.editor.obsidian' },
 
+  -- <c-a> <c-x>
+  { import = 'ht.plugrc.editor.dial' },
+
   -- session management
   {
     'jedrzejboczar/possession.nvim',
@@ -236,5 +239,22 @@ return {
         list = 'SList',
       },
     },
+  },
+
+  {
+    'kevinhwang91/nvim-ufo',
+    event = { 'BufReadPost' },
+    keys = { { 'zR', nil, 'zM', nil } },
+    dependencies = 'kevinhwang91/promise-async',
+    config = function()
+      NMAP('zR', require('ufo').openAllFolds, 'open-all-folds')
+      NMAP('zM', require('ufo').closeAllFolds, 'close-all-folds')
+
+      require('ufo').setup({
+        provider_selector = function(bufnr, filetype, buftype)
+          return { 'treesitter', 'indent' }
+        end,
+      })
+    end,
   },
 }

@@ -2,6 +2,7 @@ return {
   -- noicer ui
   {
     "folke/noice.nvim",
+    lazy = true,
     event = "VeryLazy",
     dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
     enabled = function()
@@ -12,10 +13,7 @@ return {
     end,
     opts = {
       lsp = {
-        progress = {
-          enabled = true,
-          throttle = 1000 / 10,
-        },
+        progress = { enabled = true, throttle = 1000 / 10 },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
@@ -31,5 +29,10 @@ return {
         lsp_doc_border = true,
       },
     },
+    config = function(_, opts)
+      vim.defer_fn(function()
+        require("noice").setup(opts)
+      end, 20)
+    end,
   },
 }

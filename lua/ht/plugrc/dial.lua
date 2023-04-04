@@ -61,14 +61,16 @@ M.config = function() -- code to run after plugin loaded
       define_custom { '==', '!=' },
       define_custom { 'static_cast', 'dynamic_cast', 'reinterpret_cast' },
     },
+    toml = { augend.semver.alias.semver },
   }
 
   local build_group = function()
     local res = {}
     res.default = vim.deepcopy(default_group)
     for k, v in pairs(filetype_groups) do
-      local tmp = vim.deepcopy(default_group)
+      local tmp = {}
       vim.list_extend(tmp, v)
+      vim.list_extend(tmp, default_group)
       res[k] = tmp
     end
     return res
@@ -81,15 +83,18 @@ M.config = function() -- code to run after plugin loaded
 
   NMAP('<C-x>', require'dial.map'.dec_normal(), 'dial dec')
 
-  vim.api.nvim_create_autocmd({ 'FileType' }, {
-    pattern = 'cpp',
-    callback = function()
-      NMAP('<C-a>', require'dial.map'.inc_normal('cpp'), 'dial inc',
-           { buffer = true })
-      NMAP('<C-x>', require'dial.map'.dec_normal('cpp'), 'dial dec',
-           { buffer = true })
-    end,
-  })
+  -- special filetypes
+  for k, _ in pairs(filetype_groups) do
+    vim.api.nvim_create_autocmd({ 'FileType' }, {
+      pattern = k,
+      callback = function()
+        NMAP('<C-a>', require'dial.map'.inc_normal(k), 'dial inc',
+             { buffer = true })
+        NMAP('<C-x>', require'dial.map'.dec_normal(k), 'dial dec',
+             { buffer = true })
+      end,
+    })
+  end
 
   VMAP('<C-a>', require'dial.map'.inc_visual(), 'dial inc')
 

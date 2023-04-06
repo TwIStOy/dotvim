@@ -89,6 +89,7 @@ return {
             command = vim.g.compiled_llvm_clang_directory .. '/bin/clang-format',
           },
           formatting.lua_format,
+          formatting.rustfmt,
         },
       }
     end,

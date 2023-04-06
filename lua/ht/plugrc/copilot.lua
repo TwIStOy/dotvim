@@ -11,7 +11,7 @@ return {
     'zbirenbaum/copilot.lua',
     event = 'InsertEnter',
     config = function()
-      require'copilot'.setup {}
+      require'copilot'.setup { suggestion = { accept = '<M-a>' } }
 
       local menu = require 'ht.core.menu'
       local Menu = require 'nui.menu'

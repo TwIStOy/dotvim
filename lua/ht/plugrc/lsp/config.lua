@@ -17,6 +17,18 @@ local function is_null_ls_formatting_enabled(bufnr)
   return #available_generators > 0
 end
 
+local function lsprename(new_name, options)
+  options = options or {}
+
+  local filter = function(client)
+    return not vim.tbl_contains({ "null-ls", "copilot" }, client.name)
+  end
+
+  options.filter = options.filter or filter
+
+  vim.lsp.buf.rename(new_name, options)
+end
+
 local function on_buffer_attach(client, bufnr)
   local navic = require 'nvim-navic'
 
@@ -82,7 +94,7 @@ local function on_buffer_attach(client, bufnr)
     require'telescope.builtin'.lsp_implementations {}
   end, 'goto-impl')
 
-  nmap('gR', vim.lsp.buf.rename, 'rename-symbol')
+  nmap('gR', lsprename, 'rename-symbol')
 
   nmap('ga', vim.lsp.buf.code_action, 'code-action')
 

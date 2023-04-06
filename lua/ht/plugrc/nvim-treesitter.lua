@@ -15,7 +15,7 @@ return {
         lazy = true,
         ft = { 'lua', 'ruby', 'vimscript' },
       },
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      'TwIStOy/nvim-treesitter-textobjects',
     },
     opts = {
       ensure_installed = {

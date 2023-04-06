@@ -12,8 +12,25 @@ local function bootstrap_plugin_manager()
   end
   vim.opt.rtp:prepend(lazypath)
 
-  require("lazy").setup("ht.plugrc",
-                        { performance = { rtp = { paths = { '~/.dotvim' } } } })
+  require("lazy").setup("ht.plugrc", {
+    change_detection = { enabled = false },
+    performance = {
+      cache = { enabled = true },
+      rtp = {
+        paths = { '~/.dotvim' },
+        disabled_plugins = {
+          "gzip",
+          "matchit",
+          "matchparen",
+          "netrwPlugin",
+          "tarPlugin",
+          "tohtml",
+          "tutor",
+          "zipPlugin",
+        },
+      },
+    },
+  })
 end
 
 require 'ht._G'

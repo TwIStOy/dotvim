@@ -67,6 +67,7 @@ return {
   -- alpha
   {
     'goolord/alpha-nvim',
+    lazy = false,
     cond = vim.fn.argc() == 0,
     dependencies = { 'nvim-tree/nvim-web-devicons', 'nvim-lua/plenary.nvim' },
     config = require'ht.plugrc.ui.alpha-nvim'.config,

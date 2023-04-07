@@ -1,22 +1,28 @@
-local M = { 'onsails/lspkind.nvim', lazy = true }
+local M = {
+  'onsails/lspkind.nvim',
+  lazy = true,
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
+}
 
-M.config = function() -- code to run after plugin loaded
+M.config = function()
   local lspkind = require 'lspkind'
+
+  local icons = require'nvim-web-devicons'.get_icons()
 
   lspkind.init {
     mode = 'symbol_text',
 
     symbol_map = {
-      Text = " ",
+      Text = "",
       Method = "",
-      Function = "",
-      Constructor = "",
-      Field = "",
-      Variable = "",
+      Function = "",
+      Constructor = "",
+      Field = "ﰠ",
+      Variable = "",
       Class = "ﴯ",
-      Interface = "",
-      Module = "",
-      Property = " ",
+      Interface = "",
+      Module = "",
+      Property = "ﰠ",
       Unit = "",
       Value = "",
       Enum = "",
@@ -24,18 +30,17 @@ M.config = function() -- code to run after plugin loaded
       Snippet = "",
       Color = "",
       File = "",
-      Reference = "",
+      Reference = "",
       Folder = "",
       EnumMember = "",
       Constant = "",
-      Struct = "",
+      Struct = "פּ",
       Event = "",
       Operator = "",
-      TypeParameter = " ",
+      TypeParameter = icons.erb.icon,
       Copilot = "",
     },
   }
 end
 
 return M
-

@@ -105,6 +105,7 @@ M.config = function()
         n = { ["q"] = actions.close },
       },
     },
+    pickers = { find_files = { theme = "ivy" } },
     extensions = extensions,
   }
 

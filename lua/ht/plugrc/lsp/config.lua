@@ -311,7 +311,7 @@ M.config = function() -- code to run after plugin loaded
       on_initialized = function()
         vim.notify("rust-analyzer initialize done")
       end,
-      inlay_hints = { auto = false },
+      inlay_hints = { auto = true },
     },
     server = {
       cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' },

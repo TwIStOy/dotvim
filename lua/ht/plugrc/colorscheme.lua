@@ -156,13 +156,10 @@ return {
             CmpItemKindOperator = { fg = colors.base, bg = colors.blue },
             CmpItemKindTypeParameter = { fg = colors.base, bg = colors.blue },
             CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
+
+            ["@lsp.typemod.variable.mutable.rust"] = { style = { 'underline' } },
           }
         end,
-        highlight_overrides = {
-          all = function()
-            return { ["@mutable"] = { style = { 'underline' } } }
-          end,
-        },
         integrations = {
           treesitter = true,
           notify = true,

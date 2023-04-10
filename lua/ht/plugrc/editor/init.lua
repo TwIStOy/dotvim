@@ -31,9 +31,9 @@ return {
         aug END
       ]]
 
-      vim.api.nvim_set_keymap('n', '%', '<Plug>(matchup-%)', { silent = true })
-      vim.api.nvim_set_keymap('x', '%', '<Plug>(matchup-%)', { silent = true })
-      vim.api.nvim_set_keymap('o', '%', '<Plug>(matchup-%)', { silent = true })
+      vim.api.nvim_set_keymap('n', '%', '<plug>(matchup-%)', { silent = true })
+      vim.api.nvim_set_keymap('x', '%', '<plug>(matchup-%)', { silent = true })
+      vim.api.nvim_set_keymap('o', '%', '<plug>(matchup-%)', { silent = true })
     end,
   },
 

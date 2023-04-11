@@ -4,7 +4,7 @@ return {
   -- matchup parens
   {
     'andymass/vim-matchup',
-    keys = { { '%', nil, mode = { 'n', 'x', 'o' } } },
+    event = { 'BufReadPost', 'BufAdd', 'BufNewFile' },
     init = function() -- code to run before plugin loaded
       vim.g.matchup_surround_enabled = 1
       vim.g.matchup_matchparen_timeout = 100

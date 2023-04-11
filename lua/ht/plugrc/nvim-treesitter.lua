@@ -83,10 +83,12 @@ return {
           goto_next_start = {
             ["],"] = "@parameter.inner",
             ["]a"] = "@parameter.inner",
+            ["]l"] = "@lifetime.inner",
           },
           goto_previous_start = {
             ["[,"] = "@parameter.inner",
             ["[a"] = "@parameter.inner",
+            ["[l"] = "@lifetime.inner",
           },
         },
       },

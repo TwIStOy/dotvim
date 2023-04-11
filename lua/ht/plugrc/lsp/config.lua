@@ -387,7 +387,7 @@ M.config = function() -- code to run after plugin loaded
     capabilities = capabilities,
   }
 
-  -- init sourcekip in macos
+  -- init sourcekit in macos
   if vim.fn.has('macunix') then
     require'lspconfig'.sourcekit.setup {
       filetypes = { 'swift', 'objective-c', 'objective-cpp' },

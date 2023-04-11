@@ -17,7 +17,7 @@ local function bootstrap_plugin_manager()
     performance = {
       cache = { enabled = true },
       rtp = {
-        paths = { '~/.dotvim' },
+        paths = { '~/.dotvim', '~/.dotvim/after' },
         disabled_plugins = {
           "gzip",
           "matchit",

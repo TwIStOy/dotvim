@@ -72,7 +72,7 @@ M.config = function()
       },
     },
     sources = {
-      { name = "nvim_lsp", group_index = 1 },
+      { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
       { name = "ultisnips", group_index = 2 },
       { name = 'nvim_lsp_signature_help', group_index = 3 },
@@ -93,6 +93,7 @@ M.config = function()
             return { buf }
           end,
         },
+        max_item_count = 10,
       },
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },

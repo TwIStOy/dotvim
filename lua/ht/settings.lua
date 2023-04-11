@@ -61,8 +61,11 @@ event.on({ 'BufEnter', 'FocusGained', 'WinEnter' }, {
 })
 
 vim.opt.cursorline = true
-event.on({ 'InsertLeave', 'WinEnter' },
-         { pattern = '*', command = 'set cursorline' })
+vim.g.cursorline_blacklist = { 'alpha' }
+event.on({ 'InsertLeave', 'WinEnter' }, {
+  pattern = '*',
+  command = 'if index(g:cursorline_blacklist, &ft) == -1 | set cursorline | endif',
+})
 event.on({ 'InsertEnter', 'WinLeave' },
          { pattern = '*', command = 'set nocursorline' })
 

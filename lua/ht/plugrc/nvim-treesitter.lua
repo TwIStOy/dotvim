@@ -73,6 +73,7 @@ return {
             ["i="] = "@assignment.rhs",
             ["ir"] = "@return.inner",
             ["ar"] = "@return.outer",
+            ["il"] = "@lifetime.inner",
           },
         },
         swap = { enable = true },

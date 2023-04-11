@@ -38,7 +38,7 @@ M.config = function() -- code to run after plugin loaded
       },
       icons = { hint = "", info = "", warning = "", error = "" },
     },
-    modified = { enable = true },
+    modified = { enable = true, show_on_dirs = false, show_on_open_dirs = false },
     update_focused_file = { enable = false, update_cwd = false,
                             ignore_list = {} },
     system_open = { cmd = nil, args = {} },
@@ -51,6 +51,22 @@ M.config = function() -- code to run after plugin loaded
       mappings = { custom_only = false, list = {} },
     },
     actions = { open_file = { resize_window = false } },
+    renderer = {
+      icons = {
+        glyphs = {
+          git = {
+            unstaged = "✗",
+            staged = "✓",
+            unmerged = "",
+            renamed = "➜",
+            untracked = "★",
+            deleted = "",
+            ignored = "◌",
+          },
+        },
+      },
+    },
+    experimental = { git = { async = true } },
   }
 end
 

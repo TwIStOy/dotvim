@@ -13,5 +13,8 @@ vim.g.lua_language_server_cmd = {
   '/home/hawtian/project/lua-language-server/bin/main.lua',
 }
 
-require 'ht.lazy'
+-- Update this
+vim.g.rime_ls_cmd = { '/home/hawtian/project/rime-ls/target/release/rime_ls' }
+
+require 'ht.init'
 

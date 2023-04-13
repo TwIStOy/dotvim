@@ -1,36 +1,8 @@
 local M = {}
 
-local function get_client_capabilities()
-  local cmp_lsp = require 'cmp_nvim_lsp'
-  local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-  local capabilities = cmp_lsp.default_capabilities(default_capabilities)
-  return capabilities
-end
-
-local function is_null_ls_formatting_enabled(bufnr)
-  local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
-  local generators = require("null-ls.generators")
-  local methods = require("null-ls.methods")
-  local available_generators = generators.get_available(file_type,
-                                                        methods.internal
-                                                            .FORMATTING)
-  return #available_generators > 0
-end
-
-local function lsprename(new_name, options)
-  options = options or {}
-
-  local filter = function(client)
-    return not vim.tbl_contains({ "null-ls", "copilot" }, client.name)
-  end
-
-  options.filter = options.filter or filter
-
-  vim.lsp.buf.rename(new_name, options)
-end
-
 local function on_buffer_attach(client, bufnr)
   local navic = require 'nvim-navic'
+  local LSP = require('ht.with_plug.lsp')
 
   -- display diagnostic win on CursorHold
   vim.api.nvim_create_autocmd("CursorHold", {
@@ -62,49 +34,37 @@ local function on_buffer_attach(client, bufnr)
     vim.keymap.set('n', lhs, rhs, { desc = desc, buffer = bufnr })
   end
 
-  nmap('gD', vim.lsp.buf.declaration, 'goto-declaration')
+  nmap('gD', LSP.declaration, 'goto-declaration')
 
-  nmap('gd', function()
-    require'telescope.builtin'.lsp_definitions {}
-  end, 'goto-definition')
+  nmap('gd', LSP.definitions, 'goto-definition')
 
-  nmap('gt', function()
-    require'telescope.builtin'.lsp_type_definitions {}
-  end, 'goto-type-definition')
+  nmap('gt', LSP.type_definitions, 'goto-type-definition')
 
-  if is_null_ls_formatting_enabled(bufnr) then
-    nmap('<leader>fc', function()
-      vim.lsp.buf.format({
-        bufnr = bufnr,
-        filter = function(c)
-          return c.name == "null-ls"
-        end,
-      })
-    end, 'format-code')
+  if LSP.buf_formattable(bufnr) then
+    nmap('<leader>fc', LSP.format, 'format-code')
   end
 
-  nmap('K', function()
-    vim.o.eventignore = 'CursorHold'
-    vim.cmd([[doautocmd User ShowHover]])
-    vim.lsp.buf.hover()
-    vim.cmd([[autocmd CursorMoved <buffer> ++once set eventignore=""]])
-  end, 'show-hover')
+  nmap('K', LSP.show_hover, 'show-hover')
 
-  nmap('gi', function()
-    require'telescope.builtin'.lsp_implementations {}
-  end, 'goto-impl')
+  nmap('gi', LSP.implementations, 'goto-impl')
 
-  nmap('gR', lsprename, 'rename-symbol')
+  nmap('gR', LSP.rename, 'rename-symbol')
 
-  nmap('ga', vim.lsp.buf.code_action, 'code-action')
+  nmap('ga', LSP.code_action, 'code-action')
 
-  nmap('gr', function()
-    require'telescope.builtin'.lsp_references {}
-  end, 'inspect-references')
+  nmap('gr', LSP.references, 'inspect-references')
 
   nmap('[c', vim.diagnostic.goto_prev, 'previous-diagnostic')
 
   nmap(']c', vim.diagnostic.goto_next, 'next-diagnostic')
+
+  nmap('[e', function()
+    vim.diagnostic.goto_prev { severity = vim.diagnotic.severity.ERROR }
+  end, 'previous-diagnostic')
+
+  nmap(']e', function()
+    vim.diagnostic.goto_next { severity = vim.diagnotic.severity.ERROR }
+  end, 'previous-diagnostic')
 
   if client.name == "clangd" then
     nmap('<leader>fa', function()
@@ -129,35 +89,16 @@ M.config = function() -- code to run after plugin loaded
   --- add menus for specific types
   local menu = require 'ht.core.menu'
   local Menu = require 'nui.menu'
+  local LSP = require('ht.with_plug.lsp')
 
   menu:append_section("*", {
     Menu.item("LSP", {
       items = {
-        Menu.item("Goto Declaration", {
-          action = function()
-            vim.lsp.buf.declaration()
-          end,
-        }),
-        Menu.item('Goto Definition', {
-          action = function()
-            require'telescope.builtin'.lsp_definitions {}
-          end,
-        }),
-        Menu.item('Goto Implementation', {
-          action = function()
-            require'telescope.builtin'.lsp_implementations {}
-          end,
-        }),
-        Menu.item('Inspect References', {
-          action = function()
-            require'telescope.builtin'.lsp_references {}
-          end,
-        }),
-        Menu.item('Rname', {
-          action = function()
-            vim.lsp.buf.rename()
-          end,
-        }),
+        Menu.item("Goto Declaration", { action = LSP.declaration }),
+        Menu.item('Goto Definition', { action = LSP.definitions }),
+        Menu.item('Goto Implementation', { action = LSP.implementations }),
+        Menu.item('Inspect References', { action = LSP.references }),
+        Menu.item('Rname', { action = LSP.rename }),
       },
     }),
   }, 3)
@@ -236,7 +177,7 @@ M.config = function() -- code to run after plugin loaded
         underline = true,
       })
 
-  local capabilities = get_client_capabilities()
+  local capabilities = LSP.client_capabilities()
 
   local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
   for type, icon in pairs(signs) do

@@ -112,7 +112,7 @@ return {
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
         dim_inactive = { enabled = false },
         color_overrides = {
-          mocha = { base = "#000000", mantle = "#000000", crust = "#000000" },
+          -- mocha = { base = "#000000", mantle = "#000000", crust = "#000000" },
         },
         styles = {
           comments = { "italic" },

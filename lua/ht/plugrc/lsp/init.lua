@@ -16,20 +16,6 @@ return {
         '<cmd>TroubleToggle document_diagnostics<CR>',
         desc = 'document-diagnostics',
       },
-      {
-        ']e',
-        function()
-          require('trouble').next { skip_groups = true, jump = true }
-        end,
-        desc = "jump-to-next-diagnostic",
-      },
-      {
-        '[e',
-        function()
-          require('trouble').previous { skip_groups = true, jump = true }
-        end,
-        desc = "jump-to-previous-diagnostic",
-      },
     },
   },
 
@@ -40,13 +26,29 @@ return {
     lazy = true,
     init = function()
       vim.g.navic_silence = true
-      require'ht.core.lsp'.on_attach(function(client, buffer)
-        if client.server_capabilities.documentSymbolProvider then
-          require("nvim-navic").attach(client, buffer)
-        end
-      end)
     end,
     opts = { separator = " ", highlight = true, depth_limit = 5 },
+  },
+
+  {
+    'glepnir/lspsaga.nvim',
+    event = "LspAttach",
+    config = function()
+      require("lspsaga").setup({
+        code_action = {
+          num_shortcut = true,
+          show_server_name = true,
+          extend_gitsigns = false,
+          keys = { quit = { "q", '<Esc>' }, exec = "<CR>" },
+        },
+        lightbulb = { enable = false },
+        symbol_in_winbar = { enable = false },
+      })
+    end,
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+      { "nvim-treesitter/nvim-treesitter" },
+    },
   },
 
   -- lspconfig
@@ -105,6 +107,67 @@ return {
         blend_color = "#000000",
         update_in_insert = { enable = true, delay = 100 },
         hide = { virtual_text = true, signs = false, underline = false },
+      })
+    end,
+  },
+
+  {
+    'dnlhc/glance.nvim',
+    lazy = true,
+    cmd = { 'Glance' },
+    config = function()
+      local glance = require 'glance'
+      local actions = glance.actions
+
+      glance.setup({
+        detached = function(winid)
+          return vim.api.nvim_win_get_width(winid) < 100
+        end,
+        preview_win_opts = { cursorline = true, number = true, wrap = false },
+        border = { disable = true, top_char = '―', bottom_char = '―' },
+        theme = { enable = true },
+        list = { width = 0.2 },
+        mappings = {
+          list = {
+            ['j'] = actions.next,
+            ['k'] = actions.previous,
+            ['<Down>'] = false,
+            ['<Up>'] = false,
+            ['<Tab>'] = actions.next_location,
+            ['<S-Tab>'] = actions.previous_location,
+            ['<C-u>'] = actions.preview_scroll_win(5),
+            ['<C-d>'] = actions.preview_scroll_win(-5),
+            ['v'] = false,
+            ['s'] = false,
+            ['t'] = false,
+            ['<CR>'] = actions.jump,
+            ['o'] = false,
+            ['<leader>l'] = false,
+            ['q'] = actions.close,
+            ['Q'] = actions.close,
+            ['<Esc>'] = actions.close,
+          },
+          preview = {
+            ['Q'] = actions.close,
+            ['<Tab>'] = false,
+            ['<S-Tab>'] = false,
+            ['<leader>l'] = false,
+          },
+        },
+        folds = { fold_closed = '', fold_open = '', folded = false },
+        indent_lines = { enable = false },
+        winbar = { enable = true },
+        hooks = {
+          before_open = function(results, open, jump, method)
+            if method == 'references' or method == 'implementations' then
+              open(results)
+            elseif #results == 1 then
+              jump(results[1])
+            else
+              open(results)
+            end
+          end,
+        },
       })
     end,
   },

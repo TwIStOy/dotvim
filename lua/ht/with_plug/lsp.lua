@@ -33,7 +33,7 @@ function M.rename(new_name, options)
 end
 
 function M.code_action()
-  vim.cmd 'Lspsage code_action'
+  vim.cmd 'Lspsaga code_action'
 end
 
 function M.show_hover()

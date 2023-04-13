@@ -3,7 +3,7 @@ return {
   {
     "RRethy/vim-illuminate",
     event = { "BufReadPost", "BufNewFile" },
-    opts = { delay = 200 },
+    opts = { delay = 200, filetypes_denylist = { 'nuipopup' } },
     config = function(_, opts)
       require("illuminate").configure(opts)
       vim.api.nvim_create_autocmd("FileType", {

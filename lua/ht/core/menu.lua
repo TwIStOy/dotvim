@@ -108,11 +108,11 @@ M.set_buf_context = function(bufnr, new_section)
 end
 
 local function background(hi)
-  return string.format("#%x", vim.api.nvim_get_hl_by_name(hi, 1).background)
+  return string.format("#%06x", vim.api.nvim_get_hl_by_name(hi, 1).background)
 end
 
 local function foreground(hi)
-  return string.format("#%x", vim.api.nvim_get_hl_by_name(hi, 1).foreground)
+  return string.format("#%06x", vim.api.nvim_get_hl_by_name(hi, 1).foreground)
 end
 
 local function display_menu(_sections, winnr, r, c, previous)
@@ -249,4 +249,3 @@ M.show_menu = function(self)
 end
 
 return M
-

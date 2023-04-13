@@ -46,9 +46,11 @@ return {
         'yaml',
       },
       highlight = {
-        enable = true, -- false will disable the whole extension
         additional_vim_regex_highlighting = { "markdown" },
         disable = function(lang, bufnr)
+          if lang == 'cpp' or lang == 'rust' then
+            return true
+          end
           if lang == 'html' and vim.api.nvim_buf_line_count(bufnr) > 500 then
             return true
           end

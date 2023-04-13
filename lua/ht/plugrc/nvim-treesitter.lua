@@ -86,11 +86,13 @@ return {
             ["],"] = "@parameter.inner",
             ["]a"] = "@parameter.inner",
             ["]l"] = "@lifetime.inner",
+            [']f'] = '@function.outer',
           },
           goto_previous_start = {
             ["[,"] = "@parameter.inner",
             ["[a"] = "@parameter.inner",
             ["[l"] = "@lifetime.inner",
+            ['[f'] = '@function.outer',
           },
         },
       },

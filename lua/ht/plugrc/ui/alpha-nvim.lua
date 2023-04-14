@@ -192,6 +192,7 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
+  local arr = ICON('e602')
   local buttons = {
     type = 'group',
     val = {
@@ -201,8 +202,9 @@ M.config = function() -- code to run after plugin loaded
         opts = { hl = "SpecialComment", position = "center" },
       },
       { type = 'padding', val = 1 },
-      dashboard.button('e', "  > New File", ":ene <BAR> startinsert <CR>"),
-      button("c", "  > Settings", function()
+      dashboard.button('e', "  " .. arr .. " New File",
+                       ":ene <BAR> startinsert <CR>"),
+      button("c", "  " .. arr .. " Settings", function()
         local builtin = require('telescope.builtin')
         builtin.find_files({ cwd = "$HOME/.dotvim" })
       end),
@@ -211,14 +213,17 @@ M.config = function() -- code to run after plugin loaded
   }
   local globals = require('ht.core.globals')
   if globals.has_obsidian_vault then
-    table.insert(buttons.val, button('f', "  > Obsidian Vault", function()
+    table.insert(buttons.val,
+                 button('f', "  " .. arr .. " Obsidian Vault", function()
       local builtin = require('telescope.builtin')
       builtin.find_files({ cwd = globals.obsidian_vault })
     end))
   end
-  table.insert(buttons.val, dashboard.button('u', "  > Update Plugins",
+  table.insert(buttons.val, dashboard.button('u', "  " .. arr ..
+                                                 " Update Plugins",
                                              ":Lazy update<CR>"))
-  table.insert(buttons.val, dashboard.button('q', '  > Quit', ':qa<CR>'))
+  table.insert(buttons.val,
+               dashboard.button('q', '  ' .. arr .. ' Quit', ':qa<CR>'))
 
   local opts = {
     layout = {
@@ -237,4 +242,3 @@ M.config = function() -- code to run after plugin loaded
 end
 
 return M
-

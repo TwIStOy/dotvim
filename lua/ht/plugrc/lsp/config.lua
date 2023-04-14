@@ -54,17 +54,13 @@ local function on_buffer_attach(client, bufnr)
 
   nmap('gr', LSP.references, 'inspect-references')
 
-  nmap('[c', vim.diagnostic.goto_prev, 'previous-diagnostic')
+  nmap('[c', LSP.prev_diagnostic, 'previous-diagnostic')
 
-  nmap(']c', vim.diagnostic.goto_next, 'next-diagnostic')
+  nmap(']c', LSP.next_diagnostic, 'next-diagnostic')
 
-  nmap('[e', function()
-    vim.diagnostic.goto_prev { severity = vim.diagnotic.severity.ERROR }
-  end, 'previous-diagnostic')
+  nmap('[e', LSP.prev_error_diagnostic, 'previous-error-diagnostic')
 
-  nmap(']e', function()
-    vim.diagnostic.goto_next { severity = vim.diagnotic.severity.ERROR }
-  end, 'previous-diagnostic')
+  nmap(']e', LSP.next_error_diagnostic, 'next-error-diagnostic')
 
   if client.name == "clangd" then
     nmap('<leader>fa', function()

@@ -49,6 +49,28 @@ function M.show_hover()
   })
 end
 
+function M.prev_diagnostic()
+  vim.diagnostic.goto_prev { wrap = false }
+end
+
+function M.next_diagnostic()
+  vim.diagnostic.goto_next { wrap = false }
+end
+
+function M.prev_error_diagnostic()
+  vim.diagnostic.goto_prev {
+    wrap = false,
+    severity = vim.diagnotic.severity.ERROR,
+  }
+end
+
+function M.next_error_diagnostic()
+  vim.diagnostic.goto_next {
+    wrap = false,
+    severity = vim.diagnotic.severity.ERROR,
+  }
+end
+
 function M.client_capabilities()
   local cmp_lsp = require 'cmp_nvim_lsp'
   local default_capabilities = vim.lsp.protocol.make_client_capabilities()

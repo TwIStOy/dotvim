@@ -122,7 +122,7 @@ return {
           operators = {},
           conditionals = {},
           loops = {},
-          booleans = {},
+          booleans = { 'bold', 'italic' },
           numbers = {},
           types = {},
           strings = {},
@@ -189,8 +189,11 @@ return {
           indent_blankline = { enabled = false, colored_indent_levels = false },
           hop = true,
           cmp = true,
-          dap = true,
-          fidget = true,
+          lsp_saga = true,
+          navic = { enabled = true },
+          -- disabled plugins
+          dap = false,
+          fidget = false,
         },
       }
 

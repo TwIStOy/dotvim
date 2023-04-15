@@ -158,6 +158,9 @@ return {
             CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
 
             ["@lsp.typemod.variable.mutable.rust"] = { style = { 'underline' } },
+            ["@lsp.typemod.selfKeyword.mutable.rust"] = {
+              style = { 'underline' },
+            },
           }
         end,
         integrations = {

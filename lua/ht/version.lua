@@ -1,4 +1,4 @@
 module('ht.version', package.seeall)
 
-last_updated_time = '2023.04.14'
+last_updated_time = '2023.04.15'
 

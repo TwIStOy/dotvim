@@ -10,13 +10,7 @@ local function on_buffer_attach(client, bufnr)
     callback = function()
       local opts = {
         focusable = false,
-        close_events = {
-          "BufLeave",
-          "CursorMoved",
-          "InsertEnter",
-          "FocusLost",
-          "User ShowHover",
-        },
+        close_events = { "CursorMoved", "InsertEnter", "User ShowHover" },
         border = 'rounded',
         source = 'always',
         prefix = ' ',

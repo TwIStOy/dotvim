@@ -43,6 +43,7 @@ vim.g.relative_number_blacklist = {
   'noice',
   'crates.nvim',
   'lazy',
+  'Trouble',
 }
 
 event.on('TermEnter', { pattern = '*', command = 'setlocal nonu nornu' })
@@ -138,6 +139,7 @@ require'ht.core.window'.skip_filetype('noice')
 require'ht.core.window'.skip_filetype('fidget')
 require'ht.core.window'.skip_filetype('scrollview')
 require'ht.core.window'.skip_filetype('notify')
+require'ht.core.window'.skip_filetype('Trouble')
 
 event.on('BufEnter,WinClosed', {
   pattern = '*',

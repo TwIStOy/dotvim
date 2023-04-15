@@ -11,7 +11,6 @@ return {
                  "^ " },
       show_help = true,
       icons = { breadcrumb = "»", separator = ICON('f0734'), group = "+" },
-      window = { winblend = 80 },
     },
     config = function(_, opts)
       vim.defer_fn(function()

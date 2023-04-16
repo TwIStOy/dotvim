@@ -10,6 +10,16 @@ return {
   {
     'zbirenbaum/copilot.lua',
     event = 'InsertEnter',
+    keys = {
+      {
+        '<M-a>',
+        function()
+          require("copilot.suggestion").accept()
+        end,
+        mode = 'i',
+        desc = 'accept-copilot-suggestion',
+      },
+    },
     config = function()
       require'copilot'.setup { suggestion = { accept = '<M-a>' } }
 

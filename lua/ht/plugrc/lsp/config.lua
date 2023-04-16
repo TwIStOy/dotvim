@@ -245,7 +245,7 @@ M.config = function() -- code to run after plugin loaded
       inlay_hints = { auto = true },
     },
     server = {
-      cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' },
+      cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
       on_attach = on_buffer_attach,
       capabilities = capabilities,
       settings = {

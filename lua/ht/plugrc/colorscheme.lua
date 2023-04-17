@@ -106,7 +106,7 @@ return {
     build = ":CatppuccinCompile",
     config = function()
       require('catppuccin').setup {
-        flavour = "mocha",
+        flavour = "latte",
         term_colors = false,
         transparent_background = false,
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",

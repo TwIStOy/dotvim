@@ -92,6 +92,7 @@ return {
           },
           formatting.lua_format,
           formatting.rustfmt,
+          formatting.prettier,
         },
       }
     end,

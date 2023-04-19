@@ -44,6 +44,43 @@ local fix_menu_abbr = function(abbr)
   return ' ' .. abbr
 end
 
+local i_cr_action = function(fallback)
+  local cmp = require 'cmp'
+
+  if not cmp.visible() then
+    fallback()
+    return
+  end
+
+  -- test the first entry is rime_ls or not
+  local entry = cmp.get_selected_entry()
+  if entry == nil then
+    entry = cmp.core.view:get_first_entry()
+  end
+  if entry == nil then
+    -- entry still nil, fallback
+    fallback()
+    return
+  end
+
+  if entry.source ~= nil and entry.source.name == 'nvim_lsp' and
+      entry.source.source ~= nil and entry.source.source.client ~= nil and
+      entry.source.source.client.name == 'rime_ls' then
+    -- if the first entry is from rime_ls, do not confirm, <CR> now is a simple
+    -- new line marker
+    cmp.abort()
+    return
+  end
+
+  -- otherwise, confirm the selected entry
+  if cmp.get_selected_entry() ~= nil then
+    -- if there's a selected entry, including preselect entry
+    cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
+  else
+    fallback()
+  end
+end
+
 M.config = function()
   local cmp = require 'cmp'
   local lspkind = require 'lspkind'
@@ -98,34 +135,7 @@ M.config = function()
     },
     completion = { completeopt = "menu,menuone,noselect,noinsert" },
     mapping = {
-      ["<CR>"] = cmp.mapping(function(fallback)
-        if not cmp.visible() then
-          fallback()
-          return
-        end
-        local entry = cmp.get_selected_entry()
-        if entry == nil then
-          entry = cmp.core.view:get_first_entry()
-        end
-        if entry == nil then
-          fallback()
-          return
-        end
-        if vim.g.global_rime_enabled and entry.source ~= nil and
-            entry.source.name == 'nvim_lsp' and entry.source.source ~= nil and
-            entry.source.source.client ~= nil and
-            entry.source.source.client.name == 'rime_ls' then
-          -- if rime enabled, do not confirm
-          cmp.abort()
-        else
-          if cmp.get_selected_entry() ~= nil then
-            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace,
-                          select = false })
-          else
-            cmp.abort()
-          end
-        end
-      end, { 'i', 'c' }),
+      ["<CR>"] = cmp.mapping(i_cr_action, { 'i', 'c' }),
       ["<Space>"] = cmp.mapping(function(fallback)
         if not cmp.visible() then
           fallback()

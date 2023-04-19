@@ -61,3 +61,17 @@ ICON = function(code)
   end
   return table.concat(t)
 end
+
+Throttle = function(fn, ms)
+  local timer = vim.loop.new_timer()
+  local running = false
+  return function(...)
+    if not running then
+      timer:start(ms, 0, function()
+        running = false
+      end)
+      running = true
+      pcall(vim.schedule_wrap(fn), select(1, ...))
+    end
+  end
+end

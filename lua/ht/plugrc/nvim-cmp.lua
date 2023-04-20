@@ -73,9 +73,10 @@ local i_cr_action = function(fallback)
   end
 
   -- otherwise, confirm the selected entry
+  entry = cmp.get_selected_entry()
   if cmp.get_selected_entry() ~= nil then
     -- if there's a selected entry, including preselect entry
-    cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
+    cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
   else
     fallback()
   end

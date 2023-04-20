@@ -31,7 +31,7 @@ return {
   },
 
   {
-    'glepnir/lspsaga.nvim',
+    'TwIStOy/lspsaga.nvim',
     event = "LspAttach",
     config = function()
       require("lspsaga").setup({

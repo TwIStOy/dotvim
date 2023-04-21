@@ -14,9 +14,15 @@ local M = {
     'dmitmel/cmp-digraphs',
     'f3fora/cmp-spell',
     'hrsh7th/cmp-buffer',
-    -- 'hrsh7th/cmp-nvim-lsp-signature-help',
-    'zbirenbaum/copilot-cmp',
-    'zbirenbaum/copilot.lua',
+    'kdheepak/cmp-latex-symbols',
+    {
+      'paopaol/cmp-doxygen',
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-treesitter/nvim-treesitter-textobjects",
+      },
+    },
+    { 'zbirenbaum/copilot-cmp', dependencies = { 'zbirenbaum/copilot.lua' } },
   },
 }
 
@@ -82,6 +88,15 @@ local i_cr_action = function(fallback)
   end
 end
 
+local function in_latex_scope()
+  local context = require 'cmp.config.context'
+  local ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  if ft ~= 'markdown' and ft ~= 'latex' then
+    return false
+  end
+  return context.in_treesitter_capture("text.math")
+end
+
 M.config = function()
   local cmp = require 'cmp'
   local lspkind = require 'lspkind'
@@ -93,7 +108,7 @@ M.config = function()
   ]]
 
   cmp.setup {
-    preselect = cmp.PreselectMode.None,
+    preselect = cmp.PreselectMode.Item,
     snippet = {
       expand = function(args)
         vim.fn["UltiSnips#Anon"](args.body)
@@ -113,6 +128,19 @@ M.config = function()
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
       { name = "ultisnips", group_index = 2 },
+      {
+        name = "latex_symbols",
+        group_index = 1,
+        option = {
+          strategy = 2, -- latex only
+        },
+        entry_filter = function(e, ctx)
+          if ctx.in_latex_scope == nil then
+            ctx.in_latex_scope = in_latex_scope()
+          end
+          return ctx.in_latex_scope
+        end,
+      },
       { name = 'nvim_lsp_signature_help', group_index = 3 },
       { name = 'async_path', group_index = 4 },
       { name = 'calc', group_index = 5 },
@@ -204,6 +232,9 @@ M.config = function()
               cmdline = '[Command]',
               copilot = '[Copilot]',
             })[entry.source.name] or ('[' .. entry.source.name .. ']')
+            if entry.source.name == 'latex_symbols' then
+              vim_item.kind = 'Math'
+            end
             return vim_item
           end,
         })(entry, vim_item)

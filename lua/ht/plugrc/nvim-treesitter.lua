@@ -15,7 +15,7 @@ return {
         lazy = true,
         ft = { 'lua', 'ruby', 'vimscript' },
       },
-      'TwIStOy/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter-textobjects',
     },
     opts = {
       ensure_installed = {
@@ -47,7 +47,6 @@ return {
       },
       highlight = {
         enable = true,
-
         additional_vim_regex_highlighting = { "markdown" },
         disable = function(lang, bufnr)
           if lang == 'html' and vim.api.nvim_buf_line_count(bufnr) > 500 then

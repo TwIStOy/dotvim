@@ -69,7 +69,7 @@ return {
         desc = 'build-project' },
     },
   },
-  { { 'skywind3000/asyncrun.vim', cmd = { 'AsyncRun', 'AsyncStop' } } },
+  { 'skywind3000/asyncrun.vim', cmd = { 'AsyncRun', 'AsyncStop' } },
 
   -- for cp programming
   {
@@ -111,5 +111,15 @@ return {
       { 'gcc', '<cmd>TComment<CR>', desc = 'toggle-comment' },
       { 'gcc', ':TCommentBlock<CR>', mode = 'v', desc = 'toggle-comment' },
     },
+  },
+
+  -- gen document
+  {
+    "danymat/neogen",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    cmd = { 'Neogen' },
+    lazy = true,
+    opts = { input_after_comment = false },
+    config = true,
   },
 }

@@ -9,7 +9,7 @@ local M = {
     'hrsh7th/cmp-cmdline',
     'dmitmel/cmp-cmdline-history',
     'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-path',
+    'FelipeLema/cmp-async-path',
     'hrsh7th/cmp-calc',
     'dmitmel/cmp-digraphs',
     'f3fora/cmp-spell',
@@ -114,7 +114,7 @@ M.config = function()
       { name = "copilot", group_index = 1 },
       { name = "ultisnips", group_index = 2 },
       { name = 'nvim_lsp_signature_help', group_index = 3 },
-      { name = 'path', group_index = 4 },
+      { name = 'async_path', group_index = 4 },
       { name = 'calc', group_index = 5 },
       {
         name = 'buffer',
@@ -165,7 +165,7 @@ M.config = function()
       ["<C-e>"] = cmp.mapping.abort(),
       ["<TAB>"] = cmp.mapping(function(fallback)
         if cmp.visible() and has_words_before() then
-          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
         else
           fallback()
         end

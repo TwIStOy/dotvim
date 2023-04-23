@@ -243,6 +243,7 @@ return {
 
   {
     'kevinhwang91/nvim-ufo',
+    enabled = false,
     event = { 'BufReadPost' },
     keys = { { 'zR', nil, 'zM', nil } },
     dependencies = 'kevinhwang91/promise-async',

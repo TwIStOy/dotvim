@@ -1,7 +1,5 @@
 local M = {}
 
-local highlight_created = false
-
 ---@class DisplayMenuOptions
 ---@field init_winnr any
 ---@field row number
@@ -57,7 +55,7 @@ local default_popup_options = {
   },
   win_options = {
     winblend = 0,
-    winhighlight = "NormalSB:Normal,FloatBorder:FloatBorder,CursorLine:MenuSel",
+    winhighlight = "NormalSB:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine",
   },
 }
 
@@ -152,21 +150,6 @@ end
 ---@param opts DisplayMenuOptions|nil
 ---@param parent NuiMenu|nil
 function M.create_menu(items, opts, parent)
-  if highlight_created == false then
-    highlight_created = true
-    local function background(hi)
-      return string.format("#%06x",
-                           vim.api.nvim_get_hl_by_name(hi, 1).background)
-    end
-
-    local function foreground(hi)
-      return string.format("#%06x",
-                           vim.api.nvim_get_hl_by_name(hi, 1).foreground)
-    end
-    vim.cmd("highlight MenuSel gui=bold guibg=" .. background('IncSearch') ..
-                " guifg=" .. foreground('IncSearch'))
-  end
-
   if opts == nil then
     opts = initialize_options()
   end

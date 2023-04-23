@@ -9,7 +9,6 @@ local UIText = {}
 ---the following fields:
 ---  - text: text to display
 ---  - keys: quick-select keys
----  - action: function to call when item is selected
 ---@param text string
 ---@return UIText
 function M.parse_ui_text(text)

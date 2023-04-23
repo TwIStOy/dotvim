@@ -1,27 +1,18 @@
 local M = {}
 
 M.keys = function(t)
-  if type(t) ~= 'table' then
-    return nil
-  end
-
-  local res = {}
-  for k, _ in pairs(t) do
-    table.insert(res, k)
-  end
-  return res
+  return vim.tbl_keys(t)
 end
 
+---Unique elements in given list-like table.
+---@param t Array
+---@return Array
 M.unique = function(t)
-  if type(t) ~= table then
-    return nil
-  end
-
   local hash = {}
   for _, v in ipairs(t) do
     hash[v] = true
   end
-  return M.keys(hash)
+  return vim.tbl_keys(hash)
 end
 
 M.slice = function(tbl, first, last, step)
@@ -42,7 +33,8 @@ M.table_get_value = function(t, k, default)
   end
 end
 
--- reverse given list-like table
+---Reverse given list-like table in place.
+---@param lst Array
 M.list_reverse = function(lst)
   for i = 1, math.floor(#lst / 2) do
     local j = #lst - i + 1
@@ -50,6 +42,9 @@ M.list_reverse = function(lst)
   end
 end
 
+---Deep-copy a table.
+---@param orig table
+---@return table
 M.deepcopy = function(orig)
   local orig_type = type(orig)
   local copy
@@ -65,6 +60,17 @@ M.deepcopy = function(orig)
   return copy
 end
 
-return M
--- vim: et sw=2 ts=2 fdm=marker
+---@param lst Array
+---@param f function
+---@return Array
+M.list_map = function(lst, f)
+  local res = {}
+  for _, v in ipairs(lst) do
+    table.insert(res, f(v))
+  end
+  return res
+end
 
+return M
+
+-- vim: et sw=2 ts=2 fdm=marker

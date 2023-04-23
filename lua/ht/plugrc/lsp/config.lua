@@ -280,6 +280,8 @@ M.config = function() -- code to run after plugin loaded
             [vim.fn.expand('$VIMRUNTIME/lua')] = true,
             [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
             [vim.fn.expand('$HOME/.dotvim/lua')] = true,
+            [vim.fn.expand('$HOME/.local/share/nvim/lazy/nui.nvim/lua')] = true,
+            [vim.fn.expand('$HOME/.local/share/nvim/lazy/plenary.nvim/lua')] = true,
           },
         },
       },

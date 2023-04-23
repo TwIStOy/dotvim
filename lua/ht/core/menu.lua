@@ -30,6 +30,9 @@ Complex menu item with sub-menu
 
 --]]
 
+---@param ctx TSNode
+---@param new_section any
+---@return any
 local function add_section(ctx, new_section)
   local Menu = require "nui.menu"
   if #ctx > 0 then

@@ -1,5 +1,7 @@
 local M = {}
 
+local highlight_created = false
+
 ---@class DisplayMenuOptions
 ---@field init_winnr any
 ---@field row number
@@ -68,26 +70,44 @@ local default_menu_options = {
     close = { "<ESC>", "<C-c>" },
     submit = { "<CR>" },
   },
-  on_close = function(_, menu)
+  on_close = function()
+  end,
+  on_change = function(item, menu)
     ---@type ContextMenuContext
     local menu_context = menu.menu_props.menu_context
-    if menu_context.parent == nil then
-      -- the last menu, skip
-      vim.api.nvim_set_current_win(menu_context.display_options.init_winnr)
+    if menu_context.keymaps == nil then
+      for linenr = 1, #menu.tree.nodes.root_ids do
+        local node, target_linenr = menu.tree:get_node(linenr)
+        if not menu._.should_skip_item(node) then
+          ---@type ContextMenuItem
+          local menu_item = node.menu_item
+
+          for key, v in pairs(menu_item.keys) do
+            if v then
+              menu:map('n', key, function()
+                vim.api.nvim_win_set_cursor(menu.winid, { target_linenr, 0 })
+                menu._.on_change(node)
+              end, { noremap = true, nowait = true })
+            end
+          end
+        end
+      end
+      menu_context.keymaps = true
     end
-  end,
-  on_change = function(item, _)
+
     ---@type ContextMenuItem
     local menu_item = item.menu_item
+    item.menu_item.in_menu = menu
     if menu_item.desc ~= nil then
       print(menu_item.desc)
     else
-      print('')
+      print('\n\n')
     end
   end,
-  on_submit = function(item, menu)
+  on_submit = function(item)
     ---@type ContextMenuItem
     local menu_item = item.menu_item
+    local menu = menu_item.in_menu
     ---@type ContextMenuContext
     local menu_context = menu.menu_props.menu_context
 
@@ -132,6 +152,21 @@ end
 ---@param opts DisplayMenuOptions|nil
 ---@param parent NuiMenu|nil
 function M.create_menu(items, opts, parent)
+  if highlight_created == false then
+    highlight_created = true
+    local function background(hi)
+      return string.format("#%06x",
+                           vim.api.nvim_get_hl_by_name(hi, 1).background)
+    end
+
+    local function foreground(hi)
+      return string.format("#%06x",
+                           vim.api.nvim_get_hl_by_name(hi, 1).foreground)
+    end
+    vim.cmd("highlight MenuSel gui=bold guibg=" .. background('IncSearch') ..
+                " guifg=" .. foreground('IncSearch'))
+  end
+
   if opts == nil then
     opts = initialize_options()
   end
@@ -139,7 +174,7 @@ function M.create_menu(items, opts, parent)
 
   local popup_options = vim.tbl_extend("force", default_popup_options, {
     position = { row = opts.row, col = opts.col },
-    relative = { winid = opts.init_winnr },
+    relative = { winid = opts.init_winnr, type = 'win' },
   })
   local lines = {}
   local sub_text_width = max_text_width(items)
@@ -149,6 +184,7 @@ function M.create_menu(items, opts, parent)
   local menu_options = vim.tbl_extend('force', default_menu_options,
                                       { lines = lines })
 
+  ---@type NuiMenu
   local menu = Menu(popup_options, menu_options)
   menu.menu_props.menu_context = { display_options = opts, parent = parent }
 
@@ -164,22 +200,14 @@ function M.create_menu(items, opts, parent)
       on_expand(item, menu)
     end
   end, { noremap = true, nowait = true })
-  for linenr = 1, #menu.tree.nodes.root_ids do
-    local node, target_linenr = menu.tree:get_node(linenr)
-    if not menu._.should_skip_item(node) then
-      ---@type ContextMenuItem
-      local menu_item = node.menu_item
 
-      for key, v in pairs(menu_item.keys) do
-        if v then
-          menu:key('n', key, function()
-            vim.api.nvim_win_set_cursor(menu.winid, { target_linenr, 0 })
-            menu._.on_change(node)
-          end, { noremap = true, nowait = true })
-        end
-      end
+  menu:on('WinClosed', function()
+    if parent == nil then
+      -- the last menu, skip
+      vim.api.nvim_set_current_win(opts.init_winnr)
     end
-  end
+  end)
+
   return menu
 end
 

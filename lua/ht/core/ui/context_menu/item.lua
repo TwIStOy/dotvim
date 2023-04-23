@@ -7,6 +7,7 @@ local ui_text = require 'ht.core.ui.text'
 ---@field desc string|nil
 ---@field callback function callback when confirm with this item is selected
 ---@field children ContextMenuItem[]|nil
+---@field in_menu NuiMenu
 local ContextMenuItem = {}
 
 local function disable_builtin_keys(keys)
@@ -46,7 +47,7 @@ function ContextMenuItem.new(opts)
   res.text = text.text
 
   -- setup keys and pos from parsed text
-  for key, pos in text.keys do
+  for key, pos in pairs(text.keys) do
     res.keys[key] = true
     table.insert(res.keys_positions, pos)
   end

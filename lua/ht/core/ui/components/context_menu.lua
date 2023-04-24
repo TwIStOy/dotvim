@@ -26,6 +26,7 @@ local default_popup_options = {
   relative = { type = "win" },
   focusable = false,
   buf_options = { modifiable = false, readonly = true, filetype = 'nuipopup' },
+  zindex = 60,
   border = {
     style = "rounded",
     highlight = "FloatBorder",
@@ -179,6 +180,9 @@ function ContextMenu:as_nui_menu(opts, parent)
     position = { row = opts.row, col = opts.col },
     relative = { winid = opts.init_winnr, type = 'win' },
   })
+  if parent ~= nil then
+    popup_options.zindex = parent.win_config.zindex + 2
+  end
   local lines = {}
   local sub_text_width = max_text_width(self.items)
   for _, item in ipairs(self.items) do

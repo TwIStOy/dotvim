@@ -98,23 +98,27 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
 
-      local Menu = require 'nui.menu'
       local menu = require 'ht.core.menu'
 
       local swap = require 'nvim-treesitter.textobjects.swap'
 
-      menu:append_section('*', {
-        Menu.item('Move Object Left', {
-          action = function()
-            swap.swap_previous('@parameter.inner')
-          end,
-        }),
-        Menu.item('Move Object Right', {
-          action = function()
-            swap.swap_next('@parameter.inner')
-          end,
-        }),
-      }, 1)
+      menu:add_section{
+        index = 1,
+        opts = {
+          {
+            'Move Object Left',
+            callback = function()
+              swap.swap_previous('@parameter.inner')
+            end,
+          },
+          {
+            'Move Object Right',
+            callback = function()
+              swap.swap_next('@parameter.inner')
+            end,
+          },
+        },
+      }
 
     end,
   },

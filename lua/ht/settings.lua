@@ -171,7 +171,7 @@ vim.keymap.set({ 'n', 'i', 'v' }, '<C-s>', '<cmd>update<CR>',
 
 NMAP(';;', function()
   local menu = require 'ht.core.menu'
-  menu:show_menu()
+  menu:mount()
 end, 'show-menu')
 
 NMAP('<M-n>', '<cmd>nohl<CR>', 'nohl')

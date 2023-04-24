@@ -19,53 +19,70 @@ return {
       })
 
       local menu = require 'ht.core.menu'
-      local Menu = require 'nui.menu'
 
-      menu:append_file_section('Cargo.toml', {
-        Menu.item('Crates', {
-          items = {
-            Menu.item('Open Homepage', {
-              action = function()
-                require('crates').open_homepage()
-              end,
-            }),
-            Menu.item('Open Documentation', {
-              action = function()
-                require('crates').open_documentation()
-              end,
-            }),
-            Menu.item('Open Repository', {
-              action = function()
-                require('crates').open_repository()
-              end,
-            }),
-            Menu.item('Popups', {
-              items = {
-                Menu.item('Details', {
-                  action = function()
-                    require('crates').show_crate_popup()
-                  end,
-                }),
-                Menu.item('Versions', {
-                  action = function()
-                    require('crates').show_versions_popup()
-                  end,
-                }),
-                Menu.item('Features', {
-                  action = function()
-                    require('crates').show_features_popup()
-                  end,
-                }),
-                Menu.item('Dependencies', {
-                  action = function()
-                    require('crates').show_dependencies_popup()
-                  end,
-                }),
+      menu:add_section{
+        index = 4,
+        filename = { 'Cargo.toml' },
+        opts = {
+          {
+            'Cra&tes',
+            children = {
+              {
+                'Open Homepage',
+                callback = function()
+                  require('crates').open_homepage()
+                end,
               },
-            }),
+              {
+                'Open Documentation',
+                callback = function()
+                  require('crates').open_documentation()
+                end,
+              },
+              {
+                'Open Repository',
+                callback = function()
+                  require('crates').open_repository()
+                end,
+                keys = 'r',
+              },
+              {
+                'Popups',
+                keys = 'p',
+                children = {
+                  {
+                    'Details',
+                    callback = function()
+                      require('crates').show_crate_popup()
+                    end,
+                    keys = 'd',
+                  },
+                  {
+                    'Versions',
+                    callback = function()
+                      require('crates').show_versions_popup()
+                    end,
+                    keys = 'v',
+                  },
+                  {
+                    'Features',
+                    callback = function()
+                      require('crates').show_features_popup()
+                    end,
+                    keys = 'f',
+                  },
+                  {
+                    'Dependencies',
+                    callback = function()
+                      require('crates').show_dependencies_popup()
+                    end,
+                  },
+                },
+              },
+            },
           },
-        }),
-      }, 4)
+        },
+      }
     end,
     config = function()
       require('crates').setup {
@@ -79,4 +96,3 @@ return {
     end,
   },
 }
-

@@ -65,6 +65,7 @@ local function on_expand(item, menu)
     row = menu_context.display_options.row + pos - 1,
     col = menu_context.display_options.col + menu.win_config.width + 4,
   }
+  ---@type ContextMenu
   local context_menu = { items = {} }
   for _, child in ipairs(menu_item.children) do
     table.insert(context_menu.items, child)
@@ -84,8 +85,6 @@ local default_menu_options = {
     close = { "<ESC>", "<C-c>" },
     submit = { "<CR>" },
   },
-  on_close = function()
-  end,
   on_change = function(item, menu)
     ---@type MenuItem
     local menu_context = menu.menu_props.menu_context
@@ -133,14 +132,13 @@ local default_menu_options = {
     local menu_context = menu.menu_props.menu_context
 
     -- close all previous menus
-    if menu_context.parent ~= nil then
-      menu_context.parent:unmount()
+    local parent = menu_context.parent
+    while parent ~= nil do
+      parent:unmount()
+      parent = parent.menu_props.menu_context.parent
     end
 
-    if menu_context.parent == nil then
-      -- the last menu, skip
-      vim.api.nvim_set_current_win(menu_context.display_options.init_winnr)
-    end
+    vim.api.nvim_set_current_win(menu_context.display_options.init_winnr)
 
     if menu_item.callback ~= nil then
       menu_item.callback()
@@ -153,14 +151,10 @@ local default_menu_options = {
 ---@return number
 local function max_text_width(items)
   local max_width = 0
-  local additional = 0
   for _, item in ipairs(items) do
     max_width = math.max(max_width, item:expected_length())
-    if item.children ~= nil and #item.children > 0 then
-      additional = 2
-    end
   end
-  return max_width + additional
+  return math.max(max_width, 20)
 end
 
 ---@return MenuDisplayOptions
@@ -190,8 +184,16 @@ function ContextMenu:as_nui_menu(opts, parent)
   for _, item in ipairs(self.items) do
     table.insert(lines, item:as_nui_node(sub_text_width))
   end
-  local menu_options = vim.tbl_extend('force', default_menu_options,
-                                      { lines = lines })
+  local menu_options = vim.tbl_extend('force', default_menu_options, {
+    lines = lines,
+    on_close = function()
+      if parent == nil then
+        vim.api.nvim_set_current_win(opts.init_winnr)
+      else
+        vim.api.nvim_set_current_win(parent.winid)
+      end
+    end,
+  })
 
   ---@type NuiMenu
   local menu = nui_menu(popup_options, menu_options)
@@ -210,12 +212,14 @@ function ContextMenu:as_nui_menu(opts, parent)
     end
   end, { noremap = true, nowait = true })
 
+  --[[
   menu:on('WinClosed', function()
     if parent == nil then
       -- the last menu, skip
       vim.api.nvim_set_current_win(opts.init_winnr)
     end
   end)
+  --]]
 
   return menu
 end

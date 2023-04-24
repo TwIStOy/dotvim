@@ -6,16 +6,20 @@ local M = {
 }
 
 M.init = function()
-  local Menu = require 'nui.menu'
   local menu = require 'ht.core.menu'
 
-  menu:append_section('*', {
-    Menu.item('Find file in FileExplorer', {
-      action = function()
-        vim.cmd 'NvimTreeFindFile'
-      end,
-    }),
-  }, 100)
+  menu:add_section{
+    index = 100,
+    opts = {
+      {
+        'Find file in FileExplorer',
+        callback = function()
+          vim.cmd 'NvimTreeFindFile'
+        end,
+        keys = 'f',
+      },
+    },
+  }
 end
 
 M.config = function() -- code to run after plugin loaded

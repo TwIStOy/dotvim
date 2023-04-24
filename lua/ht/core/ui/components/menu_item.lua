@@ -20,6 +20,7 @@ local function disable_builtin_keys(keys)
   keys['k'] = false
   keys['h'] = false
   keys['l'] = false
+  keys['q'] = false
   keys['<ESC>'] = false
   keys['<C-c>'] = false
   keys['<CR>'] = false

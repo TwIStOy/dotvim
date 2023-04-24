@@ -26,7 +26,7 @@ local default_popup_options = {
   relative = { type = "win" },
   focusable = false,
   buf_options = { modifiable = false, readonly = true, filetype = 'nuipopup' },
-  zindex = 60,
+  zindex = 210,
   border = {
     style = "rounded",
     highlight = "FloatBorder",
@@ -58,8 +58,6 @@ local function on_expand(item, menu)
   local menu_item = item.menu_item
   local menu_context = menu.menu_props.menu_context
 
-  local new_menu_context = { parent = menu_context }
-
   local pos = find_item_in_menu(item, menu)
   local display_options = {
     init_winnr = menu_context.display_options.init_winnr,
@@ -83,7 +81,7 @@ local default_menu_options = {
   keymap = {
     focus_next = { "j", "<DOWN>", "<C-n>", "<TAB>" },
     focus_prev = { "k", "<UP>", "<C-p>", "<S-TAB>" },
-    close = { "<ESC>", "<C-c>" },
+    close = { "<ESC>", "<C-c>", 'q' },
     submit = { "<CR>" },
   },
   on_change = function(item, menu)

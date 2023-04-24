@@ -87,13 +87,13 @@ local default_menu_options = {
   on_close = function()
   end,
   on_change = function(item, menu)
-    ---@type ContextMenuContext
+    ---@type MenuItem
     local menu_context = menu.menu_props.menu_context
     if menu_context.keymaps == nil then
       for linenr = 1, #menu.tree.nodes.root_ids do
         local node, target_linenr = menu.tree:get_node(linenr)
         if not menu._.should_skip_item(node) then
-          ---@type ContextMenuItem
+          ---@type MenuItem
           local menu_item = node.menu_item
 
           for key, v in pairs(menu_item.keys) do
@@ -101,6 +101,13 @@ local default_menu_options = {
               menu:map('n', key, function()
                 vim.api.nvim_win_set_cursor(menu.winid, { target_linenr, 0 })
                 menu._.on_change(node)
+                if menu_item.children ~= nil and #menu_item.children > 0 then
+                  -- expand
+                  on_expand(node, menu)
+                else
+                  -- submit
+                  menu.menu_props.on_submit(node)
+                end
               end, { noremap = true, nowait = true })
             end
           end
@@ -109,8 +116,9 @@ local default_menu_options = {
       menu_context.keymaps = true
     end
 
-    ---@type ContextMenuItem
+    ---@type MenuItem
     local menu_item = item.menu_item
+
     item.menu_item.in_menu = menu
     if menu_item.desc ~= nil then
       print(menu_item.desc)
@@ -119,10 +127,9 @@ local default_menu_options = {
     end
   end,
   on_submit = function(item)
-    ---@type ContextMenuItem
+    ---@type MenuItem
     local menu_item = item.menu_item
     local menu = menu_item.in_menu
-    ---@type ContextMenuContext
     local menu_context = menu.menu_props.menu_context
 
     -- close all previous menus
@@ -148,7 +155,7 @@ local function max_text_width(items)
   local max_width = 0
   local additional = 0
   for _, item in ipairs(items) do
-    max_width = math.max(max_width, item.text:length())
+    max_width = math.max(max_width, item:expected_length())
     if item.children ~= nil and #item.children > 0 then
       additional = 2
     end

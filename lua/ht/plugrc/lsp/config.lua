@@ -81,83 +81,111 @@ M.config = function() -- code to run after plugin loaded
   local Menu = require 'nui.menu'
   local LSP = require('ht.with_plug.lsp')
 
-  menu:append_section("*", {
-    Menu.item("LSP", {
-      items = {
-        Menu.item("Goto Declaration", { action = LSP.declaration }),
-        Menu.item('Goto Definition', { action = LSP.definitions }),
-        Menu.item('Goto Implementation', { action = LSP.implementations }),
-        Menu.item('Inspect References', { action = LSP.references }),
-        Menu.item('Rname', { action = LSP.rename }),
+  menu:add_section{
+    index = 3,
+    opts = {
+      {
+        "LSP",
+        children = {
+          { "Goto Declaration", callback = LSP.declaration, keys = { 'd' } },
+          { 'Goto Definition', callback = LSP.definitions, keys = 'D' },
+          { 'Goto Implementation', callback = LSP.implementations, keys = 'i' },
+          { 'Inspect References', callback = LSP.references, keys = 'r' },
+          { 'Rname', callback = LSP.rename, keys = 'R' },
+        },
       },
-    }),
-  }, 3)
+    },
+  }
 
-  menu:append_section("cpp", {
-    Menu.item("Symbol Info", {
-      action = function()
-        vim.cmd 'ClangdSymbolInfo'
-      end,
-    }),
-    Menu.item("Type Hierarchy", {
-      action = function()
-        vim.cmd 'ClangdTypeHierarchy'
-      end,
-    }),
-    Menu.item("Clangd More", {
-      items = {
-        Menu.item("View AST", {
-          action = function()
-            vim.cmd 'ClangdAST'
-          end,
-        }),
-        Menu.item("Memory Usage", {
-          action = function()
-            vim.cmd 'ClangdMemoryUsage'
-          end,
-        }),
+  menu:add_section{
+    index = 4,
+    filetype = { 'cpp', 'c' },
+    opts = {
+      {
+        "Symbol Info",
+        callback = function()
+          vim.cmd 'ClangdSymbolInfo'
+        end,
       },
-    }),
-  }, 4)
+      {
+        "Type Hierarchy",
+        callback = function()
+          vim.cmd 'ClangdTypeHierarchy'
+        end,
+      },
+      {
+        "Clangd More",
+        children = {
+          {
+            "View AST",
+            callback = function()
+              vim.cmd 'ClangdAST'
+            end,
+          },
+          {
+            "Memory Usage",
+            callback = function()
+              vim.cmd 'ClangdMemoryUsage'
+            end,
+          },
+        },
+      },
+    },
+  }
 
-  menu:append_section("rust", {
-    Menu.item("Rust-tools", {
-      items = {
-        Menu.item("Hover Actions", {
-          action = function()
-            require'rust-tools'.hover_actions.hover_actions()
-          end,
-        }),
-        Menu.item("Open Cargo", {
-          action = function()
-            require'rust-tools'.open_cargo_toml.open_cargo_toml()
-          end,
-          desc = 'open project Cargo.toml',
-        }),
-        Menu.item("Move Item Up", {
-          action = function()
-            require'rust-tools'.move_item.move_item(true)
-          end,
-        }),
-        Menu.item("Expand Macro", {
-          action = function()
-            require'rust-tools'.expand_macro.expand_macro()
-          end,
-          desc = 'expand macros recursively',
-        }),
-        Menu.item("Parent Module", {
-          action = function()
-            require'rust-tools'.parent_module.parent_module()
-          end,
-        }),
-        Menu.item("Join Lines", {
-          action = function()
-            require'rust-tools'.join_lines.join_lines()
-          end,
-        }),
+  menu:add_section{
+    filetype = 'rust',
+    index = 4,
+    opts = {
+      {
+        'Rust',
+        keys = 'R',
+        children = {
+          {
+            "Hover Actions",
+            callback = function()
+              require'rust-tools'.hover_actions.hover_actions()
+            end,
+          },
+          {
+            "Open Cargo",
+            callback = function()
+              require'rust-tools'.open_cargo_toml.open_cargo_toml()
+            end,
+            keys = 'c',
+            desc = 'open project Cargo.toml',
+          },
+          {
+            "Move Item Up",
+            callback = function()
+              require'rust-tools'.move_item.move_item(true)
+            end,
+          },
+          {
+            "Expand Macro",
+            callback = function()
+              require'rust-tools'.expand_macro.expand_macro()
+            end,
+            desc = 'expand macros recursively',
+            keys = { 'e', 'E' },
+          },
+          {
+            "Parent Module",
+            callback = function()
+              require'rust-tools'.parent_module.parent_module()
+            end,
+            keys = 'p',
+          },
+          {
+            "Join Lines",
+            callback = function()
+              require'rust-tools'.join_lines.join_lines()
+            end,
+          },
+        },
       },
-    }),
-  }, 4)
+    },
+  }
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
       vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

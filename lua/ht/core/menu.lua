@@ -2,9 +2,6 @@ local M = {}
 
 -- util functions to build right-click-like menu
 
-local F = vim.fn
-local A = vim.api
-
 M.menus = {}
 M.filename_menus = {}
 
@@ -32,8 +29,8 @@ Complex menu item with sub-menu
 --]]
 
 ---@class NewSectionOptions
----@field filetype string|Array<string>|nil
----@field filename string|Array<string>|nil
+---@field filetype string|table|nil
+---@field filename string|table|nil
 ---@field index number|nil
 ---@field opts Array<MenuItemOptions>
 local NewSectionOptions = {}
@@ -82,8 +79,8 @@ function M:mount()
     end
   end
   table.sort(opts, function(a, b)
-    local a_index = a.idnex or 0
-    local b_index = b.idnex or 0
+    local a_index = a.index or 0
+    local b_index = b.index or 0
     return a_index < b_index
   end)
   local res = {}

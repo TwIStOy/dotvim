@@ -135,14 +135,18 @@ return {
     cmd = { 'TSJToggle', 'TSJSplit', 'TSJJoin' },
     init = function()
       local menu = require 'ht.core.menu'
-      local Menu = require 'nui.menu'
-      menu:append_section("*", {
-        Menu.item("Toggle Split/Join", {
-          action = function()
-            vim.api.nvim_command("TSJToggle")
-          end,
-        }),
-      }, 99)
+
+      menu:add_section{
+        index = 99,
+        opts = {
+          {
+            "Toggle Split/Join",
+            callback = function()
+              vim.api.nvim_command("TSJToggle")
+            end,
+          },
+        },
+      }
     end,
     config = function()
       local tsj = require('treesj')

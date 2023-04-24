@@ -4,6 +4,7 @@
 ---@field desc string|nil
 ---@field callback function
 ---@field keys table<string, boolean>
+---@field extra_keys Array<string>
 local MenuItem = {}
 
 ---@class MenuItemOptions
@@ -45,6 +46,7 @@ local function new_item(opts)
     desc = opts.desc,
     callback = opts.callback,
     keys = {},
+    extra_keys = {},
   }
 
   -- setup keys and pos from parsed text
@@ -53,12 +55,20 @@ local function new_item(opts)
   end
 
   -- setup keys from opts
-  if opts.keys ~= nil and vim.tbl_isarray(opts.keys) then
-    for _, key in ipairs(opts.keys) do
-      this.keys[key] = true
+  if opts.keys ~= nil then
+    if type(opts.keys) == "string" then
+      opts.keys = { opts.keys }
+    end
+
+    if vim.tbl_isarray(opts.keys) then
+      for _, key in ipairs(opts.keys) do
+        this.keys[key] = true
+        table.insert(this.extra_keys, key)
+      end
     end
   end
   this.keys = disable_builtin_keys(this.keys)
+  table.sort(this.extra_keys)
 
   if opts.children ~= nil and vim.tbl_isarray(opts.children) then
     this.children = {}
@@ -74,20 +84,60 @@ local function new_item(opts)
   return this
 end
 
+---@return number
+function MenuItem:expected_length()
+  if self.text.raw_text == '---' then
+    return 0
+  end
+
+  -- text part
+  local len = self.text:length()
+
+  if #self.extra_keys > 0 then
+    -- add spaces
+    len = len + #self.extra_keys + 3
+    for _, key in ipairs(self.extra_keys) do
+      len = len + #key
+    end
+  end
+
+  if self.children ~= nil and #self.children > 0 then
+    -- add arrow
+    len = len + 2
+  end
+
+  return len
+end
+
 ---@param text_width number
 ---@return NuiTreeNode
 function MenuItem:as_nui_node(text_width)
   local nui_menu = require 'nui.menu'
-  local opts = { menu_item = self }
-  local text = self.text:as_nui_line("@parameter")
   if self.text.raw_text == '---' then
     -- separator
     return nui_menu.separator(nil, { '-' })
   end
+
+  local opts = { menu_item = self }
+  local text = self.text:as_nui_line("@variable.builtin")
+
+  local length = self.text:length()
+
+  if self.extra_keys ~= nil and #self.extra_keys > 0 then
+    local hint = table.concat(self.extra_keys, "|")
+    -- always reserve 2 spaces for arrow
+    local space_count = text_width - 2 - length - #hint
+    if space_count > 0 then
+      text:append(string.rep(' ', space_count))
+    end
+    text:append(hint, "@variable.builtin")
+    length = length + space_count + #hint
+  end
+
   if self.children ~= nil and #self.children > 0 and text_width ~= nil then
-    local spaces = text_width - self.text:length()
+    local spaces = text_width - length - 2
     if spaces > 0 then
-      text:append(string.rep(' ', text_width - self.text:length()))
+      text:append(string.rep(' ', spaces))
     end
     text:append(" ▶")
   end

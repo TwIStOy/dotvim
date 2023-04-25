@@ -218,6 +218,7 @@ return {
     },
   },
 
+  -- ufo
   {
     'kevinhwang91/nvim-ufo',
     enabled = false,
@@ -232,6 +233,24 @@ return {
         provider_selector = function(bufnr, filetype, buftype)
           return { 'treesitter', 'indent' }
         end,
+      })
+    end,
+  },
+
+  -- linediff
+  { "AndrewRadev/linediff.vim", cmd = "Linediff" },
+
+  -- post code to 0x0.st
+  {
+    'rktjmp/paperplanes.nvim',
+    lazy = true,
+    cmd = { 'PP' },
+    config = function()
+      require("paperplanes").setup({
+        register = "+",
+        provider = "0x0.st",
+        provider_options = {},
+        notifier = vim.notify or print,
       })
     end,
   },

@@ -86,6 +86,7 @@ M.config = function() -- code to run after plugin loaded
     opts = {
       {
         "LSP",
+        keys = 'g',
         children = {
           { "Goto Declaration", callback = LSP.declaration, keys = { 'd' } },
           { 'Goto Definition', callback = LSP.definitions, keys = 'D' },

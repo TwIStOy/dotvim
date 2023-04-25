@@ -30,7 +30,7 @@ local default_popup_options = {
   buf_options = { modifiable = false, readonly = true, filetype = 'nuipopup' },
   zindex = 210,
   border = {
-    style = "rounded",
+    style = "single",
     highlight = "FloatBorder",
     padding = { top = 0, bottom = 0, left = 1, right = 1 },
   },

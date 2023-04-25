@@ -107,12 +107,14 @@ return {
         opts = {
           {
             'Move Object Left',
+            keys = ',',
             callback = function()
               swap.swap_previous('@parameter.inner')
             end,
           },
           {
             'Move Object Right',
+            keys = '.',
             callback = function()
               swap.swap_next('@parameter.inner')
             end,

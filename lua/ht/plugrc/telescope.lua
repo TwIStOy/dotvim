@@ -112,7 +112,7 @@ M.config = function()
   require('telescope').load_extension('fzf')
   require("telescope").load_extension('notify')
   require("telescope").load_extension('possession')
-  require("telescope").load_extension('cpptoolkit')
+  require("telescope").load_extension('command_palette')
 end
 
 return M

@@ -6,6 +6,18 @@ return {
     config = function()
       vim.cmd [[py3 from snippet_tools.cpp import register_postfix_snippets]]
       vim.cmd [[py3 register_postfix_snippets()]]
+
+      require 'ht.core.functions':add_function_set{
+        category = "Ultisnips",
+        functions = {
+          {
+            title = "Refresh snippets",
+            f = function()
+              vim.cmd "call UltiSnips#RefreshSnippets()"
+            end,
+          },
+        },
+      }
     end,
   },
 
@@ -40,14 +52,41 @@ return {
       },
       { "<leader>lt", "<cmd>TodoTelescope<cr>", desc = "list-todos" },
     },
+    config = function(_, opts)
+      require'todo-comments'.setup(opts)
+
+      require 'ht.core.functions':add_function_set{
+        category = "TodoComments",
+        functions = {
+          {
+            title = "Open todo-comments in telescope",
+            f = function()
+              vim.cmd "TodoTelescope"
+            end,
+          },
+          {
+            title = "Open all kind of todo-comments in trouble",
+            f = function()
+              vim.cmd "TodoTrouble keywords=TODO,FIX,FIXME"
+            end,
+          },
+          {
+            title = "Open todo-comments in trouble",
+            f = function()
+              vim.cmd "TodoTrouble"
+            end,
+          },
+        },
+      }
+    end,
   },
 
   -- asynctask
   {
     'skywind3000/asynctasks.vim',
     cmd = { 'AsyncTask', 'AsyncTaskMacro', 'AsyncTaskProfile', 'AsyncTaskEdit' },
+    -- quickfix window height
     init = function()
-      -- quickfix window height
       vim.g.asyncrun_open = 10
       -- disable bell after finished
       vim.g.asyncrun_bell = 0
@@ -62,6 +101,24 @@ return {
 
       vim.g.asynctasks_extra_config =
           { '~/.dotfiles/dots/tasks/asynctasks.ini' }
+
+      require 'ht.core.functions':add_function_set{
+        category = "AsyncTasks",
+        functions = {
+          {
+            title = "Run build-file task",
+            f = function()
+              vim.cmd "AsyncTask file-build"
+            end,
+          },
+          {
+            title = "Run build-project task",
+            f = function()
+              vim.cmd "AsyncTask project-build"
+            end,
+          },
+        },
+      }
     end,
     keys = {
       { '<leader>bf', '<cmd>AsyncTask file-build<CR>', desc = 'build-file' },

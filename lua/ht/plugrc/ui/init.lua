@@ -73,15 +73,6 @@ return {
     config = require'ht.plugrc.ui.alpha-nvim'.config,
   },
 
-  -- drop leaves
-  {
-    'folke/drop.nvim',
-    ft = { 'dashboard', 'alpha', 'starter' },
-    config = function()
-      require'drop'.setup { screensaver = false }
-    end,
-  },
-
   -- used for update tmux tabline
   { 'edkolev/tmuxline.vim', lazy = true, cmd = { 'Tmuxline' } },
 

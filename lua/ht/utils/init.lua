@@ -58,4 +58,34 @@ function M.deprecated(old, new)
          { title = "HT" })
 end
 
+---@param type_name "'nil'" | "'number'" | "'string'" | "'boolean'" | "'table'" | "'function'" | "'thread'" | "'userdata'" | "'list'" | '"map"'
+---@param v any
+function M.is_type(type_name, v)
+  if type_name == "list" then
+    return vim.tbl_islist(v)
+  end
+
+  if type_name == "map" then
+    return type(v) == "table" and not vim.tbl_islist(v)
+  end
+
+  return type(v) == type_name
+end
+
+function M.normalize_vec_str(str)
+  vim.validate {
+    s = {
+      str,
+      function(v)
+        return M.is_type('list', v) or M.is_type('string', v)
+      end,
+      'list or string',
+    },
+  }
+  if M.is_type('list', str) then
+    return str
+  end
+  return { str }
+end
+
 return M

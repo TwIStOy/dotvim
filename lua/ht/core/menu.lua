@@ -2,9 +2,6 @@ local M = {}
 
 -- util functions to build right-click-like menu
 
-M.menus = {}
-M.filename_menus = {}
-
 M.sections = {}
 
 --[[
@@ -41,7 +38,9 @@ function NewSectionOptions:match(ft, filename)
       if ft ~= self.filetype then
         return false
       end
+      ---@diagnostic disable-next-line: param-type-mismatch
     elseif type(self.filetype) == 'table' and vim.tbl_isarray(self.filetype) then
+      ---@diagnostic disable-next-line: param-type-mismatch
       if not vim.list_contains(self.filetype, ft) then
         return false
       end
@@ -52,7 +51,9 @@ function NewSectionOptions:match(ft, filename)
       if filename ~= self.filename then
         return false
       end
+      ---@diagnostic disable-next-line: param-type-mismatch
     elseif type(self.filename) == 'table' and vim.tbl_isarray(self.filename) then
+      ---@diagnostic disable-next-line: param-type-mismatch
       if not vim.list_contains(self.filename, filename) then
         return false
       end
@@ -92,12 +93,6 @@ function M:mount()
   end
   local menu = context_menu(res)
   menu:as_nui_menu():mount()
-end
-
-function M:append_section()
-end
-
-function M:append_file_section()
 end
 
 return M

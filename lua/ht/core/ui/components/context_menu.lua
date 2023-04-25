@@ -8,6 +8,8 @@ local ContextMenu = {}
 ---@field col number
 local DisplayMenuOptions = {}
 
+---@param opts any
+---@return ContextMenu
 local function new_context_menu(opts)
   local menu_item = require 'ht.core.ui.components.menu_item'
   local items = {}
@@ -213,15 +215,6 @@ function ContextMenu:as_nui_menu(opts, parent)
       on_expand(item, menu)
     end
   end, { noremap = true, nowait = true })
-
-  --[[
-  menu:on('WinClosed', function()
-    if parent == nil then
-      -- the last menu, skip
-      vim.api.nvim_set_current_win(opts.init_winnr)
-    end
-  end)
-  --]]
 
   return menu
 end

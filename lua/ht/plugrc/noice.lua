@@ -33,6 +33,22 @@ return {
       vim.defer_fn(function()
         require("noice").setup(opts)
       end, 20)
+
+      local FF = require 'ht.core.functions'
+
+      FF:add_function_set{
+        category = "Noice",
+        functions = {
+          FF.t_cmd("Shows the message history", "Noice history"),
+          FF.t_cmd("Shows the last message in a popup", "Noice last"),
+          FF.t_cmd("Dismiss all visible messages", "Noice dismiss"),
+          FF.t_cmd("Disables Noice", "Noice disable"),
+          FF.t_cmd("Enables Noice", "Noice enable"),
+          FF.t_cmd("Show debugging stats", "Noice stats"),
+          FF.t_cmd("Opens message history in Telescope", "Noice telescope"),
+          FF.t_cmd("Shows the error messages in a split", "Noice errors"),
+        },
+      }
     end,
   },
 }

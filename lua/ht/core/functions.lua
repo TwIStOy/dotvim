@@ -61,6 +61,15 @@ local function calculate_width(functions)
   return category, title
 end
 
+function M.t_cmd(title, cmd)
+  return {
+    title = title,
+    f = function()
+      vim.cmd(cmd)
+    end,
+  }
+end
+
 function M:add_function_set(opts)
   local category = opts.category
   local function_set = {

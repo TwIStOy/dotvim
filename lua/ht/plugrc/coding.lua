@@ -1,24 +1,17 @@
 return {
   -- snippet engine
-  {
+  Use {
     'TwIStOy/ultisnips',
-    event = "InsertEnter",
-    config = function()
-      vim.cmd [[py3 from snippet_tools.cpp import register_postfix_snippets]]
-      vim.cmd [[py3 register_postfix_snippets()]]
-
-      require 'ht.core.functions':add_function_set{
-        category = "Ultisnips",
-        functions = {
-          {
-            title = "Refresh snippets",
-            f = function()
-              vim.cmd "call UltiSnips#RefreshSnippets()"
-            end,
-          },
-        },
-      }
-    end,
+    functions = {
+      FuncSpec('Refresh snippets', 'call UltiSnips#RefreshSnippets()'),
+    },
+    lazy = {
+      event = "InsertEnter",
+      config = function()
+        vim.cmd [[py3 from snippet_tools.cpp import register_postfix_snippets]]
+        vim.cmd [[py3 register_postfix_snippets()]]
+      end,
+    },
   },
 
   -- highlight todo comments

@@ -8,18 +8,6 @@ return {
         category = "CppToolkit",
         functions = {
           {
-            title = 'Quickfix: move value',
-            f = function()
-              require'cpp-toolkit.functions.shortcut'.shortcut_move_value()
-            end,
-          },
-          {
-            title = 'Quickfix: forward value',
-            f = function()
-              require'cpp-toolkit.functions.shortcut'.shortcut_forward_value()
-            end,
-          },
-          {
             title = 'Fuzzy find header and insert',
             f = function()
               vim.cmd "Telescope cpptoolkit insert_header"
@@ -29,12 +17,6 @@ return {
             title = 'Generate function implementation body',
             f = function()
               vim.cmd "CppGenDef"
-            end,
-          },
-          {
-            title = 'Add debug print statement',
-            f = function()
-              vim.cmd "CppDebugPrint"
             end,
           },
         },

@@ -75,3 +75,22 @@ Throttle = function(fn, ms)
     end
   end
 end
+
+Use = require'ht.core.plug.init'.use
+
+FuncSpec = require 'ht.core.plug.func_spec'
+
+Exec = function(cmd)
+  vim.ui.input({ prompt = 'Arguments, ' .. cmd }, function(input)
+    if input ~= nil then
+      local full_cmd = cmd .. ' ' .. input
+      vim.cmd(full_cmd)
+    end
+  end)
+end
+
+ExecFunc = function(cmd)
+  return function()
+    Exec(cmd)
+  end
+end

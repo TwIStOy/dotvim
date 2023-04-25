@@ -8,15 +8,37 @@ end
 
 local M = {
   'epwalsh/obsidian.nvim',
-  lazy = true,
-  dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
-  cond = function()
-    return require'ht.core.globals'.has_obsidian_vault
-  end,
-  ft = { 'markdown' },
+  lazy = {
+    lazy = true,
+    dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+    cond = function()
+      return require'ht.core.globals'.has_obsidian_vault
+    end,
+    ft = { 'markdown' },
+  },
+  functions = {
+    FuncSpec('Getting a location list of references to the current buffer',
+             'ObsidianBacklinks'),
+    FuncSpec('Create a new daily note', 'ObsidianToday'),
+    FuncSpec(
+        "Open (eventually creating) the daily note for the previous working day",
+        "ObsidianYesterday"),
+    FuncSpec("Open a note in the Obsidian app", ExecFunc "ObsidianOpen"),
+    FuncSpec("Create a new note", ExecFunc "ObsidianNew"),
+    FuncSpec("Search for notes in your vault using ripgrep with telescope.nvim",
+             ExecFunc "ObsidianSearch"),
+    FuncSpec("Quickly switch to another notes in your vault",
+             "ObsidianQuickSwitch"),
+    FuncSpec("Link an in-line visual selection of text to a note",
+             ExecFunc "ObsidianLink"),
+    FuncSpec(
+        "Create a new note and link it to an in-line visual selection of text",
+        ExecFunc "ObsidianLinkNew"),
+    FuncSpec("Insert a template from the templates folder", "ObsidianTemplate"),
+  },
 }
 
-function M.config()
+M.lazy.config = function()
   local obsidian = require'obsidian'.setup {
     dir = require'ht.core.globals'.obsidian_vault,
     notes_subdir = 'Database',
@@ -46,4 +68,4 @@ function M.config()
   })
 end
 
-return M
+return Use(M)

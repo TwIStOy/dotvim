@@ -8,36 +8,6 @@ return {
   -- colorful windows seperators
   { "nvim-zh/colorful-winsep.nvim", event = 'VeryLazy' },
 
-  -- show whitespace
-  {
-    'ntpeters/vim-better-whitespace',
-    cmd = {
-      'StripWhitespace',
-      'EnableStripWhitespaceOnSave',
-      'DisableStripWhitespaceOnSave',
-      'ToggleStripWhitespaceOnSave',
-      'EnableWhitespace',
-      'DisableWhitespace',
-      'ToggleWhitespace',
-    },
-    init = function()
-      vim.g.better_whitespace_operator = '_s'
-      vim.g.better_whitespace_filetypes_blacklist = {
-        'diff',
-        'git',
-        'gitcommit',
-        'unite',
-        'qf',
-        'help',
-        'markdown',
-        'fugitive',
-        -- above are default filetypes
-        'which_key',
-      }
-    end,
-    keys = { { '_s', nil, desc = 'strip-whitespace' } },
-  },
-
   -- scroll
   {
     'petertriho/nvim-scrollbar',
@@ -58,6 +28,7 @@ return {
           "noice",
           "toggleterm",
           "nuipopup",
+          'NvimTree',
         },
         handlers = { diagnostic = true, search = true, gitsigns = false },
       })
@@ -74,7 +45,11 @@ return {
   },
 
   -- used for update tmux tabline
-  { 'edkolev/tmuxline.vim', lazy = true, cmd = { 'Tmuxline' } },
+  Use {
+    'edkolev/tmuxline.vim',
+    lazy = { lazy = true, cmd = { 'Tmuxline' } },
+    functions = { FuncSpec('Update current tmux theme', 'Tmuxline') },
+  },
 
   -- bufferline
   {

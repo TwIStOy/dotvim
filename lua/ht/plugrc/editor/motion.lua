@@ -1,33 +1,42 @@
 return {
   -- motion
-  {
+  Use {
     'phaazon/hop.nvim',
-    cmd = {
-      'HopWord',
-      'HopPattern',
-      'HopChar1',
-      'HopChar2',
-      'HopLine',
-      'HopLineStart',
+    lazy = {
+      cmd = {
+        'HopWord',
+        'HopPattern',
+        'HopChar1',
+        'HopChar2',
+        'HopLine',
+        'HopLineStart',
+      },
+      opts = { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 },
     },
-    opts = { keys = 'etovxqpdygfblzhckisuran', term_seq_bias = 0.5 },
-    keys = {
-      { 's', '<cmd>HopWord<CR>', desc = 'jump-word' },
-      { ',,', '<cmd>HopWord<CR>', desc = 'jump-word' },
-      { ',l', '<cmd>HopLine<CR>', desc = 'jump-line' },
+    functions = {
+      FuncSpec('Jump to word', 'HopWord',
+               { keys = { 's', ',,' }, desc = 'jump-to-word' }),
+      FuncSpec('Jump to line', 'HopLine', { keys = ',l', desc = 'jump-to-line' }),
     },
   },
 
   -- motion in line with f/F
-  {
+  Use {
     'jinh0/eyeliner.nvim',
-    cmd = { 'EyelinerEnable', 'EyelinerDisable', 'EyelinerToggle' },
-    keys = {
-      { 'f', nil, mode = { 'n' } },
-      { 'F', nil, mode = { 'n' } },
-      { 't', nil, mode = { 'n' } },
-      { 'T', nil, mode = { 'n' } },
+    lazy = {
+      cmd = { 'EyelinerEnable', 'EyelinerDisable', 'EyelinerToggle' },
+      keys = {
+        { 'f', nil, mode = { 'n' } },
+        { 'F', nil, mode = { 'n' } },
+        { 't', nil, mode = { 'n' } },
+        { 'T', nil, mode = { 'n' } },
+      },
+      opts = { highlight_on_key = true, dim = true },
     },
-    opts = { highlight_on_key = true, dim = true },
+    functions = {
+      FuncSpec('Enable Eyeliner', 'EyelinerEnable'),
+      FuncSpec('Disable Eyeliner', 'EyelinerDisable'),
+      FuncSpec('Toggle Eyeliner', 'EyelinerToggle'),
+    },
   },
 }

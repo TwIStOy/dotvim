@@ -1,11 +1,14 @@
 return {
   -- measure startuptime
-  {
+  Use {
     "dstein64/vim-startuptime",
-    cmd = "StartupTime",
-    config = function()
-      vim.g.startuptime_tries = 10
-    end,
+    lazy = {
+      cmd = "StartupTime",
+      config = function()
+        vim.g.startuptime_tries = 10
+      end,
+    },
+    functions = { FuncSpec('Show startup time', 'StartupTime') },
   },
 
   -- library used by other plugins

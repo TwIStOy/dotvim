@@ -17,7 +17,7 @@ local function entry_maker(opts, category_width, title_width)
     return {
       value = entry,
       display = category_padding .. category .. ' | ' .. entry.title,
-      ordinal = entry.title,
+      ordinal = category .. entry.title,
     }
   end
 end

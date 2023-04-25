@@ -1,4 +1,4 @@
-local M = { 'akinsho/toggleterm.nvim', version = 'v2.*', event = 'VeryLazy' }
+local M = { 'akinsho/toggleterm.nvim', version = '*', event = 'VeryLazy' }
 
 M.init = function() -- code to run before plugin loaded
   vim.api.nvim_set_var('toggleterm_terminal_mapping', '<C-t>')

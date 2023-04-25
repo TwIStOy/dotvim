@@ -3,6 +3,7 @@ return {
   {
     "stevearc/dressing.nvim",
     lazy = true,
+    opts = { input = { title_pos = 'center', relative = 'editor' } },
     init = function()
       vim.ui.select = function(...)
         require("lazy").load({ plugins = { "dressing.nvim" } })

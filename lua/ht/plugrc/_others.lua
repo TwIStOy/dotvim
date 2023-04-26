@@ -24,4 +24,10 @@ return {
   { "MunifTanjim/nui.nvim", lazy = true },
 
   { 'wakatime/vim-wakatime', event = 'BufReadPre' },
+
+  {
+    'jcdickinson/http.nvim',
+    lazy = true,
+    build = 'cargo build --workspace --release',
+  },
 }

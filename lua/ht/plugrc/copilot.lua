@@ -1,7 +1,16 @@
 return {
   {
+    'jcdickinson/codeium.nvim',
+    dependencies = { "jcdickinson/http.nvim", "nvim-lua/plenary.nvim" },
+    config = function()
+      require("codeium").setup {}
+    end,
+    functions = { FuncSpec('Codeium auth', 'Codeium Auth') },
+  },
+
+  {
     'zbirenbaum/copilot-cmp',
-    event = 'InsertEnter',
+    lazy = true,
     dependencies = { 'zbirenbaum/copilot.lua' },
     config = function()
       require("copilot_cmp").setup()
@@ -10,7 +19,7 @@ return {
 
   {
     'zbirenbaum/copilot.lua',
-    event = 'InsertEnter',
+    lazy = true,
     keys = {
       {
         '<M-a>',

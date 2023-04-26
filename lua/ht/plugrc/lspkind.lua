@@ -39,6 +39,7 @@ M.config = function()
       Operator = "",
       TypeParameter = icons.erb.icon,
       Copilot = "",
+      Codeium = "",
       Math = "",
     },
   }

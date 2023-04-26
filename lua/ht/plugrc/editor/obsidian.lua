@@ -10,7 +10,7 @@ local M = {
   'epwalsh/obsidian.nvim',
   lazy = {
     lazy = true,
-    dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+    dependencies = { 'nvim-lua/plenary.nvim', 'TwIStOy/nvim-cmp' },
     cond = function()
       return require'ht.core.globals'.has_obsidian_vault
     end,

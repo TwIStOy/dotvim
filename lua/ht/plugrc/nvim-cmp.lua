@@ -1,5 +1,5 @@
 local M = {
-  'hrsh7th/nvim-cmp',
+  'TwIStOy/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {
     'TwIStOy/ultisnips',
@@ -22,7 +22,8 @@ local M = {
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
     },
-    { 'zbirenbaum/copilot-cmp', dependencies = { 'zbirenbaum/copilot.lua' } },
+    'jcdickinson/codeium.nvim',
+    'zbirenbaum/copilot-cmp',
   },
 }
 
@@ -127,6 +128,7 @@ M.config = function()
     sources = {
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
+      { name = "codeium", group_index = 1 },
       { name = "ultisnips", group_index = 2 },
       {
         name = "latex_symbols",
@@ -162,7 +164,7 @@ M.config = function()
         max_item_count = 10,
       },
     },
-    completion = { completeopt = "menu,menuone,noselect,noinsert" },
+    completion = { completeopt = "menu,menuone,noselect,noinsert,preview" },
     mapping = {
       ["<CR>"] = cmp.mapping(i_cr_action, { 'i', 'c' }),
       ["<Space>"] = cmp.mapping(function(fallback)
@@ -186,10 +188,18 @@ M.config = function()
           fallback()
         end
       end, { 'i', 's' }),
-      ["<C-p>"] = cmp.mapping.select_prev_item(),
-      ["<C-n>"] = cmp.mapping.select_next_item(),
-      ["<C-k>"] = cmp.mapping.select_prev_item(),
-      ["<C-j>"] = cmp.mapping.select_next_item(),
+      ["<C-p>"] = cmp.mapping.select_prev_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
+      ["<C-n>"] = cmp.mapping.select_next_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
+      ["<C-k>"] = cmp.mapping.select_prev_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
+      ["<C-j>"] = cmp.mapping.select_next_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
       ["<C-e>"] = cmp.mapping.abort(),
       ["<TAB>"] = cmp.mapping(function(fallback)
         if cmp.visible() and has_words_before() then
@@ -231,6 +241,7 @@ M.config = function()
               cmdline_history = '[History]',
               cmdline = '[Command]',
               copilot = '[Copilot]',
+              codeium = '[Codeium]',
             })[entry.source.name] or ('[' .. entry.source.name .. ']')
             if entry.source.name == 'latex_symbols' then
               vim_item.kind = 'Math'

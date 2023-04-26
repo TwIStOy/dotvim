@@ -86,7 +86,6 @@ return {
             command = vim.g.python3_host_prog,
             args = { '-m', 'cpplint', '$FILENAME' },
           },
-          diagnostics.cppcheck,
           formatting.clang_format.with {
             command = vim.g.compiled_llvm_clang_directory .. '/bin/clang-format',
           },

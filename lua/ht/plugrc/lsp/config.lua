@@ -78,7 +78,6 @@ end
 M.config = function() -- code to run after plugin loaded
   --- add menus for specific types
   local menu = require 'ht.core.menu'
-  local Menu = require 'nui.menu'
   local LSP = require('ht.with_plug.lsp')
 
   menu:add_section{
@@ -220,7 +219,6 @@ M.config = function() -- code to run after plugin loaded
         '--limit-references=100',
         '--limit-results=100',
         '--include-cleaner-stdlib',
-        '--malloc-trim',
         '-j=20',
       },
       on_attach = on_buffer_attach,

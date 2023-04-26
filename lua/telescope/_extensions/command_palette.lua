@@ -5,18 +5,34 @@ local conf = require('telescope.config').values
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
 local utils = require "telescope.utils"
+local entry_display = require 'telescope.pickers.entry_display'
 
 ---@param opts table
 ---@return function
 local function entry_maker(opts, category_width, title_width)
+  local displayer = entry_display.create {
+    separator = " | ",
+    items = {
+      { width = category_width, right_justify = true },
+      { width = title_width },
+    },
+  }
+
+  local function make_display(entry)
+    return displayer {
+      { entry.value.category, '@variable.builtin' },
+      entry.value.title,
+    }
+  end
+
   ---@param entry FunctionWithDescription
   return function(entry)
     local category = entry.category or ""
-    local category_padding = string.rep(" ", category_width - #category)
+    entry.category = category
 
     return {
       value = entry,
-      display = category_padding .. category .. ' | ' .. entry.title,
+      display = make_display,
       ordinal = category .. entry.title,
     }
   end

@@ -183,6 +183,9 @@ NMAP('tq', function()
   require'ht.core.window'.toggle_quickfix()
 end, 'toggle-quickfix')
 
+NMAP('<C-p>', '<cmd>Telescope command_palette command_palette<CR>',
+     'open-command-palette')
+
 if vim.g['fvim_loaded'] == nil then
   vim.opt.wildoptions = 'pum'
 end

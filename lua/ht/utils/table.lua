@@ -5,14 +5,35 @@ M.keys = function(t)
 end
 
 ---Unique elements in given list-like table.
----@param t Array
----@return Array
+---@param t List
+---@return List
 M.unique = function(t)
   local hash = {}
   for _, v in ipairs(t) do
     hash[v] = true
   end
   return vim.tbl_keys(hash)
+end
+
+---Find the first element in given list-like table that satisfies the given predicate.
+---@param t List
+---@param predicate function
+---@return any|nil
+M.find_first = function(t, predicate)
+  for _, v in ipairs(t) do
+    if predicate(v) then
+      return v
+    end
+  end
+  return nil
+end
+
+---Returns true if the given list-like table contains an element that satisfies the given predicate.
+---@param t List
+---@param predicate function
+---@return boolean
+M.contains = function(t, predicate)
+  return M.find_first(t, predicate) ~= nil
 end
 
 M.slice = function(tbl, first, last, step)
@@ -48,7 +69,7 @@ end
 M.deepcopy = function(orig)
   local orig_type = type(orig)
   local copy
-  if orig_type == 'table' then
+  if orig_type == "table" then
     copy = {}
     for orig_key, orig_value in next, orig, nil do
       copy[M.deepcopy(orig_key)] = M.deepcopy(orig_value)

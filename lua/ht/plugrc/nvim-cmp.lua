@@ -110,7 +110,7 @@ M.config = function()
 
   cmp.setup {
     preselect = cmp.PreselectMode.Item,
-    experimental = { ghost_text = true },
+    experimental = { ghost_text = false },
     snippet = {
       expand = function(args)
         vim.fn["UltiSnips#Anon"](args.body)

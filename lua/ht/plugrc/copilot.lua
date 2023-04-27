@@ -2,6 +2,7 @@ return {
   {
     'jcdickinson/codeium.nvim',
     dependencies = { "jcdickinson/http.nvim", "nvim-lua/plenary.nvim" },
+    enabled = false,
     config = function()
       require("codeium").setup {}
     end,

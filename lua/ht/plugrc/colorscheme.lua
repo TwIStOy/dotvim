@@ -245,7 +245,7 @@ return {
     build = ":CatppuccinCompile",
     config = function()
       require('catppuccin').setup {
-        flavour = "mocha",
+        flavour = "frappe",
         term_colors = false,
         transparent_background = false,
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
@@ -296,6 +296,7 @@ return {
         },
         custom_highlights = function(colors)
           return {
+            CmpItemMenu = { fg = colors.pink },
             CmpItemKindSnippet = { fg = colors.base, bg = colors.mauve },
             CmpItemKindKeyword = { fg = colors.base, bg = colors.red },
             CmpItemKindText = { fg = colors.base, bg = colors.teal },
@@ -323,10 +324,13 @@ return {
             CmpItemKindTypeParameter = { fg = colors.base, bg = colors.blue },
             CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
 
+            NormalFloat = { fg = colors.text, bg = colors.base },
+
             ["@lsp.typemod.variable.mutable.rust"] = { style = { 'underline' } },
             ["@lsp.typemod.selfKeyword.mutable.rust"] = {
               style = { 'underline' },
             },
+            ["@variable.builtin"] = { fg = colors.maroon, style = { "italic" } },
           }
         end,
         integrations = {

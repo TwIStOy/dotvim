@@ -90,7 +90,6 @@ end
 
 function M.format()
   vim.lsp.buf.format({
-    bufnr = 0,
     filter = function(c)
       return c.name == "null-ls"
     end,

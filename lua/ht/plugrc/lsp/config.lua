@@ -294,6 +294,18 @@ M.config = function() -- code to run after plugin loaded
     capabilities = capabilities,
   }
 
+  local lua_library = {
+    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+    [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+  }
+  if package.loaded["lazy"] then
+    local lazy_plugins = require("lazy").plugins()
+    for _, plugin in ipairs(lazy_plugins) do
+      lua_library[plugin.dir] = true
+    end
+  end
+  lua_library = vim.tbl_deep_extend("force", lua_library,
+                                    vim.api.nvim_get_runtime_file("", true))
   require'lspconfig'.lua_ls.setup {
     cmd = vim.g.lua_language_server_cmd,
     on_attach = on_buffer_attach,
@@ -301,14 +313,16 @@ M.config = function() -- code to run after plugin loaded
     settings = {
       Lua = {
         runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
-        diagnostics = { globals = { 'vim' } },
-        workspace = {
-          library = {
-            [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-            [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-            [vim.fn.expand('$HOME/.dotvim/lua')] = true,
-            [vim.fn.expand('$HOME/.local/share/nvim/lazy/nui.nvim/lua')] = true,
-            [vim.fn.expand('$HOME/.local/share/nvim/lazy/plenary.nvim/lua')] = true,
+        diagnostics = {
+          globals = { 'vim' },
+          neededFileStatus = { ["codestyle-check"] = "Any" },
+        },
+        workspace = { library = lua_library },
+        format = {
+          enable = true,
+          defaultConfig = {
+            indent_style = 'space',
+            continuation_indent_size = '2',
           },
         },
       },

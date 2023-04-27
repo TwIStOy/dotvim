@@ -110,6 +110,7 @@ M.config = function()
 
   cmp.setup {
     preselect = cmp.PreselectMode.Item,
+    experimental = { ghost_text = true },
     snippet = {
       expand = function(args)
         vim.fn["UltiSnips#Anon"](args.body)
@@ -117,11 +118,11 @@ M.config = function()
     },
     window = {
       completion = {
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        border = 'rounded',
         winhighlight = 'NormalFloat:CompNormal,FloatBorder:CompBorder',
       },
       documentation = {
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        border = 'single',
         winhighlight = 'NormalFloat:CompNormal,FloatBorder:FloatBorder',
       },
     },
@@ -195,7 +196,7 @@ M.config = function()
       ["<C-e>"] = cmp.mapping.abort(),
       ["<TAB>"] = cmp.mapping(function(fallback)
         if cmp.visible() and has_words_before() then
-          cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+          cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
         else
           fallback()
         end
@@ -262,7 +263,6 @@ M.config = function()
         cmp.config.compare.exact,
         cmp.config.compare.score,
         cmp.config.compare.recently_used,
-        require"cmp-under-comparator".under,
         cmp.config.compare.kind,
         cmp.config.compare.sort_text,
         cmp.config.compare.length,

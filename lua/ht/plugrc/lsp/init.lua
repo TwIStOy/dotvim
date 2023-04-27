@@ -89,7 +89,11 @@ return {
           formatting.clang_format.with {
             command = vim.g.compiled_llvm_clang_directory .. '/bin/clang-format',
           },
-          formatting.lua_format,
+          formatting.stylua.with({
+            condition = function(utils)
+              return utils.root_has_file({ "stylua.toml", ".stylua.toml" })
+            end,
+          }),
           formatting.rustfmt,
           formatting.prettier,
         },

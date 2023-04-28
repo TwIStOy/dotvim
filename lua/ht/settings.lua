@@ -186,8 +186,9 @@ end, 'toggle-quickfix')
 NMAP('<C-p>', '<cmd>Telescope command_palette command_palette<CR>',
      'open-command-palette')
 
-if vim.g['fvim_loaded'] == nil then
-  vim.opt.wildoptions = 'pum'
+-- gui: neovide
+if vim.g['fvim_loaded'] then
+  vim.o.guifont = 'Iosevka:h26'
 end
 
 -- gui: neovide
@@ -200,3 +201,5 @@ if vim.g["neovide"] then
   vim.g.neovide_cursor_trail_size = 0
   vim.o.guifont = 'JetBrainsMono Nerd Font Mono:h14'
 end
+
+

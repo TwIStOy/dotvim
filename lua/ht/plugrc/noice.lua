@@ -7,7 +7,7 @@ return {
       event = "VeryLazy",
       dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' },
       enabled = function()
-        if vim.g["neovide"] then
+        if vim.g["neovide"] or vim.g["fvim_loaded"] then
           return false
         end
         return true

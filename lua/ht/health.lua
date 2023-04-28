@@ -10,7 +10,7 @@ local function executable(exe)
 end
 
 local tools_required =
-  { "rg", "fd", "bat", "delta", "cargo", "rustup", "stylua" }
+  { "rg", "fd", "bat", "delta", "cargo", "rustup", "stylua", "difft" }
 
 function M.check()
   start("ht.dotvim")

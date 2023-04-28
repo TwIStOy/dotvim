@@ -1,55 +1,55 @@
 return {
   {
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     lazy = true,
     build = function()
       if #vim.api.nvim_list_uis() ~= 0 then
         vim.api.nvim_command("TSUpdate")
       end
     end,
-    event = { 'BufReadPost', 'BufNewFile' },
-    cmd = { 'TSUpdate', 'TSUpdateSync' },
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSUpdate", "TSUpdateSync" },
     dependencies = {
       {
-        'RRethy/nvim-treesitter-endwise',
+        "RRethy/nvim-treesitter-endwise",
         lazy = true,
-        ft = { 'lua', 'ruby', 'vimscript' },
+        ft = { "lua", "ruby", "vimscript" },
       },
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = {
       ensure_installed = {
-        'c',
-        'cpp',
-        'toml',
-        'python',
-        'rust',
-        'go',
-        'typescript',
-        'lua',
-        'html',
-        'help',
-        'javascript',
-        'typescript',
-        'latex',
-        'cmake',
-        'css',
-        'fish',
-        'make',
-        'proto',
-        'markdown',
-        'markdown_inline',
-        'vim',
-        'bash',
-        'regex',
-        'tsx',
-        'yaml',
+        "c",
+        "cpp",
+        "toml",
+        "python",
+        "rust",
+        "go",
+        "typescript",
+        "lua",
+        "html",
+        "help",
+        "javascript",
+        "typescript",
+        "latex",
+        "cmake",
+        "css",
+        "fish",
+        "make",
+        "markdown",
+        "markdown_inline",
+        "vim",
+        "bash",
+        "regex",
+        "tsx",
+        "yaml",
+        "proto",
       },
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = { "markdown" },
         disable = function(lang, bufnr)
-          if lang == 'html' and vim.api.nvim_buf_line_count(bufnr) > 500 then
+          if lang == "html" and vim.api.nvim_buf_line_count(bufnr) > 500 then
             return true
           end
           for _, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, 3, false)) do
@@ -84,13 +84,13 @@ return {
             ["],"] = "@parameter.inner",
             ["]a"] = "@parameter.inner",
             ["]l"] = "@lifetime.inner",
-            [']f'] = '@function.outer',
+            ["]f"] = "@function.outer",
           },
           goto_previous_start = {
             ["[,"] = "@parameter.inner",
             ["[a"] = "@parameter.inner",
             ["[l"] = "@lifetime.inner",
-            ['[f'] = '@function.outer',
+            ["[f"] = "@function.outer",
           },
         },
       },
@@ -98,47 +98,46 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
 
-      local menu = require 'ht.core.menu'
+      local menu = require("ht.core.menu")
 
-      local swap = require 'nvim-treesitter.textobjects.swap'
+      local swap = require("nvim-treesitter.textobjects.swap")
 
-      menu:add_section{
+      menu:add_section {
         index = 1,
         opts = {
           {
-            'Move Object Left',
-            keys = ',',
+            "Move Object Left",
+            keys = ",",
             callback = function()
-              swap.swap_previous('@parameter.inner')
+              swap.swap_previous("@parameter.inner")
             end,
           },
           {
-            'Move Object Right',
-            keys = '.',
+            "Move Object Right",
+            keys = ".",
             callback = function()
-              swap.swap_next('@parameter.inner')
+              swap.swap_next("@parameter.inner")
             end,
           },
         },
       }
-
     end,
   },
   {
-    'nvim-treesitter/playground',
+    "nvim-treesitter/playground",
     lazy = true,
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
   },
   {
-    'Wansmer/treesj',
+    "Wansmer/treesj",
     lazy = true,
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    cmd = { 'TSJToggle', 'TSJSplit', 'TSJJoin' },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     init = function()
-      local menu = require 'ht.core.menu'
+      local menu = require("ht.core.menu")
 
-      menu:add_section{
+      menu:add_section {
         index = 99,
         opts = {
           {
@@ -151,7 +150,7 @@ return {
       }
     end,
     config = function()
-      local tsj = require('treesj')
+      local tsj = require("treesj")
 
       tsj.setup {
         use_default_keymaps = false,

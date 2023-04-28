@@ -244,6 +244,10 @@ M.config = function() -- code to run after plugin loaded
       },
       on_attach = on_buffer_attach,
       capabilities = capabilities,
+      filetypes = {
+        "c",
+        "cpp",
+      },
     },
     extensions = {
       autoSetHints = true,

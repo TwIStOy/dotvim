@@ -1,43 +1,50 @@
 return {
   {
-    'jcdickinson/codeium.nvim',
+    "jcdickinson/codeium.nvim",
     dependencies = { "jcdickinson/http.nvim", "nvim-lua/plenary.nvim" },
     enabled = false,
     config = function()
       require("codeium").setup {}
     end,
-    functions = { FuncSpec('Codeium auth', 'Codeium Auth') },
+    functions = { FuncSpec("Codeium auth", "Codeium Auth") },
   },
 
   {
-    'zbirenbaum/copilot-cmp',
+    "zbirenbaum/copilot-cmp",
     lazy = true,
-    dependencies = { 'zbirenbaum/copilot.lua' },
+    dependencies = { "zbirenbaum/copilot.lua" },
     config = function()
       require("copilot_cmp").setup()
     end,
   },
 
   {
-    'zbirenbaum/copilot.lua',
+    "zbirenbaum/copilot.lua",
     lazy = true,
     keys = {
       {
-        '<M-a>',
+        "<M-a>",
         function()
           require("copilot.suggestion").accept()
         end,
-        mode = 'i',
-        desc = 'accept-copilot-suggestion',
+        mode = "i",
+        desc = "accept-copilot-suggestion",
       },
     },
     config = function()
-      require'copilot'.setup { suggestion = { accept = '<M-a>' } }
+      -- get current node instance
+      local node_path = vim.fn.system('fish -c "which node"')
+      node_path = node_path:match("^%s*(.-)%s*$")
+
+      require("copilot").setup {
+        suggestion = { accept = "<M-a>" },
+        copilot_node_command = node_path,
+      }
 
       local function toggle_auto_trigger()
         require("copilot.suggestion").toggle_auto_trigger()
 
-        local cmp = require 'cmp'
+        local cmp = require("cmp")
         cmp.event:on("menu_opened", function()
           vim.b.copilot_suggestion_hidden = true
         end)
@@ -47,58 +54,58 @@ return {
         end)
       end
 
-      require 'ht.core.functions':add_function_set{
+      require("ht.core.functions"):add_function_set {
         category = "Copilot",
         functions = {
           {
-            title = 'Copilot status',
+            title = "Copilot status",
             f = function()
               vim.api.nvim_command([[Copilot status]])
             end,
           },
           {
-            title = 'Copilot Auth',
+            title = "Copilot Auth",
             f = function()
               vim.api.nvim_command([[Copilot auth]])
             end,
           },
           {
-            title = 'Copilot Panel',
+            title = "Copilot Panel",
             f = function()
               vim.api.nvim_command([[Copilot panel]])
             end,
           },
-          { title = 'Copilot Toggle Auto Trigger', f = toggle_auto_trigger },
+          { title = "Copilot Toggle Auto Trigger", f = toggle_auto_trigger },
         },
       }
 
-      local menu = require 'ht.core.menu'
+      local menu = require("ht.core.menu")
 
-      menu:add_section{
+      menu:add_section {
         index = 5,
         opts = {
           {
-            'Copilot',
+            "Copilot",
             children = {
               {
-                'Status',
+                "Status",
                 callback = function()
                   vim.api.nvim_command([[Copilot status]])
                 end,
               },
               {
-                'Auth',
+                "Auth",
                 callback = function()
                   vim.api.nvim_command([[Copilot auth]])
                 end,
               },
               {
-                'Panel',
+                "Panel",
                 callback = function()
                   vim.api.nvim_command([[Copilot panel]])
                 end,
               },
-              { 'Toggle Auto Trigger', callback = toggle_auto_trigger },
+              { "Toggle Auto Trigger", callback = toggle_auto_trigger },
             },
           },
         },

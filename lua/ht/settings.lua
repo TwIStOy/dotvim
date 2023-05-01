@@ -189,11 +189,25 @@ NMAP("tq", function()
   require("ht.core.window").toggle_quickfix()
 end, "toggle-quickfix")
 
-NMAP(
-  "<C-p>",
-  "<cmd>Telescope command_palette command_palette<CR>",
-  "open-command-palette"
-)
+NMAP("<C-p>", function()
+  require("telescope").extensions.command_palette.command_palette {
+    layout_strategy = "center",
+    sorting_strategy = "ascending",
+    layout_config = {
+      anchor = "N",
+      width = 0.5,
+      prompt_position = "top",
+      height = 0.5,
+    },
+    border = true,
+    results_title = false,
+    borderchars = {
+      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    },
+  }
+end, "open-command-palette")
 
 -- gui: neovide
 if vim.g["fvim_loaded"] then

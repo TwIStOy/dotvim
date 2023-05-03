@@ -86,6 +86,9 @@ return {
         keys = { "<leader>vb" },
         desc = "select-both",
       }),
+      FuncSpec("Select none of the changes", "GitConflictChooseNone"),
+      FuncSpec("Move to the next conflict", "GitConflictNextConflict"),
+      FuncSpec("Move to the previous conflict", "GitConflictPrevConflict"),
     },
   },
 

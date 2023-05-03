@@ -2,7 +2,7 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    enabled = false,
+    enabled = true,
     opts = {
       signs = {
         add = { text = "▎" },
@@ -20,7 +20,7 @@ return {
         end
 
         map("n", "<leader>vm", function()
-          gs.blame_line({ full = true })
+          gs.blame_line { full = true }
         end, "Blame Line")
       end,
     },

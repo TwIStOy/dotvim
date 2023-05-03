@@ -8,7 +8,8 @@ return {
         vim.g.startuptime_tries = 10
       end,
     },
-    functions = { FuncSpec('Show startup time', 'StartupTime') },
+    category = "VimStartuptime",
+    functions = { FuncSpec("Show startup time", "StartupTime") },
   },
 
   -- library used by other plugins
@@ -17,17 +18,17 @@ return {
   -- makes some plugins dot-repeatable like leap
   { "tpope/vim-repeat", event = "VeryLazy" },
 
-  { 'wakatime/vim-wakatime', event = 'BufRead' },
+  { "wakatime/vim-wakatime", event = "BufRead" },
 
-  { 'nvim-tree/nvim-web-devicons', lazy = true },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
 
   { "MunifTanjim/nui.nvim", lazy = true },
 
-  { 'wakatime/vim-wakatime', event = 'BufReadPre' },
+  { "wakatime/vim-wakatime", event = "BufReadPre" },
 
   {
-    'jcdickinson/http.nvim',
+    "jcdickinson/http.nvim",
     lazy = true,
-    build = 'cargo build --workspace --release',
+    build = "cargo build --workspace --release",
   },
 }

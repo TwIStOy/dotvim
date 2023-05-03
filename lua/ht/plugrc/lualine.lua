@@ -69,7 +69,7 @@ components.fileinfo = {
     local icon = "󰈚"
     local filename = (fn.expand("%") == "" and "Empty ") or fn.expand("%:t")
 
-    if filename ~= "Empty" then
+    if filename ~= "[Empty]" then
       local devicons_present, devicons = pcall(require, "nvim-web-devicons")
 
       if devicons_present then
@@ -93,9 +93,15 @@ M.config = function() -- code to run after plugin loaded
     options = options,
     sections = {
       lualine_a = { components.mode },
-      lualine_b = { "branch", "diff" },
+      lualine_b = {
+        {
+          components.fileinfo[1],
+          separator = "|",
+        },
+        get_cwd,
+      },
       lualine_c = {
-        components.fileinfo,
+        "diff",
         -- { "filename", path = 1 },
         components.lsp_progress,
         {
@@ -108,21 +114,26 @@ M.config = function() -- code to run after plugin loaded
             info = "DiagnosticInfo",
             hint = "DiagnosticHint",
           },
-          symbols = { error = "E", warn = "W", info = "I", hint = "H" },
+          symbols = { error = " ", warn = " ", info = "󰛩 ", hint = "󰋼 " },
           colored = true,
           update_in_insert = false,
           always_visible = false,
         },
         { navic.get_location, cond = navic.is_available },
       },
-      lualine_x = { get_cwd },
+      lualine_x = { "branch" },
       lualine_y = {
         { rime.rime_state },
         { "filetype", colored = true, icon_only = false },
         "encoding",
-        "fileformat",
       },
-      lualine_z = { "progress", "location", session_name },
+      lualine_z = {
+        "progress",
+        {
+          "location",
+          separator = { right = available_sep_icons.round.right },
+        },
+      },
     },
     inactive_sections = inactive_sections,
     tabline = {},

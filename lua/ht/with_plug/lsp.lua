@@ -1,26 +1,26 @@
 local M = {}
 
 local A = vim.api
-local lsp_hover_ns = A.nvim_create_namespace('ht_lsp_hover')
+local lsp_hover_ns = A.nvim_create_namespace("ht_lsp_hover")
 
 function M.declaration()
   vim.lsp.buf.declaration()
 end
 
 function M.definitions()
-  require'glance'.open('definitions')
+  require("glance").open("definitions")
 end
 
 function M.type_definitions()
-  require'glance'.open('type_definitions')
+  require("glance").open("type_definitions")
 end
 
 function M.implementations()
-  require'glance'.open('implementations')
+  require("glance").open("implementations")
 end
 
 function M.references()
-  require'glance'.open('references')
+  require("glance").open("references")
 end
 
 function M.rename(new_name, options)
@@ -33,15 +33,14 @@ function M.rename(new_name, options)
 end
 
 function M.code_action()
-  vim.cmd 'Lspsaga code_action'
+  vim.cmd("Lspsaga code_action")
 end
 
 function M.show_hover()
   vim.o.eventignore = "CursorHold"
-  vim.cmd('doautocmd User ShowHover')
+  vim.cmd("doautocmd User ShowHover")
   vim.lsp.buf.hover()
-  A.nvim_create_autocmd({ 'CursorMoved' },
-                        {
+  A.nvim_create_autocmd({ "CursorMoved" }, {
     group = lsp_hover_ns,
     buffer = 0,
     command = 'set eventignore=""',
@@ -72,7 +71,7 @@ function M.next_error_diagnostic()
 end
 
 function M.client_capabilities()
-  local cmp_lsp = require 'cmp_nvim_lsp'
+  local cmp_lsp = require("cmp_nvim_lsp")
   local default_capabilities = vim.lsp.protocol.make_client_capabilities()
   local capabilities = cmp_lsp.default_capabilities(default_capabilities)
   return capabilities
@@ -82,18 +81,46 @@ function M.buf_formattable(bufnr)
   local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
   local generators = require("null-ls.generators")
   local methods = require("null-ls.methods")
-  local available_generators = generators.get_available(file_type,
-                                                        methods.internal
-                                                            .FORMATTING)
+  local available_generators =
+    generators.get_available(file_type, methods.internal.FORMATTING)
   return #available_generators > 0
 end
 
 function M.format()
-  vim.lsp.buf.format({
+  vim.lsp.buf.format {
     filter = function(c)
       return c.name == "null-ls"
     end,
-  })
+  }
+end
+
+function M.progress()
+  if not rawget(vim, "lsp") then
+    return ""
+  end
+
+  local Lsp = vim.lsp.util.get_progress_messages()[1]
+
+  if vim.o.columns < 120 or not Lsp then
+    return ""
+  end
+
+  local msg = Lsp.message or ""
+  local percentage = Lsp.percentage or 0
+  local title = Lsp.title or ""
+  local spinners =
+    { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }
+  local ms = vim.loop.hrtime() / 1000000
+  local frame = math.floor(ms / 120) % #spinners
+  local content = string.format(
+    " %%<%s %s %s (%s%%%%) ",
+    spinners[frame + 1],
+    title,
+    msg,
+    percentage
+  )
+
+  return content
 end
 
 return M

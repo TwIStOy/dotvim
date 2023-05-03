@@ -53,6 +53,14 @@ local function session_name()
   return ""
 end
 
+local function fg(group)
+  local color = vim.api.nvim_get_hl(0, { name = group }).fg
+  if color ~= nil and color ~= "" then
+    return string.format("#%x", color)
+  end
+  return ""
+end
+
 local components = {}
 
 components.mode = {
@@ -109,12 +117,17 @@ M.config = function() -- code to run after plugin loaded
           sources = { "nvim_diagnostic", "coc" },
           sections = { "error", "warn", "info", "hint" },
           diagnostics_color = {
-            error = "DiagnosticError",
-            warn = "DiagnosticWarn",
-            info = "DiagnosticInfo",
-            hint = "DiagnosticHint",
+            error = { fg = fg("DiagnosticError") },
+            warn = { fg = fg("DiagnosticWarn") },
+            info = { fg = fg("DiagnosticInfo") },
+            hint = { fg = fg("DiagnosticHint") },
           },
-          symbols = { error = " ", warn = " ", info = "󰛩 ", hint = "󰋼 " },
+          symbols = {
+            error = "  ",
+            warn = "  ",
+            info = "󰛩  ",
+            hint = "󰋼  ",
+          },
           colored = true,
           update_in_insert = false,
           always_visible = false,

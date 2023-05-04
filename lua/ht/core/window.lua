@@ -8,7 +8,18 @@ local A = vim.api
 uncountable filetypes and buftypes will be ignored when windows counting and
 will not block vim quiting.
 --]]
-local uncountable_types = {}
+local uncountable_types = {
+  quickfix = true,
+  defx = true,
+  CHADTree = true,
+  NvimTree = true,
+  noice = true,
+  fidget = true,
+  scrollview = true,
+  notify = true,
+  Trouble = true,
+  sagacodeaction = true,
+}
 
 function M.skip_filetype(ft)
   uncountable_types[ft] = true
@@ -16,11 +27,11 @@ end
 
 local function is_uncountable(win_id)
   local buf_id = A.nvim_win_get_buf(win_id)
-  local ft = A.nvim_buf_get_option(buf_id, 'ft')
-  local bt = A.nvim_buf_get_option(buf_id, 'buftype')
+  local ft = A.nvim_buf_get_option(buf_id, "ft")
+  local bt = A.nvim_buf_get_option(buf_id, "buftype")
 
-  return (uncountable_types[ft] ~= nil and uncountable_types[ft]) or
-             (uncountable_types[bt] ~= nil and uncountable_types[bt])
+  return (uncountable_types[ft] ~= nil and uncountable_types[ft])
+    or (uncountable_types[bt] ~= nil and uncountable_types[bt])
 end
 
 --[[
@@ -50,13 +61,13 @@ function M.goto_window(count)
 end
 
 local function quickfix_window_exists()
-  local n = vcall('winnr', { '$' })
+  local n = vcall("winnr", { "$" })
   for i = 1, n do
-    local win_id = vcall('win_getid', { i })
+    local win_id = vcall("win_getid", { i })
     local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local tp = A.nvim_buf_get_option(buf_id, 'buftype')
+    local tp = A.nvim_buf_get_option(buf_id, "buftype")
 
-    if tp == 'quickfix' then
+    if tp == "quickfix" then
       return true
     end
   end
@@ -66,31 +77,30 @@ end
 
 function M.toggle_quickfix()
   if quickfix_window_exists() then
-    cmd 'cclose'
+    cmd("cclose")
   else
-    cmd 'copen'
+    cmd("copen")
   end
 end
 
 function M.check_last_window()
-  local n = vcall('winnr', { '$' })
+  local n = vcall("winnr", { "$" })
   local total = n
   for i = 1, n do
-    local win_id = vcall('win_getid', { i })
+    local win_id = vcall("win_getid", { i })
     if is_uncountable(win_id) then
       total = total - 1
     end
   end
 
   if total == 0 then
-    if vim.api.nvim_call_function('tabpagenr', { '$' }) == 1 then
-      cmd [[quitall!]]
+    if vim.api.nvim_call_function("tabpagenr", { "$" }) == 1 then
+      cmd([[quitall!]])
     else
-      cmd [[tabclose]]
+      cmd([[tabclose]])
     end
   end
 end
 
 return M
 -- vim: et sw=2 ts=2
-

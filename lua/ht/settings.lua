@@ -91,7 +91,7 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 
 vim.opt.showmode = false
-vim.opt.cmdheight = 2
+vim.opt.cmdheight = 1
 
 vim.opt.exrc = true
 
@@ -132,16 +132,6 @@ if vim.fn.has("linux") == 1 then
     cache_enabled = 1,
   }
 end
-
-require("ht.core.window").skip_filetype("quickfix")
-require("ht.core.window").skip_filetype("defx")
-require("ht.core.window").skip_filetype("CHADTree")
-require("ht.core.window").skip_filetype("NvimTree")
-require("ht.core.window").skip_filetype("noice")
-require("ht.core.window").skip_filetype("fidget")
-require("ht.core.window").skip_filetype("scrollview")
-require("ht.core.window").skip_filetype("notify")
-require("ht.core.window").skip_filetype("Trouble")
 
 event.on("BufEnter,WinClosed", {
   pattern = "*",

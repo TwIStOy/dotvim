@@ -38,6 +38,29 @@ M.config = function() -- code to run after plugin loaded
   local dashboard = require("alpha.themes.dashboard")
   local path = require("plenary.path")
 
+  local header_text_winnie = {
+    [[                           $$$$F**+           .oW$$$eu]],
+    [[                           ..ueeeWeeo..      e$$$$$$$$$]],
+    [[                       .eW$$$$$$$$$$$$$$$b- d$$$$$$$$$$W]],
+    [[           ,,,,,,,uee$$$$$$$$$$$$$$$$$$$$$ H$$$$$$$$$$$~]],
+    [[        :eoC$$$$$$$$$$$C""?$$$$$$$$$$$$$$$ T$$$$$$$$$$"]],
+    [[         $$$*$$$$$$$$$$$$$e "$$$$$$$$$$$$$$i$$$$$$$$F"]],
+    [[         ?f"!?$$$$$$$$$$$$$$ud$$$$$$$$$$$$$$$$$$$$*Co]],
+    [[         $   o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$]],
+    [[ !!!!m.*eeeW$$$$$$$$$$$f?$$$$$$$$$$$$$$$$$$$$$$$$$$$$$U]],
+    [[ !!!!!! !$$$$$$$$$$$$$$  T$$$$$$$$$$$$$$$$$$$$$$$$$$$$$]],
+    [[  *!!*.o$$$$$$$$$$$$$$$e,d$$$$$$$$$$$$$$$$$$$$$$$$$$$$$:]],
+    [[ "eee$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$C]],
+    [[b ?$$$$$$$$$$$$$$**$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$!]],
+    [[Tb "$$$$$$$$$$$$$$*uL"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$']],
+    [[ $$o."?$$$$$$$$F" u$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$]],
+    [[  $$$$en ```    .e$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$']],
+    [[   $$$B*  =*"?.e$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$F]],
+    [[    $$$W"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"]],
+    [[     "$$$o#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"]],
+    [[       ?$$$W$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"]],
+  }
+
   local header_text = { --- {{{
     "                                                     ",
     "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
@@ -147,7 +170,7 @@ M.config = function() -- code to run after plugin loaded
 
   local function header_with_color()
     local lines = {}
-    for i, line_chars in pairs(header_text) do
+    for i, line_chars in pairs(header_text_winnie) do
       local hi = "StartLogo" .. i
       local line = {
         type = "text",
@@ -187,7 +210,7 @@ M.config = function() -- code to run after plugin loaded
       {
         type = "group",
         val = function()
-          return { mru(1, vim.fn.getcwd(), 9) }
+          return { mru(1, vim.fn.getcwd(), 5) }
         end,
         opts = { shrink_margin = false },
       },

@@ -99,13 +99,14 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
 
-      local menu = require("ht.core.menu")
-
       local swap = require("nvim-treesitter.textobjects.swap")
 
-      menu:add_section {
+      require("ht.core.right-click").add_section {
         index = 1,
-        opts = {
+        enabled = {
+          others = require("right-click.filters.ts").ts_attached,
+        },
+        items = {
           {
             "Move Object Left",
             keys = ",",
@@ -136,11 +137,12 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     init = function()
-      local menu = require("ht.core.menu")
-
-      menu:add_section {
+      require("ht.core.right-click").add_section {
         index = 99,
-        opts = {
+        enabled = {
+          others = require("right-click.filters.ts").ts_attached,
+        },
+        items = {
           {
             "Toggle Split/Join",
             callback = function()

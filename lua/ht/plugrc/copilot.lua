@@ -79,11 +79,14 @@ return {
         },
       }
 
-      local menu = require("ht.core.menu")
-
-      menu:add_section {
+      require("ht.core.right-click").add_section {
         index = 5,
-        opts = {
+        enabled = {
+          others = function(_, ft, _)
+            return ft ~= nil and ft ~= "NvimTree"
+          end,
+        },
+        items = {
           {
             "Copilot",
             children = {

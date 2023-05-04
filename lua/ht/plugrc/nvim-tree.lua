@@ -1,29 +1,35 @@
 local M = {
-  'nvim-tree/nvim-tree.lua',
+  "nvim-tree/nvim-tree.lua",
   lazy = true,
-  dependencies = { 'nvim-tree/nvim-web-devicons', 'MunifTanjim/nui.nvim' },
-  cmd = { 'NvimTreeFindFile' },
+  dependencies = { "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
+  cmd = { "NvimTreeFindFile" },
 }
 
 M.init = function()
-  local menu = require 'ht.core.menu'
-
-  menu:add_section{
+  require("ht.core.right-click").add_section {
     index = 100,
-    opts = {
+    enabled = {
+      others = function(_, ft, filename)
+        return ft ~= nil
+          and ft ~= "NvimTree"
+          and filename ~= nil
+          and filename ~= ""
+      end,
+    },
+    items = {
       {
-        'Find file in FileExplorer',
+        "Find file in FileExplorer",
         callback = function()
-          vim.cmd 'NvimTreeFindFile'
+          vim.cmd("NvimTreeFindFile")
         end,
-        keys = 'f',
+        keys = "f",
       },
     },
   }
 end
 
 M.config = function() -- code to run after plugin loaded
-  require'nvim-tree'.setup {
+  require("nvim-tree").setup {
     disable_netrw = true,
     hijack_netrw = true,
     open_on_tab = false,
@@ -40,16 +46,23 @@ M.config = function() -- code to run after plugin loaded
       },
       icons = { hint = "", info = "", warning = "", error = "" },
     },
-    modified = { enable = true, show_on_dirs = false, show_on_open_dirs = false },
-    update_focused_file = { enable = false, update_cwd = false,
-                            ignore_list = {} },
+    modified = {
+      enable = true,
+      show_on_dirs = false,
+      show_on_open_dirs = false,
+    },
+    update_focused_file = {
+      enable = false,
+      update_cwd = false,
+      ignore_list = {},
+    },
     system_open = { cmd = nil, args = {} },
     filters = { dotfiles = false, custom = {} },
     git = { ignore = false },
     view = {
       width = 30,
       hide_root_folder = false,
-      side = 'left',
+      side = "left",
       mappings = { custom_only = false, list = {} },
     },
     actions = { open_file = { resize_window = false } },
@@ -73,15 +86,15 @@ M.config = function() -- code to run after plugin loaded
 end
 
 local jump_to_nvim_tree = function()
-  local n = vim.api.nvim_call_function('winnr', { '$' })
+  local n = vim.api.nvim_call_function("winnr", { "$" })
   -- find existing nvim-tree-window
   for i = 1, n do
-    local win_id = vim.api.nvim_call_function('win_getid', { i })
+    local win_id = vim.api.nvim_call_function("win_getid", { i })
     local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local tp = vim.api.nvim_buf_get_option(buf_id, 'ft')
+    local tp = vim.api.nvim_buf_get_option(buf_id, "ft")
 
-    if tp == 'NvimTree' then
-      vim.cmd(i .. 'wincmd w')
+    if tp == "NvimTree" then
+      vim.cmd(i .. "wincmd w")
       return
     end
   end
@@ -95,8 +108,8 @@ local jump_to_nvim_tree = function()
 end
 
 M.keys = {
-  { '<F3>', jump_to_nvim_tree, desc = 'file-explorer' },
-  { '<leader>ft', jump_to_nvim_tree, desc = 'file-explorer' },
+  { "<F3>", jump_to_nvim_tree, desc = "file-explorer" },
+  { "<leader>ft", jump_to_nvim_tree, desc = "file-explorer" },
 }
 
 return M

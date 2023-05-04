@@ -5,12 +5,20 @@ return {
     event = "VeryLazy",
     opts = {
       key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
-      layout = { align = 'center' },
+      layout = { align = "center" },
       ignore_missing = false,
-      hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:",
-                 "^ " },
+      hidden = {
+        "<silent>",
+        "<cmd>",
+        "<Cmd>",
+        "<CR>",
+        "call",
+        "lua",
+        "^:",
+        "^ ",
+      },
       show_help = true,
-      icons = { breadcrumb = "»", separator = ICON('f0734'), group = "+" },
+      icons = { breadcrumb = "»", separator = ICON("f0734"), group = "+" },
     },
     config = function(_, opts)
       vim.defer_fn(function()

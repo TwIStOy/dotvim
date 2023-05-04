@@ -8,6 +8,14 @@ return {
   -- colorful windows seperators
   { "nvim-zh/colorful-winsep.nvim", event = "VeryLazy" },
 
+  {
+    "TwIStOy/right-click.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    config = true,
+  },
+
   -- scroll
   {
     "petertriho/nvim-scrollbar",

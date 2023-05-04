@@ -19,6 +19,7 @@ local uncountable_types = {
   notify = true,
   Trouble = true,
   sagacodeaction = true,
+  rightclickpopup = true,
 }
 
 function M.skip_filetype(ft)

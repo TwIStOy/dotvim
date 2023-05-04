@@ -81,12 +81,14 @@ end
 
 M.config = function() -- code to run after plugin loaded
   --- add menus for specific types
-  local menu = require("ht.core.menu")
   local LSP = require("ht.with_plug.lsp")
 
-  menu:add_section {
+  require("ht.core.right-click").add_section {
     index = 3,
-    opts = {
+    enabled = {
+      others = require("right-click.filters.lsp").lsp_attached,
+    },
+    items = {
       {
         "LSP",
         keys = "g",
@@ -117,10 +119,15 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
-  menu:add_section {
+  require("ht.core.right-click").add_section {
     index = 4,
-    filetype = { "cpp", "c" },
-    opts = {
+    enabled = {
+      filetype = {
+        "cpp",
+        "c",
+      },
+    },
+    items = {
       {
         "Symbol Info",
         callback = function()
@@ -153,10 +160,12 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
-  menu:add_section {
-    filetype = "rust",
+  require("ht.core.right-click").add_section {
     index = 4,
-    opts = {
+    enabled = {
+      filetype = "rust",
+    },
+    items = {
       {
         "Rust",
         keys = "R",

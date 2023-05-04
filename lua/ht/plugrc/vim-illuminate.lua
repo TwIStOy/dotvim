@@ -6,27 +6,32 @@ return {
     functions = {
       FuncSpec("Globally pause vim-illuminate", "IlluminatePause"),
       FuncSpec("Globally resume vim-illuminate", "IlluminateResume"),
-      FuncSpec("Globally toggle the pause/resume for vim-illuminate",
-               "IlluminateToggle"),
+      FuncSpec(
+        "Globally toggle the pause/resume for vim-illuminate",
+        "IlluminateToggle"
+      ),
       FuncSpec("Buffer-local pause of vim-illuminate", "IlluminatePauseBuf"),
       FuncSpec("Buffer-local resume of vim-illuminate", "IlluminateResumeBuf"),
-      FuncSpec("Buffer-local toggle of the pause/resume for vim-illuminate",
-               "IlluminateToggleBuf"),
       FuncSpec(
-          "Freeze the illumination on the buffer, this won't clear the highlights",
-          function()
-            require('illuminate').freeze_buf()
-          end),
+        "Buffer-local toggle of the pause/resume for vim-illuminate",
+        "IlluminateToggleBuf"
+      ),
+      FuncSpec(
+        "Freeze the illumination on the buffer, this won't clear the highlights",
+        function()
+          require("illuminate").freeze_buf()
+        end
+      ),
       FuncSpec("Unfreeze the illumination on the buffer", function()
-        require('illuminate').unfreeze_buf()
+        require("illuminate").unfreeze_buf()
       end),
       FuncSpec("Toggle the frozen state of the buffer", function()
-        require('illuminate').toggle_freeze_buf()
+        require("illuminate").toggle_freeze_buf()
       end),
     },
     lazy = {
       event = { "BufReadPost", "BufNewFile" },
-      opts = { delay = 200, filetypes_denylist = { 'nuipopup' } },
+      opts = { delay = 200, filetypes_denylist = { "nuipopup" } },
       config = function(_, opts)
         require("illuminate").configure(opts)
         vim.api.nvim_create_autocmd("FileType", {

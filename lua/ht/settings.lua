@@ -44,6 +44,7 @@ vim.g.relative_number_blacklist = {
   "crates.nvim",
   "lazy",
   "Trouble",
+  "rightclickpopup",
 }
 
 event.on("TermEnter", { pattern = "*", command = "setlocal nonu nornu" })
@@ -166,8 +167,7 @@ vim.keymap.set(
 )
 
 NMAP(";;", function()
-  local menu = require("ht.core.menu")
-  menu:mount()
+  require("ht.core.right-click").show()
 end, "show-menu")
 
 NMAP("<M-n>", "<cmd>nohl<CR>", "nohl")

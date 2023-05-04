@@ -1,68 +1,5 @@
-local M = {
-  'nvim-telescope/telescope.nvim',
-  cmd = { 'Telescope' },
-  lazy = true,
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-    'kkharji/sqlite.lua',
-    'nvim-telescope/telescope-fzf-native.nvim',
-  },
-  keys = {
-    {
-      '<F4>',
-      function()
-        require'telescope.builtin'.buffers {}
-      end,
-      desc = 'f-buffers',
-    },
-    {
-      '<leader>e',
-      function()
-        if vim.b._dotvim_resolved_project_root ~= nil then
-          require'telescope.builtin'.find_files {
-            cwd = vim.b._dotvim_resolved_project_root,
-            no_ignore = true,
-            follow = true,
-          }
-        else
-          require'telescope.builtin'.find_files {}
-        end
-      end,
-      desc = 'edit-project-file',
-    },
-    {
-      '<leader>ls',
-      function()
-        require'telescope.builtin'.lsp_document_symbols()
-      end,
-      desc = 'document-symbols',
-    },
-    {
-      '<leader>lw',
-      function()
-        require'telescope.builtin'.lsp_workspace_symbols()
-      end,
-      desc = 'workspace-symbols',
-    },
-    {
-      '<leader>lg',
-      function()
-        if vim.b._dotvim_resolved_project_root ~= nil then
-          require'telescope.builtin'.live_grep {
-            cwd = vim.b._dotvim_resolved_project_root,
-          }
-        else
-          require'telescope.builtin'.live_grep {}
-        end
-      end,
-      desc = 'live-grep',
-    },
-  },
-}
-
-M.config = function()
-  local actions = require 'telescope.actions'
-
+local function config()
+  local actions = require("telescope.actions")
   local extensions = {
     fzf = {
       fuzzy = true,
@@ -72,11 +9,11 @@ M.config = function()
     },
   }
 
-  if vim.fn.has('maxunix') then
+  if vim.fn.has("maxunix") then
     extensions.dash = {}
   end
 
-  require'telescope'.setup {
+  require("telescope").setup {
     defaults = {
       selection_caret = "➤ ",
 
@@ -84,11 +21,11 @@ M.config = function()
       sorting_strategy = "descending",
       layout_strategy = "horizontal",
 
-      history = { path = '~/.local/share/nvim/telescope_history.sqlite3' },
+      history = { path = "~/.local/share/nvim/telescope_history.sqlite3" },
 
       winblend = 20,
       border = {},
-      borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+      borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       color_devicons = true,
 
       mappings = {
@@ -109,10 +46,74 @@ M.config = function()
     extensions = extensions,
   }
 
-  require('telescope').load_extension('fzf')
-  require("telescope").load_extension('notify')
-  require("telescope").load_extension('possession')
-  require("telescope").load_extension('command_palette')
+  require("telescope").load_extension("fzf")
+  require("telescope").load_extension("notify")
+  require("telescope").load_extension("possession")
+  require("telescope").load_extension("command_palette")
 end
 
-return M
+return {
+  Use {
+    "nvim-telescope/telescope.nvim",
+    lazy = {
+      cmd = { "Telescope" },
+      lazy = true,
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "kkharji/sqlite.lua",
+        {
+          "nvim-telescope/telescope-fzf-native.nvim",
+          lazy = true,
+          build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+        },
+      },
+      config = config,
+    },
+    functions = {
+      FuncSpec("List open buffers in current neovim instance", function()
+        require("telescope.builtin").buffers {}
+      end, {
+        keys = "<F4>",
+        desc = "f-buffers",
+      }),
+      FuncSpec("List files in current working directory", function()
+        if vim.b._dotvim_resolved_project_root ~= nil then
+          require("telescope.builtin").find_files {
+            cwd = vim.b._dotvim_resolved_project_root,
+            no_ignore = true,
+            follow = true,
+          }
+        else
+          require("telescope.builtin").find_files {}
+        end
+      end, {
+        keys = "<leader>e",
+        desc = "edit-project-file",
+      }),
+      FuncSpec("List LSP document symbols in the current buffer", function()
+        require("telescope.builtin").lsp_document_symbols()
+      end, {
+        keys = "<leader>ls",
+        desc = "document-symbols",
+      }),
+      FuncSpec("List LSP document symbols in the current workspace", function()
+        require("telescope.builtin").lsp_workspace_symbols()
+      end, {
+        keys = "<leader>lw",
+        desc = "workspace-symbols",
+      }),
+      FuncSpec("Search for a string in current working directory", function()
+        if vim.b._dotvim_resolved_project_root ~= nil then
+          require("telescope.builtin").live_grep {
+            cwd = vim.b._dotvim_resolved_project_root,
+          }
+        else
+          require("telescope.builtin").live_grep {}
+        end
+      end, {
+        keys = "<leader>lg",
+        desc = "live-grep",
+      }),
+    },
+  },
+}

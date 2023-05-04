@@ -158,7 +158,7 @@ return {
             ['<leader>l'] = false,
           },
         },
-        folds = { fold_closed = '', fold_open = '', folded = false },
+        folds = { fold_closed = '󰅂', fold_open = '󰅀', folded = false },
         indent_lines = { enable = false },
         winbar = { enable = true },
         hooks = {

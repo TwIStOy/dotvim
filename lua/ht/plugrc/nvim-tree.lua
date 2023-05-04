@@ -100,6 +100,48 @@ M.config = function() -- code to run after plugin loaded
         end,
         keys = "<C-]>",
       },
+      {
+        "Show Info in pop",
+        callback = function()
+          api.node.show_info_pop()
+        end,
+        keys = "<C-k>",
+      },
+      {
+        "Copy",
+        callback = function()
+          api.fs.copy.node()
+        end,
+        keys = "c",
+      },
+      {
+        "Delete",
+        callback = function()
+          api.fs.remove()
+        end,
+        keys = "d",
+      },
+      {
+        "Rename: basename",
+        callback = function()
+          api.fs.rename_basename()
+        end,
+        keys = "e",
+      },
+      {
+        "Refresh",
+        callback = function()
+          api.tree.reload()
+        end,
+        keys = "R",
+      },
+      {
+        "Copy name",
+        callback = function()
+          api.fs.copy.filename()
+        end,
+        keys = "y",
+      },
     },
   }
 end

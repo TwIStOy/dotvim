@@ -1,8 +1,8 @@
 local M = {}
 
 local function get_extension(fn)
-  local match = fn:match('^.+(%..+)$')
-  local ext = ''
+  local match = fn:match("^.+(%..+)$")
+  local ext = ""
   if match ~= nil then
     ext = match:sub(2)
   end
@@ -24,9 +24,9 @@ local function button(sc, txt, callback)
     align_shortcut = "right",
     hl_shortcut = "Keyword",
     keymap = {
-      'n',
+      "n",
       sc,
-      '',
+      "",
       { noremap = true, silent = true, nowait = true, callback = callback },
     },
   }
@@ -34,9 +34,9 @@ local function button(sc, txt, callback)
 end
 
 M.config = function() -- code to run after plugin loaded
-  local alpha = require 'alpha'
-  local dashboard = require 'alpha.themes.dashboard'
-  local path = require 'plenary.path'
+  local alpha = require("alpha")
+  local dashboard = require("alpha.themes.dashboard")
+  local path = require("plenary.path")
 
   local header_text = { --- {{{
     "                                                     ",
@@ -49,7 +49,7 @@ M.config = function() -- code to run after plugin loaded
     "                                                     ",
   } -- }}}
 
-  local nvim_web_devicons = require 'nvim-web-devicons'
+  local nvim_web_devicons = require("nvim-web-devicons")
 
   local function icon(fn)
     local ext = get_extension(fn)
@@ -73,8 +73,8 @@ M.config = function() -- code to run after plugin loaded
     end
     ico_txt = ico .. "  "
 
-    local file_button_el = dashboard.button(sc, ico_txt .. short_fn,
-                                            "<cmd>e " .. fn .. " <CR>")
+    local file_button_el =
+      dashboard.button(sc, ico_txt .. short_fn, "<cmd>e " .. fn .. " <CR>")
     local fn_start = short_fn:match(".*/")
     if fn_start ~= nil then
       table.insert(fb_hl, { "Comment", #ico_txt - 2, #fn_start + #ico_txt })
@@ -87,8 +87,8 @@ M.config = function() -- code to run after plugin loaded
 
   local mru_opts = {
     ignore = function(path, ext)
-      return (string.find(path, "COMMIT_EDITMSG")) or
-                 (vim.tbl_contains(default_mru_ignore, ext))
+      return (string.find(path, "COMMIT_EDITMSG"))
+        or (vim.tbl_contains(default_mru_ignore, ext))
     end,
   }
 
@@ -113,7 +113,7 @@ M.config = function() -- code to run after plugin loaded
       end
     end
 
-    local special_shortcuts = { 'a', 's', 'd' }
+    local special_shortcuts = { "a", "s", "d" }
     local target_width = 35
 
     local tbl = {}
@@ -125,9 +125,9 @@ M.config = function() -- code to run after plugin loaded
         short_fn = vim.fn.fnamemodify(fn, ":~")
       end
 
-      if (#short_fn > target_width) then
+      if #short_fn > target_width then
         short_fn = path.new(short_fn):shorten(1, { -2, -1 })
-        if (#short_fn > target_width) then
+        if #short_fn > target_width then
           short_fn = path.new(short_fn):shorten(1, { -1 })
         end
       end
@@ -156,15 +156,17 @@ M.config = function() -- code to run after plugin loaded
       }
       table.insert(lines, line)
     end
-    -- table.insert(lines, { type = 'padding', val = 1 })
     table.insert(lines, {
-      type = 'text',
-      val = 'Last updated: ' .. require'ht.version'.last_updated_time,
-      opts = { hl = 'SpecialComment', position = 'center' },
+      type = "text",
+      val = "Last updated: " .. require("ht.version").last_updated_time,
+      opts = { hl = "SpecialComment", position = "center" },
     })
 
-    local output = { type = "group", val = lines,
-                     opts = { position = "center" } }
+    local output = {
+      type = "group",
+      val = lines,
+      opts = { position = "center" },
+    }
 
     return output
   end
@@ -192,46 +194,58 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
-  local arr = ICON('e602')
+  local arr = ICON("e602")
   local buttons = {
-    type = 'group',
+    type = "group",
     val = {
       {
-        type = 'text',
-        val = 'Quick Actions',
+        type = "text",
+        val = "Quick Actions",
         opts = { hl = "SpecialComment", position = "center" },
       },
-      { type = 'padding', val = 1 },
-      dashboard.button('e', "  " .. arr .. " New File",
-                       ":ene <BAR> startinsert <CR>"),
+      { type = "padding", val = 1 },
+      dashboard.button(
+        "e",
+        "  " .. arr .. " New File",
+        ":ene <BAR> startinsert <CR>"
+      ),
       button("c", "  " .. arr .. " Settings", function()
-        local builtin = require('telescope.builtin')
-        builtin.find_files({ cwd = "$HOME/.dotvim" })
+        local builtin = require("telescope.builtin")
+        builtin.find_files { cwd = "$HOME/.dotvim" }
       end),
     },
-    position = 'center',
+    position = "center",
   }
-  local globals = require('ht.core.globals')
+  local globals = require("ht.core.globals")
   if globals.has_obsidian_vault then
-    table.insert(buttons.val,
-                 button('f', "  " .. arr .. " Obsidian Vault", function()
-      local builtin = require('telescope.builtin')
-      builtin.find_files({ cwd = globals.obsidian_vault })
-    end))
+    table.insert(
+      buttons.val,
+      button("f", "󰝇  " .. arr .. " Obsidian Vault", function()
+        local builtin = require("telescope.builtin")
+        builtin.find_files { cwd = globals.obsidian_vault }
+      end)
+    )
   end
-  table.insert(buttons.val, dashboard.button('u', "  " .. arr ..
-                                                 " Update Plugins",
-                                             ":Lazy update<CR>"))
-  table.insert(buttons.val,
-               dashboard.button('q', '  ' .. arr .. ' Quit', ':qa<CR>'))
+  table.insert(
+    buttons.val,
+    dashboard.button(
+      "u",
+      "  " .. arr .. " Update Plugins",
+      ":Lazy update<CR>"
+    )
+  )
+  table.insert(
+    buttons.val,
+    dashboard.button("q", "󰀘  " .. arr .. " Quit", ":qa<CR>")
+  )
 
   local opts = {
     layout = {
-      { type = 'padding', val = 2 },
+      { type = "padding", val = 2 },
       header_with_color(),
-      { type = 'padding', val = 2 },
+      { type = "padding", val = 2 },
       section_mru,
-      { type = 'padding', val = 2 },
+      { type = "padding", val = 2 },
       buttons,
     },
 

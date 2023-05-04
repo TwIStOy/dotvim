@@ -37,6 +37,7 @@ return {
           "toggleterm",
           "nuipopup",
           "NvimTree",
+          "rightclickpopup",
         },
         handlers = { diagnostic = true, search = true, gitsigns = false },
       }

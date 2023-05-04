@@ -264,11 +264,11 @@ M.config = function() -- code to run after plugin loaded
 
   local opts = {
     layout = {
-      { type = "padding", val = 2 },
+      { type = "padding", val = 1 },
       header_with_color(),
-      { type = "padding", val = 2 },
+      { type = "padding", val = 1 },
       section_mru,
-      { type = "padding", val = 2 },
+      { type = "padding", val = 1 },
       buttons,
     },
 

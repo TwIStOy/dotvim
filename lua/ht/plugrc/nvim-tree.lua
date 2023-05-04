@@ -83,6 +83,25 @@ M.config = function() -- code to run after plugin loaded
     },
     experimental = { git = { async = true } },
   }
+
+  local api = require("nvim-tree.api")
+  require("ht.core.right-click").add_section {
+    index = 1,
+    enabled = {
+      nvim_tree = function(_, ft, _)
+        return ft ~= nil and ft == "NvimTree"
+      end,
+    },
+    items = {
+      {
+        "Change root",
+        callback = function()
+          api.tree.change_root_to_node()
+        end,
+        keys = "<C-]>",
+      },
+    },
+  }
 end
 
 local jump_to_nvim_tree = function()

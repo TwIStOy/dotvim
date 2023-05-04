@@ -101,6 +101,13 @@ M.config = function() -- code to run after plugin loaded
         keys = "<C-]>",
       },
       {
+        "Run command",
+        callback = function()
+          api.node.run.cmd()
+        end,
+        keys = ".",
+      },
+      {
         "Show Info in pop",
         callback = function()
           api.node.show_info_pop()

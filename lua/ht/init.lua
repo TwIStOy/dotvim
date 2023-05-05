@@ -47,24 +47,15 @@ local function bootstrap_plugin_manager()
     functions = {
       {
         title = "Rebuild a plugin",
-        f = function()
-          local input = vim.fn.input("Plugin name: ")
-          vim.cmd("Lazy build " .. input)
-        end,
+        f = ExecFunc("Lazy build"),
       },
       {
         title = "Check for updates and show the log (git fetch)",
-        f = function()
-          local input = vim.fn.input("Plugin name: ")
-          vim.cmd("Lazy check " .. input)
-        end,
+        f = ExecFunc("Lazy check"),
       },
       {
         title = "Clean plugins that are no longer needed",
-        f = function()
-          local input = vim.fn.input("Plugin name: ")
-          vim.cmd("Lazy check " .. input)
-        end,
+        f = ExecFunc("Lazy clean"),
       },
       {
         title = "Clear finished tasks",
@@ -86,17 +77,11 @@ local function bootstrap_plugin_manager()
       },
       {
         title = "Run install, clean and update",
-        f = function()
-          local input = vim.fn.input("Plugin name: ")
-          vim.cmd("Lazy sync " .. input)
-        end,
+        f = ExecFunc("Lazy sync"),
       },
       {
         title = "Update plugins. This will also update the lockfile",
-        f = function()
-          local input = vim.fn.input("Plugin name: ")
-          vim.cmd("Lazy update " .. input)
-        end,
+        f = ExecFunc("Lazy update"),
       },
     },
   }

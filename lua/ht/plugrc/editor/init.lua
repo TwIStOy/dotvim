@@ -218,8 +218,14 @@ return {
         vim.cmd("redraw")
       end),
       FuncSpec("Delete all buffers matching the regex", function()
-        local regex = vim.fn.input("Delete buffers matching:")
-        require("close_buffers").delete { regex = regex }
+        vim.ui.input({ prompt = "Regex" }, function(input)
+          if input ~= nil then
+            if #input > 0 then
+              require("close_buffers").delete { regex = regex }
+            end
+          end
+        end)
+
         vim.cmd("redrawtabline")
         vim.cmd("redraw")
       end),

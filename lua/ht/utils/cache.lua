@@ -39,7 +39,6 @@ function FuncCache:ensure(key, callback)
     self:set(key, v)
     return v
   end
-  print('hit cache', self:key(key))
   return value
 end
 

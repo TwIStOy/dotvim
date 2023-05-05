@@ -210,6 +210,18 @@ return {
   },
 
   {
+    "rebelot/kanagawa.nvim",
+    enabled = false,
+    opts = {
+      compile = true,
+    },
+    config = function(_, opts)
+      require("kanagawa").setup(opts)
+      vim.cmd([[colorscheme kanagawa]])
+    end,
+  },
+
+  {
     "akinsho/horizon.nvim",
     enabled = false,
     opts = {

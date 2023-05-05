@@ -76,7 +76,6 @@ return {
         options = {
           view = "multiwindow",
           sort_by = "insert_after_current",
-          highlights = require("catppuccin.groups.integrations.bufferline").get(),
           themable = true,
           hover = { enabled = true, delay = 200 },
           separator_style = "slant",

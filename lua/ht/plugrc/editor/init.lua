@@ -119,67 +119,110 @@ return {
   },
 
   -- markdown table
-  { "dhruvasagar/vim-table-mode", ft = { "markdown" } },
+  Use {
+    "dhruvasagar/vim-table-mode",
+    lazy = {
+      lazy = true,
+      ft = { "markdown" },
+      cmd = {
+        "TableModeEnable",
+        "TableModeDisable",
+      },
+    },
+    functions = {
+      FuncSpec("Enable table mode", function()
+        vim.cmd("TableModeEnable")
+      end),
+      FuncSpec("Disable table mode", function()
+        vim.cmd("TableModeDisable")
+      end),
+    },
+  },
 
   -- dash, only macos supported
-  {
+  Use {
     "mrjones2014/dash.nvim",
-    build = "make install",
-    lazy = true,
-    cmd = { "Dash", "DashWord" },
-    cond = function()
-      return vim.fn.has("macunix")
-    end,
-    opts = {
-      dash_app_path = "/Applications/Setapp/Dash.app",
-      search_engine = "google",
-      file_type_keywords = {
-        dashboard = false,
-        NvimTree = false,
-        TelescopePrompt = false,
-        terminal = false,
-        packer = false,
-        fzf = false,
+    lazy = {
+      build = "make install",
+      lazy = true,
+      cmd = { "Dash", "DashWord" },
+      cond = function()
+        return vim.fn.has("macunix")
+      end,
+      opts = {
+        dash_app_path = "/Applications/Setapp/Dash.app",
+        search_engine = "google",
+        file_type_keywords = {
+          dashboard = false,
+          NvimTree = false,
+          TelescopePrompt = false,
+          terminal = false,
+          packer = false,
+          fzf = false,
+        },
       },
+    },
+    functions = {
+      FuncSpec("Search Dash", function()
+        vim.cmd("Dash")
+      end),
     },
   },
 
   -- remove buffers
-  {
+  Use {
     "kazhala/close-buffers.nvim",
-    lazy = true,
-    cmd = { "BDelete", "BWipeout" },
-    config = function()
-      require("close_buffers").setup {
-        filetype_ignore = {
-          "dashboard",
-          "NvimTree",
-          "TelescopePrompt",
-          "terminal",
-          "toggleterm",
-          "packer",
-          "fzf",
-        },
-        preserve_window_layout = { "this" },
-        next_buffer_cmd = function(windows)
-          require("bufferline").cycle(1)
-          local bufnr = vim.api.nvim_get_current_buf()
-          for _, window in ipairs(windows) do
-            vim.api.nvim_win_set_buf(window, bufnr)
-          end
-        end,
-      }
-    end,
-    keys = {
-      {
-        "<leader>ch",
-        function()
-          require("close_buffers").delete { type = "hidden" }
-          vim.cmd("redrawtabline")
-          vim.cmd("redraw")
-        end,
+    lazy = {
+      lazy = true,
+      cmd = { "BDelete", "BWipeout" },
+      config = function()
+        require("close_buffers").setup {
+          filetype_ignore = {
+            "dashboard",
+            "NvimTree",
+            "TelescopePrompt",
+            "terminal",
+            "toggleterm",
+            "packer",
+            "fzf",
+          },
+          preserve_window_layout = { "this" },
+          next_buffer_cmd = function(windows)
+            require("bufferline").cycle(1)
+            local bufnr = vim.api.nvim_get_current_buf()
+            for _, window in ipairs(windows) do
+              vim.api.nvim_win_set_buf(window, bufnr)
+            end
+          end,
+        }
+      end,
+    },
+    category = "CloseBuffer",
+    functions = {
+      FuncSpec("Delete all non-visible buffers", function()
+        require("close_buffers").delete { type = "hidden", force = true }
+        vim.cmd("redrawtabline")
+        vim.cmd("redraw")
+      end, {
+        keys = "<leader>ch",
         desc = "clear-hidden-buffers",
-      },
+      }),
+      FuncSpec("Delete all buffers without name", function()
+        require("close_buffers").delete { type = "nameless" }
+        vim.cmd("redrawtabline")
+        vim.cmd("redraw")
+      end),
+      FuncSpec("Delete the current buffer", function()
+        require("close_buffers").delete { type = "this" }
+        vim.cmd("redrawtabline")
+        vim.cmd("redraw")
+      end),
+      FuncSpec("Delete all buffers matching the regex", function()
+        local regex = vim.fn.input("Delete buffers matching:")
+        require("close_buffers").delete { regex = regex }
+        vim.cmd("redrawtabline")
+        vim.cmd("redraw")
+      end),
     },
   },
 
@@ -217,19 +260,27 @@ return {
   { import = "ht.plugrc.editor.dial" },
 
   -- session management
-  {
+  Use {
     "jedrzejboczar/possession.nvim",
-    event = "VeryLazy",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    lazy = true,
-    opts = {
-      silent = true,
-      commands = {
-        save = "SSave",
-        load = "SLoad",
-        delete = "SDelete",
-        list = "SList",
+    lazy = {
+      event = "VeryLazy",
+      dependencies = { "nvim-lua/plenary.nvim" },
+      lazy = true,
+      opts = {
+        silent = true,
+        commands = {
+          save = "SSave",
+          load = "SLoad",
+          delete = "SDelete",
+          list = "SList",
+        },
       },
+    },
+    functions = {
+      FuncSpec("Save session", "SSave"),
+      FuncSpec("Load session", "SLoad"),
+      FuncSpec("Delete session", "SDelete"),
+      FuncSpec("List sessions", "SList"),
     },
   },
 

@@ -35,6 +35,9 @@ local function calculate_width(functions)
   return category, title
 end
 
+---@param title string
+---@param cmd string
+---@return table
 function M.t_cmd(title, cmd)
   return {
     title = title,

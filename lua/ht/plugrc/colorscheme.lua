@@ -371,6 +371,14 @@ return {
       }
 
       vim.cmd("colorscheme catppuccin")
+
+      local FF = require("ht.core.functions")
+      FF:add_function_set {
+        category = "Catppuccin",
+        functions = {
+          FF.t_cmd("Recompile Catppuccin", "CatppuccinCompile"),
+        },
+      }
     end,
   },
 }

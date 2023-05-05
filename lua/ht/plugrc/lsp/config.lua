@@ -42,21 +42,6 @@ local function on_buffer_attach(client, bufnr)
     nmap("<leader>fc", LSP.format, "format-code")
   end
 
-  local FF = require("ht.core.functions")
-  FF:add_function_set {
-    category = "Editor",
-    functions = {
-      {
-        title = "Format document",
-        f = LSP.format,
-      },
-    },
-    ---@param buffer VimBuffer
-    filter = function(buffer)
-      return LSP.buf_formattable(buffer.bufnr)
-    end,
-  }
-
   nmap("K", LSP.show_hover, "show-hover")
 
   nmap("gi", LSP.implementations, "goto-impl")
@@ -97,6 +82,62 @@ end
 M.config = function() -- code to run after plugin loaded
   --- add menus for specific types
   local LSP = require("ht.with_plug.lsp")
+  local FF = require("ht.core.functions")
+
+  FF:add_function_set {
+    category = "Editor",
+    functions = {
+      {
+        title = "Format document",
+        f = LSP.format,
+      },
+    },
+    ---@param buffer VimBuffer
+    filter = function(buffer)
+      return LSP.buf_formattable(buffer.bufnr)
+    end,
+  }
+
+  FF:add_function_set {
+    category = "Clangd",
+    functions = {
+      {
+        title = "Switch between source and header",
+        f = function()
+          vim.cmd("ClangdSwitchSourceHeader")
+        end,
+      },
+    },
+    ---@param buffer VimBuffer
+    filter = function(buffer)
+      for _, server in ipairs(buffer.lsp_servers) do
+        if server.name == "clangd" then
+          return true
+        end
+      end
+      return false
+    end,
+  }
+  FF:add_function_set {
+    category = "RimeLS",
+    functions = {
+      {
+        title = "Sync user data",
+        f = function()
+          vim.lsp.buf.execute_command { command = "rime-ls.sync-user-data" }
+        end,
+      },
+    },
+    ---@param buffer VimBuffer
+    filter = function(buffer)
+      for _, server in ipairs(buffer.lsp_servers) do
+        if server.name == "rime_ls" then
+          return true
+        end
+      end
+      return false
+    end,
+  }
 
   require("ht.core.right-click").add_section {
     index = 3,

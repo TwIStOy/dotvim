@@ -15,7 +15,7 @@ return {
         filter = {
           ---@param buffer VimBuffer
           filter = function(buffer)
-            return #buffer.lsp_servers > 0
+            return buffer:lsp_attached()
           end,
         },
         values = {

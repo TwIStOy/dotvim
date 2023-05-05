@@ -15,63 +15,76 @@ return {
   },
 
   -- highlight todo comments
-  {
+  Use {
     "folke/todo-comments.nvim",
-    event = "VeryLazy",
-    opts = {
-      highlight = { keyword = "bg", pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
-      search = { pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
+    functions = {
+      FuncSpec("Open todos in trouble", "TodoTrouble", {
+        keys = "<leader>xt",
+        desc = "open-todo-trouble",
+      }),
+      FuncSpec(
+        "Open todos,fix,fixme in trouble",
+        "TodoTrouble keywords=TODO,FIX,FIXME",
+        {
+          keys = "<leader>xT",
+          desc = "open-TFF-trouble",
+        }
+      ),
+      FuncSpec("List all todos using telescope", "TodoTelescope", {
+        keys = "<leader>lt",
+        desc = "list-todos",
+      }),
     },
-    keys = {
-      {
-        "]t",
-        function()
-          require("todo-comments").jump_next()
-        end,
-        desc = "goto-next-todo",
+    lazy = {
+      event = "VeryLazy",
+      opts = {
+        highlight = { keyword = "bg", pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
+        search = { pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
       },
-      {
-        "[t",
-        function()
-          require("todo-comments").jump_prev()
-        end,
-        desc = "goto-prev-todo",
-      },
-      { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "open-todo-trouble" },
-      {
-        "<leader>xT",
-        "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",
-        desc = "open-TFF-trouble",
-      },
-      { "<leader>lt", "<cmd>TodoTelescope<cr>", desc = "list-todos" },
-    },
-    config = function(_, opts)
-      require("todo-comments").setup(opts)
-
-      require("ht.core.functions"):add_function_set {
-        category = "TodoComments",
-        functions = {
-          {
-            title = "Open todo-comments in telescope",
-            f = function()
-              vim.cmd("TodoTelescope")
-            end,
-          },
-          {
-            title = "Open all kind of todo-comments in trouble",
-            f = function()
-              vim.cmd("TodoTrouble keywords=TODO,FIX,FIXME")
-            end,
-          },
-          {
-            title = "Open todo-comments in trouble",
-            f = function()
-              vim.cmd("TodoTrouble")
-            end,
-          },
+      keys = {
+        {
+          "]t",
+          function()
+            require("todo-comments").jump_next()
+          end,
+          desc = "goto-next-todo",
         },
-      }
-    end,
+        {
+          "[t",
+          function()
+            require("todo-comments").jump_prev()
+          end,
+          desc = "goto-prev-todo",
+        },
+      },
+      config = function(_, opts)
+        require("todo-comments").setup(opts)
+
+        require("ht.core.functions"):add_function_set {
+          category = "TodoComments",
+          functions = {
+            {
+              title = "Open todo-comments in telescope",
+              f = function()
+                vim.cmd("TodoTelescope")
+              end,
+            },
+            {
+              title = "Open all kind of todo-comments in trouble",
+              f = function()
+                vim.cmd("TodoTrouble keywords=TODO,FIX,FIXME")
+              end,
+            },
+            {
+              title = "Open todo-comments in trouble",
+              f = function()
+                vim.cmd("TodoTrouble")
+              end,
+            },
+          },
+        }
+      end,
+    },
   },
 
   -- asynctask
@@ -131,11 +144,41 @@ return {
     cmd = { "CphReceive", "CphTest", "CphRetest", "CphEdit", "CphDelete" },
     keys = { { "<F9>", "<cmd>CphTest<CR>", desc = "Run cp test" } },
     init = function()
-      vim.g["cph#dir"] = "/Users/hawtian/Projects/competitive-programming"
+      local home = os.getenv("HOME")
+      vim.g["cph#dir"] = home .. "/Projects/competitive-programming"
       vim.g["cph#lang"] = "cpp"
       vim.g["cph#rust#createjson"] = true
       vim.g["cph#cpp#compile_command"] =
         "g++ solution.cpp -std=c++20 -o cpp.out"
+
+      local FF = require("ht.core.functions")
+      FF:add_function_set {
+        category = "CPHelper",
+        functions = {
+          FF.t_cmd("Receive a parsed task from browser", "CphReceive"),
+          FF.t_cmd("Test a solutions with all cases", "CphTest"),
+          {
+            title = "Test a solution with a specified case",
+            f = ExecFunc("CphTest"),
+          },
+          FF.t_cmd(
+            "Retest a solution with all cases without recompiling",
+            "CphRetest"
+          ),
+          {
+            title = "Retest a solution with a specified case without recompiling",
+            f = ExecFunc("CphRetest"),
+          },
+          {
+            title = "Edit/Add a test case",
+            f = ExecFunc("CphEdit"),
+          },
+          {
+            title = "Delete a test case",
+            f = ExecFunc("CphDelete"),
+          },
+        },
+      }
     end,
   },
 

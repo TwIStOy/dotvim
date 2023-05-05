@@ -18,13 +18,25 @@ return {
   -- makes some plugins dot-repeatable like leap
   { "tpope/vim-repeat", event = "VeryLazy" },
 
-  { "wakatime/vim-wakatime", event = "BufRead" },
+  Use {
+    "wakatime/vim-wakatime",
+    lazy = {
+      event = "BufRead",
+    },
+    category = "WakaTime",
+    functions = {
+      FuncSpec("Echo total coding activity for Today", "WakaTimeToday"),
+      FuncSpec(
+        "Enable debug mode (may slow down Vim so disable when finished debugging)",
+        "WakaTimeDebugEnable"
+      ),
+      FuncSpec("Disable debug mode", "WakaTimeDebugDisable"),
+    },
+  },
 
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
   { "MunifTanjim/nui.nvim", lazy = true },
-
-  { "wakatime/vim-wakatime", event = "BufReadPre" },
 
   {
     "jcdickinson/http.nvim",

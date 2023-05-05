@@ -38,8 +38,8 @@ VMAP = function(lhs, rhs, desc, _opts)
 end
 
 ICON = function(code)
-  if type(code) == 'string' then
-    code = tonumber('0x' .. code)
+  if type(code) == "string" then
+    code = tonumber("0x" .. code)
   end
   local c = string.char
   if code <= 0x7f then
@@ -76,15 +76,19 @@ Throttle = function(fn, ms)
   end
 end
 
-Use = require'ht.core.plug.init'.use
+Use = require("ht.core.plug.init").use
 
-FuncSpec = require 'ht.core.plug.func_spec'
+FuncSpec = require("ht.core.plug.func_spec")
 
 Exec = function(cmd)
-  vim.ui.input({ prompt = 'Arguments, ' .. cmd }, function(input)
+  vim.ui.input({ prompt = "Arguments, " .. cmd }, function(input)
     if input ~= nil then
-      local full_cmd = cmd .. ' ' .. input
-      vim.cmd(full_cmd)
+      if #input > 0 then
+        local full_cmd = cmd .. " " .. input
+        vim.cmd(full_cmd)
+      else
+        vim.cmd(cmd)
+      end
     end
   end)
 end

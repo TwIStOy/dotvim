@@ -3,7 +3,7 @@
 ---@field filetype string
 ---@field filename string|nil
 ---@field ts_highlights table[]
----@field lsp_servers table[]
+---@field lsp_servers lsp.Client[]
 local VimBuffer = {}
 
 local api = vim.api
@@ -30,12 +30,34 @@ local function new_buffer(bufnr)
 end
 
 function VimBuffer:to_cache_key()
-  return {
+  local s = {
     self.filetype,
     self.filename or "",
     #self.ts_highlights,
     #self.lsp_servers,
   }
+  for _, server in ipairs(self.lsp_servers) do
+    table.insert(s, server.name)
+  end
+  return s
+end
+
+local default_exclude_lsp = {
+  ["null-ls"] = true,
+  copilot = true,
+}
+
+function VimBuffer:lsp_attached()
+  local count = 0
+  for _, server in ipairs(self.lsp_servers) do
+    if
+      default_exclude_lsp[server.name] == nil
+      or not default_exclude_lsp[server.name]
+    then
+      count = count + 1
+    end
+  end
+  return count > 0
 end
 
 return new_buffer

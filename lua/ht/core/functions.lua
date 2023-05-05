@@ -15,12 +15,14 @@ local FunctionSetOptions = {}
 
 function FunctionSetOptions:match(ft, filename)
   if self.filetype ~= nil then
-    if type(self.filetype) == 'string' then
+    if type(self.filetype) == "string" then
       if ft ~= self.filetype then
         return false
       end
       ---@diagnostic disable-next-line: param-type-mismatch
-    elseif type(self.filetype) == 'table' and vim.tbl_isarray(self.filetype) then
+    elseif
+      type(self.filetype) == "table" and vim.tbl_isarray(self.filetype)
+    then
       ---@diagnostic disable-next-line: param-type-mismatch
       if not vim.list_contains(self.filetype, ft) then
         return false
@@ -28,12 +30,14 @@ function FunctionSetOptions:match(ft, filename)
     end
   end
   if self.filename ~= nil then
-    if type(self.filename) == 'string' then
+    if type(self.filename) == "string" then
       if filename ~= self.filename then
         return false
       end
       ---@diagnostic disable-next-line: param-type-mismatch
-    elseif type(self.filename) == 'table' and vim.tbl_isarray(self.filename) then
+    elseif
+      type(self.filename) == "table" and vim.tbl_isarray(self.filename)
+    then
       ---@diagnostic disable-next-line: param-type-mismatch
       if not vim.list_contains(self.filename, filename) then
         return false
@@ -46,6 +50,7 @@ end
 
 ---@type FunctionSetOptions[]
 M.functions = {}
+M.cache = require("ht.utils.cache").new()
 
 ---@param functions FunctionWithDescription[]
 local function calculate_width(functions)
@@ -53,7 +58,7 @@ local function calculate_width(functions)
   local title = 0
   for _, function_ in ipairs(functions) do
     if function_.category == nil then
-      function_.category = ''
+      function_.category = ""
     end
     category = math.max(category, #function_.category)
     title = math.max(title, #function_.title)
@@ -84,20 +89,24 @@ function M:add_function_set(opts)
   end
   setmetatable(function_set, { __index = FunctionSetOptions })
   table.insert(M.functions, function_set)
+  M.cache:clear()
 end
 
 ---@param ft string
 ---@param filename string
 ---@return FunctionWithDescription[], number, number
 function M:get_functions(ft, filename)
-  local res = {}
-  for _, function_set in ipairs(M.functions) do
-    if function_set:match(ft, filename) then
-      vim.list_extend(res, function_set.functions)
+  local res = M.cache:ensure({ ft, filename }, function()
+    local res = {}
+    for _, function_set in ipairs(M.functions) do
+      if function_set:match(ft, filename) then
+        vim.list_extend(res, function_set.functions)
+      end
     end
-  end
-  local category_width, title_width = calculate_width(res)
-  return res, category_width, title_width
+    local category_width, title_width = calculate_width(res)
+    return { res, category_width, title_width }
+  end)
+  return unpack(res)
 end
 
 return M

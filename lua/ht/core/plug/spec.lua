@@ -1,4 +1,4 @@
-local FuncSpec = require 'ht.core.plug.func_spec'
+local FuncSpec = require("ht.core.plug.func_spec")
 
 ---@class PluginSpec
 ---@field short_url string|nil
@@ -11,7 +11,7 @@ local PluginSpec = {}
 ---@return string
 local function guess_category(short_url)
   -- split short_url by '/'
-  local parts = vim.split(short_url, '/')
+  local parts = vim.split(short_url, "/")
   local last_part = parts[#parts]
   if vim.endswith(last_part, ".nvim") then
     last_part = last_part:sub(1, -6)
@@ -42,7 +42,7 @@ function PluginSpec:as_lazy_spec()
   local spec = {}
   -- short url
   spec[1] = self.short_url or self[1]
-  spec = vim.tbl_extend('force', spec, self.lazy)
+  spec = vim.tbl_extend("force", spec, self.lazy)
 
   local keys = {}
   for _, func in ipairs(self.functionalities) do
@@ -51,7 +51,11 @@ function PluginSpec:as_lazy_spec()
       vim.list_extend(keys, v)
     end
   end
-  spec.keys = keys
+  if spec.keys == nil and #keys > 0 then
+    spec.keys = keys
+  elseif spec.keys ~= nil and #keys > 0 then
+    vim.list_extend(spec.keys, keys)
+  end
 
   return spec
 end

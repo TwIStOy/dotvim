@@ -3,8 +3,8 @@ local M = {}
 vim.g.global_rime_enabled = false
 
 local default_opts = {
-  name = 'rime_ls',
-  cmd = { 'rime_ls' },
+  name = "rime_ls",
+  cmd = { "rime_ls" },
   init_options = {
     enabled = false, -- 初始关闭, 手动开启
     shared_data_dir = "/usr/share/rime-data", -- rime 公共目录
@@ -24,13 +24,13 @@ function M.rime_state()
 end
 
 function M.setup()
-  local configs = require('lspconfig.configs')
+  local configs = require("lspconfig.configs")
   if not configs.rime_ls then
     configs.rime_ls = {
       default_config = {
         name = "rime_ls",
-        cmd = { 'rime_ls' },
-        filetypes = { 'markdown', 'txt' },
+        cmd = { "rime_ls" },
+        filetypes = { "markdown", "txt" },
         single_file_support = true,
       },
       settings = {},
@@ -47,20 +47,22 @@ end
 
 function M.attach(client, bufnr)
   local toggle_rime = function()
-    client.request('workspace/executeCommand',
-                   { command = "rime-ls.toggle-rime" },
-                   function(_, result, ctx, _)
-      if ctx.client_id == client.id then
-        vim.g.global_rime_enabled = result
+    client.request(
+      "workspace/executeCommand",
+      { command = "rime-ls.toggle-rime" },
+      function(_, result, ctx, _)
+        if ctx.client_id == client.id then
+          vim.g.global_rime_enabled = result
+        end
       end
-    end)
+    )
   end
 
-  vim.keymap.set({ 'n', 'i' }, '<M-;>', function()
+  vim.keymap.set({ "n", "i" }, "<M-;>", function()
     toggle_rime()
-  end, { silent = true, desc = 'rime-toggle', buffer = bufnr })
+  end, { silent = true, desc = "rime-toggle", buffer = bufnr })
 
-  if vim.api.nvim_buf_get_option(bufnr, 'ft') == 'markdown' then
+  if vim.api.nvim_buf_get_option(bufnr, "ft") == "markdown" then
     local toggle_markdown_code = function()
       if vim.g.previous_markdown_code ~= nil then
         if vim.g.previous_markdown_code ~= vim.g.global_rime_enabled then
@@ -75,10 +77,10 @@ function M.attach(client, bufnr)
       end
     end
 
-    vim.keymap.set({ 'i' }, '`', function()
+    vim.keymap.set({ "i" }, "`", function()
       toggle_markdown_code()
-      vim.fn.feedkeys('`', 'n')
-    end, { silent = true, desc = 'rime-toggle', buffer = bufnr })
+      vim.fn.feedkeys("`", "n")
+    end, { silent = true, desc = "rime-toggle", buffer = bufnr })
   end
 end
 

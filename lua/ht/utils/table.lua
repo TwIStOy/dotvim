@@ -92,6 +92,26 @@ M.list_map = function(lst, f)
   return res
 end
 
+---@param p string|table|string[]
+M.normalize_search_table = function(p)
+  if p == nil then
+    return nil
+  end
+  if type(p) == "string" then
+    return { [p] = true }
+  elseif type(p) == "table" then
+    if vim.tbl_islist(p) then
+      local res = {}
+      for _, v in ipairs(p) do
+        res[v] = true
+      end
+      return res
+    else
+      return p
+    end
+  end
+end
+
 return M
 
 -- vim: et sw=2 ts=2 fdm=marker

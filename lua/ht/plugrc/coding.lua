@@ -1,41 +1,41 @@
 return {
   -- snippet engine
   Use {
-    'TwIStOy/ultisnips',
+    "TwIStOy/ultisnips",
     functions = {
-      FuncSpec('Refresh snippets', 'call UltiSnips#RefreshSnippets()'),
+      FuncSpec("Refresh snippets", "call UltiSnips#RefreshSnippets()"),
     },
     lazy = {
       event = "InsertEnter",
       config = function()
-        vim.cmd [[py3 from snippet_tools.cpp import register_postfix_snippets]]
-        vim.cmd [[py3 register_postfix_snippets()]]
+        vim.cmd([[py3 from snippet_tools.cpp import register_postfix_snippets]])
+        vim.cmd([[py3 register_postfix_snippets()]])
       end,
     },
   },
 
   -- highlight todo comments
   {
-    'folke/todo-comments.nvim',
-    event = 'VeryLazy',
+    "folke/todo-comments.nvim",
+    event = "VeryLazy",
     opts = {
-      highlight = { keyword = 'bg', pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
+      highlight = { keyword = "bg", pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
       search = { pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
     },
     keys = {
       {
         "]t",
         function()
-          require'todo-comments'.jump_next()
+          require("todo-comments").jump_next()
         end,
-        desc = 'goto-next-todo',
+        desc = "goto-next-todo",
       },
       {
         "[t",
         function()
-          require'todo-comments'.jump_prev()
+          require("todo-comments").jump_prev()
         end,
-        desc = 'goto-prev-todo',
+        desc = "goto-prev-todo",
       },
       { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "open-todo-trouble" },
       {
@@ -46,27 +46,27 @@ return {
       { "<leader>lt", "<cmd>TodoTelescope<cr>", desc = "list-todos" },
     },
     config = function(_, opts)
-      require'todo-comments'.setup(opts)
+      require("todo-comments").setup(opts)
 
-      require 'ht.core.functions':add_function_set{
+      require("ht.core.functions"):add_function_set {
         category = "TodoComments",
         functions = {
           {
             title = "Open todo-comments in telescope",
             f = function()
-              vim.cmd "TodoTelescope"
+              vim.cmd("TodoTelescope")
             end,
           },
           {
             title = "Open all kind of todo-comments in trouble",
             f = function()
-              vim.cmd "TodoTrouble keywords=TODO,FIX,FIXME"
+              vim.cmd("TodoTrouble keywords=TODO,FIX,FIXME")
             end,
           },
           {
             title = "Open todo-comments in trouble",
             f = function()
-              vim.cmd "TodoTrouble"
+              vim.cmd("TodoTrouble")
             end,
           },
         },
@@ -76,8 +76,8 @@ return {
 
   -- asynctask
   {
-    'skywind3000/asynctasks.vim',
-    cmd = { 'AsyncTask', 'AsyncTaskMacro', 'AsyncTaskProfile', 'AsyncTaskEdit' },
+    "skywind3000/asynctasks.vim",
+    cmd = { "AsyncTask", "AsyncTaskMacro", "AsyncTaskProfile", "AsyncTaskEdit" },
     -- quickfix window height
     init = function()
       vim.g.asyncrun_open = 10
@@ -85,70 +85,73 @@ return {
       vim.g.asyncrun_bell = 0
 
       vim.g.asyncrun_rootmarks = {
-        'BLADE_ROOT', -- for blade(c++)
-        'JK_ROOT', -- for jk(c++)
-        'WORKSPACE', -- for bazel(c++)
-        '.buckconfig', -- for buck(c++)
-        'CMakeLists.txt', -- for cmake(c++)
+        "BLADE_ROOT", -- for blade(c++)
+        "JK_ROOT", -- for jk(c++)
+        "WORKSPACE", -- for bazel(c++)
+        ".buckconfig", -- for buck(c++)
+        "CMakeLists.txt", -- for cmake(c++)
       }
 
       vim.g.asynctasks_extra_config =
-          { '~/.dotfiles/dots/tasks/asynctasks.ini' }
+        { "~/.dotfiles/dots/tasks/asynctasks.ini" }
 
-      require 'ht.core.functions':add_function_set{
+      require("ht.core.functions"):add_function_set {
         category = "AsyncTasks",
         functions = {
           {
             title = "Run build-file task",
             f = function()
-              vim.cmd "AsyncTask file-build"
+              vim.cmd("AsyncTask file-build")
             end,
           },
           {
             title = "Run build-project task",
             f = function()
-              vim.cmd "AsyncTask project-build"
+              vim.cmd("AsyncTask project-build")
             end,
           },
         },
       }
     end,
     keys = {
-      { '<leader>bf', '<cmd>AsyncTask file-build<CR>', desc = 'build-file' },
-      { '<leader>bp', '<cmd>AsyncTask project-build<CR>',
-        desc = 'build-project' },
+      { "<leader>bf", "<cmd>AsyncTask file-build<CR>", desc = "build-file" },
+      {
+        "<leader>bp",
+        "<cmd>AsyncTask project-build<CR>",
+        desc = "build-project",
+      },
     },
   },
-  { 'skywind3000/asyncrun.vim', cmd = { 'AsyncRun', 'AsyncStop' } },
+  { "skywind3000/asyncrun.vim", cmd = { "AsyncRun", "AsyncStop" } },
 
   -- for cp programming
   {
-    'p00f/cphelper.nvim',
-    dependencies = 'nvim-lua/plenary.nvim',
-    cmd = { 'CphReceive', 'CphTest', 'CphRetest', 'CphEdit', 'CphDelete' },
-    keys = { { '<F9>', '<cmd>CphTest<CR>', desc = 'Run cp test' } },
+    "p00f/cphelper.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    cmd = { "CphReceive", "CphTest", "CphRetest", "CphEdit", "CphDelete" },
+    keys = { { "<F9>", "<cmd>CphTest<CR>", desc = "Run cp test" } },
     init = function()
-      vim.g['cph#dir'] = '/Users/hawtian/Projects/competitive-programming'
-      vim.g['cph#lang'] = 'cpp'
-      vim.g['cph#rust#createjson'] = true
-      vim.g['cph#cpp#compile_command'] =
-          'g++ solution.cpp -std=c++20 -o cpp.out'
+      vim.g["cph#dir"] = "/Users/hawtian/Projects/competitive-programming"
+      vim.g["cph#lang"] = "cpp"
+      vim.g["cph#rust#createjson"] = true
+      vim.g["cph#cpp#compile_command"] =
+        "g++ solution.cpp -std=c++20 -o cpp.out"
     end,
   },
 
   -- templates
   {
-    'aperezdc/vim-template',
-    cmd = { 'Template', 'TemplateHere' },
+    "aperezdc/vim-template",
+    cmd = { "Template", "TemplateHere" },
     enabled = function()
-        if vim.g["neovide"] or vim.g["fvim_loaded"] then
-          return false
-        end
-        return true
+      if vim.g["neovide"] or vim.g["fvim_loaded"] then
+        return false
+      end
+      return true
     end,
     init = function()
       vim.g.templates_directory = {
-        os.getenv('HOME') .. [[/.dotvim/vim-templates]],
+        os.getenv("HOME") .. [[/.dotvim/vim-templates]],
       }
       vim.g.templates_no_autocmd = 0
       vim.g.templates_debug = 0
@@ -158,14 +161,14 @@ return {
 
   -- toggle code comments
   {
-    'tomtom/tcomment_vim',
-    event = 'BufReadPost',
+    "tomtom/tcomment_vim",
+    event = "BufReadPost",
     init = function()
       vim.g.tcomment_maps = 0
     end,
     keys = {
-      { 'gcc', '<cmd>TComment<CR>', desc = 'toggle-comment' },
-      { 'gcc', ':TCommentBlock<CR>', mode = 'v', desc = 'toggle-comment' },
+      { "gcc", "<cmd>TComment<CR>", desc = "toggle-comment" },
+      { "gcc", ":TCommentBlock<CR>", mode = "v", desc = "toggle-comment" },
     },
   },
 
@@ -173,7 +176,7 @@ return {
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
-    cmd = { 'Neogen' },
+    cmd = { "Neogen" },
     lazy = true,
     opts = { input_after_comment = false },
     config = true,

@@ -7,48 +7,17 @@ local M = {}
 ---@field description string
 local FunctionWithDescription = {}
 
----@class FunctionSetOptions
----@field filetype string|table|nil
----@field filename string|table|nil
+---@class FunctionSet
+---@field filter fun(VimBuffer):boolean
 ---@field functions FunctionWithDescription[]
-local FunctionSetOptions = {}
+local FunctionSet = {}
 
-function FunctionSetOptions:match(ft, filename)
-  if self.filetype ~= nil then
-    if type(self.filetype) == "string" then
-      if ft ~= self.filetype then
-        return false
-      end
-      ---@diagnostic disable-next-line: param-type-mismatch
-    elseif
-      type(self.filetype) == "table" and vim.tbl_isarray(self.filetype)
-    then
-      ---@diagnostic disable-next-line: param-type-mismatch
-      if not vim.list_contains(self.filetype, ft) then
-        return false
-      end
-    end
-  end
-  if self.filename ~= nil then
-    if type(self.filename) == "string" then
-      if filename ~= self.filename then
-        return false
-      end
-      ---@diagnostic disable-next-line: param-type-mismatch
-    elseif
-      type(self.filename) == "table" and vim.tbl_isarray(self.filename)
-    then
-      ---@diagnostic disable-next-line: param-type-mismatch
-      if not vim.list_contains(self.filename, filename) then
-        return false
-      end
-    end
-  end
-
-  return true
+---@param buffer VimBuffer
+function FunctionSet:match(buffer)
+  return self.filter(buffer)
 end
 
----@type FunctionSetOptions[]
+---@type FunctionSet[]
 M.functions = {}
 M.cache = require("ht.utils.cache").new()
 
@@ -75,11 +44,32 @@ function M.t_cmd(title, cmd)
   }
 end
 
+---@class AddFunctionSetOptions
+---@field category string|nil
+---@field functions FunctionWithDescription[]
+---@field ft string|string[]|nil
+---@field filename string|string[]|nil
+---@field filter nil|fun(VimBuffer):boolean
+local AddFunctionSetOptions = {}
+
+---@param opts AddFunctionSetOptions
 function M:add_function_set(opts)
+  local normalize = require("ht.utils.table").normalize_search_table
+
   local category = opts.category
+
+  ---@param buffer VimBuffer
+  local filter = function(buffer)
+    local ft = normalize(opts.ft)
+    local filename = normalize(opts.filename)
+    local filter = opts.filter
+    return (ft == nil or ft[buffer.filetype])
+      and (filename == nil or filename[buffer.filename])
+      and (filter == nil or filter(buffer))
+  end
+
   local function_set = {
-    filetype = opts.filetype,
-    filename = opts.filename,
+    filter = filter,
     functions = opts.functions,
   }
   for _, function_ in ipairs(function_set.functions) do
@@ -87,19 +77,19 @@ function M:add_function_set(opts)
       function_.category = category
     end
   end
-  setmetatable(function_set, { __index = FunctionSetOptions })
+  setmetatable(function_set, { __index = FunctionSet })
   table.insert(M.functions, function_set)
   M.cache:clear()
 end
 
----@param ft string
----@param filename string
+---@param bufnr number
 ---@return FunctionWithDescription[], number, number
-function M:get_functions(ft, filename)
-  local res = M.cache:ensure({ ft, filename }, function()
+function M:get_functions(bufnr)
+  local buffer = require("ht.core.vim.buffer")(bufnr)
+  local res = M.cache:ensure(buffer:to_cache_key(), function()
     local res = {}
     for _, function_set in ipairs(M.functions) do
-      if function_set:match(ft, filename) then
+      if function_set:match(buffer) then
         vim.list_extend(res, function_set.functions)
       end
     end

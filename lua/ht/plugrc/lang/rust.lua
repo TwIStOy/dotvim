@@ -4,23 +4,43 @@ return {
   Use {
     "saecki/crates.nvim",
     functions = {
-      FuncSpec("Disable UI elements (virtual text and diagnostics)", function()
-        require("crates").hide()
-      end),
-      FuncSpec("Enable UI elements (virtual text and diagnostics)", function()
-        require("crates").show()
-      end),
-      FuncSpec("Toggle UI elements (virtual text and diagnostics)", function()
-        require("crates").toggle()
-      end),
-      FuncSpec("Reload data (clears cache)", function()
-        require("crates").reload()
-      end),
-      FuncSpec("Upgrade all crates", function()
-        require("crates").upgrade_all_crates()
-      end),
+      {
+        filter = {
+          ---@param buffer VimBuffer
+          filter = function(buffer)
+            return buffer.filename:match("Cargo.toml") ~= nil
+          end,
+        },
+        values = {
+          FuncSpec(
+            "Disable UI elements (virtual text and diagnostics)",
+            function()
+              require("crates").hide()
+            end
+          ),
+          FuncSpec(
+            "Enable UI elements (virtual text and diagnostics)",
+            function()
+              require("crates").show()
+            end
+          ),
+          FuncSpec(
+            "Toggle UI elements (virtual text and diagnostics)",
+            function()
+              require("crates").toggle()
+            end
+          ),
+          FuncSpec("Reload data (clears cache)", function()
+            require("crates").reload()
+          end),
+          FuncSpec("Upgrade all crates", function()
+            require("crates").upgrade_all_crates()
+          end),
+        },
+      },
     },
     lazy = {
+      lazy = true,
       dependencies = {
         "nvim-lua/plenary.nvim",
         "jose-elias-alvarez/null-ls.nvim",

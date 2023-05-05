@@ -1,6 +1,6 @@
 return {
   -- references
-  {
+  Use {
     "RRethy/vim-illuminate",
     category = "Illuminate",
     functions = {

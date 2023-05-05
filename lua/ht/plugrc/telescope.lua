@@ -90,18 +90,36 @@ return {
         keys = "<leader>e",
         desc = "edit-project-file",
       }),
-      FuncSpec("List LSP document symbols in the current buffer", function()
-        require("telescope.builtin").lsp_document_symbols()
-      end, {
-        keys = "<leader>ls",
-        desc = "document-symbols",
-      }),
-      FuncSpec("List LSP document symbols in the current workspace", function()
-        require("telescope.builtin").lsp_workspace_symbols()
-      end, {
-        keys = "<leader>lw",
-        desc = "workspace-symbols",
-      }),
+      {
+        filter = {
+          ---@param buffer VimBuffer
+          filter = function(buffer)
+            return #buffer.lsp_servers > 0
+          end,
+        },
+        values = {
+          FuncSpec(
+            "List LSP document symbols in the current buffer",
+            function()
+              require("telescope.builtin").lsp_document_symbols()
+            end,
+            {
+              keys = "<leader>ls",
+              desc = "document-symbols",
+            }
+          ),
+          FuncSpec(
+            "List LSP document symbols in the current workspace",
+            function()
+              require("telescope.builtin").lsp_workspace_symbols()
+            end,
+            {
+              keys = "<leader>lw",
+              desc = "workspace-symbols",
+            }
+          ),
+        },
+      },
       FuncSpec("Search for a string in current working directory", function()
         if vim.b._dotvim_resolved_project_root ~= nil then
           require("telescope.builtin").live_grep {

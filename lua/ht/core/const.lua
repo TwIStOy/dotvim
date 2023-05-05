@@ -9,4 +9,15 @@ M.os = {
   is_windows = os == "Windows",
 }
 
+local common_excluded_ft = {
+  NvimTree = true,
+  alpha = true,
+  nuipopup = true,
+  rightclickpopup = true,
+}
+---@param buffer VimBuffer
+function M.not_in_common_excluded(buffer)
+  return common_excluded_ft[buffer.filetype] == nil
+end
+
 return M

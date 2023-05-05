@@ -42,6 +42,21 @@ local function on_buffer_attach(client, bufnr)
     nmap("<leader>fc", LSP.format, "format-code")
   end
 
+  local FF = require("ht.core.functions")
+  FF:add_function_set {
+    category = "Editor",
+    functions = {
+      {
+        title = "Format document",
+        f = LSP.format,
+      },
+    },
+    ---@param buffer VimBuffer
+    filter = function(buffer)
+      return LSP.buf_formattable(buffer.bufnr)
+    end,
+  }
+
   nmap("K", LSP.show_hover, "show-hover")
 
   nmap("gi", LSP.implementations, "goto-impl")
@@ -227,7 +242,8 @@ M.config = function() -- code to run after plugin loaded
 
   local capabilities = LSP.client_capabilities()
 
-  local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+  local signs =
+    { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
   for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })

@@ -1,4 +1,4 @@
-local M = { 'ziontee113/SelectEase', lazy = true }
+local M = { "ziontee113/SelectEase", lazy = true }
 
 local c_query = [[
     ;; query
@@ -98,58 +98,58 @@ local queries = {
 
 M.keys = {
   {
-    '<M-j>',
+    "<M-j>",
     function()
-      local se = require 'SelectEase'
+      local se = require("SelectEase")
       se.select_node {
         queries = queries,
-        direction = 'next',
+        direction = "next",
         vertical_drill_jump = true,
         fallback = function()
-          se.select_node { queries = queries, direction = 'previous' }
+          se.select_node { queries = queries, direction = "previous" }
         end,
       }
     end,
-    mode = { 'n', 's', 'i' },
+    mode = { "n", "s", "i" },
   },
   {
-    '<M-k>',
+    "<M-k>",
     function()
-      local se = require 'SelectEase'
+      local se = require("SelectEase")
       se.select_node {
         queries = queries,
-        direction = 'previous',
+        direction = "previous",
         vertical_drill_jump = true,
         fallback = function()
-          se.select_node { queries = queries, direction = 'next' }
+          se.select_node { queries = queries, direction = "next" }
         end,
       }
     end,
-    mode = { 'n', 's', 'i' },
+    mode = { "n", "s", "i" },
   },
   {
-    '<M-h>',
+    "<M-h>",
     function()
-      local se = require 'SelectEase'
+      local se = require("SelectEase")
       se.select_node {
         queries = queries,
-        direction = 'previous',
+        direction = "previous",
         current_line_only = true,
       }
     end,
-    mode = { 'n', 's', 'i' },
+    mode = { "n", "s", "i" },
   },
   {
-    '<M-l>',
+    "<M-l>",
     function()
-      local se = require 'SelectEase'
+      local se = require("SelectEase")
       se.select_node {
         queries = queries,
-        direction = 'next',
+        direction = "next",
         current_line_only = true,
       }
     end,
-    mode = { 'n', 's', 'i' },
+    mode = { "n", "s", "i" },
   },
 }
 

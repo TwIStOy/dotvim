@@ -1,8 +1,8 @@
 local M = {
   Use {
-    'iamcco/markdown-preview.nvim',
+    "iamcco/markdown-preview.nvim",
     lazy = {
-      ft = { 'markdown' },
+      ft = { "markdown" },
       lazy = true,
       build = function()
         vim.fn["mkdp#util#install"]()
@@ -12,11 +12,11 @@ local M = {
         vim.g.mkdp_echo_preview_url = true
       end,
     },
-    category = 'MarkdownPreview',
+    category = "MarkdownPreview",
     functions = {
-      FuncSpec('Start markdown preview', 'MarkdownPreview'),
-      FuncSpec('Stop markdown preview', 'MarkdownPreviewStop'),
-      FuncSpec('Toggle markdown preview', 'MarkdownPreviewToggle'),
+      FuncSpec("Start markdown preview", "MarkdownPreview"),
+      FuncSpec("Stop markdown preview", "MarkdownPreviewStop"),
+      FuncSpec("Toggle markdown preview", "MarkdownPreviewToggle"),
     },
   },
 }

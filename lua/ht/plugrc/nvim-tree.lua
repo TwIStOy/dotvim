@@ -88,7 +88,8 @@ M.config = function() -- code to run after plugin loaded
   require("ht.core.right-click").add_section {
     index = 1,
     enabled = {
-      nvim_tree = function(_, ft, _)
+      others = function(_, ft, _)
+        print(ft)
         return ft ~= nil and ft == "NvimTree"
       end,
     },

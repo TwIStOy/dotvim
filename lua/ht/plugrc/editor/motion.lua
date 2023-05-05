@@ -42,9 +42,16 @@ return {
       config = true,
     },
     functions = {
-      FuncSpec("Enable Eyeliner", "EyelinerEnable"),
-      FuncSpec("Disable Eyeliner", "EyelinerDisable"),
-      FuncSpec("Toggle Eyeliner", "EyelinerToggle"),
+      {
+        filter = {
+          filter = require("ht.core.const").not_in_common_excluded,
+        },
+        values = {
+          FuncSpec("Enable Eyeliner", "EyelinerEnable"),
+          FuncSpec("Disable Eyeliner", "EyelinerDisable"),
+          FuncSpec("Toggle Eyeliner", "EyelinerToggle"),
+        },
+      },
     },
   },
 }

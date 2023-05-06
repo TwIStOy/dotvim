@@ -96,6 +96,12 @@ M.config = function()
   local lspkind = require("lspkind")
 
   cmp.setup {
+    matching = {
+      disallow_fuzzy_matching = true,
+      disallow_fullfuzzy_matching = true,
+      disallow_partial_fuzzy_matching = true,
+      disallow_partial_matching = true,
+    },
     preselect = cmp.PreselectMode.Item,
     experimental = { ghost_text = false },
     snippet = {

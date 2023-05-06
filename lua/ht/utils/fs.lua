@@ -34,4 +34,37 @@ function M.write_all(path, data, mode)
   end)
 end
 
+---Returns the topmost parent directory which match the conditions or nil if not found.
+---@param p any
+---@param matcher fun(path: string): boolean
+---@return string|nil
+function M.topmost_parent(p, matcher)
+  local Path = require("plenary.path")
+
+  ---@type Path
+  local current = Path.new(p)
+  if not current:is_dir() then
+    current = current:parent()
+  end
+
+  ---@param path Path
+  ---@return Path|nil
+  local function try_path(path)
+    if tostring(path) == tostring(path:parent()) then
+      return nil
+    end
+    local res
+    if matcher(tostring(path)) then
+      res = path
+    end
+    return try_path(path:parent()) or res
+  end
+
+  local res = try_path(current)
+  if res ~= nil then
+    return tostring(res)
+  end
+  return nil
+end
+
 return M

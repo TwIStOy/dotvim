@@ -84,6 +84,9 @@ M.config = function() -- code to run after plugin loaded
   local LSP = require("ht.with_plug.lsp")
   local FF = require("ht.core.functions")
 
+  require("ht.plugrc.lsp.servers.clangd")()
+  require("ht.plugrc.lsp.servers.rust-analyzer")()
+
   FF:add_function_set {
     category = "Editor",
     functions = {
@@ -98,26 +101,6 @@ M.config = function() -- code to run after plugin loaded
     end,
   }
 
-  FF:add_function_set {
-    category = "Clangd",
-    functions = {
-      {
-        title = "Switch between source and header",
-        f = function()
-          vim.cmd("ClangdSwitchSourceHeader")
-        end,
-      },
-    },
-    ---@param buffer VimBuffer
-    filter = function(buffer)
-      for _, server in ipairs(buffer.lsp_servers) do
-        if server.name == "clangd" then
-          return true
-        end
-      end
-      return false
-    end,
-  }
   FF:add_function_set {
     category = "RimeLS",
     functions = {
@@ -170,103 +153,6 @@ M.config = function() -- code to run after plugin loaded
             keys = "r",
           },
           { "Rname", callback = LSP.rename, keys = "R" },
-        },
-      },
-    },
-  }
-
-  require("ht.core.right-click").add_section {
-    index = 4,
-    enabled = {
-      filetype = {
-        "cpp",
-        "c",
-      },
-    },
-    items = {
-      {
-        "Symbol Info",
-        callback = function()
-          vim.cmd("ClangdSymbolInfo")
-        end,
-      },
-      {
-        "Type Hierarchy",
-        callback = function()
-          vim.cmd("ClangdTypeHierarchy")
-        end,
-      },
-      {
-        "Clangd More",
-        children = {
-          {
-            "View AST",
-            callback = function()
-              vim.cmd("ClangdAST")
-            end,
-          },
-          {
-            "Memory Usage",
-            callback = function()
-              vim.cmd("ClangdMemoryUsage")
-            end,
-          },
-        },
-      },
-    },
-  }
-
-  require("ht.core.right-click").add_section {
-    index = 4,
-    enabled = {
-      filetype = "rust",
-    },
-    items = {
-      {
-        "Rust",
-        keys = "R",
-        children = {
-          {
-            "Hover Actions",
-            callback = function()
-              require("rust-tools").hover_actions.hover_actions()
-            end,
-          },
-          {
-            "Open Cargo",
-            callback = function()
-              require("rust-tools").open_cargo_toml.open_cargo_toml()
-            end,
-            keys = "c",
-            desc = "open project Cargo.toml",
-          },
-          {
-            "Move Item Up",
-            callback = function()
-              require("rust-tools").move_item.move_item(true)
-            end,
-          },
-          {
-            "Expand Macro",
-            callback = function()
-              require("rust-tools").expand_macro.expand_macro()
-            end,
-            desc = "expand macros recursively",
-            keys = { "e", "E" },
-          },
-          {
-            "Parent Module",
-            callback = function()
-              require("rust-tools").parent_module.parent_module()
-            end,
-            keys = "p",
-          },
-          {
-            "Join Lines",
-            callback = function()
-              require("rust-tools").join_lines.join_lines()
-            end,
-          },
         },
       },
     },

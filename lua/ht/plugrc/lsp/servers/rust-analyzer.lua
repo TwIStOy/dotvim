@@ -3,8 +3,8 @@ local call_once = require("ht.utils.func").call_once
 local FF = require("ht.core.functions")
 
 local function setup()
-  require("ht.core.right-click").add_section {
-    index = 4,
+  RightClick.add_section {
+    index = RightClick.indexes.rust_tools,
     enabled = {
       filetype = "rust",
     },

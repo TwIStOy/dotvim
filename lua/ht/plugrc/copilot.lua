@@ -3,7 +3,7 @@ return {
     "jcdickinson/codeium.nvim",
     lazy = {
       dependencies = { "jcdickinson/http.nvim", "nvim-lua/plenary.nvim" },
-      enabled = true,
+      enabled = false,
       lazy = true,
       config = function()
         require("codeium").setup {}
@@ -85,8 +85,9 @@ return {
         },
       }
 
-      require("ht.core.right-click").add_section {
-        index = 5,
+      local RC = require("ht.core.right-click")
+      RC.add_section {
+        index = RC.indexes.copilot,
         enabled = {
           others = function(_, ft, _)
             return ft ~= nil and ft ~= "NvimTree"

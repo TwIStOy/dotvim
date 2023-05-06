@@ -95,12 +95,6 @@ M.config = function()
   local cmp = require("cmp")
   local lspkind = require("lspkind")
 
-  vim.cmd([[
-    highlight CompNormal guibg=None guifg=None
-    highlight CompBorder guifg=#ffaa55 guibg=#None
-    autocmd! ColorScheme * highlight CompBorder guifg=#ffaa55 guibg=None
-  ]])
-
   cmp.setup {
     preselect = cmp.PreselectMode.Item,
     experimental = { ghost_text = false },
@@ -112,11 +106,11 @@ M.config = function()
     window = {
       completion = {
         border = "rounded",
-        winhighlight = "NormalFloat:CompNormal,FloatBorder:CompBorder",
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
       },
       documentation = {
         border = "single",
-        winhighlight = "NormalFloat:CompNormal,FloatBorder:FloatBorder",
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
       },
     },
     sources = {

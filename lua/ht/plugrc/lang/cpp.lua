@@ -22,10 +22,16 @@ return {
           },
         },
       }
+
+      local RightClick = require("ht.core.right-click")
     end,
     ft = { "cpp", "c" },
     cmd = { "CppGenDef", "CppDebugPrint", "CppToolkit" },
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "TwIStOy/right-click.nvim",
+    },
     keys = {
       {
         "<C-f>i",

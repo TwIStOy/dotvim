@@ -6,8 +6,9 @@ local M = {
 }
 
 M.init = function()
-  require("ht.core.right-click").add_section {
-    index = 100,
+  local RC = require("ht.core.right-click")
+  RC.add_section {
+    index = RC.indexes.file_explorer,
     enabled = {
       others = function(_, ft, filename)
         return ft ~= nil

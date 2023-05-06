@@ -122,8 +122,9 @@ M.config = function() -- code to run after plugin loaded
     end,
   }
 
-  require("ht.core.right-click").add_section {
-    index = 3,
+  local RC = require("ht.core.right-click")
+  RC.add_section {
+    index = RC.indexes.lsp,
     enabled = {
       others = require("right-click.filters.lsp").lsp_attached,
     },

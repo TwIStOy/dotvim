@@ -3,6 +3,7 @@ return {
     "simrat39/rust-tools.nvim",
     lazy = {
       lazy = true,
+      dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
     },
     category = "RustTools",
     functions = {
@@ -167,8 +168,9 @@ return {
         }
 
         -- setup rightclick menu
-        require("ht.core.right-click").add_section {
-          index = 4,
+        local RC = require("ht.core.right-click")
+        RC.add_section {
+          index = RC.indexes.crates,
           enabled = {
             filename = "Cargo.toml",
           },

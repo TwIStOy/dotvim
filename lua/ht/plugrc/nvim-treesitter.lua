@@ -101,8 +101,9 @@ return {
 
       local swap = require("nvim-treesitter.textobjects.swap")
 
-      require("ht.core.right-click").add_section {
-        index = 1,
+      local RC = require("ht.core.right-click")
+      RC.add_section {
+        index = RC.indexes.textobject,
         enabled = {
           others = require("right-click.filters.ts").ts_attached,
         },
@@ -137,8 +138,9 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     init = function()
-      require("ht.core.right-click").add_section {
-        index = 99,
+      local RC = require("ht.core.right-click")
+      RC.add_section {
+        index = RC.indexes.splitline,
         enabled = {
           others = require("right-click.filters.ts").ts_attached,
         },

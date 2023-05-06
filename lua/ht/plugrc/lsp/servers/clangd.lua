@@ -13,7 +13,7 @@ end
 
 local function setup()
   RightClick.add_section {
-    index = 4,
+    index = RightClick.indexes.clangd,
     enabled = {
       filetype = {
         "cpp",

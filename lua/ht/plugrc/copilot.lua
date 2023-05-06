@@ -1,11 +1,17 @@
 return {
-  {
+  Use {
     "jcdickinson/codeium.nvim",
-    dependencies = { "jcdickinson/http.nvim", "nvim-lua/plenary.nvim" },
-    enabled = false,
-    config = function()
-      require("codeium").setup {}
-    end,
+    lazy = {
+      dependencies = { "jcdickinson/http.nvim", "nvim-lua/plenary.nvim" },
+      enabled = true,
+      lazy = true,
+      config = function()
+        require("codeium").setup {}
+      end,
+      cmd = {
+        "Codeium",
+      },
+    },
     functions = { FuncSpec("Codeium auth", "Codeium Auth") },
   },
 

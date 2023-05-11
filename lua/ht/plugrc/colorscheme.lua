@@ -251,13 +251,22 @@ return {
   },
 
   {
+    "projekt0n/github-nvim-theme",
+    enabled = false,
+    config = function()
+      require("github-theme").setup {}
+      vim.cmd("colorscheme github_dark_dimmed")
+    end,
+  },
+
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     enabled = true,
     build = ":CatppuccinCompile",
     config = function()
       require("catppuccin").setup {
-        flavour = "mocha",
+        flavour = "frappe",
         term_colors = false,
         transparent_background = false,
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",

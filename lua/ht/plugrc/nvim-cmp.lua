@@ -99,8 +99,8 @@ M.config = function()
     matching = {
       disallow_fuzzy_matching = true,
       disallow_fullfuzzy_matching = true,
-      disallow_partial_fuzzy_matching = true,
-      disallow_partial_matching = true,
+      disallow_partial_fuzzy_matching = false,
+      disallow_partial_matching = false,
     },
     preselect = cmp.PreselectMode.Item,
     experimental = { ghost_text = false },

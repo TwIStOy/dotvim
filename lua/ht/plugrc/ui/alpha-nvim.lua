@@ -33,6 +33,15 @@ local function button(sc, txt, callback)
   return { type = "button", val = txt, on_press = callback, opts = opts }
 end
 
+local function fortune()
+  local stats = require("lazy").stats()
+  return string.format(
+    "󰂖 %d plugins loaded in %dms",
+    stats.loaded,
+    stats.startuptime
+  )
+end
+
 M.config = function() -- code to run after plugin loaded
   local alpha = require("alpha")
   local dashboard = require("alpha.themes.dashboard")
@@ -270,6 +279,12 @@ M.config = function() -- code to run after plugin loaded
       section_mru,
       { type = "padding", val = 1 },
       buttons,
+      { type = "padding", val = 1 },
+      {
+        type = "text",
+        val = fortune(),
+        opts = { hl = "AlphaQuote", position = "center" },
+      },
     },
 
     opts = { margin = 5 },

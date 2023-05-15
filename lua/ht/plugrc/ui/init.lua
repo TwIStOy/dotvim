@@ -1,4 +1,6 @@
 return {
+  { import = "ht.plugrc.ui.window-picker" },
+
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
 

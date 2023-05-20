@@ -1,3 +1,13 @@
+local function t_cmd(s, cmd, keys)
+  return {
+    s,
+    callback = function()
+      vim.cmd(cmd)
+    end,
+    keys = keys,
+  }
+end
+
 return {
   {
     "TwIStOy/cpp-toolkit.nvim",
@@ -24,6 +34,32 @@ return {
       }
 
       local RightClick = require("ht.core.right-click")
+      RightClick.add_section {
+        index = RightClick.indexes.cpp_toolkit,
+        enabled = {
+          filetype = {
+            "cpp",
+            "c",
+          },
+        },
+        items = {
+          {
+            "CppToolkit",
+            keys = "c",
+            children = {
+              t_cmd(
+                "Fuzzy insert header",
+                "Telescope cpptoolkit insert_header",
+                "h"
+              ),
+              t_cmd("Debug &print", "CppDebugPrint"),
+              t_cmd("Generate &impl", "CppGenDef"),
+              t_cmd("Move value", "CppToolkit shortcut move_value", "m"),
+              t_cmd("Forward value", "CppToolkit shortcut forward_value", "f"),
+            },
+          },
+        },
+      }
     end,
     ft = { "cpp", "c" },
     cmd = { "CppGenDef", "CppDebugPrint", "CppToolkit" },

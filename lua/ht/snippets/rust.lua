@@ -30,7 +30,7 @@ return function()
         i(1, [[Debug, Clone]]),
       }),
     },
-
+    word_expand("pc", "pub(crate) "),
     snippet {
       "mr",
       name = "match result {...}",

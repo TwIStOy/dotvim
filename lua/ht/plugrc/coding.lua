@@ -6,6 +6,7 @@ return {
       local luasnip = require("luasnip")
       luasnip.config.setup { enable_autosnippets = true }
 
+      luasnip.add_snippets("all", require("ht.snippets.all")())
       luasnip.add_snippets("cpp", require("ht.snippets.cpp.common")())
       luasnip.add_snippets("rust", require("ht.snippets.rust")())
     end,

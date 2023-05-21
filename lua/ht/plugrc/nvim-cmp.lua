@@ -2,10 +2,10 @@ local M = {
   "TwIStOy/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
-    "TwIStOy/ultisnips",
     "onsails/lspkind.nvim",
     "lukas-reineke/cmp-under-comparator",
-    "quangnguyen30192/cmp-nvim-ultisnips",
+    "saadparwaiz1/cmp_luasnip",
+    "L3MON4D3/LuaSnip",
     "hrsh7th/cmp-cmdline",
     "dmitmel/cmp-cmdline-history",
     "hrsh7th/cmp-nvim-lsp",
@@ -106,7 +106,7 @@ M.config = function()
     experimental = { ghost_text = false },
     snippet = {
       expand = function(args)
-        vim.fn["UltiSnips#Anon"](args.body)
+        require("luasnip").lsp_expand(args.body)
       end,
     },
     window = {
@@ -123,7 +123,7 @@ M.config = function()
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
       { name = "codeium", group_index = 1 },
-      { name = "ultisnips", group_index = 2 },
+      { name = "luasnip", group_index = 2 },
       {
         name = "latex_symbols",
         group_index = 1,
@@ -200,12 +200,20 @@ M.config = function()
       ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i" }),
       ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i" }),
       ["<C-f>"] = cmp.mapping(function(fallback)
-        local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
-        cmp_ultisnips_mappings.compose { "expand", "jump_forwards" }(fallback)
+        local luasnip = require("luasnip")
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          fallback()
+        end
       end, { "i", "s" }),
       ["<C-b>"] = cmp.mapping(function(fallback)
-        local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
-        cmp_ultisnips_mappings.compose { "jump_backwards" }(fallback)
+        local luasnip = require("luasnip")
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
       end, { "i", "s" }),
     },
     formatting = {

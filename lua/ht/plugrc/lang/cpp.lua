@@ -70,7 +70,7 @@ return {
     },
     keys = {
       {
-        "<C-f>i",
+        "<C-e>i",
         function()
           vim.cmd([[Telescope cpptoolkit insert_header]])
         end,
@@ -78,7 +78,7 @@ return {
         mode = { "i", "n" },
       },
       {
-        "<C-f>m",
+        "<C-e>m",
         function()
           require("cpp-toolkit.functions.shortcut").shortcut_move_value()
         end,
@@ -86,7 +86,7 @@ return {
         mode = { "n" },
       },
       {
-        "<C-f>f",
+        "<C-e>f",
         function()
           require("cpp-toolkit.functions.shortcut").shortcut_forward_value()
         end,

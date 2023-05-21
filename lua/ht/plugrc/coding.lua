@@ -1,17 +1,14 @@
 return {
-  -- snippet engine
-  Use {
-    "TwIStOy/ultisnips",
-    functions = {
-      FuncSpec("Refresh snippets", "call UltiSnips#RefreshSnippets()"),
-    },
-    lazy = {
-      event = "InsertEnter",
-      config = function()
-        vim.cmd([[py3 from snippet_tools.cpp import register_postfix_snippets]])
-        vim.cmd([[py3 register_postfix_snippets()]])
-      end,
-    },
+  {
+    "L3MON4D3/LuaSnip",
+    build = "make install_jsregexp",
+    config = function()
+      local luasnip = require("luasnip")
+      luasnip.config.setup { enable_autosnippets = true }
+
+      luasnip.add_snippets("cpp", require("ht.snippets.cpp.common")())
+      luasnip.add_snippets("rust", require("ht.snippets.rust")())
+    end,
   },
 
   -- highlight todo comments

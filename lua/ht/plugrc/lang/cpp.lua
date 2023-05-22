@@ -12,8 +12,9 @@ return {
   {
     "TwIStOy/cpp-toolkit.nvim",
     config = function()
-      require("telescope").load_extension("cpptoolkit")
       require("cpp-toolkit").setup()
+
+      require("telescope").load_extension("cpptoolkit")
       require("ht.core.functions"):add_function_set {
         category = "CppToolkit",
         ft = { "cpp", "c" },
@@ -70,15 +71,17 @@ return {
     },
     keys = {
       {
-        "<C-e>i",
+        "<M-g><M-i>",
         function()
-          vim.cmd([[Telescope cpptoolkit insert_header]])
+          require("telescope").extensions.cpptoolkit.insert_header {
+            prompt_prefix = "🔍 ",
+          }
         end,
         desc = "insert-header",
         mode = { "i", "n" },
       },
       {
-        "<C-e>m",
+        "<M-g><M-m>",
         function()
           require("cpp-toolkit.functions.shortcut").shortcut_move_value()
         end,
@@ -86,7 +89,7 @@ return {
         mode = { "n" },
       },
       {
-        "<C-e>f",
+        "<M-g><M-f>",
         function()
           require("cpp-toolkit.functions.shortcut").shortcut_forward_value()
         end,

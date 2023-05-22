@@ -57,9 +57,11 @@ local function open_command_palette(opts)
         map("i", "<CR>", function()
           local entry = action_state.get_selected_entry()
           actions.close(bufnr)
-          ---@type FunctionWithDescription
-          local value = entry.value
-          value.f()
+          if entry ~= nil then
+            ---@type FunctionWithDescription
+            local value = entry.value
+            value.f()
+          end
         end)
         return true
       end,

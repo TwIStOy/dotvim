@@ -37,6 +37,8 @@ local function config()
           ["<C-d>"] = actions.preview_scrolling_up,
           ["<C-j>"] = actions.move_selection_next,
           ["<C-k>"] = actions.move_selection_previous,
+          ["<Up>"] = actions.cycle_history_prev,
+          ["<Down>"] = actions.cycle_history_next,
           ["<Esc>"] = actions.close,
         },
         n = { ["q"] = actions.close },

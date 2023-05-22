@@ -5,7 +5,6 @@ return function()
   local t = ls.text_node
   local f = ls.function_node
   local i = ls.insert_node
-  local postfix = require("luasnip.extras.postfix").postfix
   local fmt = require("luasnip.extras.fmt").fmt
   local fmta = require("luasnip.extras.fmt").fmta
   local extras = require("luasnip.extras")
@@ -13,6 +12,7 @@ return function()
   local cond = require("ht.snippets.conditions.conditions")
   local snippet = require("ht.snippets.snippet").build_snippet
   local word_expand = require("ht.snippets.snippet").build_simple_word_snippet
+  local postfix = require("ht.snippets.cpp.postfix").postfix
 
   local simple_comment = function(prefix)
     return snippet {
@@ -249,7 +249,7 @@ return function()
     simple_int_type(64, true),
 
     -- postfixes
-    postfix(".be", {
+    postfix("be", {
       f(function(_, parent)
         return ("std::begin(%s), std::end(%s)"):format(
           parent.snippet.env.POSTFIX_MATCH,
@@ -257,12 +257,12 @@ return function()
         )
       end, {}),
     }),
-    postfix(".mv", {
+    postfix("mv", {
       f(function(_, parent)
         return ("std::move(%s)"):format(parent.snippet.env.POSTFIX_MATCH)
       end, {}),
     }),
-    postfix(".fwd", {
+    postfix("fwd", {
       f(function(_, parent)
         return ("std::forward<decltype(%s)>(%s)"):format(
           parent.snippet.env.POSTFIX_MATCH,

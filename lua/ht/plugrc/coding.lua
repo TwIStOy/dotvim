@@ -4,12 +4,45 @@ return {
     build = "make install_jsregexp",
     config = function()
       local luasnip = require("luasnip")
-      luasnip.config.setup { enable_autosnippets = true }
+      local types = require("luasnip.util.types")
+      local ft_functions = require("luasnip.extras.filetype_functions")
+
+      luasnip.config.setup {
+        enable_autosnippets = true,
+        updateevents = "TextChanged,TextChangedI",
+        ft_func = ft_functions.from_pos_or_filetype,
+
+        ext_opts = {
+          [types.choiceNode] = {
+            active = {
+              virt_text = { { " ", "TSTextReference" } },
+            },
+          },
+          [types.insertNode] = {
+            active = {
+              virt_text = { { " ", "TSEmphasis" } },
+            },
+          },
+        },
+      }
 
       luasnip.add_snippets("all", require("ht.snippets.all")())
       luasnip.add_snippets("cpp", require("ht.snippets.cpp.common")())
       luasnip.add_snippets("rust", require("ht.snippets.rust")())
+      luasnip.add_snippets("lua", require("ht.snippets.lua")())
     end,
+    keys = {
+      {
+        mode = { "i", "s" },
+        "<C-e>",
+        function()
+          local ls = require("luasnip")
+          if ls.choice_active() then
+            ls.change_choice(1)
+          end
+        end,
+      },
+    },
   },
 
   -- highlight todo comments

@@ -1,8 +1,5 @@
 local event = require("ht.core.event")
 
--- run impatient.nvim
--- require 'impatient'
-
 -- Disable arrows
 vim.api.nvim_set_keymap("", "<Left>", "<Nop>", {})
 vim.api.nvim_set_keymap("", "<Right>", "<Nop>", {})

@@ -34,5 +34,11 @@ return function()
         end
       end, {}),
     }),
+
+    word_expand("shrug", "¯\\_(ツ)_/¯"),
+    word_expand("angry", "(╯°□°）╯︵ ┻━┻"),
+    word_expand("happy", "ヽ(´▽`)/"),
+    word_expand("sad", "(－‸ლ)"),
+    word_expand("confused", "(｡･ω･｡)"),
   }
 end

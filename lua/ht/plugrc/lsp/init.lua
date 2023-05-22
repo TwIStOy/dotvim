@@ -81,7 +81,10 @@ return {
         "simrat39/symbols-outline.nvim",
         cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" },
       },
-      { "p00f/clangd_extensions.nvim", lazy = true },
+      {
+        "TwIStOy/clangd_extensions.nvim",
+        lazy = true,
+      },
       { "simrat39/rust-tools.nvim", lazy = true },
       "SmiteshP/nvim-navic",
       "onsails/lspkind.nvim",

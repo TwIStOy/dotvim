@@ -84,8 +84,6 @@ return {
       {
         "TwIStOy/clangd_extensions.nvim",
         lazy = true,
-        dev = true,
-        dir = "/home/hawtian/project/clangd_extensions.nvim",
       },
       { "simrat39/rust-tools.nvim", lazy = true },
       "SmiteshP/nvim-navic",

@@ -111,7 +111,7 @@ M.config = function()
     },
     window = {
       completion = {
-        border = "rounded",
+        border = "none",
         winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
       },
       documentation = {

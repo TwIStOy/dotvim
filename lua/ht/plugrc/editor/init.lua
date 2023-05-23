@@ -221,7 +221,7 @@ return {
         vim.ui.input({ prompt = "Regex" }, function(input)
           if input ~= nil then
             if #input > 0 then
-              require("close_buffers").delete { regex = regex }
+              require("close_buffers").delete { regex = input }
             end
           end
         end)
@@ -288,25 +288,6 @@ return {
       FuncSpec("Delete session", "SDelete"),
       FuncSpec("List sessions", "SList"),
     },
-  },
-
-  -- ufo
-  {
-    "kevinhwang91/nvim-ufo",
-    enabled = false,
-    event = { "BufReadPost" },
-    keys = { { "zR", nil, "zM", nil } },
-    dependencies = "kevinhwang91/promise-async",
-    config = function()
-      NMAP("zR", require("ufo").openAllFolds, "open-all-folds")
-      NMAP("zM", require("ufo").closeAllFolds, "close-all-folds")
-
-      require("ufo").setup {
-        provider_selector = function(bufnr, filetype, buftype)
-          return { "treesitter", "indent" }
-        end,
-      }
-    end,
   },
 
   -- linediff

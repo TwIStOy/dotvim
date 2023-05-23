@@ -27,6 +27,9 @@ local function build_expr_postfix_context(raw_suffix)
       regTrig = true,
       name = "." .. raw_suffix,
       dscr = "Postfix " .. raw_suffix,
+      show_condition = function(line_to_cursor)
+        return line_to_cursor:match(pattern .. suffix .. "$") ~= nil
+      end,
     }
   end
   return context

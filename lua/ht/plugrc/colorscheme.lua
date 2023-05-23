@@ -213,6 +213,7 @@ return {
     "rebelot/kanagawa.nvim",
     enabled = true,
     opts = {
+      theme = "dragon",
       compile = false,
       colors = {
         theme = {
@@ -231,9 +232,14 @@ return {
           PmenuSbar = { bg = theme.ui.bg_m1 },
           PmenuThumb = { bg = theme.ui.bg_p2 },
 
-          TelescopeTitle = { fg = theme.ui.special, bold = true },
-          TelescopePromptNormal = { bg = theme.ui.bg_p1 },
-          TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_p1 },
+          TelescopeTitle = {
+            fg = theme.ui.special,
+            bg = theme.ui.bg_m1,
+            bold = true,
+          },
+          TelescopeBorder = { bg = theme.ui.bg_m1 },
+          TelescopePromptNormal = { bg = theme.ui.bg_m1 },
+          TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_m1 },
           TelescopeResultsNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
           TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
           TelescopePreviewNormal = { bg = theme.ui.bg_dim },
@@ -246,7 +252,7 @@ return {
     },
     config = function(_, opts)
       require("kanagawa").setup(opts)
-      vim.cmd([[colorscheme kanagawa]])
+      vim.cmd([[colorscheme kanagawa-dragon]])
     end,
   },
 

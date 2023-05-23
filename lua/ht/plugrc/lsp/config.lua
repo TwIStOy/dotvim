@@ -211,17 +211,20 @@ M.config = function() -- code to run after plugin loaded
         show_parameter_hints = false,
         show_variable_name = true,
         parameter_hints_prefix = "",
+        parameter_hints_formatter = function(label)
+          return label
+        end,
+        parameter_hints_inline = true,
         other_hints_prefix = " ",
-        other_hints_label_maker = function(text, prefix)
-          -- if text startswith '->' then add prefix
+        other_hints_formatter = function(text)
           if text:sub(1, 2) == "->" then
-            return prefix .. text
+            return " " .. text
           end
           return text
         end,
+        other_hints_inline = true,
         max_len_align = false,
         max_len_align_padding = 1,
-        inline = true,
         right_align = false,
         right_align_padding = 7,
         highlight = "Comment",

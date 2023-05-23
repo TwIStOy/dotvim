@@ -123,7 +123,7 @@ M.config = function()
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
       { name = "codeium", group_index = 1 },
-      { name = "luasnip", group_index = 2 },
+      { name = "luasnip", group_index = 1 },
       {
         name = "latex_symbols",
         group_index = 1,
@@ -228,6 +228,7 @@ M.config = function()
               buffer = "[Buf]",
               nvim_lsp = "[LSP]",
               ultisnips = "[Snip]",
+              luasnip = "[Snip]",
               nvim_lua = "[Lua]",
               orgmode = "[Org]",
               path = "[Path]",

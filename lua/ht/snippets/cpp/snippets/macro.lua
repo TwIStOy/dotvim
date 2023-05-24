@@ -43,35 +43,129 @@ return {
   },
 
   -- progma once
-  ls.s({
-    trig = "once",
+  snippet {
+    "once",
     name = "progma once",
     dscr = "#Progma once with comments",
-    wordTrig = true,
-    snippetType = "autosnippet",
-  }, {
-    t { "#pragma once  // NOLINT(build/header_guard)", "" },
-  }, cond.at_line_begin("once") + cpp_util.all_lines_before_are_all_comments),
+    mode = "bwA",
+    cond = cpp_util.all_lines_before_are_all_comments,
+    nodes = {
+      t { "#pragma once  // NOLINT(build/header_guard)", "" },
+    },
+  },
 
   -- include short cuts
-  ls.s({
-    trig = '#"',
+  snippet {
+    '#"',
     name = 'include ""',
     dscr = "#include with quotes",
-    snippetType = "autosnippet",
-  }, {
-    t('#include "'),
-    i(1, "header"),
-    t('"'),
-  }, cond.at_line_begin('#"')),
-  ls.s({
-    trig = "#<",
+    mode = "bA",
+    nodes = {
+      t('#include "'),
+      i(1, "header"),
+      t('"'),
+    },
+  },
+  snippet {
+    "#<",
     name = "include <>",
-    dscr = "#include with angle brackets",
-    snippetType = "autosnippet",
-  }, {
-    t("#include <"),
-    i(1, "header"),
-    t(">"),
-  }, cond.at_line_begin("#<")),
+    dscr = "#include with <>",
+    mode = "bA",
+    nodes = {
+      t("#include <"),
+      i(1, "header"),
+      t(">"),
+    },
+  },
+
+  -- compiler macros
+  snippet {
+    "#clang>",
+    name = "Clang version greater",
+    dscr = "Checks for clang version greater than the specified version",
+    mode = "b",
+    nodes = fmt(
+      [[
+      #if defined(__clang__) && ((__clang_major__ > {Major}) || ((__clang_major__ == {Major_v}) && (__clang_minor__ >= {Minor})))
+      {body}
+      #endif
+      ]],
+      {
+        Major = i(1, "Major"),
+        Major_v = rep(1),
+        Minor = i(2, "Minor"),
+        body = i(0),
+      }
+    ),
+  },
+  snippet {
+    "#clang<",
+    name = "Clang version greater",
+    dscr = "Checks for clang version less than the specified version",
+    mode = "b",
+    nodes = fmt(
+      [[
+      #if defined(__clang__) && ((__clang_major__ < {Major}) || ((__clang_major__ == {Major_v}) && (__clang_minor__ <= {Minor})))
+      {body}
+      #endif
+      ]],
+      {
+        Major = i(1, "Major"),
+        Major_v = rep(1),
+        Minor = i(2, "Minor"),
+        body = i(0),
+      }
+    ),
+  },
+  snippet {
+    "#gcc>",
+    name = "Gcc version greater",
+    dscr = "Checks for gcc version greater than the specified version",
+    mode = "b",
+    nodes = fmt(
+      [[
+      #if defined(__GNUC__) && ((__GNUC__ > {Major}) || ((__GNUC__ == {Major_v}) && (__GNUC_MINOR__ >= {Minor})))
+      {body}
+      #endif
+      ]],
+      {
+        Major = i(1, "Major"),
+        Major_v = rep(1),
+        Minor = i(2, "Minor"),
+        body = i(0),
+      }
+    ),
+  },
+  snippet {
+    "#gcc<",
+    name = "Gcc version less",
+    dscr = "Checks for gcc version less than the specified version",
+    mode = "b",
+    nodes = fmt(
+      [[
+      #if defined(__GNUC__) && ((__GNUC__ < {Major}) || ((__GNUC__ == {Major_v}) && (__GNUC_MINOR__ <= {Minor})))
+      {body}
+      #endif
+      ]],
+      {
+        Major = i(1, "Major"),
+        Major_v = rep(1),
+        Minor = i(2, "Minor"),
+        body = i(0),
+      }
+    ),
+  },
+
+  -- common stl types
+  snippet {
+    "#cpp20",
+    name = "C++20 macro tester",
+    dscr = "Test if C++20 is supported",
+    mode = "bA",
+    nodes = {
+      t { "#if __cplusplus >= 202002L", "" },
+      i(0),
+      t { "", "#endif" },
+    },
+  },
 }

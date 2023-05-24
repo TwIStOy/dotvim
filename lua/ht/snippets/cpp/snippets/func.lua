@@ -45,4 +45,39 @@ return {
       }
     ),
   },
+
+  -- interfaces and virtual functions
+  snippet {
+    "itf",
+    name = "Interface",
+    dscr = "Declare interface",
+    mode = "bw",
+    nodes = fmta(
+      [[
+        struct <> {
+          virtual ~<>() = default;
+
+          <>
+        };
+        ]],
+      {
+        i(1, "Interface"),
+        rep(1),
+        i(0),
+      }
+    ),
+  },
+
+  snippet {
+    "pvf",
+    name = "Pure virtual function",
+    dscr = "Declare pure virtual function",
+    mode = "bwA",
+    nodes = fmta("virtual <ret_t> <name>(<args>) <specifier> = 0;", {
+      name = i(1, "func"),
+      args = i(2, "args"),
+      specifier = i(3, "const"),
+      ret_t = i(4, "void"),
+    }),
+  },
 }

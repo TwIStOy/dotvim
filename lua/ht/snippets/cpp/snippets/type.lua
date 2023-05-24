@@ -28,7 +28,8 @@ return {
   simple_int_type(32, true),
   simple_int_type(64, true),
 
-  -- stl types
+  -- stl types, only full specialization types and these types can be used in CTAD
   quick_expand("vec", "std::vector"),
   quick_expand("vecs", "std::vector<std::string>"),
+  quick_expand("opt", "std::optional"),
 }

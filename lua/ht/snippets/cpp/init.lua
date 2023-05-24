@@ -49,6 +49,7 @@ return function()
   local res = {}
 
   res = vim.list_extend(res, import_snippets("ht.snippets.cpp.snippets.func"))
+  res = vim.list_extend(res, import_snippets("ht.snippets.cpp.snippets.cpo"))
   res = vim.list_extend(res, import_snippets("ht.snippets.cpp.snippets.type"))
   res = vim.list_extend(res, import_snippets("ht.snippets.cpp.snippets.macro"))
   res =
@@ -99,6 +100,48 @@ return function()
     simple_comment("todo"),
     simple_comment("fixme"),
     simple_comment("note"),
+
+    -- if find
+    snippet {
+      "fd",
+      name = "if find map",
+      dscr = "if find map",
+      mode = "bw",
+      nodes = fmta(
+        [[
+        if (auto it = <map>.find(<key>); it != <map_r>.end()) {
+          <body>
+        }
+        ]],
+        {
+          map = i(1, "map"),
+          key = i(2, "key"),
+          map_r = rep(1),
+          body = i(0),
+        }
+      ),
+    },
+
+    -- if not find
+    snippet {
+      "fd!",
+      name = "if find map",
+      dscr = "if find map",
+      mode = "bw",
+      nodes = fmta(
+        [[
+        if (auto it = <map>.find(<key>); it == <map_r>.end()) {
+          <body>
+        }
+        ]],
+        {
+          map = i(1, "map"),
+          key = i(2, "key"),
+          map_r = rep(1),
+          body = i(0),
+        }
+      ),
+    },
   }
 
   res = vim.list_extend(res, extra_snippets)

@@ -16,13 +16,13 @@ local ConditionFuncObject = {
   -- and '+'
   __add = function(o1, o2)
     return M.make_condition_func(function(...)
-      return o1(...) or o2(...)
+      return o1(...) and o2(...)
     end)
   end,
   -- or '/'
   __div = function(o1, o2)
     return M.make_condition_func(function(...)
-      return o1(...) and o2(...)
+      return o1(...) or o2(...)
     end)
   end,
   -- xor '^'

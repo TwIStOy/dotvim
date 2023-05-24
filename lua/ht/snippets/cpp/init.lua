@@ -1,18 +1,18 @@
 return function()
   local cpp_util = require("ht.snippets.cpp.util")
   local ls = require("luasnip")
-  local c = ls.choice_node
   local t = ls.text_node
   local f = ls.function_node
-  local i = ls.insert_node
   local fmt = require("luasnip.extras.fmt").fmt
   local fmta = require("luasnip.extras.fmt").fmta
   local extras = require("luasnip.extras")
   local rep = extras.rep
   local cond = require("ht.snippets.conditions.conditions")
-  local snippet = require("ht.snippets.snippet").build_snippet
-  local word_expand = require("ht.snippets.snippet").build_simple_word_snippet
+  local ht_snippet = require("ht.snippets.snippet")
+  local snippet = ht_snippet.build_snippet
+  local quick_expand = ht_snippet.quick_expand
   local postfix = require("ht.snippets.cpp.postfix").postfix
+  local i = ht_snippet.insert_node
 
   local simple_comment = function(prefix)
     return snippet {
@@ -38,60 +38,20 @@ return function()
     }
   end
 
-  return {
-    -- copyright
-    ls.s({
-      trig = "cr",
-      name = "Copyright",
-      dscr = "Create copyright header",
-      wordTrig = true,
-      snippetType = "autosnippet",
-    }, {
-      t("// Copyright (c) 2020 - present, "),
-      f(function()
-        local path = vim.fn.expand("%:p")
-        if path:find("agora") then
-          return "Agora.io, Inc."
-        else
-          return "Hawtian Wang (twistoy.wang@gmail.com)"
-        end
-      end),
-      t { "", "//", "" },
-    }, cond.at_first_line + cond.at_line_begin("cr")),
+  local function import_snippets(module)
+    local m = require(module)
+    if m ~= nil then
+      return m
+    end
+    return {}
+  end
 
-    -- progma once
-    ls.s({
-      trig = "once",
-      name = "progma once",
-      dscr = "#Progma once with comments",
-      wordTrig = true,
-      snippetType = "autosnippet",
-    }, {
-      t { "#pragma once  // NOLINT(build/header_guard)", "" },
-    }, cond.at_line_begin("once") + cpp_util.all_lines_before_are_all_comments),
+  local res = {}
 
-    -- include short cuts
-    ls.s({
-      trig = '#"',
-      name = 'include ""',
-      dscr = "#include with quotes",
-      snippetType = "autosnippet",
-    }, {
-      t('#include "'),
-      i(1, "header"),
-      t('"'),
-    }, cond.at_line_begin('#"')),
-    ls.s({
-      trig = "#<",
-      name = "include <>",
-      dscr = "#include with angle brackets",
-      snippetType = "autosnippet",
-    }, {
-      t("#include <"),
-      i(1, "header"),
-      t(">"),
-    }, cond.at_line_begin("#<")),
+  res = vim.list_extend(res, import_snippets("ht.snippets.cpp.snippets.func"))
+  res = vim.list_extend(res, import_snippets("ht.snippets.cpp.snippets.macro"))
 
+  local extra_snippets = {
     snippet {
       "ns",
       name = "namespace",
@@ -107,9 +67,9 @@ return function()
       },
     },
 
-    word_expand("da", "decltype(auto) "),
-    word_expand("ca&", "const auto& "),
-    word_expand("a&&", "auto&& "),
+    quick_expand("da", "decltype(auto) "),
+    quick_expand("ca&", "const auto& "),
+    quick_expand("a&&", "auto&& "),
     snippet {
       "ifc",
       name = "if constexpr",
@@ -271,4 +231,7 @@ return function()
       end, {}),
     }),
   }
+
+  res = vim.list_extend(res, extra_snippets)
+  return res
 end

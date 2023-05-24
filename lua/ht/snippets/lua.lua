@@ -17,13 +17,15 @@ local function last_lua_module_section(args)
 end
 
 return function()
-  local snippet = require("ht.snippets.snippet").build_snippet
-  local word_expand = require("ht.snippets.snippet").build_simple_word_snippet
+  local hs = require("ht.snippets.snippet")
+  local snippet = hs.build_snippet
+  local quick_expand = hs.quick_expand
+  local i = hs.insert_node
+  local c = hs.choice_node
+
   local ls = require("luasnip")
-  local c = ls.choice_node
   local t = ls.text_node
   local f = ls.function_node
-  local i = ls.insert_node
   local fmt = require("luasnip.extras.fmt").fmt
   local fmta = require("luasnip.extras.fmt").fmta
   local extras = require("luasnip.extras")
@@ -43,13 +45,15 @@ return function()
         end
         ]],
         {
-          ls.c(1, {
-            ls.t("function"),
-            ls.t("local function"),
+          c(1, {
+            t("function"),
+            t("local function"),
+          }, {
+            desc = "local/global",
           }),
-          ls.i(2),
-          ls.i(3),
-          ls.i(0),
+          i(2),
+          i(3),
+          i(0),
         }
       ),
     },
@@ -61,7 +65,7 @@ return function()
       mode = "wb",
       nodes = fmt([[local {} = require("{}")]], {
         ls.d(2, last_lua_module_section, { 1 }),
-        ls.i(1),
+        i(1, "module"),
       }),
     },
   }

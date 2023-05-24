@@ -1,6 +1,6 @@
 return function()
   local snippet = require("ht.snippets.snippet").build_snippet
-  local word_expand = require("ht.snippets.snippet").build_simple_word_snippet
+  local quick_expand = require("ht.snippets.snippet").quick_expand
   local ls = require("luasnip")
   local c = ls.choice_node
   local t = ls.text_node
@@ -35,10 +35,10 @@ return function()
       end, {}),
     }),
 
-    word_expand("shrug", "¯\\_(ツ)_/¯"),
-    word_expand("angry", "(╯°□°）╯︵ ┻━┻"),
-    word_expand("happy", "ヽ(´▽`)/"),
-    word_expand("sad", "(－‸ლ)"),
-    word_expand("confused", "(｡･ω･｡)"),
+    quick_expand("shrug", "¯\\_(ツ)_/¯"),
+    quick_expand("angry", "(╯°□°）╯︵ ┻━┻"),
+    quick_expand("happy", "ヽ(´▽`)/"),
+    quick_expand("sad", "(－‸ლ)"),
+    quick_expand("confused", "(｡･ω･｡)"),
   }
 end

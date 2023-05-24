@@ -252,7 +252,7 @@ return {
     },
     config = function(_, opts)
       require("kanagawa").setup(opts)
-      vim.cmd([[colorscheme kanagawa-dragon]])
+      vim.cmd([[colorscheme kanagawa-wave]])
     end,
   },
 

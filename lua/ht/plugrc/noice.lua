@@ -20,6 +20,15 @@ return {
             ["vim.lsp.util.stylize_markdown"] = true,
             ["cmp.entry.get_documentation"] = true,
           },
+          signature = {
+            enabled = false,
+            auto_open = {
+              enabled = true,
+              trigger = true,
+              luasnip = true,
+              throttle = 50,
+            },
+          },
         },
         messages = { enabled = false },
         presets = {

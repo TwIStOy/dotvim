@@ -30,7 +30,7 @@ return {
     ]],
       {
         f(function()
-          local path = vim.fn.expand("%:p")
+          local path = vim.fn.expand("%:p"):lower()
           if path:find("agora") then
             return "Agora.io, Inc."
           else

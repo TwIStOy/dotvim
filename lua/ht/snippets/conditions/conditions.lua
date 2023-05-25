@@ -1,4 +1,3 @@
-local M = {}
 local cond = require("ht.snippets.conditions.cond")
 
 local function at_first_line()
@@ -6,12 +5,23 @@ local function at_first_line()
   return row == 1
 end
 
-local function all_lines_before_match(pattern)
+local function all_lines_before_match(patterns)
+  if type(patterns) == "string" then
+    patterns = { patterns }
+  end
+
   local function condition(line_to_cursor, _matched_trigger, _captures)
     local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
     local lines = vim.api.nvim_buf_get_lines(0, 0, row - 1, false)
     for _, line in ipairs(lines) do
-      if not line:match(pattern) then
+      local matched = false
+      for _, pattern in ipairs(patterns) do
+        if line:match(pattern) then
+          matched = true
+          break
+        end
+      end
+      if not matched then
         return false
       end
     end

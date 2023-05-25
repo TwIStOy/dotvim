@@ -137,7 +137,6 @@ M.config = function()
           return ctx.in_latex_scope
         end,
       },
-      { name = "nvim_lsp_signature_help", group_index = 3 },
       { name = "async_path", group_index = 4 },
       { name = "calc", group_index = 5 },
       {

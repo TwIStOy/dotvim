@@ -51,6 +51,7 @@ M.config = function() -- code to run after plugin loaded
       define_custom { "Debug", "Info", "Warn", "Error", "Fatal" },
       -- pair
       define_custom { "first", "second" },
+      define_custom { "true_type", "false_type" },
       define_custom { "uint8_t", "uint16_t", "uint32_t", "uint64_t" },
       define_custom { "int8_t", "int16_t", "int32_t", "int64_t" },
       define_custom { "htonl", "ntohl" },

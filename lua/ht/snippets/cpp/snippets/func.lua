@@ -80,4 +80,27 @@ return {
       ret_t = i(4, "void"),
     }),
   },
+
+  snippet {
+    "getter",
+    name = "Getter function",
+    dscr = "Declare an inline getter function",
+    mode = "bw",
+    nodes = fmta(
+      [[
+      inline decltype(auto) Get<name>() const noexcept { return (<member>); }
+      ]],
+      {
+        member = i(1, "member"),
+        name = f(function(args)
+          return (args[1][1])
+            :gsub("_(%l)", function(s)
+              return s:upper()
+            end)
+            :gsub("^%l", string.upper)
+            :gsub("_$", "")
+        end, { 1 }),
+      }
+    ),
+  },
 }

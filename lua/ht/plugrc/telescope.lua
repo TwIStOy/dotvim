@@ -26,6 +26,7 @@ local function config()
       winblend = 20,
       border = {},
       borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      -- borderchars = { "█", " ", "▀", "█", "█", " ", " ", "▀" },
       color_devicons = true,
 
       mappings = {
@@ -79,9 +80,12 @@ return {
         desc = "f-buffers",
       }),
       FuncSpec("List files in current working directory", function()
-        if vim.b._dotvim_resolved_project_root ~= nil then
+        if
+          vim.b.cpp_toolkit_resolved_root ~= nil
+          and vim.b.cpp_toolkit_resolved_root.value
+        then
           require("telescope.builtin").find_files {
-            cwd = vim.b._dotvim_resolved_project_root,
+            cwd = vim.b.cpp_toolkit_resolved_root.value,
             no_ignore = true,
             follow = true,
           }

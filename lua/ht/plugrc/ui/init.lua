@@ -50,11 +50,10 @@ return {
   {
     "goolord/alpha-nvim",
     cond = vim.fn.argc() == 0,
-    event = "VeryLazy",
+    lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim" },
     config = function()
       require("ht.plugrc.ui.alpha-nvim").config()
-      vim.cmd([[Alpha]])
     end,
   },
 

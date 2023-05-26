@@ -64,13 +64,33 @@ return function()
       nodes = fmta(
         [[
       namespace <> {
-        <>
+      <>
       }  // namespace <>
       ]],
         {
           i(1, "namespace"),
           i(0),
           rep(1),
+        }
+      ),
+    },
+
+    snippet {
+      "ns%s+(%S+)",
+      name = "namespace",
+      dscr = "namespace",
+      mode = "br",
+      nodes = fmta(
+        [[
+      namespace <name> {
+      <body>
+      }  // namespace <name>
+      ]],
+        {
+          body = i(0),
+          name = f(function(_, snip)
+            return snip.captures[1]
+          end),
         }
       ),
     },
@@ -141,6 +161,29 @@ return function()
           body = i(0),
         }
       ),
+    },
+
+    -- access modifier
+    snippet {
+      "pri:",
+      name = "private",
+      dscr = "private",
+      mode = "bwA",
+      nodes = t { "private:", " " },
+    },
+    snippet {
+      "pub:",
+      name = "public",
+      dscr = "public",
+      mode = "bwA",
+      nodes = t { "public:", " " },
+    },
+    snippet {
+      "pro:",
+      name = "protected",
+      dscr = "protected",
+      mode = "bwA",
+      nodes = t { "protected:", " " },
     },
   }
 

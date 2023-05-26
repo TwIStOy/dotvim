@@ -4,6 +4,8 @@ local i = ht_snippet.insert_node
 local ls = require("luasnip")
 local t = ls.text_node
 local quick_expand = ht_snippet.quick_expand
+local fmt = require("luasnip.extras.fmt").fmt
+local fmta = require("luasnip.extras.fmt").fmta
 
 local simple_int_type = function(bit, unsigned)
   local prefix = unsigned and "u" or ""
@@ -32,4 +34,28 @@ return {
   quick_expand("vec", "std::vector"),
   quick_expand("vecs", "std::vector<std::string>"),
   quick_expand("opt", "std::optional"),
+
+  -- make pointers
+  snippet {
+    "msp",
+    name = "make shared pointer",
+    dscr = "make shared pointer",
+    mode = "bw",
+    nodes = fmt("auto {name} = std::make_shared<{type}>({args});", {
+      name = i(1, "name"),
+      type = i(2, "type"),
+      args = i(3, "args"),
+    }),
+  },
+  snippet {
+    "mup",
+    name = "make unique pointer",
+    dscr = "make unique pointer",
+    mode = "bw",
+    nodes = fmt("auto {name} = std::make_unique<{type}>({args});", {
+      name = i(1, "name"),
+      type = i(2, "type"),
+      args = i(3, "args"),
+    }),
+  },
 }

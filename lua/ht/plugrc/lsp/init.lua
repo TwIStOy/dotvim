@@ -88,7 +88,7 @@ return {
       { "simrat39/rust-tools.nvim", lazy = true },
       "SmiteshP/nvim-navic",
       "onsails/lspkind.nvim",
-      "TwIStOy/nvim-cmp",
+      "hrsh7th/nvim-cmp",
       "MunifTanjim/nui.nvim",
       "jose-elias-alvarez/null-ls.nvim",
     },

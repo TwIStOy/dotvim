@@ -1,5 +1,5 @@
 local M = {
-  "TwIStOy/nvim-cmp",
+  "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
     "onsails/lspkind.nvim",

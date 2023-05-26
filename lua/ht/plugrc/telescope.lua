@@ -80,18 +80,19 @@ return {
         desc = "f-buffers",
       }),
       FuncSpec("List files in current working directory", function()
-        if
-          vim.b.cpp_toolkit_resolved_root ~= nil
-          and vim.b.cpp_toolkit_resolved_root.value
-        then
-          require("telescope.builtin").find_files {
-            cwd = vim.b.cpp_toolkit_resolved_root.value,
-            no_ignore = true,
-            follow = true,
-          }
-        else
-          require("telescope.builtin").find_files {}
+        local ft = vim.bo.filetype
+        if ft == "cpp" then
+          local root = require("cpp-toolkit.rooter").get_resolved_root()
+          if root ~= nil then
+            require("telescope.builtin").find_files {
+              cwd = vim.b.cpp_toolkit_resolved_root.value,
+              no_ignore = true,
+              follow = true,
+            }
+            return
+          end
         end
+        require("telescope.builtin").find_files {}
       end, {
         keys = "<leader>e",
         desc = "edit-project-file",

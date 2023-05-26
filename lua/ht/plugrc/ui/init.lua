@@ -49,10 +49,13 @@ return {
   -- alpha
   {
     "goolord/alpha-nvim",
-    lazy = false,
     cond = vim.fn.argc() == 0,
+    event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim" },
-    config = require("ht.plugrc.ui.alpha-nvim").config,
+    config = function()
+      require("ht.plugrc.ui.alpha-nvim").config()
+      vim.cmd([[Alpha]])
+    end,
   },
 
   -- used for update tmux tabline

@@ -29,4 +29,19 @@ return {
       )
     end, {}),
   }),
+  postfix("val", {
+    f(function(_, parent)
+      return ("std::declval<%s>()"):format(parent.snippet.env.POSTFIX_MATCH)
+    end, {}),
+  }),
+  postfix("uu", {
+    f(function(_, parent)
+      return ("(void)%s;"):format(parent.snippet.env.POSTFIX_MATCH)
+    end, {}),
+  }),
+  postfix("dt", {
+    f(function(_, parent)
+      return ("decltype(%s)"):format(parent.snippet.env.POSTFIX_MATCH)
+    end, {}),
+  }),
 }

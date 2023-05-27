@@ -103,4 +103,46 @@ return {
       }
     ),
   },
+
+  snippet {
+    "|trans",
+    name = "std/ranges-v3 transform",
+    dscr = "std/ranges-v3 transform function",
+    mode = "b",
+    nodes = fmta(
+      [[
+      <ns>::views::transform([&](auto&& value) {
+        <body>
+      })
+      ]],
+      {
+        ns = c(1, {
+          t("std"),
+          t("ranges"),
+        }, { desc = "namespace" }),
+        body = i(0),
+      }
+    ),
+  },
+
+  snippet {
+    "|filter",
+    name = "std/ranges-v3 filter",
+    dscr = "std/ranges-v3 filter function",
+    mode = "b",
+    nodes = fmta(
+      [[
+      <ns>::views::filter([&](auto&& value) ->> bool {
+        <body>
+      })
+      ]],
+      {
+        ns = c(1, {
+          t("std"),
+          t("ranges"),
+        }, { desc = "namespace" }),
+        body = i(0),
+      }
+    ),
+  },
 }

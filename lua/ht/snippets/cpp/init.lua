@@ -13,6 +13,7 @@ return function()
   local quick_expand = ht_snippet.quick_expand
   local postfix = require("ht.snippets.cpp.postfix").postfix
   local i = ht_snippet.insert_node
+  local c = ht_snippet.choice_node
 
   local simple_comment = function(prefix)
     return snippet {
@@ -184,6 +185,29 @@ return function()
       dscr = "protected",
       mode = "bwA",
       nodes = t { "protected:", " " },
+    },
+
+    -- loops
+    snippet {
+      "for:",
+      mode = "bwA",
+      name = "range-base for",
+      dscr = "range-base for",
+      nodes = fmta(
+        [[
+        for (<value_type> value : <iterable>) {
+          <body>
+        }
+        ]],
+        {
+          iterable = i(1, "iterable"),
+          value_type = c(2, {
+            t("auto&&"),
+            t("const auto&"),
+          }, { desc = "value_type" }),
+          body = i(0),
+        }
+      ),
     },
   }
 

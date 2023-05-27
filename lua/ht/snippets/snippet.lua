@@ -34,12 +34,13 @@ local function build_snippet(opts)
   return luasnip.s(trig_arg, nodes)
 end
 
-local function build_simple_word_snippet(word, expanded)
+local function build_simple_word_snippet(word, expanded, mode)
+  mode = mode or "w"
   return build_snippet {
     word,
     name = expanded,
     dscr = expanded,
-    mode = "w",
+    mode = mode,
     nodes = luasnip.text_node(expanded),
   }
 end

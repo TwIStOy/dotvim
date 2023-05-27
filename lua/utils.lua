@@ -2,9 +2,13 @@ local M = {}
 
 -- convert to utf8
 function M.u(code)
-  if type(code) == 'string' then code = tonumber('0x' .. code) end
+  if type(code) == "string" then
+    code = tonumber("0x" .. code)
+  end
   local c = string.char
-  if code <= 0x7f then return c(code) end
+  if code <= 0x7f then
+    return c(code)
+  end
   local t = {}
   if code <= 0x07ff then
     t[1] = c(bit.bor(0xc0, bit.rshift(code, 6)))

@@ -65,7 +65,7 @@ return {
       textobjects = {
         select = {
           enable = true,
-          lookahead = true,
+          lookahead = false,
           keymaps = {
             ["af"] = "@function.outer",
             ["if"] = "@function.inner",

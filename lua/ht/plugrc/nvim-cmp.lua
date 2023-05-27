@@ -188,7 +188,14 @@ M.config = function()
       ["<C-n>"] = cmp.mapping.select_next_item {},
       ["<C-k>"] = cmp.mapping.select_prev_item {},
       ["<C-j>"] = cmp.mapping.select_next_item {},
-      ["<C-e>"] = cmp.mapping.abort(),
+      ["<C-e>"] = cmp.mapping(function()
+        local ls = require("luasnip")
+        if ls.choice_active() then
+          ls.change_choice(1)
+        else
+          cmp.mapping.abort()
+        end
+      end, { "i", "s" }),
       ["<TAB>"] = cmp.mapping(function(fallback)
         if cmp.visible() and has_words_before() then
           cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }

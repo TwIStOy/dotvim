@@ -12,7 +12,9 @@ return {
   {
     "TwIStOy/cpp-toolkit.nvim",
     config = function()
-      require("cpp-toolkit").setup()
+      require("cpp-toolkit").setup {
+        impl_return_type_style = "trailing",
+      }
 
       require("telescope").load_extension("cpptoolkit")
       require("ht.core.functions"):add_function_set {

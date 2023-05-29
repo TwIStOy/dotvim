@@ -20,13 +20,17 @@ local function config()
       selection_strategy = "reset",
       sorting_strategy = "descending",
       layout_strategy = "horizontal",
+      layout_config = {
+        preview_width = 0.6,
+      },
 
       history = { path = "~/.local/share/nvim/telescope_history.sqlite3" },
 
-      winblend = 20,
+      winblend = 0,
       border = {},
-      borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-      -- borderchars = { "█", " ", "▀", "█", "█", " ", " ", "▀" },
+      -- borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      -- borderchars = { "█", " ", " ", "█", "█", " ", " ", " " },
+      borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
       color_devicons = true,
 
       mappings = {
@@ -45,7 +49,7 @@ local function config()
         n = { ["q"] = actions.close },
       },
     },
-    pickers = { find_files = { theme = "ivy" } },
+    pickers = { find_files = {} },
     extensions = extensions,
   }
 

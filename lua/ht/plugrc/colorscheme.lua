@@ -211,7 +211,7 @@ return {
 
   {
     "rebelot/kanagawa.nvim",
-    enabled = true,
+    enabled = false,
     opts = {
       theme = "dragon",
       compile = false,
@@ -297,11 +297,11 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    enabled = false,
+    enabled = true,
     build = ":CatppuccinCompile",
     config = function()
       require("catppuccin").setup {
-        flavour = "frappe",
+        flavour = "macchiato",
         term_colors = false,
         transparent_background = false,
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
@@ -408,7 +408,12 @@ return {
             CmpItemKindTypeParameter = { fg = colors.base, bg = colors.blue },
             CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
 
-            NormalFloat = { fg = colors.text, bg = colors.base },
+            NormalFloat = { fg = colors.text, bg = colors.crust },
+            FloatBorder = { bg = colors.crust },
+
+            TelescopeNormal = { link = "NormalFloat" },
+            TelescopeBorder = { fg = "NONE", bg = colors.crust },
+            TelescopeTitle = { fg = colors.crust, bg = colors.yellow },
 
             ["@lsp.typemod.variable.mutable.rust"] = { style = { "underline" } },
             ["@lsp.typemod.selfKeyword.mutable.rust"] = {

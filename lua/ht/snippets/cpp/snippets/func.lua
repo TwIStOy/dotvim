@@ -111,7 +111,7 @@ return {
     mode = "b",
     nodes = fmta(
       [[
-      <ns>::views::transform([&](auto&& value) {
+      | <ns>::views::transform([&](auto&& value) {
         <body>
       })
       ]],
@@ -132,7 +132,7 @@ return {
     mode = "b",
     nodes = fmta(
       [[
-      <ns>::views::filter([&](auto&& value) ->> bool {
+      | <ns>::views::filter([&](auto&& value) ->> bool {
         <body>
       })
       ]],

@@ -21,7 +21,7 @@ local function config()
       sorting_strategy = "descending",
       layout_strategy = "horizontal",
       layout_config = {
-        preview_width = 0.6,
+        -- preview_width = 0.6,
       },
 
       history = { path = "~/.local/share/nvim/telescope_history.sqlite3" },

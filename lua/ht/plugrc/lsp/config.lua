@@ -214,7 +214,7 @@ M.config = function() -- code to run after plugin loaded
         parameter_hints_formatter = function(label)
           return label
         end,
-        parameter_hints_inline = true,
+        parameter_hints_inline = false,
         other_hints_prefix = " ",
         other_hints_formatter = function(text)
           if text:sub(1, 2) == "->" then
@@ -222,7 +222,7 @@ M.config = function() -- code to run after plugin loaded
           end
           return text
         end,
-        other_hints_inline = true,
+        other_hints_inline = false,
         max_len_align = false,
         max_len_align_padding = 1,
         right_align = false,

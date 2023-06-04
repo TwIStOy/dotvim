@@ -1,5 +1,5 @@
 return {
-  "ethanholz/nvim-lastplace",
+  "TwIStOy/nvim-lastplace",
   event = "BufReadPre",
   opts = {
     lastplace_ignore_buftype = { "quickfix", "nofile", "help" },

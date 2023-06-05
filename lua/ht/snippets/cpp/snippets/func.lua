@@ -145,4 +145,14 @@ return {
       }
     ),
   },
+
+  snippet {
+    "|vec",
+    name = "ranges-v3 to vector",
+    dscr = "ranges-v3 to vector",
+    mode = "b",
+    nodes = {
+      t("ranges::to_vector"),
+    },
+  },
 }

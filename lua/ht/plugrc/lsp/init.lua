@@ -117,6 +117,7 @@ return {
           },
           formatting.rustfmt,
           formatting.prettier,
+          formatting.ruff,
         },
       }
     end,

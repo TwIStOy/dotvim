@@ -101,4 +101,16 @@ return {
       }
     end,
   },
+
+  -- edgy
+  {
+    "folke/edgy.nvim",
+    event = "VeryLazy",
+    opts = {
+      bottom = {
+        "Trouble",
+        { ft = "qf", title = "QuickFix" },
+      },
+    },
+  },
 }

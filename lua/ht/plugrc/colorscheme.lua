@@ -287,9 +287,73 @@ return {
 
   {
     "projekt0n/github-nvim-theme",
-    enabled = false,
-    config = function()
-      require("github-theme").setup {}
+    enabled = true,
+    opts = {
+      options = {
+        styles = {
+          comments = "italic",
+          conditionals = "italic",
+          keywords = "bold",
+          loops = "bold",
+        },
+        darken = {
+          floats = true,
+          sidebars = {
+            enable = true,
+            list = {
+              "NvimTree",
+            },
+          },
+        },
+      },
+      palette = {
+        all = {
+          mauve = { base = "#CBA6F7" },
+          teal = { base = "#94E2D5" },
+          flamingo = { base = "#F2CDCD" },
+          peach = { base = "#FAB387" },
+        },
+      },
+      groups = {
+        all = {
+          ["@lsp.typemod.variable.mutable.rust"] = { style = "underline" },
+          ["@lsp.typemod.selfKeyword.mutable.rust"] = {
+            style = "underline",
+          },
+          ["@variable.builtin"] = { style = "italic" },
+
+          CmpItemMenu = { fg = "pink" },
+          CmpItemKindSnippet = { fg = "fg1", bg = "palette.mauve" },
+          CmpItemKindKeyword = { fg = "fg1", bg = "palette.red" },
+          CmpItemKindText = { fg = "fg1", bg = "palette.teal" },
+          CmpItemKindMethod = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindConstructor = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindFunction = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindFolder = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindModule = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindConstant = { fg = "fg1", bg = "palette.peach" },
+          CmpItemKindField = { fg = "fg1", bg = "palette.green" },
+          CmpItemKindProperty = { fg = "fg1", bg = "palette.green" },
+          CmpItemKindEnum = { fg = "fg1", bg = "palette.green" },
+          CmpItemKindUnit = { fg = "fg1", bg = "palette.green" },
+          CmpItemKindClass = { fg = "fg1", bg = "palette.yellow" },
+          CmpItemKindVariable = { fg = "fg1", bg = "palette.flamingo" },
+          CmpItemKindFile = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindInterface = { fg = "fg1", bg = "palette.yellow" },
+          CmpItemKindColor = { fg = "fg1", bg = "palette.red" },
+          CmpItemKindReference = { fg = "fg1", bg = "palette.red" },
+          CmpItemKindEnumMember = { fg = "fg1", bg = "palette.red" },
+          CmpItemKindStruct = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindValue = { fg = "fg1", bg = "palette.peach" },
+          CmpItemKindEvent = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindOperator = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindTypeParameter = { fg = "fg1", bg = "palette.blue" },
+          CmpItemKindCopilot = { fg = "fg1", bg = "palette.teal" },
+        },
+      },
+    },
+    config = function(_, opts)
+      require("github-theme").setup(opts)
       vim.cmd("colorscheme github_dark_dimmed")
     end,
   },
@@ -297,7 +361,7 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    enabled = true,
+    enabled = false,
     build = ":CatppuccinCompile",
     config = function()
       require("catppuccin").setup {

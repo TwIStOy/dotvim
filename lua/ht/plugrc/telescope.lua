@@ -28,9 +28,9 @@ local function config()
 
       winblend = 0,
       border = {},
-      -- borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       -- borderchars = { "█", " ", " ", "█", "█", " ", " ", " " },
-      borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+      -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
       color_devicons = true,
 
       mappings = {

@@ -190,7 +190,8 @@ NMAP("<C-p>", function()
     },
     border = true,
     results_title = false,
-    borderchars = {
+    borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+    _borderchars = {
       prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
       results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
       preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },

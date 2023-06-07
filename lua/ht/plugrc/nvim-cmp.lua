@@ -9,7 +9,6 @@ local M = {
     "hrsh7th/cmp-cmdline",
     "dmitmel/cmp-cmdline-history",
     "hrsh7th/cmp-nvim-lsp",
-    "FelipeLema/cmp-async-path",
     "hrsh7th/cmp-calc",
     "dmitmel/cmp-digraphs",
     "f3fora/cmp-spell",

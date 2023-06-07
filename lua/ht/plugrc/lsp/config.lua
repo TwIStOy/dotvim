@@ -15,12 +15,17 @@ local function on_buffer_attach(client, bufnr)
           "InsertEnter",
           "User ShowHover",
         },
-        border = "rounded",
+        border = "solid",
         source = "always",
         prefix = " ",
         scope = "cursor",
       }
-      vim.diagnostic.open_float(opts)
+      local bufnr, win = vim.diagnostic.open_float(opts)
+      vim.api.nvim_set_option_value(
+        "winhl",
+        "FloatBorder:NormalFloat",
+        { win = win }
+      )
     end,
   })
 

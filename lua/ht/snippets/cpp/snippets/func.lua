@@ -152,7 +152,7 @@ return {
     dscr = "ranges-v3 to vector",
     mode = "b",
     nodes = {
-      t("ranges::to_vector"),
+      t("| ranges::to_vector"),
     },
   },
 }

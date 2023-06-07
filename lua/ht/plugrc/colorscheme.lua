@@ -306,7 +306,7 @@ return {
           },
         },
       },
-      palette = {
+      palettes = {
         all = {
           mauve = { base = "#CBA6F7" },
           teal = { base = "#94E2D5" },
@@ -354,7 +354,7 @@ return {
     },
     config = function(_, opts)
       require("github-theme").setup(opts)
-      vim.cmd("colorscheme github_dark_dimmed")
+      vim.cmd("colorscheme github_dark_high_contrast")
     end,
   },
 

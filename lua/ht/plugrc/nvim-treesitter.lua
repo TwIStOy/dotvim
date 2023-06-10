@@ -2,12 +2,12 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = true,
+    event = { "BufReadPost", "BufNewFile" },
     build = function()
       if #vim.api.nvim_list_uis() ~= 0 then
         vim.api.nvim_command("TSUpdate")
       end
     end,
-    event = { "BufReadPost", "BufNewFile" },
     cmd = { "TSUpdate", "TSUpdateSync" },
     dependencies = {
       {
@@ -15,7 +15,6 @@ return {
         lazy = true,
         ft = { "lua", "ruby", "vimscript" },
       },
-      "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = {
       ensure_installed = {
@@ -62,6 +61,19 @@ return {
         end,
       },
       endwise = { enable = true },
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    lazy = true,
+    event = { "BufReadPost", "BufNewFile" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
       textobjects = {
         select = {
           enable = true,
@@ -97,10 +109,7 @@ return {
       },
     },
     config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
-
       local swap = require("nvim-treesitter.textobjects.swap")
-
       local RC = require("ht.core.right-click")
       RC.add_section {
         index = RC.indexes.textobject,
@@ -124,6 +133,8 @@ return {
           },
         },
       }
+
+      require("nvim-treesitter.configs").setup(opts)
     end,
   },
   {

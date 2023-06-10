@@ -29,8 +29,6 @@ local function config()
       winblend = 0,
       border = {},
       borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-      -- borderchars = { "█", " ", " ", "█", "█", " ", " ", " " },
-      -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
       color_devicons = true,
 
       mappings = {
@@ -59,6 +57,84 @@ local function config()
   require("telescope").load_extension("command_palette")
 end
 
+local telescope_functions = {
+  FuncSpec("List open buffers in current neovim instance", function()
+    require("telescope.builtin").buffers {}
+  end, {
+    keys = "<F4>",
+    desc = "f-buffers",
+  }),
+  FuncSpec("List files in current working directory", function()
+    local ft = vim.bo.filetype
+    if ft == "cpp" then
+      local root = require("cpp-toolkit.rooter").get_resolved_root()
+      if root ~= nil then
+        require("telescope.builtin").find_files {
+          cwd = vim.b.cpp_toolkit_resolved_root.value,
+          no_ignore = true,
+          follow = true,
+        }
+        return
+      end
+    end
+    require("telescope.builtin").find_files {}
+  end, {
+    keys = "<leader>e",
+    desc = "edit-project-file",
+  }),
+  {
+    filter = {
+      ---@param buffer VimBuffer
+      filter = function(buffer)
+        return #buffer.lsp_servers > 0
+      end,
+    },
+    values = {
+      FuncSpec("List LSP document symbols in the current buffer", function()
+        require("telescope.builtin").lsp_document_symbols()
+      end, {
+        keys = "<leader>ls",
+        desc = "document-symbols",
+      }),
+      FuncSpec("List LSP document symbols in the current workspace", function()
+        require("telescope.builtin").lsp_workspace_symbols()
+      end, {
+        keys = "<leader>lw",
+        desc = "workspace-symbols",
+      }),
+    },
+  },
+  FuncSpec("Search for a string in current working directory", function()
+    local ft = vim.bo.filetype
+    if ft == "cpp" then
+      local root = require("cpp-toolkit.rooter").get_resolved_root()
+      if root ~= nil then
+        require("telescope.builtin").live_grep {
+          cwd = vim.b.cpp_toolkit_resolved_root.value,
+        }
+        return
+      end
+    end
+    require("telescope.builtin").live_grep {}
+  end, {
+    keys = { "<leader>lg", "<leader>/" },
+    desc = "live-grep",
+  }),
+  FuncSpec("Show current git status in current working directory", function()
+    if require("ht.utils.fs").in_git_repo() then
+      require("telescope.builtin").git_status {}
+    else
+      vim.notify("Not in a git repo", vim.log.levels.ERROR)
+    end
+  end, {
+    keys = "<leader>vs",
+    desc = "git-status",
+  }),
+  FuncSpec("Show all highlight groups", function()
+    require("telescope.builtin").highlights {}
+  end),
+}
+
 return {
   Use {
     "nvim-telescope/telescope.nvim",
@@ -76,73 +152,6 @@ return {
       },
       config = config,
     },
-    functions = {
-      FuncSpec("List open buffers in current neovim instance", function()
-        require("telescope.builtin").buffers {}
-      end, {
-        keys = "<F4>",
-        desc = "f-buffers",
-      }),
-      FuncSpec("List files in current working directory", function()
-        local ft = vim.bo.filetype
-        if ft == "cpp" then
-          local root = require("cpp-toolkit.rooter").get_resolved_root()
-          if root ~= nil then
-            require("telescope.builtin").find_files {
-              cwd = vim.b.cpp_toolkit_resolved_root.value,
-              no_ignore = true,
-              follow = true,
-            }
-            return
-          end
-        end
-        require("telescope.builtin").find_files {}
-      end, {
-        keys = "<leader>e",
-        desc = "edit-project-file",
-      }),
-      {
-        filter = {
-          ---@param buffer VimBuffer
-          filter = function(buffer)
-            return #buffer.lsp_servers > 0
-          end,
-        },
-        values = {
-          FuncSpec(
-            "List LSP document symbols in the current buffer",
-            function()
-              require("telescope.builtin").lsp_document_symbols()
-            end,
-            {
-              keys = "<leader>ls",
-              desc = "document-symbols",
-            }
-          ),
-          FuncSpec(
-            "List LSP document symbols in the current workspace",
-            function()
-              require("telescope.builtin").lsp_workspace_symbols()
-            end,
-            {
-              keys = "<leader>lw",
-              desc = "workspace-symbols",
-            }
-          ),
-        },
-      },
-      FuncSpec("Search for a string in current working directory", function()
-        if vim.b._dotvim_resolved_project_root ~= nil then
-          require("telescope.builtin").live_grep {
-            cwd = vim.b._dotvim_resolved_project_root,
-          }
-        else
-          require("telescope.builtin").live_grep {}
-        end
-      end, {
-        keys = "<leader>lg",
-        desc = "live-grep",
-      }),
-    },
+    functions = telescope_functions,
   },
 }

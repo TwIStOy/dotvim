@@ -67,4 +67,16 @@ function M.topmost_parent(p, matcher)
   return nil
 end
 
+---Check if the current directory is in a git repo.
+---@return boolean
+function M.in_git_repo()
+  local p = vim.system {
+    "git",
+    "rev-parse",
+    "--is-inside-work-tree",
+  }
+  local res = p:wait()
+  return res.code == 0
+end
+
 return M

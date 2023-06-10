@@ -332,7 +332,7 @@ return {
 
   {
     "loctvl842/monokai-pro.nvim",
-    enabled = true,
+    enabled = false,
     config = function()
       require("monokai-pro").setup {
         styles = {
@@ -361,7 +361,7 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    enabled = false,
+    enabled = true,
     build = ":CatppuccinCompile",
     config = function()
       require("catppuccin").setup {
@@ -472,11 +472,6 @@ return {
             CmpItemKindTypeParameter = { fg = colors.base, bg = colors.blue },
             CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
 
-            NormalFloat = { fg = colors.text, bg = colors.crust },
-            FloatBorder = { bg = colors.crust },
-
-            TelescopeNormal = { link = "NormalFloat" },
-            TelescopeBorder = { fg = "NONE", bg = colors.crust },
             TelescopeTitle = { fg = colors.crust, bg = colors.yellow },
 
             ["@lsp.typemod.variable.mutable.rust"] = { style = { "underline" } },

@@ -18,10 +18,11 @@ def get_uncommit_changes():
 
 
 def update_version():
-  version_template = '''module('ht.version', package.seeall)
+  version_template = '''local M = {{}}
 
-last_updated_time = '{}.{:02d}.{:02d}'
+M = last_updated_time = '{}.{:02d}.{:02d}'
 
+return M
 '''
   now = datetime.datetime.now()
   version_str = version_template.format(now.year, now.month, now.day)

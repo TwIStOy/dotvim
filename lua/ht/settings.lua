@@ -72,11 +72,19 @@ event.on(
   { pattern = "*", command = "set nocursorline" }
 )
 
+event.on({ "VimResized" }, {
+  callback = function()
+    vim.cmd("wincmd =")
+    vim.cmd("tabdo wincmd =")
+  end,
+})
+
 -- cursor settings
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:Cursor/lCursor"
 
 -- mouse mode
 vim.opt.mouse = "a"
+vim.opt.mousemoveevent = true
 
 -- statusline
 vim.opt.laststatus = 3
@@ -94,6 +102,8 @@ vim.opt.showmode = false
 vim.opt.cmdheight = 1
 
 vim.opt.exrc = true
+
+vim.opt.wrap = false
 
 -- move quickfix windows to botright automatically
 event.on("FileType", { pattern = "qf", command = "wincmd J" })

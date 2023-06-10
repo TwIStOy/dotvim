@@ -14,10 +14,13 @@ local function on_buffer_attach(client, bufnr)
           "CursorMoved",
           "InsertEnter",
           "User ShowHover",
+          "BufLeave",
+          "FocusLost",
         },
         border = "solid",
-        source = "always",
+        source = "if_many",
         prefix = " ",
+        focus = false,
         scope = "cursor",
       }
       local bufnr, win = vim.diagnostic.open_float(opts)

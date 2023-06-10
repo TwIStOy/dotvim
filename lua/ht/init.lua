@@ -27,6 +27,7 @@ local function bootstrap_plugin_manager()
           "tohtml",
           "tutor",
           "zipPlugin",
+          "spellfile",
         },
       },
     },

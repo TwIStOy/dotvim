@@ -1,6 +1,6 @@
 local M = {}
 
-local T = require 'ht.utils.table'
+local T = require("ht.utils.table")
 
 M.tbl_keys = T.tbl_keys
 M.tbl_unique = T.tbl_unique
@@ -24,8 +24,8 @@ function M.delay_notify_invocations()
   local orig = vim.notify
   vim.notify = temp
 
-  local timer = vim.loop.new_timer()
-  local check = vim.loop.new_check()
+  local timer = vim.uv.new_timer()
+  local check = vim.uv.new_check()
 
   local replay = function()
     timer:stop()
@@ -52,10 +52,12 @@ end
 
 -- Print deprecated message
 function M.deprecated(old, new)
-  local U = require 'lazy.core.util'
+  local U = require("lazy.core.util")
 
-  U.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new),
-         { title = "HT" })
+  U.warn(
+    ("`%s` is deprecated. Please use `%s` instead"):format(old, new),
+    { title = "HT" }
+  )
 end
 
 ---@param type_name "'nil'" | "'number'" | "'string'" | "'boolean'" | "'table'" | "'function'" | "'thread'" | "'userdata'" | "'list'" | '"map"'
@@ -77,12 +79,12 @@ function M.normalize_vec_str(str)
     s = {
       str,
       function(v)
-        return M.is_type('list', v) or M.is_type('string', v)
+        return M.is_type("list", v) or M.is_type("string", v)
       end,
-      'list or string',
+      "list or string",
     },
   }
-  if M.is_type('list', str) then
+  if M.is_type("list", str) then
     return str
   end
   return { str }

@@ -4,7 +4,7 @@ local M = {}
 ---@param path string Input path.
 ---@return boolean
 function M.is_file(path)
-  local stat = vim.loop.fs_stat(path)
+  local stat = vim.uv.fs_stat(path)
   return stat and stat.type == "file" or false
 end
 
@@ -12,7 +12,7 @@ end
 ---@param path string Input path.
 ---@return boolean
 function M.is_directory(path)
-  local stat = vim.loop.fs_stat(path)
+  local stat = vim.uv.fs_stat(path)
   return stat and stat.type == "directory" or false
 end
 
@@ -21,7 +21,7 @@ end
 ---@param data string|table Data to write. Use `vim.inspect` for tables.
 ---@param mode "w"|"a"|nil Write or append mode.
 function M.write_all(path, data, mode)
-  local uv = vim.loop
+  local uv = vim.uv
   data = type(data) == "string" and data or vim.inspect(data)
   uv.fs_open(path, mode, 438, function(open_err, fd)
     assert(not open_err, open_err)

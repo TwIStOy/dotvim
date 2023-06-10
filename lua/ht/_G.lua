@@ -1,11 +1,6 @@
-local ok, plenary_reload = pcall(require, "plenary.reload")
-local reloader = require
-if ok then
-  reloader = plenary_reload.reload_module
-end
-
 RELOAD = function(...)
   local ok, plenary_reload = pcall(require, "plenary.reload")
+  local reloader
   if ok then
     reloader = plenary_reload.reload_module
   end
@@ -63,7 +58,7 @@ ICON = function(code)
 end
 
 Throttle = function(fn, ms)
-  local timer = vim.loop.new_timer()
+  local timer = vim.uv.new_timer()
   local running = false
   return function(...)
     if not running then

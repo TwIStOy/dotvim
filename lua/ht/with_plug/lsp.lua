@@ -95,32 +95,54 @@ function M.format()
 end
 
 function M.progress()
-  if not rawget(vim, "lsp") then
-    return ""
-  end
-
-  local Lsp = vim.lsp.util.get_progress_messages()[1]
-
-  if vim.o.columns < 120 or not Lsp then
-    return ""
-  end
-
-  local msg = Lsp.message or ""
-  local percentage = Lsp.percentage or 0
-  local title = Lsp.title or ""
   local spinners =
     { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }
-  local ms = vim.loop.hrtime() / 1000000
-  local frame = math.floor(ms / 120) % #spinners
-  local content = string.format(
-    " %%<%s %s %s (%s%%%%) ",
-    spinners[frame + 1],
-    title,
-    msg,
-    percentage
-  )
+  local ms = vim.uv.hrtime() / 1000000
+  local spinner = spinners[(math.floor(ms / 120) % #spinners) + 1]
 
-  return content
+  local active_clients = vim.lsp.get_active_clients {
+    bufnr = 0,
+  }
+  local percentage = nil
+  local groups = {}
+  for _, client in ipairs(active_clients) do
+    for progress in client.progress do
+      local value = progress.value
+
+      if type(value) == "table" and value.kind then
+        local group = groups[progress.token]
+        if not group then
+          group = {}
+          groups[progress.token] = group
+        end
+        group.title = value.title or group.title
+        group.message = value.message or group.message
+        if value.percentage then
+          percentage = math.max(percentage or 0, value.percentage)
+        end
+      end
+    end
+  end
+
+  local messages = {}
+  for _, group in pairs(groups) do
+    if group.title then
+      table.insert(
+        messages,
+        group.message and (group.title .. ": " .. group.message) or group.title
+      )
+    elseif group.message then
+      table.insert(messages, group.message)
+    end
+  end
+  local message = table.concat(messages, ", ")
+  if percentage then
+    return string.format("%%<%s %03d%%%%: %s", spinner, percentage, message)
+  end
+  if #message > 0 then
+    return string.format("%%<%s %s", spinner, message)
+  end
+  return message
 end
 
 return M

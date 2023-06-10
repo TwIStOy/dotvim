@@ -28,7 +28,7 @@ function M.check()
   else
     ok("libclang path specified at " .. vim.g.compiled_llvm_clang_directory)
     local clangd_exe = vim.g.compiled_llvm_clang_directory .. "/bin/clangd"
-    if vim.loop.fs_stat(clangd_exe) then
+    if vim.uv.fs_stat(clangd_exe) then
       ok("clangd executable found at " .. clangd_exe)
     else
       warn("clangd executable not found at " .. clangd_exe)
@@ -54,7 +54,7 @@ function M.check()
     error("python3_host_prog is not installed or specified")
   else
     ok("python3_host_prog specified at " .. vim.g.python3_host_prog)
-    if vim.loop.fs_stat(vim.g.python3_host_prog) then
+    if vim.uv.fs_stat(vim.g.python3_host_prog) then
       ok("python3_host_prog executable found at " .. vim.g.python3_host_prog)
     else
       error(

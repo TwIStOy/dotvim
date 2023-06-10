@@ -20,7 +20,7 @@ def get_uncommit_changes():
 def update_version():
   version_template = '''local M = {{}}
 
-M = last_updated_time = '{}.{:02d}.{:02d}'
+M.last_updated_time = '{}.{:02d}.{:02d}'
 
 return M
 '''

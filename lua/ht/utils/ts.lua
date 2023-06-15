@@ -47,7 +47,7 @@ local function find_direct_child_impl(node, types)
   return nil
 end
 
--- Recursive find parent node
+---Recursive find parent node
 function M.find_parent(node, types)
   if type(types) == "string" then
     types = { [types] = 1 }
@@ -66,7 +66,7 @@ function M.find_parent(node, types)
   return find_parent_impl(node, types)
 end
 
--- Dfs find child node
+---Dfs find child node.
 function M.find_child(node, types, pruning)
   if type(types) == "string" then
     types = { [types] = 1 }
@@ -85,7 +85,7 @@ function M.find_child(node, types, pruning)
   return find_child_impl(node, types, pruning)
 end
 
--- find direct child
+---Find direct child.
 function M.find_direct_child(node, types)
   if type(types) == "string" then
     types = { [types] = 1 }
@@ -170,6 +170,17 @@ function M.get_nodes_in_range(winnr, start_row, start_col, end_row, end_col)
   local nodes =
     get_nodes_in_range_impl(root, start_row, start_col, end_row, end_col)
   return nodes
+end
+
+---Get node at given cursor position.
+---@param opt any
+---@return TSNode|nil
+function M.cursor_node(opt)
+  local curnode = vim.treesitter.get_node {
+    bufnr = opt.buf,
+    pos = { opt.lnum - 1, opt.col - 1 },
+  }
+  return curnode
 end
 
 return M

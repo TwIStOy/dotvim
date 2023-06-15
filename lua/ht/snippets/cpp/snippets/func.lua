@@ -14,6 +14,19 @@ local postfix = require("ht.snippets.cpp.postfix").postfix
 local i = ht_snippet.insert_node
 local c = ht_snippet.choice_node
 
+local function in_argument()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local buf = vim.api.nvim_get_current_buf()
+  local curnode = vim.treesitter.get_node {
+    bufnr = buf,
+    pos = {
+      row - 1,
+      col - 1,
+    },
+  }
+  return curnode and curnode:type() == "argument_list"
+end
+
 return {
   snippet {
     "fn",
@@ -154,5 +167,29 @@ return {
     nodes = {
       t("| ranges::to_vector"),
     },
+  },
+
+  snippet {
+    "\\",
+    name = "lambda function in arguments",
+    dscr = "lambda function in arguments",
+    mode = "wA",
+    cond = require("ht.snippets.conditions.cond").make_condition(
+      in_argument,
+      in_argument
+    ),
+    nodes = fmta(
+      [[
+      [this, &](<>) <> {
+      }
+      ]],
+      {
+        i(0),
+        c(1, {
+          t("mutable"),
+          t(""),
+        }),
+      }
+    ),
   },
 }

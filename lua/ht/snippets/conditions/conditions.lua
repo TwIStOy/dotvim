@@ -56,6 +56,7 @@ end
 local function at_line_begin(trig)
   return cond.make_condition(line_begin_cond, line_begin_show_maker(trig))
 end
+
 return {
   all_lines_before_match = all_lines_before_match,
   at_line_begin = at_line_begin,

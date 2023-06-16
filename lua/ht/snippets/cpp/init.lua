@@ -190,7 +190,7 @@ return function()
     -- loops
     snippet {
       "for:",
-      mode = "bwA",
+      mode = "bw",
       name = "range-base for",
       dscr = "range-base for",
       nodes = fmta(
@@ -212,12 +212,30 @@ return function()
 
     snippet {
       "for0",
-      mode = "bwA",
+      mode = "bw",
       name = "For loop from 0",
       dscr = "For loop from 0",
       nodes = fmta(
         [[
         for (auto i = 0u; i << <max_value>; i++) {
+          <body>
+        }
+        ]],
+        {
+          max_value = i(1, "max_value"),
+          body = i(0),
+        }
+      ),
+    },
+
+    snippet {
+      "forr",
+      mode = "bw",
+      name = "Reverse for loop",
+      dscr = "Reverse for loop",
+      nodes = fmta(
+        [[
+        for (auto i = <max_value>; i >>= 0; i--) {
           <body>
         }
         ]],

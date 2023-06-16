@@ -36,10 +36,10 @@ return {
       [[
       namespace <ns_name> {
       struct Fn {
-      template<<typename T, bool _noexcept = true>>
-      decltype(auto) operator()(T&& value) const noexcept(_noexcept) {
-        <cursor>
-      }
+        template<<typename T, bool _noexcept = true>>
+        decltype(auto) operator()(T&& value) const noexcept(_noexcept) {
+          <cursor>
+        }
       };
       }  // namespace <ns_name>
       inline constexpr <ns_name>::Fn <name>{};

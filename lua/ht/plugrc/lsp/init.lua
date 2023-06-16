@@ -82,7 +82,7 @@ return {
         cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" },
       },
       {
-        "TwIStOy/clangd_extensions.nvim",
+        "p00f/clangd_extensions.nvim",
         lazy = true,
       },
       { "simrat39/rust-tools.nvim", lazy = true },

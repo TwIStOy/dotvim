@@ -48,6 +48,8 @@ return {
         "#include <functional>",
         "#include <fstream>",
         "#include <exception>",
+        "#include <optional>",
+        "#include <variant>",
         "",
       },
     },

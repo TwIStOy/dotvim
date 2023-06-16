@@ -214,23 +214,12 @@ M.config = function() -- code to run after plugin loaded
       autoSetHints = true,
       hover_with_actions = true,
       inlay_hints = {
+        inline = false,
         only_current_line = false,
         only_current_line_autocmd = "CursorHold",
         show_parameter_hints = false,
         show_variable_name = true,
-        parameter_hints_prefix = "",
-        parameter_hints_formatter = function(label)
-          return label
-        end,
-        parameter_hints_inline = false,
-        other_hints_prefix = " ",
-        other_hints_formatter = function(text)
-          if text:sub(1, 2) == "->" then
-            return " " .. text
-          end
-          return text
-        end,
-        other_hints_inline = false,
+        other_hints_prefix = "",
         max_len_align = false,
         max_len_align_padding = 1,
         right_align = false,

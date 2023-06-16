@@ -282,12 +282,24 @@ M.config = function() -- code to run after plugin loaded
       { type = "padding", val = 1 },
       {
         type = "text",
-        val = fortune(),
+        val = fortune,
         opts = { hl = "AlphaQuote", position = "center" },
       },
     },
 
-    opts = { margin = 5 },
+    opts = {
+      margin = 5,
+      redraw_on_resize = true,
+      setup = function()
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "LazyVimStarted",
+          once = true,
+          callback = function()
+            require("alpha").redraw()
+          end,
+        })
+      end,
+    },
   }
 
   alpha.setup(opts)

@@ -111,11 +111,11 @@ M.config = function()
     window = {
       completion = {
         border = "single",
-        winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
+        -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
       },
       documentation = {
         border = "single",
-        winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
+        -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
       },
     },
     sources = {

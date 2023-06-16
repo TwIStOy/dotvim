@@ -15,6 +15,44 @@ local i = ht_snippet.insert_node
 local c = ht_snippet.choice_node
 
 return {
+  snippet {
+    "#all",
+    name = "all may required headers",
+    dscr = "all may required headers",
+    mode = "bwA",
+    nodes = {
+      t {
+        "#include <algorithm>",
+        "#include <array>",
+        "#include <atomic>",
+        "#include <bitset>",
+        "#include <cassert>",
+        "#include <vector>",
+        "#include <unordered_map>",
+        "#include <unordered_set>",
+        "#include <utility>",
+        "#include <type_traits>",
+        "#include <tuple>",
+        "#include <string>",
+        "#include <sstream>",
+        "#include <set>",
+        "#include <queue>",
+        "#include <numeric>",
+        "#include <mutex>",
+        "#include <memory>",
+        "#include <map>",
+        "#include <list>",
+        "#include <iterator>",
+        "#include <iostream>",
+        "#include <iomanip>",
+        "#include <functional>",
+        "#include <fstream>",
+        "#include <exception>",
+        "",
+      },
+    },
+  },
+
   -- copyright
   snippet {
     "cr",

@@ -23,7 +23,7 @@ local function cpo_func_to_namespace(name)
     name = name:gsub("-", "_")
     name = name:lower()
   end
-  return ("_%s_fn"):format(name)
+  return ("%s_fn"):format(name)
 end
 
 return {

@@ -209,6 +209,24 @@ return function()
         }
       ),
     },
+
+    snippet {
+      "for0",
+      mode = "bwA",
+      name = "For loop from 0",
+      dscr = "For loop from 0",
+      nodes = fmta(
+        [[
+        for (auto i = 0u; i << <max_value>; i++) {
+          <body>
+        }
+        ]],
+        {
+          max_value = i(1, "max_value"),
+          body = i(0),
+        }
+      ),
+    },
   }
 
   res = vim.list_extend(res, extra_snippets)

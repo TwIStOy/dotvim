@@ -35,7 +35,7 @@ return {
     mode = "bw",
     nodes = fmta(
       [[
-      <storage_specifier> <ret> <name>(<args>) <specifier> {
+      <storage_specifier> auto <name>(<args>) <specifier> ->> <ret> {
         <body>
       }
       ]],
@@ -167,6 +167,26 @@ return {
     nodes = {
       t("| ranges::to_vector"),
     },
+  },
+
+  snippet {
+    ",d",
+    name = "Doxygen comment",
+    dscr = "Doxygen template to document a var/func/etc",
+    mode = "bwA",
+    nodes = fmta(
+      [[
+      /*!
+       * @brief <brief>
+       *
+       * <body>
+       */
+      ]],
+      {
+        brief = i(1, "This is something undocumented."),
+        body = i(2, "Nothing to add here..."),
+      }
+    ),
   },
 
   snippet {

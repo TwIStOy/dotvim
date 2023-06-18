@@ -196,7 +196,10 @@ M.config = function()
         end
       end, { "i", "s" }),
       ["<TAB>"] = cmp.mapping(function(fallback)
-        if cmp.visible() and has_words_before() then
+        local luasnip = require("luasnip")
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        elseif cmp.visible() and has_words_before() then
           cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
         else
           fallback()

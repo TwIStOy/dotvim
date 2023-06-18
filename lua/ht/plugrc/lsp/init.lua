@@ -54,6 +54,10 @@ return {
   {
     "TwIStOy/lspsaga.nvim",
     event = "LspAttach",
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+      { "nvim-treesitter/nvim-treesitter" },
+    },
     config = function()
       require("lspsaga").setup {
         code_action = {
@@ -66,10 +70,6 @@ return {
         symbol_in_winbar = { enable = false },
       }
     end,
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      { "nvim-treesitter/nvim-treesitter" },
-    },
   },
 
   -- lspconfig
@@ -102,7 +102,6 @@ return {
     config = function()
       local null_ls = require("null-ls")
       local formatting = null_ls.builtins.formatting
-      local diagnostics = null_ls.builtins.diagnostics
 
       null_ls.setup {
         sources = {

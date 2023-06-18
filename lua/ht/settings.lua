@@ -105,6 +105,8 @@ vim.opt.exrc = true
 
 vim.opt.wrap = false
 
+vim.wo.fillchars = "eob: "
+
 -- move quickfix windows to botright automatically
 event.on("FileType", { pattern = "qf", command = "wincmd J" })
 

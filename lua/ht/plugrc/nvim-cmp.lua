@@ -21,7 +21,6 @@ local M = {
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
     },
-    "jcdickinson/codeium.nvim",
     "zbirenbaum/copilot-cmp",
   },
 }
@@ -121,7 +120,6 @@ M.config = function()
     sources = {
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
-      { name = "codeium", group_index = 1 },
       { name = "luasnip", group_index = 1 },
       {
         name = "latex_symbols",
@@ -247,7 +245,6 @@ M.config = function()
               cmdline_history = "[History]",
               cmdline = "[Command]",
               copilot = "[Copilot]",
-              codeium = "[Codeium]",
             })[entry.source.name] or ("[" .. entry.source.name .. "]")
             if entry.source.name == "latex_symbols" then
               vim_item.kind = "Math"

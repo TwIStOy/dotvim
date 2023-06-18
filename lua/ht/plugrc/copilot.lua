@@ -1,20 +1,4 @@
 return {
-  Use {
-    "jcdickinson/codeium.nvim",
-    lazy = {
-      dependencies = { "jcdickinson/http.nvim", "nvim-lua/plenary.nvim" },
-      enabled = false,
-      lazy = true,
-      config = function()
-        require("codeium").setup {}
-      end,
-      cmd = {
-        "Codeium",
-      },
-    },
-    functions = { FuncSpec("Codeium auth", "Codeium Auth") },
-  },
-
   {
     "zbirenbaum/copilot-cmp",
     lazy = true,

@@ -73,7 +73,7 @@ local function on_buffer_attach(client, bufnr)
       vim.cmd("ClangdSwitchSourceHeader")
     end, "clangd-switch-header")
 
-    LSP.setup_inlay_hints(bufnr)
+    -- LSP.setup_inlay_hints(bufnr)
   end
 
   if client.name == "rime_ls" then

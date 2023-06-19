@@ -8,7 +8,25 @@ return {
         vim.api.nvim_command("TSUpdate")
       end
     end,
-    cmd = { "TSUpdate", "TSUpdateSync" },
+    cmd = {
+      "TSBufDisable",
+      "TSBufEnable",
+      "TSBufToggle",
+      "TSConfigInfo",
+      "TSDisable",
+      "TSEditQuery",
+      "TSEditQueryUserAfter",
+      "TSEnable",
+      "TSInstall",
+      "TSInstallFromGrammar",
+      "TSInstallInfo",
+      "TSInstallSync",
+      "TSModuleInfo",
+      "TSToggle",
+      "TSUninstall",
+      "TSUpdate",
+      "TSUpdateSync",
+    },
     dependencies = {
       {
         "RRethy/nvim-treesitter-endwise",

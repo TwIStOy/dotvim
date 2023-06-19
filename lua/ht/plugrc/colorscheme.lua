@@ -180,6 +180,8 @@ return {
           TelescopeSelection = { fg = "text", bg = "base" },
           TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
 
+          ["@variable"] = { fg = "text" },
+
           DiagnosticUnderlineWarn = {
             sp = "gold",
             undercurl = true,

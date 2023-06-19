@@ -72,6 +72,8 @@ local function on_buffer_attach(client, bufnr)
     nmap("<leader>fa", function()
       vim.cmd("ClangdSwitchSourceHeader")
     end, "clangd-switch-header")
+
+    LSP.setup_inlay_hints(bufnr)
   end
 
   if client.name == "rime_ls" then
@@ -211,7 +213,7 @@ M.config = function() -- code to run after plugin loaded
       },
     },
     extensions = {
-      autoSetHints = true,
+      autoSetHints = false,
       hover_with_actions = true,
       inlay_hints = {
         inline = false,

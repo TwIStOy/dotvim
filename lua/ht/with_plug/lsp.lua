@@ -145,4 +145,16 @@ function M.progress()
   return message
 end
 
+function M.setup_inlay_hints(bufnr)
+  vim.api.nvim_create_autocmd(
+    { "BufEnter", "InsertLeave", "BufWinEnter", "BufWritePost" },
+    {
+      buffer = bufnr,
+      callback = function()
+        vim.lsp._inlay_hint.refresh()
+      end,
+    }
+  )
+end
+
 return M

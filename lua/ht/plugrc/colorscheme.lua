@@ -2,14 +2,49 @@ return {
   -- the colorscheme should be available when starting Neovim
   {
     "folke/tokyonight.nvim",
-    enabled = false,
-    config = function()
-      require("tokyonight").setup {
-        style = "storm",
-        sidebars = { "qf", "help", "NvimTree", "Trouble" },
-        hide_inactive_statusline = true,
-        lualine_bold = true,
-      }
+    enabled = true,
+    priority = 1000,
+    opts = {
+      style = "night",
+      styles = {
+        comments = { italic = true },
+      },
+      sidebars = { "qf", "help", "NvimTree", "Trouble" },
+      hide_inactive_statusline = true,
+      lualine_bold = true,
+      on_highlights = function(hl, c)
+        local prompt = "#2d3149"
+        hl.TelescopeNormal = {
+          bg = c.bg_dark,
+          fg = c.fg_dark,
+        }
+        hl.TelescopeBorder = {
+          bg = c.bg_dark,
+          fg = c.bg_dark,
+        }
+        hl.TelescopePromptNormal = {
+          bg = prompt,
+        }
+        hl.TelescopePromptBorder = {
+          bg = prompt,
+          fg = prompt,
+        }
+        hl.TelescopePromptTitle = {
+          bg = c.yellow,
+          fg = prompt,
+        }
+        hl.TelescopePreviewTitle = {
+          bg = c.yellow,
+          fg = c.bg_dark,
+        }
+        hl.TelescopeResultsTitle = {
+          bg = c.yellow,
+          fg = c.bg_dark,
+        }
+      end,
+    },
+    config = function(_, opts)
+      require("tokyonight").setup(opts)
       -- load the colorscheme here
       vim.cmd([[colorscheme tokyonight]])
     end,
@@ -167,7 +202,7 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    enabled = true,
+    enabled = false,
     lazy = false,
     config = function()
       require("rose-pine").setup {

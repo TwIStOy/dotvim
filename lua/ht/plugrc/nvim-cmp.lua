@@ -109,7 +109,7 @@ M.config = function()
     },
     window = {
       completion = {
-        border = "single",
+        border = "solid",
         -- winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
       },
       documentation = {

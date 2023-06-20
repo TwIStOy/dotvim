@@ -10,17 +10,43 @@ local M = {
   "epwalsh/obsidian.nvim",
   lazy = {
     lazy = true,
+    event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
       "nvim-telescope/telescope.nvim",
     },
+    cmd = {
+      "ObsidianBacklinks",
+      "ObsidianToday",
+      "ObsidianYesterday",
+      "ObsidianOpen",
+      "ObsidianNew",
+      "ObsidianSearch",
+      "ObsidianQuickSwitch",
+      "ObsidianLink",
+      "ObsidianLinkNew",
+      "ObsidianTemplate",
+    },
     cond = function()
       return require("ht.core.globals").has_obsidian_vault
     end,
-    ft = { "markdown" },
   },
   functions = {
+    {
+      values = {
+        FuncSpec("Create a new daily note", "ObsidianToday"),
+        FuncSpec(
+          "Open (eventually creating) the daily note for the previous working day",
+          "ObsidianYesterday"
+        ),
+        FuncSpec("Create a new note", ExecFunc("ObsidianNew")),
+        FuncSpec(
+          "Search for notes in your vault using ripgrep with telescope.nvim",
+          ExecFunc("ObsidianSearch")
+        ),
+      },
+    },
     {
       filter = {
         ft = "markdown",
@@ -30,17 +56,7 @@ local M = {
           "Getting a location list of references to the current buffer",
           "ObsidianBacklinks"
         ),
-        FuncSpec("Create a new daily note", "ObsidianToday"),
-        FuncSpec(
-          "Open (eventually creating) the daily note for the previous working day",
-          "ObsidianYesterday"
-        ),
         FuncSpec("Open a note in the Obsidian app", ExecFunc("ObsidianOpen")),
-        FuncSpec("Create a new note", ExecFunc("ObsidianNew")),
-        FuncSpec(
-          "Search for notes in your vault using ripgrep with telescope.nvim",
-          ExecFunc("ObsidianSearch")
-        ),
         FuncSpec(
           "Quickly switch to another notes in your vault",
           "ObsidianQuickSwitch"

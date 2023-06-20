@@ -10,7 +10,11 @@ local M = {
   "epwalsh/obsidian.nvim",
   lazy = {
     lazy = true,
-    dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+      "nvim-telescope/telescope.nvim",
+    },
     cond = function()
       return require("ht.core.globals").has_obsidian_vault
     end,
@@ -62,6 +66,9 @@ M.lazy.config = function()
   local obsidian = require("obsidian").setup {
     dir = require("ht.core.globals").obsidian_vault,
     notes_subdir = "Database",
+    daily_notes = {
+      folder = "Journal",
+    },
     completion = { nvim_cmp = true },
     use_advanced_uri = true,
     note_id_func = function(title)

@@ -5,7 +5,6 @@ local ls = require("luasnip")
 local t = ls.text_node
 local quick_expand = ht_snippet.quick_expand
 local fmt = require("luasnip.extras.fmt").fmt
-local fmta = require("luasnip.extras.fmt").fmta
 
 local simple_int_type = function(bit, unsigned)
   local prefix = unsigned and "u" or ""

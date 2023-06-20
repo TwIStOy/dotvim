@@ -5,7 +5,7 @@ return {
     enabled = true,
     priority = 1000,
     opts = {
-      style = "night",
+      style = "moon",
       styles = {
         comments = { italic = true },
       },
@@ -40,6 +40,9 @@ return {
         hl.TelescopeResultsTitle = {
           bg = c.yellow,
           fg = c.bg_dark,
+        }
+        hl.LspInlayHint = {
+          fg = c.comment,
         }
       end,
     },

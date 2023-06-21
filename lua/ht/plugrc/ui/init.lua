@@ -18,6 +18,20 @@ return {
     config = true,
   },
 
+  {
+    "NvChad/nvim-colorizer.lua",
+    event = "VeryLazy",
+    opts = {
+      filetypes = {
+        "vim", "lua",
+      },
+      user_default_options = {
+        names = false,
+      }
+    },
+    config = true,
+  },
+
   -- scroll
   {
     "petertriho/nvim-scrollbar",

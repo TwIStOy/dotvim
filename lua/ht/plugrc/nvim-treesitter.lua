@@ -193,4 +193,16 @@ return {
       }
     end,
   },
+  {
+    "windwp/nvim-ts-autotag",
+    ft = { "markdown" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+        autotag = {
+          enable = true,
+        }
+      }
+    end,
+  },
 }

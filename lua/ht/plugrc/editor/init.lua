@@ -267,7 +267,12 @@ return {
   Use {
     "jedrzejboczar/possession.nvim",
     lazy = {
-      event = "VeryLazy",
+      cmd = {
+        "SSave",
+        "SLoad",
+        "SDelete",
+        "SList",
+      },
       dependencies = { "nvim-lua/plenary.nvim" },
       lazy = true,
       opts = {

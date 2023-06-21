@@ -10,7 +10,9 @@ local M = {
   "epwalsh/obsidian.nvim",
   lazy = {
     lazy = true,
-    event = "VeryLazy",
+    event = {
+      "BufEnter *.md",
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",

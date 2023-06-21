@@ -5,7 +5,7 @@ local with_lsp = require("ht.with_plug.lsp")
 
 M = {
   "hoob3rt/lualine.nvim",
-  event = "VeryLazy",
+  event = "BufReadPre",
   dependencies = { "nvim-tree/nvim-web-devicons" },
 }
 

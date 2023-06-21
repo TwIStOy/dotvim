@@ -20,7 +20,10 @@ return {
 
   {
     "NvChad/nvim-colorizer.lua",
-    event = "VeryLazy",
+    ft = {
+      "vim",
+      "lua",
+    },
     opts = {
       filetypes = {
         "vim",

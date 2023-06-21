@@ -54,7 +54,11 @@ return {
       }),
     },
     lazy = {
-      event = "VeryLazy",
+      event = "BufReadPost",
+      cmd = {
+        "TodoTrouble",
+        "TodoTelescope",
+      },
       opts = {
         highlight = { keyword = "bg", pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
         search = { pattern = [[.*<(KEYWORDS)\([^)]*\):]] },

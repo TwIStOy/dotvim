@@ -86,7 +86,11 @@ function M.buf_formattable(bufnr)
   return #available_generators > 0
 end
 
-function M.format()
+function M.format(bufnr)
+  if not M.buf_formattable(bufnr) then
+    vim.notify("Current buffer is not formattable", vim.log.levels.WARN)
+    return
+  end
   vim.lsp.buf.format {
     filter = function(c)
       return c.name == "null-ls"

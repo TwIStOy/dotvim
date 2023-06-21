@@ -22,13 +22,15 @@ local function listen_on_events()
   )
 end
 
-local function bin(pkg)
+local function bin(pkg, executable)
   assert(registry.has_package(pkg))
   if required_servers[pkg] == nil then
     required_servers[pkg] = true
   end
-  local binary_path = ("%s/%s"):format(Const.mason_bin, pkg)
-  required_servers[pkg] = binary_path
+  if executable == nil then
+    executable = pkg
+  end
+  local binary_path = ("%s/%s"):format(Const.mason_bin, executable)
   return { binary_path }
 end
 

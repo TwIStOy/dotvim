@@ -81,14 +81,6 @@ return {
     config = true,
   },
 
-  {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = {
-      "williamboman/mason.nvim",
-    },
-    config = true,
-  },
-
   -- lspconfig
   {
     "neovim/nvim-lspconfig",

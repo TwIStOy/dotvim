@@ -1,174 +1,15 @@
 local M = {}
 
-local function on_buffer_attach(client, bufnr)
-  local navic = require("nvim-navic")
-  local LSP = require("ht.with_plug.lsp")
-
-  -- display diagnostic win on CursorHold
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    callback = function()
-      local opts = {
-        focusable = false,
-        close_events = {
-          "CursorMoved",
-          "InsertEnter",
-          "User ShowHover",
-          "BufLeave",
-          "FocusLost",
-        },
-        border = "solid",
-        source = "if_many",
-        prefix = " ",
-        focus = false,
-        scope = "cursor",
-      }
-      local bufnr, win = vim.diagnostic.open_float(opts)
-      vim.api.nvim_set_option_value(
-        "winhl",
-        "FloatBorder:NormalFloat",
-        { win = win }
-      )
-    end,
-  })
-
-  ---comment normal map
-  ---@param lhs string
-  ---@param rhs any
-  ---@param desc string
-  local nmap = function(lhs, rhs, desc)
-    vim.keymap.set("n", lhs, rhs, { desc = desc, buffer = bufnr })
-  end
-
-  nmap("gD", LSP.declaration, "goto-declaration")
-
-  nmap("gd", LSP.definitions, "goto-definition")
-
-  nmap("gt", LSP.type_definitions, "goto-type-definition")
-
-  if LSP.buf_formattable(bufnr) then
-    nmap("<leader>fc", LSP.format, "format-code")
-  end
-
-  nmap("K", LSP.show_hover, "show-hover")
-
-  nmap("gi", LSP.implementations, "goto-impl")
-
-  nmap("gR", LSP.rename, "rename-symbol")
-
-  nmap("ga", LSP.code_action, "code-action")
-
-  nmap("gr", LSP.references, "inspect-references")
-
-  nmap("[c", LSP.prev_diagnostic, "previous-diagnostic")
-
-  nmap("]c", LSP.next_diagnostic, "next-diagnostic")
-
-  nmap("[e", LSP.prev_error_diagnostic, "previous-error-diagnostic")
-
-  nmap("]e", LSP.next_error_diagnostic, "next-error-diagnostic")
-
-  if client.name == "clangd" then
-    nmap("<leader>fa", function()
-      vim.cmd("ClangdSwitchSourceHeader")
-    end, "clangd-switch-header")
-
-    -- LSP.setup_inlay_hints(bufnr)
-  end
-
-  if client.name == "rime_ls" then
-    nmap("<leader>rs", function()
-      vim.lsp.buf.execute_command { command = "rime-ls.sync-user-data" }
-    end, "rime-sync-user-data")
-
-    require("ht.plugrc.lsp.custom.rime").attach(client, bufnr)
-  end
-
-  if client.server_capabilities["documentSymbolProvider"] then
-    navic.attach(client, bufnr)
-  end
-end
+local on_buffer_attach = require("ht.plugrc.lsp.on_attach")
 
 M.config = function() -- code to run after plugin loaded
   --- add menus for specific types
   local LSP = require("ht.with_plug.lsp")
-  local FF = require("ht.core.functions")
   local MASON = require("ht.with_plug.mason")
 
   require("ht.plugrc.lsp.servers.clangd")()
   require("ht.plugrc.lsp.servers.rust-analyzer")()
-
-  FF:add_function_set {
-    category = "Editor",
-    functions = {
-      {
-        title = "Format document",
-        f = LSP.format,
-      },
-    },
-    ---@param buffer VimBuffer
-    filter = function(buffer)
-      return LSP.buf_formattable(buffer.bufnr)
-    end,
-  }
-
-  FF:add_function_set {
-    category = "RimeLS",
-    functions = {
-      {
-        title = "Sync user data",
-        f = function()
-          vim.lsp.buf.execute_command { command = "rime-ls.sync-user-data" }
-        end,
-      },
-    },
-    ---@param buffer VimBuffer
-    filter = function(buffer)
-      for _, server in ipairs(buffer.lsp_servers) do
-        if server.name == "rime_ls" then
-          return true
-        end
-      end
-      return false
-    end,
-  }
-
-  local RC = require("ht.core.right-click")
-  RC.add_section {
-    index = RC.indexes.lsp,
-    enabled = {
-      others = require("right-click.filters.lsp").lsp_attached,
-    },
-    items = {
-      {
-        "LSP",
-        keys = "g",
-        children = {
-          {
-            "Goto Declaration",
-            callback = LSP.declaration,
-            keys = { "d" },
-          },
-          {
-            "Goto Definition",
-            callback = LSP.definitions,
-            keys = "D",
-          },
-          {
-            "Goto Implementation",
-            callback = LSP.implementations,
-            keys = "i",
-          },
-          {
-            "Inspect References",
-            callback = LSP.references,
-            keys = "r",
-          },
-          { "Rname", callback = LSP.rename, keys = "R" },
-        },
-      },
-    },
-  }
+  require("ht.plugrc.lsp.servers.default")()
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -194,7 +35,7 @@ M.config = function() -- code to run after plugin loaded
   require("clangd_extensions").setup {
     server = {
       cmd = {
-        vim.g.compiled_llvm_clang_directory .. "/bin/clangd",
+        MASON.bin("clangd")[1],
         "--clang-tidy",
         "--background-index",
         "--background-index-priority=normal",
@@ -283,6 +124,10 @@ M.config = function() -- code to run after plugin loaded
   }
 
   require("lspconfig").pyright.setup {
+    cmd = {
+      MASON.bin("pyright", "pyright-langserver")[1],
+      "--stdio",
+    },
     on_attach = on_buffer_attach,
     capabilities = capabilities,
   }
@@ -369,6 +214,8 @@ M.config = function() -- code to run after plugin loaded
       capabilities = capabilities,
     }
   end
+
+  MASON.ensure_installed()
 end
 
 return M

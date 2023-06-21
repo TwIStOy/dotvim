@@ -23,11 +23,12 @@ return {
     event = "VeryLazy",
     opts = {
       filetypes = {
-        "vim", "lua",
+        "vim",
+        "lua",
       },
       user_default_options = {
         names = false,
-      }
+      },
     },
     config = true,
   },

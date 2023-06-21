@@ -72,6 +72,23 @@ return {
     end,
   },
 
+  {
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate",
+    opts = {
+      PATH = "skip",
+    },
+    config = true,
+  },
+
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
+    config = true,
+  },
+
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
@@ -117,6 +134,7 @@ return {
           formatting.rustfmt,
           formatting.prettier,
           formatting.black,
+          -- todo(hawtian): use mason's version
         },
       }
     end,

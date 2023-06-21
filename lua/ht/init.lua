@@ -1,16 +1,17 @@
+local Const = require("ht.core.const")
+
 local function bootstrap_plugin_manager()
-  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-  if not vim.uv.fs_stat(lazypath) then
+  if not vim.uv.fs_stat(Const.lazy_path) then
     vim.fn.system {
       "git",
       "clone",
       "--filter=blob:none",
       "https://github.com/folke/lazy.nvim.git",
       "--branch=stable", -- latest stable release
-      lazypath,
+      Const.lazy_path,
     }
   end
-  vim.opt.rtp:prepend(lazypath)
+  vim.opt.rtp:prepend(Const.lazy_path)
 
   require("lazy").setup("ht.plugrc", {
     change_detection = { enabled = false },

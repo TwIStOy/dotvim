@@ -93,6 +93,7 @@ M.config = function() -- code to run after plugin loaded
   --- add menus for specific types
   local LSP = require("ht.with_plug.lsp")
   local FF = require("ht.core.functions")
+  local MASON = require("ht.with_plug.mason")
 
   require("ht.plugrc.lsp.servers.clangd")()
   require("ht.plugrc.lsp.servers.rust-analyzer")()
@@ -302,7 +303,7 @@ M.config = function() -- code to run after plugin loaded
     vim.api.nvim_get_runtime_file("", true)
   )
   require("lspconfig").lua_ls.setup {
-    cmd = vim.g.lua_language_server_cmd,
+    cmd = MASON.bin("lua-language-server"),
     on_attach = on_buffer_attach,
     capabilities = capabilities,
     settings = {
@@ -328,6 +329,7 @@ M.config = function() -- code to run after plugin loaded
   }
 
   require("lspconfig").cmake.setup {
+    cmd = MASON.bin("cmake-language-server"),
     on_attach = on_buffer_attach,
     capabilities = capabilities,
     initializationOptions = { buildDirectory = "build" },

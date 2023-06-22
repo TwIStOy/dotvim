@@ -73,32 +73,38 @@ return {
       "MunifTanjim/nui.nvim",
       "jose-elias-alvarez/null-ls.nvim",
     },
-    config = require("ht.plugrc.lsp.config").config,
+    config = function()
+      require("ht.plugrc.lsp.config").config()
+    end,
   },
 
   {
     "jose-elias-alvarez/null-ls.nvim",
     lazy = true,
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "williamboman/mason.nvim" },
     config = function()
       local null_ls = require("null-ls")
       local formatting = null_ls.builtins.formatting
+      local MASON = require("ht.with_plug.mason")
 
       null_ls.setup {
         sources = {
           formatting.clang_format.with {
-            command = vim.g.compiled_llvm_clang_directory
-              .. "/bin/clang-format",
+            command = MASON.bin("clang-format")[1],
           },
           formatting.stylua.with {
+            command = MASON.bin("stylua")[1],
             condition = function(utils)
               return utils.root_has_file { "stylua.toml", ".stylua.toml" }
             end,
           },
           formatting.rustfmt,
-          formatting.prettier,
-          formatting.black,
-          -- todo(hawtian): use mason's version
+          formatting.prettier.with {
+            command = MASON.bin("prettier")[1],
+          },
+          formatting.black.with {
+            command = MASON.bin("black")[1],
+          },
         },
       }
     end,

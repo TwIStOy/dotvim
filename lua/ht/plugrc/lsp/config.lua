@@ -202,6 +202,10 @@ M.config = function() -- code to run after plugin loaded
   }
 
   require("lspconfig").tsserver.setup {
+    cmd = {
+      MASON.bin("typescript-language-server")[1],
+      "--stdio",
+    },
     on_attach = on_buffer_attach,
     capabilities = capabilities,
   }

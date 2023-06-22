@@ -6,38 +6,7 @@ return {
       lazy = true,
       cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" },
     },
-    functions = {
-      FuncSpec("Toggle trouble window", "TroubleToggle", {
-        keys = "<leader>xx",
-        desc = "toggle-trouble-window",
-      }),
-      {
-        filter = {
-          ---@param buffer VimBuffer
-          filter = function(buffer)
-            return buffer:lsp_attached()
-          end,
-        },
-        values = {
-          FuncSpec(
-            "Open diagnostics in current workspace (Trouble)",
-            "Trouble workspace_diagnostics",
-            {
-              keys = "<leader>xw",
-              desc = "lsp-references",
-            }
-          ),
-          FuncSpec(
-            "Open diagnostics in current document (Trouble)",
-            "Trouble document_diagnostics",
-            {
-              keys = "<leader>xd",
-              desc = "lsp-references",
-            }
-          ),
-        },
-      },
-    },
+    functions = require("ht.plug_features.trouble"),
   },
 
   -- lsp symbol navigation for lualine
@@ -72,13 +41,16 @@ return {
     end,
   },
 
-  {
+  Use {
     "williamboman/mason.nvim",
-    build = ":MasonUpdate",
-    opts = {
-      PATH = "skip",
+    lazy = {
+      build = ":MasonUpdate",
+      opts = {
+        PATH = "skip",
+      },
+      config = true,
     },
-    config = true,
+    functions = require("ht.plug_features.mason"),
   },
 
   -- lspconfig

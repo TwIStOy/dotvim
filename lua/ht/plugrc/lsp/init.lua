@@ -1,14 +1,4 @@
 return {
-  Use {
-    "folke/trouble.nvim",
-    lazy = {
-      dependencies = { "folke/lsp-colors.nvim" },
-      lazy = true,
-      cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" },
-    },
-    functions = require("ht.plug_features.trouble"),
-  },
-
   -- lsp symbol navigation for lualine
   {
     "SmiteshP/nvim-navic",

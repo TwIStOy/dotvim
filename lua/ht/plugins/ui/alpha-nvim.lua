@@ -44,7 +44,7 @@ local function fortune()
   local stats = require("lazy").stats()
   return string.format(
     "󰂖 %d plugins loaded in %dms",
-    stats.loaded,
+    stats.count,
     stats.startuptime
   )
 end

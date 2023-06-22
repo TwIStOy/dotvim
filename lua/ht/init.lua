@@ -15,6 +15,10 @@ local function bootstrap_plugin_manager()
 
   require("lazy").setup({
     { import = "ht.plugrc" },
+    { import = "ht.plugins" },
+    { import = "ht.plugins.edit" },
+    { import = "ht.plugins.external" },
+    { import = "ht.plugins.ui" },
     { import = "ht.plugins.tree-sitter" },
   }, {
     change_detection = { enabled = false },

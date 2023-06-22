@@ -94,64 +94,66 @@ components.lsp_progress = {
 }
 
 M.config = function() -- code to run after plugin loaded
-  local navic = require("nvim-navic")
-  local rime = require("ht.plugrc.lsp.custom.rime")
+  vim.defer_fn(function()
+    local navic = require("nvim-navic")
+    local rime = require("ht.plugrc.lsp.custom.rime")
 
-  require("lualine").setup {
-    options = options,
-    sections = {
-      lualine_a = { components.mode },
-      lualine_b = {
-        {
-          components.fileinfo[1],
-          separator = "|",
-        },
-        get_cwd,
-      },
-      lualine_c = {
-        "diff",
-        -- { "filename", path = 1 },
-        components.lsp_progress,
-        {
-          "diagnostics",
-          sources = { "nvim_diagnostic", "coc" },
-          sections = { "error", "warn", "info", "hint" },
-          diagnostics_color = {
-            error = { fg = fg("DiagnosticError") },
-            warn = { fg = fg("DiagnosticWarn") },
-            info = { fg = fg("DiagnosticInfo") },
-            hint = { fg = fg("DiagnosticHint") },
+    require("lualine").setup {
+      options = options,
+      sections = {
+        lualine_a = { components.mode },
+        lualine_b = {
+          {
+            components.fileinfo[1],
+            separator = "|",
           },
-          symbols = {
-            error = " ",
-            warn = " ",
-            info = "󰛩 ",
-            hint = "󰋼 ",
+          get_cwd,
+        },
+        lualine_c = {
+          "diff",
+          -- { "filename", path = 1 },
+          components.lsp_progress,
+          {
+            "diagnostics",
+            sources = { "nvim_diagnostic", "coc" },
+            sections = { "error", "warn", "info", "hint" },
+            diagnostics_color = {
+              error = { fg = fg("DiagnosticError") },
+              warn = { fg = fg("DiagnosticWarn") },
+              info = { fg = fg("DiagnosticInfo") },
+              hint = { fg = fg("DiagnosticHint") },
+            },
+            symbols = {
+              error = " ",
+              warn = " ",
+              info = "󰛩 ",
+              hint = "󰋼 ",
+            },
+            colored = true,
+            update_in_insert = false,
+            always_visible = false,
           },
-          colored = true,
-          update_in_insert = false,
-          always_visible = false,
+          { navic.get_location, cond = navic.is_available },
         },
-        { navic.get_location, cond = navic.is_available },
-      },
-      lualine_x = { "branch" },
-      lualine_y = {
-        { rime.rime_state },
-        { "filetype", colored = true, icon_only = false },
-        "encoding",
-      },
-      lualine_z = {
-        "progress",
-        {
-          "location",
-          separator = { right = available_sep_icons.round.right },
+        lualine_x = { "branch" },
+        lualine_y = {
+          { rime.rime_state },
+          { "filetype", colored = true, icon_only = false },
+          "encoding",
+        },
+        lualine_z = {
+          "progress",
+          {
+            "location",
+            separator = { right = available_sep_icons.round.right },
+          },
         },
       },
-    },
-    inactive_sections = inactive_sections,
-    tabline = {},
-    extensions = {},
-  }
+      inactive_sections = inactive_sections,
+      tabline = {},
+      extensions = {},
+    }
+  end, 20)
 end
 
 return M

@@ -44,6 +44,7 @@ vim.g.relative_number_blacklist = {
   "rightclickpopup",
   "TelescopePrompt",
   "Glance",
+  "DressingInput",
 }
 
 event.on("TermEnter", { pattern = "*", command = "setlocal nonu nornu" })

@@ -1,4 +1,11 @@
-local M = {}
+local M = {
+  "goolord/alpha-nvim",
+  cond = function()
+    return vim.fn.argc() == 0 and vim.o.lines >= 36 and vim.o.columns >= 80
+  end,
+  lazy = false,
+  dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim" },
+}
 
 local function get_extension(fn)
   local match = fn:match("^.+(%..+)$")

@@ -13,7 +13,10 @@ local function bootstrap_plugin_manager()
   end
   vim.opt.rtp:prepend(Const.lazy_path)
 
-  require("lazy").setup("ht.plugrc", {
+  require("lazy").setup({
+    { import = "ht.plugrc" },
+    { import = "ht.plugins.tree-sitter" },
+  }, {
     change_detection = { enabled = false },
     performance = {
       cache = { enabled = true },

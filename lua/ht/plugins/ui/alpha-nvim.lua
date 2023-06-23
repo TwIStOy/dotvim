@@ -77,16 +77,16 @@ M.config = function() -- code to run after plugin loaded
     [[       ?$$$W$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"]],
   }
 
-  local header_text = { --- {{{
-    "                                                     ",
-    "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-    "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-    "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-    "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-    "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-    "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-    "                                                     ",
-  } -- }}}
+  --  local header_text = {
+  --    "                                                     ",
+  --    "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+  --    "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+  --    "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+  --    "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+  --    "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+  --    "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+  --    "                                                     ",
+  --  }
 
   local nvim_web_devicons = require("nvim-web-devicons")
 
@@ -125,8 +125,8 @@ M.config = function() -- code to run after plugin loaded
   local default_mru_ignore = { "gitcommit" }
 
   local mru_opts = {
-    ignore = function(path, ext)
-      return (string.find(path, "COMMIT_EDITMSG"))
+    ignore = function(p, ext)
+      return (string.find(p, "COMMIT_EDITMSG"))
         or (vim.tbl_contains(default_mru_ignore, ext))
     end,
   }

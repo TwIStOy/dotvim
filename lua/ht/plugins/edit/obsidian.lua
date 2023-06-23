@@ -7,7 +7,7 @@ local function setup_keymaps()
 end
 
 local M = {
-  "epwalsh/obsidian.nvim",
+  "TwIStOy/obsidian.nvim",
   lazy = {
     lazy = true,
     event = {
@@ -84,6 +84,8 @@ M.lazy.config = function()
   local obsidian = require("obsidian").setup {
     dir = require("ht.core.globals").obsidian_vault,
     notes_subdir = "Database",
+    silent = true,
+    never_current_dir = true,
     daily_notes = {
       folder = "Journal",
     },

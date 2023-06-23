@@ -15,6 +15,14 @@ local M = {
     "hrsh7th/cmp-buffer",
     "kdheepak/cmp-latex-symbols",
     {
+      "zbirenbaum/copilot-cmp",
+      lazy = true,
+      dependencies = { "zbirenbaum/copilot.lua" },
+      config = function()
+        require("copilot_cmp").setup()
+      end,
+    },
+    {
       "paopaol/cmp-doxygen",
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
@@ -127,7 +135,7 @@ M.config = function()
         option = {
           strategy = 2, -- latex only
         },
-        entry_filter = function(e, ctx)
+        entry_filter = function(_, ctx)
           if ctx.in_latex_scope == nil then
             ctx.in_latex_scope = in_latex_scope()
           end
@@ -229,8 +237,8 @@ M.config = function()
           mode = "symbol_text",
           maxwidth = 50,
           ellipsis_char = "...",
-          before = function(entry, vim_item)
-            vim_item.menu = ({
+          before = function(e, item)
+            item.menu = ({
               buffer = "[Buf]",
               nvim_lsp = "[LSP]",
               ultisnips = "[Snip]",
@@ -245,11 +253,11 @@ M.config = function()
               cmdline_history = "[History]",
               cmdline = "[Command]",
               copilot = "[Copilot]",
-            })[entry.source.name] or ("[" .. entry.source.name .. "]")
-            if entry.source.name == "latex_symbols" then
-              vim_item.kind = "Math"
+            })[e.source.name] or ("[" .. e.source.name .. "]")
+            if e.source.name == "latex_symbols" then
+              item.kind = "Math"
             end
-            return vim_item
+            return item
           end,
         }(entry, vim_item)
         local strings = vim.split(kind.kind, "%s", { trimempty = true })

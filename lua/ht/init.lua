@@ -20,6 +20,7 @@ local function bootstrap_plugin_manager()
     { import = "ht.plugins.external" },
     { import = "ht.plugins.ui" },
     { import = "ht.plugins.lsp" },
+    { import = "ht.plugins.coding" },
     { import = "ht.plugins.tree-sitter" },
   }, {
     change_detection = { enabled = false },

@@ -55,6 +55,7 @@ local function config()
   require("telescope").load_extension("notify")
   require("telescope").load_extension("possession")
   require("telescope").load_extension("command_palette")
+  require("telescope").load_extension("projects")
 end
 
 local telescope_functions = {
@@ -149,6 +150,7 @@ return {
           lazy = true,
           build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
         },
+        "ahmedkhalf/project.nvim",
       },
       config = config,
     },

@@ -11,7 +11,7 @@ local M = {
   lazy = {
     lazy = true,
     event = {
-      "BufEnter *.md",
+      "BufReadPre *.md",
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -108,7 +108,7 @@ M.lazy.config = function()
 
   local au_group =
     vim.api.nvim_create_augroup("obsidian_extra_setup", { clear = true })
-  vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "BufWinEnter" }, {
     group = au_group,
     pattern = tostring(obsidian.dir / "**.md"),
     callback = function()

@@ -84,12 +84,14 @@ M.lazy.config = function()
   local obsidian = require("obsidian").setup {
     dir = require("ht.core.globals").obsidian_vault,
     notes_subdir = "Database",
-    silent = true,
-    never_current_dir = true,
+    silent = false,
     daily_notes = {
       folder = "Journal",
     },
-    completion = { nvim_cmp = true },
+    completion = {
+      nvim_cmp = true,
+      new_notes_location = "notes_subdir",
+    },
     use_advanced_uri = true,
     note_id_func = function(title)
       local suffix = ""

@@ -84,7 +84,7 @@ M.lazy.config = function()
   local obsidian = require("obsidian").setup {
     dir = require("ht.core.globals").obsidian_vault,
     notes_subdir = "Database",
-    silent = false,
+    silent = true,
     daily_notes = {
       folder = "Journal",
     },

@@ -1,5 +1,3 @@
-local event = require("ht.core.event")
-
 -- Disable arrows
 vim.api.nvim_set_keymap("", "<Left>", "<Nop>", {})
 vim.api.nvim_set_keymap("", "<Right>", "<Nop>", {})
@@ -47,33 +45,36 @@ vim.g.relative_number_blacklist = {
   "DressingInput",
 }
 
-event.on("TermEnter", { pattern = "*", command = "setlocal nonu nornu" })
-event.on({ "BufEnter", "FocusGained", "WinEnter" }, {
+vim.api.nvim_create_autocmd(
+  "TermEnter",
+  { pattern = "*", command = "setlocal nonu nornu" }
+)
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
   pattern = "*",
   command = "if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif",
 })
-event.on({ "BufLeave", "FocusLost", "WinLeave" }, {
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
   pattern = "*",
   command = "if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif",
 })
 vim.opt.signcolumn = "yes"
-event.on({ "BufEnter", "FocusGained", "WinEnter" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
   pattern = "*",
   command = "if index(g:relative_number_blacklist, &ft) == -1 | set signcolumn=yes | endif",
 })
 
 vim.opt.cursorline = true
 vim.g.cursorline_blacklist = { "alpha", "noice" }
-event.on({ "InsertLeave", "WinEnter" }, {
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
   pattern = "*",
   command = "if index(g:cursorline_blacklist, &ft) == -1 | set cursorline | endif",
 })
-event.on(
+vim.api.nvim_create_autocmd(
   { "InsertEnter", "WinLeave" },
   { pattern = "*", command = "set nocursorline" }
 )
 
-event.on({ "VimResized" }, {
+vim.api.nvim_create_autocmd({ "VimResized" }, {
   callback = function()
     vim.cmd("wincmd =")
     vim.cmd("tabdo wincmd =")
@@ -109,7 +110,10 @@ vim.opt.wrap = false
 vim.opt.fillchars = "eob: "
 
 -- move quickfix windows to botright automatically
-event.on("FileType", { pattern = "qf", command = "wincmd J" })
+vim.api.nvim_create_autocmd(
+  "FileType",
+  { pattern = "qf", command = "wincmd J" }
+)
 
 -- default colorcolumn: 80
 vim.opt.colorcolumn = "80"
@@ -124,7 +128,7 @@ vim.opt.hidden = true
 vim.opt.jumpoptions = "stack"
 
 -- highlight on yank
-event.on("TextYankPost", {
+vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank()
   end,
@@ -146,7 +150,7 @@ if vim.fn.has("linux") == 1 then
   }
 end
 
-event.on("BufEnter,WinClosed", {
+vim.api.nvim_create_autocmd({ "BufEnter", "WinClosed" }, {
   pattern = "*",
   callback = function()
     require("ht.core.window").check_last_window()

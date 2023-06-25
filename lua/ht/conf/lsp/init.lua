@@ -8,6 +8,7 @@ local all_servers = (function()
   confs[#confs + 1] = require("ht.conf.lsp.servers.lua_ls")
   confs[#confs + 1] = require("ht.conf.lsp.servers.rime_ls")
   confs[#confs + 1] = require("ht.conf.lsp.servers.tsserver")
+  confs[#confs + 1] = require("ht.conf.lsp.servers.grammarly")
 
   -- init sourcekit in macos
   if vim.fn.has("macunix") then

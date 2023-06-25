@@ -43,6 +43,7 @@ vim.g.relative_number_blacklist = {
   "TelescopePrompt",
   "Glance",
   "DressingInput",
+  "lspinfo",
 }
 
 vim.api.nvim_create_autocmd(

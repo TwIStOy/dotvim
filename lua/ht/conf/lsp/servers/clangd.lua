@@ -15,6 +15,18 @@ local M = {}
 
 M.name = "clangd"
 
+local function on_attach(default_callback)
+  return function(client, bufnr)
+    default_callback(client, bufnr)
+    vim.keymap.set("n", "<leader>fa", function()
+      vim.cmd("ClangdSwitchSourceHeader")
+    end, {
+      desc = "clangd-switch-header",
+      buffer = bufnr,
+    })
+  end
+end
+
 M.setup = function(on_buffer_attach, capabilities)
   require("clangd_extensions").setup {
     server = {
@@ -31,7 +43,7 @@ M.setup = function(on_buffer_attach, capabilities)
         "--include-cleaner-stdlib",
         "-j=20",
       },
-      on_attach = on_buffer_attach,
+      on_attach = on_attach(on_buffer_attach),
       capabilities = capabilities,
       filetypes = {
         "c",

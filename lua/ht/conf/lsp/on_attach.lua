@@ -66,20 +66,6 @@ local function on_buffer_attach(client, bufnr)
 
   nmap("]e", LSP.next_error_diagnostic, "next-error-diagnostic")
 
-  if client.name == "clangd" then
-    nmap("<leader>fa", function()
-      vim.cmd("ClangdSwitchSourceHeader")
-    end, "clangd-switch-header")
-  end
-
-  if client.name == "rime_ls" then
-    nmap("<leader>rs", function()
-      vim.lsp.buf.execute_command { command = "rime-ls.sync-user-data" }
-    end, "rime-sync-user-data")
-
-    require("ht.plugrc.lsp.custom.rime").attach(client, bufnr)
-  end
-
   if client.server_capabilities["documentSymbolProvider"] then
     navic.attach(client, bufnr)
   end

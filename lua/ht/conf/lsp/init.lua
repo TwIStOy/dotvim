@@ -17,21 +17,63 @@ local all_servers = (function()
   return confs
 end)()
 
+---@type ht.LspTool[]
+local all_tools = (function()
+  return {
+    {
+      name = "clang_format",
+      mason_pkg = "clang-format",
+      typ = "formatting",
+    },
+    {
+      name = "stylua",
+      typ = "formatting",
+      opts = {
+        condition = function(utils)
+          return utils.root_has_file { "stylua.toml", ".stylua.toml" }
+        end,
+      },
+    },
+    {
+      name = "rustfmt",
+      mason_pkg = false,
+      typ = "formatting",
+    },
+    {
+      name = "prettier",
+      typ = "formatting",
+    },
+    {
+      name = "black",
+      typ = "formatting",
+    },
+  }
+end)()
+
 ---@param confs ht.LspConf[]
+---@param tools ht.LspTool[]
 ---@return string[]
-local function collect_mason_packages(confs)
+local function collect_mason_packages(confs, tools)
   local result = {}
   for _, conf in ipairs(confs) do
     if conf.mason_pkg == nil then
-      result[#result + 1] = conf.mason_pkg
-    elseif conf.mason_pkg ~= false then
       result[#result + 1] = conf.name
+    elseif conf.mason_pkg ~= false then
+      result[#result + 1] = conf.mason_pkg
+    end
+  end
+  for _, tool in ipairs(tools) do
+    if tool.mason_pkg == nil then
+      result[#result + 1] = tool.name
+    elseif tool.mason_pkg ~= false then
+      result[#result + 1] = tool.mason_pkg
     end
   end
   return result
 end
 
 return {
-  mason_packages = collect_mason_packages(all_servers),
+  mason_packages = collect_mason_packages(all_servers, all_tools),
   all_servers = all_servers,
+  all_tools = all_tools,
 }

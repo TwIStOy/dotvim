@@ -3,6 +3,7 @@ return {
     "williamboman/mason.nvim",
     lazy = {
       build = ":MasonUpdate",
+      lazy = true,
       opts = {
         PATH = "skip",
       },
@@ -13,7 +14,7 @@ return {
         local lsp_conf = require("ht.conf.lsp.init")
         for _, package_name in ipairs(lsp_conf.mason_packages) do
           local pkg = registry.get_package(package_name)
-          if not pkg:installed() then
+          if not pkg:is_installed() then
             local handle = pkg:install()
             handle:once(
               "closed",

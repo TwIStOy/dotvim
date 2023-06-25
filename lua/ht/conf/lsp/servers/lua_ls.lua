@@ -24,7 +24,7 @@ M.setup = function(on_attach, capabilities)
     vim.api.nvim_get_runtime_file("", true)
   )
 
-  require("lspconfig").lua.setup {
+  require("lspconfig").lua_ls.setup {
     cmd = {
       Const.mason_bin .. "/lua-language-server",
     },

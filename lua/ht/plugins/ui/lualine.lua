@@ -45,6 +45,14 @@ local function get_cwd()
   return cwd
 end
 
+local function rime_state()
+  if vim.g.global_rime_enabled then
+    return "ㄓ"
+  else
+    return ""
+  end
+end
+
 local function session_name()
   local session = require("possession.session")
   if session ~= nil then
@@ -96,7 +104,6 @@ components.lsp_progress = {
 M.config = function() -- code to run after plugin loaded
   vim.defer_fn(function()
     local navic = require("nvim-navic")
-    local rime = require("ht.plugrc.lsp.custom.rime")
 
     require("lualine").setup {
       options = options,
@@ -137,7 +144,7 @@ M.config = function() -- code to run after plugin loaded
         },
         lualine_x = { "branch" },
         lualine_y = {
-          { rime.rime_state },
+          { rime_state },
           { "filetype", colored = true, icon_only = false },
           "encoding",
         },

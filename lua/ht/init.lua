@@ -14,7 +14,6 @@ local function bootstrap_plugin_manager()
   vim.opt.rtp:prepend(Const.lazy_path)
 
   require("lazy").setup({
-    { import = "ht.plugrc" },
     { import = "ht.plugins" },
     { import = "ht.plugins.edit" },
     { import = "ht.plugins.external" },

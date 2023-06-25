@@ -1,7 +1,6 @@
 ---@class ht.LspConf
----@field args string[]
----@field settings table|nil
-
----@class ht.LspBinary.Mason
----@field pkg string
----@field executable string|nil
+---@field name string name of server, used for lspconfig
+---@field mason_pkg string|boolean|nil
+---@field right_click NewSectionOptions[]|nil
+---@field function_sets AddFunctionSetOptions[]|nil
+---@field setup fun(on_attach: function, capabilities: table): any|nil

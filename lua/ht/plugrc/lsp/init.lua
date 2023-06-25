@@ -31,18 +31,6 @@ return {
     end,
   },
 
-  Use {
-    "williamboman/mason.nvim",
-    lazy = {
-      build = ":MasonUpdate",
-      opts = {
-        PATH = "skip",
-      },
-      config = true,
-    },
-    functions = require("ht.plug_features.mason"),
-  },
-
   -- lspconfig
   {
     "neovim/nvim-lspconfig",

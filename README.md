@@ -1,8 +1,11 @@
-# dotvim
+<h1 align="center">dotvim</h1>
 
 <p align="center">
     <a href="https://github.com/TwIStOy/dotvim/pulse">
       <img src="https://img.shields.io/github/last-commit/TwIStOy/dotvim?style=for-the-badge&logo=github&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/>
+    </a>
+    <a href="https://github.com/TwIStOy/dotvim/stargazers">
+      <img src="https://img.shields.io/github/stars/TwIStOy/dotvim?style=for-the-badge&logo=apachespark&color=eed49f&logoColor=D9E0EE&labelColor=302D41"/>
     </a>
 </p>
 
@@ -10,9 +13,16 @@
 
 ## Prerequisites
 
-- [neovim nightly](https://github.com/neovim/neovim)
+- [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
+- [Neovim 0.9+ (nightly is better)](https://github.com/neovim/neovim)
+- Terminal with true color support
+- Optional Requirements:
+  - [ripgrep](https://github.com/BurntSushi/ripgrep)
+  - [fd](https://github.com/sharkdp/fd)
+  - [delta](https://github.com/dandavison/delta)
+  - [bat](https://github.com/sharkdp/bat)
 
-## Setup
+## Installation
 
 ```
 $ ln -s /path/to/dotvim ~/.dotvim

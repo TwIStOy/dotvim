@@ -1,6 +1,6 @@
 return {
   Use {
-    "ahmedkhalf/project.nvim",
+    "TwIStOy/project.nvim",
     lazy = {
       event = "VeryLazy",
       opts = {

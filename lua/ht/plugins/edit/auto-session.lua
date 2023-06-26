@@ -1,6 +1,7 @@
 return {
   {
     "rmagatti/auto-session",
+    enabled = false,
     lazy = false,
     priority = 1000,
     config = function()

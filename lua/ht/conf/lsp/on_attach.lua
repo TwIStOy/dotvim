@@ -56,6 +56,8 @@ local function on_buffer_attach(client, bufnr)
 
   nmap("ga", LSP.code_action, "code-action")
 
+  nmap("<Char-0xAB>", LSP.code_action, "code-action")
+
   nmap("gr", LSP.references, "inspect-references")
 
   nmap("[c", LSP.prev_diagnostic, "previous-diagnostic")

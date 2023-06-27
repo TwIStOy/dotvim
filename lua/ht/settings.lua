@@ -177,9 +177,12 @@ for i = 1, 9 do
 end
 
 NMAP("<leader>fs", "<cmd>update<CR>", "update")
-vim.keymap.set({
+vim.keymap.set(
   { "n", "i", "v" },
-}, "<Char-0xAA>", "<cmd>update<CR>", { silent = true })
+  "<Char-0xAA>",
+  "<cmd>update<CR>",
+  { silent = true }
+)
 
 vim.keymap.set(
   { "n", "i", "v" },

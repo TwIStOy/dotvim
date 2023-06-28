@@ -16,16 +16,16 @@ RR = function(name)
   return require(name)
 end
 
-NMAP = function(lhs, rhs, desc, _opts)
-  local opts = _opts or {}
+NMAP = function(lhs, rhs, desc, opts)
+  opts = opts or {}
   if desc ~= nil then
     opts.desc = desc
   end
   vim.keymap.set("n", lhs, rhs, opts)
 end
 
-VMAP = function(lhs, rhs, desc, _opts)
-  local opts = _opts or {}
+VMAP = function(lhs, rhs, desc, opts)
+  opts = opts or {}
   if desc ~= nil then
     opts.desc = desc
   end

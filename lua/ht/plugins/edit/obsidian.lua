@@ -7,7 +7,7 @@ local function setup_keymaps()
 end
 
 local M = {
-  "TwIStOy/obsidian.nvim",
+  "epwalsh/obsidian.nvim",
   lazy = {
     lazy = true,
     event = {

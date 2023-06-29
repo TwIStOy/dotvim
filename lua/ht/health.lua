@@ -1,5 +1,7 @@
 local M = {}
 
+local Const = require("ht.core.const")
+
 local start = vim.health.start
 local ok = vim.health.ok
 local warn = vim.health.warn
@@ -12,6 +14,16 @@ end
 local tools_required =
   { "rg", "fd", "bat", "delta", "cargo", "rustup", "stylua", "difft" }
 
+local mason_bins = {
+  "clangd",
+  "clang-format",
+  "black",
+  "lua-language-server",
+  "prettier",
+  "stylua",
+  "pyright-langserver",
+}
+
 function M.check()
   start("ht.dotvim")
 
@@ -23,25 +35,12 @@ function M.check()
     end
   end
 
-  if vim.g.compiled_llvm_clang_directory == nil then
-    error("libclang path not specified")
-  else
-    ok("libclang path specified at " .. vim.g.compiled_llvm_clang_directory)
-    local clangd_exe = vim.g.compiled_llvm_clang_directory .. "/bin/clangd"
-    if vim.uv.fs_stat(clangd_exe) then
-      ok("clangd executable found at " .. clangd_exe)
+  for _, bin in ipairs(mason_bins) do
+    if executable(Const.mason_bin .. "/" .. bin) then
+      ok(bin .. " installed")
     else
-      warn("clangd executable not found at " .. clangd_exe)
+      warn(bin .. " not installed?")
     end
-  end
-
-  if vim.g.lua_language_server_cmd == nil then
-    error("lua_language_server is not installed or specified")
-  else
-    ok(
-      "lua_language_server_cmd specified at "
-        .. vim.inspect(vim.g.lua_language_server_cmd)
-    )
   end
 
   if vim.g.rime_ls_cmd == nil then

@@ -4,6 +4,14 @@ return {
     lazy = {
       build = ":MasonUpdate",
       lazy = true,
+      cmd = {
+        "Mason",
+        "MasonUpdate",
+        "MasonInstall",
+        "MasonUninstall",
+        "MasonUninstallAll",
+        "MasonLog",
+      },
       opts = {
         PATH = "skip",
       },

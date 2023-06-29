@@ -119,7 +119,7 @@ vim.api.nvim_create_autocmd(
 )
 
 -- default colorcolumn: 80
-vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "80"
 
 vim.opt.scrolloff = 5
 

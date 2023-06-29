@@ -118,9 +118,6 @@ vim.api.nvim_create_autocmd(
   { pattern = "qf", command = "wincmd J" }
 )
 
--- default colorcolumn: 80
--- vim.opt.colorcolumn = "80"
-
 vim.opt.scrolloff = 5
 
 vim.opt.timeoutlen = 300

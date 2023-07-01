@@ -53,21 +53,29 @@ end)()
 
 ---@param confs ht.LspConf[]
 ---@param tools ht.LspTool[]
----@return string[]
+---@return ht.MasonPackage[]
 local function collect_mason_packages(confs, tools)
   local result = {}
   for _, conf in ipairs(confs) do
     if conf.mason_pkg == nil then
-      result[#result + 1] = conf.name
+      result[#result + 1] = {
+        name = conf.name,
+      }
     elseif conf.mason_pkg ~= false then
-      result[#result + 1] = conf.mason_pkg
+      result[#result + 1] = {
+        name = conf.mason_pkg,
+        version = conf.mason_version,
+      }
     end
   end
   for _, tool in ipairs(tools) do
     if tool.mason_pkg == nil then
-      result[#result + 1] = tool.name
+      result[#result + 1] = { name = tool.name }
     elseif tool.mason_pkg ~= false then
-      result[#result + 1] = tool.mason_pkg
+      result[#result + 1] = {
+        name = tool.mason_pkg,
+        version = tool.mason_version,
+      }
     end
   end
   return result

@@ -38,6 +38,7 @@ local function install_package(pkg)
   if pkg:is_installed() then
     return
   end
+  local opts = nil
   local handle = pkg:install()
   handle:once(
     "closed",

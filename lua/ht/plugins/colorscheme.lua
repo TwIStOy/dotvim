@@ -9,9 +9,9 @@ return {
       styles = {
         comments = { italic = true },
       },
-      sidebars = { "qf", "help", "NvimTree", "Trouble" },
+      sidebars = { "qf", "help", "NvimTree", "Trouble", "mason", "lazy" },
       hide_inactive_statusline = true,
-      lualine_bold = true,
+      lualine_bold = false,
       on_highlights = function(hl, c)
         local prompt = "#2d3149"
         hl.TelescopeNormal = {

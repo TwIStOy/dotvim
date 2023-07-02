@@ -23,6 +23,7 @@ local function bootstrap_plugin_manager()
     { import = "ht.plugins.tree-sitter" },
   }, {
     change_detection = { enabled = false },
+    lockfile = vim.env.HOME .. "/.dotvim/lazy-lock.json",
     performance = {
       cache = { enabled = true },
       rtp = {

@@ -26,6 +26,7 @@ local function bootstrap_plugin_manager()
     lockfile = vim.env.HOME .. "/.dotvim/lazy-lock.json",
     performance = {
       cache = { enabled = true },
+      install = { colorscheme = { "tokyonight", "habamax" } },
       rtp = {
         paths = { "~/.dotvim" },
         disabled_plugins = {

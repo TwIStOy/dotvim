@@ -38,7 +38,6 @@ return {
         "typescript",
         "lua",
         "html",
-        "help",
         "javascript",
         "typescript",
         "latex",

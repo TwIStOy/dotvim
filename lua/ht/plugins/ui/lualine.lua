@@ -42,7 +42,7 @@ local function get_cwd()
   if cwd:find(home, 1, true) == 1 then
     cwd = "~" .. cwd:sub(#home + 1)
   end
-  return cwd
+  return "  " .. cwd
 end
 
 local function rime_state()
@@ -51,14 +51,6 @@ local function rime_state()
   else
     return ""
   end
-end
-
-local function session_name()
-  local session = require("possession.session")
-  if session ~= nil then
-    return session.session_name or ""
-  end
-  return ""
 end
 
 local function fg(group)
@@ -75,7 +67,7 @@ components.mode = {
   "mode",
   icons_enabled = true,
   icon = {
-    "",
+    " ",
     align = "left",
   },
 }
@@ -83,7 +75,7 @@ components.mode = {
 components.fileinfo = {
   function()
     local icon = "󰈚"
-    local filename = (fn.expand("%") == "" and "Empty ") or fn.expand("%:t")
+    local filename = (fn.expand("%") == "" and "Empty ") or fn.fnamemodify(fn.expand("%"), ":.")
 
     if filename ~= "[Empty]" then
       local devicons_present, devicons = pcall(require, "nvim-web-devicons")
@@ -117,8 +109,6 @@ M.config = function() -- code to run after plugin loaded
           get_cwd,
         },
         lualine_c = {
-          "diff",
-          -- { "filename", path = 1 },
           components.lsp_progress,
           {
             "diagnostics",
@@ -131,10 +121,10 @@ M.config = function() -- code to run after plugin loaded
               hint = { fg = fg("DiagnosticHint") },
             },
             symbols = {
-              error = " ",
-              warn = " ",
+              error = " ",
+              warn = " ",
               info = "󰛩 ",
-              hint = "󰋼 ",
+              hint = " ",
             },
             colored = true,
             update_in_insert = false,
@@ -142,7 +132,7 @@ M.config = function() -- code to run after plugin loaded
           },
           { navic.get_location, cond = navic.is_available },
         },
-        lualine_x = { "branch" },
+        lualine_x = { "branch", "diff" },
         lualine_y = {
           { rime_state },
           { "filetype", colored = true, icon_only = false },

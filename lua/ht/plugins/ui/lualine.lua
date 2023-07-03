@@ -75,7 +75,8 @@ components.mode = {
 components.fileinfo = {
   function()
     local icon = "󰈚"
-    local filename = (fn.expand("%") == "" and "Empty ") or fn.fnamemodify(fn.expand("%"), ":.")
+    local filename = (fn.expand("%") == "" and "Empty ")
+      or fn.fnamemodify(fn.expand("%"), ":.")
 
     if filename ~= "[Empty]" then
       local devicons_present, devicons = pcall(require, "nvim-web-devicons")
@@ -95,21 +96,25 @@ components.lsp_progress = {
 
 M.config = function() -- code to run after plugin loaded
   vim.defer_fn(function()
-    local navic = require("nvim-navic")
-
     require("lualine").setup {
       options = options,
       sections = {
         lualine_a = { components.mode },
         lualine_b = {
-          {
-            components.fileinfo[1],
-            separator = "|",
-          },
           get_cwd,
+          components.lsp_progress,
         },
         lualine_c = {
-          components.lsp_progress,
+          {
+            function()
+              return "%="
+            end,
+            separator = "",
+          },
+          {
+            components.fileinfo[1],
+            separator = "",
+          },
           {
             "diagnostics",
             sources = { "nvim_diagnostic", "coc" },
@@ -130,7 +135,6 @@ M.config = function() -- code to run after plugin loaded
             update_in_insert = false,
             always_visible = false,
           },
-          { navic.get_location, cond = navic.is_available },
         },
         lualine_x = { "branch", "diff" },
         lualine_y = {

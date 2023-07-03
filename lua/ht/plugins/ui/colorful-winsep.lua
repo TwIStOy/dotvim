@@ -5,6 +5,7 @@ return {
     event = {
       "WinNew",
     },
+    enabled = false,
     config = true,
     opts = {
       create_event = function()

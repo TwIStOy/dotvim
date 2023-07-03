@@ -92,6 +92,13 @@ A language server for librime
       },
     }
   end
+
+  if
+    vim.g.rime_ls_cmd == nil or vim.fn.executable(vim.g.rime_ls_cmd[1]) == 0
+  then
+    return
+  end
+
   require("lspconfig").rime_ls.setup {
     cmd = vim.g.rime_ls_cmd,
     init_options = {

@@ -233,7 +233,8 @@ M.config = function() -- code to run after plugin loaded
     },
   }
 
-  local arr = ICON("e602")
+  -- local arr = ICON("e602")
+  local arr = ""
   local buttons = {
     type = "group",
     val = {
@@ -245,7 +246,7 @@ M.config = function() -- code to run after plugin loaded
       { type = "padding", val = 1 },
       dashboard.button(
         "e",
-        "  " .. arr .. " New File",
+        "󱪝  " .. arr .. " New File",
         ":ene <BAR> startinsert <CR>"
       ),
       button("c", "  " .. arr .. " Settings", function()
@@ -259,9 +260,15 @@ M.config = function() -- code to run after plugin loaded
   if globals.has_obsidian_vault then
     table.insert(
       buttons.val,
-      button("f", "󰝇  " .. arr .. " Obsidian Vault", function()
+      button("f", "󰺮  " .. arr .. " Obsidian Vault", function()
         local builtin = require("telescope.builtin")
         builtin.find_files { cwd = globals.obsidian_vault }
+      end)
+    )
+    table.insert(
+      buttons.val,
+      button("t", "󰃶  " .. arr .. " Obsidian Today", function()
+        vim.cmd("ObsidianToday")
       end)
     )
   end
@@ -269,13 +276,13 @@ M.config = function() -- code to run after plugin loaded
     buttons.val,
     dashboard.button(
       "u",
-      "  " .. arr .. " Update Plugins",
+      "󰚰  " .. arr .. " Update Plugins",
       ":Lazy update<CR>"
     )
   )
   table.insert(
     buttons.val,
-    dashboard.button("q", "󰀘  " .. arr .. " Quit", ":qa<CR>")
+    dashboard.button("q", "󰗼  " .. arr .. " Quit", ":qa<CR>")
   )
 
   local opts = {

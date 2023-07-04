@@ -86,7 +86,7 @@ components.fileinfo = {
         icon = (ft_icon ~= nil and " " .. ft_icon) or ""
       end
     end
-    return icon .. " " .. filename
+    return icon .. "  " .. filename
   end,
 }
 

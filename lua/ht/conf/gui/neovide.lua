@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-  vim.o.guifont = "Iosevka,Symbols_Nerd_Font:h22"
+  vim.o.guifont = "Iosevka+ss10,Symbols_Nerd_Font:h22"
 
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0

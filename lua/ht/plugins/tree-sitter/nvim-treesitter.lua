@@ -54,6 +54,11 @@ return {
         "tsx",
         "yaml",
         "proto",
+        "git_config",
+        "git_rebase",
+        "gitattributes",
+        "gitcommit",
+        "gitignore",
       },
       highlight = {
         enable = true,

@@ -20,7 +20,7 @@ local options = {
   component_separators = { left = "|", right = "|" },
   section_separators = {
     left = available_sep_icons.default.right,
-    right = "",
+    right = "",
   },
 
   theme = "auto",
@@ -74,7 +74,7 @@ components.mode = {
 
 components.fileinfo = {
   function()
-    local icon = "󰈚"
+    local icon = "󰈚 "
     local filename = (fn.expand("%") == "" and "Empty ")
       or fn.fnamemodify(fn.expand("%"), ":.")
 
@@ -83,10 +83,10 @@ components.fileinfo = {
 
       if devicons_present then
         local ft_icon = devicons.get_icon(filename)
-        icon = (ft_icon ~= nil and " " .. ft_icon) or ""
+        icon = (ft_icon ~= nil and ft_icon .. " ") or ""
       end
     end
-    return icon .. "  " .. filename
+    return icon .. filename
   end,
 }
 
@@ -117,7 +117,7 @@ M.config = function() -- code to run after plugin loaded
           },
           {
             "diagnostics",
-            sources = { "nvim_diagnostic", "coc" },
+            sources = { "nvim_diagnostic" },
             sections = { "error", "warn", "info", "hint" },
             diagnostics_color = {
               error = { fg = fg("DiagnosticError") },
@@ -140,13 +140,12 @@ M.config = function() -- code to run after plugin loaded
         lualine_y = {
           { rime_state },
           { "filetype", colored = true, icon_only = false },
-          "encoding",
         },
         lualine_z = {
           "progress",
           {
             "location",
-            separator = { right = available_sep_icons.round.right },
+            -- separator = { right = available_sep_icons.round.right },
           },
         },
       },

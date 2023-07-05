@@ -13,6 +13,27 @@ return {
       }),
       {
         filter = {
+          filter = function()
+            return require("trouble").is_open()
+          end,
+        },
+        values = {
+          FuncSpec("Previous trouble item", function()
+            require("trouble").previous { skip_groups = true, jump = true }
+          end, {
+            keys = "[q",
+            desc = "previous-trouble-item",
+          }),
+          FuncSpec("Next trouble item", function()
+            require("trouble").next { skip_groups = true, jump = true }
+          end, {
+            keys = "]q",
+            desc = "next-trouble-item",
+          }),
+        },
+      },
+      {
+        filter = {
           ---@param buffer VimBuffer
           filter = function(buffer)
             return buffer:lsp_attached()

@@ -52,7 +52,15 @@ end
 ---@return string
 function FuncCache:key(key)
   if type(key) == "table" then
-    return table.concat(key, ":")
+    local res = ""
+    for _, v in ipairs(key) do
+      if type(v) == "string" then
+        res = res .. v
+      else
+        res = res .. tostring(v)
+      end
+    end
+    return res
   end
   return key
 end

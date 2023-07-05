@@ -24,7 +24,9 @@ local function config()
         -- preview_width = 0.6,
       },
 
-      history = { path = "~/.local/share/nvim/telescope_history.sqlite3" },
+      history = {
+        path = vim.fn.stdpath("data") .. "/database/telescope_history.sqlite3",
+      },
 
       winblend = 0,
       border = {},

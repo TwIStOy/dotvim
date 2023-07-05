@@ -89,7 +89,15 @@ end
 ---@return FunctionWithDescription[], number, number
 function M:get_functions(bufnr)
   local buffer = require("ht.core.vim.buffer")(bufnr)
-  local res = M.cache:ensure(buffer:to_cache_key(), function()
+  ---@type Array<any>
+  local cache_key = buffer:to_cache_key()
+  -- global states
+  local status, retval = pcall(function()
+    return require("trouble").is_open()
+  end)
+  local trouble_is_open = status and retval
+  cache_key[#cache_key + 1] = trouble_is_open
+  local res = M.cache:ensure(cache_key, function()
     local res = {}
     for _, function_set in ipairs(M.functions) do
       if function_set:match(buffer) then

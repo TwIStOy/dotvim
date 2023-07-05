@@ -14,7 +14,7 @@ return {
       options = {
         view = "multiwindow",
         sort_by = "insert_after_current",
-        always_show_bufferline = false,
+        always_show_bufferline = true,
         themable = true,
         hover = { enabled = true, delay = 200 },
         separator_style = "slant",
@@ -22,7 +22,7 @@ return {
         numbers = "none",
         diagnostics = "nvim_lsp",
         indicator = {
-          style = "underline",
+          style = "bold",
         },
         offsets = {
           {

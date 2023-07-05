@@ -4,6 +4,9 @@
     <a href="https://github.com/TwIStOy/dotvim/pulse">
       <img src="https://img.shields.io/github/last-commit/TwIStOy/dotvim?style=for-the-badge&logo=github&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/>
     </a>
+    <a href="https://github.com/TwIStOy/dotvim/blob/main/LICENSE">
+      <img alt="License" src="https://img.shields.io/github/license/TwIStOy/dotvim?style=flat-square&logo=starship&color=ee999f&logoColor=D9E0EE&labelColor=302D41" />
+    </a>
     <a href="https://github.com/TwIStOy/dotvim/stargazers">
       <img src="https://img.shields.io/github/stars/TwIStOy/dotvim?style=for-the-badge&logo=apachespark&color=eed49f&logoColor=D9E0EE&labelColor=302D41"/>
     </a>
@@ -30,6 +33,5 @@ $ mkdir -p ~/.config/nvim
 $ cp ~/.dotvim/init.lua ~/.config/nvim/init.lua
 ```
 
-- Update `vim.g.python3_host_prog = '/usr/local/bin/python3'` in `~/.config/nvim/init.lua` to the result of `which python3`.  
+- Update `vim.g.python3_host_prog = '/usr/local/bin/python3'` in `~/.config/nvim/init.lua` to the result of `which python3`.
 - Update `vim.g.rime_ls_cmd` to where you installed [rime_ls](https://github.com/wlh320/rime-ls).
-

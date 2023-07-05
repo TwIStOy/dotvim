@@ -84,6 +84,9 @@ components.fileinfo = {
       if devicons_present then
         local ft_icon = devicons.get_icon(filename)
         icon = (ft_icon ~= nil and ft_icon .. " ") or ""
+        if fn.expand("%:e") == "md" then
+          icon = icon .. " "
+        end
       end
     end
     return icon .. filename

@@ -22,6 +22,7 @@
 - [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
 - [Neovim 0.9+ (nightly is better)](https://github.com/neovim/neovim)
 - Terminal with true color support
+- (Optional) [rime_ls](https://github.com/wlh320/rime-ls): [RIME](https://github.com/rime) as [LSP](https://microsoft.github.io/language-server-protocol/specifications/specification-current)
 - Optional Requirements:
   - [ripgrep](https://github.com/BurntSushi/ripgrep)
   - [fd](https://github.com/sharkdp/fd)

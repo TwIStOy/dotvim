@@ -44,6 +44,8 @@ return {
         hl.LspInlayHint = {
           fg = c.comment,
         }
+        hl["@lsp.typemod.variable.mutable.rust"] = { underline = true }
+        hl["@lsp.typemod.selfKeyword.mutable.rust"] = { underline = true }
       end,
     },
     config = function(_, opts)

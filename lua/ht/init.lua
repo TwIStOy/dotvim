@@ -13,15 +13,16 @@ local function bootstrap_plugin_manager()
   end
   vim.opt.rtp:prepend(Const.lazy_path)
 
-  require("lazy").setup({
-    { import = "ht.plugins" },
-    { import = "ht.plugins.edit" },
-    { import = "ht.plugins.external" },
-    { import = "ht.plugins.ui" },
-    { import = "ht.plugins.lsp" },
-    { import = "ht.plugins.coding" },
-    { import = "ht.plugins.tree-sitter" },
-  }, {
+  require("lazy").setup {
+    spec = {
+      { import = "ht.plugins" },
+      { import = "ht.plugins.edit" },
+      { import = "ht.plugins.external" },
+      { import = "ht.plugins.ui" },
+      { import = "ht.plugins.lsp" },
+      { import = "ht.plugins.coding" },
+      { import = "ht.plugins.tree-sitter" },
+    },
     change_detection = { enabled = false },
     lockfile = vim.env.HOME .. "/.dotvim/lazy-lock.json",
     performance = {
@@ -42,7 +43,7 @@ local function bootstrap_plugin_manager()
         },
       },
     },
-  })
+  }
 
   local FF = require("ht.core.functions")
   FF:add_function_set {

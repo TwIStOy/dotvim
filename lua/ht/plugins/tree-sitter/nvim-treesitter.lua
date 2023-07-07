@@ -75,6 +75,15 @@ return {
           return false
         end,
       },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<C-=>",
+          node_incremental = "<C-=>",
+          scope_incremental = false,
+          node_decremental = "<C-->",
+        },
+      },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)

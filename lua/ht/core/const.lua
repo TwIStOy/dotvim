@@ -31,4 +31,15 @@ M.mason_path = vim.fn.stdpath("data") .. "/mason"
 ---@type string
 M.mason_bin = M.mason_path .. "/bin"
 
+---@type boolean
+M.is_gui = (function()
+  if vim.g["neovide"] then
+    return true
+  end
+  if vim.g["fvim_loaded"] then
+    return true
+  end
+  return false
+end)()
+
 return M

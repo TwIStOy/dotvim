@@ -74,7 +74,6 @@ local telescope_functions = {
       if root ~= nil then
         require("telescope.builtin").find_files {
           cwd = vim.b.cpp_toolkit_resolved_root.value,
-          no_ignore = true,
           follow = true,
         }
         return

@@ -174,19 +174,21 @@ for i = 1, 9 do
 end
 
 NMAP("<leader>fs", "<cmd>update<CR>", "update")
-vim.keymap.set(
-  { "n", "i", "v" },
-  "<Char-0xAA>",
-  "<cmd>update<CR>",
-  { silent = true }
-)
-
-vim.keymap.set(
-  { "n", "i", "v" },
-  "<C-s>",
-  "<cmd>update<CR>",
-  { desc = true, silent = true }
-)
+if require("ht.core.const").is_gui then
+  vim.keymap.set(
+    { "n", "i", "v" },
+    "<Char-0xAA>",
+    "<cmd>update<CR>",
+    { silent = true }
+  )
+else
+  vim.keymap.set(
+    { "n", "i", "v" },
+    "<D-s>",
+    "<cmd>update<CR>",
+    { silent = true }
+  )
+end
 
 NMAP(";;", function()
   require("ht.core.right-click").show()

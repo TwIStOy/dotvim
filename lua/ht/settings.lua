@@ -108,7 +108,7 @@ vim.opt.cmdheight = 1
 
 vim.opt.exrc = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 
 vim.opt.fillchars = "eob: "
 

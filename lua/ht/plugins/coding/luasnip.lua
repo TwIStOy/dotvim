@@ -10,7 +10,7 @@ return {
         enable_autosnippets = true,
         history = false,
         updateevents = "TextChanged,TextChangedI",
-        region_check_events = "CursorMoved",
+        region_check_events = { "CursorMoved", "CursorMovedI" },
         ft_func = ft_functions.from_pos_or_filetype,
       }
 

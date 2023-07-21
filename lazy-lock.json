@@ -34,6 +34,7 @@
   "gitsigns.nvim": { "branch": "main", "commit": "adcf2c7f2f495f5df148683764bf7cba6a70f34c" },
   "glance.nvim": { "branch": "master", "commit": "3e7158ffaaa0fa1f7268df30ae40f24c07b840d1" },
   "hop.nvim": { "branch": "master", "commit": "03f0434869f1f38868618198b5f4f2ab6d39aef2" },
+  "jfind.nvim": { "branch": "2.0", "commit": "15242faadf7184111c3f563df1fd9b0768effb8c" },
   "lazy.nvim": { "branch": "main", "commit": "50c365bfe972daa9352a0e62bb78fc7254cffeac" },
   "lsp-colors.nvim": { "branch": "main", "commit": "2bbe7541747fd339bdd8923fc45631a09bb4f1e5" },
   "lspkind.nvim": { "branch": "master", "commit": "57610d5ab560c073c465d6faf0c19f200cb67e6e" },

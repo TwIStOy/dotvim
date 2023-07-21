@@ -46,6 +46,8 @@ vim.g.relative_number_blacklist = {
   "Glance",
   "DressingInput",
   "lspinfo",
+  "nofile",
+  "",
 }
 
 vim.api.nvim_create_autocmd(

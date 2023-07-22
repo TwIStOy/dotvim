@@ -20,6 +20,7 @@ local uncountable_types = {
   Trouble = true,
   sagacodeaction = true,
   rightclickpopup = true,
+  DiffviewFiles = true,
 }
 
 function M.skip_filetype(ft)
@@ -43,7 +44,7 @@ function M.goto_window(count)
   local function skip_uncountable_windows(cnt)
     local rest = cnt
 
-    for _, win_id in pairs(vim.api.nvim_list_wins()) do
+    for _, win_id in pairs(vim.api.nvim_tabpage_list_wins(0)) do
       if not is_uncountable(win_id) then
         rest = rest - 1
         if rest == 0 then

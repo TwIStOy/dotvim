@@ -7,7 +7,10 @@ local function build_snippet(opts)
   local dscr = opts.dscr or ("Snippet: " .. name)
   local mode = opts.mode or ""
   local wordTrig = mode:match("w") ~= nil
-  local regTrig = mode:match("r") ~= nil
+  local trigEngine = opts.engine or "plain"
+  if mode:match("r") ~= nil and opts.engine == nil then
+    trigEngine = "pattern"
+  end
   local hidden = mode:match("h") ~= nil
   local snippetType = mode:match("A") ~= nil and "autosnippet" or "snippet"
   local nodes = opts.nodes
@@ -23,15 +26,15 @@ local function build_snippet(opts)
     trig = trig,
     name = name,
     dscr = dscr,
-    workTrig = wordTrig,
-    regTrig = regTrig,
+    wordTrig = wordTrig,
+    trigEngine = trigEngine,
     hidden = hidden,
     priority = priority,
     snippetType = snippetType,
     condition = cond and cond.condition,
     show_condition = cond and cond.show_condition,
   }
-  return luasnip.s(trig_arg, nodes)
+  return luasnip.s(trig_arg, nodes, opts.opts or nil)
 end
 
 local function build_simple_word_snippet(word, expanded, mode)

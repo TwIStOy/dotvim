@@ -3,8 +3,10 @@ local snippet = ht_snippet.build_snippet
 local i = ht_snippet.insert_node
 local ls = require("luasnip")
 local t = ls.text_node
+local f = ls.function_node
 local quick_expand = ht_snippet.quick_expand
 local fmt = require("luasnip.extras.fmt").fmt
+local ts_postfix = require("ht.snippets.cpp.ts_postfix")
 
 local simple_int_type = function(bit, unsigned)
   local prefix = unsigned and "u" or ""

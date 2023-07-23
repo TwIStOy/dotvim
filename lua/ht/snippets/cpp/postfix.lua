@@ -49,7 +49,7 @@ local function build_expr_postfix_context(raw_suffix)
           return true
         end
         for j = 1, #raw_suffix do
-          local c = raw_suffix:sub(j, j)
+          local c = raw_suffix:sub(1, j)
           test_pattern = test_pattern .. c
           m = line_to_cursor:match(test_pattern .. "$")
           if m ~= nil then

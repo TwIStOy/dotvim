@@ -5,6 +5,49 @@ local selection = import("ht.features.selection")
 
 local M = {}
 
+---@param types table | string
+---@return table<string, number>
+function M.make_type_matcher(types)
+  if type(types) == "string" then
+    return { [types] = 1 }
+  end
+
+  if type(types) == "table" then
+    if vim.tbl_islist(types) then
+      local new_types = {}
+      for _, v in ipairs(types) do
+        new_types[v] = 1
+      end
+      return new_types
+    end
+  end
+
+  return types
+end
+
+---Recursive find the topmost parent node whose type matches `types`.
+---@param node TSNode
+---@param types any
+---@return TSNode | nil
+function M.find_topmost_parent(node, types)
+  local ntypes = M.make_type_matcher(types)
+
+  ---@param root TSNode
+  ---@return TSNode | nil
+  local function find_parent_impl(root)
+    if root == nil then
+      return nil
+    end
+    local res = nil
+    if ntypes[root:type()] then
+      res = root
+    end
+    return find_parent_impl(root:parent()) or res
+  end
+
+  return find_parent_impl(node)
+end
+
 local function find_parent_impl(node, types)
   if node == nil then
     return nil

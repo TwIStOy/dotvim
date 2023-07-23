@@ -1,4 +1,3 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
 local TSUtils = require("ht.utils.ts")
 
 local function _find_topmost_parent(node, types, validator)
@@ -73,6 +72,7 @@ local function make_topmost_parent_matcher_maker(types)
   local root_updator = function(root, validator)
     return _find_topmost_parent(root, types, validator)
   end
+  ---@diagnostic disable-next-line: unused-local
   local matcher_maker = function(trigger)
     return make_matcher(root_updator)
   end

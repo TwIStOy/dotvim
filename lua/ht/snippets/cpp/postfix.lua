@@ -79,6 +79,7 @@ local function postfix(suffix, nodes)
     common_opts = {
       callbacks = {
         [-1] = {
+          ---@diagnostic disable-next-line: unused-local
           [events.pre_expand] = function(node, _event_args)
             local postfix_match = match_postfix(node.trigger) or ""
             local postfix_env_override = {

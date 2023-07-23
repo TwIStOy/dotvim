@@ -10,6 +10,7 @@ local function ts_postfix_maker(types)
     opts.opts = {
       callbacks = {
         [-1] = {
+          ---@diagnostic disable-next-line: unused-local
           [events.pre_expand] = function(node, _event_args)
             local postfix_env_override = {
               env_override = {

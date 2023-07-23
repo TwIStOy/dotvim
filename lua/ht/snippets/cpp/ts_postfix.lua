@@ -4,29 +4,24 @@ local trig_engines = require("ht.snippets.trig_engines")
 local events = require("luasnip.util.events")
 
 local function ts_postfix_maker(types)
-  return function(suffix, nodes)
-    return snippet {
-      suffix,
-      engine = trig_engines.ts_topmost_parent(types),
-      name = suffix,
-      desc = "Postfix " .. suffix,
-      hidden = true,
-      nodes = nodes,
-      opts = {
-        callbacks = {
-          [-1] = {
-            [events.pre_expand] = function(node, _event_args)
-              local postfix_env_override = {
-                env_override = {
-                  POSTFIX_MATCH = node.captures[1],
-                },
-              }
-              return postfix_env_override
-            end,
-          },
+  return function(opts)
+    opts.engine = trig_engines.ts_topmost_parent(types)
+    opts.hidden = true
+    opts.opts = {
+      callbacks = {
+        [-1] = {
+          [events.pre_expand] = function(node, _event_args)
+            local postfix_env_override = {
+              env_override = {
+                POSTFIX_MATCH = node.captures[1],
+              },
+            }
+            return postfix_env_override
+          end,
         },
       },
     }
+    return snippet(opts)
   end
 end
 

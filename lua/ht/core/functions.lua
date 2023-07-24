@@ -1,12 +1,5 @@
 local M = {}
 
----@class FunctionWithDescription
----@field f function
----@field title string
----@field category string|nil
----@field description string
-local FunctionWithDescription = {}
-
 ---@class FunctionSet
 ---@field filter fun(VimBuffer):boolean
 ---@field functions FunctionWithDescription[]

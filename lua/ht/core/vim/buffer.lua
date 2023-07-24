@@ -15,7 +15,8 @@ local function new_buffer(bufnr)
   local filename = api.nvim_buf_get_name(bufnr)
   local highlighters = require("vim.treesitter.highlighter")
   local ts_highlights = { highlighters.active[bufnr] }
-  local lsp_servers = vim.lsp.get_active_clients {
+  ---@type lsp.Client[]
+  local lsp_servers = vim.lsp.get_clients {
     bufnr = bufnr,
   }
   local buffer = {
@@ -37,7 +38,7 @@ function VimBuffer:to_cache_key()
     #self.lsp_servers,
   }
   for _, server in ipairs(self.lsp_servers) do
-    table.insert(s, server.name)
+    s[#s + 1] = server.name
   end
   return s
 end

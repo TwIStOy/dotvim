@@ -15,3 +15,9 @@
 ---@class ht.MasonPackage
 ---@field name string
 ---@field version string|nil
+
+---@class FunctionWithDescription
+---@field f function
+---@field title string
+---@field category string|nil
+---@field description string

@@ -38,7 +38,9 @@ M.setup = function(on_attach, capabilities)
         },
         diagnostics = {
           globals = { "vim" },
-          -- neededFileStatus = { ["codestyle-check"] = "Any" },
+          disable = {
+            "missing-fields",
+          },
         },
         workspace = { library = lua_library },
         format = {

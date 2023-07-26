@@ -45,15 +45,27 @@ local function make_matcher(root_updator)
       root = root_updator(root, function(node)
         local start_row, start_col, end_row, end_col =
           vim.treesitter.get_node_range(node)
+
         if
-          start_row <= exclude_cursor_range[1]
-          and start_col <= exclude_cursor_range[2]
-          and end_row >= exclude_cursor_range[1]
-          and end_col >= exclude_cursor_range[2]
+          start_row > exclude_cursor_range[1]
+          or end_row < exclude_cursor_range[1]
         then
-          return false
+          return true
         end
-        return true
+        if
+          start_row == exclude_cursor_range[1]
+          and start_col > exclude_cursor_range[2]
+        then
+          return true
+        end
+        if
+          end_row == exclude_cursor_range[1]
+          and end_col < exclude_cursor_range[2]
+        then
+          return true
+        end
+
+        return false
       end)
     end
 

@@ -47,6 +47,7 @@ vim.g.relative_number_blacklist = {
   "DressingInput",
   "lspinfo",
   "nofile",
+  "mason",
   "",
 }
 

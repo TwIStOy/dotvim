@@ -13,7 +13,7 @@ local function bootstrap_plugin_manager()
   end
   vim.opt.rtp:prepend(Const.lazy_path)
 
-  require("lazy").setup {
+  local lazy_settings = {
     spec = {
       { import = "ht.plugins" },
       { import = "ht.plugins.edit" },
@@ -45,6 +45,12 @@ local function bootstrap_plugin_manager()
       },
     },
   }
+
+  if Const.os.is_macos then
+    lazy_settings.concurrency = 20
+  end
+
+  require("lazy").setup(lazy_settings)
 
   local FF = require("ht.core.functions")
   FF:add_function_set {

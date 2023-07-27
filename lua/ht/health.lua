@@ -11,8 +11,17 @@ local function executable(exe)
   return vim.fn.executable(exe) == 1
 end
 
-local tools_required =
-  { "rg", "fd", "bat", "delta", "cargo", "rustup", "stylua", "difft" }
+local tools_required = {
+  "rg",
+  "fd",
+  "bat",
+  "delta",
+  "cargo",
+  "rustup",
+  "stylua",
+  "difft",
+  "lazygit",
+}
 
 local mason_bins = {
   "clangd",

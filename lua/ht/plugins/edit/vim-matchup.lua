@@ -2,7 +2,7 @@ return {
   -- matchup parens
   {
     "andymass/vim-matchup",
-    enabled = false,
+    enabled = true,
     event = { "BufReadPost", "BufAdd", "BufNewFile" },
     init = function() -- code to run before plugin loaded
       vim.g.matchup_surround_enabled = 1

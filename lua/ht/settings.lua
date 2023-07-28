@@ -1,3 +1,5 @@
+local Const = require("ht.core.const")
+
 -- Disable arrows
 vim.api.nvim_set_keymap("", "<Left>", "<Nop>", {})
 vim.api.nvim_set_keymap("", "<Right>", "<Nop>", {})
@@ -137,20 +139,34 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- setup clipboard vis ssh, other settings: [[~/Dropbox/vimwiki/Remote Clipboard.wiki]]
-if vim.fn.has("linux") == 1 then
-  local copy_settings = {}
-  copy_settings["+"] = { "nc", "localhost", "2224", "-w0" }
-  copy_settings["*"] = { "nc", "localhost", "2224", "-w0" }
-  local paste_settings = {}
-  paste_settings["+"] = { "nc", "localhost", "2225", "-w1" }
-  paste_settings["*"] = { "nc", "localhost", "2225", "-w1" }
-  vim.g.clipboard = {
-    name = "ssh-remote-clip",
-    copy = copy_settings,
-    paste = paste_settings,
-    cache_enabled = 1,
-  }
+if Const.os.is_linux then
+  if Const.os.in_orb then
+    local copy_settings = {}
+    copy_settings["+"] = { "pbcopy" }
+    copy_settings["*"] = { "pbcopy" }
+    local paste_settings = {}
+    paste_settings["+"] = { "pbpaste" }
+    paste_settings["*"] = { "pbpaste" }
+    vim.g.clipboard = {
+      name = "pbcopy/pbpaste",
+      copy = copy_settings,
+      paste = paste_settings,
+      cache_enabled = 1,
+    }
+  else
+    local copy_settings = {}
+    copy_settings["+"] = { "nc", "localhost", "2224", "-w0" }
+    copy_settings["*"] = { "nc", "localhost", "2224", "-w0" }
+    local paste_settings = {}
+    paste_settings["+"] = { "nc", "localhost", "2225", "-w1" }
+    paste_settings["*"] = { "nc", "localhost", "2225", "-w1" }
+    vim.g.clipboard = {
+      name = "ssh-remote-clip",
+      copy = copy_settings,
+      paste = paste_settings,
+      cache_enabled = 1,
+    }
+  end
 end
 
 vim.api.nvim_create_autocmd({ "BufEnter", "WinClosed" }, {

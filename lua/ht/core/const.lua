@@ -1,13 +1,17 @@
 local M = {}
 
+local os_uname = vim.uv.os_uname()
+
 ---@type string
-local os = vim.uv.os_uname().sysname
+local os = os_uname.sysname
+local release = os_uname.release
 
 M.os = {
   name = os,
   is_macos = os == "Darwin",
   is_linux = os == "Linux",
   is_windows = os == "Windows",
+  in_orb = release:find("orb") ~= nil,
 }
 
 M.common_excluded_ft = {

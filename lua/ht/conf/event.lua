@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd("TermEnter", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter", "FocusGained", "WinEnter" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
   pattern = "*",
   ---@param event vim.AutocmdCallback.Event
   callback = function(event)
@@ -75,7 +75,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "FocusGained", "WinEnter" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWinLeave", "FocusLost", "WinLeave" }, {
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
   pattern = "*",
   ---@param event vim.AutocmdCallback.Event
   callback = function(event)

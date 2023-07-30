@@ -32,6 +32,7 @@ return {
     "identifier",
     "template_function",
     "subscript_expression",
+    "field_expression",
   },
   ts_postfix_ident_only = ts_postfix_maker {
     "identifier",

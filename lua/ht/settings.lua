@@ -32,55 +32,8 @@ vim.cmd([[set noerrorbells novisualbell t_vb=]])
 -- numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.g.relative_number_blacklist = {
-  "startify",
-  "NvimTree",
-  "packer",
-  "alpha",
-  "nuipopup",
-  "toggleterm",
-  "noice",
-  "crates.nvim",
-  "lazy",
-  "Trouble",
-  "rightclickpopup",
-  "TelescopePrompt",
-  "Glance",
-  "DressingInput",
-  "lspinfo",
-  "nofile",
-  "mason",
-  "",
-}
-
-vim.api.nvim_create_autocmd(
-  "TermEnter",
-  { pattern = "*", command = "setlocal nonu nornu" }
-)
-vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
-  pattern = "*",
-  command = "if index(g:relative_number_blacklist, &ft) == -1 | set nu rnu | endif",
-})
-vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
-  pattern = "*",
-  command = "if index(g:relative_number_blacklist, &ft) == -1 | set nu nornu | endif",
-})
 vim.opt.signcolumn = "yes"
-vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
-  pattern = "*",
-  command = "if index(g:relative_number_blacklist, &ft) == -1 | set signcolumn=yes | endif",
-})
-
 vim.opt.cursorline = true
-vim.g.cursorline_blacklist = { "alpha", "noice" }
-vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
-  pattern = "*",
-  command = "if index(g:cursorline_blacklist, &ft) == -1 | set cursorline | endif",
-})
-vim.api.nvim_create_autocmd(
-  { "InsertEnter", "WinLeave" },
-  { pattern = "*", command = "set nocursorline" }
-)
 
 vim.api.nvim_create_autocmd({ "VimResized" }, {
   callback = function()

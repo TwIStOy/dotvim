@@ -79,4 +79,32 @@ function M.in_git_repo()
   return res.code == 0
 end
 
+---Returns the path of the current file's git repo.
+---@return string?
+function M.git_repo_path()
+  local Path = require("plenary.path")
+  local Str = require("ht.utils.str")
+  local current_file = vim.api.nvim_buf_get_name(0)
+  if current_file == "" then
+    return nil
+  end
+
+  local current = Path.new(current_file)
+  local current_dir = current:parent()
+
+  local p = vim.system({
+    "git",
+    "rev-parse",
+    "--show-toplevel",
+  }, {
+    cwd = tostring(current_dir),
+  })
+
+  local res = p:wait()
+  if res.code ~= 0 then
+    return nil
+  end
+  return Str.trim(res.stdout)
+end
+
 return M

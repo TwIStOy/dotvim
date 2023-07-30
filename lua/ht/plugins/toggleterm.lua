@@ -39,24 +39,36 @@ return {
         desc = "toggle-terminal",
       }),
       FuncSpec("Open lazygit", function()
-        if vim.fn.executable("lazygit") == 1 then
-          if not _lazygit then
-            _lazygit = require("toggleterm.terminal").Terminal:new {
-              cmd = "lazygit",
-              direction = "float",
-              close_on_exit = true,
-              start_in_insert = true,
-              hidden = true,
-            }
-          end
-          _lazygit:toggle()
-        else
+        if vim.fn.executable("lazygit") ~= 1 then
           vim.notify(
             "Command [lazygit] not found!",
             vim.log.levels.ERROR,
             { title = "toggleterm.nvim" }
           )
+          return
         end
+        local repo_path = require("ht.utils.fs").git_repo_path()
+        if repo_path == nil then
+          vim.notify(
+            "Not in a git repo!",
+            vim.log.levels.ERROR,
+            { title = "toggleterm.nvim" }
+          )
+          return
+        end
+        if not _lazygit then
+          _lazygit = require("toggleterm.terminal").Terminal:new {
+            cmd = "lazygit",
+            dir = repo_path,
+            direction = "float",
+            close_on_exit = true,
+            start_in_insert = true,
+            hidden = true,
+          }
+        else
+          _lazygit:change_dir(repo_path)
+        end
+        _lazygit:toggle()
       end, {
         keys = "<leader>g",
         desc = "toggle-lazygit",

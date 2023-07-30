@@ -60,6 +60,7 @@ M.config = function() -- code to run after plugin loaded
       define_custom { "EXPECT_EQ", "EXPECT_NE" },
       define_custom { "==", "!=" },
       define_custom { "static_cast", "dynamic_cast", "reinterpret_cast" },
+      define_custom { "private", "public", "protected" },
     },
     toml = { augend.semver.alias.semver },
   }

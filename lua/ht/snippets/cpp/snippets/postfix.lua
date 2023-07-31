@@ -5,8 +5,8 @@ local c = ht_snippet.choice_node
 local t = ls.text_node
 local f = ls.function_node
 local ts_postfix = require("ht.snippets.cpp.ts_postfix")
-local ts_postfix_any_expr = ts_postfix.ts_postfix_any_expr
-local ts_postfix_ident_only = ts_postfix.ts_postfix_ident_only
+local ts_postfix_any_expr = ts_postfix.cpp_ts_postfix_any_expr
+local ts_postfix_ident_only = ts_postfix.cpp_ts_postfix_ident_only
 local fmta = require("luasnip.extras.fmt").fmta
 local fmt = require("luasnip.extras.fmt").fmt
 

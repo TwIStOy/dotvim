@@ -27,14 +27,14 @@ local function ts_postfix_maker(types)
 end
 
 return {
-  ts_postfix_any_expr = ts_postfix_maker {
+  cpp_ts_postfix_any_expr = ts_postfix_maker {
     "call_expression",
     "identifier",
     "template_function",
     "subscript_expression",
     "field_expression",
   },
-  ts_postfix_ident_only = ts_postfix_maker {
+  cpp_ts_postfix_ident_only = ts_postfix_maker {
     "identifier",
     "field_identifier",
   },

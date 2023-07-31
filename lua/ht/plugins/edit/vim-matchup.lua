@@ -12,8 +12,7 @@ return {
       vim.g.matchup_matchparen_deferred_hide_delay = 300
       vim.g.matchup_matchparen_hi_surround_always = 2
       vim.g.matchup_matchparen_offscreen = {
-        method = "popup",
-        highlight = "CurrentWord",
+        method = "status_manual",
       }
       vim.g.matchup_delim_start_plaintext = 1
       vim.g.matchup_motion_override_Npercent = 0

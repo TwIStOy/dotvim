@@ -38,6 +38,7 @@ return {
         "typescript",
         "lua",
         "html",
+        "comment",
         "javascript",
         "typescript",
         "latex",

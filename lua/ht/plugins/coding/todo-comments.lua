@@ -1,7 +1,7 @@
 return {
   -- highlight todo comments
   Use {
-    "folke/todo-comments.nvim",
+    "TwIStOy/todo-comments.nvim",
     category = "TodoComments",
     functions = {
       FuncSpec("Open todos in trouble", "TodoTrouble", {
@@ -28,8 +28,11 @@ return {
         "TodoTelescope",
       },
       opts = {
-        highlight = { keyword = "bg", pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
-        search = { pattern = [[.*<(KEYWORDS)\([^)]*\):]] },
+        highlight = { keyword = "wide_bg", pattern = [[(KEYWORDS)\([^)]*\):]] },
+        search = { pattern = [[(KEYWORDS)\([^)]*\):]] },
+        keywords = {
+          HACK = { alt = { "UNSAFE" } },
+        },
       },
       keys = {
         {

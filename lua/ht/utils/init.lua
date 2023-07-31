@@ -30,13 +30,21 @@ function M.delay_notify_invocations()
   local replay = function()
     timer:stop()
     check:stop()
-    if vim.notify == temp then
-      vim.notify = orig -- put back the original notify if needed
-    end
     vim.schedule(function()
-      for _, notif in ipairs(notifs) do
-        vim.notify(vim.F.unpack_len(notif))
+      if vim.notify == temp then
+        -- try to load nvim-notify
+        local notify = require("notify")
+        if notify ~= nil then
+          vim.notify = notify
+        else
+          vim.notify = orig -- put back the original notify if needed
+        end
       end
+      vim.schedule(function()
+        for _, notif in ipairs(notifs) do
+          vim.notify(vim.F.unpack_len(notif))
+        end
+      end)
     end)
   end
 

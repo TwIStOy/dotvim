@@ -4,6 +4,7 @@ return {
     "rcarriga/nvim-notify",
     lazy = {
       dependencies = { "nvim-tree/nvim-web-devicons" },
+      lazy = true,
       opts = {
         timeout = 3000,
         stages = "static",
@@ -15,6 +16,7 @@ return {
           return math.floor(vim.o.columns * 0.75)
         end,
       },
+      config = true,
     },
     functions = {
       FuncSpec("List notify histories using telescope", function()

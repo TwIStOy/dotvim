@@ -2,7 +2,8 @@ return {
   Use {
     "TwIStOy/project.nvim",
     lazy = {
-      event = "VeryLazy",
+      lazy = true,
+      event = "BufReadPre",
       opts = {
         detection_methods = { "pattern" },
         patterns = {

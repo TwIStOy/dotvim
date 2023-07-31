@@ -4,7 +4,7 @@ return {
     "folke/noice.nvim",
     lazy = {
       lazy = true,
-      event = "VeryLazy",
+      event = { "ModeChanged", "BufReadPre", "InsertEnter" },
       dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
       enabled = function()
         if vim.g["neovide"] or vim.g["fvim_loaded"] or vim.g["goneovim"] then

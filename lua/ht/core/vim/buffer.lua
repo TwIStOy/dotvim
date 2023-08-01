@@ -13,6 +13,10 @@ local api = vim.api
 local function new_buffer(bufnr)
   local filetype = api.nvim_buf_get_option(bufnr, "filetype")
   local filename = api.nvim_buf_get_name(bufnr)
+  if filename:sub(1, 1) ~= "/" then
+    filename = nil
+  end
+
   local highlighters = require("vim.treesitter.highlighter")
   local ts_highlights = { highlighters.active[bufnr] }
   ---@type lsp.Client[]

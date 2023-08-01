@@ -68,7 +68,9 @@ local telescope_functions = {
     desc = "f-buffers",
   }),
   FuncSpec("List files in current working directory", function()
-    local ft = vim.bo.filetype
+    local ft = vim.api.nvim_get_option_value("filetype", {
+      buf = 0,
+    })
     if ft == "cpp" then
       local root = require("cpp-toolkit.rooter").get_resolved_root()
       if root ~= nil then
@@ -108,7 +110,9 @@ local telescope_functions = {
     },
   },
   FuncSpec("Search for a string in current working directory", function()
-    local ft = vim.bo.filetype
+    local ft = vim.api.nvim_get_option_value("filetype", {
+      buf = 0,
+    })
     if ft == "cpp" then
       local root = require("cpp-toolkit.rooter").get_resolved_root()
       if root ~= nil then

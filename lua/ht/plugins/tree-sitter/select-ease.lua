@@ -1,4 +1,4 @@
-local M = { "ziontee113/SelectEase", lazy = true }
+local M = { "ziontee113/SelectEase", lazy = true, enabled = false }
 
 local c_query = [[
     ;; query

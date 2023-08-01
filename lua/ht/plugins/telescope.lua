@@ -49,7 +49,14 @@ local function config()
         n = { ["q"] = actions.close },
       },
     },
-    pickers = { find_files = {} },
+    pickers = {
+      find_files = {
+        theme = "ivy",
+        layout_config = {
+          height = 0.4,
+        },
+      },
+    },
     extensions = extensions,
   }
 

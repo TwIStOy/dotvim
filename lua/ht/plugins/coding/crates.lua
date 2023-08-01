@@ -6,6 +6,9 @@ return {
         filter = {
           ---@param buffer VimBuffer
           filter = function(buffer)
+            if buffer.filename == nil then
+              return false
+            end
             return buffer.filename:match("Cargo.toml") ~= nil
           end,
         },

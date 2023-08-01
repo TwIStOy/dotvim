@@ -19,6 +19,7 @@ return {
           ["ir"] = "@return.inner",
           ["ar"] = "@return.outer",
           ["il"] = "@lifetime.inner",
+          ["a;"] = "@statement.outer",
         },
       },
       swap = { enable = true },

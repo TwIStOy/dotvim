@@ -10,7 +10,7 @@ return {
     },
     opts = {},
     config = function()
-      local colors = require("tokyonight.colors").setup()
+      -- local colors = require("tokyonight.colors").setup()
 
       require("scrollbar.init").setup {
         show = true,
@@ -28,6 +28,7 @@ return {
           "rightclickpopup",
         },
         handlers = { diagnostic = true, search = true, gitsigns = false },
+        --[[
         handle = {
           color = colors.bg_highlight,
         },
@@ -39,6 +40,7 @@ return {
           Hint = { color = colors.hint },
           Misc = { color = colors.purple },
         },
+        --]]
       }
 
       require("scrollbar.handlers.search").setup {

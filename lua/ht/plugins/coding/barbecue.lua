@@ -11,6 +11,7 @@ return {
       symbols = {
         separator = "󰮺",
       },
+      theme = "catppuccin",
     },
     config = true,
   },

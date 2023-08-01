@@ -38,8 +38,8 @@ local function config()
           ["<C-n>"] = false,
           ["<C-p>"] = false,
 
-          ["<C-u>"] = actions.preview_scrolling_down,
-          ["<C-d>"] = actions.preview_scrolling_up,
+          ["<C-u>"] = actions.preview_scrolling_up,
+          ["<C-d>"] = actions.preview_scrolling_down,
           ["<C-j>"] = actions.move_selection_next,
           ["<C-k>"] = actions.move_selection_previous,
           ["<Up>"] = actions.cycle_history_prev,

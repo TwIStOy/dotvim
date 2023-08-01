@@ -25,5 +25,11 @@
 ((structured_binding_declarator
    . (_) @parameter.inner . ","? @_end)
   (#make-range! "parameter.outer" @parameter.inner @_end))
-  
+
+((for_range_loop
+   type: (_) @_start
+   declarator: (_) @_end)
+ (#make-range! "for_range_loop.inner" @_start @_end))
+(for_range_loop
+  right: (_) @for_range_loop.inner)
 

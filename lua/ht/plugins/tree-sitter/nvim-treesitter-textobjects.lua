@@ -20,6 +20,7 @@ return {
           ["ar"] = "@return.outer",
           ["il"] = "@lifetime.inner",
           ["a;"] = "@statement.outer",
+          ["i:"] = "@for_range_loop.inner",
         },
       },
       swap = { enable = true },

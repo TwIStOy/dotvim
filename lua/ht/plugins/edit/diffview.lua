@@ -23,7 +23,7 @@ return {
       {
         filter = {
           filter = function(buffer)
-            return require("ht.utils.fs").in_git_repo()
+            return require("ht.utils.fs").in_git_repo(buffer)
               and require("ht.core.const").not_in_common_excluded(buffer)
           end,
         },

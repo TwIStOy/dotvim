@@ -14,9 +14,6 @@ M.config = function() -- code to run after plugin loaded
     augend.date.alias["%Y/%m/%d"],
     augend.date.alias["%Y-%m-%d"],
     define_custom { "true", "false" },
-    define_custom { "True", "False" },
-    define_custom { "on", "off" },
-    define_custom { "ON", "OFF" },
     define_custom { "yes", "no" },
     define_custom { "YES", "NO" },
     define_custom { "||", "&&" },
@@ -61,6 +58,16 @@ M.config = function() -- code to run after plugin loaded
       define_custom { "==", "!=" },
       define_custom { "static_cast", "dynamic_cast", "reinterpret_cast" },
       define_custom { "private", "public", "protected" },
+    },
+    python = {
+      define_custom { "True", "False" },
+    },
+    lua = {
+      define_custom { "==", "~=" },
+    },
+    cmake = {
+      define_custom { "on", "off" },
+      define_custom { "ON", "OFF" },
     },
     toml = { augend.semver.alias.semver },
   }

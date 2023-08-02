@@ -29,15 +29,15 @@ return {
         set_jumps = true,
         goto_next_start = {
           ["],"] = "@parameter.inner",
-          ["]a"] = "@parameter.inner",
           ["]l"] = "@lifetime.inner",
           ["]f"] = "@function.outer",
+          ["]r"] = "@return.inner",
         },
         goto_previous_start = {
           ["[,"] = "@parameter.inner",
-          ["[a"] = "@parameter.inner",
           ["[l"] = "@lifetime.inner",
           ["[f"] = "@function.outer",
+          ["[r"] = "@return.inner",
         },
       },
     },

@@ -23,7 +23,15 @@ return {
           ["i:"] = "@for_range_loop.inner",
         },
       },
-      swap = { enable = true },
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<M-l>"] = "@parameter.inner",
+        },
+        swap_previous = {
+          ["<M-h>"] = "@parameter.inner",
+        },
+      },
       move = {
         enable = true,
         set_jumps = true,

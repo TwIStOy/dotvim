@@ -10,7 +10,7 @@ return {
         enable_autosnippets = true,
         history = false,
         updateevents = "TextChanged,TextChangedI",
-        region_check_events = { "CursorMoved", "CursorMovedI" },
+        region_check_events = { "CursorMoved", "CursorMovedI", "CursorHold" },
         ft_func = ft_functions.from_pos_or_filetype,
       }
 
@@ -20,23 +20,24 @@ return {
       luasnip.add_snippets("lua", require("ht.snippets.lua")())
 
       -- from: https://github.com/L3MON4D3/LuaSnip/issues/258
-      vim.api.nvim_create_autocmd("ModeChanged", {
-        pattern = "*",
-        callback = function(event)
-          vim.print(event)
-          ---@type string
-          local match = event.match
-          local old_mode = match:sub(1, 1)
-          local new_mode = match:sub(3, 3)
-          if
-            (old_mode == "i" and new_mode == "n")
-            and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
-            and not require("luasnip").session.jump_active
-          then
-            require("luasnip").unlink_current()
-          end
-        end,
-      })
+
+      -- vim.api.nvim_create_autocmd("ModeChanged", {
+      --   pattern = "*",
+      --   callback = function(event)
+      --     vim.print(event)
+      --     ---@type string
+      --     local match = event.match
+      --     local old_mode = match:sub(1, 1)
+      --     local new_mode = match:sub(3, 3)
+      --     if
+      --       (old_mode == "i" and new_mode == "n")
+      --       and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
+      --       and not require("luasnip").session.jump_active
+      --     then
+      --       require("luasnip").unlink_current()
+      --     end
+      --   end,
+      -- })
     end,
     keys = {
       {

@@ -26,16 +26,24 @@ local function ts_postfix_maker(types)
   end
 end
 
+local any_expr_types = {
+  "call_expression",
+  "identifier",
+  "template_function",
+  "subscript_expression",
+  "field_expression",
+  "user_defined_literal",
+}
+
+local indent_only_types = {
+  "identifier",
+  "field_identifier",
+}
+
 return {
-  cpp_ts_postfix_any_expr = ts_postfix_maker {
-    "call_expression",
-    "identifier",
-    "template_function",
-    "subscript_expression",
-    "field_expression",
-  },
-  cpp_ts_postfix_ident_only = ts_postfix_maker {
-    "identifier",
-    "field_identifier",
-  },
+  ts_postfix_maker = ts_postfix_maker,
+  any_expr_types = any_expr_types,
+  indent_only_types = indent_only_types,
+  cpp_ts_postfix_any_expr = ts_postfix_maker(any_expr_types),
+  cpp_ts_postfix_ident_only = ts_postfix_maker(indent_only_types),
 }

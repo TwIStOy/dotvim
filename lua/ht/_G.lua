@@ -93,3 +93,15 @@ ExecFunc = function(cmd)
     Exec(cmd)
   end
 end
+
+TestLog = function(s)
+  local file = io.open("/tmp/test.log", "a")
+  if type(s) == "table" then
+    s = vim.inspect(s)
+  elseif type(s) ~= "string" then
+    s = tostring(s)
+  end
+  file:write(s .. "\n")
+  file:close()
+end
+

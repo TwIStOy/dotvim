@@ -75,11 +75,25 @@ local function make_matcher(root_updator)
       -- try to use the text from `line_to_cursor`
       local start_row, start_col, end_row, end_col =
         vim.treesitter.get_node_range(root)
-      local text = line_to_cursor:sub(start_col + 1)
-      local capture =
-        line_to_cursor:sub(start_col + 1, #line_to_cursor - #trigger)
 
-      return text, { capture }
+      -- start_row and start_col is correct
+      local all_text = vim.api.nvim_buf_get_text(
+        0,
+        start_row,
+        start_col,
+        cursor[1] - 1,
+        cursor[2],
+        {}
+      )
+
+      local capture = vim.deepcopy(all_text)
+      local last_line = capture[#capture]
+      capture[#capture] = last_line:sub(1, #last_line - #trigger)
+
+      if #all_text == 1 then
+        return all_text[1], { capture[1] }
+      end
+      return all_text, { capture }
       -- origin:
       -- local node_text = vim.treesitter.get_node_text(root, 0)
       -- local captures = { node_text }

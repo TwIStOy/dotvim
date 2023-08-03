@@ -9,6 +9,7 @@ local ts_postfix_any_expr = ts_postfix.cpp_ts_postfix_any_expr
 local ts_postfix_ident_only = ts_postfix.cpp_ts_postfix_ident_only
 local fmta = require("luasnip.extras.fmt").fmta
 local fmt = require("luasnip.extras.fmt").fmt
+local su = require("ht.snippets.utils")
 
 return {
   ts_postfix_ident_only {
@@ -58,7 +59,7 @@ return {
     dscr = "Wraps an expression with 'std::move' if it is available",
     nodes = {
       f(function(_, parent)
-        return ("std::move(%s)"):format(parent.snippet.env.POSTFIX_MATCH)
+        return su.replace_all(parent.snippet.env.POSTFIX_MATCH, "std::move(%s)")
       end, {}),
     },
   },
@@ -69,9 +70,9 @@ return {
     dscr = "Wraps an expression with 'std::forward' if it is available.",
     nodes = {
       f(function(_, parent)
-        return ("std::forward<decltype(%s)>(%s)"):format(
+        return su.replace_all(
           parent.snippet.env.POSTFIX_MATCH,
-          parent.snippet.env.POSTFIX_MATCH
+          "std::forward<decltype(%s)>(%s)"
         )
       end, {}),
     },
@@ -83,7 +84,10 @@ return {
     dscr = "Wraps an expression with 'std::declval' if it is available.",
     nodes = {
       f(function(_, parent)
-        return ("std::declval<%s>()"):format(parent.snippet.env.POSTFIX_MATCH)
+        return su.replace_all(
+          parent.snippet.env.POSTFIX_MATCH,
+          "std::declval<%s>()"
+        )
       end, {}),
     },
   },
@@ -94,7 +98,7 @@ return {
     dscr = "Wraps an expression with '(void)expr' to silence unused variable warnings.",
     nodes = {
       f(function(_, parent)
-        return ("(void)%s;"):format(parent.snippet.env.POSTFIX_MATCH)
+        return su.replace_all(parent.snippet.env.POSTFIX_MATCH, "(void)%s;")
       end, {}),
     },
   },
@@ -105,7 +109,7 @@ return {
     dscr = "Wraps an expression with 'decltype' to get the type of an expression.",
     nodes = {
       f(function(_, parent)
-        return ("decltype(%s)"):format(parent.snippet.env.POSTFIX_MATCH)
+        return su.replace_all(parent.snippet.env.POSTFIX_MATCH, "decltype(%s)")
       end, {}),
     },
   },
@@ -134,24 +138,28 @@ return {
     ),
   },
 
-  ts_postfix_any_expr {
-    ".fori",
-    name = "for (int i = 0; i < expr; i++)",
-    dscr = "Wraps an expression with a 'for' loop.",
-    nodes = fmta(
-      [[
+  function()
+    local fori_types = vim.deepcopy(ts_postfix.any_expr_types)
+    fori_types[#fori_types + 1] = "number_literal"
+    return ts_postfix.ts_postfix_maker(fori_types) {
+      ".fori",
+      name = "for (int i = 0; i < expr; i++)",
+      dscr = "Wraps an expression with a 'for' loop.",
+      nodes = fmta(
+        [[
       for (decltype(<expr>) i = 0; i << <expr>; i++) {
         <body>
       }
       ]],
-      {
-        body = i(0),
-        expr = f(function(_, parent)
-          return parent.snippet.env.POSTFIX_MATCH
-        end, {}),
-      }
-    ),
-  },
+        {
+          body = i(0),
+          expr = f(function(_, parent)
+            return parent.snippet.env.POSTFIX_MATCH
+          end, {}),
+        }
+      ),
+    }
+  end,
 
   ts_postfix_any_expr {
     ".if",

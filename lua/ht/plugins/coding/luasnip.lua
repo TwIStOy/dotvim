@@ -1,7 +1,21 @@
+local function add_snippets(ft, snippets)
+  local luasnip = require("luasnip")
+  local UtilTable = require("ht.utils.table")
+
+  snippets = UtilTable.list_map(snippets, function(s)
+    if type(s) == "function" then
+      return s()
+    end
+    return s
+  end)
+  luasnip.add_snippets(ft, snippets)
+end
+
 return {
   {
-    "L3MON4D3/LuaSnip",
+    "TwIStOy/LuaSnip",
     build = "make install_jsregexp",
+    branch = "support-multiline-trigger",
     config = function()
       local luasnip = require("luasnip")
       local ft_functions = require("luasnip.extras.filetype_functions")
@@ -14,30 +28,10 @@ return {
         ft_func = ft_functions.from_pos_or_filetype,
       }
 
-      luasnip.add_snippets("all", require("ht.snippets.all")())
-      luasnip.add_snippets("cpp", require("ht.snippets.cpp")())
-      luasnip.add_snippets("rust", require("ht.snippets.rust")())
-      luasnip.add_snippets("lua", require("ht.snippets.lua")())
-
-      -- from: https://github.com/L3MON4D3/LuaSnip/issues/258
-
-      -- vim.api.nvim_create_autocmd("ModeChanged", {
-      --   pattern = "*",
-      --   callback = function(event)
-      --     vim.print(event)
-      --     ---@type string
-      --     local match = event.match
-      --     local old_mode = match:sub(1, 1)
-      --     local new_mode = match:sub(3, 3)
-      --     if
-      --       (old_mode == "i" and new_mode == "n")
-      --       and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
-      --       and not require("luasnip").session.jump_active
-      --     then
-      --       require("luasnip").unlink_current()
-      --     end
-      --   end,
-      -- })
+      add_snippets("all", require("ht.snippets.all")())
+      add_snippets("cpp", require("ht.snippets.cpp")())
+      add_snippets("rust", require("ht.snippets.rust")())
+      add_snippets("lua", require("ht.snippets.lua")())
     end,
     keys = {
       {

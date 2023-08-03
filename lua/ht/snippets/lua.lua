@@ -31,6 +31,7 @@ return function()
   local extras = require("luasnip.extras")
   local rep = extras.rep
   local postfix = require("luasnip.extras.postfix").postfix
+  local l = extras.lambda
 
   return {
     snippet {
@@ -56,6 +57,14 @@ return function()
           i(0),
         }
       ),
+    },
+
+    snippet {
+      "([%w_]+)%+%+",
+      name = "foo++",
+      dscr = "post increment",
+      mode = "wr",
+      nodes = fmt("{} = {} + 1", { l(l.CAPTURE1, {}), l(l.CAPTURE1, {}) }),
     },
 
     snippet {

@@ -26,6 +26,7 @@ local function bootstrap_plugin_manager()
     },
     change_detection = { enabled = false },
     lockfile = vim.env.HOME .. "/.dotvim/lazy-lock.json",
+    dev = { path = vim.env.HOME .. "/Projects/nvim-plugins" },
     performance = {
       cache = { enabled = true },
       install = { colorscheme = { "tokyonight", "habamax" } },

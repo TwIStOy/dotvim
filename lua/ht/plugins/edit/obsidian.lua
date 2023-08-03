@@ -10,6 +10,7 @@ local M = {
   "TwIStOy/obsidian.nvim",
   lazy = {
     lazy = true,
+    branch = "notes-title-pattern",
     event = {
       "BufReadPre *.md",
     },
@@ -94,6 +95,9 @@ M.lazy.config = function()
     },
     templates = {
       subdir = "Assets/Templates",
+    },
+    notes = {
+      title_pattern = "^# (.+)$",
     },
     use_advanced_uri = true,
     note_id_func = function(title)

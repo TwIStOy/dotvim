@@ -22,12 +22,14 @@ return {
       -- from: https://github.com/L3MON4D3/LuaSnip/issues/258
       vim.api.nvim_create_autocmd("ModeChanged", {
         pattern = "*",
-        callback = function()
+        callback = function(event)
+          vim.print(event)
+          ---@type string
+          local match = event.match
+          local old_mode = match:sub(1, 1)
+          local new_mode = match:sub(3, 3)
           if
-            (
-              (vim.v.event.old_mode == "s" and vim.v.event.new_mode == "n")
-              or vim.v.event.old_mode == "i"
-            )
+            (old_mode == "i" and new_mode == "n")
             and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
             and not require("luasnip").session.jump_active
           then
@@ -44,6 +46,15 @@ return {
           local ls = require("luasnip")
           if ls.choice_active() then
             ls.change_choice(1)
+          end
+        end,
+      },
+      {
+        "<C-f>",
+        function()
+          local ls = require("luasnip")
+          if ls.expand_or_jumpable() then
+            ls.expand_or_jump()
           end
         end,
       },

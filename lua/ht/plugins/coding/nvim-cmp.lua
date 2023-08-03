@@ -218,7 +218,7 @@ M.config = function()
         else
           fallback()
         end
-      end, { "i", "s", "n" }),
+      end, { "i", "s" }),
       ["<C-b>"] = cmp.mapping(function(fallback)
         local luasnip = require("luasnip")
         if luasnip.jumpable(-1) then

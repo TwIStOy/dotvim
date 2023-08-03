@@ -2,6 +2,7 @@ return {
   -- toggle code comments
   {
     "tomtom/tcomment_vim",
+    enabled = false,
     event = "BufReadPost",
     init = function()
       vim.g.tcomment_maps = 0

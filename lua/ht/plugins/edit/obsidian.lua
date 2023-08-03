@@ -7,7 +7,7 @@ local function setup_keymaps()
 end
 
 local M = {
-  "epwalsh/obsidian.nvim",
+  "TwIStOy/obsidian.nvim",
   lazy = {
     lazy = true,
     event = {
@@ -91,6 +91,9 @@ M.lazy.config = function()
     completion = {
       nvim_cmp = true,
       new_notes_location = "notes_subdir",
+    },
+    templates = {
+      subdir = "Assets/Templates",
     },
     use_advanced_uri = true,
     note_id_func = function(title)

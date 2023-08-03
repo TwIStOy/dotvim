@@ -24,6 +24,8 @@ local function _find_topmost_parent(node, types, validator)
 end
 
 local function make_matcher(root_updator)
+  ---@param line_to_cursor string
+  ---@param trigger string
   return function(line_to_cursor, trigger)
     if
       line_to_cursor:sub(#line_to_cursor - #trigger + 1, #line_to_cursor)
@@ -70,9 +72,18 @@ local function make_matcher(root_updator)
     end
 
     if root ~= nil then
-      local node_text = vim.treesitter.get_node_text(root, 0)
-      local captures = { node_text }
-      return node_text .. trigger, captures
+      -- try to use the text from `line_to_cursor`
+      local start_row, start_col, end_row, end_col =
+        vim.treesitter.get_node_range(root)
+      local text = line_to_cursor:sub(start_col + 1)
+      local capture =
+        line_to_cursor:sub(start_col + 1, #line_to_cursor - #trigger)
+
+      return text, { capture }
+      -- origin:
+      -- local node_text = vim.treesitter.get_node_text(root, 0)
+      -- local captures = { node_text }
+      -- return node_text .. trigger, captures
     else
       return nil
     end

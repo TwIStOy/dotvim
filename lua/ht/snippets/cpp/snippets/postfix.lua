@@ -231,12 +231,40 @@ return {
           t("reinterpret_cast"),
           t("dynamic_cast"),
           t("const_cast"),
+        }, {
+          desc = "Type conversion casts",
         }),
         body = i(2),
         expr = f(function(_, parent)
           return parent.snippet.env.POSTFIX_MATCH
         end, {}),
         ["end"] = i(0),
+      }
+    ),
+  },
+
+  ts_postfix_ident_only {
+    ".fd",
+    name = "if (..find)",
+    dscr = "Find a member exists in given indent.",
+    nodes = fmta(
+      [[
+      if (auto it = <ident>.find(<key>); it <equal> <ident>.end()) {
+        <body>
+      }
+      ]],
+      {
+        ident = f(function(_, parent)
+          return parent.snippet.env.POSTFIX_MATCH
+        end, {}),
+        key = i(1, "key"),
+        equal = c(2, {
+          t("=="),
+          t("!="),
+        }, {
+          desc = "Equals, Not Equals",
+        }),
+        body = i(0),
       }
     ),
   },

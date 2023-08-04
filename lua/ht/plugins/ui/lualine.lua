@@ -98,65 +98,63 @@ components.lsp_progress = {
 }
 
 M.config = function() -- code to run after plugin loaded
-  vim.defer_fn(function()
-    require("lualine").setup {
-      options = options,
-      sections = {
-        lualine_a = { components.mode },
-        lualine_b = {
-          get_cwd,
-          components.lsp_progress,
+  require("lualine").setup {
+    options = options,
+    sections = {
+      lualine_a = { components.mode },
+      lualine_b = {
+        get_cwd,
+        components.lsp_progress,
+      },
+      lualine_c = {
+        {
+          function()
+            return "%="
+          end,
+          separator = "",
         },
-        lualine_c = {
-          {
-            function()
-              return "%="
-            end,
-            separator = "",
-          },
-          {
-            components.fileinfo[1],
-            separator = "",
-          },
-          {
-            "diagnostics",
-            sources = { "nvim_diagnostic" },
-            sections = { "error", "warn", "info", "hint" },
-            diagnostics_color = {
-              error = { fg = fg("DiagnosticError") },
-              warn = { fg = fg("DiagnosticWarn") },
-              info = { fg = fg("DiagnosticInfo") },
-              hint = { fg = fg("DiagnosticHint") },
-            },
-            symbols = {
-              error = " ",
-              warn = " ",
-              info = "󰛩 ",
-              hint = " ",
-            },
-            colored = true,
-            update_in_insert = false,
-            always_visible = false,
-          },
+        {
+          components.fileinfo[1],
+          separator = "",
         },
-        lualine_x = { "branch", "diff" },
-        lualine_y = {
-          { rime_state },
-          { "filetype", colored = true, icon_only = false },
-        },
-        lualine_z = {
-          "progress",
-          {
-            "location",
-            -- separator = { right = available_sep_icons.round.right },
+        {
+          "diagnostics",
+          sources = { "nvim_diagnostic" },
+          sections = { "error", "warn", "info", "hint" },
+          diagnostics_color = {
+            error = { fg = fg("DiagnosticError") },
+            warn = { fg = fg("DiagnosticWarn") },
+            info = { fg = fg("DiagnosticInfo") },
+            hint = { fg = fg("DiagnosticHint") },
           },
+          symbols = {
+            error = " ",
+            warn = " ",
+            info = "󰛩 ",
+            hint = " ",
+          },
+          colored = true,
+          update_in_insert = false,
+          always_visible = false,
         },
       },
-      inactive_sections = inactive_sections,
-      tabline = {},
-      extensions = {},
-    }
-  end, 20)
+      lualine_x = { "branch", "diff" },
+      lualine_y = {
+        { rime_state },
+        { "filetype", colored = true, icon_only = false },
+      },
+      lualine_z = {
+        "progress",
+        {
+          "location",
+          -- separator = { right = available_sep_icons.round.right },
+        },
+      },
+    },
+    inactive_sections = inactive_sections,
+    tabline = {},
+    extensions = {},
+  }
 end
 
 return M

@@ -63,17 +63,15 @@ function M.goto_window(count)
 end
 
 local function quickfix_window_exists()
-  local n = vcall("winnr", { "$" })
-  for i = 1, n do
-    local win_id = vcall("win_getid", { i })
+  for _, win_id in pairs(vim.api.nvim_tabpage_list_wins(0)) do
     local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local tp = A.nvim_buf_get_option(buf_id, "buftype")
-
-    if tp == "quickfix" then
+    local bt = vim.api.nvim_get_option_value("buftype", {
+      buf = buf_id,
+    })
+    if bt == "quickfix" then
       return true
     end
   end
-
   return false
 end
 

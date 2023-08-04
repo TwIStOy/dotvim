@@ -171,10 +171,6 @@ NMAP("<M-n>", "<cmd>nohl<CR>", "nohl")
 NMAP("<leader>q", "<cmd>q<CR>", "quit")
 NMAP("<leader>Q", "<cmd>confirm qall<CR>", "quit-all")
 
-NMAP("tq", function()
-  require("ht.core.window").toggle_quickfix()
-end, "toggle-quickfix")
-
 NMAP("<C-p>", function()
   require("telescope").extensions.command_palette.command_palette {
     layout_strategy = "center",

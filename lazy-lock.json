@@ -1,6 +1,6 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "d0cbbfb539898a275dc4398446ab0ae3b94819bf" },
-  "LuaSnip": { "branch": "support-multiline-trigger", "commit": "49ac41d7a1b62c365d867633a4874010752dbb7e" },
+  "LuaSnip": { "branch": "support-multiline-trigger", "commit": "31717c628da7c846a736536a5504dc862f14a3d6" },
   "alpha-nvim": { "branch": "main", "commit": "e4fc5e29b731bdf55d204c5c6a11dc3be70f3b65" },
   "asyncrun.vim": { "branch": "master", "commit": "0f99f96b1a408c37ea6f78e5990554328bc22dd1" },
   "asynctasks.vim": { "branch": "master", "commit": "c304a574defa426f0b660c361fa01b556dd60d4d" },

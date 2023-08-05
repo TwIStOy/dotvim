@@ -2,6 +2,7 @@ local ht_snippet = require("ht.snippets.snippet")
 local snippet = ht_snippet.build_snippet
 local trig_engines = require("ht.snippets.trig_engines")
 local events = require("luasnip.util.events")
+local ts_matcher = require("ht.snippets.matchers.ts_matcher")
 
 local function ts_postfix_maker(types)
   return function(opts)
@@ -26,6 +27,15 @@ local function ts_postfix_maker(types)
   end
 end
 
+local function new_ts_postfix_maker(types)
+  return function(opts)
+    opts.engine = "plain"
+    opts.hidden = true
+    opts.context_matcher = ts_matcher.make_ts_topmost_parent(types)
+    return snippet(opts)
+  end
+end
+
 local any_expr_types = {
   "call_expression",
   "identifier",
@@ -42,8 +52,9 @@ local indent_only_types = {
 
 return {
   ts_postfix_maker = ts_postfix_maker,
+  new_ts_postfix_maker = new_ts_postfix_maker,
   any_expr_types = any_expr_types,
   indent_only_types = indent_only_types,
-  cpp_ts_postfix_any_expr = ts_postfix_maker(any_expr_types),
-  cpp_ts_postfix_ident_only = ts_postfix_maker(indent_only_types),
+  cpp_ts_postfix_any_expr = new_ts_postfix_maker(any_expr_types),
+  cpp_ts_postfix_ident_only = new_ts_postfix_maker(indent_only_types),
 }

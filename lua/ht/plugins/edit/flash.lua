@@ -19,6 +19,21 @@ return {
         end,
         desc = "Remote Flash",
       },
+      -- TODO(hawtian): Show diagnostics at target, without changing cursor position
+
+      --[[
+
+        require("flash").jump({
+          action = function(match, state)
+            vim.api.nvim_win_call(match.win, function()
+              vim.api.nvim_win_set_cursor(match.win, match.pos)
+              vim.diagnostic.open_float()
+            end)
+            state:restore()
+          end,
+        })
+
+      --]]
     },
     config = true,
     opts = {

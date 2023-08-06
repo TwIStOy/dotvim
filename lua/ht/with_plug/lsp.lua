@@ -36,6 +36,30 @@ function M.code_action()
   vim.cmd("Lspsaga code_action")
 end
 
+function M.open_diagnostic()
+  local opts = {
+    focusable = false,
+    close_events = {
+      "CursorMoved",
+      "InsertEnter",
+      "User ShowHover",
+      "BufLeave",
+      "FocusLost",
+    },
+    border = "solid",
+    source = "if_many",
+    prefix = " ",
+    focus = false,
+    scope = "cursor",
+  }
+  local bufnr, win = vim.diagnostic.open_float(opts)
+  vim.api.nvim_set_option_value(
+    "winhl",
+    "FloatBorder:NormalFloat",
+    { win = win }
+  )
+end
+
 function M.show_hover()
   vim.o.eventignore = "CursorHold"
   vim.cmd("doautocmd User ShowHover")

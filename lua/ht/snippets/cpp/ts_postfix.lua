@@ -2,7 +2,7 @@ local ht_snippet = require("ht.snippets.snippet")
 local snippet = ht_snippet.build_snippet
 local trig_engines = require("ht.snippets.trig_engines")
 local events = require("luasnip.util.events")
-local ts_matcher = require("ht.snippets.matchers.ts_matcher")
+local ts_resolver = require("ht.snippets.resolvers.ts_resolver")
 
 local function ts_postfix_maker(types)
   return function(opts)
@@ -31,7 +31,7 @@ local function new_ts_postfix_maker(types)
   return function(opts)
     opts.engine = "plain"
     opts.hidden = true
-    opts.context_matcher = ts_matcher.make_ts_topmost_parent(types)
+    opts.resolve_expand_params = ts_resolver.make_ts_topmost_parent(types)
     return snippet(opts)
   end
 end

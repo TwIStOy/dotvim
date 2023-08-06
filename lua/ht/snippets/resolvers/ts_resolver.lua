@@ -23,14 +23,8 @@ local function _find_topmost_parent(node, types, validator)
   return find_parent_impl(node)
 end
 
-local function make_context_matcher(root_updator)
+local function make_expand_params_resolver(root_updator)
   local context_matcher = function(snip, line_to_cursor, match, captures)
-    if snip.condition then
-      if not snip.condition(line_to_cursor, match, captures) then
-        return nil
-      end
-    end
-
     local cursor = vim.api.nvim_win_get_cursor(0)
     local cursor_range = { cursor[1] - 1, cursor[2] - #match - 1 }
     local exclude_cursor_range = { cursor[1] - 1, cursor[2] - 1 }
@@ -89,12 +83,10 @@ local function make_context_matcher(root_updator)
         capture = capture
       end
 
-      print("NOW!!!")
-
       return {
         trigger = match,
         captures = captures,
-        trig_region = {
+        clear_region = {
           from = {
             start_row,
             start_col,
@@ -116,13 +108,13 @@ local function make_context_matcher(root_updator)
 end
 
 ---@param types string | table<string, number> | table<number, string>
-local function make_topmost_parent_context_matcher_maker(types)
+local function make_topmost_parent_expand_params_resolver(types)
   local root_updator = function(root, validator)
     return _find_topmost_parent(root, types, validator)
   end
-  return make_context_matcher(root_updator)
+  return make_expand_params_resolver(root_updator)
 end
 
 return {
-  make_ts_topmost_parent = make_topmost_parent_context_matcher_maker,
+  make_ts_topmost_parent = make_topmost_parent_expand_params_resolver,
 }

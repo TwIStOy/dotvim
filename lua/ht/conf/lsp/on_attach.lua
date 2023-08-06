@@ -5,29 +5,7 @@ local function on_buffer_attach(client, bufnr)
   -- display diagnostic win on CursorHold
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
-    callback = function()
-      local opts = {
-        focusable = false,
-        close_events = {
-          "CursorMoved",
-          "InsertEnter",
-          "User ShowHover",
-          "BufLeave",
-          "FocusLost",
-        },
-        border = "solid",
-        source = "if_many",
-        prefix = " ",
-        focus = false,
-        scope = "cursor",
-      }
-      local bufnr, win = vim.diagnostic.open_float(opts)
-      vim.api.nvim_set_option_value(
-        "winhl",
-        "FloatBorder:NormalFloat",
-        { win = win }
-      )
-    end,
+    callback = LSP.open_diagnostic,
   })
 
   ---comment normal map

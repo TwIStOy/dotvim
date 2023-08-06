@@ -33,7 +33,7 @@ local function build_snippet(opts)
     snippetType = snippetType,
     condition = cond and cond.condition,
     show_condition = cond and cond.show_condition,
-    context_matcher = opts.context_matcher
+    resolve_expand_params = opts.resolve_expand_params,
   }
   return luasnip.s(trig_arg, nodes, opts.opts or nil)
 end

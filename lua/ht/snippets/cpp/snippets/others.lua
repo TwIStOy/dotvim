@@ -13,6 +13,7 @@ local quick_expand = ht_snippet.quick_expand
 local postfix = require("ht.snippets.cpp.postfix").postfix
 local i = ht_snippet.insert_node
 local c = ht_snippet.choice_node
+local s = ls.snippet
 
 local simple_comment = function(prefix)
   return snippet {

@@ -1,7 +1,3 @@
-local UtilTbl = require("ht.utils.table")
-
-local util = {}
-
 ---@param symbol lsp.DocumentSymbol|lsp.SymbolInformation
 ---@param bufnr number
 ---@param depth number

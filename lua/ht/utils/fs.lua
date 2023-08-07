@@ -34,7 +34,8 @@ function M.write_all(path, data, mode)
   end)
 end
 
----Returns the topmost parent directory which match the conditions or nil if not found.
+---Returns the topmost parent directory which match the conditions or nil if
+---not found.
 ---@param p any
 ---@param matcher fun(path: string): boolean
 ---@return string|nil

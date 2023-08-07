@@ -82,7 +82,7 @@ end
 ---@return FunctionWithDescription[], number, number
 function M:get_functions(bufnr)
   local buffer = require("ht.core.vim.buffer")(bufnr)
-  ---@type Array<any>
+  ---@type any[]
   local cache_key = buffer:to_cache_key()
   -- global states
   local status, retval = pcall(function()

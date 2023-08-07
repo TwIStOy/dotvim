@@ -1,4 +1,4 @@
-local FuncKeymapSpec = require 'ht.core.plug.keymap_spec'
+local FuncKeymapSpec = require("ht.core.plug.keymap_spec")
 
 ---@class PluginFunctionalitySpec
 ---@field title string|nil
@@ -17,13 +17,13 @@ function PluginFunctionalitySpec:as_func_spec(category)
   }
 end
 
----@return List
+---@return table
 function PluginFunctionalitySpec:as_lazy_keys()
   local keys = {}
   for _, spec in ipairs(self.keys) do
     for _, key in ipairs(spec.keys) do
       for _, mode in ipairs(spec.modes) do
-        table.insert(keys, { key, self.callback, mode = mode, desc = self.desc })
+        keys[#keys + 1] = { key, self.callback, mode = mode, desc = self.desc }
       end
     end
   end
@@ -36,13 +36,13 @@ end
 ---@return PluginFunctionalitySpec
 local function new_spec(title, callback, opts)
   vim.validate {
-    title = { title, 'string' },
-    callback = { callback, { 'function', 'string' } },
+    title = { title, "string" },
+    callback = { callback, { "function", "string" } },
   }
   opts = opts or {}
   local spec = {}
   spec.title = title
-  if type(callback) == 'string' then
+  if type(callback) == "string" then
     spec.callback = function()
       vim.cmd(callback)
     end
@@ -52,7 +52,7 @@ local function new_spec(title, callback, opts)
   spec.desc = opts.desc
   local keys = opts.keys or {}
   spec.keys = {}
-  if type(keys) == 'string' then
+  if type(keys) == "string" then
     keys = { keys }
   end
   for _, key in ipairs(keys) do

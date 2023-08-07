@@ -126,7 +126,6 @@ require("ht.utils").delay_notify_invocations()
 bootstrap_plugin_manager()
 
 require("ht.settings")
-require("ht.conf.event")
 
 local mkdir = require("ht.features.mkdir")
 

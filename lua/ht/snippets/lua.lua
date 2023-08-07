@@ -64,6 +64,7 @@ return function()
       name = "foo++",
       dscr = "post increment",
       mode = "wr",
+      hidden = true,
       nodes = fmt("{} = {} + 1", { l(l.CAPTURE1, {}), l(l.CAPTURE1, {}) }),
     },
 

@@ -88,7 +88,10 @@ local function top_level_workspace_and_document_symbols(opts)
             result.result or {},
             opts.bufnr,
             {
-              from_prefix = "@@",
+              extra = {
+                from_prefix = "@",
+              },
+              depth = 4,
             }
           ) or {}
           all_items = vim.list_extend(all_items, items)
@@ -116,7 +119,9 @@ local function top_level_workspace_and_document_symbols(opts)
             result.result or {},
             opts.bufnr,
             {
-              from_prefix = "@",
+              extra = {
+                from_prefix = "#",
+              },
             }
           ) or {}
           all_items = vim.list_extend(all_items, items)

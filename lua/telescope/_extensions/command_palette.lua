@@ -4,7 +4,6 @@ local actions = require("telescope.actions")
 local conf = require("telescope.config").values
 local finders = require("telescope.finders")
 local pickers = require("telescope.pickers")
-local utils = require("telescope.utils")
 local entry_display = require("telescope.pickers.entry_display")
 
 ---@param opts table
@@ -39,9 +38,6 @@ local function entry_maker(opts, category_width, title_width)
 end
 
 local function open_command_palette(opts)
-  local ft = vim.bo.filetype
-  local filename = vim.fn.expand("%:t")
-
   local functions, category_width, title_width =
     require("ht.core.functions"):get_functions(vim.api.nvim_get_current_buf())
   pickers

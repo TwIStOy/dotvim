@@ -66,6 +66,11 @@ return function()
       mode = "wr",
       hidden = true,
       nodes = fmt("{} = {} + 1", { l(l.CAPTURE1, {}), l(l.CAPTURE1, {}) }),
+      cond = {
+        show_condition = function()
+          return false
+        end,
+      },
     },
 
     snippet {

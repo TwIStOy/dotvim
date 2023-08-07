@@ -1,3 +1,5 @@
+local Const = require("ht.core.const")
+
 local function on_buffer_attach(client, bufnr)
   local navic = require("nvim-navic")
   local LSP = require("ht.with_plug.lsp")
@@ -34,7 +36,11 @@ local function on_buffer_attach(client, bufnr)
 
   nmap("ga", LSP.code_action, "code-action")
 
-  nmap("<Char-0xAB>", LSP.code_action, "code-action")
+  if not Const.is_gui then
+    nmap("<Char-0xAB>", LSP.code_action, "code-action")
+  else
+    nmap("<D-.>", LSP.code_action, "code-action")
+  end
 
   nmap("gr", LSP.references, "inspect-references")
 
@@ -45,6 +51,16 @@ local function on_buffer_attach(client, bufnr)
   nmap("[e", LSP.prev_error_diagnostic, "previous-error-diagnostic")
 
   nmap("]e", LSP.next_error_diagnostic, "next-error-diagnostic")
+
+  if not Const.is_gui then
+    nmap("<Char-0xAC>", function()
+      LSP.top_level_workspace_and_document_symbols()
+    end, "doc-symbols-test")
+  else
+    nmap("<D-k>", function()
+      LSP.top_level_workspace_and_document_symbols()
+    end, "doc-symbols-test")
+  end
 
   if client.server_capabilities["documentSymbolProvider"] then
     navic.attach(client, bufnr)

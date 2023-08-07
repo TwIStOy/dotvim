@@ -12,13 +12,13 @@ M.setup = function(on_attach, capabilities)
     vim.fn.expand("$VIMRUNTIME/lua"),
     vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
   }
-  if package.loaded["lazy"] then
-    local lazy_plugins = require("lazy").plugins()
-    for _, plugin in ipairs(lazy_plugins) do
-      lua_library[#lua_library + 1] = plugin.dir
-    end
-  end
-  lua_library[#lua_library + 1] = vim.api.nvim_get_runtime_file("", true)
+  -- if package.loaded["lazy"] then
+  --   local lazy_plugins = require("lazy").plugins()
+  --   for _, plugin in ipairs(lazy_plugins) do
+  --     lua_library[#lua_library + 1] = plugin.dir
+  --   end
+  -- end
+  -- lua_library[#lua_library + 1] = vim.api.nvim_get_runtime_file("", true)
 
   require("lspconfig").lua_ls.setup {
     cmd = {

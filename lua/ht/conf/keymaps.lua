@@ -1,4 +1,13 @@
 local Const = require("ht.core.const")
+
+local ui_lhs = function(tui, gui)
+  if Const.is_gui then
+    return gui
+  else
+    return tui
+  end
+end
+
 local function setup()
   -- Disable arrows
   vim.api.nvim_set_keymap("", "<Left>", "<Nop>", {})
@@ -72,4 +81,5 @@ end
 
 return {
   setup = setup,
+  ui_lhs = ui_lhs,
 }

@@ -128,7 +128,7 @@ function M.progress()
   local ms = vim.uv.hrtime() / 1000000
   local spinner = spinners[(math.floor(ms / 120) % #spinners) + 1]
 
-  local active_clients = vim.lsp.get_active_clients {
+  local active_clients = vim.lsp.get_clients {
     bufnr = 0,
   }
   local percentage = nil
@@ -173,6 +173,7 @@ function M.progress()
   return message
 end
 
+---@param bufnr number
 function M.setup_inlay_hints(bufnr)
   vim.api.nvim_create_autocmd(
     { "BufEnter", "InsertLeave", "BufWinEnter", "BufWritePost" },
@@ -184,5 +185,8 @@ function M.setup_inlay_hints(bufnr)
     }
   )
 end
+
+local symbol_funcs = require("ht.with_plug.lsp.symbols")
+M = vim.tbl_extend("error", M, symbol_funcs)
 
 return M

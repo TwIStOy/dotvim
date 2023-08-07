@@ -5,8 +5,9 @@ M.keys = function(t)
 end
 
 ---Unique elements in given list-like table.
----@param t List
----@return List
+---@generic T
+---@param t T[]
+---@return T[]
 M.unique = function(t)
   local hash = {}
   for _, v in ipairs(t) do
@@ -16,9 +17,10 @@ M.unique = function(t)
 end
 
 ---Find the first element in given list-like table that satisfies the given predicate.
----@param t List
----@param predicate function
----@return any|nil
+---@generic T
+---@param t T[]
+---@param predicate fun(T):boolean
+---@return T|nil
 M.find_first = function(t, predicate)
   for _, v in ipairs(t) do
     if predicate(v) then
@@ -28,18 +30,31 @@ M.find_first = function(t, predicate)
   return nil
 end
 
----Returns true if the given list-like table contains an element that satisfies the given predicate.
----@param t List
----@param predicate function
+---Returns true if the given list-like table contains an element that
+---satisfies the given predicate.
+---@generic T
+---@param t T[]
+---@param predicate fun(T):boolean
 ---@return boolean
 M.contains = function(t, predicate)
   return M.find_first(t, predicate) ~= nil
 end
 
+---Returns slice of given list-like table.
+---@generic T
+---@param tbl T[]
+---@param first number?
+---@param last number?
+---@param step number?
+---@return T[]
 M.slice = function(tbl, first, last, step)
   local sliced = {}
 
-  for i = first or 1, last or #tbl, step or 1 do
+  first = first or 1
+  last = last or #tbl
+  step = step or 1
+
+  for i = first, last, step do
     sliced[#sliced + 1] = tbl[i]
   end
 
@@ -55,7 +70,9 @@ M.table_get_value = function(t, k, default)
 end
 
 ---Reverse given list-like table in place.
----@param lst Array
+---NOTE: this mutates the given table.
+---@generic T
+---@param lst T[]
 M.list_reverse = function(lst)
   for i = 1, math.floor(#lst / 2) do
     local j = #lst - i + 1
@@ -81,37 +98,33 @@ M.deepcopy = function(orig)
   return copy
 end
 
----@param lst Array
----@param f function
----@return Array
+---@generic T
+---@generic U
+---@param lst T[]
+---@param f fun(T):U
+---@return U[]
 M.list_map = function(lst, f)
   local res = {}
   for _, v in ipairs(lst) do
-    table.insert(res, f(v))
+    res[#res + 1] = f(v)
   end
   return res
 end
 
 ---@param p string|table|string[]
+---@return table
 M.normalize_search_table = function(p)
-  if p == nil then
-    return nil
-  end
+  vim.validate { p = { p, { "string", "table" } } }
   if type(p) == "string" then
     return { [p] = true }
-  elseif type(p) == "table" then
-    if vim.tbl_islist(p) then
-      local res = {}
-      for _, v in ipairs(p) do
-        res[v] = true
-      end
-      return res
-    else
-      return p
+  elseif type(p) == "table" and vim.tbl_islist(p) then
+    local res = {}
+    for _, v in ipairs(p) do
+      res[v] = true
     end
+    return res
   end
+  return p
 end
 
 return M
-
--- vim: et sw=2 ts=2 fdm=marker

@@ -2,14 +2,20 @@ local entry_display = require("telescope.pickers.entry_display")
 local utils = require("telescope.utils")
 
 local lsp_type_highlight = {
-  ["Class"] = "Structure",
-  ["Constant"] = "String",
-  ["Field"] = "TelescopeResultsField",
-  ["Function"] = "@property",
-  ["Method"] = "Function",
-  ["Property"] = "@property",
-  ["Struct"] = "Structure",
-  ["Variable"] = "@parameter",
+  ["class"] = "Structure",
+  ["constant"] = "String",
+  ["field"] = "TelescopeResultsField",
+  ["function"] = "@property",
+  ["method"] = "Function",
+  ["property"] = "@property",
+  ["struct"] = "Structure",
+  ["variable"] = "@parameter",
+}
+
+local display_symbol_kinds = {
+  ["function"] = true,
+  ["method"] = true,
+  ["constructor"] = true,
 }
 
 local function entry_maker(opts)
@@ -30,7 +36,7 @@ local function entry_maker(opts)
     return displayer {
       utils.transform_path(opts, entry.filename),
       entry.text,
-      { entry.kind:lower(), lsp_type_highlight[entry.kind] },
+      { entry.kind, lsp_type_highlight[entry.kind] },
     }
   end
 
@@ -56,6 +62,10 @@ local function top_level_workspace_and_document_symbols(opts)
     local pickers = require("telescope.pickers")
     local finders = require("telescope.finders")
     local conf = require("telescope.config").values
+
+    all_items = vim.tbl_filter(function(item)
+      return display_symbol_kinds[item.kind] == true
+    end, all_items)
 
     pickers
       .new(opts, {

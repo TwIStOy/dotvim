@@ -40,6 +40,13 @@ local quick_close_filetypes = {
   "PlenaryTestPopup",
 }
 
+local function mkdir()
+  local dir = vim.fn.expand("<afile>:p:h")
+  if vim.fn.isdirectory(dir) == 0 then
+    vim.fn.mkdir(dir, "p")
+  end
+end
+
 local function setup()
   vim.api.nvim_create_autocmd("TermEnter", {
     pattern = "*",
@@ -156,6 +163,13 @@ local function setup()
     pattern = "*",
     callback = function()
       require("ht.core.window").check_last_window()
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function()
+      mkdir()
     end,
   })
 end

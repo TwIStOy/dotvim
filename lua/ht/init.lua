@@ -126,7 +126,3 @@ require("ht.utils").delay_notify_invocations()
 bootstrap_plugin_manager()
 
 require("ht.settings")
-
-local mkdir = require("ht.features.mkdir")
-
-mkdir.register_create_directory_before_save()

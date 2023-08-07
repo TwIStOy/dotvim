@@ -23,7 +23,7 @@ local function setup()
   end
 
   NMAP("<leader>fs", "<cmd>update<CR>", "update")
-  if Const.is_gui then
+  if not Const.is_gui then
     vim.keymap.set(
       { "n", "i", "v" },
       "<Char-0xAA>",

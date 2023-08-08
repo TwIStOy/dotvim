@@ -37,6 +37,7 @@ return {
         "cpp",
         "css",
         "dockerfile",
+        "dart",
         "fish",
         "git_config",
         "git_rebase",

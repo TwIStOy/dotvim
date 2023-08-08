@@ -18,6 +18,7 @@ local relative_number_blacklist = {
   ["mason"] = true,
   ["Outline"] = true,
   ["aerial"] = true,
+  ["flutterToolsOutline"] = true,
   [""] = true,
 }
 

@@ -23,6 +23,7 @@ return {
         end
         sources[#sources + 1] = builtins[tool.typ][tool.name].with(opt)
       end
+      sources[#sources + 1] = builtins.formatting.dart_format
 
       null_ls.setup {
         sources = sources,

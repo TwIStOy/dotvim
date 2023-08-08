@@ -8,7 +8,6 @@ return {
         "stevearc/dressing.nvim",
         "nvim-telescope/telescope.nvim",
       },
-      config = true,
     },
     category = "Flutter",
     functions = {

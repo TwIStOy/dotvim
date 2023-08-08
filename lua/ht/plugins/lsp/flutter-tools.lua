@@ -6,6 +6,7 @@ return {
       dependencies = {
         "nvim-lua/plenary.nvim",
         "stevearc/dressing.nvim",
+        "nvim-telescope/telescope.nvim",
       },
       config = true,
     },

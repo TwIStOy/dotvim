@@ -1,6 +1,7 @@
 ---@type ht.LspConf[]
 local all_servers = (function()
   local confs = {}
+
   confs[#confs + 1] = require("ht.conf.lsp.servers.clangd")
   confs[#confs + 1] = require("ht.conf.lsp.servers.rust-analyzer")
   confs[#confs + 1] = require("ht.conf.lsp.servers.pyright")

@@ -55,10 +55,16 @@ return {
           enable = true,
         },
       },
+      jump = {
+        autojump = true,
+      },
       modes = {
         char = {
           enabled = true,
           keys = {},
+        },
+        search = {
+          enabled = false,
         },
       },
       remote_op = {

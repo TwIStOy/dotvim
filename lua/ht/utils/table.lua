@@ -111,9 +111,13 @@ M.list_map = function(lst, f)
   return res
 end
 
----@param p string|table|string[]
----@return table
+---@param p string|table|string[]|nil
+---@return table?
 M.normalize_search_table = function(p)
+  if p == nil then
+    return nil
+  end
+
   vim.validate { p = { p, { "string", "table" } } }
   if type(p) == "string" then
     return { [p] = true }

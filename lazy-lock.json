@@ -30,6 +30,7 @@
   "dressing.nvim": { "branch": "master", "commit": "713b56e13c58ad519920e0e634763345cb4fc832" },
   "eyeliner.nvim": { "branch": "main", "commit": "70e1fb4f68bfdad2b9e2b53fcaf367ac86fc693f" },
   "flash.nvim": { "branch": "main", "commit": "967117690bd677cb7b6a87f0bc0077d2c0be3a27" },
+  "flutter-tools.nvim": { "branch": "main", "commit": "561d85b16d8ca2938820a9c26b2fe74096d89c81" },
   "git-conflict.nvim": { "branch": "main", "commit": "3c89812a83ac749b8851a473863958325a1cd57c" },
   "gitsigns.nvim": { "branch": "main", "commit": "31178496552584e84fa9e74e087dec1f6c347f5d" },
   "glance.nvim": { "branch": "master", "commit": "b78ef99ffda23fa42ce85de50e3fc13a5472ecfd" },

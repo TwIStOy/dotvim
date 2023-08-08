@@ -4,14 +4,7 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      {
-        "simrat39/symbols-outline.nvim",
-        cmd = {
-          "SymbolsOutline",
-          "SymbolsOutlineOpen",
-          "SymbolsOutlineClose",
-        },
-      },
+      "simrat39/symbols-outline.nvim",
       {
         "p00f/clangd_extensions.nvim",
         lazy = true,

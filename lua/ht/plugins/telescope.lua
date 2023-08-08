@@ -125,7 +125,7 @@ local telescope_functions = {
     },
     values = {
       FuncSpec("List LSP document symbols in the current buffer", function()
-        require("telescope.builtin").lsp_document_symbols()
+        require("telescope").extensions.aerial.aerial()
       end, {
         keys = "<leader>ls",
         desc = "document-symbols",

@@ -52,3 +52,4 @@
 ---@field kind string
 ---@field text string the name of this symbol
 ---@field detail string? more detail for this symbol, e.g the signature of a function.
+

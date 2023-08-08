@@ -17,6 +17,7 @@ local relative_number_blacklist = {
   ["nofile"] = true,
   ["mason"] = true,
   ["Outline"] = true,
+  ["aerial"] = true,
   [""] = true,
 }
 
@@ -39,6 +40,7 @@ local quick_close_filetypes = {
   "startuptime",
   "tsplayground",
   "PlenaryTestPopup",
+  "aerial",
   "Outline",
 }
 

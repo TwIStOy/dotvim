@@ -1,16 +1,17 @@
-local Const = require("ht.core.const")
+local CoreConst = require("ht.core.const")
+local CoreLspServer = require("ht.core.lsp.server")
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {}
 
-M.name = "tsserver"
+opts.name = "tsserver"
 
-M.mason_pkg = "typescript-language-server"
+opts.mason = { name = "typescript-language-server" }
 
-M.setup = function(on_attach, capabilities)
+opts.setup = function(on_attach, capabilities)
   require("lspconfig").tsserver.setup {
     cmd = {
-      Const.mason_bin .. "/typescript-language-server",
+      CoreConst.mason_bin .. "/typescript-language-server",
       "--stdio",
     },
     on_attach = on_attach,
@@ -18,4 +19,4 @@ M.setup = function(on_attach, capabilities)
   }
 end
 
-return M
+return CoreLspServer.new(opts)

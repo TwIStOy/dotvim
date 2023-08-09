@@ -65,7 +65,5 @@ local function symbols_to_items(symbols, bufnr, opts)
 end
 
 return {
-  utils = {
-    symbols_to_items = symbols_to_items,
-  },
+  symbols_to_items = symbols_to_items,
 }

@@ -1,90 +1,48 @@
----@type ht.LspConf[]
+---@type ht.lsp.Server[]
 local all_servers = (function()
-  local confs = {}
+  local servers = {}
 
-  confs[#confs + 1] = require("ht.conf.lsp.servers.clangd")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.rust-analyzer")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.pyright")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.cmake")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.lua_ls")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.rime_ls")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.tsserver")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.grammarly")
-  confs[#confs + 1] = require("ht.conf.lsp.servers.flutter")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.clangd")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.rust-analyzer")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.pyright")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.cmake")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.lua_ls")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.rime_ls")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.tsserver")
+  servers[#servers + 1] = require("ht.conf.lsp.servers.flutter")
 
   -- init sourcekit in macos
   if vim.fn.has("macunix") then
-    confs[#confs + 1] = require("ht.conf.lsp.servers.sourcekit")
+    servers[#servers + 1] = require("ht.conf.lsp.servers.sourcekit")
   end
 
-  return confs
+  return servers
 end)()
 
----@type ht.LspTool[]
-local all_tools = (function()
-  return {
-    {
-      name = "clang_format",
-      mason_pkg = "clang-format",
-      typ = "formatting",
-    },
-    {
-      name = "stylua",
-      typ = "formatting",
-      opts = {
-        condition = function(utils)
-          return utils.root_has_file { "stylua.toml", ".stylua.toml" }
-        end,
-      },
-    },
-    {
-      name = "rustfmt",
-      mason_pkg = false,
-      typ = "formatting",
-    },
-    {
-      name = "prettier",
-      typ = "formatting",
-    },
-    {
-      name = "black",
-      typ = "formatting",
-    },
-  }
-end)()
+local all_formatters = require("ht.conf.external_tool.formatters")
 
----@param confs ht.LspConf[]
----@param tools ht.LspTool[]
+---@param servers ht.lsp.Server[]
+---@param tools ht.external_tool.Formatter[]
 ---@return ht.MasonPackage[]
-local function collect_mason_packages(confs, tools)
+local function collect_mason_packages(servers, tools)
   local result = {}
-  for _, conf in ipairs(confs) do
-    if conf.mason_pkg == nil then
-      result[#result + 1] = {
-        name = conf.name,
-      }
-    elseif conf.mason_pkg ~= false then
-      result[#result + 1] = {
-        name = conf.mason_pkg,
-        version = conf.mason_version,
-      }
+  for _, server in ipairs(servers) do
+    local pkg = server:mason_package()
+    if pkg ~= nil then
+      result[#result + 1] = pkg
     end
   end
   for _, tool in ipairs(tools) do
-    if tool.mason_pkg == nil then
-      result[#result + 1] = { name = tool.name }
-    elseif tool.mason_pkg ~= false then
-      result[#result + 1] = {
-        name = tool.mason_pkg,
-        version = tool.mason_version,
-      }
+    local pkg = tool:mason_package()
+    if pkg ~= nil then
+      result[#result + 1] = pkg
     end
   end
   return result
 end
 
 return {
-  mason_packages = collect_mason_packages(all_servers, all_tools),
+  mason_packages = collect_mason_packages(all_servers, all_formatters),
   all_servers = all_servers,
-  all_tools = all_tools,
+  all_formatters = all_formatters,
 }

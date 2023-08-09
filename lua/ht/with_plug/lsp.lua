@@ -101,27 +101,6 @@ function M.client_capabilities()
   return capabilities
 end
 
-function M.buf_formattable(bufnr)
-  local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
-  local generators = require("null-ls.generators")
-  local methods = require("null-ls.methods")
-  local available_generators =
-    generators.get_available(file_type, methods.internal.FORMATTING)
-  return #available_generators > 0
-end
-
-function M.format(bufnr)
-  if not M.buf_formattable(bufnr) then
-    vim.notify("Current buffer is not formattable", vim.log.levels.WARN)
-    return
-  end
-  vim.lsp.buf.format {
-    filter = function(c)
-      return c.name == "null-ls"
-    end,
-  }
-end
-
 function M.progress()
   local spinners =
     { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }

@@ -111,6 +111,22 @@ M.list_map = function(lst, f)
   return res
 end
 
+---@generic T
+---@generic U
+---@param lst T[]
+---@param f fun(T):U
+---@return U[]
+M.list_map_filter = function(lst, f)
+  local res = {}
+  for _, v in ipairs(lst) do
+    local vv = f(v)
+    if vv ~= nil then
+      res[#res + 1] = vv
+    end
+  end
+  return res
+end
+
 ---@param p string|table|string[]|nil
 ---@return table?
 M.normalize_search_table = function(p)
@@ -129,6 +145,19 @@ M.normalize_search_table = function(p)
     return res
   end
   return p
+end
+
+---@param fathers table[]
+---@return fun(table, string):any
+M.make_index_function = function(fathers)
+  return function(_, key)
+    for _, father in ipairs(fathers) do
+      if father[key] ~= nil then
+        return father[key]
+      end
+    end
+    return nil
+  end
 end
 
 return M

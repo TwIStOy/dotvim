@@ -1,12 +1,13 @@
 local RightClick = require("ht.core.right-click")
-local Const = require("ht.core.const")
+local CoreConst = require("ht.core.const")
+local CoreLspServer = require("ht.core.lsp.server")
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {}
 
-M.name = "rust-analyzer"
+opts.name = "rust-analyzer"
 
-M.setup = function(on_attach, capabilities)
+opts.setup = function(on_attach, capabilities)
   require("rust-tools").setup {
     tools = {
       on_initialized = function()
@@ -16,7 +17,7 @@ M.setup = function(on_attach, capabilities)
     },
     server = {
       cmd = {
-        Const.mason_bin .. "/rust-analyzer",
+        CoreConst.mason_bin .. "/rust-analyzer",
       },
       on_attach = on_attach,
       capabilities = capabilities,
@@ -39,7 +40,7 @@ M.setup = function(on_attach, capabilities)
   }
 end
 
-M.right_click = {
+opts.right_click = {
   {
     index = RightClick.indexes.rust_tools,
     enabled = {
@@ -97,7 +98,7 @@ M.right_click = {
   },
 }
 
-M.function_sets = {
+opts.function_sets = {
   {
     category = "Rust Analyzer",
     functions = {
@@ -119,4 +120,4 @@ M.function_sets = {
   },
 }
 
-return M
+return CoreLspServer.new(opts)

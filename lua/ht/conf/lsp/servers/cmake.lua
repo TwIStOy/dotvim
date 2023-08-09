@@ -1,21 +1,22 @@
-local Const = require("ht.core.const")
+local CoreConst = require("ht.core.const")
+local CoreLspServer = require("ht.core.lsp.server")
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {
+  name = "cmake",
+  mason = {
+    name = "cmake-language-server",
+  },
+  setup = function(on_attach, capabilities)
+    require("lspconfig").cmake.setup {
+      cmd = {
+        CoreConst.mason_bin .. "/cmake-language-server",
+      },
+      on_attach = on_attach,
+      capabilities = capabilities,
+      initializationOptions = { buildDirectory = "build" },
+    }
+  end,
+}
 
-M.name = "cmake"
-
-M.mason_pkg = "cmake-language-server"
-
-M.setup = function(on_attach, capabilities)
-  require("lspconfig").cmake.setup {
-    cmd = {
-      Const.mason_bin .. "/cmake-language-server",
-    },
-    on_attach = on_attach,
-    capabilities = capabilities,
-    initializationOptions = { buildDirectory = "build" },
-  }
-end
-
-return M
+return CoreLspServer.new(opts)

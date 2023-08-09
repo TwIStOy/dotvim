@@ -1,26 +1,13 @@
-local Const = require("ht.core.const")
+local CoreLspServer = require("ht.core.lsp.server")
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {}
 
-M.name = "rime_ls"
+opts.name = "rime_ls"
 
-M.mason_pkg = false
+opts.mason = false
 
 vim.g.global_rime_enabled = false
-
-local default_opts = {
-  name = "rime_ls",
-  cmd = { "rime_ls" },
-  init_options = {
-    enabled = false, -- 初始关闭, 手动开启
-    shared_data_dir = "/usr/share/rime-data", -- rime 公共目录
-    user_data_dir = "~/.local/share/rime-ls", -- 指定用户目录, 最好新建一个
-    log_dir = "~/.local/share/rime-ls", -- 日志目录
-    trigger_characters = {}, -- 为空表示全局开启
-    schema_trigger_character = "&", --  当输入此字符串时请求补全会触发 “方案选单”
-  },
-}
 
 local function rime_on_attach(client, bufnr)
   local toggle_rime = function()
@@ -72,7 +59,7 @@ local function wrap_attach(on_attach)
   end
 end
 
-M.setup = function(on_attach, capabilities)
+opts.setup = function(on_attach, capabilities)
   local configs = require("lspconfig.configs")
   if not configs.rime_ls then
     configs.rime_ls = {
@@ -114,9 +101,8 @@ A language server for librime
       always_incomplete = true,
     },
     on_attach = wrap_attach(on_attach),
-    --- update capabilities???
     capabilities = capabilities,
   }
 end
 
-return M
+return CoreLspServer.new(opts)

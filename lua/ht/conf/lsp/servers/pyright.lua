@@ -1,14 +1,15 @@
-local Const = require("ht.core.const")
+local CoreConst = require("ht.core.const")
+local CoreLspServer = require("ht.core.lsp.server")
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {}
 
-M.name = "pyright"
+opts.name = "pyright"
 
-M.setup = function(on_attach, capabilities)
+opts.setup = function(on_attach, capabilities)
   require("lspconfig").pyright.setup {
     cmd = {
-      Const.mason_bin .. "/pyright-langserver",
+      CoreConst.mason_bin .. "/pyright-langserver",
       "--stdio",
     },
     on_attach = on_attach,
@@ -16,4 +17,4 @@ M.setup = function(on_attach, capabilities)
   }
 end
 
-return M
+return CoreLspServer.new(opts)

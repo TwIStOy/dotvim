@@ -24,10 +24,6 @@ local function on_buffer_attach(client, bufnr)
 
   nmap("gt", LSP.type_definitions, "goto-type-definition")
 
-  nmap("<leader>fc", function()
-    LSP.format(bufnr)
-  end, "format-code")
-
   nmap("K", LSP.show_hover, "show-hover")
 
   nmap("gi", LSP.implementations, "goto-impl")

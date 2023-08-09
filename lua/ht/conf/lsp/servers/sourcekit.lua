@@ -1,13 +1,13 @@
-local Const = require("ht.core.const")
+local CoreLspServer = require("ht.core.lsp.server")
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {}
 
-M.name = "sourcekit"
+opts.name = "sourcekit"
 
-M.mason_pkg = false
+opts.mason = false
 
-M.setup = function(on_attach, capabilities)
+opts.setup = function(on_attach, capabilities)
   require("lspconfig").sourcekit.setup {
     filetypes = { "swift", "objective-c", "objective-cpp" },
     on_attach = on_attach,
@@ -15,4 +15,4 @@ M.setup = function(on_attach, capabilities)
   }
 end
 
-return M
+return CoreLspServer.new(opts)

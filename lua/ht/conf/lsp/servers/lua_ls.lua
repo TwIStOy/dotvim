@@ -1,13 +1,14 @@
-local Const = require("ht.core.const")
+local CoreConst = require("ht.core.const")
+local CoreLspServer = require("ht.core.lsp.server")
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {}
 
-M.name = "lua_ls"
+opts.name = "lua_ls"
 
-M.mason_pkg = "lua-language-server"
+opts.mason = { name = "lua-language-server" }
 
-M.setup = function(on_attach, capabilities)
+opts.setup = function(on_attach, capabilities)
   local lua_library = {
     vim.fn.expand("$VIMRUNTIME/lua"),
     vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
@@ -21,7 +22,7 @@ M.setup = function(on_attach, capabilities)
 
   require("lspconfig").lua_ls.setup {
     cmd = {
-      Const.mason_bin .. "/lua-language-server",
+      CoreConst.mason_bin .. "/lua-language-server",
     },
     on_attach = on_attach,
     capabilities = capabilities,
@@ -50,4 +51,4 @@ M.setup = function(on_attach, capabilities)
   }
 end
 
-return M
+return CoreLspServer.new(opts)

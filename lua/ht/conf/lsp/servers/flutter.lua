@@ -1,4 +1,5 @@
 local RightClick = require("ht.core.right-click")
+local CoreLspServer = require("ht.core.lsp.server")
 
 local function t_cmd(s, cmd, keys)
   return {
@@ -19,14 +20,14 @@ local function f_cmd(title, cmd)
   }
 end
 
----@type ht.LspConf
-local M = {}
+---@type ht.lsp.ServerOpts
+local opts = {}
 
-M.name = "flutter"
+opts.name = "flutter"
 
-M.mason_pkg = false
+opts.mason = false
 
-M.setup = function(on_buffer_attach, capabilities)
+opts.setup = function(on_buffer_attach, capabilities)
   require("flutter-tools").setup {
     ui = {
       notification_style = "plugin",
@@ -42,7 +43,7 @@ M.setup = function(on_buffer_attach, capabilities)
   require("telescope").load_extension("flutter")
 end
 
-M.right_click = {
+opts.right_click = {
   {
     index = RightClick.indexes.flutter,
     enabled = {
@@ -67,7 +68,7 @@ M.right_click = {
   },
 }
 
-M.function_sets = {
+opts.function_sets = {
   {
     category = "Flutter",
     ---@param buffer VimBuffer
@@ -133,4 +134,4 @@ M.function_sets = {
   },
 }
 
-return M
+return CoreLspServer.new(opts)

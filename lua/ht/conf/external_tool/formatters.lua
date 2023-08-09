@@ -15,7 +15,7 @@ formatters[#formatters + 1] = formatter.new("c,cpp", "clang-format", {
 --         return utils.root_has_file { "stylua.toml", ".stylua.toml" }
 --       end,
 formatters[#formatters + 1] = formatter.new("lua", "stylua", {
-  args = { "-" },
+  args = { "--search-parent-directories", "-" },
   stdin = true,
 }, {
   name = "stylua",

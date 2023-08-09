@@ -1,7 +1,19 @@
 local M = {}
 
 function M.setup()
-  vim.o.guifont = "Iosevka+ss10,Symbols_Nerd_Font:h22"
+  vim.g.neovide_font_features = {
+    ["Iosevka"] = {
+      "+ss07",
+      "cv49=16",
+      "cv94=1",
+      "VXLA=2",
+      "VXLC=2",
+      "cv34=12",
+      "cv31=13",
+    },
+  }
+
+  vim.o.guifont = "Iosevka,Symbols_Nerd_Font:h22"
 
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0

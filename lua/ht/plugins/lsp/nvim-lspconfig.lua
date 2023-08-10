@@ -49,7 +49,9 @@ return {
       local lsp_conf = require("ht.conf.lsp.init")
 
       for _, server in ipairs(lsp_conf.all_servers) do
-        server.setup(on_buffer_attach, capabilities)
+        if server.setup ~= nil then
+          server.setup(on_buffer_attach, capabilities)
+        end
 
         if server.right_click ~= nil then
           for _, section in ipairs(server.right_click) do

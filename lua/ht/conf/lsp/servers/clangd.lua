@@ -29,28 +29,29 @@ local opts = {
   name = "clangd",
   mason = true,
   setup = function(on_buffer_attach, capabilities)
-    require("clangd_extensions").setup {
-      server = {
-        cmd = {
-          CoreConst.mason_bin .. "/clangd",
-          "--clang-tidy",
-          "--background-index",
-          "--background-index-priority=normal",
-          "--ranking-model=decision_forest",
-          "--completion-style=detailed",
-          "--header-insertion=iwyu",
-          "--limit-references=100",
-          "--limit-results=100",
-          "--include-cleaner-stdlib",
-          "-j=20",
-        },
-        on_attach = wrap_on_attach(on_buffer_attach),
-        capabilities = capabilities,
-        filetypes = {
-          "c",
-          "cpp",
-        },
+    require("lspconfig").clangd.setup {
+      cmd = {
+        CoreConst.mason_bin .. "/clangd",
+        "--clang-tidy",
+        "--background-index",
+        "--background-index-priority=normal",
+        "--ranking-model=decision_forest",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+        "--limit-references=100",
+        "--limit-results=100",
+        "--include-cleaner-stdlib",
+        "-j=20",
       },
+      on_attach = wrap_on_attach(on_buffer_attach),
+      capabilities = capabilities,
+      filetypes = {
+        "c",
+        "cpp",
+      },
+    }
+
+    require("clangd_extensions").setup {
       extensions = {
         autoSetHints = false,
         hover_with_actions = true,

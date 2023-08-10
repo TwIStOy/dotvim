@@ -25,7 +25,6 @@ local function bootstrap_plugin_manager()
       { import = "ht.plugins.theme" },
     },
     change_detection = { enabled = false },
-    lockfile = vim.env.HOME .. "/.dotvim/lazy-lock.json",
     dev = {
       path = "~/Projects/nvim-plugins",
       patterns = { "TwIStOy" },

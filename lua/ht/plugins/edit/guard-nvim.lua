@@ -1,6 +1,6 @@
 return {
   {
-    "TwIStOy/guard.nvim",
+    "nvimdev/guard.nvim",
     lazy = true,
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "GuardFmt", "GuardDisable", "GuardEnable" },

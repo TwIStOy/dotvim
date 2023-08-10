@@ -132,6 +132,7 @@ return {
         hop = true,
         cmp = true,
         lsp_saga = true,
+        octo = true,
         navic = { enabled = true },
       },
     }

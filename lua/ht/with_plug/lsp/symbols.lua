@@ -53,7 +53,7 @@ end
 
 ---@param opts ht.lsp.WorkspaceAndDocumentSymbolsOptions?
 local function top_level_workspace_and_document_symbols(opts)
-  local CoreLsp = require("ht.core.lsp")
+  local CoreLspUtils = require("ht.core.lsp.utils")
 
   opts = opts or {}
   opts.bufnr = opts.bufnr or 0
@@ -94,7 +94,7 @@ local function top_level_workspace_and_document_symbols(opts)
             wg:fail("textDocument/documentSymbol")
             return
           end
-          local items = CoreLsp.utils.symbols_to_items(
+          local items = CoreLspUtils.symbols_to_items(
             result.result or {},
             opts.bufnr,
             {
@@ -125,7 +125,7 @@ local function top_level_workspace_and_document_symbols(opts)
             wg:fail("workspace/symbol")
             return
           end
-          local items = CoreLsp.utils.symbols_to_items(
+          local items = CoreLspUtils.symbols_to_items(
             result.result or {},
             opts.bufnr,
             {

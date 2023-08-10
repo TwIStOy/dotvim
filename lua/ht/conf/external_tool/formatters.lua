@@ -47,7 +47,7 @@ formatters[#formatters + 1] = formatter.new(
 )
 
 formatters[#formatters + 1] = formatter.new("python", "black", {
-  args = { "-" },
+  args = { "--quiet", "-" },
   stdin = true,
   find = "pyproject.toml",
 }, {

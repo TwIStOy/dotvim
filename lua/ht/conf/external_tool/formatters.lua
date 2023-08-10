@@ -3,12 +3,17 @@ local formatter = require("ht.core.external_tool").formatter
 ---@type ht.external_tool.Formatter[]
 local formatters = {}
 
-formatters[#formatters + 1] = formatter.new("c,cpp", "clang-format", {
-  args = { "-style=file" },
-  stdin = true,
-}, {
-  name = "clang-format",
-})
+formatters[#formatters + 1] = formatter.new(
+  "c,cpp,cs,java,cuda,proto",
+  "clang-format",
+  {
+    args = { "-style=file" },
+    stdin = true,
+  },
+  {
+    name = "clang-format",
+  }
+)
 
 -- TODO(hawtian): stylua condition,
 --       condition = function(utils)
@@ -22,7 +27,7 @@ formatters[#formatters + 1] = formatter.new("lua", "stylua", {
 })
 
 formatters[#formatters + 1] = formatter.new("rust", "rustfmt", {
-  args = { "--edition", "2021", "--emit", "stdout" },
+  args = { "--emit", "stdout" },
   stdin = true,
 }, {
   name = "rustfmt",
@@ -44,6 +49,7 @@ formatters[#formatters + 1] = formatter.new(
 formatters[#formatters + 1] = formatter.new("python", "black", {
   args = { "-" },
   stdin = true,
+  find = "pyproject.toml",
 }, {
   name = "black",
 })

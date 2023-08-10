@@ -48,6 +48,17 @@ local function setup()
     )
   end
 
+  if Const.is_gui then
+    vim.keymap.set({ "n", "i" }, "<D-v>", function()
+      local register_info = vim.fn.getreginfo("+")
+      local content = {}
+      if register_info.regcontents then
+        content = register_info.regcontents
+      end
+      vim.api.nvim_put(content, "", true, true)
+    end, { silent = true })
+  end
+
   NMAP(";;", function()
     require("ht.core.right-click").show()
   end, "show-menu")

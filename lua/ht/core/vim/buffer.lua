@@ -11,10 +11,14 @@ local api = vim.api
 ---@param bufnr number|nil
 ---@return VimBuffer
 local function new_buffer(bufnr)
+  if bufnr == nil then
+    bufnr = 0
+  end
+
   local filetype = api.nvim_buf_get_option(bufnr, "filetype")
   local filename = api.nvim_buf_get_name(bufnr)
   if filename:sub(1, 1) ~= "/" then
-    filename = nil
+    filename = ""
   end
 
   local highlighters = require("vim.treesitter.highlighter")

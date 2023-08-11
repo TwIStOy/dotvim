@@ -1,4 +1,4 @@
-local CPItem = require("ht.core.command_palette.item")
+local CPItem = require("ht.core.command-palette.item")
 local Creater = {}
 
 ---@param title string|fun():string

@@ -12,6 +12,7 @@ local enabled_plugins = {
   ["telescope.nvim"] = true,
   ["plenary.nvim"] = true,
   ["lazy.nvim"] = true,
+  ["nui.nvim"] = true,
 }
 
 opts.setup = function(on_attach, capabilities)

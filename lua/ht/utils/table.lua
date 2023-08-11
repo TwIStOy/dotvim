@@ -1,7 +1,23 @@
 local M = {}
 
+---@generic T
+---@param t table<T, any>
+---@return T[]
 M.keys = function(t)
   return vim.tbl_keys(t)
+end
+
+---@generic T
+---@param t table<T, boolean>
+---@return T[]
+M.valid_keys = function(t)
+  local res = {}
+  for k, v in pairs(t) do
+    if v then
+      res[#res + 1] = k
+    end
+  end
+  return res
 end
 
 ---Unique elements in given list-like table.
@@ -101,7 +117,7 @@ end
 ---@generic T
 ---@generic U
 ---@param lst T[]
----@param f fun(T):U
+---@param f fun(item: T):U
 ---@return U[]
 M.list_map = function(lst, f)
   local res = {}
@@ -114,7 +130,7 @@ end
 ---@generic T
 ---@generic U
 ---@param lst T[]
----@param f fun(T):U
+---@param f fun(item: T):U
 ---@return U[]
 M.list_map_filter = function(lst, f)
   local res = {}

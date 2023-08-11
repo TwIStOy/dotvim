@@ -8,6 +8,12 @@ opts.name = "lua_ls"
 
 opts.mason = { name = "lua-language-server" }
 
+local enabled_plugins = {
+  ["telescope.nvim"] = true,
+  ["plenary.nvim"] = true,
+  ["lazy.nvim"] = true,
+}
+
 opts.setup = function(on_attach, capabilities)
   local lua_library = {
     vim.fn.expand("$VIMRUNTIME/lua"),
@@ -16,7 +22,9 @@ opts.setup = function(on_attach, capabilities)
   if package.loaded["lazy"] then
     local lazy_plugins = require("lazy").plugins()
     for _, plugin in ipairs(lazy_plugins) do
-      lua_library[#lua_library + 1] = plugin.dir
+      if enabled_plugins[plugin.name] then
+        lua_library[#lua_library + 1] = plugin.dir .. "/lua"
+      end
     end
   end
 

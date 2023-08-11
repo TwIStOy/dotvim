@@ -1,4 +1,4 @@
-local U = require 'ht.utils.init'
+local U = require("ht.utils.init")
 local is_type = U.is_type
 local normalize_vec_str = U.normalize_vec_str
 
@@ -10,9 +10,9 @@ local PluginFunctionalityKeymapSpec = {}
 ---@param opts table|string
 ---@return PluginFunctionalityKeymapSpec|nil
 function PluginFunctionalityKeymapSpec.normalize(opts)
-  if is_type('string', opts) then
-    return { keys = { opts }, modes = { 'n' } }
-  elseif is_type('table', opts) then
+  if is_type("string", opts) then
+    return { keys = { opts }, modes = { "n" } }
+  elseif is_type("table", opts) then
     local keys = opts.keys or {}
     local modes = opts.modes or {}
     return { keys = normalize_vec_str(keys), modes = normalize_vec_str(modes) }

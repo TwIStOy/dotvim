@@ -1,5 +1,5 @@
 ---@class FuncCache
----@field entries table<string, any>
+---@field private entries table<string, any>
 local FuncCache = {}
 
 FuncCache.new = function()

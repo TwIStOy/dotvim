@@ -34,6 +34,7 @@ local function new_buffer(bufnr)
   return buffer
 end
 
+---@return any[]
 function VimBuffer:to_cache_key()
   local s = {
     self.filetype,

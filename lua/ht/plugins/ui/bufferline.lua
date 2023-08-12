@@ -11,48 +11,64 @@ return {
       { "<M->>", "<cmd>BufferLineMoveNext<CR>" },
     },
     config = function()
-      vim.defer_fn(function()
-        local mocha = require("catppuccin.palettes").get_palette("mocha")
-        local opts = {
-          highlights = require("catppuccin.groups.integrations.bufferline").get {
-            styles = { "italic", "bold" },
-            custom = {
-              all = {
-                fill = { bg = "#000000" },
-              },
-              mocha = {
-                background = { fg = mocha.text },
-              },
-              latte = {
-                background = { fg = "#000000" },
-              },
+      local mocha = require("catppuccin.palettes").get_palette("mocha")
+      local opts = {
+        highlights = require("catppuccin.groups.integrations.bufferline").get {
+          styles = { "italic", "bold" },
+          custom = {
+            all = {
+              fill = { bg = "#000000" },
+            },
+            mocha = {
+              background = { fg = mocha.text },
+            },
+            latte = {
+              background = { fg = "#000000" },
             },
           },
-          options = {
-            view = "multiwindow",
-            sort_by = "insert_after_current",
-            always_show_bufferline = true,
-            themable = true,
-            hover = { enabled = true, delay = 200 },
-            separator_style = "slant",
-            close_command = "BDelete! %d",
-            numbers = "none",
-            diagnostics = "nvim_lsp",
-            indicator = {
-              style = "bold",
+        },
+        options = {
+          view = "multiwindow",
+          sort_by = "insert_after_current",
+          always_show_bufferline = true,
+          themable = true,
+          right_mouse_command = nil,
+          middle_mouse_command = "bdelete! %d",
+          indicator = {
+            style = "bold",
+          },
+          hover = { enabled = true, delay = 200 },
+          separator_style = "slant",
+          close_command = "BDelete! %d",
+          numbers = "none",
+          diagnostics = "nvim_lsp",
+          show_buf_icons = false,
+          offsets = {
+            {
+              filetype = "NvimTree",
+              text = "File Explorer",
+              text_align = "center",
+              highlight = "Directory",
             },
-            offsets = {
+          },
+          groups = {
+            options = {
+              toggle_hidden_on_enter = true, -- when you re-enter a hidden group this options re-opens that group so the buffer is visible
+            },
+            items = {
               {
-                filetype = "NvimTree",
-                text = "File Explorer",
-                text_align = "center",
-                highlight = "Directory",
+                name = "Tests", -- Mandatory
+                priority = 2, -- determines where it will appear relative to other groups (Optional)
+                icon = "", -- Optional
+                matcher = function(buf) -- Mandatory
+                  return buf.name:match("%_test") or buf.name:match("%_spec")
+                end,
               },
             },
           },
-        }
-        require("bufferline").setup(opts)
-      end, 20)
+        },
+      }
+      require("bufferline").setup(opts)
     end,
   },
 }

@@ -30,14 +30,24 @@ opts.mason = false
 opts.setup = function(on_buffer_attach, capabilities)
   require("flutter-tools").setup {
     ui = {
+      border = "solid",
       notification_style = "plugin",
     },
     widget_guides = {
+      enabled = false,
+    },
+    dev_log = {
       enabled = true,
+      open_cmd = "tabnew",
     },
     lsp = {
       on_attach = on_buffer_attach,
       capabilities = capabilities,
+      settings = {
+        showTodos = false,
+        enableSnippets = false,
+        completeFunctionCalls = false,
+      },
     },
   }
   require("telescope").load_extension("flutter")

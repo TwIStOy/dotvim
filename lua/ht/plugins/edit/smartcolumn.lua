@@ -9,6 +9,7 @@ return {
         "lazy",
         "mason",
         "help",
+        "alpha",
       },
     },
     event = { "BufReadPre", "BufNewFile" },

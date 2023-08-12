@@ -199,16 +199,6 @@ M.config = function()
           cmp.mapping.abort()
         end
       end, { "i", "s" }),
-      ["<TAB>"] = cmp.mapping(function(fallback)
-        local luasnip = require("luasnip")
-        if luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        elseif cmp.visible() and has_words_before() then
-          cmp.select_next_item { behavior = cmp.SelectBehavior.Insert }
-        else
-          fallback()
-        end
-      end, { "i" }),
       ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i" }),
       ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i" }),
       ["<C-f>"] = cmp.mapping(function(fallback)

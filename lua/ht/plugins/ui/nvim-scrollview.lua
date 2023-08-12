@@ -3,6 +3,7 @@ return {
   {
     "dstein64/nvim-scrollview",
     lazy = true,
+    enabled = false,
     event = { "BufReadPost" },
     dependencies = {
       "kevinhwang91/nvim-hlslens",

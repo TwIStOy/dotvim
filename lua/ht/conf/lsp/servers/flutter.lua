@@ -38,7 +38,6 @@ opts.setup = function(on_buffer_attach, capabilities)
     },
     dev_log = {
       enabled = true,
-      open_cmd = "tabnew",
     },
     lsp = {
       on_attach = on_buffer_attach,

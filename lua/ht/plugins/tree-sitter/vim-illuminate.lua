@@ -31,7 +31,10 @@ return {
     },
     lazy = {
       event = { "BufReadPost", "BufNewFile" },
-      opts = { delay = 200, filetypes_denylist = { "nuipopup" } },
+      opts = {
+        delay = 200,
+        filetypes_denylist = { "nuipopup", "rightclickpopup" },
+      },
       config = function(_, opts)
         require("illuminate").configure(opts)
         vim.api.nvim_create_autocmd("FileType", {

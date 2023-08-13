@@ -129,8 +129,10 @@ M.config = function()
       { name = "luasnip", group_index = 1 },
       {
         name = "latex_symbols",
+        filetype = { "tex", "latex", "markdown" },
         group_index = 1,
         option = {
+          cache = true,
           strategy = 2, -- latex only
         },
         entry_filter = function(_, ctx)

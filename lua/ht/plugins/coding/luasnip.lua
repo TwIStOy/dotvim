@@ -32,6 +32,7 @@ return {
       add_snippets("cpp", require("ht.snippets.cpp")())
       add_snippets("rust", require("ht.snippets.rust")())
       add_snippets("lua", require("ht.snippets.lua")())
+      add_snippets("dart", require("ht.snippets.dart")())
     end,
     keys = {
       {

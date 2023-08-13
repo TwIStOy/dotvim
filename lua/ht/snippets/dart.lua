@@ -15,25 +15,81 @@ return function()
 
   return {
     snippet {
-      "jsonclass",
-      name = "@JsonSerializable() class",
-      dscr = "@JsonSerializable() class",
+      "sfw",
+      name = "StatefulWidget class",
+      dscr = "create a StatefulWidget class",
       mode = "bw",
-      nodes = fmt(
+      nodes = fmta(
         [[
-        @JsonSerializable()
-        class 6name9 {
-          factory 6display_name9.fromJson(Map<String, dynamic> json) =>
-              _$6display_name9FromJson(json);
-          Map<String, dynamic> toJson() => _$6display_name9ToJson(this);
+        class <name> extends StatefulWidget {
+          const <rep_name>({super.key});
+
+          @override
+          State<<<rep_name>>> createState() =>> _<rep_name>State();
+        }
+
+        class _<rep_name>State extends State<<<rep_name>>> {
+          @override
+          void initState() {
+            super.initState();
+            // TODO(hawtian): Implement initState
+          }
+
+          @override
+          Widget build(BuildContext context) {
+            // TODO(hawtian): Implement build
+            throw UnimplementedError();
+          }
         }
         ]],
         {
           name = i(1, "ClassName"),
-          display_name = rep(1),
-        },
+          rep_name = rep(1),
+        }
+      ),
+    },
+
+    snippet {
+      "slw",
+      name = "StatelessWidget class",
+      dscr = "create a StatelessWidget class",
+      mode = "bw",
+      nodes = fmta(
+        [[
+        class <name> extends StatelessWidget {
+          <rep_name>({super.key});
+
+          @override
+          Widge build(BuildContext context) {
+            // TODO(hawtian): Implement build
+            throw UnimplementedError();
+          }
+        }
+        ]],
         {
-          delimiters = "69",
+          name = i(1, "ClassName"),
+          rep_name = rep(1),
+        }
+      ),
+    },
+
+    snippet {
+      "@jc",
+      name = "@JsonSerializable() class",
+      dscr = "@JsonSerializable() class",
+      mode = "bw",
+      nodes = fmta(
+        [[
+        @JsonSerializable()
+        class <name> {
+          factory <rep_name>.fromJson(Map<<String, dynamic>> json) =>>
+              _$<rep_name>FromJson(json);
+          Map<<String, dynamic>> toJson() =>> _$<rep_name>ToJson(this);
+        }
+        ]],
+        {
+          name = i(1, "ClassName"),
+          rep_name = rep(1),
         }
       ),
     },

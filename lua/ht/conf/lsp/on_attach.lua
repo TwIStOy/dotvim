@@ -1,7 +1,6 @@
 local Const = require("ht.core.const")
 
 local function on_buffer_attach(client, bufnr)
-  local navic = require("nvim-navic")
   local LSP = require("ht.with_plug.lsp")
 
   -- display diagnostic win on CursorHold
@@ -58,9 +57,10 @@ local function on_buffer_attach(client, bufnr)
     end, "doc-symbols-test")
   end
 
-  if client.server_capabilities["documentSymbolProvider"] then
-    navic.attach(client, bufnr)
-  end
+  -- if client.server_capabilities["documentSymbolProvider"] then
+  --   local navic = require("nvim-navic")
+  --   navic.attach(client, bufnr)
+  -- end
 end
 
 return on_buffer_attach

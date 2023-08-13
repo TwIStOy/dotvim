@@ -4,6 +4,7 @@ return {
     "SmiteshP/nvim-navic",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = true,
+    enabled = false,
     init = function()
       vim.g.navic_silence = true
     end,

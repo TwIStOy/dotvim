@@ -6,12 +6,6 @@ return {
       lazy = true,
       event = { "ModeChanged", "BufReadPre", "InsertEnter" },
       dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
-      enabled = function()
-        if vim.g["neovide"] or vim.g["fvim_loaded"] or vim.g["goneovim"] then
-          return false
-        end
-        return true
-      end,
       opts = {
         lsp = {
           progress = { enabled = false, throttle = 1000 / 10 },

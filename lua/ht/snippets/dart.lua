@@ -60,7 +60,7 @@ return function()
           <rep_name>({super.key});
 
           @override
-          Widge build(BuildContext context) {
+          Widget build(BuildContext context) {
             // TODO(hawtian): Implement build
             throw UnimplementedError();
           }

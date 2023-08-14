@@ -13,9 +13,8 @@ end
 
 return {
   {
-    "TwIStOy/LuaSnip",
+    "L3MON4D3/LuaSnip",
     build = "make install_jsregexp",
-    branch = "support-multiline-trigger",
     config = function()
       local luasnip = require("luasnip")
       local ft_functions = require("luasnip.extras.filetype_functions")

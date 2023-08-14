@@ -19,7 +19,8 @@ return {
     nodes = {
       f(function(_, parent)
         -- switch name style from snake to pascal or vice versa
-        local name = parent.snippet.env.POSTFIX_MATCH
+        -- name must be a oneline identifier
+        local name = parent.snippet.env.POSTFIX_MATCH[1]
         if name:match("^[A-Z]") then
           -- is pascal case now, change to snake case
           name = name:gsub("(%u+)(%u%l)", "%1_%2")

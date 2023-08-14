@@ -6,7 +6,7 @@ local function ts_postfix_maker(types)
   return function(opts)
     opts.engine = "plain"
     opts.hidden = true
-    opts.resolve_expand_params = ts_resolver.make_ts_topmost_parent(types)
+    opts.resolveExpandParams = ts_resolver.make_ts_topmost_parent(types)
     return snippet(opts)
   end
 end

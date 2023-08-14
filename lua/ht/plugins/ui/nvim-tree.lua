@@ -64,7 +64,6 @@ M.config = function() -- code to run after plugin loaded
       width = 30,
       hide_root_folder = false,
       side = "left",
-      mappings = { custom_only = false, list = {} },
     },
     actions = { open_file = { resize_window = false } },
     renderer = {

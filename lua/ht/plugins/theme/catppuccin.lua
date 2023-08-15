@@ -5,7 +5,7 @@ return {
   build = ":CatppuccinCompile",
   config = function()
     require("catppuccin").setup {
-      flavour = "mocha",
+      flavour = "macchiato",
       color_overrides = {
         mocha = {
           rosewater = "#efc9c2",

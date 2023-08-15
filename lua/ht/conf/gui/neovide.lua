@@ -11,9 +11,16 @@ function M.setup()
       "cv34=12",
       "cv31=13",
     },
+    ["MonoLisa"] = {
+      "+ss11",
+      "+zero",
+      "-calt",
+      "+ss09",
+      "+ss02",
+    },
   }
 
-  vim.o.guifont = "Iosevka,Symbols_Nerd_Font:h22"
+  vim.o.guifont = "MonoLisa,Symbols_Nerd_Font:h22"
 
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0

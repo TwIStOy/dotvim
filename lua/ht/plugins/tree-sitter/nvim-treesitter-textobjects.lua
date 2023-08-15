@@ -9,7 +9,7 @@ return {
     textobjects = {
       select = {
         enable = true,
-        lookahead = false,
+        lookahead = true,
         keymaps = {
           ["af"] = "@function.outer",
           ["if"] = "@function.inner",

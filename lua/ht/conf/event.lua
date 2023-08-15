@@ -25,6 +25,7 @@ local relative_number_blacklist = {
 local cursorline_blacklist = {
   ["alpha"] = true,
   ["noice"] = true,
+  ["mason"] = true,
 }
 
 local quick_close_filetypes = {

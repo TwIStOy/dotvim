@@ -16,11 +16,10 @@ return {
           ["i,"] = "@parameter.inner",
           ["a,"] = "@parameter.outer",
           ["i="] = "@assignment.rhs",
-          ["ir"] = "@return.inner",
-          ["ar"] = "@return.outer",
           ["il"] = "@lifetime.inner",
           ["a;"] = "@statement.outer",
           ["i:"] = "@for_range_loop.inner",
+          ["ir"] = "@super_right.inner",
         },
       },
       swap = {

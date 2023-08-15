@@ -3,9 +3,9 @@ return function()
   local snippet = hs.build_snippet
   local quick_expand = hs.quick_expand
   local i = hs.insert_node
+  local c = hs.choice_node
 
   local ls = require("luasnip")
-  local c = ls.choice_node
   local t = ls.text_node
   local f = ls.function_node
   local fmt = require("luasnip.extras.fmt").fmt
@@ -14,6 +14,46 @@ return function()
   local rep = extras.rep
 
   return {
+    snippet {
+      "fn",
+      name = "Define a function",
+      dscr = "Define a function",
+      mode = "bw",
+      nodes = fmta(
+        [[
+        <ret> <name>(<args>) {
+          <body>
+        }
+        ]],
+        {
+          body = i(0),
+          name = i(1, "FuncName", { desc = "function name" }),
+          args = i(2, "", { desc = "arguments" }),
+          ret = i(3, "void", { desc = "return type" }),
+        }
+      ),
+    },
+
+    snippet {
+      "afn",
+      name = "Define an async function",
+      dscr = "Define an async function",
+      mode = "bw",
+      nodes = fmta(
+        [[
+        <ret> <name>(<args>) async {
+          <body>
+        }
+        ]],
+        {
+          body = i(0),
+          name = i(1, "FuncName", { desc = "function name" }),
+          args = i(2, "", { desc = "arguments" }),
+          ret = i(3, "void", { desc = "return type" }),
+        }
+      ),
+    },
+
     snippet {
       "sfw",
       name = "StatefulWidget class",

@@ -22,9 +22,13 @@ opts.setup = function(on_attach, capabilities)
   }
   if package.loaded["lazy"] then
     local lazy_plugins = require("lazy").plugins()
+    local data_path = vim.fn.stdpath("data")
     for _, plugin in ipairs(lazy_plugins) do
-      if enabled_plugins[plugin.name] then
-        lua_library[#lua_library + 1] = plugin.dir .. "/lua"
+      if
+        enabled_plugins[plugin.name]
+        or plugin.dir:find(data_path, 1, true) ~= 1
+      then
+        lua_library[#lua_library + 1] = plugin.dir
       end
     end
   end

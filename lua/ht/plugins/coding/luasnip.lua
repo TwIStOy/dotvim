@@ -13,7 +13,8 @@ end
 
 return {
   {
-    "L3MON4D3/LuaSnip",
+    "TwIStOy/LuaSnip",
+    branch = "new-extra-ts-snippet",
     build = "make install_jsregexp",
     config = function()
       local luasnip = require("luasnip")

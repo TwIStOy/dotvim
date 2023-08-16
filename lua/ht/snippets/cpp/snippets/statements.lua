@@ -18,6 +18,13 @@ local function in_argument(node)
   if node == nil then
     return nil
   end
+
+  node = UtilsTs.find_first_parent(node, { "argument_list" })
+
+  if node == nil then
+    return nil
+  end
+
   local start_row, start_col, _, _ = vim.treesitter.get_node_range(node)
   return { start_row, start_col }
 end
@@ -172,8 +179,6 @@ return {
         pos = pos,
       }
 
-      vim.print(vim.api.nvim_buf_get_lines(buf, 1, -1, false))
-
       return {
         trigger = match,
         capture = captures,
@@ -187,7 +192,6 @@ return {
     end,
     nodes = d(1, function(args, parent)
       local env = parent.env
-      vim.print(env)
 
       if env.CPP_IN_ARGUMENT or env.CPP_IN_FUNCTION_BODY then
         return lambda_snippet_node

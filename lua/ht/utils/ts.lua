@@ -48,6 +48,28 @@ function M.find_topmost_parent(node, types)
   return find_parent_impl(node)
 end
 
+---Recursive find the topmost parent node whose type matches `types`.
+---@param node TSNode
+---@param types any
+---@return TSNode | nil
+function M.find_first_parent(node, types)
+  local ntypes = M.make_type_matcher(types)
+
+  ---@param root TSNode
+  ---@return TSNode | nil
+  local function find_parent_impl(root)
+    if root == nil then
+      return nil
+    end
+    if ntypes[root:type()] then
+      return node
+    end
+    return find_parent_impl(root:parent())
+  end
+
+  return find_parent_impl(node)
+end
+
 local function find_parent_impl(node, types)
   if node == nil then
     return nil

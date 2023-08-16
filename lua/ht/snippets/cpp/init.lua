@@ -15,6 +15,7 @@ return function()
   res = vim.list_extend(res, import_snippets("macro"))
   res = vim.list_extend(res, import_snippets("postfix"))
   res = vim.list_extend(res, import_snippets("others"))
+  res = vim.list_extend(res, import_snippets("statements"))
 
   return res
 end

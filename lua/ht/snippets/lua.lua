@@ -26,6 +26,8 @@ return function()
   local ls = require("luasnip")
   local t = ls.text_node
   local f = ls.function_node
+  local sn = ls.snippet_node
+  local d = ls.dynamic_node
   local fmt = require("luasnip.extras.fmt").fmt
   local fmta = require("luasnip.extras.fmt").fmta
   local extras = require("luasnip.extras")
@@ -34,6 +36,26 @@ return function()
   local l = extras.lambda
 
   return {
+    snippet {
+      "ifif",
+      mode = "bw",
+      nodes = d(1, function(args, parent)
+        local env = parent.env
+
+        local nodes = {
+          t("if "),
+          i(1, "condition"),
+          t { " then", "" },
+        }
+        for _, ele in ipairs(env.LS_SELECT_RAW) do
+          table.insert(nodes, t { "  " .. ele, "" })
+        end
+        table.insert(nodes, t { "end", "" })
+
+        return sn(nil, nodes)
+      end, {}),
+    },
+
     snippet {
       "fn",
       name = "create a function",

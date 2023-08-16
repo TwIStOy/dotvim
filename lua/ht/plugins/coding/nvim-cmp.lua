@@ -210,7 +210,7 @@ M.config = function()
         else
           fallback()
         end
-      end, { "i", "s" }),
+      end, { "i", "s", "v" }),
       ["<C-b>"] = cmp.mapping(function(fallback)
         local luasnip = require("luasnip")
         if luasnip.jumpable(-1) then
@@ -218,7 +218,7 @@ M.config = function()
         else
           fallback()
         end
-      end, { "i", "s" }),
+      end, { "i", "s", "v" }),
     },
     formatting = {
       fields = { "kind", "abbr", "menu" },

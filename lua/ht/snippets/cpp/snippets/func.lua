@@ -23,37 +23,6 @@ local function in_argument()
 end
 
 return {
-  snippet {
-    "fn",
-    name = "define a simple function",
-    dscr = "define a simple function",
-    mode = "bw",
-    nodes = fmta(
-      [[
-      <storage_specifier> auto <name>(<args>) <specifier> ->> <ret> {
-        <body>
-      }
-      ]],
-      {
-        body = i(0),
-        storage_specifier = c(1, {
-          t(""),
-          t("static"),
-          t("inline"),
-        }, { desc = "storage specifier" }),
-        ret = i(2, "auto", { desc = "return type" }),
-        name = i(3, "name", { desc = "function name" }),
-        args = i(4, "args", { desc = "function arguments" }),
-        specifier = c(5, {
-          t(""),
-          t("const"),
-          t("noexcept"),
-          t("const noexcept"),
-        }, { desc = "specifier" }),
-      }
-    ),
-  },
-
   -- interfaces and virtual functions
   snippet {
     "itf",
@@ -180,32 +149,6 @@ return {
       {
         brief = i(1, "This is something undocumented."),
         body = i(2, "Nothing to add here..."),
-      }
-    ),
-  },
-
-  snippet {
-    "\\",
-    name = "lambda function in arguments",
-    dscr = "lambda function in arguments",
-    mode = "wA",
-    cond = require("ht.snippets.conditions.cond").make_condition(
-      in_argument,
-      in_argument
-    ),
-    nodes = fmta(
-      [[
-      [this, &](<>) <> {
-        <>
-      }
-      ]],
-      {
-        i(2),
-        c(1, {
-          t("mutable"),
-          t(""),
-        }),
-        i(0),
       }
     ),
   },

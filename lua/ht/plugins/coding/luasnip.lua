@@ -26,6 +26,7 @@ return {
         updateevents = "TextChanged,TextChangedI",
         region_check_events = { "CursorMoved", "CursorMovedI", "CursorHold" },
         ft_func = ft_functions.from_pos_or_filetype,
+        store_selection_keys = "<C-f>",
       }
 
       add_snippets("all", require("ht.snippets.all")())

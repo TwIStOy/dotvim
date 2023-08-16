@@ -156,7 +156,7 @@ end
 
 return {
   snippet {
-    "fn",
+    "fn;",
     name = "Define a function/lambda",
     dscr = "Define a function/lambda",
     mode = "w",

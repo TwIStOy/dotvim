@@ -1,6 +1,13 @@
 local Const = require("ht.core.const")
+local UtilsFunc = require("ht.utils.func")
 
 local function on_buffer_attach(client, bufnr)
+  UtilsFunc.call_once(function()
+    require("vim.lsp._watchfiles")._watchfunc = function(_, _, _)
+      return true
+    end
+  end)
+
   local LSP = require("ht.with_plug.lsp")
 
   -- display diagnostic win on CursorHold

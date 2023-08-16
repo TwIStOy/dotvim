@@ -61,8 +61,8 @@ function M.find_first_parent(node, types)
     if root == nil then
       return nil
     end
-    if ntypes[root:type()] then
-      return node
+    if ntypes[root:type()] == 1 then
+      return root
     end
     return find_parent_impl(root:parent())
   end
@@ -170,6 +170,8 @@ function M.find_direct_child(node, types)
 end
 
 -- Inspect node
+---@param node TSNode?
+---@return string
 function M.inspect_node(node)
   if node == nil then
     return "nil"
@@ -183,6 +185,12 @@ function M.inspect_node(node)
   res = res .. " [" .. end_row .. ", " .. end_col .. "]"
 
   return res
+end
+
+-- Inspect node
+---@param node TSNode?
+function M.print_node(node)
+  print(M.inspect_node(node))
 end
 
 local function get_nodes_in_range_impl(

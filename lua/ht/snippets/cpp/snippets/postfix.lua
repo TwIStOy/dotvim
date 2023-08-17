@@ -41,35 +41,33 @@ return {
     },
   },
 
-  -- tsp.treesitter_postfix({
-  --   trig = ".be",
-  --   name = "begin..end",
-  --   dscr = "Completes a variable with both begin() and end().",
-  --   find_tsnode = tsp.builtin.tsnode_finder.find_topmost_type(
-  --     ts_postfix.any_expr_types
-  --   ),
-  -- }, {
-  --   f(function(_, parent)
-  --     return su.replace_all(
-  --       parent.snippet.env.TSNODETEXT_MATCH,
-  --       "%s.begin(), %s.end()"
-  --     )
-  --   end, {}),
-  -- }),
-
-  ts_postfix_any_expr {
-    ".be",
+  tsp.treesitter_postfix({
+    trig = ".be",
     name = "begin..end",
     dscr = "Completes a variable with both begin() and end().",
-    nodes = {
-      f(function(_, parent)
-        return su.replace_all(
-          parent.snippet.env.TSNODETEXT_MATCH,
-          "%s.begin(), %s.end()"
-        )
-      end, {}),
-    },
-  },
+    matchTSNode = "any_expr",
+  }, {
+    f(function(_, parent)
+      return su.replace_all(
+        parent.snippet.env.TSNODETEXT_MATCH,
+        "%s.begin(), %s.end()"
+      )
+    end, {}),
+  }),
+
+  -- ts_postfix_any_expr {
+  --   ".be",
+  --   name = "begin..end",
+  --   dscr = "Completes a variable with both begin() and end().",
+  --   nodes = {
+  --     f(function(_, parent)
+  --       return su.replace_all(
+  --         parent.snippet.env.TSNODETEXT_MATCH,
+  --         "%s.begin(), %s.end()"
+  --       )
+  --     end, {}),
+  --   },
+  -- },
 
   ts_postfix_any_expr {
     ".mv",

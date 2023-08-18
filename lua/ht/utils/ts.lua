@@ -256,4 +256,14 @@ function M.cursor_node(opt)
   return curnode
 end
 
+---Print the whole tree. (This requries nvim-treesitter/playground)
+function M.inspect_doc()
+  local printer = require("nvim-treesitter-playground.printer")
+  local entries = printer.process()
+  entries = printer.print_entries(entries)
+  for _, line in ipairs(entries) do
+    print(line)
+  end
+end
+
 return M

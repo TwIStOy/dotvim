@@ -26,13 +26,14 @@ local header_ext = {
 }
 
 ---@param node TSNode?
+---@param source string|number
 ---@return { [1]: number, [2]: number }?
 local function in_argument(node, source)
   if node == nil then
     return nil
   end
 
-  node = UtilsTs.find_first_parent(node, { "argument_list" })
+  node = UtilsTs.find_first_parent(node, { "argument_list", "parameter_list" })
 
   if node == nil then
     return nil
@@ -44,6 +45,7 @@ local function in_argument(node, source)
 end
 
 ---@param node TSNode?
+---@param source string|number
 ---@return { [1]: number, [2]: number }?
 local function in_function_body(node, source)
   if node == nil then
@@ -52,7 +54,7 @@ local function in_function_body(node, source)
 
   node = UtilsTs.find_first_parent(
     node,
-    { "function_definition", "lambda_expression" }
+    { "function_definition", "lambda_expression", "field_declaration" }
   )
 
   if node == nil then
@@ -71,6 +73,8 @@ local function in_header_file()
   return false
 end
 
+---@param node TSNode?
+---@param source string|number
 local function in_class_body(node, source)
   if node == nil then
     return nil
@@ -162,6 +166,37 @@ local function make_function_snippet_node(env)
   )
 end
 
+local function update_current_buffer(ori_bufnr, match)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local lines = vim.api.nvim_buf_get_lines(ori_bufnr, row - 1, row, true)
+  assert(#lines == 1)
+  local current_line = lines[1]
+  local current_line_left = current_line:sub(1, col - #match)
+  local current_line_right = current_line:sub(col + 1)
+
+  vim.api.nvim_buf_set_lines(
+    ori_bufnr,
+    row - 1,
+    row,
+    true,
+    { current_line_left .. current_line_right }
+  )
+  local parser, source = vim.treesitter.get_parser(ori_bufnr), ori_bufnr
+  parser:parse()
+
+  return parser, source, current_line
+end
+
+local function restore_current_buffer(ori_bufnr, ori_line)
+  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_lines(ori_bufnr, row - 1, row, true, {
+    ori_line,
+  })
+  local parser, source = vim.treesitter.get_parser(ori_bufnr), ori_bufnr
+  parser:parse()
+  return parser, source
+end
+
 local function reparse_buffer(ori_bufnr, match)
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   local lines = vim.api.nvim_buf_get_lines(ori_bufnr, 0, -1, false)
@@ -189,7 +224,8 @@ return {
     resolveExpandParams = function(_, _, match, captures)
       local row, col = unpack(vim.api.nvim_win_get_cursor(0))
       local buf = vim.api.nvim_get_current_buf()
-      local parser, source = reparse_buffer(buf, match)
+      local parser, source, ori_line = update_current_buffer(buf, match)
+      -- local parser, source = reparse_buffer(buf, match)
       local pos = {
         row - 1,
         col - #match,
@@ -200,6 +236,7 @@ return {
         pos[1],
         pos[2],
       }
+      -- UtilsTs.print_node(node)
       local ret = {
         trigger = match,
         capture = captures,
@@ -210,7 +247,10 @@ return {
           CPP_IN_HEADER_FILE = in_header_file(),
         },
       }
-      parser:destroy()
+      -- vim.print(ret)
+      -- parser:destroy()
+      restore_current_buffer(buf, ori_line)
+      vim.api.nvim_win_set_cursor(0, { row, col })
       return ret
     end,
     nodes = d(1, function(_, parent)

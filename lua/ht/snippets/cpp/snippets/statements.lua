@@ -1,5 +1,7 @@
 local UtilsTs = require("ht.utils.ts")
 local UtilsTbl = require("ht.utils.table")
+local ysera = require("ysera")
+local sts = require("ht.snippets._treesitter")
 
 local ls = require("luasnip")
 local t = ls.text_node
@@ -8,6 +10,7 @@ local sn = ls.snippet_node
 local d = ls.dynamic_node
 local fmta = require("luasnip.extras.fmt").fmta
 local extras = require("luasnip.extras")
+local ms = ls.multi_snippet
 local rep = extras.rep
 local ht_snippet = require("ht.snippets.snippet")
 local snippet = ht_snippet.build_snippet
@@ -25,42 +28,28 @@ local header_ext = {
   "tcc",
 }
 
----@param node TSNode?
----@param source string|number
----@return { [1]: number, [2]: number }?
-local function in_argument(node, source)
-  if node == nil then
-    return nil
-  end
+local argument_node_types = {
+  "argument_list",
+  "parameter_list",
+}
 
-  node = UtilsTs.find_first_parent(node, { "argument_list", "parameter_list" })
+local function_body_node_types = {
+  "function_definition",
+  "lambda_expression",
+  "field_declaration",
+}
 
-  if node == nil then
-    return nil
-  end
-
-  local start_row, start_col, _, _ = vim.treesitter.get_node_range(node)
-
-  return { start_row, start_col }
-end
+local class_body_node_types = {
+  "struct_specifier",
+  "class_specifier",
+}
 
 ---@param node TSNode?
----@param source string|number
 ---@return { [1]: number, [2]: number }?
-local function in_function_body(node, source)
+local function start_pos(node)
   if node == nil then
     return nil
   end
-
-  node = UtilsTs.find_first_parent(
-    node,
-    { "function_definition", "lambda_expression", "field_declaration" }
-  )
-
-  if node == nil then
-    return nil
-  end
-
   local start_row, start_col, _, _ = vim.treesitter.get_node_range(node)
   return { start_row, start_col }
 end
@@ -71,26 +60,6 @@ local function in_header_file()
     return true
   end
   return false
-end
-
----@param node TSNode?
----@param source string|number
-local function in_class_body(node, source)
-  if node == nil then
-    return nil
-  end
-
-  node = UtilsTs.find_first_parent(node, {
-    "struct_specifier",
-    "class_specifier",
-  })
-
-  if node == nil then
-    return nil
-  end
-
-  local start_row, start_col, _, _ = vim.treesitter.get_node_range(node)
-  return { start_row, start_col }
 end
 
 local lambda_snippet_node = sn(
@@ -166,56 +135,174 @@ local function make_function_snippet_node(env)
   )
 end
 
-local function update_current_buffer(ori_bufnr, match)
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local lines = vim.api.nvim_buf_get_lines(ori_bufnr, row - 1, row, true)
-  assert(#lines == 1)
-  local current_line = lines[1]
-  local current_line_left = current_line:sub(1, col - #match)
-  local current_line_right = current_line:sub(col + 1)
-
-  vim.api.nvim_buf_set_lines(
-    ori_bufnr,
-    row - 1,
-    row,
-    true,
-    { current_line_left .. current_line_right }
-  )
-  local parser, source = vim.treesitter.get_parser(ori_bufnr), ori_bufnr
-  parser:parse()
-
-  return parser, source, current_line
-end
-
-local function restore_current_buffer(ori_bufnr, ori_line)
-  local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-  vim.api.nvim_buf_set_lines(ori_bufnr, row - 1, row, true, {
-    ori_line,
-  })
-  local parser, source = vim.treesitter.get_parser(ori_bufnr), ori_bufnr
-  parser:parse()
-  return parser, source
-end
-
-local function reparse_buffer(ori_bufnr, match)
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local lines = vim.api.nvim_buf_get_lines(ori_bufnr, 0, -1, false)
-  local current_line = lines[row]
-  local current_line_left = current_line:sub(1, col - #match)
-  local current_line_right = current_line:sub(col + 1)
-  lines[row] = current_line_left .. current_line_right
-  local lang = vim.treesitter.language.get_lang(vim.bo[ori_bufnr].filetype)
-    or vim.bo[ori_bufnr].filetype
-
-  local source = table.concat(lines, "\n")
-  ---@type LanguageTree
-  local parser = vim.treesitter.get_string_parser(source, lang)
-  parser:parse(true)
-
-  return parser, source
-end
+local ctor_tpls = {
+  ctor = [[
+    <cls>() = default;
+  ]],
+  dtor = [[
+    ~<cls>() = default;
+  ]],
+  ["@cp"] = [[
+    <cls>(const <cls>& rhs) = default;
+  ]],
+  ["@mv"] = [[
+    <cls>(<cls>&& rhs) = default;
+  ]],
+  ["!cp"] = [[
+    <cls>(const <cls>&) = delete;
+  ]],
+  ["!mv"] = [[
+    <cls>(<cls>&&) = delete;
+  ]],
+  ["!cm"] = [[
+    <cls>(const <cls>&) = delete;
+    <cls>(<cls>&&) = delete;
+  ]],
+}
 
 return {
+  ms(
+    {
+      common = {
+        wordTrig = true,
+        trigEngine = "plain",
+        hidden = true,
+        resolveExpandParams = function(_, line_to_cursor, match, captures)
+          -- check if at the line begin
+          if not line_to_cursor:sub(1, -(#match + 1)):match("^%s*$") then
+            return nil
+          end
+
+          local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+          local buf = vim.api.nvim_get_current_buf()
+          return sts.wrap_with_update_buffer(
+            buf,
+            match,
+            function(parser, source)
+              local pos = {
+                row - 1,
+                col - #match,
+              }
+              local node = parser:named_node_for_range {
+                pos[1],
+                pos[2],
+                pos[1],
+                pos[2],
+              }
+
+              local class_node =
+                UtilsTs.find_first_parent(node, class_body_node_types)
+              if class_node == nil then
+                return nil
+              end
+
+              local name = class_node:field("name")
+              if name == nil or #name == 0 then
+                return nil
+              end
+
+              name = name[1]
+              local ret = {
+                trigger = match,
+                captures = captures,
+                env_override = {
+                  CLASS_NAME = vim.treesitter.get_node_text(name, source),
+                },
+              }
+              return ret
+            end
+          )
+        end,
+      },
+      { trig = "ctor", name = "Constructor" },
+      { trig = "dtor", name = "Destructor" },
+      { trig = "@cp", name = "Copy constructor" },
+      { trig = "@mv", name = "Move constructor" },
+      { trig = "!cp", name = "Disallow copy" },
+      { trig = "!mv", name = "Disallow move" },
+      { trig = "!cm", name = "Disallow both copy and move" },
+    },
+    d(1, function(_, parent)
+      local env = parent.env
+      local tpl = vim.F.if_nil(ctor_tpls[parent.trigger], "")
+      return sn(
+        nil,
+        fmta(tpl, {
+          cls = t(env.CLASS_NAME),
+        })
+      )
+    end, {})
+  ),
+
+  snippet {
+    "!?[cd]tor",
+    name = "Constructor",
+    dscr = "Expand to a constructor",
+    mode = "rbw",
+    hidden = true,
+    resolveExpandParams = function(_, _, match, captures)
+      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+      local buf = vim.api.nvim_get_current_buf()
+      return sts.wrap_with_update_buffer(buf, match, function(parser, source)
+        local pos = {
+          row - 1,
+          col - #match,
+        }
+        local node = parser:named_node_for_range {
+          pos[1],
+          pos[2],
+          pos[1],
+          pos[2],
+        }
+
+        local class_node =
+          UtilsTs.find_first_parent(node, class_body_node_types)
+        if class_node == nil then
+          return nil
+        end
+
+        local name = class_node:field("name")
+        if name == nil or #name == 0 then
+          return nil
+        end
+
+        name = name[1]
+        local ret = {
+          trigger = match,
+          captures = captures,
+          env_override = {
+            CLASS_NAME = vim.treesitter.get_node_text(name, source),
+          },
+        }
+        return ret
+      end)
+    end,
+    nodes = d(1, function(_, parent)
+      local env = parent.env
+      local tpl = ""
+      if parent.trigger == "ctor" then
+        tpl = [[
+          <class_name>() = default;
+        ]]
+      elseif parent.trigger == "dtor" then
+        tpl = [[
+          ~<class_name>() = default;
+        ]]
+      elseif parent.trigger == "!ctor" then
+        tpl = [[
+          <class_name>() = default;
+          <class_name>() = default;
+        ]]
+      end
+      return sn(
+        nil,
+        fmta(tpl, {
+          class_name = env.CLASS_NAME,
+        })
+      )
+    end, {}),
+  },
+
   snippet {
     "fn",
     name = "Define a function/lambda",
@@ -224,34 +311,38 @@ return {
     resolveExpandParams = function(_, _, match, captures)
       local row, col = unpack(vim.api.nvim_win_get_cursor(0))
       local buf = vim.api.nvim_get_current_buf()
-      local parser, source, ori_line = update_current_buffer(buf, match)
-      -- local parser, source = reparse_buffer(buf, match)
-      local pos = {
-        row - 1,
-        col - #match,
-      }
-      local node = parser:named_node_for_range {
-        pos[1],
-        pos[2],
-        pos[1],
-        pos[2],
-      }
-      -- UtilsTs.print_node(node)
-      local ret = {
-        trigger = match,
-        capture = captures,
-        env_override = {
-          CPP_IN_ARGUMENT = in_argument(node, source),
-          CPP_IN_FUNCTION_BODY = in_function_body(node, source),
-          CPP_IN_CLASS_BODY = in_class_body(node, source),
-          CPP_IN_HEADER_FILE = in_header_file(),
-        },
-      }
-      -- vim.print(ret)
-      -- parser:destroy()
-      restore_current_buffer(buf, ori_line)
-      vim.api.nvim_win_set_cursor(0, { row, col })
-      return ret
+      return sts.wrap_with_update_buffer(buf, match, function(parser, _)
+        local pos = {
+          row - 1,
+          col - #match,
+        }
+        local node = parser:named_node_for_range {
+          pos[1],
+          pos[2],
+          pos[1],
+          pos[2],
+        }
+
+        local ret = {
+          trigger = match,
+          capture = captures,
+          env_override = {
+            CPP_IN_ARGUMENT = start_pos(
+              UtilsTs.find_first_parent(node, argument_node_types)
+            ),
+            CPP_IN_FUNCTION_BODY = start_pos(
+              UtilsTs.find_first_parent(node, function_body_node_types)
+            ),
+            CPP_IN_CLASS_BODY = start_pos(
+              UtilsTs.find_first_parent(node, class_body_node_types)
+            ),
+            CPP_IN_HEADER_FILE = in_header_file(),
+          },
+        }
+
+        vim.api.nvim_win_set_cursor(0, { row, col })
+        return ret
+      end)
     end,
     nodes = d(1, function(_, parent)
       local env = parent.env

@@ -223,6 +223,77 @@ function TSParserWrapper:captures_at_pos(captures, pos)
   return results
 end
 
+local function wrap_with_update_buffer(ori_bufnr, match, fun)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local function update_current_buffer()
+    local lines = vim.api.nvim_buf_get_lines(ori_bufnr, row - 1, row, true)
+    assert(#lines == 1)
+    local current_line = lines[1]
+    local current_line_left = current_line:sub(1, col - #match)
+    local current_line_right = current_line:sub(col + 1)
+
+    vim.api.nvim_buf_set_lines(
+      ori_bufnr,
+      row - 1,
+      row,
+      true,
+      { current_line_left .. current_line_right }
+    )
+    local parser, source = vim.treesitter.get_parser(ori_bufnr), ori_bufnr
+    parser:parse()
+
+    return parser, source, current_line
+  end
+
+  local function restore_current_buffer(ori_line)
+    vim.api.nvim_buf_set_lines(ori_bufnr, row - 1, row, true, {
+      ori_line,
+    })
+    local parser, source = vim.treesitter.get_parser(ori_bufnr), ori_bufnr
+    parser:parse()
+    vim.api.nvim_win_set_cursor(0, { row, col })
+    return parser, source
+  end
+
+  local parser, source, ori_line = update_current_buffer()
+
+  local ret = { fun(parser, source) }
+
+  restore_current_buffer(ori_line)
+
+  return unpack(ret)
+end
+
+local function wrap_with_reparse_buffer(ori_bufnr, match, fun)
+  local function reparse_buffer()
+    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+    local lines = vim.api.nvim_buf_get_lines(ori_bufnr, 0, -1, false)
+    local current_line = lines[row]
+    local current_line_left = current_line:sub(1, col - #match)
+    local current_line_right = current_line:sub(col + 1)
+    lines[row] = current_line_left .. current_line_right
+    local lang = vim.treesitter.language.get_lang(vim.bo[ori_bufnr].filetype)
+      or vim.bo[ori_bufnr].filetype
+
+    local source = table.concat(lines, "\n")
+    ---@type LanguageTree
+    local parser = vim.treesitter.get_string_parser(source, lang)
+    parser:parse(true)
+
+    return parser, source
+  end
+
+  local parser, source = reparse_buffer()
+
+  local ret = { fun(parser, source) }
+
+  parser:destroy()
+
+  return unpack(ret)
+end
+
 return {
   new_parser_wrapper = new_parser_wrapper,
+  wrap_with_update_buffer = wrap_with_update_buffer,
+  wrap_with_reparse_buffer = wrap_with_reparse_buffer,
 }

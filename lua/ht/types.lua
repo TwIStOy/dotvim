@@ -46,3 +46,7 @@
 ---@field kind string
 ---@field text string the name of this symbol
 ---@field detail string? more detail for this symbol, e.g the signature of a function.
+
+---@class ht.CursorPosition
+---@field [1] number
+---@field [2] number

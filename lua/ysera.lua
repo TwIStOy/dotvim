@@ -16,9 +16,13 @@ local function box_meta(root)
             return module(...)
           end
           rawset(tbl, key, setmetatable({}, meta))
+        elseif module == nil then
+          rawset(tbl, key, setmetatable({}, box_meta(name)))
         else
           error("Module must returns a table or a function")
         end
+      else
+        rawset(tbl, key, setmetatable({}, box_meta(name)))
       end
       return rawget(tbl, key)
     end,

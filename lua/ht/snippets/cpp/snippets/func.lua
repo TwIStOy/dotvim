@@ -49,7 +49,7 @@ return {
     "pvf",
     name = "Pure virtual function",
     dscr = "Declare pure virtual function",
-    mode = "bwA",
+    mode = "bw",
     nodes = fmta("virtual <ret_t> <name>(<args>) <specifier> = 0;", {
       name = i(1, "func"),
       args = i(2, "args"),
@@ -85,7 +85,7 @@ return {
     "|trans",
     name = "std/ranges-v3 transform",
     dscr = "std/ranges-v3 transform function",
-    mode = "b",
+    mode = "w",
     nodes = fmta(
       [[
       | <ns>::views::transform([&](auto&& value) {
@@ -106,7 +106,7 @@ return {
     "|filter",
     name = "std/ranges-v3 filter",
     dscr = "std/ranges-v3 filter function",
-    mode = "b",
+    mode = "w",
     nodes = fmta(
       [[
       | <ns>::views::filter([&](auto&& value) ->> bool {
@@ -127,7 +127,7 @@ return {
     "|vec",
     name = "ranges-v3 to vector",
     dscr = "ranges-v3 to vector",
-    mode = "b",
+    mode = "w",
     nodes = {
       t("| ranges::to_vector"),
     },

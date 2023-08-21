@@ -126,7 +126,7 @@ M.config = function()
     sources = {
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
-      { name = "luasnip", group_index = 1 },
+      -- { name = "luasnip", group_index = 1 },
       {
         name = "latex_symbols",
         filetype = { "tex", "latex", "markdown" },

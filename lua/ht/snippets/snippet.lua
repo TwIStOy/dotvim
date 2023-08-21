@@ -3,19 +3,18 @@ local snip_cond = require("ht.snippets.conditions.conditions")
 
 local function build_snippet(opts)
   local trig = opts[1]
-  local name = opts.name or trig
-  local dscr = opts.dscr or ("Snippet: " .. name)
-  local mode = opts.mode or ""
+  local name = vim.F.if_nil(opts.name, trig)
+  local dscr = vim.F.if_nil(opts.dscr, "Snippet: " .. name)
+  local mode = vim.F.if_nil(opts.mode, "")
   local wordTrig = mode:match("w") ~= nil
-  local trigEngine = opts.engine or "plain"
+  local trigEngine = vim.F.if_nil(opts.engine, "plain")
   if mode:match("r") ~= nil and opts.engine == nil then
     trigEngine = "pattern"
   end
-  local hidden = mode:match("h") ~= nil
+  local hidden = vim.F.if_nil(opts.hidden, mode:match("h") ~= nil)
   local snippetType = mode:match("A") ~= nil and "autosnippet" or "snippet"
   local nodes = opts.nodes
   local priority = opts.priority or nil
-
   local cond = opts.cond or nil
 
   if mode:match("b") ~= nil then

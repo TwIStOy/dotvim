@@ -136,103 +136,143 @@ local function make_function_snippet_node(env)
 end
 
 local ctor_tpls = {
-  ctor = [[
-    <cls>() = default;
-  ]],
-  dtor = [[
-    ~<cls>() = default;
-  ]],
-  ["@cp"] = [[
-    <cls>(const <cls>& rhs) = default;
-  ]],
-  ["@mv"] = [[
-    <cls>(<cls>&& rhs) = default;
-  ]],
-  ["!cp"] = [[
-    <cls>(const <cls>&) = delete;
-  ]],
-  ["!mv"] = [[
-    <cls>(<cls>&&) = delete;
-  ]],
-  ["!cm"] = [[
-    <cls>(const <cls>&) = delete;
-    <cls>(<cls>&&) = delete;
-  ]],
+  ctor = {
+    name = "Constructor",
+    tpl = [[
+      <cls>() = default;
+    ]],
+  },
+  dtor = {
+    name = "Destructor",
+    tpl = [[
+      ~<cls>() = default;
+    ]],
+  },
+  ["cp!"] = {
+    name = "Copy constructor",
+    tpl = [[
+      <cls>(const <cls>& rhs) = default;
+    ]],
+  },
+  ["mv!"] = {
+    name = "Move constructor",
+    tpl = [[
+      <cls>(<cls>&& rhs) = default;
+    ]],
+  },
+  ["ncp!"] = {
+    name = "Disallow copy",
+    tpl = [[
+      <cls>(const <cls>&) = delete;
+    ]],
+  },
+  ["nmv!"] = {
+    name = "Disallow move",
+    tpl = [[
+      <cls>(<cls>&&) = delete;
+    ]],
+  },
+  ["ncm!"] = {
+    name = "Disallow both copy and move",
+    tpl = [[
+      <cls>(const <cls>&) = delete;
+      <cls>(<cls>&&) = delete;
+    ]],
+  },
 }
 
 return {
-  ms(
-    {
-      common = {
-        wordTrig = true,
-        trigEngine = "plain",
-        hidden = true,
-        resolveExpandParams = function(_, line_to_cursor, match, captures)
-          -- check if at the line begin
-          if not line_to_cursor:sub(1, -(#match + 1)):match("^%s*$") then
+  snippet {
+    "in!",
+    name = "if (...find)",
+    dscr = "Find a member exists in map-like object.",
+    mode = "bwh", -- line begin, word, hidden
+    nodes = fmta(
+      [[
+      if (auto it = <object>.find(<key>); it != <object_r>.end()) {
+        <body>
+      }
+      ]],
+      {
+        object = i(1, "Object"),
+        object_r = rep(1),
+        key = i(2, "Key"),
+        body = i(0),
+      }
+    ),
+  },
+
+  function()
+    local triggers = {}
+    for k, v in pairs(ctor_tpls) do
+      triggers[#triggers + 1] = {
+        trig = k,
+        name = v.name,
+      }
+    end
+
+    triggers.common = {
+      wordTrig = true,
+      trigEngine = "plain",
+      hidden = true,
+      resolveExpandParams = function(_, line_to_cursor, match, captures)
+        -- check if at the line begin
+        if not line_to_cursor:sub(1, -(#match + 1)):match("^%s*$") then
+          return nil
+        end
+
+        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+        local buf = vim.api.nvim_get_current_buf()
+        return sts.wrap_with_update_buffer(buf, match, function(parser, source)
+          local pos = {
+            row - 1,
+            col - #match,
+          }
+          local node = parser:named_node_for_range {
+            pos[1],
+            pos[2],
+            pos[1],
+            pos[2],
+          }
+
+          local class_node =
+            UtilsTs.find_first_parent(node, class_body_node_types)
+          if class_node == nil then
             return nil
           end
 
-          local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-          local buf = vim.api.nvim_get_current_buf()
-          return sts.wrap_with_update_buffer(
-            buf,
-            match,
-            function(parser, source)
-              local pos = {
-                row - 1,
-                col - #match,
-              }
-              local node = parser:named_node_for_range {
-                pos[1],
-                pos[2],
-                pos[1],
-                pos[2],
-              }
+          local name = class_node:field("name")
+          if name == nil or #name == 0 then
+            return nil
+          end
 
-              local class_node =
-                UtilsTs.find_first_parent(node, class_body_node_types)
-              if class_node == nil then
-                return nil
-              end
-
-              local name = class_node:field("name")
-              if name == nil or #name == 0 then
-                return nil
-              end
-
-              name = name[1]
-              local ret = {
-                trigger = match,
-                captures = captures,
-                env_override = {
-                  CLASS_NAME = vim.treesitter.get_node_text(name, source),
-                },
-              }
-              return ret
-            end
-          )
-        end,
-      },
-      { trig = "ctor", name = "Constructor" },
-      { trig = "dtor", name = "Destructor" },
-      { trig = "@cp", name = "Copy constructor" },
-      { trig = "@mv", name = "Move constructor" },
-      { trig = "!cp", name = "Disallow copy" },
-      { trig = "!mv", name = "Disallow move" },
-      { trig = "!cm", name = "Disallow both copy and move" },
-    },
-    d(1, function(_, parent)
-      local env = parent.env
-      local tpl = vim.F.if_nil(ctor_tpls[parent.trigger], "")
-      return sn(
-        nil,
-        fmta(tpl, {
-          cls = t(env.CLASS_NAME),
-        })
-      )
-    end, {})
-  ),
+          name = name[1]
+          local ret = {
+            trigger = match,
+            captures = captures,
+            env_override = {
+              CLASS_NAME = vim.treesitter.get_node_text(name, source),
+            },
+          }
+          return ret
+        end)
+      end,
+    }
+    return ms(
+      triggers,
+      d(1, function(_, parent)
+        local env = parent.env
+        local tpl = vim.F.if_nil(ctor_tpls[parent.trigger], {})
+        tpl = vim.F.if_nil(tpl.tpl, "")
+        return sn(
+          nil,
+          fmta(tpl, {
+            cls = t(env.CLASS_NAME),
+          })
+        )
+      end, {})
+    )
+  end,
 
   snippet {
     "fn",

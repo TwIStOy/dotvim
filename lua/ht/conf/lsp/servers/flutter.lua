@@ -33,6 +33,9 @@ opts.setup = function(on_buffer_attach, capabilities)
       border = "solid",
       notification_style = "plugin",
     },
+    debugger = {
+      enabled = false,
+    },
     widget_guides = {
       enabled = false,
     },
@@ -40,6 +43,9 @@ opts.setup = function(on_buffer_attach, capabilities)
       enabled = true,
     },
     lsp = {
+      color = {
+        enabled = false,
+      },
       on_attach = on_buffer_attach,
       capabilities = capabilities,
       settings = {

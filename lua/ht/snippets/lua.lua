@@ -19,7 +19,6 @@ end
 return function()
   local hs = require("ht.snippets.snippet")
   local snippet = hs.build_snippet
-  local quick_expand = hs.quick_expand
   local i = hs.insert_node
   local c = hs.choice_node
 
@@ -37,9 +36,9 @@ return function()
 
   return {
     snippet {
-      "ifif",
+      "@if",
       mode = "bw",
-      nodes = d(1, function(args, parent)
+      nodes = d(1, function(_, parent)
         local env = parent.env
 
         local nodes = {

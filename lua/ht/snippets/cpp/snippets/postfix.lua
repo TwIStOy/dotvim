@@ -46,31 +46,18 @@ return {
     name = "begin..end",
     dscr = "Completes a variable with both begin() and end().",
     matchTSNode = {
-      captures = "any_expr",
+      select = {
+        captures = "any_expr",
+      },
     },
   }, {
     f(function(_, parent)
-      vim.print(parent.env.TREESITTER_MATCHES)
-      -- return su.replace_all(
-      --   parent.snippet.env.TSNODETEXT_MATCH,
-      --   "%s.begin(), %s.end()"
-      -- )
+      return su.replace_all(
+        parent.snippet.env.TREESITTER_BEST_MATCH.text,
+        "%s.begin(), %s.end()"
+      )
     end, {}),
   }),
-
-  -- ts_postfix_any_expr {
-  --   ".be",
-  --   name = "begin..end",
-  --   dscr = "Completes a variable with both begin() and end().",
-  --   nodes = {
-  --     f(function(_, parent)
-  --       return su.replace_all(
-  --         parent.snippet.env.TSNODETEXT_MATCH,
-  --         "%s.begin(), %s.end()"
-  --       )
-  --     end, {}),
-  --   },
-  -- },
 
   ts_postfix_any_expr {
     ".mv",

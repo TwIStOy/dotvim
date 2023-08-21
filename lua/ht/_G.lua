@@ -107,28 +107,3 @@ TestLog = function(s)
   end
 end
 
-TestQuery = function()
-  local UtilsTs = require("ht.utils.ts")
-  -- local query = vim.treesitter.query.parse("cpp", "(call_expression) @my_call")
-  local ft = vim.api.nvim_buf_get_option(0, "ft")
-  local lang = vim.treesitter.language.get_lang(ft)
-  local parser = vim.treesitter.get_parser(0, lang)
-  local root = parser:parse()[1]:root()
-
-  local query = vim.treesitter.query.get(lang, "textobjects")
-
-  local matches = query:iter_matches(root, 0, 0, -1)
-
-  while true do
-    local pattern, match = matches()
-    if pattern == nil then
-      break
-    end
-    for id, node in pairs(match) do
-      if query.captures[id] == "parameter.inner" then
-        print(query.captures[id], UtilsTs.inspect_node(node))
-      end
-    end
-  end
-end
-

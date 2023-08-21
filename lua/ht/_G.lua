@@ -107,14 +107,3 @@ TestLog = function(s)
   end
 end
 
-PerfStart = function()
-  require("plenary.profile").start(
-    "/home/hawtian/Tmp/profile/profile.log",
-    { flame = true }
-  )
-end
-
-PerfStop = function()
-  require("plenary.profile").stop()
-end
-

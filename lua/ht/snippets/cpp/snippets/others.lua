@@ -30,25 +30,6 @@ end
 
 return {
   snippet {
-    "ns",
-    name = "namespace",
-    dscr = "namespace",
-    mode = "bw",
-    nodes = fmta(
-      [[
-      namespace <> {
-      <>
-      }  // namespace <>
-      ]],
-      {
-        i(1, "namespace"),
-        i(0),
-        rep(1),
-      }
-    ),
-  },
-
-  snippet {
     "ns%s+(%S+)",
     name = "namespace",
     dscr = "namespace",
@@ -62,7 +43,19 @@ return {
       {
         body = i(0),
         name = f(function(_, snip)
-          return snip.captures[1]
+          local parts = vim.split(snip.captures[1], "::", {
+            plain = true,
+            trimempty = true,
+          })
+          local names = {}
+          for _, part in ipairs(parts) do
+            local nest_parts = vim.split(part, ".", {
+              plain = true,
+              trimempty = true,
+            })
+            vim.list_extend(names, nest_parts)
+          end
+          return table.concat(names, "::")
         end),
       }
     ),

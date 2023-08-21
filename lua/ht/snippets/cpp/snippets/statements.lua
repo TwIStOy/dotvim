@@ -258,6 +258,25 @@ return {
     ),
   },
 
+  snippet {
+    "ns!",
+    name = "namespace",
+    dscr = "namespace",
+    mode = "bwhA",
+    nodes = fmta(
+      [[
+      namespace <name> {
+      <body>
+      }  // namespace <name_r>
+      ]],
+      {
+        body = i(0),
+        name = i(1, "namespace"),
+        name_r = rep(1),
+      }
+    ),
+  },
+
   function()
     local triggers = {}
     for k, v in pairs(ctor_tpls) do

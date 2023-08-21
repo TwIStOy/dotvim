@@ -202,6 +202,26 @@ return {
     ),
   },
 
+  snippet {
+    "notin!",
+    name = "if (...not find)",
+    dscr = "Find a member not exists in map-like object.",
+    mode = "bwh", -- line begin, word, hidden
+    nodes = fmta(
+      [[
+      if (auto it = <object>.find(<key>); it == <object_r>.end()) {
+        <body>
+      }
+      ]],
+      {
+        object = i(1, "Object"),
+        object_r = rep(1),
+        key = i(2, "Key"),
+        body = i(0),
+      }
+    ),
+  },
+
   function()
     local triggers = {}
     for k, v in pairs(ctor_tpls) do

@@ -37,7 +37,6 @@ return {
     end,
     keys = {
       {
-        mode = { "i", "s" },
         "<C-e>",
         function()
           local ls = require("luasnip")
@@ -45,6 +44,17 @@ return {
             ls.change_choice(1)
           end
         end,
+        mode = { "i", "s", "n", "v" },
+      },
+      {
+        "<C-b>",
+        function()
+          local ls = require("luasnip")
+          if ls.jumpable(-1) then
+            ls.jumpable(-1)
+          end
+        end,
+        mode = { "i", "s", "n", "v" },
       },
       {
         "<C-f>",
@@ -54,6 +64,7 @@ return {
             ls.expand_or_jump()
           end
         end,
+        mode = { "i", "s", "n", "v" },
       },
     },
   },

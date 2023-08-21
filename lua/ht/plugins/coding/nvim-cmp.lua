@@ -126,7 +126,6 @@ M.config = function()
     sources = {
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
       { name = "copilot", group_index = 1 },
-      -- { name = "luasnip", group_index = 1 },
       {
         name = "latex_symbols",
         filetype = { "tex", "latex", "markdown" },
@@ -193,32 +192,8 @@ M.config = function()
       ["<C-n>"] = cmp.mapping.select_next_item {},
       ["<C-k>"] = cmp.mapping.select_prev_item {},
       ["<C-j>"] = cmp.mapping.select_next_item {},
-      ["<C-e>"] = cmp.mapping(function()
-        local ls = require("luasnip")
-        if ls.choice_active() then
-          ls.change_choice(1)
-        else
-          cmp.mapping.abort()
-        end
-      end, { "i", "s" }),
       ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i" }),
       ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i" }),
-      ["<C-f>"] = cmp.mapping(function(fallback)
-        local luasnip = require("luasnip")
-        if luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        else
-          fallback()
-        end
-      end, { "i", "s", "v" }),
-      ["<C-b>"] = cmp.mapping(function(fallback)
-        local luasnip = require("luasnip")
-        if luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s", "v" }),
     },
     formatting = {
       fields = { "kind", "abbr", "menu" },

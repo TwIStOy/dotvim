@@ -71,23 +71,6 @@ return {
   quick_expand("da", "decltype(auto) "),
   quick_expand("ca&", "const auto& "),
   quick_expand("a&&", "auto&& "),
-  snippet {
-    "ifc",
-    name = "if constexpr",
-    dscr = "if constexpr",
-    mode = "bw",
-    nodes = fmta(
-      [[
-      if constexpr (<>) {
-        <>
-      }
-      ]],
-      {
-        i(1, "condition"),
-        i(0),
-      }
-    ),
-  },
 
   -- common comments
   simple_comment("todo"),
@@ -116,29 +99,6 @@ return {
     dscr = "protected",
     mode = "bwA",
     nodes = t { "protected:", " " },
-  },
-
-  -- loops
-  snippet {
-    "for:",
-    mode = "bw",
-    name = "range-base for",
-    dscr = "range-base for",
-    nodes = fmta(
-      [[
-        for (<value_type> value : <iterable>) {
-          <body>
-        }
-        ]],
-      {
-        iterable = i(1, "iterable"),
-        value_type = c(2, {
-          t("auto&&"),
-          t("const auto&"),
-        }, { desc = "value_type" }),
-        body = i(0),
-      }
-    ),
   },
 
   snippet {

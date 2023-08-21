@@ -186,7 +186,7 @@ return {
     "in!",
     name = "if (...find)",
     dscr = "Find a member exists in map-like object.",
-    mode = "bwh", -- line begin, word, hidden
+    mode = "bwhA", -- line begin, word, hidden
     nodes = fmta(
       [[
       if (auto it = <object>.find(<key>); it != <object_r>.end()) {
@@ -206,7 +206,7 @@ return {
     "notin!",
     name = "if (...not find)",
     dscr = "Find a member not exists in map-like object.",
-    mode = "bwh", -- line begin, word, hidden
+    mode = "bwhA", -- line begin, word, hidden
     nodes = fmta(
       [[
       if (auto it = <object>.find(<key>); it == <object_r>.end()) {
@@ -217,6 +217,42 @@ return {
         object = i(1, "Object"),
         object_r = rep(1),
         key = i(2, "Key"),
+        body = i(0),
+      }
+    ),
+  },
+
+  snippet {
+    "for!",
+    name = "for (... in ...)",
+    dscr = "Range-base for loop",
+    mode = "bwhA", -- line begin, word, hidden
+    nodes = fmta(
+      [[
+      for (auto&& value : <iterable>) {
+        <body>
+      }
+      ]],
+      {
+        iterable = i(1, "Iterable"),
+        body = i(0),
+      }
+    ),
+  },
+
+  snippet {
+    "cif!",
+    name = "if constexpr (...)",
+    dscr = "if constexpr (...)",
+    mode = "bwhA", -- line begin, word, hidden
+    nodes = fmta(
+      [[
+      if constexpr (<condition>) {
+        <body>
+      }
+      ]],
+      {
+        condition = i(1, "Condition"),
         body = i(0),
       }
     ),

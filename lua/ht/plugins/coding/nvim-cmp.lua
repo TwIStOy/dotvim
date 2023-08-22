@@ -80,10 +80,27 @@ local i_cr_action = function(fallback)
 
   -- otherwise, confirm the selected entry
   entry = cmp.get_selected_entry()
-  if cmp.get_selected_entry() ~= nil then
-    -- if there's a selected entry, including preselect entry
-    cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
-  else
+  if entry == nil then
+    fallback()
+    return
+  end
+
+  local is_insert_mode = function()
+    return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
+  end
+  local confirm_opts = {
+    behavior = cmp.ConfirmBehavior.Replace,
+    select = false,
+  }
+  if is_insert_mode() then
+    confirm_opts.behavior = cmp.ConfirmBehavior.Insert
+  end
+  local is_copilot = entry and entry.source.name == "copilot"
+  if is_copilot then
+    confirm_opts.behavior = cmp.ConfirmBehavior.Replace
+    confirm_opts.select = true
+  end
+  if not cmp.confirm(confirm_opts) then
     fallback()
   end
 end

@@ -34,6 +34,8 @@ return function()
       ),
     },
 
+    quick_expand("fs", "final String ", "bw"),
+
     snippet {
       "afn",
       name = "Define an async function",

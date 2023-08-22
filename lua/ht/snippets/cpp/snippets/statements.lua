@@ -136,13 +136,13 @@ local function make_function_snippet_node(env)
 end
 
 local ctor_tpls = {
-  ctor = {
+  ["ctor!"] = {
     name = "Constructor",
     tpl = [[
       <cls>() = default;
     ]],
   },
-  dtor = {
+  ["dtor!"] = {
     name = "Destructor",
     tpl = [[
       ~<cls>() = default;

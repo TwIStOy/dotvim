@@ -11,22 +11,22 @@ return {
       { "<M->>", "<cmd>BufferLineMoveNext<CR>" },
     },
     config = function()
-      local mocha = require("catppuccin.palettes").get_palette("mocha")
+      -- local mocha = require("catppuccin.palettes").get_palette("mocha")
       local opts = {
-        highlights = require("catppuccin.groups.integrations.bufferline").get {
-          styles = { "italic", "bold" },
-          custom = {
-            all = {
-              fill = { bg = "#000000" },
-            },
-            mocha = {
-              background = { fg = mocha.text },
-            },
-            latte = {
-              background = { fg = "#000000" },
-            },
-          },
-        },
+        -- highlights = require("catppuccin.groups.integrations.bufferline").get {
+        --   styles = { "italic", "bold" },
+        --   custom = {
+        --     all = {
+        --       fill = { bg = "#000000" },
+        --     },
+        --     mocha = {
+        --       background = { fg = mocha.text },
+        --     },
+        --     latte = {
+        --       background = { fg = "#000000" },
+        --     },
+        --   },
+        -- },
         options = {
           view = "multiwindow",
           sort_by = "insert_after_current",

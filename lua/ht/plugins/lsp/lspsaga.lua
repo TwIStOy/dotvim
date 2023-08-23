@@ -18,7 +18,7 @@ return {
         lightbulb = { enable = false },
         symbol_in_winbar = { enable = false },
         ui = {
-          kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+          -- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
         },
       }
     end,

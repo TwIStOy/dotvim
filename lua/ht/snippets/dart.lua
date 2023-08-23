@@ -151,6 +151,23 @@ return function()
           rep_name = rep(1),
         }
       ),
-    }
+    },
+
+    snippet {
+      "cls!",
+      name = "class ...",
+      mode = "bwA",
+      nodes = fmta(
+        [[
+        class <name> {
+          <body>
+        }
+        ]],
+        {
+          name = i(1, "ClassName"),
+          body = i(0),
+        }
+      ),
+    },
   }
 end

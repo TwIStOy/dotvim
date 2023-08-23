@@ -135,5 +135,22 @@ return function()
         }
       ),
     },
+
+    snippet {
+      "jc!",
+      name = "$_xxxFromJson/ToJson() methods",
+      mode = "bwA",
+      nodes = fmt(
+        [[
+        factory {name}.fromJson(Map<String, dynamic> json) =>
+            _${rep_name}FromJson(json);
+        Map<String, dynamic> toJson() => _${rep_name}ToJson(this);
+        ]],
+        {
+          name = i(1, "ClassName"),
+          rep_name = rep(1),
+        }
+      ),
+    }
   }
 end

@@ -32,6 +32,11 @@ return {
         TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
         TelescopePreviewNormal = { bg = theme.ui.bg_dim },
         TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
+
+        ["@lsp.type.comment"] = { link = "Comment" },
+
+        ["@lsp.typemod.variable.mutable.rust"] = { underline = true },
+        ["@lsp.typemod.selfKeyword.mutable.rust"] = { underline = true },
       }
     end,
   },

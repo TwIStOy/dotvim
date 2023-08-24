@@ -122,8 +122,8 @@ return function()
         [[
         @override
         void dispose() {
-          super.dispose();
           <body>
+          super.dispose();
         }
         ]],
         {

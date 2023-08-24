@@ -138,8 +138,6 @@ local function resolve_maybe_class_decl(_, line_to_cursor, match, captures)
       return nil
     end
 
-    print("TEST")
-
     local env = {}
 
     local class_node = UtilsTs.find_first_parent(node, "class_definition")

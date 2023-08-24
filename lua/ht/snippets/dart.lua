@@ -65,7 +65,7 @@ return function()
       resolveExpandParams = dart_ts.resolve_maybe_class_decl,
       nodes = d(1, function(_, parent)
         local env = parent.env
-        if env.IS_CLASS then
+        if env.IN_CLASS then
           return t(su.replace_all(
             parent.snippet.env.CLASS_NAME,
             [[

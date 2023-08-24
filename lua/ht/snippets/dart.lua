@@ -66,14 +66,17 @@ return function()
       nodes = d(1, function(_, parent)
         local env = parent.env
         if env.IN_CLASS then
-          return t(su.replace_all(
-            parent.snippet.env.CLASS_NAME,
-            [[
+          return sn(
+            nil,
+            t(su.replace_all(
+              parent.snippet.env.CLASS_NAME,
+              [[
               factory %s.fromJson(Map<String, dynamic> json) =>
               _$%sFromJson(json);
               Map<String, dynamic> toJson() => _$%sToJson(this);
-            ]]
-          ))
+              ]]
+            ))
+          )
         else
           return sn(
             nil,

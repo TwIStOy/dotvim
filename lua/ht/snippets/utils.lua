@@ -2,7 +2,16 @@
 ---@param template string
 local function replace_all(match, template)
   if type(match) == "string" then
-    return template:gsub("%%s", match)
+    local str = template:gsub("%%s", match)
+    local lines = {}
+    for s in str:gmatch("[^\r\n]+") do
+      table.insert(lines, s)
+    end
+    if #lines == 1 then
+      return str
+    else
+      return lines
+    end
   else
     -- split template by "%s"
     local parts = vim.split(template, "%s", {

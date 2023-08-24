@@ -1,0 +1,5 @@
+---@class ht.snippet.dart.Declaration
+---@field ty string
+---@field nullable boolean
+---@field identifier string
+---@field final boolean

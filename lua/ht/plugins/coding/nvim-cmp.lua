@@ -26,7 +26,7 @@ local M = {
       "paopaol/cmp-doxygen",
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "nvim-treesitter/nvim-treesitter-textobjects",
+        "TwIStOy/nvim-treesitter-textobjects",
       },
     },
     "zbirenbaum/copilot-cmp",

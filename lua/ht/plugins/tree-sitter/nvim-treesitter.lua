@@ -36,6 +36,7 @@ return {
         "comment",
         "cpp",
         "css",
+        "dart",
         "diff",
         "dockerfile",
         "dot",
@@ -87,6 +88,9 @@ return {
         "vimdoc",
         "vue",
         "yaml",
+      },
+      indent = {
+        enable = false,
       },
       highlight = {
         enable = true,

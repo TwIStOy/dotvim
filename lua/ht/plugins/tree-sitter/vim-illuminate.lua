@@ -33,7 +33,12 @@ return {
       event = { "BufReadPost", "BufNewFile" },
       opts = {
         delay = 200,
-        filetypes_denylist = { "nuipopup", "rightclickpopup", "NvimTree" },
+        filetypes_denylist = {
+          "nuipopup",
+          "rightclickpopup",
+          "NvimTree",
+          "help",
+        },
       },
       config = function(_, opts)
         require("illuminate").configure(opts)

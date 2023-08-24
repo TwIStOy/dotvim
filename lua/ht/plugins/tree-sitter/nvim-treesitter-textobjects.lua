@@ -1,5 +1,5 @@
 return {
-  "nvim-treesitter/nvim-treesitter-textobjects",
+  "TwIStOy/nvim-treesitter-textobjects",
   lazy = true,
   event = { "BufReadPost", "BufNewFile" },
   dependencies = {

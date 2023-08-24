@@ -1,3 +1,4 @@
+local UtilsTbl = require("ht.utils.table")
 --[[
   PointOfIntrest({
     required this.longitude,
@@ -66,16 +67,16 @@ return function()
       nodes = d(1, function(_, parent)
         local env = parent.env
         if env.IN_CLASS then
+          local lines = {
+            "factory %s.fromJson(Map<String, dynamic> json) =>",
+            "_$%sFromJson(json);",
+            "Map<String, dynamic> toJson() => _$%sToJson(this);",
+          }
           return sn(
             nil,
-            t(su.replace_all(
-              parent.snippet.env.CLASS_NAME,
-              [[
-              factory %s.fromJson(Map<String, dynamic> json) =>
-              _$%sFromJson(json);
-              Map<String, dynamic> toJson() => _$%sToJson(this);
-              ]]
-            ))
+            t(UtilsTbl.list_map(lines, function(item)
+              return item:gsub("%%s", env.CLASS_NAME)
+            end))
           )
         else
           return sn(

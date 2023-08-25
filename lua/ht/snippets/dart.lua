@@ -159,6 +159,24 @@ return function()
     },
 
     snippet {
+      "wfn",
+      name = "Define a function returns a Widget",
+      dscr = "Define a function returns a Widget",
+      mode = "bw",
+      nodes = fmta(
+        [[
+        Widget _build<name>(BuildContext context) {
+          <body>
+        }
+        ]],
+        {
+          body = i(0),
+          name = i(1, "FuncName", { desc = "function name" }),
+        }
+      ),
+    },
+
+    snippet {
       "afn",
       name = "Define an async function",
       dscr = "Define an async function",

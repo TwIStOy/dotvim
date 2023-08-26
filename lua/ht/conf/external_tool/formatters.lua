@@ -31,6 +31,7 @@ formatters[#formatters + 1] = formatter.new("rust", "rustfmt", {
   stdin = true,
 }, {
   name = "rustfmt",
+  mason = false,
 })
 
 formatters[#formatters + 1] = formatter.new(

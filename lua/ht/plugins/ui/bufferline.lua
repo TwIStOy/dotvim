@@ -41,7 +41,7 @@ return {
           separator_style = "slant",
           close_command = "BDelete! %d",
           numbers = "none",
-          diagnostics = "nvim_lsp",
+          diagnostics = "",
           show_buf_icons = false,
           offsets = {
             {

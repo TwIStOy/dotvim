@@ -104,7 +104,7 @@ M.config = function() -- code to run after plugin loaded
       lualine_a = { components.mode },
       lualine_b = {
         get_cwd,
-        components.lsp_progress,
+        -- components.lsp_progress,
       },
       lualine_c = {
         {
@@ -117,26 +117,26 @@ M.config = function() -- code to run after plugin loaded
           components.fileinfo[1],
           separator = "",
         },
-        {
-          "diagnostics",
-          sources = { "nvim_diagnostic" },
-          sections = { "error", "warn", "info", "hint" },
-          diagnostics_color = {
-            error = { fg = fg("DiagnosticError") },
-            warn = { fg = fg("DiagnosticWarn") },
-            info = { fg = fg("DiagnosticInfo") },
-            hint = { fg = fg("DiagnosticHint") },
-          },
-          symbols = {
-            error = " ",
-            warn = " ",
-            info = "󰛩 ",
-            hint = " ",
-          },
-          colored = true,
-          update_in_insert = false,
-          always_visible = false,
-        },
+        -- {
+        --   "diagnostics",
+        --   sources = { "nvim_diagnostic" },
+        --   sections = { "error", "warn", "info", "hint" },
+        --   diagnostics_color = {
+        --     error = { fg = fg("DiagnosticError") },
+        --     warn = { fg = fg("DiagnosticWarn") },
+        --     info = { fg = fg("DiagnosticInfo") },
+        --     hint = { fg = fg("DiagnosticHint") },
+        --   },
+        --   symbols = {
+        --     error = " ",
+        --     warn = " ",
+        --     info = "󰛩 ",
+        --     hint = " ",
+        --   },
+        --   colored = true,
+        --   update_in_insert = false,
+        --   always_visible = false,
+        -- },
       },
       lualine_x = { "branch", "diff" },
       lualine_y = {

@@ -35,6 +35,8 @@ return {
 
         ["@lsp.type.comment"] = { link = "Comment" },
 
+        ["@lsp.type.keyword"] = { link = "Keyword" },
+
         ["@lsp.typemod.variable.mutable.rust"] = { underline = true },
         ["@lsp.typemod.selfKeyword.mutable.rust"] = { underline = true },
       }

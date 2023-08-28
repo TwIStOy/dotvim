@@ -5,7 +5,7 @@ return {
   lazy = false,
   config = function()
     require("rose-pine").setup {
-      variant = "moon",
+      variant = "dawn",
       highlight_groups = {
         TelescopeBorder = { fg = "highlight_high", bg = "none" },
         TelescopeNormal = { bg = "none" },
@@ -15,6 +15,9 @@ return {
         TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
 
         ["@variable"] = { fg = "text" },
+
+        ["@lsp.typemod.variable.mutable.rust"] = { underline = true },
+        ["@lsp.typemod.selfKeyword.mutable.rust"] = { underline = true },
 
         DiagnosticUnderlineWarn = {
           sp = "gold",

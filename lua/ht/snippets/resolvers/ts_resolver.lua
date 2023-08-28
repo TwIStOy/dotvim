@@ -7,7 +7,7 @@ local function _find_topmost_parent(node, types, validator)
     return true
   end
 
-  ---@param root TSNode
+  ---@param root TSNode?
   ---@return TSNode | nil
   local function find_parent_impl(root)
     if root == nil then
@@ -24,10 +24,15 @@ local function _find_topmost_parent(node, types, validator)
 end
 
 local function make_expand_params_resolver(root_updator)
-  local context_matcher = function(snip, line_to_cursor, match, captures)
+  local context_matcher = function(_, _, match, captures)
     local cursor = vim.api.nvim_win_get_cursor(0)
     local cursor_range = { cursor[1] - 1, cursor[2] - #match - 1 }
     local exclude_cursor_range = { cursor[1] - 1, cursor[2] - 1 }
+
+    local _ts_update_disabled = vim.api.nvim_buf_get_var(0, "_ts_disabled")
+    if _ts_update_disabled then
+      vim.treesitter.get_parser(0):parse(true)
+    end
 
     local buf = vim.api.nvim_win_get_buf(0)
     local root = vim.treesitter.get_node {
@@ -64,8 +69,7 @@ local function make_expand_params_resolver(root_updator)
 
     if root ~= nil then
       -- try to use the text from `line_to_cursor`
-      local start_row, start_col, end_row, end_col =
-        vim.treesitter.get_node_range(root)
+      local start_row, start_col, _, _ = vim.treesitter.get_node_range(root)
 
       -- start_row and start_col is correct
       local capture = vim.api.nvim_buf_get_text(

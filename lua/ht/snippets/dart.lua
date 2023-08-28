@@ -30,18 +30,15 @@ return function()
   local snippet = hs.build_snippet
   local quick_expand = hs.quick_expand
   local i = hs.insert_node
-  local c = hs.choice_node
 
   local ls = require("luasnip")
   local t = ls.text_node
   local f = ls.function_node
   local d = ls.dynamic_node
   local sn = ls.snippet_node
-  local fmt = require("luasnip.extras.fmt").fmt
   local fmta = require("luasnip.extras.fmt").fmta
   local extras = require("luasnip.extras")
   local rep = extras.rep
-  local su = require("ht.snippets.utils")
 
   local dart_ts = require("ht.snippets.dart._treesitter")
 
@@ -75,7 +72,10 @@ return function()
           return sn(
             nil,
             t(UtilsTbl.list_map(lines, function(item)
-              return item:gsub("%%s", env.CLASS_NAME)
+              local ret = {
+                item:gsub("%%s", env.CLASS_NAME --[[@as string]]),
+              }
+              return ret[1]
             end))
           )
         else
@@ -137,6 +137,23 @@ return function()
     },
 
     quick_expand("fs", "final String ", "bw"),
+
+    snippet {
+      "for!",
+      name = "for (... in ...)",
+      mode = "bwhA",
+      nodes = fmta(
+        [[
+        for (var item in <iterable>) {
+          <body>
+        }
+        ]],
+        {
+          iterable = i(1, "Iterable"),
+          body = i(0),
+        }
+      ),
+    },
 
     snippet {
       "fn",
@@ -267,6 +284,33 @@ return function()
         ]],
         {
           name = i(1, "ClassName"),
+          body = i(0),
+        }
+      ),
+    },
+
+    snippet {
+      "futw", -- future widget
+      name = "FutureBuilder...",
+      mode = "w",
+      nodes = fmta(
+        [[
+        FutureBuilder(
+          future: <fut>,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Center(child: Icon(Ionicons.bug));
+            }
+            if (!snapshot.hasData) {
+              return const CupertinoActivityIndicator();
+            }
+            final data = snapshot.data!;
+            <body>
+          },
+        ),
+        ]],
+        {
+          fut = i(1, "Future"),
           body = i(0),
         }
       ),

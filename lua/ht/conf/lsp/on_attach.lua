@@ -68,6 +68,11 @@ local function on_buffer_attach(client, bufnr)
   --   local navic = require("nvim-navic")
   --   navic.attach(client, bufnr)
   -- end
+
+  if client.server_capabilities["semanticTokensProvider"] then
+    vim.treesitter.stop(bufnr)
+    vim.api.nvim_buf_set_var(bufnr, "_ts_disabled", true)
+  end
 end
 
 return on_buffer_attach

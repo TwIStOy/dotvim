@@ -59,7 +59,7 @@ M.config = function() -- code to run after plugin loaded
     },
     system_open = { cmd = nil, args = {} },
     filters = { dotfiles = false, custom = {} },
-    git = { ignore = false },
+    git = { enable = false, ignore = false },
     view = {
       width = 30,
       hide_root_folder = false,

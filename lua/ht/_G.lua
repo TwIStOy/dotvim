@@ -107,3 +107,19 @@ TestLog = function(s)
   end
 end
 
+vim.api.nvim_create_user_command("PStart", function()
+  require("plenary.profile").start(
+    "/Users/hawtian/tmp/profile/profile.log",
+    { flame = true }
+  )
+end, {
+  force = true,
+  desc = "Start profile",
+})
+
+vim.api.nvim_create_user_command("PStop", function()
+  require("plenary.profile").stop()
+end, {
+  force = true,
+  desc = "Start profile",
+})

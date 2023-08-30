@@ -135,6 +135,7 @@ M.config = function()
     window = {
       completion = {
         border = "solid",
+        col_offset = -3,
       },
       documentation = {
         border = "single",

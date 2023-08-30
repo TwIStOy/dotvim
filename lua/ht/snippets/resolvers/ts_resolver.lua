@@ -29,8 +29,9 @@ local function make_expand_params_resolver(root_updator)
     local cursor_range = { cursor[1] - 1, cursor[2] - #match - 1 }
     local exclude_cursor_range = { cursor[1] - 1, cursor[2] - 1 }
 
-    local _ts_update_disabled = vim.api.nvim_buf_get_var(0, "_ts_disabled")
-    if _ts_update_disabled then
+    local _succ, _ts_update_disabled =
+      pcall(vim.api.nvim_buf_get_var, 0, "_ts_disabled")
+    if _succ and _ts_update_disabled then
       vim.treesitter.get_parser(0):parse(true)
     end
 

@@ -49,7 +49,7 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
-      "nvim-telescope/telescope.nvim",
+      "TwIStOy/telescope.nvim",
     },
     cmd = {
       "AerialToggle",

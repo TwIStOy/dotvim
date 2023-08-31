@@ -4,7 +4,7 @@ return {
     lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
+      "TwIStOy/telescope.nvim",
       "nvim-tree/nvim-web-devicons",
     },
     cmd = { "Octo" },

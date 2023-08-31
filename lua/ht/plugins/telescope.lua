@@ -173,7 +173,7 @@ local telescope_functions = {
 
 return {
   Use {
-    "nvim-telescope/telescope.nvim",
+    "TwIStOy/telescope.nvim",
     lazy = {
       cmd = { "Telescope" },
       lazy = true,

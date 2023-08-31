@@ -240,8 +240,9 @@ local function wrap_with_update_buffer(ori_bufnr, match, fun)
       { current_line_left .. current_line_right }
     )
     local parser, source = vim.treesitter.get_parser(ori_bufnr), ori_bufnr
-    local _ts_update_disabled = vim.api.nvim_buf_get_var(0, "_ts_disabled")
-    if _ts_update_disabled then
+    local _get_ts_disabled_succ, _ts_update_disabled =
+      pcall(vim.api.nvim_buf_get_var, 0, "_ts_disabled")
+    if _get_ts_disabled_succ and _ts_update_disabled then
       parser:parse(true)
     else
       parser:parse()

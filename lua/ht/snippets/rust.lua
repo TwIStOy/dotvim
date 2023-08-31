@@ -25,6 +25,62 @@ return function()
         }),
       }),
     },
+
+    snippet {
+      "pfn",
+      name = "pub fn ...",
+      dscr = "pub fn ...",
+      mode = "bwh",
+      nodes = fmta(
+        [[
+        pub fn <name>() ->> <res> {
+          <body>
+        }
+        ]],
+        {
+          name = i(1, "name"),
+          res = i(2, "type"),
+          body = i(0, "unimplemented!();"),
+        }
+      ),
+    },
+
+    snippet {
+      "sds!",
+      name = "(De)Serializable struct",
+      mode = "bwAh",
+      nodes = fmta(
+        [[
+        #[derive(Debug, Clone, Serialize, Deserialize)]
+        pub struct <name> {
+          <fields>
+        }
+        ]],
+        {
+          name = i(1, "name"),
+          fields = i(0, "fields"),
+        }
+      ),
+    },
+
+    snippet {
+      "it!",
+      name = "impl ... for ...",
+      mode = "bwAh",
+      nodes = fmta(
+        [[
+        impl <trait> for <typ> {
+          <body>
+        }
+        ]],
+        {
+          trait = i(1, "trait"),
+          typ = i(2, "type"),
+          body = i(0),
+        }
+      ),
+    },
+
     snippet {
       "#der",
       name = "#[derive(...)]",
@@ -36,7 +92,9 @@ return function()
         }),
       }),
     },
+
     quick_expand("pc", "pub(crate) "),
+
     snippet {
       "mr",
       name = "match result {...}",

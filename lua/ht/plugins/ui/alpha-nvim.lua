@@ -1,5 +1,5 @@
 local M = {
-  "TwIStOy/alpha-nvim",
+  "goolord/alpha-nvim",
   cond = function()
     return vim.fn.argc() == 0 and vim.o.lines >= 36 and vim.o.columns >= 80
   end,

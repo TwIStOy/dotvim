@@ -45,6 +45,7 @@ return {
     trig = ".be",
     name = "begin..end",
     dscr = "Completes a variable with both begin() and end().",
+    wordTrig = false,
     matchTSNode = {
       select = {
         captures = "any_expr",

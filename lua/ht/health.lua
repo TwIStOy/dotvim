@@ -21,6 +21,7 @@ local tools_required = {
   "stylua",
   "difft",
   "lazygit",
+  "fswatch",
 }
 
 local mason_bins = {

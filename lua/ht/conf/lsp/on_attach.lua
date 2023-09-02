@@ -3,12 +3,14 @@ local UtilsFunc = require("ht.utils.func")
 
 local function on_buffer_attach(client, bufnr)
   UtilsFunc.call_once(function()
-    require("vim.lsp._watchfiles")._watchfunc = function(_, _, _)
-      return true
-    end
+    -- require("vim.lsp._watchfiles")._watchfunc = function(_, _, _)
+    --   return true
+    -- end
+    require("ht.core.lsp.fswatch")()
   end)
 
   local LSP = require("ht.with_plug.lsp")
+  assert(LSP ~= nil)
 
   -- display diagnostic win on CursorHold
   vim.api.nvim_create_autocmd("CursorHold", {

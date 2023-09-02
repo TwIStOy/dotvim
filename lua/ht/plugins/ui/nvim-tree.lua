@@ -1,6 +1,7 @@
 local M = {
   "nvim-tree/nvim-tree.lua",
   lazy = true,
+  enabled = false,
   dependencies = { "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
   cmd = { "NvimTreeFindFile" },
 }

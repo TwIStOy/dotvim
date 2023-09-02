@@ -18,6 +18,10 @@ local FSWATCH_EVENTS = {
 --- @param opts table
 --- @param callback fun(path: string, event: integer)
 local function fswatch_output_handler(data, opts, callback)
+  if data == nil then
+    return
+  end
+
   local d = vim.split(data, "%s+")
   local cpath = d[1]
 

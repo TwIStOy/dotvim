@@ -2,6 +2,7 @@ return {
   -- motion in line with f/F
   Use {
     "jinh0/eyeliner.nvim",
+    enabled = false,
     lazy = {
       cmd = { "EyelinerEnable", "EyelinerDisable", "EyelinerToggle" },
       keys = {

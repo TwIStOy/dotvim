@@ -4,7 +4,7 @@ return {
     lazy = true,
     keys = {
       {
-        "s",
+        "f",
         mode = { "n", "x" },
         function()
           require("flash").jump()

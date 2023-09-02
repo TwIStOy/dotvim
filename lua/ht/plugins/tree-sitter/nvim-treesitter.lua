@@ -57,6 +57,7 @@ return {
         "json",
         "jsonc",
         "jsonnet",
+        "just",
         "latex",
         "llvm",
         "lua",

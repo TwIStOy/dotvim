@@ -17,7 +17,7 @@ local M = {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
-      "TwIStOy/telescope.nvim",
+      "nvim-telescope/telescope.nvim",
     },
     cmd = {
       "ObsidianBacklinks",

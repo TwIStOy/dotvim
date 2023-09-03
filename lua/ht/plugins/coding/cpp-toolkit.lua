@@ -68,7 +68,7 @@ return {
     cmd = { "CppGenDef", "CppDebugPrint", "CppToolkit" },
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "TwIStOy/telescope.nvim",
+      "nvim-telescope/telescope.nvim",
       "TwIStOy/right-click.nvim",
     },
     keys = {

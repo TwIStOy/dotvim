@@ -4,7 +4,7 @@ return {
     lazy = true,
     dependencies = {
       "kkharji/sqlite.lua",
-      "TwIStOy/telescope.nvim",
+      "nvim-telescope/telescope.nvim",
     },
     config = function()
       require("neoclip").setup {

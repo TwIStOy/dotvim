@@ -5,7 +5,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "stevearc/dressing.nvim",
-      "TwIStOy/telescope.nvim",
+      "nvim-telescope/telescope.nvim",
     },
   },
 }

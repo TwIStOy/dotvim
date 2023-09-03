@@ -23,7 +23,13 @@ return {
         silent_chdir = false,
         open_callback = function()
           vim.schedule(function()
-            require("alpha").redraw()
+            if
+              vim.fn.argc() == 0
+              and vim.o.lines >= 36
+              and vim.o.columns >= 80
+            then
+              require("alpha").redraw()
+            end
           end)
         end,
       },

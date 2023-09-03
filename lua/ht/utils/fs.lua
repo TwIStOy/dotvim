@@ -95,12 +95,14 @@ function M.git_repo_path()
   local Path = require("plenary.path")
   local Str = require("ht.utils.str")
   local current_file = vim.api.nvim_buf_get_name(0)
-  if current_file == "" then
-    return nil
-  end
+  local current_dir
 
-  local current = Path.new(current_file)
-  local current_dir = current:parent()
+  if current_file == "" then
+    current_dir = Path.new(vim.fn.getcwd())
+  else
+    local current = Path.new(current_file)
+    current_dir = current:parent()
+  end
 
   local p = vim.system({
     "git",

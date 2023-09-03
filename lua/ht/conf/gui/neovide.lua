@@ -35,7 +35,7 @@ function M.setup()
   vim.g.neovide_padding_right = 0
   vim.g.neovide_padding_left = 0
 
-  vim.g.neovide_transparency = 0.85
+  vim.g.neovide_transparency = 1
   vim.g.neovide_hide_mouse_when_typing = false
   vim.g.neovide_profiler = false
   vim.g.neovide_refresh_rate = 60

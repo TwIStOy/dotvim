@@ -153,7 +153,7 @@ local telescope_functions = {
     end
     require("telescope.builtin").live_grep {}
   end, {
-    keys = { "<leader>lg", "<leader>/" },
+    keys = { "<leader>lg", "<D-/>" },
     desc = "live-grep",
   }),
   FuncSpec("Show current git status in current working directory", function()

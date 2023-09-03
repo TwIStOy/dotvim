@@ -1,5 +1,13 @@
 local M = {}
 
+local function set_ime(args)
+  if args.event:match("Enter$") then
+    vim.g.neovide_input_ime = true
+  else
+    vim.g.neovide_input_ime = false
+  end
+end
+
 function M.setup()
   vim.g.neovide_font_features = {
     ["Iosevka"] = {
@@ -11,7 +19,7 @@ function M.setup()
       "cv34=12",
       "cv31=13",
     },
-    ["MonoLisa"] = {
+    ["MonoLisa Nerd Font"] = {
       "+ss11",
       "+zero",
       "-calt",
@@ -20,14 +28,14 @@ function M.setup()
     },
   }
 
-  vim.o.guifont = "MonoLisa,Symbols_Nerd_Font:h22"
+  vim.o.guifont = "MonoLisa Nerd Font:h20"
 
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
   vim.g.neovide_padding_right = 0
   vim.g.neovide_padding_left = 0
 
-  vim.g.neovide_hide_mouse_when_typing = true
+  vim.g.neovide_hide_mouse_when_typing = false
   vim.g.neovide_profiler = false
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_no_idle = true
@@ -37,6 +45,27 @@ function M.setup()
 
   vim.g.neovide_cursor_animation_length = 0
   vim.g.neovide_cursor_trail_size = 0
+
+  vim.g.neovide_floating_blur_amount_x = 2.0
+  vim.g.neovide_floating_blur_amount_y = 2.0
+
+  vim.g.neovide_scroll_animation_length = 0.3
+
+  vim.g.neovide_underline_automatic_scaling = true
+
+  local ime_input = vim.api.nvim_create_augroup("ime_input", { clear = true })
+
+  vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+    group = ime_input,
+    pattern = "*",
+    callback = set_ime,
+  })
+
+  vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
+    group = ime_input,
+    pattern = "[/\\?]",
+    callback = set_ime,
+  })
 end
 
 return M

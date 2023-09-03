@@ -73,10 +73,10 @@ local function config()
     },
     pickers = {
       find_files = {
-        -- theme = "ivy",
-        -- layout_config = {
-        --   height = 0.4,
-        -- },
+        theme = "ivy",
+        layout_config = {
+          height = 0.4,
+        },
       },
     },
     extensions = extensions,

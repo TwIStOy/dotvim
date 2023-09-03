@@ -49,6 +49,7 @@ local function setup()
   end
 
   if Const.is_gui then
+    -- paste from system clipboard using <cmd-v>
     vim.keymap.set({ "n", "i" }, "<D-v>", function()
       local register_info = vim.fn.getreginfo("+")
       local content = {}

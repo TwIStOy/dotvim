@@ -49,7 +49,7 @@ local function config()
         path = vim.fn.stdpath("data") .. "/database/telescope_history.sqlite3",
       },
 
-      winblend = 0,
+      winblend = require("ht.core.const").is_gui and 20 or 0,
       border = {},
       borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
       color_devicons = true,

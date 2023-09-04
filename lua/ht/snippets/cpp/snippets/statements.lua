@@ -157,7 +157,7 @@ local ctor_tpls = {
   ["mv!"] = {
     name = "Move constructor",
     tpl = [[
-      <cls>(<cls>&& rhs) = default;
+      <cls>(<cls>&& rhs) noexcept = default;
     ]],
   },
   ["ncp!"] = {

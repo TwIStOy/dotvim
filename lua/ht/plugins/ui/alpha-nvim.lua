@@ -37,7 +37,7 @@ local function get_extension(fn)
   return ext
 end
 
-local function button(sc, txt, callback)
+local function button(sc, txt, callback, opts)
   local on_press
   if type(callback) == "string" then
     on_press = function()
@@ -53,7 +53,8 @@ local function button(sc, txt, callback)
     on_press = callback
   end
 
-  local opts = {
+  opts = opts or {}
+  opts = vim.tbl_extend("force", {
     position = "center",
     shortcut = sc,
     cursor = 5,
@@ -66,7 +67,7 @@ local function button(sc, txt, callback)
       "",
       { noremap = true, silent = true, nowait = true, callback = on_press },
     },
-  }
+  }, opts)
   return { type = "button", val = txt, on_press = on_press, opts = opts }
 end
 
@@ -106,7 +107,6 @@ local function file_button(fn, sc, short_fn)
 end
 
 local function project_button(sc, project_path)
-  local dashboard = require("alpha.themes.dashboard")
   local nvim_web_devicons = require("nvim-web-devicons")
 
   local kind = UtilsProject.get_project_kind(project_path)
@@ -118,9 +118,9 @@ local function project_button(sc, project_path)
   end
   icon_txt = icon_txt .. "  "
 
-  dashboard.button(
+  return button(
     sc,
-    icon_txt .. project_path,
+    icon_txt .. vim.fn.fnamemodify(project_path, ":~"),
     "<cmd>cd " .. project_path .. " <CR>"
   )
 end
@@ -269,7 +269,6 @@ local function build_recent_projects_section()
     local project_nvim = require("project_nvim")
     local recent_projects = project_nvim.get_recent_projects()
     UtilsTbl.list_reverse(recent_projects)
-    vim.print(recent_projects)
 
     local buttons = {}
     local special_shortcuts = { "a", "s", "d" }
@@ -316,7 +315,8 @@ local function build_recent_projects_section()
 end
 
 local function build_recent_section()
-  if Const.is_gui then
+  local cwd = vim.fn.getcwd()
+  if cwd == "/" then
     return build_recent_projects_section()
   else
     return build_recent_files_section()
@@ -399,7 +399,7 @@ M.config = function() -- code to run after plugin loaded
       { type = "padding", val = 1 },
       header_with_color(),
       { type = "padding", val = 1 },
-      build_recent_files_section(),
+      build_recent_section(),
       { type = "padding", val = 1 },
       buttons,
       { type = "padding", val = 1 },

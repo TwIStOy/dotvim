@@ -38,10 +38,19 @@ local function get_extension(fn)
 end
 
 local function button(sc, txt, callback)
+  local on_press
   if type(callback) == "string" then
-    callback = function()
-      vim.cmd(callback)
+    on_press = function()
+      local key = vim.api.nvim_replace_termcodes(
+        callback .. "<Ignore>",
+        true,
+        false,
+        true
+      )
+      vim.api.nvim_feedkeys(key, "t", false)
     end
+  else
+    on_press = callback
   end
 
   local opts = {
@@ -55,10 +64,10 @@ local function button(sc, txt, callback)
       "n",
       sc,
       "",
-      { noremap = true, silent = true, nowait = true, callback = callback },
+      { noremap = true, silent = true, nowait = true, callback = on_press },
     },
   }
-  return { type = "button", val = txt, on_press = callback, opts = opts }
+  return { type = "button", val = txt, on_press = on_press, opts = opts }
 end
 
 local function file_button(fn, sc, short_fn)
@@ -126,9 +135,7 @@ local function fortune()
 end
 
 local function build_buttons(arr)
-  local dashboard = require("alpha.themes.dashboard")
   local globals = require("ht.core.globals")
-  local Const = require("ht.core.const")
 
   local buttons = {
     {
@@ -139,11 +146,8 @@ local function build_buttons(arr)
     { type = "padding", val = 1 },
   }
 
-  buttons[#buttons + 1] = dashboard.button(
-    "e",
-    "󱪝  " .. arr .. " New File",
-    ":ene <BAR> startinsert <CR>"
-  )
+  buttons[#buttons + 1] =
+    button("e", "󱪝  " .. arr .. " New File", ":ene <BAR> startinsert <CR>")
 
   buttons[#buttons + 1] = button("c", "  " .. arr .. " Settings", function()
     local builtin = require("telescope.builtin")
@@ -167,22 +171,15 @@ local function build_buttons(arr)
     end
   )
 
-  buttons[#buttons + 1] = dashboard.button(
-    "u",
-    "󰚰  " .. arr .. " Update Plugins",
-    ":Lazy update<CR>"
-  )
+  buttons[#buttons + 1] =
+    button("u", "󰚰  " .. arr .. " Update Plugins", ":Lazy update<CR>")
 
   if Const.is_gui then
-    buttons[#buttons + 1] = dashboard.button(
-      "p",
-      "  " .. arr .. " Projects",
-      ":PickRecentProject<CR>"
-    )
+    buttons[#buttons + 1] =
+      button("p", "  " .. arr .. " Projects", ":PickRecentProject<CR>")
   end
 
-  buttons[#buttons + 1] =
-    dashboard.button("q", "󰗼  " .. arr .. " Quit", ":qa<CR>")
+  buttons[#buttons + 1] = button("q", "󰗼  " .. arr .. " Quit", ":qa<CR>")
 
   return buttons
 end

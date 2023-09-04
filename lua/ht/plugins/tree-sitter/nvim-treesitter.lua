@@ -2,6 +2,9 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = true,
+    dependencies = {
+      "IndianBoy42/tree-sitter-just",
+    },
     event = { "BufReadPost", "BufNewFile" },
     build = function()
       if #vim.api.nvim_list_uis() ~= 0 then

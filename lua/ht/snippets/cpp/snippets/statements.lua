@@ -290,6 +290,7 @@ return {
       wordTrig = true,
       trigEngine = "plain",
       hidden = true,
+      snippetType = "autosnippet",
       resolveExpandParams = function(_, line_to_cursor, match, captures)
         -- check if at the line begin
         if not line_to_cursor:sub(1, -(#match + 1)):match("^%s*$") then

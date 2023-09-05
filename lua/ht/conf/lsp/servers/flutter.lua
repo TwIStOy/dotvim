@@ -37,7 +37,7 @@ opts.setup = function(on_buffer_attach, capabilities)
       enabled = false,
     },
     widget_guides = {
-      enabled = false,
+      enabled = true,
     },
     dev_log = {
       enabled = true,

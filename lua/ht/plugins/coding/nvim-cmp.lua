@@ -95,11 +95,11 @@ local i_cr_action = function(fallback)
   if is_insert_mode() then
     confirm_opts.behavior = cmp.ConfirmBehavior.Insert
   end
-  local is_copilot = entry and entry.source.name == "copilot"
-  if is_copilot then
-    confirm_opts.behavior = cmp.ConfirmBehavior.Replace
-    confirm_opts.select = true
-  end
+  -- local is_copilot = entry and entry.source.name == "copilot"
+  -- if is_copilot then
+  --   confirm_opts.behavior = cmp.ConfirmBehavior.Insert
+  --   confirm_opts.select = true
+  -- end
   if not cmp.confirm(confirm_opts) then
     fallback()
   end
@@ -206,10 +206,18 @@ M.config = function()
           fallback()
         end
       end, { "i", "s" }),
-      ["<C-p>"] = cmp.mapping.select_prev_item {},
-      ["<C-n>"] = cmp.mapping.select_next_item {},
-      ["<C-k>"] = cmp.mapping.select_prev_item {},
-      ["<C-j>"] = cmp.mapping.select_next_item {},
+      ["<C-p>"] = cmp.mapping.select_prev_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
+      ["<C-n>"] = cmp.mapping.select_next_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
+      ["<C-k>"] = cmp.mapping.select_prev_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
+      ["<C-j>"] = cmp.mapping.select_next_item {
+        behavior = cmp.SelectBehavior.Select,
+      },
       ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i" }),
       ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i" }),
     },

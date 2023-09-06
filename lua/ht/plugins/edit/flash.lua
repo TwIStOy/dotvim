@@ -4,7 +4,7 @@ return {
     lazy = true,
     keys = {
       {
-        "f",
+        "s",
         mode = { "n", "o", "x" },
         function()
           require("flash").jump()
@@ -44,6 +44,61 @@ return {
           }
         end,
         desc = "show-diagnostic-at-target",
+      },
+      {
+        "f",
+        mode = "n",
+        function()
+          require("flash").jump {
+            pattern = ".", -- initialize pattern with any char
+            search = {
+              forward = true,
+              multi_window = false,
+              wrap = false,
+              mode = function(str)
+                return "\\<" .. str
+              end,
+            },
+            label = {
+              after = false,
+              before = { 0, 0 },
+              uppercase = false,
+              format = function(opts)
+                return {
+                  { opts.match.label1, "FlashMatch" },
+                  { opts.match.label2, "FlashLabel" },
+                }
+              end,
+            },
+            action = function(match, state)
+              state:hide()
+              require("flash").jump {
+                search = { max_length = 0 },
+                highlight = { matches = false },
+                matcher = function(win)
+                  -- limit matches to the current label
+                  return vim.tbl_filter(function(m)
+                    return m.label == match.label and m.win == win
+                  end, state.results)
+                end,
+                labeler = function(matches)
+                  vim.print(matches)
+                  for _, m in ipairs(matches) do
+                    m.label = m.label2 -- use the second label
+                  end
+                end,
+              }
+            end,
+            labeler = function(matches, state)
+              local labels = state:labels()
+              for m, match in ipairs(matches) do
+                match.label1 = labels[math.floor((m - 1) / #labels) + 1]
+                match.label2 = labels[(m - 1) % #labels + 1]
+                match.label = match.label1
+              end
+            end,
+          }
+        end,
       },
     },
     config = true,

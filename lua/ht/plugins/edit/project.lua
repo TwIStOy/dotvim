@@ -3,7 +3,7 @@ return {
     "TwIStOy/project.nvim",
     lazy = {
       lazy = true,
-      event = "VeryLazy",
+      event = { "BufReadPost", "BufNewFile" },
       cmd = { "PickRecentProject" },
       opts = {
         detection_methods = { "pattern" },

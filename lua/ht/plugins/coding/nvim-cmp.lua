@@ -14,14 +14,14 @@ local M = {
     "f3fora/cmp-spell",
     "hrsh7th/cmp-buffer",
     "kdheepak/cmp-latex-symbols",
-    {
-      "zbirenbaum/copilot-cmp",
-      lazy = true,
-      dependencies = { "zbirenbaum/copilot.lua" },
-      config = function()
-        require("copilot_cmp").setup()
-      end,
-    },
+    -- {
+    --   "zbirenbaum/copilot-cmp",
+    --   lazy = true,
+    --   dependencies = { "zbirenbaum/copilot.lua" },
+    --   config = function()
+    --     require("copilot_cmp").setup()
+    --   end,
+    -- },
     {
       "paopaol/cmp-doxygen",
       dependencies = {
@@ -143,7 +143,7 @@ M.config = function()
     },
     sources = {
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
-      { name = "copilot", group_index = 1 },
+      -- { name = "copilot", group_index = 1 },
       {
         name = "latex_symbols",
         filetype = { "tex", "latex", "markdown" },

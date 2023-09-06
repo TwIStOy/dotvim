@@ -2,23 +2,19 @@ return {
   {
     "zbirenbaum/copilot.lua",
     lazy = true,
-    keys = {
-      {
-        "<M-a>",
-        function()
-          require("copilot.suggestion").accept()
-        end,
-        mode = "i",
-        desc = "accept-copilot-suggestion",
-      },
-    },
+    event = "InsertEnter",
     config = function()
       -- get current node instance
       local node_path = vim.fn.system('fish -c "which node"')
       node_path = node_path:match("^%s*(.-)%s*$")
 
       require("copilot").setup {
-        suggestion = { accept = "<M-a>" },
+        suggestion = {
+          auto_trigger = true,
+          keymap = {
+            accept = "<C-i>",
+          },
+        },
         copilot_node_command = node_path,
       }
 

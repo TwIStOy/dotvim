@@ -11,6 +11,9 @@ return {
       require("copilot").setup {
         suggestion = {
           auto_trigger = true,
+          keymap = {
+            accept = "<C-l>",
+          },
         },
         copilot_node_command = node_path,
       }

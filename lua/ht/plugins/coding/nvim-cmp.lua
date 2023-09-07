@@ -14,14 +14,6 @@ local M = {
     "f3fora/cmp-spell",
     "hrsh7th/cmp-buffer",
     "kdheepak/cmp-latex-symbols",
-    -- {
-    --   "zbirenbaum/copilot-cmp",
-    --   lazy = true,
-    --   dependencies = { "zbirenbaum/copilot.lua" },
-    --   config = function()
-    --     require("copilot_cmp").setup()
-    --   end,
-    -- },
     {
       "paopaol/cmp-doxygen",
       dependencies = {
@@ -95,11 +87,6 @@ local i_cr_action = function(fallback)
   if is_insert_mode() then
     confirm_opts.behavior = cmp.ConfirmBehavior.Insert
   end
-  -- local is_copilot = entry and entry.source.name == "copilot"
-  -- if is_copilot then
-  --   confirm_opts.behavior = cmp.ConfirmBehavior.Insert
-  --   confirm_opts.select = true
-  -- end
   if not cmp.confirm(confirm_opts) then
     fallback()
   end
@@ -143,7 +130,6 @@ M.config = function()
     },
     sources = {
       { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
-      -- { name = "copilot", group_index = 1 },
       {
         name = "latex_symbols",
         filetype = { "tex", "latex", "markdown" },

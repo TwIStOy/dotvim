@@ -9,6 +9,7 @@ return {
         "AsyncTaskProfile",
         "AsyncTaskEdit",
       },
+      allow_in_vscode = true,
       dependencies = {
         { "skywind3000/asyncrun.vim", cmd = { "AsyncRun", "AsyncStop" } },
       },

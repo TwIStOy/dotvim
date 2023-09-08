@@ -1,6 +1,7 @@
 return {
   "IndianBoy42/tree-sitter-just",
   lazy = true,
+  allow_in_vscode = true,
   config = function()
     require("nvim-treesitter.parsers").get_parser_configs().just = {
       install_info = {

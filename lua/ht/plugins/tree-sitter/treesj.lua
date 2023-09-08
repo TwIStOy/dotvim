@@ -5,6 +5,7 @@ return {
       lazy = true,
       dependencies = { "nvim-treesitter/nvim-treesitter" },
       cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
+      allow_in_vscode = true,
       init = function()
         local RC = require("ht.core.right-click")
         RC.add_section {

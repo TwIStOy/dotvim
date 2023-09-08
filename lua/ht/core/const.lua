@@ -46,4 +46,11 @@ M.is_gui = (function()
   return false
 end)()
 
+M.in_vscode = (function()
+  if vim.g.vscode then
+    return true
+  end
+  return false
+end)()
+
 return M

@@ -6,6 +6,7 @@ return {
     dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
     },
+    allow_in_vscode = true,
     keys = {
       { "gcc", nil, desc = "toggle-line-comment" },
       { "gcc", nil, mode = "x", desc = "toggle-line-comment" },

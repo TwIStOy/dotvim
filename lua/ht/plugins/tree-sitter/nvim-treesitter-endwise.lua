@@ -1,6 +1,7 @@
 return {
   {
     "RRethy/nvim-treesitter-endwise",
+    allow_in_vscode = true,
     lazy = true,
     ft = { "lua", "ruby", "vimscript" },
     dependencies = {

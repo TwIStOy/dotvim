@@ -16,6 +16,7 @@ return {
     "TwIStOy/LuaSnip",
     branch = "new-extra-ts-snippet",
     build = "make install_jsregexp",
+    allow_in_vscode = true,
     config = function()
       local luasnip = require("luasnip")
       local ft_functions = require("luasnip.extras.filetype_functions")

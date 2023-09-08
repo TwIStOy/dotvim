@@ -33,8 +33,8 @@ function M.delay_notify_invocations()
     vim.schedule(function()
       if vim.notify == temp then
         -- try to load nvim-notify
-        local notify = require("notify")
-        if notify ~= nil then
+        local succ, notify = pcall(require, "notify")
+        if succ and notify ~= nil then
           vim.notify = notify
         else
           vim.notify = orig -- put back the original notify if needed

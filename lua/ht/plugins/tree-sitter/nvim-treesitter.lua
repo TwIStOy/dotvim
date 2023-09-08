@@ -1,6 +1,9 @@
+local Const = require("ht.core.const")
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    allow_in_vscode = true,
     lazy = true,
     dependencies = {
       "IndianBoy42/tree-sitter-just",
@@ -97,7 +100,7 @@ return {
         enable = false,
       },
       highlight = {
-        enable = true,
+        enable = not Const.in_vscode,
         additional_vim_regex_highlighting = { "markdown" },
         disable = function(lang, bufnr)
           if lang == "html" and vim.api.nvim_buf_line_count(bufnr) > 500 then

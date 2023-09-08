@@ -1,4 +1,8 @@
-local M = { "monaqa/dial.nvim", event = "BufReadPost" }
+local M = {
+  "monaqa/dial.nvim",
+  event = "BufReadPost",
+  allow_in_vscode = true,
+}
 
 M.config = function() -- code to run after plugin loaded
   local augend = require("dial.augend")

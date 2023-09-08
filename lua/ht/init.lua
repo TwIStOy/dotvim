@@ -1,5 +1,9 @@
 local Const = require("ht.core.const")
 
+local function yes()
+  return true
+end
+
 local function bootstrap_plugin_manager()
   if not vim.uv.fs_stat(Const.lazy_path) then
     vim.fn.system {
@@ -14,6 +18,13 @@ local function bootstrap_plugin_manager()
   vim.opt.rtp:prepend(Const.lazy_path)
 
   local lazy_settings = {
+    defaults = {
+      cond = function(plug)
+        local user_cond = plug.cond or yes
+        local allow_in_vscode = plug.allow_in_vscode or false
+        return user_cond() and (allow_in_vscode or not Const.in_vscode)
+      end,
+    },
     spec = {
       { import = "ht.plugins" },
       { import = "ht.plugins.edit" },

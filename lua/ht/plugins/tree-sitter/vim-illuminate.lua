@@ -31,6 +31,7 @@ return {
     },
     lazy = {
       event = { "BufReadPost", "BufNewFile" },
+      allow_in_vscode = true,
       opts = {
         delay = 200,
         filetypes_denylist = {

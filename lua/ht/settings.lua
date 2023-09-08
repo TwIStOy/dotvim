@@ -1,6 +1,9 @@
-require("ht.conf.options").setup()
-require("ht.conf.keymaps").setup()
-require("ht.conf.event").setup()
+local Const = require("ht.core.const")
+if not Const.in_vscode then
+  require("ht.conf.options").setup()
+  require("ht.conf.keymaps").setup()
+  require("ht.conf.event").setup()
+end
 
 -- gui: fvim
 if vim.g["fvim_loaded"] then

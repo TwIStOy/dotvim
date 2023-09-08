@@ -1,6 +1,7 @@
 return {
   {
     "echasnovski/mini.move",
+    allow_in_vscode = true,
     keys = {
       { "<C-h>", nil, mode = { "n", "v" } },
       { "<C-j>", nil, mode = { "n", "v" } },

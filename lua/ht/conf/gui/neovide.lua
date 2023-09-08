@@ -28,7 +28,7 @@ function M.setup()
     },
   }
 
-  vim.o.guifont = "MonoLisa Nerd Font:h20"
+  vim.o.guifont = "MonoLisa Nerd Font:h18"
 
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0

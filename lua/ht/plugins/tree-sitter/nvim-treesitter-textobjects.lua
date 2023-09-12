@@ -1,5 +1,5 @@
 return {
-  "TwIStOy/nvim-treesitter-textobjects",
+  "nvim-treesitter/nvim-treesitter-textobjects",
   lazy = true,
   allow_in_vscode = true,
   event = { "BufReadPost", "BufNewFile" },

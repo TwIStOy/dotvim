@@ -3,6 +3,17 @@ return {
     "abecodes/tabout.nvim",
     event = { "InsertEnter" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = {
+      tabouts = {
+        { open = "'", close = "'" },
+        { open = '"', close = '"' },
+        { open = "`", close = "`" },
+        { open = "(", close = ")" },
+        { open = "[", close = "]" },
+        { open = "{", close = "}" },
+        { open = "<", close = ">" },
+      },
+    },
     config = function(_, opts)
       require("tabout").setup(opts)
 

@@ -11,6 +11,7 @@ M.indexes = {
   flutter = 40,
   crates = 41,
   cpp_toolkit = 41,
+  http = 41,
 
   -- tools
   copilot = 50,

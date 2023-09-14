@@ -37,7 +37,7 @@ return function()
   return {
     snippet {
       "@if",
-      mode = "bw",
+      mode = "bwA",
       nodes = d(1, function(_, parent)
         local env = parent.env
 
@@ -53,6 +53,26 @@ return function()
 
         return sn(nil, nodes)
       end, {}),
+    },
+
+    snippet {
+      "for!",
+      mode = "bwhA",
+      nodes = fmta(
+        [[
+        for i, v in <pairs>(<value>) do
+          <body>
+        end
+        ]],
+        {
+          value = i(1, "value"),
+          pairs = c(2, {
+            t("pairs"),
+            t("ipairs"),
+          }),
+          body = i(0, "body"),
+        }
+      ),
     },
 
     snippet {

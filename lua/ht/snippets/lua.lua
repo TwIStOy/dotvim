@@ -68,8 +68,8 @@ return function()
         ]],
         {
           c(1, {
-            t("function"),
             t("local function"),
+            t("function"),
           }, {
             desc = "local/global",
           }),

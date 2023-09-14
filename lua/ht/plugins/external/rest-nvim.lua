@@ -5,6 +5,9 @@ return {
       opts = {
         skip_ssl_verification = true,
       },
+      ft = {
+        "http",
+      },
       dependencies = {
         "nvim-lua/plenary.nvim",
       },

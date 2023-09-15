@@ -2,12 +2,23 @@ local function add_snippets(ft, snippets)
   local luasnip = require("luasnip")
   local UtilTable = require("ht.utils.table")
 
-  snippets = UtilTable.list_map(snippets, function(s)
-    if type(s) == "function" then
-      return s()
+  if ft then
+    snippets = UtilTable.list_map(snippets, function(s)
+      if type(s) == "function" then
+        return s()
+      end
+      return s
+    end)
+  else
+    for tp, v in pairs(snippets) do
+      snippets[tp] = UtilTable.list_map(v, function(s)
+        if type(s) == "function" then
+          return s()
+        end
+        return s
+      end)
     end
-    return s
-  end)
+  end
   luasnip.add_snippets(ft, snippets)
 end
 
@@ -17,6 +28,7 @@ return {
     branch = "new-extra-ts-snippet",
     build = "make install_jsregexp",
     allow_in_vscode = true,
+    event = { "InsertEnter" },
     config = function()
       local luasnip = require("luasnip")
       local ft_functions = require("luasnip.extras.filetype_functions")
@@ -35,6 +47,7 @@ return {
       add_snippets("rust", require("ht.snippets.rust")())
       add_snippets("lua", require("ht.snippets.lua")())
       add_snippets("dart", require("ht.snippets.dart")())
+      add_snippets(nil, require("ht.snippets.markdown")())
     end,
     keys = {
       {

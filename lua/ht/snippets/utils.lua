@@ -1,8 +1,6 @@
 ---@param match string|string[]
 ---@param template string
 local function replace_all(match, template)
-  vim.print(match, template)
-
   ---@type string
   local match_str = {}
   if type(match) == "table" then

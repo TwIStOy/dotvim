@@ -46,15 +46,17 @@ return {
     name = "begin..end",
     dscr = "Completes a variable with both begin() and end().",
     wordTrig = false,
+    reparseBuffer = nil,
     matchTSNode = {
-      select = {
-        captures = "any_expr",
+      query_lang = "cpp",
+      match_captures = {
+        "any_expr",
       },
     },
   }, {
     f(function(_, parent)
       return su.replace_all(
-        parent.snippet.env.TREESITTER_BEST_MATCH.text,
+        parent.snippet.env.LS_TSMATCH,
         "%s.begin(), %s.end()"
       )
     end, {}),

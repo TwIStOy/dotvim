@@ -20,7 +20,8 @@ local function resolve_metadata(_, line_to_cursor, match, captures)
     if node == nil then
       return nil
     end
-    local metadata_node = UtilsTs.find_first_parent(node, "minus_metadata")
+    local metadata_node =
+      UtilsTs.find_first_parent(node, { "minus_metadata", "plus_metadata" })
     if metadata_node == nil then
       return nil
     end
@@ -53,19 +54,22 @@ return function()
   local postfix = require("luasnip.extras.postfix").postfix
   local l = extras.lambda
 
-  return {
-    yaml = {
-      snippet {
-        "now!",
-        name = "Now",
-        mode = "wA",
-        resolveExpandParams = resolve_metadata,
-        nodes = {
-          f(function(_, parent)
-            return os.date("%Y-%m-%d %H:%M:%S")
-          end, {}),
-        },
+  local meta_snippets = {
+    snippet {
+      "now!",
+      name = "Now",
+      mode = "wA",
+      resolveExpandParams = resolve_metadata,
+      nodes = {
+        f(function(_, parent)
+          return os.date("%Y-%m-%d %H:%M:%S")
+        end, {}),
       },
     },
+  }
+
+  return {
+    yaml = meta_snippets,
+    toml = meta_snippets,
   }
 end

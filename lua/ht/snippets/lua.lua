@@ -33,6 +33,7 @@ return function()
   local rep = extras.rep
   local postfix = require("luasnip.extras.postfix").postfix
   local l = extras.lambda
+  local tsp = require("luasnip.extras.treesitter_postfix")
 
   return {
     snippet {

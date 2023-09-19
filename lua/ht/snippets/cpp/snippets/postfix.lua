@@ -47,12 +47,14 @@ return {
     dscr = "Completes a variable with both begin() and end().",
     wordTrig = false,
     reparseBuffer = nil,
-    matchTSNode = {
-      query_lang = "cpp",
-      match_captures = {
-        "any_expr",
-      },
-    },
+    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types({
+      "call_expression",
+      "identifier",
+      "template_function",
+      "subscript_expression",
+      "field_expression",
+      "user_defined_literal",
+    }, ".be"),
   }, {
     f(function(_, parent)
       return su.replace_all(

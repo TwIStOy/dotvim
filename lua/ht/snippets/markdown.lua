@@ -62,7 +62,7 @@ return function()
       resolveExpandParams = resolve_metadata,
       nodes = {
         f(function(_, parent)
-          return os.date("%Y-%m-%d %H:%M:%S")
+          return os.date("%Y-%m-%d")
         end, {}),
       },
     },

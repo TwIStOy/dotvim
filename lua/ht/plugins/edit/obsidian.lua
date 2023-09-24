@@ -84,10 +84,10 @@ local M = {
 M.lazy.config = function()
   local obsidian = require("obsidian").setup {
     dir = require("ht.core.globals").obsidian_vault,
-    notes_subdir = "Database",
+    notes_subdir = "2-Outputs/0-Zettel",
     log_level = vim.log.levels.WARN,
     daily_notes = {
-      folder = "Journal",
+      folder = "2-Outputs/1-Journal",
     },
     completion = {
       nvim_cmp = true,

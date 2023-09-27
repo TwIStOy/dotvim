@@ -7,10 +7,10 @@ local function setup_keymaps()
 end
 
 local M = {
-  "TwIStOy/obsidian.nvim",
+  "epwalsh/obsidian.nvim",
   lazy = {
     lazy = true,
-    branch = "notes-title-pattern",
+    -- branch = "notes-title-pattern",
     event = {
       "BufReadPre *.md",
     },

@@ -10,14 +10,20 @@ local M = {
   "epwalsh/obsidian.nvim",
   lazy = {
     lazy = true,
-    -- branch = "notes-title-pattern",
     event = {
-      "BufReadPre *.md",
+      ("BufReadPre %s/*.md"):format(
+        require("ht.core.globals").has_obsidian_vault
+      ),
+      ("BufNewFile %s/*.md"):format(
+        require("ht.core.globals").has_obsidian_vault
+      ),
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
       "nvim-telescope/telescope.nvim",
+      "godlygeek/tabular",
+      "dhruvasagar/vim-table-mode",
     },
     cmd = {
       "ObsidianBacklinks",

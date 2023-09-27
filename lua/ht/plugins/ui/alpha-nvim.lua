@@ -156,10 +156,9 @@ local function build_buttons(arr)
 
   buttons[#buttons + 1] = button(
     "f",
-    "󰺮  " .. arr .. " Obsidian Vault",
+    "󰺮  " .. arr .. " Search Obsidian",
     function()
-      local builtin = require("telescope.builtin")
-      builtin.find_files { cwd = globals.obsidian_vault }
+      vim.cmd("ObsidianSearch")
     end
   )
 

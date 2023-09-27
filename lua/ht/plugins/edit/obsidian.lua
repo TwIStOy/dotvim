@@ -88,6 +88,8 @@ M.lazy.config = function()
     log_level = vim.log.levels.WARN,
     daily_notes = {
       folder = "2-Outputs/1-Journal",
+      date_format = "%Y-%m-%d",
+      alias_format = "%B %-d, %Y",
     },
     completion = {
       nvim_cmp = true,
@@ -96,20 +98,35 @@ M.lazy.config = function()
     templates = {
       subdir = "Assets/Templates",
     },
-    notes = {
-      title_pattern = "^# (.+)$",
-    },
     use_advanced_uri = true,
-    note_id_func = function(title)
-      local suffix = ""
-      if title ~= nil then
-        suffix = title:gsub(" ", "-"):lower()
-      else
-        for _ = 1, 4 do
-          suffix = suffix .. string.char(math.random(97, 122))
+    note_id_func = function(_)
+      return ("%0x-%0x-%x"):format(
+        os.time(),
+        math.random(0, 0xffff),
+        math.random(0, 0xffff)
+      )
+    end,
+    note_frontmatter_func = function(note)
+      local out = {
+        id = note.id,
+        aliases = note.aliases,
+        tags = note.tags,
+        lastModifiedTime = os.date("%Y-%m-%d"),
+      }
+      if
+        note.metadata ~= nil
+        and require("obsidian").util.table_length(note.metadata) > 0
+      then
+        for k, v in pairs(note.metadata) do
+          if out[k] == nil then
+            out[k] = v
+          end
         end
       end
-      return tostring(os.time()) .. "-" .. suffix
+      if out["createdTime"] == nil then
+        out["createdTime"] = out["lastModifiedTime"]
+      end
+      return out
     end,
   }
 

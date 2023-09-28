@@ -1,8 +1,10 @@
 local Const = require("ht.core.const")
+
 if not Const.in_vscode then
   require("ht.conf.options").setup()
   require("ht.conf.keymaps").setup()
   require("ht.conf.event").setup()
+  require("ht.conf.commands").setup()
 end
 
 -- gui: fvim

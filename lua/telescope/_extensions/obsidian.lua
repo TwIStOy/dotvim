@@ -73,15 +73,15 @@ local function tag_entry_maker(opts, tag_width)
   local displayer = entry_display.create {
     separator = " | ",
     items = {
+      { width = 5, right_justify = true },
       { width = tag_width },
-      { width = 4 },
     },
   }
 
   local function make_display(entry)
     return displayer {
-      { entry.value.tag, "@variable.builtin" },
       #entry.value.notes,
+      { entry.value.tag, "@variable.builtin" },
     }
   end
 
@@ -143,7 +143,7 @@ local function find_notes_alias(opts)
   find_notes(opts, notes)
 end
 
-local function find_notes_tags(opts)
+local function find_notes_tags(opts, inner_opts)
   local notes = all_notes_with_metadata()
   local tag_width = 0
   local tags = {}
@@ -181,7 +181,7 @@ local function find_notes_tags(opts)
           actions.close(bufnr)
           if entry ~= nil then
             local value = entry.value
-            find_notes(opts, value.notes)
+            find_notes(inner_opts, value.notes)
           end
         end)
         return true
@@ -192,7 +192,7 @@ end
 
 return telescope.register_extension {
   exports = {
-    find_notes_alias = find_notes_alias,
-    find_notes_tags = find_notes_tags,
+    find_notes_by_alias = find_notes_alias,
+    find_notes_by_tags = find_notes_tags,
   },
 }

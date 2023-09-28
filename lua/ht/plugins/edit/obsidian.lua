@@ -12,10 +12,10 @@ local M = {
     lazy = true,
     event = {
       ("BufReadPre %s/*.md"):format(
-        require("ht.core.globals").has_obsidian_vault
+        require("ht.core.globals").obsidian_vault
       ),
       ("BufNewFile %s/*.md"):format(
-        require("ht.core.globals").has_obsidian_vault
+        require("ht.core.globals").obsidian_vault
       ),
     },
     dependencies = {

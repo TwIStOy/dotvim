@@ -87,6 +87,7 @@ local function config()
   require("telescope").load_extension("possession")
   require("telescope").load_extension("command_palette")
   require("telescope").load_extension("projects")
+  require("telescope").load_extension("obsidian")
 end
 
 local telescope_functions = {

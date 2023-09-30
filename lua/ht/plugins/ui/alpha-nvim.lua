@@ -158,7 +158,7 @@ local function build_buttons(arr)
     "f",
     "󰺮  " .. arr .. " Search Obsidian",
     function()
-      vim.cmd("ObsidianSearch")
+      vim.cmd("ObsidianSearchByAlias")
     end
   )
 

@@ -165,7 +165,7 @@ local function setup()
     end,
   })
 
-  vim.api.nvim_create_autocmd({ "BufEnter", "WinClosed" }, {
+  vim.api.nvim_create_autocmd({ "BufEnter", "WinClosed", "WinEnter" }, {
     pattern = "*",
     callback = function()
       require("ht.core.window").check_last_window()

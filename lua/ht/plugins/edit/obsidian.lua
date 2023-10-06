@@ -102,7 +102,7 @@ M.lazy.config = function()
       new_notes_location = "notes_subdir",
     },
     templates = {
-      subdir = "Assets/Templates",
+      subdir = "0-Assets/Templates",
     },
     use_advanced_uri = true,
     note_id_func = function(_)

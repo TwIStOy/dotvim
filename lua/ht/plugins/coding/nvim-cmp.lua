@@ -122,10 +122,12 @@ M.config = function()
     window = {
       completion = {
         border = "solid",
-        col_offset = -3,
+        focusable = false,
+        col_offset = 0,
       },
       documentation = {
         border = "single",
+        focusable = false,
       },
     },
     sources = {

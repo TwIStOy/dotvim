@@ -65,7 +65,6 @@ M.config = function() -- code to run after plugin loaded
     git = { enable = false, ignore = false, timeout = 50 },
     view = {
       width = 30,
-      hide_root_folder = false,
       side = "left",
     },
     actions = { open_file = { resize_window = false } },

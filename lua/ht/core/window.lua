@@ -21,6 +21,7 @@ local uncountable_types = {
   sagacodeaction = true,
   rightclickpopup = true,
   DiffviewFiles = true,
+  ["neo-tree"] = true,
 }
 
 function M.skip_filetype(ft)
@@ -29,8 +30,12 @@ end
 
 local function is_uncountable(win_id)
   local buf_id = A.nvim_win_get_buf(win_id)
-  local ft = A.nvim_buf_get_option(buf_id, "ft")
-  local bt = A.nvim_buf_get_option(buf_id, "buftype")
+  local ft = A.nvim_get_option_value("ft", {
+    buf = buf_id,
+  })
+  local bt = A.nvim_get_option_value("buftype", {
+    buf = buf_id,
+  })
 
   return (uncountable_types[ft] ~= nil and uncountable_types[ft])
     or (uncountable_types[bt] ~= nil and uncountable_types[bt])

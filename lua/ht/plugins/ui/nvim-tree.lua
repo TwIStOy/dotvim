@@ -1,7 +1,7 @@
 local M = {
   "nvim-tree/nvim-tree.lua",
   lazy = true,
-  enabled = true,
+  enabled = false,
   dependencies = { "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
   cmd = { "NvimTreeFindFile" },
 }
@@ -38,6 +38,9 @@ M.config = function() -- code to run after plugin loaded
     hijack_netrw = true,
     open_on_tab = false,
     hijack_cursor = false,
+    hijack_directories = {
+      enable = false,
+    },
     update_cwd = false,
     respect_buf_cwd = true,
     sync_root_with_cwd = true,

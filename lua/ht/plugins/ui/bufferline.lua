@@ -45,6 +45,12 @@ return {
           show_buf_icons = false,
           offsets = {
             {
+              filetype = "neo-tree",
+              text = "File Explorer",
+              text_align = "center",
+              highlight = "Directory",
+            },
+            {
               filetype = "NvimTree",
               text = "File Explorer",
               text_align = "center",

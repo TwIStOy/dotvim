@@ -41,7 +41,6 @@ return {
         "cmake",
         "cpp",
         "css",
-        "dart",
         "diff",
         "dockerfile",
         "dot",
@@ -103,6 +102,9 @@ return {
         enable = not Const.in_vscode,
         additional_vim_regex_highlighting = { "markdown" },
         disable = function(lang, bufnr)
+          if lang == "dart" then
+            return true
+          end
           if lang == "html" and vim.api.nvim_buf_line_count(bufnr) > 500 then
             return true
           end

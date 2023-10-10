@@ -62,7 +62,9 @@ end
 
 function M.show_hover()
   vim.o.eventignore = "CursorHold"
-  vim.cmd("doautocmd User ShowHover")
+  vim.api.nvim_exec_autocmds("User", {
+    pattern = "ShowHover",
+  })
   vim.lsp.buf.hover()
   A.nvim_create_autocmd({ "CursorMoved" }, {
     group = lsp_hover_ns,

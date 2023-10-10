@@ -41,6 +41,7 @@ return {
         "cmake",
         "cpp",
         "css",
+        "dart",
         "diff",
         "dockerfile",
         "dot",
@@ -102,9 +103,6 @@ return {
         enable = not Const.in_vscode,
         additional_vim_regex_highlighting = { "markdown" },
         disable = function(lang, bufnr)
-          if lang == "dart" then
-            return true
-          end
           if lang == "html" and vim.api.nvim_buf_line_count(bufnr) > 500 then
             return true
           end
@@ -127,6 +125,14 @@ return {
       },
     },
     config = function(_, opts)
+      local parser = require("nvim-treesitter.parsers").get_parser_configs()
+      parser.dart = {
+        install_info = {
+          url = "https://github.com/UserNobody14/tree-sitter-dart",
+          files = { "src/parser.c", "src/scanner.c" },
+          revision = "8aa8ab977647da2d4dcfb8c4726341bee26fbce4",
+        },
+      }
       require("nvim-treesitter.configs").setup(opts)
     end,
   },

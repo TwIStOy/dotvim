@@ -2,6 +2,7 @@ local M = {}
 
 local A = vim.api
 local lsp_hover_ns = A.nvim_create_namespace("ht_lsp_hover")
+local htv = require("ht.vim")
 
 function M.declaration()
   vim.lsp.buf.declaration()
@@ -39,20 +40,27 @@ end
 function M.open_diagnostic()
   local opts = {
     focusable = false,
-    close_events = {
-      "CursorMoved",
-      "InsertEnter",
-      "User ShowHover",
-      "BufLeave",
-      "FocusLost",
-    },
     border = "solid",
     source = "if_many",
     prefix = " ",
     focus = false,
     scope = "cursor",
   }
+
   local bufnr, win = vim.diagnostic.open_float(opts)
+
+  if bufnr == nil then
+    return
+  end
+
+  htv.close_preview_autocmd({
+    "CursorMoved",
+    "InsertEnter",
+    "User ShowHover",
+    "BufLeave",
+    "FocusLost",
+  }, win, { bufnr, vim.api.nvim_get_current_buf() })
+
   vim.api.nvim_set_option_value(
     "winhl",
     "FloatBorder:NormalFloat",

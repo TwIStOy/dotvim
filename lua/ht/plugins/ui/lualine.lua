@@ -108,37 +108,34 @@ M.config = function() -- code to run after plugin loaded
       },
       lualine_c = {
         {
-          function()
-            return "%="
-          end,
-          separator = "",
-        },
-        {
           components.fileinfo[1],
           separator = "",
         },
-        -- {
-        --   "diagnostics",
-        --   sources = { "nvim_diagnostic" },
-        --   sections = { "error", "warn", "info", "hint" },
-        --   diagnostics_color = {
-        --     error = { fg = fg("DiagnosticError") },
-        --     warn = { fg = fg("DiagnosticWarn") },
-        --     info = { fg = fg("DiagnosticInfo") },
-        --     hint = { fg = fg("DiagnosticHint") },
-        --   },
-        --   symbols = {
-        --     error = " ",
-        --     warn = " ",
-        --     info = "󰛩 ",
-        --     hint = " ",
-        --   },
-        --   colored = true,
-        --   update_in_insert = false,
-        --   always_visible = false,
-        -- },
       },
-      lualine_x = { "branch", "diff" },
+      lualine_x = {
+        {
+          "diagnostics",
+          sources = { "nvim_diagnostic" },
+          sections = { "error", "warn", "info", "hint" },
+          diagnostics_color = {
+            error = { fg = fg("DiagnosticError") },
+            warn = { fg = fg("DiagnosticWarn") },
+            info = { fg = fg("DiagnosticInfo") },
+            hint = { fg = fg("DiagnosticHint") },
+          },
+          symbols = {
+            error = " ",
+            warn = " ",
+            info = "󰛩 ",
+            hint = " ",
+          },
+          colored = true,
+          update_in_insert = false,
+          always_visible = false,
+        },
+        "branch",
+        "diff",
+      },
       lualine_y = {
         { rime_state },
         { "filetype", colored = true, icon_only = false },

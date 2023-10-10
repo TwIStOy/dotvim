@@ -24,8 +24,7 @@ end
 
 return {
   {
-    "TwIStOy/LuaSnip",
-    branch = "new-extra-ts-snippet",
+    "L3MON4D3/LuaSnip",
     build = "make install_jsregexp",
     allow_in_vscode = true,
     event = { "InsertEnter" },

@@ -5,7 +5,7 @@ local M = {
     "onsails/lspkind.nvim",
     "lukas-reineke/cmp-under-comparator",
     "saadparwaiz1/cmp_luasnip",
-    "TwIStOy/LuaSnip",
+    "L3MON4D3/LuaSnip",
     "hrsh7th/cmp-cmdline",
     "dmitmel/cmp-cmdline-history",
     "hrsh7th/cmp-nvim-lsp",

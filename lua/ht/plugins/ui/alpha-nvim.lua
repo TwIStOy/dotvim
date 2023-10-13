@@ -174,11 +174,18 @@ local function build_buttons(arr)
     button("u", "󰚰  " .. arr .. " Update Plugins", ":Lazy update<CR>")
 
   if Const.is_gui then
-    buttons[#buttons + 1] =
-      button("p", "  " .. arr .. " Projects", ":PickRecentProject<CR>")
+    buttons[#buttons + 1] = button(
+      "p",
+      "  " .. arr .. " Projects",
+      function()
+        vim.cmd("PickRecentProject")
+      end
+    )
   end
 
-  buttons[#buttons + 1] = button("q", "󰗼  " .. arr .. " Quit", ":qa<CR>")
+  buttons[#buttons + 1] = button("q", "󰗼  " .. arr .. " Quit", function()
+    vim.cmd("qa")
+  end)
 
   return buttons
 end

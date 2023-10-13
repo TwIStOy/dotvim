@@ -3,11 +3,19 @@ return {
   enabled = true,
   priority = 1000,
   opts = {
-    style = "moon",
+    style = "night",
     styles = {
       comments = { italic = true },
     },
-    sidebars = { "qf", "help", "NvimTree", "Trouble", "mason", "lazy" },
+    sidebars = {
+      "qf",
+      "help",
+      "NvimTree",
+      "Trouble",
+      "mason",
+      "lazy",
+      "neo-tree",
+    },
     hide_inactive_statusline = true,
     lualine_bold = false,
     on_highlights = function(hl, c)

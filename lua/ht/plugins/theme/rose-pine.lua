@@ -5,7 +5,7 @@ return {
   lazy = false,
   config = function()
     require("rose-pine").setup {
-      variant = "dawn",
+      variant = "main",
       highlight_groups = {
         TelescopeBorder = { fg = "highlight_high", bg = "none" },
         TelescopeNormal = { bg = "none" },
@@ -13,6 +13,10 @@ return {
         TelescopeResultsNormal = { fg = "subtle", bg = "none" },
         TelescopeSelection = { fg = "text", bg = "base" },
         TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
+
+        TelescopeTitle = { fg = "base", bg = "love" },
+        TelescopePromptTitle = { fg = "base", bg = "pine" },
+        TelescopePreviewTitle = { fg = "base", bg = "iris" },
 
         ["@variable"] = { fg = "text" },
 

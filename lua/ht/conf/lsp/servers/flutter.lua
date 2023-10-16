@@ -37,21 +37,21 @@ opts.setup = function(on_buffer_attach, capabilities)
       enabled = false,
     },
     widget_guides = {
-      enabled = true,
+      enabled = false,
     },
     dev_log = {
       enabled = true,
     },
     lsp = {
       color = {
-        enabled = false,
+        enabled = true,
       },
       on_attach = on_buffer_attach,
       capabilities = capabilities,
       settings = {
         showTodos = false,
-        enableSnippets = false,
-        completeFunctionCalls = false,
+        enableSnippets = true,
+        completeFunctionCalls = true,
       },
     },
   }

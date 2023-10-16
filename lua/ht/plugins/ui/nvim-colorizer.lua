@@ -5,7 +5,6 @@ return {
     ft = {
       "vim",
       "lua",
-      "dart",
     },
     cmd = {
       "ColorizerAttachToBuffer",
@@ -30,7 +29,7 @@ return {
       local ft = vim.api.nvim_get_option_value("filetype", {
         buf = 0,
       })
-      if ft == "vim" or ft == "lua" or ft == "dart" then
+      if ft == "vim" or ft == "lua" then
         require("colorizer").attach_to_buffer(0)
       end
     end,

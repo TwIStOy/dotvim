@@ -8,6 +8,9 @@ return {
         map = "<M-0>",
         cmap = "<M-0>",
       },
+      tabout = {
+        hopout = true,
+      },
     },
     config = true,
   },

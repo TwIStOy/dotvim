@@ -38,7 +38,7 @@ local inactive_sections = {
 
 local function get_cwd()
   local cwd = vim.fn.getcwd()
-  local home = os.getenv("HOME")
+  local home = os.getenv("HOME") --[[@as string]]
   if cwd:find(home, 1, true) == 1 then
     cwd = "~" .. cwd:sub(#home + 1)
   end

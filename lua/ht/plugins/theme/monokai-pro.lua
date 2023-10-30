@@ -17,6 +17,7 @@ return {
         "telescope",
         "renamer",
         "notify",
+        "which-key",
       },
     }
     vim.cmd([[colorscheme monokai-pro]])

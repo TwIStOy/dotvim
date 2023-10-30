@@ -20,17 +20,6 @@ return {
         shell = vim.o.shell,
         close_on_exit = true,
         float_opts = { border = "rounded" },
-        highlights = {
-          Normal = {
-            link = "Normal",
-          },
-          NormalFloat = {
-            link = "NormalFloat",
-          },
-          FloatBorder = {
-            link = "FloatBorder",
-          },
-        },
       },
     },
     functions = {

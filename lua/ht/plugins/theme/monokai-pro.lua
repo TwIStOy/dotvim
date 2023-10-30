@@ -11,7 +11,7 @@ return {
         booleans = { bold = true, italic = true },
         storageclass = { italic = true },
       },
-      filter = "pro",
+      filter = "spectrum",
       background_clear = {
         "toggleterm",
         "telescope",

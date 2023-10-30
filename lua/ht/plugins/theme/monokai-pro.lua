@@ -1,6 +1,6 @@
 return {
   "loctvl842/monokai-pro.nvim",
-  enabled = false,
+  enabled = true,
   config = function()
     require("monokai-pro").setup {
       styles = {
@@ -13,13 +13,10 @@ return {
       },
       filter = "pro",
       background_clear = {
-        -- "float_win",
         "toggleterm",
         "telescope",
-        -- "which-key",
         "renamer",
         "notify",
-        -- "nvim-tree",
       },
     }
     vim.cmd([[colorscheme monokai-pro]])

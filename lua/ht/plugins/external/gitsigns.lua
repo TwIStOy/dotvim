@@ -7,8 +7,8 @@ return {
       signs = {
         add = { text = "▎" },
         change = { text = "▎" },
-        delete = { text = "" },
-        topdelete = { text = "" },
+        delete = { text = "" },
+        topdelete = { text = "" },
         changedelete = { text = "▎" },
         untracked = { text = "▎" },
       },
@@ -20,6 +20,7 @@ return {
         interval = 1000,
         follow_files = true,
       },
+      update_debounce = 20,
     },
   },
 }

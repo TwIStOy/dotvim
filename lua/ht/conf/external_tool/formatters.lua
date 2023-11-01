@@ -38,7 +38,7 @@ formatters[#formatters + 1] = formatter.new(
   "javascript,javascriptreact,typescript,typescriptreact,vue,css,scss,less,html,json,jsonc,yaml,markdown,markdown.mdx,graphql,handlebars",
   "prettier",
   {
-    args = { "--stdin-filepath" },
+    args = { "--stdin-filepath", "--prose-wrap", "never" },
     stdin = true,
     fname = true,
   },

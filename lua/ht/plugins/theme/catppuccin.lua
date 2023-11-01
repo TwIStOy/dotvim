@@ -103,8 +103,9 @@ return {
           style = "nvchad",
         },
         illuminate = true,
-        nvimtree = true,
+        nvimtree = false,
         mason = true,
+        neotree = true,
         mini = true,
         which_key = true,
         hop = true,
@@ -112,6 +113,7 @@ return {
         lsp_saga = true,
         octo = true,
         navic = { enabled = true },
+        window_picker = true,
       },
     }
 

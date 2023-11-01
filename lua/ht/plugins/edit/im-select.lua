@@ -3,7 +3,7 @@ local Const = require("ht.core.const")
 return {
   {
     "keaising/im-select.nvim",
-    enabled = Const.os.is_macos,
+    enabled = false and Const.os.is_macos,
     config = function()
       require("im_select").setup {
         default_im_select = "com.apple.keylayout.ABC",

@@ -1,6 +1,6 @@
 return {
   "loctvl842/monokai-pro.nvim",
-  enabled = true,
+  enabled = false,
   config = function()
     require("monokai-pro").setup {
       styles = {

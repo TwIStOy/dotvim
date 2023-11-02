@@ -20,6 +20,7 @@ local relative_number_blacklist = {
   ["aerial"] = true,
   ["flutterToolsOutline"] = true,
   ["neo-tree"] = true,
+  ["neo-tree-popup"] = true,
   [""] = true,
 }
 

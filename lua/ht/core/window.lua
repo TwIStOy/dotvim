@@ -22,6 +22,7 @@ local uncountable_types = {
   rightclickpopup = true,
   DiffviewFiles = true,
   ["neo-tree"] = true,
+  ["neo-tree-popup"] = true,
 }
 
 function M.skip_filetype(ft)

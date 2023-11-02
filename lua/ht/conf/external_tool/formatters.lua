@@ -63,4 +63,11 @@ formatters[#formatters + 1] = formatter.new("dart", "dart", {
   mason = false,
 })
 
+formatters[#formatters+1] = formatter.new("cmake", "gersemi", {
+  args = { "-" },
+  stdin = true,
+}, {
+  name = "gersemi"
+})
+
 return formatters

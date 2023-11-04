@@ -11,12 +11,8 @@ local M = {
   lazy = {
     lazy = true,
     event = {
-      ("BufReadPre %s/*.md"):format(
-        require("ht.core.globals").obsidian_vault
-      ),
-      ("BufNewFile %s/*.md"):format(
-        require("ht.core.globals").obsidian_vault
-      ),
+      ("BufReadPre %s/*.md"):format(require("ht.core.globals").obsidian_vault),
+      ("BufNewFile %s/*.md"):format(require("ht.core.globals").obsidian_vault),
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -96,13 +92,22 @@ M.lazy.config = function()
       folder = "2-Outputs/1-Journal",
       date_format = "%Y-%m-%d",
       alias_format = "%B %-d, %Y",
+      template = "daily-note.md",
     },
     completion = {
       nvim_cmp = true,
       new_notes_location = "notes_subdir",
     },
     templates = {
-      subdir = "0-Assets/Templates",
+      subdir = "0-Assets/Templates.nvim",
+      substitutions = {
+        daily_title = function()
+          return os.date("%B %-d, %Y")
+        end,
+        daily_date = function()
+          return os.date("%Y-%m-%d")
+        end,
+      },
     },
     use_advanced_uri = true,
     note_id_func = function(_)

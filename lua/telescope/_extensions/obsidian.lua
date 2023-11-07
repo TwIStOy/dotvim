@@ -56,7 +56,6 @@ local function entry_maker(opts, link_count_width, id_width, title_width)
   }
 
   local function make_display(entry)
-    vim.print(entry)
     return displayer {
       { entry.value.value:link_count(), "Comment" },
       { entry.value.value:id(), "@variable.builtin" },
@@ -153,8 +152,7 @@ local function find_notes(opts, notes)
           local entry = action_state.get_selected_entry()
           actions.close(bufnr)
           if entry ~= nil then
-            local value = entry.value
-            vim.cmd(("e %s/%s"):format(Globals.obsidian_vault, value.path))
+            vim.cmd(("e %s/%s"):format(Globals.obsidian_vault, entry.value.value.path))
           end
         end)
         return true

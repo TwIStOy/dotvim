@@ -107,7 +107,7 @@ M.config = function()
 
   cmp.setup {
     matching = {
-      disallow_fuzzy_matching = true,
+      disallow_fuzzy_matching = false,
       disallow_fullfuzzy_matching = true,
       disallow_partial_fuzzy_matching = false,
       disallow_partial_matching = false,

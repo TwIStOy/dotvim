@@ -176,4 +176,32 @@ M.make_index_function = function(fathers)
   end
 end
 
+---@generic T
+---@param lst T[]
+---@param accum fun(acc: T, item: T):T
+---@param init T
+---@return T
+M.reduce = function(lst, accum, init)
+  local acc = init
+  for _, v in ipairs(lst) do
+    acc = accum(acc, v)
+  end
+  return acc
+end
+
+---@generic T
+---@generic U
+---@param lst T[]
+---@param handle fun(item: T): U
+---@param accum fun(acc: U, item: U):U
+---@param init U
+---@return U
+M.reduce_with = function(lst, handle, accum, init)
+  local acc = init
+  for _, v in ipairs(lst) do
+    acc = accum(handle(v), acc)
+  end
+  return acc
+end
+
 return M

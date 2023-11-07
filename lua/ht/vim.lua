@@ -75,7 +75,26 @@ local function close_preview_autocmd(events, winnr, bufnrs)
   end
 end
 
+local function is_nil(v)
+  return v == nil or v == vim.NIL
+end
+
+---@param ... any
+---@return any
+local function if_nil(...)
+  local nargs = select('#', ...)
+  for i = 1, nargs do
+    local v = select(i, ...)
+    if not is_nil(v) then
+      return v
+    end
+  end
+  return nil
+end
+
 return {
   get_cursor_0index = get_cursor_0index,
   close_preview_autocmd = close_preview_autocmd,
+  is_nil = is_nil,
+  if_nil = if_nil,
 }

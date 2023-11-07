@@ -1,4 +1,3 @@
-local FD_CMD = { "fd", "--no-ignore", "-e", "md" }
 local Globals = require("ht.core.globals")
 local entry_display = require("telescope.pickers.entry_display")
 local obsidian = require("obsidian")
@@ -8,53 +7,58 @@ local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local telescope = require("telescope")
 local finders = require("telescope.finders")
+local extra_obsidian = require("ht.extra.obsidian")
+local Tbl = require("ht.utils.table")
+local hv = require("ht.vim")
 assert(obsidian ~= nil)
 
+local note_path_blacklist_pattern = {
+  "1-Inputs/Weread",
+}
+
 local function all_notes_with_metadata()
-  local handle = vim
-    .system(FD_CMD, {
-      cwd = Globals.obsidian_vault,
-      text = true,
-    })
-    :wait()
-  assert(handle.code == 0)
-  local lines = vim.split(handle.stdout, "\n", {
-    trimempty = true,
-  })
+  local all_notes = extra_obsidian.get_all_markdown_files()
   local ret = {}
-  for _, line in ipairs(lines) do
-    if line:find("1-Inputs/Weread") == nil then
-      local note = obsidian.note.from_file(
-        Globals.obsidian_vault .. "/" .. line,
-        Globals.obsidian_vault
-      )
-      local item = {
-        aliases = note.aliases,
-        path = line,
-        tags = note.tags,
-        id = note.id,
-      }
-      ret[#ret + 1] = item
+  for _, note in ipairs(all_notes) do
+    local skip = false
+    for _, pattern in ipairs(note_path_blacklist_pattern) do
+      if note.path:find(pattern) ~= nil then
+        skip = true
+        break
+      end
+    end
+    if not skip then
+      ret[#ret + 1] = note
     end
   end
   return ret
 end
 
+---@class ObsidianEntry
+---@field value ObsidianNote
+---@field title string
+
 ---@param opts table
+---@param link_count_width number
+---@param id_width number
+---@param title_width number
 ---@return function
-local function entry_maker(opts, id_width, title_width)
+local function entry_maker(opts, link_count_width, id_width, title_width)
   local displayer = entry_display.create {
     separator = " | ",
     items = {
+      { width = link_count_width, right_justify = true },
       { width = id_width, right_justify = true },
       { width = title_width },
     },
   }
 
+  ---@param entry ObsidianEntry
   local function make_display(entry)
     return displayer {
-      { entry.value.id, "@variable.builtin" },
-      entry.value.title,
+      entry.value:link_count(),
+      { entry.value:id(), "@variable.builtin" },
+      entry.title,
     }
   end
 
@@ -94,23 +98,31 @@ local function tag_entry_maker(opts, tag_width)
   end
 end
 
+---@param notes ObsidianNote[]
 local function find_notes(opts, notes)
-  local title_width = 0
-  local id_width = 0
-  local values = {}
+  local id_width = Tbl.reduce_with(notes, function(note)
+    return #hv.if_nil(note:id(), "")
+  end, math.max, 0)
+  local title_width = Tbl.reduce_with(notes, function(note)
+    return Tbl.reduce_with(note:aliases(), function(s)
+      return #s
+    end, math.max, 0)
+  end, math.max, 0)
+  local link_count_width = Tbl.reduce_with(notes, function(note)
+    return #note:link_count()
+  end, math.max, 0)
+
+  ---@type ObsidianEntry[]
+  local entries = {}
   for _, note in ipairs(notes) do
-    for _, alias in ipairs(note.aliases) do
+    for _, alias in ipairs(note:aliases()) do
       if #alias > title_width then
         title_width = #alias
       end
-      values[#values + 1] = {
-        title = alias,
-        id = note.id,
-        path = note.path,
+      entries[#entries + 1] = {
+        id = note:id(),
+        value = note,
       }
-    end
-    if #note.id > id_width then
-      id_width = #note.id
     end
   end
 
@@ -119,8 +131,13 @@ local function find_notes(opts, notes)
       prompt_title = "Obsidian Notes",
       sorter = conf.generic_sorter(opts),
       finder = finders.new_table {
-        results = values,
-        entry_maker = entry_maker(opts, id_width, title_width),
+        results = entries,
+        entry_maker = entry_maker(
+          opts,
+          link_count_width,
+          id_width,
+          title_width
+        ),
       },
       previewer = false,
       attach_mappings = function(bufnr, map)

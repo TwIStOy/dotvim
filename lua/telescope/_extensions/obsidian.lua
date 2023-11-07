@@ -14,6 +14,7 @@ assert(obsidian ~= nil)
 
 local note_path_blacklist_pattern = {
   "1-Inputs/Weread",
+  "0-Assets",
 }
 
 local function all_notes_with_metadata()
@@ -124,6 +125,9 @@ local function find_notes(opts, notes)
         value = note,
       }
     end
+  end
+  if id_width > 35 then
+    id_width = 35
   end
 
   pickers

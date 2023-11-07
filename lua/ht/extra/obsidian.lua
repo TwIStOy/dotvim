@@ -8,6 +8,7 @@ query {
   vault {
     allMarkdownFiles {
       path
+      basename
       cachedMetadata {
         tags {
           tag
@@ -30,6 +31,7 @@ query {
 
 ---@class ObsidianNote
 ---@field path string
+---@field basename string
 ---@field cachedMetadata ObsidianNoteCachedMetadata
 local ObsidianNote = {}
 
@@ -45,7 +47,14 @@ end
 
 ---@return string[]
 function ObsidianNote:tags()
-  return hv.if_nil(self.cachedMetadata.tags, {})
+  local ret = {}
+  for _, tag in ipairs(hv.if_nil(self.cachedMetadata.tags, {})) do
+    ret[#ret + 1] = tag
+  end
+  for _, tag in ipairs(hv.if_nil(self.cachedMetadata.frontmatter.tags, {})) do
+    ret[#ret + 1] = "#" .. tag
+  end
+  return ret
 end
 
 ---@return string
@@ -53,6 +62,15 @@ function ObsidianNote:link_count()
   return ("L%d B%d"):format(
     #self.cachedMetadata.links,
     self.cachedMetadata.backlinks_count
+  )
+end
+
+---@return string
+function ObsidianNote:title()
+  return hv.if_nil(
+    self:aliases()[1],
+    self.cachedMetadata.frontmatter.id,
+    self.basename
   )
 end
 

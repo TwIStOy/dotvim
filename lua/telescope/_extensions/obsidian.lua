@@ -17,7 +17,8 @@ local note_path_blacklist_pattern = {
   "0-Assets",
 }
 
-local function all_notes_with_metadata()
+---@return ObsidianNote[]
+local function filter_out_notes()
   local all_notes = extra_obsidian.get_all_markdown_files()
   local ret = {}
   for _, note in ipairs(all_notes) do
@@ -54,20 +55,22 @@ local function entry_maker(opts, link_count_width, id_width, title_width)
     },
   }
 
-  ---@param entry ObsidianEntry
   local function make_display(entry)
+    vim.print(entry)
     return displayer {
-      entry.value:link_count(),
-      { entry.value:id(), "@variable.builtin" },
-      entry.title,
+      { entry.value.value:link_count(), "Comment" },
+      { entry.value.value:id(), "@variable.builtin" },
+      entry.value.title,
     }
   end
 
+  ---@param entry ObsidianEntry
   return function(entry)
     return {
       value = entry,
-      display = make_display,
       ordinal = entry.title,
+      display = make_display,
+      path = Globals.obsidian_vault .. "/" .. entry.value.path,
     }
   end
 end
@@ -123,6 +126,7 @@ local function find_notes(opts, notes)
       entries[#entries + 1] = {
         id = note:id(),
         value = note,
+        title = alias,
       }
     end
   end
@@ -143,7 +147,7 @@ local function find_notes(opts, notes)
           title_width
         ),
       },
-      previewer = false,
+      previewer = conf.file_previewer(opts),
       attach_mappings = function(bufnr, map)
         map("i", "<CR>", function()
           local entry = action_state.get_selected_entry()
@@ -160,19 +164,21 @@ local function find_notes(opts, notes)
 end
 
 local function find_notes_alias(opts)
-  local notes = all_notes_with_metadata()
+  local notes = filter_out_notes()
   find_notes(opts, notes)
 end
 
 local function find_notes_tags(opts, inner_opts)
-  local notes = all_notes_with_metadata()
-  local tag_width = 0
+  local notes = filter_out_notes()
+  local tag_width = Tbl.reduce_with(notes, function(note)
+    return Tbl.reduce_with(note:tags(), function(s)
+      return #s
+    end, math.max, 0)
+  end, math.max, 0)
+
   local tags = {}
   for _, note in ipairs(notes) do
-    for _, tag in ipairs(note.tags) do
-      if #tag > tag_width then
-        tag_width = #tag
-      end
+    for _, tag in ipairs(note:tags()) do
       if tags[tag] == nil then
         tags[tag] = {}
       end

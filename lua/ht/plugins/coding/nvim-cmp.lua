@@ -26,7 +26,7 @@ local M = {
 }
 
 local has_words_before = function()
-  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+  if vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt" then
     return false
   end
 
@@ -94,7 +94,9 @@ end
 
 local function in_latex_scope()
   local context = require("cmp.config.context")
-  local ft = vim.api.nvim_buf_get_option(0, "filetype")
+  local ft = vim.api.nvim_get_option_value("filetype", {
+    buf = 0,
+  })
   if ft ~= "markdown" and ft ~= "latex" then
     return false
   end
@@ -243,7 +245,10 @@ M.config = function()
       end,
     },
     enabled = function()
-      return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+      local bt = vim.api.nvim_get_option_value("buftype", {
+        buf = 0,
+      })
+      return bt ~= "prompt"
     end,
     sorting = {
       priority_weight = 2,

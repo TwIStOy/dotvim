@@ -1,5 +1,4 @@
 import { PluginOpts } from "../../core/plugin";
-import * as wk from "which-key-raw-nvim";
 
 export const spec: PluginOpts<"folke/which-key.nvim"> = {
   shortUrl: "folke/which-key.nvim",
@@ -14,7 +13,7 @@ export const spec: PluginOpts<"folke/which-key.nvim"> = {
       icons: { breadcrumb: "»", separator: "|", group: "+" },
     },
     config(_plug, opts) {
-      // let wk = require("which-key");
+      let wk = luaRequire("which-key");
       wk.setup(opts);
       wk.register({
         mode: ["n", "v"],

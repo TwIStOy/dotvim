@@ -13,4 +13,10 @@ declare namespace vim {
    * "Pretty prints" the given arguments and returns them unmodified.
    */
   export function print(...args: any[]): any[];
+
+  /**
+   * Global (`g:`) editor variables.
+   * Key with no value returns `nil`.
+   */
+  export const g: AnyTable;
 }

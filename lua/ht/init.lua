@@ -4,6 +4,20 @@ local function yes()
   return true
 end
 
+local tsgen = require("tsgen.conf.plugins.index")
+
+local specs = {
+  { import = "ht.plugins" },
+  { import = "ht.plugins.edit" },
+  { import = "ht.plugins.external" },
+  { import = "ht.plugins.ui" },
+  { import = "ht.plugins.lsp" },
+  { import = "ht.plugins.coding" },
+  { import = "ht.plugins.tree-sitter" },
+  { import = "ht.plugins.theme" },
+  tsgen.LazySpecs,
+}
+
 local function bootstrap_plugin_manager()
   if not vim.uv.fs_stat(Const.lazy_path) then
     vim.fn.system {
@@ -25,16 +39,7 @@ local function bootstrap_plugin_manager()
         return user_cond() and (allow_in_vscode or not Const.in_vscode)
       end,
     },
-    spec = {
-      { import = "ht.plugins" },
-      { import = "ht.plugins.edit" },
-      { import = "ht.plugins.external" },
-      { import = "ht.plugins.ui" },
-      { import = "ht.plugins.lsp" },
-      { import = "ht.plugins.coding" },
-      { import = "ht.plugins.tree-sitter" },
-      { import = "ht.plugins.theme" },
-    },
+    spec = specs,
     change_detection = { enabled = false },
     dev = {
       path = "~/Projects/nvim-plugins",

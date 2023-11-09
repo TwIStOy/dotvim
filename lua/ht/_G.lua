@@ -1,3 +1,5 @@
+__raw_import = require
+
 RELOAD = function(...)
   local ok, plenary_reload = pcall(require, "plenary.reload")
   local reloader

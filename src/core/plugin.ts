@@ -1,3 +1,5 @@
+/** @noSelfInFile */
+
 import { Command } from "./command";
 import { RightClickSection } from "./right_click";
 
@@ -53,14 +55,14 @@ export interface LazyOpts {
    * When false, or if the function returns false, then this plugin will not
    * be included in the spec
    */
-  enabled?: boolean | (() => boolean);
+  enabled?: boolean | ((this: void) => boolean);
 
   /**
    * When false, or if the function returns false, then this plugin will not
    * be loaded. Useful to disable some plugins in vscode, or firenvim for
    * example.
    */
-  cond?: boolean | ((plug: LazyOpts) => boolean);
+  cond?: boolean | ((this: void, plug: LazyOpts) => boolean);
 
   /**
    * A list of plugin names or plugin specs that should be loaded when the
@@ -73,7 +75,7 @@ export interface LazyOpts {
   /**
    * `init` functions are always executed during startup
    */
-  init?: (plug: LazyOpts) => void;
+  init?: (this: void, plug: LazyOpts) => void;
 
   /**
    * `opts` should be a table (will be merged with parent specs), return a
@@ -81,7 +83,7 @@ export interface LazyOpts {
    * passed to the `Plugin.config()` function. Setting this value will imply
    * `Plugin.config()`
    */
-  opts?: AnyTable | ((plug: LazyOpts, opts: AnyTable) => AnyTable);
+  opts?: AnyTable | ((this: void, plug: LazyOpts, opts: AnyTable) => AnyTable);
 
   /**
    * `config` is executed when the plugin loads. The default implementation
@@ -89,7 +91,7 @@ export interface LazyOpts {
    * Lazy uses several heuristics to determine the plugin's `MAIN` module
    * automatically based on the plugin's name.
    */
-  config?: (plug: AnyTable, opts: AnyTable) => void;
+  config?: (this: void, plug: AnyTable, opts: AnyTable) => void;
 
   /**
    * You can specify the `main` module to use for `config()` and `opts()`,
@@ -111,17 +113,23 @@ export interface LazyOpts {
     | string
     | string[]
     | LazyKeySpec[]
-    | ((plug: AnyTable, key: string[]) => (string | LazyKeySpec)[]);
+    | ((this: void, plug: AnyTable, key: string[]) => (string | LazyKeySpec)[]);
 
   /**
    * Lazy-load on filetype
    */
-  ft?: string | string[] | ((plug: AnyTable, ft: string[]) => string[]);
+  ft?:
+    | string
+    | string[]
+    | ((this: void, plug: AnyTable, ft: string[]) => string[]);
 
   /**
    * Lazy-load on command
    */
-  cmd?: string | string[] | ((plug: AnyTable, cmd: string[]) => string[]);
+  cmd?:
+    | string
+    | string[]
+    | ((this: void, plug: AnyTable, cmd: string[]) => string[]);
 
   /**
    * Lazy-load on event. Events can be specified as `BufEnter` or with a pattern like `BufEnter *.lua`
@@ -129,7 +137,7 @@ export interface LazyOpts {
   event?:
     | string
     | string[]
-    | ((plug: AnyTable, event: string[]) => string[])
+    | ((this: void, plug: AnyTable, event: string[]) => string[])
     | {
         event: string | string[];
         pattern?: string | string[];
@@ -166,16 +174,22 @@ export interface LazyOpts {
   version?: string | false;
 }
 
-export interface FullLazySpec<ShortUrl extends string> {
+export interface FullLazySpec extends LazyOpts {
   /**
    * Short url for the plugin
    */
-  shortUrl: ShortUrl;
+  [1]: string;
+}
 
+export interface PluginCommandsOpts {
   /**
-   * Options for `lazy.nvim`
+   * Commands to be registered for this plugin.
    */
-  lazyOptions: LazyOpts;
+  commands: Command[];
+  /**
+   * Default category for all commands in this plugin.
+   */
+  category?: string;
 }
 
 export interface ExtendPluginOpts {
@@ -189,7 +203,7 @@ export interface ExtendPluginOpts {
   /**
    * Commands to be registered for this plugin.
    */
-  commands?: Command[];
+  commands?: Command[] | PluginCommandsOpts;
 
   /**
    * Right-click menu sections to be registered for this plugin.
@@ -197,11 +211,11 @@ export interface ExtendPluginOpts {
   rightClickSections?: RightClickSection[];
 }
 
-export type PluginOpts<ShortUrl extends string> = {
+export type PluginOpts = {
   /**
    * Short url for the plugin
    */
-  shortUrl: ShortUrl;
+  shortUrl: string;
 
   /**
    * Options for `lazy.nvim`
@@ -214,7 +228,20 @@ export type PluginOpts<ShortUrl extends string> = {
   extends?: ExtendPluginOpts;
 };
 
-/** @noSelf **/
-export function usePlugin<ShortUrl extends string>(
-  opts: PluginOpts<ShortUrl>
-) {}
+export class Plugin {
+  private _opts: PluginOpts;
+
+  constructor(opts: PluginOpts) {
+    this._opts = opts;
+  }
+
+  asLazySpec(): string | FullLazySpec {
+    if (!this._opts.lazy) {
+      return this._opts.shortUrl;
+    }
+    return {
+      [1]: this._opts.shortUrl,
+      ...this._opts.lazy,
+    };
+  }
+}

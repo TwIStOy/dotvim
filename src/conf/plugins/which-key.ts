@@ -1,6 +1,7 @@
-import { PluginOpts } from "../../core/plugin";
+import { toIcon } from "../../core/icon";
+import { Plugin, PluginOpts } from "../../core/plugin";
 
-export const spec: PluginOpts<"folke/which-key.nvim"> = {
+const spec: PluginOpts = {
   shortUrl: "folke/which-key.nvim",
   lazy: {
     event: "VeryLazy",
@@ -10,7 +11,7 @@ export const spec: PluginOpts<"folke/which-key.nvim"> = {
       ignore_missing: false,
       hidden: ["<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "],
       show_help: true,
-      icons: { breadcrumb: "»", separator: "|", group: "+" },
+      icons: { breadcrumb: "»", separator: toIcon("f0734"), group: "+" },
     },
     config(_plug, opts) {
       let wk = luaRequire("which-key");
@@ -36,3 +37,5 @@ export const spec: PluginOpts<"folke/which-key.nvim"> = {
     },
   },
 };
+
+export const plug = new Plugin(spec);

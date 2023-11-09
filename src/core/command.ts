@@ -5,5 +5,5 @@ export interface Command {
   description: string;
   category?: string;
 
-  callback: () => MaybePromise<void>;
+  callback: string | ((this: void) => MaybePromise<void>);
 }

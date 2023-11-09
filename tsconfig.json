@@ -4,7 +4,9 @@
     "target": "ESNext",
     "lib": ["ESNext"],
     "moduleResolution": "Node",
-    "types": [],
+    "types": [
+      "@typescript-to-lua/language-extensions"
+    ],
     "strict": true,
     "noImplicitAny": true,
     "outDir": "lua/tsgen",
@@ -12,5 +14,8 @@
   "tstl": {
     "luaTarget": "JIT",
     "sourceMapTraceback": true,
+    "tstlVerbose": true,
+    "luaBundle": "lua/tsgen/bundle.lua",
+    "luaBundleEntry": "src/main.ts",
   }
 }

@@ -1,3 +1,5 @@
+/** @noSelfInFile **/
+
 declare namespace vim {
   export namespace fn {
     export type StdPathInput =
@@ -13,6 +15,6 @@ declare namespace vim {
      * Returns `standard-path` locations of various default files and
      * directories.
      */
-    export function stdpath(this: void, path: StdPathInput): string;
+    export function stdpath(path: StdPathInput): string;
   }
 }

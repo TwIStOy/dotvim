@@ -68,7 +68,7 @@ export interface LazyOpts {
    * otherwise. When specifying a name, make sure the plugin spec has been
    * defined somewhere else.
    */
-  dependencies?: LazySpec[];
+  dependencies?: string[];
 
   /**
    * `init` functions are always executed during startup
@@ -88,6 +88,12 @@ export interface LazyOpts {
    * will automatically run `require(MAIN).setup(opts)`.
    * Lazy uses several heuristics to determine the plugin's `MAIN` module
    * automatically based on the plugin's name.
+   */
+  config?: (plug: AnyTable, opts: AnyTable) => void;
+
+  /**
+   * You can specify the `main` module to use for `config()` and `opts()`,
+   * in case it can not be determined automatically.
    */
   main?: string;
 
@@ -160,11 +166,17 @@ export interface LazyOpts {
   version?: string | false;
 }
 
-type FullLazySpec = LazyOpts & {
-  [1]: string;
-};
+export interface FullLazySpec<ShortUrl extends string> {
+  /**
+   * Short url for the plugin
+   */
+  shortUrl: ShortUrl;
 
-export type LazySpec = string | FullLazySpec;
+  /**
+   * Options for `lazy.nvim`
+   */
+  lazyOptions: LazyOpts;
+}
 
 export interface ExtendPluginOpts {
   /**
@@ -185,7 +197,24 @@ export interface ExtendPluginOpts {
   rightClickSections?: RightClickSection[];
 }
 
-export type UsePluginOpts = LazyOpts & ExtendPluginOpts;
+export type PluginOpts<ShortUrl extends string> = {
+  /**
+   * Short url for the plugin
+   */
+  shortUrl: ShortUrl;
+
+  /**
+   * Options for `lazy.nvim`
+   */
+  lazy?: LazyOpts;
+
+  /**
+   * Options for extending the plugin
+   */
+  extends?: ExtendPluginOpts;
+};
 
 /** @noSelf **/
-export function usePlugin(shortUrl: string, opts?: UsePluginOpts) {}
+export function usePlugin<ShortUrl extends string>(
+  opts: PluginOpts<ShortUrl>
+) {}

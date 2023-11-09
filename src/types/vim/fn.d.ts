@@ -11,6 +11,7 @@ declare namespace vim {
       | "log"
       | "run"
       | "state";
+
     /**
      * Returns `standard-path` locations of various default files and
      * directories.

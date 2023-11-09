@@ -5,7 +5,8 @@
     "lib": ["ESNext"],
     "moduleResolution": "Node",
     "types": [
-      "@typescript-to-lua/language-extensions"
+      "@typescript-to-lua/language-extensions",
+      "lua-types/jit",
     ],
     "strict": true,
     "noImplicitAny": true,
@@ -15,7 +16,13 @@
     "luaTarget": "JIT",
     "sourceMapTraceback": true,
     "tstlVerbose": true,
-    "luaBundle": "lua/tsgen/bundle.lua",
+    "luaBundle": "bundle.lua",
     "luaBundleEntry": "src/main.ts",
-  }
+    "noImplicitSelf": true,
+    "luaPlugins": [{ "name": "./tstl_plugins/fix-require-path.ts" }],
+    "noResolvePaths": [
+      "which-key-raw-nvim",
+    ]
+  },
+  "include": ["src"],
 }

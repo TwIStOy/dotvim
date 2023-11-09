@@ -7,6 +7,8 @@
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "typescript-to-lua": "^1.21.0"
+    "typescript-to-lua": "^1.21.0",
+    "lua-types": "^2.13.1",
+    "ts-node": "^10.9.1"
   }
 }

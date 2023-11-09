@@ -19,6 +19,7 @@ opts.setup = function(on_attach, capabilities)
   local lua_library = {
     vim.fn.expand("$VIMRUNTIME/lua"),
     vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
+    "${3rd}/luassert/library",
   }
   if package.loaded["lazy"] then
     local lazy_plugins = require("lazy").plugins()

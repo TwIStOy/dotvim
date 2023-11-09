@@ -1,0 +1,12 @@
+{
+  "name": "dotvim",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tstl",
+    "dev": "tstl --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "typescript-to-lua": "^1.21.0"
+  }
+}

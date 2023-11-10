@@ -8,6 +8,7 @@ return {
       opts = {
         timeout = 3000,
         stages = "slide",
+        render = "wrapped-compact",
         fps = 60,
         max_height = function()
           return math.floor(vim.o.lines * 0.75)

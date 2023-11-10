@@ -84,11 +84,12 @@ async function config(_: any, opts: AnyNotNil) {
     if (should_be_updated.length == 0) {
       vim.notify(`All tools are up to date!`, vim.log.levels.INFO, {
         title: "Mason",
+        render: "compact",
       });
     } else {
-      let names = should_be_updated.map((r) => r.name).join(", ");
+      let names = should_be_updated.map((r) => r.name).join("\n  ");
       vim.notify(
-        `The following tools should be updated: ${names}`,
+        `The following tools should be updated:\n  ${names}`,
         vim.log.levels.WARN,
         {
           title: "Mason",

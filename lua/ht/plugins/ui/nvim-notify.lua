@@ -7,8 +7,8 @@ return {
       lazy = true,
       opts = {
         timeout = 3000,
-        stages = "static",
-        fps = 1,
+        stages = "slide",
+        fps = 60,
         max_height = function()
           return math.floor(vim.o.lines * 0.75)
         end,

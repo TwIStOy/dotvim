@@ -1,5 +1,6 @@
 /** @noSelfInFile */
 
+import { Cache } from "./cache";
 import { Command } from "./command";
 import { RightClickSection } from "./right_click";
 
@@ -231,12 +232,14 @@ export type PluginOpts = {
 
 export class Plugin {
   private _opts: PluginOpts;
+  private _cache: Cache;
 
   constructor(opts: PluginOpts) {
     this._opts = opts;
+    this._cache = new Cache();
   }
 
-  get commands(): Command[] {
+  private _commands(): Command[] {
     if (!this._opts.extends) {
       return [];
     }
@@ -246,7 +249,18 @@ export class Plugin {
     if (Array.isArray(this._opts.extends.commands)) {
       return this._opts.extends.commands;
     }
-    return this._opts.extends.commands.commands;
+    let commandsOpt = this._opts.extends.commands;
+    return commandsOpt.commands.map((cmd) => {
+      return vim.tbl_extend("keep", cmd, {
+        category: commandsOpt.category,
+      }) as any as Command;
+    });
+  }
+
+  get commands(): Command[] {
+    return this._cache.ensure("commands", () => {
+      return this._commands();
+    });
   }
 
   asLazySpec(): string | FullLazySpec {

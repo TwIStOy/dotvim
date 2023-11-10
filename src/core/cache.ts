@@ -23,13 +23,13 @@ export class Cache {
     this.entries.set(this.normalizeKey(key), value);
   }
 
-  public ensure(key: any, callback: () => AnyNotNil): AnyNotNil {
-    let value;
+  public ensure<T>(key: any, callback: () => T): T {
+    let value: T;
     if (this.contains(key)) {
+      value = this.get(key) as T;
+    } else {
       value = callback();
       this.set(key, value);
-    } else {
-      value = this.get(key);
     }
     return value;
   }

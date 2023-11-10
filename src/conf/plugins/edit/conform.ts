@@ -28,18 +28,6 @@ const spec: PluginOpts = {
       formatters_by_ft: formatters_by_ft,
     },
     config: true,
-    // keys: [
-    //   {
-    //     [1]: "<leader>fc",
-    //     [2]: () => {
-    //       let conform = luaRequire("conform");
-    //       conform.format({
-    //         async: true,
-    //       });
-    //     },
-    //     desc: "format-file",
-    //   },
-    // ],
   },
   extends: {
     commands: [

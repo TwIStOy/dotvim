@@ -4,7 +4,7 @@ local function yes()
   return true
 end
 
-local tsgen = require("tsgen.conf.plugins.index")
+local httsPlugins = require("htts.conf.plugins.index")
 
 local specs = {
   { import = "ht.plugins" },
@@ -15,7 +15,7 @@ local specs = {
   { import = "ht.plugins.coding" },
   { import = "ht.plugins.tree-sitter" },
   { import = "ht.plugins.theme" },
-  tsgen.LazySpecs,
+  httsPlugins.LazySpecs,
 }
 
 local function bootstrap_plugin_manager()

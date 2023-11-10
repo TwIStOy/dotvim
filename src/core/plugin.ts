@@ -11,7 +11,7 @@ export interface LazyKeySpec {
   /*
    * rhs
    */
-  [2]?: string;
+  [2]?: string | (() => void);
   /**
    * mode, defaults to 'n'
    */
@@ -20,6 +20,11 @@ export interface LazyKeySpec {
    * `filetype` for buffer-local keymaps
    */
   ft?: string | string[];
+
+  /**
+   * description
+   */
+  desc?: string;
 }
 
 export interface LazyOpts {
@@ -91,7 +96,7 @@ export interface LazyOpts {
    * Lazy uses several heuristics to determine the plugin's `MAIN` module
    * automatically based on the plugin's name.
    */
-  config?: (this: void, plug: AnyTable, opts: AnyTable) => void;
+  config?: true | ((this: void, plug: AnyTable, opts: AnyTable) => void);
 
   /**
    * You can specify the `main` module to use for `config()` and `opts()`,

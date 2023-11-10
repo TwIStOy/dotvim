@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import * as tstl from "typescript-to-lua";
 
-const LUA_PREFIX = "tsgen";
+const LUA_PREFIX = "htts";
 const REQUIRE_PATH_REGEX = /require\("(.+)"\)/g;
 
 const isValidLuaRequireExpr = (node: ts.CallExpression) => {

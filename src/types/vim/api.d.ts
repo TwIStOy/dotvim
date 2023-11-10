@@ -19,5 +19,85 @@ declare namespace vim {
      * @param Ex command string.
      */
     export function nvim_command(command: string): void;
+
+    export interface AutocmdCallbackArg {
+      /**
+       * autocommand id
+       */
+      id: number;
+      /**
+       * name of the triggered event `autocmd-events`
+       */
+      event: string;
+      /**
+       * autocommand group id, if any
+       */
+      group?: number;
+      /**
+       * expanded value of `<amatch>`
+       */
+      match: string;
+      /**
+       * expanded value of `<abuf>`
+       */
+      buf: number;
+      /**
+       * expanded value of `<afile>`
+       */
+      file: string;
+      /**
+       * arbitrary data passed from `nvim_evec_autocmds()`
+       */
+      data: AnyTable;
+    }
+
+    /**
+     * Creates an **autocommand** event handler, defined by `callback` or `command`.
+     */
+    export function nvim_create_autocmd(
+      /**
+       * Event(s) that will trigger the handler (`callback` or `command`).
+       */
+      event: string | string[],
+      opts: {
+        /**
+         * autocommand group name or id to match against.
+         */
+        group?: string | number;
+        /**
+         * pattern(s) to match literally `autocomd-pattern`.
+         */
+        pattern?: string | string[];
+        /**
+         * buffer number for buffer-local autocommands `autocmd-bufferlocal`.
+         * Cannot be used with `pattern`.
+         */
+        buffer?: number;
+        /**
+         * description (for documentation and troubleshooting).
+         */
+        desc?: string;
+        /**
+         * Lua function (or Vimscript function name, if string) called when
+         * the event(s) is triggered. Lua callback can return true to delete
+         * the autocommand, and receives a table argument.
+         */
+        callback?:
+          | string
+          | ((this: void, arg: AutocmdCallbackArg) => boolean | void);
+        /**
+         * Vim command to execute on event. Cannot be used with `callback`.
+         */
+        command?: string;
+        /**
+         * defaults to false. Run the autocommand only once `autocmd-once`.
+         */
+        once?: boolean;
+        /**
+         * defaults to false. Run nested autocommands `autocmd-nested`.
+         */
+        nested?: boolean;
+      }
+    ): void;
   }
 }

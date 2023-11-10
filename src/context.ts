@@ -1,4 +1,4 @@
-export class Context {
+class Context {
   public masonRoot: string;
 
   public lazyRoot: String;
@@ -12,3 +12,7 @@ export class Context {
     return this.masonRoot + "/bin";
   }
 }
+
+const context = new Context();
+
+export default context;

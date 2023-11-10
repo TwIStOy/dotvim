@@ -2,6 +2,7 @@ return {
   {
     "nvimdev/guard.nvim",
     lazy = true,
+    enabled = false,
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "GuardFmt", "GuardDisable", "GuardEnable" },
     config = function()

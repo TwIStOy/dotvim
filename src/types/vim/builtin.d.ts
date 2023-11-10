@@ -89,4 +89,12 @@ declare namespace vim {
    * Returns a function which calls `fn` via `vim.schedule()`.
    */
   export function schedule_wrap(fn: () => void): () => void;
+
+  /**
+   * Merge two or more tables.
+   */
+  export function tbl_extend(
+    behavior: "error" | "keep" | "force",
+    ...tbls: any[]
+  ): LuaTable;
 }

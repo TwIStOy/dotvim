@@ -114,11 +114,7 @@ export interface LazyOpts {
   /**
    * Lazy-load on key mapping
    */
-  keys?:
-    | string
-    | string[]
-    | LazyKeySpec[]
-    | ((this: void, plug: AnyTable, key: string[]) => (string | LazyKeySpec)[]);
+  keys?: string | (LazyKeySpec | string)[];
 
   /**
    * Lazy-load on filetype
@@ -240,13 +236,51 @@ export class Plugin {
     this._opts = opts;
   }
 
+  get commands(): Command[] {
+    if (!this._opts.extends) {
+      return [];
+    }
+    if (!this._opts.extends.commands) {
+      return [];
+    }
+    if (Array.isArray(this._opts.extends.commands)) {
+      return this._opts.extends.commands;
+    }
+    return this._opts.extends.commands.commands;
+  }
+
   asLazySpec(): string | FullLazySpec {
-    if (!this._opts.lazy) {
+    if (!this._opts.lazy && this.commands.length === 0) {
       return this._opts.shortUrl;
     }
-    return {
+
+    let keySpecs = this._opts.lazy?.keys ? this._opts.lazy.keys : [];
+    if (!Array.isArray(keySpecs)) {
+      keySpecs = [keySpecs];
+    }
+    for (let cmd of this.commands) {
+      if (!cmd.keys) continue;
+      let lhs = cmd.keys;
+      if (!Array.isArray(lhs)) {
+        lhs = [lhs];
+      }
+      for (let key of lhs) {
+        let keySpec: LazyKeySpec = {
+          [1]: key,
+          [2]: cmd.callback,
+          desc: cmd.shortDesc ? cmd.shortDesc : cmd.description,
+        };
+        keySpecs.push(keySpec);
+      }
+    }
+    let opts = vim.tbl_extend("force", this._opts.lazy || {}, {
+      keys: keySpecs,
+    });
+
+    let result = {
       [1]: this._opts.shortUrl,
-      ...this._opts.lazy,
+      ...opts,
     };
+    return result;
   }
 }

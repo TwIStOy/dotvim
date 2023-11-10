@@ -4,6 +4,8 @@ import { Cache } from "./cache";
 import { Command } from "./command";
 import { RightClickSection } from "./right_click";
 
+export type AutocmdLazyEvent = "VeryLazy" | AutocmdEvent;
+
 export interface LazyKeySpec {
   /**
    * lhs
@@ -137,11 +139,11 @@ export interface LazyOpts {
    * Lazy-load on event. Events can be specified as `BufEnter` or with a pattern like `BufEnter *.lua`
    */
   event?:
-    | string
-    | string[]
-    | ((this: void, plug: AnyTable, event: string[]) => string[])
+    | AutocmdLazyEvent
+    | AutocmdLazyEvent[]
+    | ((this: void, plug: AnyTable, event: string[]) => AutocmdLazyEvent[])
     | {
-        event: string | string[];
+        event: AutocmdLazyEvent | AutocmdLazyEvent[];
         pattern?: string | string[];
       };
 

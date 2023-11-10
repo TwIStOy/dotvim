@@ -45,7 +45,7 @@ async function config(_: any, opts: AnyNotNil) {
         vim.schedule_wrap(() => {
           if (pkg.is_installed()) {
             vim.notify(
-              `${spec!.name} was succesfully installed!`,
+              `"${spec!.name}" was succesfully installed!`,
               vim.log.levels.INFO,
               {
                 title: "Mason",

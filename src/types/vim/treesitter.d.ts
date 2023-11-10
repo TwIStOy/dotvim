@@ -227,3 +227,14 @@ declare interface LanguageTree {
    */
   parse(range?: boolean): TSTree[];
 }
+
+declare interface TSHighlighter {
+  active: LuaMap<number, TSHighlighter>;
+  bufnr: number;
+}
+
+declare namespace vim {
+  export namespace treesitter {
+    export const highlighter: any;
+  }
+}

@@ -1,3 +1,4 @@
 import Conform from "./conform";
+import Copilot from "./copilot";
 
-export default [Conform];
+export default [Conform, Copilot];

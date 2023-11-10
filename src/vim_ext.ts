@@ -65,3 +65,42 @@ export function normalizeStrList(v?: string | string[]): string[] {
 export function uniqueArray<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
+
+export class VimBuffer {
+  bufnr: number;
+  filetype: string;
+  fullFileName: string;
+  lspServers: vim.lsp.client[] = [];
+  tsHighlighter: any[];
+
+  constructor(bufnr: number) {
+    this.bufnr = bufnr;
+    this.filetype = vim.api.nvim_get_option_value("filetype", {
+      buf: bufnr,
+    }) as string;
+    this.fullFileName = vim.api.nvim_buf_get_name(bufnr);
+    this.lspServers = vim.lsp.get_clients({
+      bufnr: bufnr,
+    });
+    this.tsHighlighter = [vim.treesitter.highlighter.active.get(bufnr)];
+  }
+
+  asCacheKey(): string {
+    let parts = [
+      this.filetype,
+      this.fullFileName,
+      this.lspServers.length,
+      this.tsHighlighter.length,
+    ];
+    for (let server of this.lspServers) {
+      parts.push(server.name);
+    }
+    return vim.json.encode(parts);
+  }
+
+  numberOfLspAttached(): number {
+    return this.lspServers.filter((server) => {
+      return server.name !== "null-ls" && server.name != "copilot";
+    }).length;
+  }
+}

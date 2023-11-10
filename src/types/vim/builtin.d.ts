@@ -1,5 +1,134 @@
 /** @noSelfInFile **/
 
+declare type AutocmdEvent =
+  | "BufAdd"
+  | "BufDelete"
+  | "BufEnter"
+  | "BufFilePost"
+  | "BufFilePre"
+  | "BufAdd"
+  | "BufDelete"
+  | "BufEnter"
+  | "BufFilePost"
+  | "BufFilePre"
+  | "BufHidden"
+  | "BufLeave"
+  | "BufModifiedSet"
+  | "BufNew"
+  | "BufNewFile"
+  | "BufRead"
+  | "BufReadPost"
+  | "BufReadCmd"
+  | "BufReadPre"
+  | "BufUnload"
+  | "BufWinEnter"
+  | "BufWinLeave"
+  | "BufWipeout"
+  | "BufWrite"
+  | "BufWritePre"
+  | "BufWriteCmd"
+  | "BufWritePost"
+  | "ChanInfo"
+  | "ChanOpen"
+  | "CmdUndefined"
+  | "CmdlineChanged"
+  | "CmdlineEnter"
+  | "CmdlineLeave"
+  | "CmdwinEnter"
+  | "CmdwinLeave"
+  | "ColorScheme"
+  | "ColorSchemePre"
+  | "CompleteChanged"
+  | "CompleteDonePre"
+  | "CompleteDone"
+  | "CursorHold"
+  | "CursorHoldI"
+  | "CursorMoved"
+  | "CursorMovedI"
+  | "DiffUpdated"
+  | "DirChanged"
+  | "DirChangedPre"
+  | "ExitPre"
+  | "FileAppendCmd"
+  | "FileAppendPost"
+  | "FileAppendPre"
+  | "FileChangedRO"
+  | "FileChangedShell"
+  | "FileChangedShellPost"
+  | "FileReadCmd"
+  | "FileReadPost"
+  | "FileReadPre"
+  | "FileType"
+  | "FileWriteCmd"
+  | "FileWritePost"
+  | "FileWritePre"
+  | "FilterReadPost"
+  | "FilterReadPre"
+  | "FilterWritePost"
+  | "FilterWritePre"
+  | "FocusGained"
+  | "FocusLost"
+  | "FuncUndefined"
+  | "UIEnter"
+  | "UILeave"
+  | "InsertChange"
+  | "InsertCharPre"
+  | "InsertEnter"
+  | "InsertLeavePre"
+  | "InsertLeave"
+  | "MenuPopup"
+  | "ModeChanged"
+  | "OptionSet"
+  | "QuickFixCmdPre"
+  | "QuickFixCmdPost"
+  | "QuitPre"
+  | "RemoteReply"
+  | "SearchWrapped"
+  | "RecordingEnter"
+  | "RecordingLeave"
+  | "SafeState"
+  | "SessionLoadPost"
+  | "ShellCmdPost"
+  | "Signal"
+  | "ShellFilterPost"
+  | "SourcePre"
+  | "SourcePost"
+  | "SourceCmd"
+  | "SpellFileMissing"
+  | "StdinReadPost"
+  | "StdinReadPre"
+  | "SwapExists"
+  | "Syntax"
+  | "TabEnter"
+  | "TabLeave"
+  | "TabNew"
+  | "TabNewEntered"
+  | "TabClosed"
+  | "TermOpen"
+  | "TermEnter"
+  | "TermLeave"
+  | "TermClose"
+  | "TermResponse"
+  | "TextChanged"
+  | "TextChangedI"
+  | "TextChangedP"
+  | "TextChangedT"
+  | "TextYankPost"
+  | "User"
+  | "UserGettingBored"
+  | "VimEnter"
+  | "VimLeave"
+  | "VimLeavePre"
+  | "VimResized"
+  | "VimResume"
+  | "VimSuspend"
+  | "WinClosed"
+  | "WinEnter"
+  | "WinLeave"
+  | "WinNew"
+  | "WinScrolled"
+  | "WinResized";
+
 declare namespace vim {
   /**
    * Special value representing NIL in |RPC| and |v:null| in Vimscript
@@ -97,4 +226,39 @@ declare namespace vim {
     behavior: "error" | "keep" | "force",
     ...tbls: any[]
   ): LuaTable;
+
+  /**
+   * Runs a system command or throws an error if `cmd` cannot be run.
+   *
+   * @param cmd Command to run.
+   */
+  export function system(
+    cmd: string[],
+    opts?: {
+      cwd?: string;
+      env?: LuaTable<string, string>;
+      clear_env?: boolean;
+      stdin?: string | string[] | boolean;
+      stdout?: boolean | ((err: string, data: string) => void);
+      stderr?: boolean | ((err: string, data: string) => void);
+      text?: boolean;
+      timeout?: number;
+      detach?: boolean;
+    },
+    on_exit?: () => void
+  ): {
+    pid: number;
+    wait: (timeout?: number) => {
+      code: number;
+      signal: number;
+      stdout: string | null;
+      stderr: string | null;
+    };
+    kill: (signal: string | number) => void;
+    /*
+     * Requires `stdin=true`. Pass `nil` to close stdin.
+     */
+    write: (data: string | null) => void;
+    is_close: () => boolean;
+  };
 }

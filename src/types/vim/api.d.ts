@@ -99,5 +99,40 @@ declare namespace vim {
         nested?: boolean;
       }
     ): void;
+
+    /**
+     * Gets the value of an option.
+     */
+    export function nvim_get_option_value(
+      name: string,
+      opts?: {
+        scope?: "global" | "local";
+        /**
+         * used for getting window local options;
+         */
+        win?: number;
+        /**
+         * Buffer number. Used for getting buffer local options. Implies
+         * `scope` is "local".
+         */
+        buf?: number;
+        /**
+         * Used to get the default option for a specific filetype.
+         * Cannot be used with any other option.
+         *
+         * Note: this will trigger `ftplugin` and all `FileType` autocommands
+         * for the corresponding filetype.
+         */
+        filetype?: string;
+      }
+    ): any;
+
+    /**
+     * Gets the full file name for the buffer.
+     *
+     * @param buffer Buffer handle, or 0 for current buffer.
+     * @return Full file name of the buffer.
+     */
+    export function nvim_buf_get_name(buffer: number): string;
   }
 }

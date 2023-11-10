@@ -8,7 +8,7 @@ export interface Command {
   /**
    * Description for the command
    */
-  description: string;
+  description?: string;
   /**
    * Category for the command
    */
@@ -30,4 +30,7 @@ export interface Command {
    * Short description of the command. To be used in `which-key` panel.
    */
   shortDesc?: string;
+}
+
+export interface CommandGroup {
 }

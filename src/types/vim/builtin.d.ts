@@ -51,4 +51,42 @@ declare namespace vim {
       }
     ): any;
   }
+
+  export namespace log {
+    export namespace levels {
+      export const DEBUG: number;
+      export const ERROR: number;
+      export const INFO: number;
+      export const TRACE: number;
+      export const WARN: number;
+      export const OFF: number;
+    }
+  }
+
+  /**
+   * Defers calling `fn` untile `timeout` ms passes.
+   *
+   * Use to do a one-shot timer that calls `fn`.
+   * Note: The `fn` is `vim.schedule_wrap()`ped automatically, so API functions
+   * are safe to call.
+   *
+   * @param fn Callback to call once `timeout` expires.
+   * @param timeout Number of milliseconds to wait before calling `fn`.
+   */
+  // FIXME(hawtian): return type should be a luv timer object
+  export function defer_fn(fn: () => void, timeout: number): void;
+
+  /**
+   * Displays a notification to the user.
+   */
+  export function notify(
+    msg: string,
+    level?: number,
+    opts?: notify.Options
+  ): void;
+
+  /**
+   * Returns a function which calls `fn` via `vim.schedule()`.
+   */
+  export function schedule_wrap(fn: () => void): () => void;
 }

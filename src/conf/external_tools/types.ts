@@ -91,4 +91,20 @@ export class Formatter implements ExternalTools {
       condition: opts.condition,
     };
   }
+
+  asMasonSpec(): {
+    name: string;
+    version?: string;
+  } | null {
+    if (this.exe === false) {
+      return null;
+    }
+    if ("masonPkg" in this.exe) {
+      return {
+        name: this.exe.masonPkg,
+        version: this.exe.masonVersion,
+      };
+    }
+    return null;
+  }
 }

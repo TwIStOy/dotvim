@@ -1,7 +1,13 @@
 import WhichKey from "./which-key";
 import StartupTime from "./vim-startuptime";
-import Conform from "./edit/conform";
+import editPlugins from "./edit";
+import lspPlugins from "./lsp";
 
-export const AllPlugins = [WhichKey, StartupTime, Conform];
+export const AllPlugins = [
+  WhichKey,
+  StartupTime,
+  ...editPlugins,
+  ...lspPlugins,
+];
 
 export const LazySpecs = AllPlugins.map((p) => p.asLazySpec());

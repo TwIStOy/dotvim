@@ -220,6 +220,12 @@ declare namespace vim {
   export function schedule_wrap(fn: () => void): () => void;
 
   /**
+   * Schedules `fn` to be invoked soon by the main event-loop. Useful to avoid
+   * `textlock` or other temporary restrictions.
+   */
+  export function schedule(fn: () => void): void;
+
+  /**
    * Merge two or more tables.
    */
   export function tbl_extend(

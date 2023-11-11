@@ -134,5 +134,35 @@ declare namespace vim {
      * @return Full file name of the buffer.
      */
     export function nvim_buf_get_name(buffer: number): string;
+
+    /**
+     * Gets the current buffer.
+     */
+    export function nvim_get_current_buf(): number;
+
+    /**
+     * Gets the current line string.
+     */
+    export function nvim_get_current_line(): string;
+
+    /**
+     * Delete an autocommand group by name.
+     */
+    export function nvim_del_augroup_by_name(name: string): void;
+
+    /**
+     * Delete an autocommand group by id.
+     */
+    export function nvim_del_augroup_by_id(id: number): void;
+
+    /**
+     * Closes the window (like `:close` with a `window-id`).
+     *
+     * NOTE: Not allowed when `textlock` is active.
+     *
+     * @param window Window handle, or 0 for current window.
+     * @param force Force close window, even if it has a modified buffer.
+     */
+    export function nvim_win_close(window: number, force?: boolean): void;
   }
 }

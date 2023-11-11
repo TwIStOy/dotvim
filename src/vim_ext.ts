@@ -104,3 +104,14 @@ export class VimBuffer {
     }).length;
   }
 }
+
+export function closePreviewWindow(winnr: number, bufnrs: number[]) {
+  const fn = () => {
+    if (bufnrs.includes(vim.api.nvim_get_current_buf())) {
+      return;
+    }
+    pcall(vim.api.nvim_del_augroup_by_name, `preview_window_${winnr}`);
+    pcall(vim.api.nvim_win_close, winnr, true);
+  };
+  vim.schedule(fn);
+}

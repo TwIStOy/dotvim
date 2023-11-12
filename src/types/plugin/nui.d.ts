@@ -149,6 +149,10 @@ declare interface NuiBorderOpts {
     bottom: string | NuiLine | NuiText | [string, string];
     bottom_align?: "left" | "center" | "right"; // bottom border text alignment, default "center"
   };
+}
+
+declare interface NuiPopupOptions {
+  border?: NuiBorderOpts;
 
   /*
    * Namespace id (number) or name (string).
@@ -207,4 +211,139 @@ declare interface NuiBorderOpts {
         width?: number | string;
         height?: number | string;
       };
+
+  /**
+   * If true, the popup is entered immediately after mount.
+   */
+  enter?: boolean;
+
+  /*
+   * If false, the popup can not be entered by user actions (wincmds, mouse events).
+   */
+  focusable?: boolean;
+
+  /**
+   * Sets the order of the popup on z-axis.
+   * Popup with higher the zindex goes on top of popups with lower zindex.
+   */
+  zindex?: number;
+
+  /**
+   * Contains all buffer related options (check :h options | /local to buffer).
+   */
+  buf_options?: {};
+
+  /**
+   * Contains all window related options (check :h options | /local to window).
+   */
+  win_options?: {};
+
+  /**
+   * You can pass bufnr of an existing buffer to display it on the popup.
+   */
+  bufnr?: number;
 }
+
+declare interface NuiPopup {
+  /**
+   * Mounts the popup.
+   */
+  mount(): void;
+
+  /**
+   * Unmounts the popup.
+   */
+  unmount(): void;
+
+  /**
+   * Hides the popup window. Preserves the buffer (related content, autocmds and keymaps).
+   */
+  hide(): void;
+
+  /**
+   * Shows the popup window.
+   */
+  show(): void;
+
+  /**
+   * Sets keymap for the popup.
+   */
+  map(
+    mode: string,
+    lhs: string,
+    handler: string | (() => void),
+    opts?: {} // TODO(hawtian): fix keymap options
+  ): void;
+
+  /**
+   * Unsets keymap for the popup.
+   */
+  unmap(mode: string, lhs: string): void;
+
+  /**
+   * Sets autocmd for the popup.
+   */
+  on(
+    event: string | string[],
+    handler: () => void,
+    opts?: {
+      once?: boolean;
+      nested?: boolean;
+    }
+  ): void;
+
+  /**
+   * Unsets autocmd for the popup.
+   */
+  off(event: string | string[]): void;
+
+  /**
+   * Sets the layout of the popup. You can use this method to change popup's size or position after it's mounted.
+   */
+  update_layout(
+    opts: Pick<NuiPopupOptions, "anchor" | "relative" | "position" | "size">
+  ): void;
+
+  border: {
+    /**
+     * Sets the border's highlight.
+     */
+    set_highlight(hl_group: string): void;
+
+    /**
+     * Sets the border's style.
+     */
+    set_style(style: NuiBorderOpts["style"]): void;
+
+    /**
+     * Sets the border's text.
+     */
+    set_text(
+      edge: "top" | "bottom" | "left" | "right",
+      text: string,
+      align: "left" | "right" | "center"
+    ): void;
+  };
+}
+
+declare interface NuiInputOptions {
+  /**
+   * Prefix in the input.
+   */
+  prompt?: string | NuiText;
+
+  /**
+   * Default value placed in the input on mount
+   */
+  default_value?: string;
+
+  on_close?: () => void;
+
+  on_submit?: (value: string) => void;
+
+  on_change?: (value: string) => void;
+
+  disable_cursor_position_patch?: boolean;
+}
+
+declare interface NuiInput extends NuiPopup {}

@@ -17,5 +17,10 @@ declare namespace vim {
      * directories.
      */
     export function stdpath(path: StdPathInput): string;
+
+    /**
+     * The number of display cells `string` occupies.
+     */
+    export function strwidth(str: string): number;
   }
 }

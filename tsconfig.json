@@ -15,7 +15,7 @@
   "tstl": {
     "luaTarget": "JIT",
     "sourceMapTraceback": true,
-    "tstlVerbose": true,
+    "tstlVerbose": false,
     "noImplicitSelf": true,
     "luaPlugins": [{ "name": "./tstl_plugins/fix-require-path.ts" }],
     "noResolvePaths": [

@@ -164,5 +164,21 @@ declare namespace vim {
      * @param force Force close window, even if it has a modified buffer.
      */
     export function nvim_win_close(window: number, force?: boolean): void;
+
+    /**
+     * Calculates the number of display cells occupied by `string`.
+     */
+    export function nvim_strwidth(str: string): number;
+
+    /**
+     * @returns Id of the created/updated extmark.
+     */
+    export function nvim_buf_set_extmark(
+      buffer: number,
+      ns_id: number,
+      line: number,
+      col: number,
+      opts: {}
+    ): number;
   }
 }

@@ -231,7 +231,7 @@ declare namespace vim {
   export function tbl_extend(
     behavior: "error" | "keep" | "force",
     ...tbls: any[]
-  ): LuaTable;
+  ): any;
 
   /**
    * Runs a system command or throws an error if `cmd` cannot be run.

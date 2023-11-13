@@ -1,4 +1,4 @@
-import { Formatter } from "./types";
+import { Formatter } from "../../core/ext_tool";
 
 /**
  * Variables will be replaced.

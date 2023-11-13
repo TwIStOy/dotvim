@@ -78,5 +78,4 @@ export function extendCommandsInGroup(group: CommandGroup): Command[] {
     );
   }
   return result;
-} 
-
+}

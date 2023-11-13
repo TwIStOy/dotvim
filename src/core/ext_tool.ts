@@ -1,4 +1,6 @@
 import instContext from "../context";
+import { LazySpec } from "./plugin";
+import { LazyOpts } from "./types";
 
 export interface MasonPackageOpt {
   /**
@@ -120,17 +122,24 @@ type LspServerSetupFn = (
   capabilities: LuaTable
 ) => void;
 
-type LspServerOpt =
+type LspServerOpt = (
   | {
       setup: LspServerSetupFn;
     }
   | {
       ft: string[];
       settings?: LuaTable;
-    };
+    }
+) & {
+  /**
+   * where the lsp server is from
+   */
+  plugin?: LazySpec | string;
+};
 
 export class LspServer extends ExternalTools {
   readonly setup: LspServerSetupFn;
+  readonly plugin?: LazySpec | string;
 
   constructor(opts: ExternalToolsOpt & LspServerOpt) {
     super(opts);
@@ -139,9 +148,13 @@ export class LspServer extends ExternalTools {
     } else {
       this.setup = LspServer._generateDefaultSetupFn(opts.ft, opts.settings);
     }
+    this.plugin = opts.plugin;
   }
 
-  static _generateDefaultSetupFn(ft: string[], settings?: LuaTable): LspServerSetupFn {
+  static _generateDefaultSetupFn(
+    ft: string[],
+    settings?: LuaTable
+  ): LspServerSetupFn {
     return (server, on_attach, capabilities) => {
       luaRequire("lspconfig").sourcekit.setup({
         cmd: [server.executable],
@@ -151,5 +164,9 @@ export class LspServer extends ExternalTools {
         settings: settings,
       });
     };
+  }
+
+  asLazySpec(): LazySpec | string | undefined {
+    return this.plugin;
   }
 }

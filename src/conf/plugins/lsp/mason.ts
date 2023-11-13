@@ -1,5 +1,5 @@
 import { Plugin, PluginOpts } from "../../../core/plugin";
-import formatters from "../../external_tools/formatters";
+import { AllMaybeMasonPackage } from "../../external_tools";
 
 const spec: PluginOpts = {
   shortUrl: "williamboman/mason.nvim",
@@ -32,7 +32,7 @@ async function config(_: any, opts: AnyNotNil) {
     has_new_version: boolean;
   }>[] = [];
 
-  for (let fmt of formatters) {
+  for (let fmt of AllMaybeMasonPackage) {
     let spec = fmt.asMasonSpec();
     if (!spec) continue;
 

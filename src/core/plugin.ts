@@ -40,6 +40,10 @@ export type PluginOpts = {
   extends?: ExtendPluginOpts;
 };
 
+export type LazySpec = {
+  [1]: string;
+} & LazyOpts;
+
 export class Plugin {
   private _opts: PluginOpts;
   private _cache: Cache;
@@ -86,14 +90,7 @@ export class Plugin {
     });
   }
 
-  asLazySpec():
-    | ({
-        /**
-         * Short url for the plugin
-         */
-        [1]: string;
-      } & LazyOpts)
-    | string {
+  asLazySpec(): LazySpec | string {
     if (!this._opts.lazy && this.commands.length === 0) {
       return this._opts.shortUrl;
     }

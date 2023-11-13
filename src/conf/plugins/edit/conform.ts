@@ -1,10 +1,10 @@
 import { Plugin, PluginOpts } from "../../../core/plugin";
-import formatters from "../../external_tools/formatters";
+import { AllFormatters }from "../../external_tools";
 
 let formatters_opts = new LuaTable();
 let formatters_by_ft = new LuaTable<AnyNotNil, Array<string>>();
 
-for (let fmt of formatters) {
+for (let fmt of AllFormatters) {
   formatters_opts.set(fmt.name, fmt.asConformSpec());
   if (fmt.ft) {
     if (typeof fmt.ft === "string") {

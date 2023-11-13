@@ -1,4 +1,4 @@
-import { NuiLine } from "../../extra/nui";
+import { NuiLine, NuiText } from "../../extra/nui";
 import { uniqueArray } from "../../vim_ext";
 import { Cache } from "../cache";
 
@@ -55,18 +55,38 @@ export class MenuText {
     this._keys = uniqueArray(keys);
   }
 
+  /**
+   * Returns the text of this menu text.
+   */
   get text(): string {
     return _text_caches.ensure(this._raw_text, () => {
       return this._parts.map((part) => part.text).join("");
     });
   }
 
+  /**
+   * Returns trigger keys parsed from this menu text.
+   */
   get keys(): string[] {
     return this._keys;
   }
 
   get length(): number {
     return this.text.length;
+  }
+
+  asNuiText(): NuiText[] {
+    let res: NuiText[] = [];
+
+    for (const part of this._parts) {
+      if (part.kind === "key") {
+        res.push(NuiText(part.text, "@variable.builtin"));
+      } else {
+        res.push(NuiText(part.text));
+      }
+    }
+
+    return res;
   }
 
   asNuiLine(): NuiLine {

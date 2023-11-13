@@ -347,3 +347,188 @@ declare interface NuiInputOptions {
 }
 
 declare interface NuiInput extends NuiPopup {}
+
+declare interface NuiMenuOptions {
+  lines: NuiMenuItem[];
+
+  prepare_item?: (item: NuiMenuItem) => string[] | NuiLine[];
+
+  should_skip_item?: (item: NuiMenuItem) => boolean;
+
+  /**
+   * Maximum height of the menu.
+   */
+  max_height?: number;
+
+  /**
+   * Minimum height of the menu.
+   */
+  min_height?: number;
+
+  /**
+   * Maximum width of the menu.
+   */
+  max_width?: number;
+
+  /**
+   * Minimum width of the menu.
+   */
+  min_width?: number;
+
+  keymap: {
+    close: string | string[];
+    focus_next: string | string[];
+    focus_prev: string | string[];
+    submit: string | string[];
+  };
+
+  /**
+   * Callback function, called when menu item is focused.
+   */
+  on_change?: (item: NuiMenuItem, menu: NuiMenu) => void;
+
+  /**
+   * Callback function, called when menu is closed.
+   */
+  on_close?: () => void;
+
+  /**
+   * Callback function, called when menu is submitted.
+   */
+  on_submit?: (item: NuiMenuItem) => void;
+}
+
+declare interface NuiMenuItem {}
+
+declare interface NuiMenu extends NuiPopup {
+  tree: NuiTree;
+}
+
+declare interface NuiTreeOptions {
+  /**
+   *Id of the buffer where the tree will be rendered.
+   */
+  bufnr: number;
+
+  /**
+   * Namespace id (number) or name (string).
+   */
+  ns_id?: number | string;
+
+  nodes: NuiTreeNode[];
+
+  /**
+   * If provided, this function is used for generating node's id.
+   *
+   * The return value should be a unique string.
+   */
+  get_node_id?(node: NuiTreeNode): string;
+
+  /**
+   * If provided, this function is used for preparing each node line.
+   *
+   * The return value should be a NuiLine object or string or a list containing either of them.
+   *
+   * If return value is nil, that node will not be rendered.
+   */
+  prepare_node?(
+    node: NuiTreeNode,
+    parent_node?: NuiTreeNode
+  ): void | string | string[] | NuiLine | NuiLine[];
+
+  /**
+   * Contains all buffer related options (check :h options | /local to buffer).
+   */
+  buf_options?: {
+    [key: string]: any;
+  };
+}
+
+declare interface NuiTreeNode {
+  /**
+   * Returns node's id.
+   */
+  get_id(): string;
+
+  /**
+   * Returns node's depth.
+   */
+  get_depth(): number;
+
+  /**
+   * Returns parent node's id.
+   */
+  get_parent_id(): string;
+
+  /**
+   * Checks if node has children.
+   */
+  has_children(): boolean;
+
+  /**
+   * Returns ids of child nodes.
+   */
+  get_children_ids(): string[];
+
+  /**
+   * Checks if node is expanded.
+   */
+  is_expanded(): boolean;
+
+  /**
+   * Expands node.
+   */
+  expand(): void;
+
+  /**
+   * Collapses node.
+   */
+  collapse(): void;
+}
+
+/**
+ * NuiTree can render tree-like structured content on the buffer.
+ */
+declare interface NuiTree {
+  get_node<T extends number | string | undefined>(
+    node_id_or_linenr: T
+  ): LuaMultiReturn<
+    [
+      T extends string
+        ? NuiTreeNode | null
+        : T extends number
+        ? NuiTreeNode | null
+        : NuiTreeNode | null,
+      number | null,
+      number | null,
+    ]
+  >;
+
+  /**
+   * If parent_id is present, child nodes under that parent are returned,
+   * Otherwise root nodes are returned.
+   */
+  get_nodes(parent_id?: string): NuiTreeNode[];
+
+  /**
+   * Adds a node to the tree.
+   */
+  add_node(node: NuiTreeNode, parent_id?: string): void;
+
+  /**
+   * Removes a node from the tree.
+   */
+  remove_node(node_id: string): NuiTreeNode | null;
+
+  /**
+   * Adds a node to the tree.
+   */
+  set_nodes(node: NuiTreeNode, parent_id?: string): void;
+
+  /**
+   * Renders the tree on buffer.
+   *
+   * @param linenr_start start line number (1-indexed)
+   */
+  render(linenr_start?: number): void;
+}

@@ -10,11 +10,3 @@ export class RightClickMenuItemComponent implements ClickableComponent {
     throw new Error("Method not implemented.");
   }
 }
-
-export class RightClickText {
-  private _raw_text: string;
-
-  constructor(text: string) {
-    this._raw_text = text;
-  }
-}

@@ -1,6 +1,5 @@
 import instContext from "../context";
 import { LazySpec } from "./plugin";
-import { LazyOpts } from "./types";
 
 export interface MasonPackageOpt {
   /**

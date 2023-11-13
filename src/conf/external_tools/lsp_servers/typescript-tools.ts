@@ -15,7 +15,6 @@ export default new LspServer({
   plugin: {
     [1]: "pmizio/typescript-tools.nvim",
     dependencies: ["nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"],
-    lazy = true,
+    lazy: true,
   },
 });
-

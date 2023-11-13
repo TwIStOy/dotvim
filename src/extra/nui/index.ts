@@ -9,7 +9,7 @@ export function NuiText(
   return _("nui.text")(content, extmark);
 }
 
-export function NuiLine(texts: NuiText[]): NuiLine {
+export function NuiLine(texts?: NuiText[]): NuiLine {
   return _("nui.line")(texts);
 }
 

@@ -1,5 +1,7 @@
 /** @noSelfInFile **/
 
+interface ReltimeItem {}
+
 declare namespace vim {
   export namespace fn {
     export type StdPathInput =
@@ -22,5 +24,9 @@ declare namespace vim {
      * The number of display cells `string` occupies.
      */
     export function strwidth(str: string): number;
+
+    export function reltime(start?: ReltimeItem): ReltimeItem;
+
+    export function reltimefloat(x: ReltimeItem): number;
   }
 }

@@ -14,26 +14,28 @@ const spec: PluginOpts = {
       icons: { breadcrumb: "»", separator: toIcon("f0734"), group: "+" },
     },
     config(_plug, opts) {
-      let wk = luaRequire("which-key");
-      wk.setup(opts);
-      wk.register({
-        mode: ["n", "v"],
+      vim.defer_fn(() => {
+        let wk = luaRequire("which-key");
+        wk.setup(opts);
+        wk.register({
+          mode: ["n", "v"],
 
-        ["g"]: { name: "+goto" },
-        ["]"]: { name: "+next" },
-        ["["]: { name: "+prev" },
+          ["g"]: { name: "+goto" },
+          ["]"]: { name: "+next" },
+          ["["]: { name: "+prev" },
 
-        ["<leader>b"]: { name: "+build" },
-        ["<leader>f"]: { name: "+file" },
-        ["<leader>l"]: { name: "+list" },
-        ["<leader>n"]: { name: "+no" },
-        ["<leader>p"]: { name: "+preview" },
-        ["<leader>r"]: { name: "+remote" },
-        ["<leader>t"]: { name: "+toggle" },
-        ["<leader>v"]: { name: "+vcs" },
-        ["<leader>w"]: { name: "+window" },
-        ["<leader>x"]: { name: "+xray" },
-      });
+          ["<leader>b"]: { name: "+build" },
+          ["<leader>f"]: { name: "+file" },
+          ["<leader>l"]: { name: "+list" },
+          ["<leader>n"]: { name: "+no" },
+          ["<leader>p"]: { name: "+preview" },
+          ["<leader>r"]: { name: "+remote" },
+          ["<leader>t"]: { name: "+toggle" },
+          ["<leader>v"]: { name: "+vcs" },
+          ["<leader>w"]: { name: "+window" },
+          ["<leader>x"]: { name: "+xray" },
+        });
+      }, 100);
     },
   },
 };

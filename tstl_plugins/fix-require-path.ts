@@ -39,7 +39,7 @@ const plugin: tstl.Plugin = {
           if (typeof path !== "string") {
             return match;
           }
-          return `require("${LUA_PREFIX}.${path}")`;
+          return `require("${path}")`;
         }
       );
     }

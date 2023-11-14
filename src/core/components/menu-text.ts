@@ -90,14 +90,6 @@ export class MenuText {
   }
 
   asNuiLine(): NuiLine {
-    let line = NuiLine();
-    for (const part of this._parts) {
-      if (part.kind === "key") {
-        line.append(part.text, "@variable.builtin");
-      } else {
-        line.append(part.text);
-      }
-    }
-    return line;
+    return NuiLine(this.asNuiText());
   }
 }

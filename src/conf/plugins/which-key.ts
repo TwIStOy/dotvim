@@ -1,4 +1,4 @@
-import { toIcon } from "../../core/icon";
+import { toIcon } from "../../core/string";
 import { Plugin, PluginOpts } from "../../core/plugin";
 
 const spec: PluginOpts = {

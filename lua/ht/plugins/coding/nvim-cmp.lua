@@ -129,7 +129,7 @@ M.config = function()
       },
       documentation = {
         border = "single",
-        winheilight = "FloatBorder:FloatBorder",
+        winhighlight = "FloatBorder:FloatBorder",
         focusable = false,
       },
     },

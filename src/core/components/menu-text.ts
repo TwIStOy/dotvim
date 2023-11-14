@@ -1,6 +1,6 @@
 import { NuiLine, NuiText } from "../../extra/nui";
-import { uniqueArray } from "../../vim_ext";
 import { Cache } from "../cache";
+import { uniqueArray } from "../utils/array";
 
 interface MenuTextPart {
   text: string;

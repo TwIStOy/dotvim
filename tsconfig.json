@@ -7,7 +7,11 @@
     "types": ["@typescript-to-lua/language-extensions", "lua-types/jit"],
     "strict": true,
     "noImplicitAny": true,
-    "outDir": "lua/htts"
+    "outDir": "lua/htts",
+    "paths": {
+      "@core/*": ["src/core/*"],
+      "@conf/*": ["src/conf/*"],
+    }
   },
   "tstl": {
     "luaTarget": "JIT",

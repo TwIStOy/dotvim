@@ -6,6 +6,7 @@ import {
   CommandGroup,
   extendCommandsInGroup,
 } from "./types";
+import { tblExtend } from "./vim_wrapper";
 
 export type AutocmdLazyEvent = "VeryLazy" | AutocmdEvent;
 
@@ -69,10 +70,10 @@ export class Plugin {
         if ("commands" in cmd) {
           for (let c of cmd.commands) {
             result.push(
-              vim.tbl_extend("keep", c, {
+              tblExtend("keep", c, {
                 category: cmd.category,
                 enabled: cmd.enabled,
-              }) as Command
+              })
             );
           }
         } else {

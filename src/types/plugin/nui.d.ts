@@ -444,7 +444,7 @@ declare interface NuiTreeOptions {
   };
 }
 
-declare interface NuiTreeNode {
+declare interface NuiTreeNodeBase {
   /**
    * Returns node's id.
    */
@@ -485,6 +485,8 @@ declare interface NuiTreeNode {
    */
   collapse(): void;
 }
+
+declare type NuiTreeNode<T = {}> = NuiTreeNodeBase & T;
 
 /**
  * NuiTree can render tree-like structured content on the buffer.
@@ -531,4 +533,13 @@ declare interface NuiTree {
    * @param linenr_start start line number (1-indexed)
    */
   render(linenr_start?: number): void;
+
+  bufnr: number;
+
+  nodes: {
+    by_id: LuaTable<string, NuiTreeNode>;
+    root_ids: string[];
+  };
+
+  ns_id: number;
 }

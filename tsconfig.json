@@ -10,7 +10,7 @@
     "outDir": "lua/htts",
     "paths": {
       "@core/*": ["core/*"],
-      "@conf/*": ["conf/*"]
+      "@conf/*": ["conf/*"],
       "@extra/*": ["extra/*"]
     },
     "baseUrl": "src/"

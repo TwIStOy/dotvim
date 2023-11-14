@@ -24,7 +24,7 @@ export function NuiInput(
   return _("nui.input")(popupOpts, inputOpts);
 }
 
-export class NuiMenu {
+export class NuiMenuMod {
   public static item<U>(
     content: string | NuiText | NuiLine,
     data: U
@@ -42,7 +42,7 @@ export class NuiMenu {
     return luaRequire("nui.menu").separator(content, options);
   }
 
-  public static call(
+  public static newMenu(
     popupOpts: NuiPopupOptions,
     menuOpts: NuiMenuOptions
   ): NuiMenu {

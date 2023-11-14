@@ -19,6 +19,13 @@ export class MenuText {
 
   constructor(text: string) {
     this._raw_text = text;
+
+    if (this._raw_text === "---") {
+      this._parts = [];
+      this._keys = [];
+      return;
+    }
+
     // parse "abc" -> parts: ["abc"]
     // parse "ab&c" -> parts: ["ab", "c"], keys: ["c"]
     // parse "ab&cbcd&d" -> parts: ["ab", "c", "bcd", "d"], keys: ["c", "d"]
@@ -73,6 +80,10 @@ export class MenuText {
 
   get length(): number {
     return this.text.length;
+  }
+
+  isSeparator(): boolean {
+    return this._raw_text === "---";
   }
 
   asNuiText(): NuiText[] {

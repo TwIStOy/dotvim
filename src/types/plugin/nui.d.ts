@@ -398,7 +398,7 @@ declare interface NuiMenuOptions {
   on_submit?: (item: NuiMenuItem) => void;
 }
 
-declare interface NuiMenuItem {}
+declare interface NuiMenuItem extends NuiTreeNode {}
 
 declare interface NuiMenu extends NuiPopup {
   tree: NuiTree;

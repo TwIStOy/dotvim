@@ -24,27 +24,31 @@ export function NuiInput(
   return _("nui.input")(popupOpts, inputOpts);
 }
 
-class _NuiMenu {
-  static item(content: string | NuiText | NuiLine, data: any): NuiMenuItem {
+export class NuiMenu {
+  public static item<U>(
+    content: string | NuiText | NuiLine,
+    data: U
+  ): NuiMenuItem & U {
     return luaRequire("nui.menu").item(content, data);
   }
 
-  static separator(
+  public static separator<U>(
     content?: string | NuiText | NuiLine,
     options?: {
       char?: string | NuiText;
       text_align?: "left" | "right" | "center";
     }
-  ): NuiMenuItem {
+  ): NuiMenuItem & U {
     return luaRequire("nui.menu").separator(content, options);
   }
 
-  public call(popupOpts: NuiPopupOptions, menuOpts: NuiMenuOptions): NuiMenu {
+  public static call(
+    popupOpts: NuiPopupOptions,
+    menuOpts: NuiMenuOptions
+  ): NuiMenu {
     return luaRequire("nui.menu")(popupOpts, menuOpts);
   }
 }
-
-export const NuiMenu = new _NuiMenu();
 
 class _NuiTree {
   static node(

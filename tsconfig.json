@@ -9,20 +9,26 @@
     "noImplicitAny": true,
     "outDir": "lua/htts",
     "paths": {
-      "@core/*": ["src/core/*"],
-      "@conf/*": ["src/conf/*"],
-    }
+      "@core/*": ["core/*"],
+      "@conf/*": ["conf/*"]
+      "@extra/*": ["extra/*"]
+    },
+    "baseUrl": "src/"
   },
   "tstl": {
     "luaTarget": "JIT",
     "sourceMapTraceback": false,
     "tstlVerbose": false,
     "noImplicitSelf": true,
-    "luaPlugins": [{ "name": "./tstl_plugins/fix-require-path.ts" }],
+    "luaPlugins": [
+      {
+        "name": "./tstl_plugins/fix-require-path.ts"
+      }
+    ],
     "noResolvePaths": ["which-key-raw-nvim"],
     "luaLibImport": "require-minimal",
     "luaBundle": "init.lua",
-    "luaBundleEntry": "src/index.ts",
+    "luaBundleEntry": "src/index.ts"
   },
   "include": ["src"]
 }

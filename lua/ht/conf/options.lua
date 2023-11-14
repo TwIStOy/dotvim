@@ -69,46 +69,46 @@ local function setup()
   vim.opt.jumpoptions = "stack"
 
   -- clipboard
-  -- if Const.os.is_linux then
-  --   if Const.os.in_orb then
-  --     local copy_settings = {}
-  --     copy_settings["+"] = { "pbcopy" }
-  --     copy_settings["*"] = { "pbcopy" }
-  --     local paste_settings = {}
-  --     paste_settings["+"] = { "pbpaste" }
-  --     paste_settings["*"] = { "pbpaste" }
-  --     vim.g.clipboard = {
-  --       name = "pbcopy/pbpaste",
-  --       copy = copy_settings,
-  --       paste = paste_settings,
-  --       cache_enabled = 1,
-  --     }
-  --   else
-  --     local copy_settings = {}
-  --     copy_settings["+"] = { "nc", "localhost", "2224", "-w0" }
-  --     copy_settings["*"] = { "nc", "localhost", "2224", "-w0" }
-  --     local paste_settings = {}
-  --     paste_settings["+"] = { "nc", "localhost", "2225", "-w1" }
-  --     paste_settings["*"] = { "nc", "localhost", "2225", "-w1" }
-  --     vim.g.clipboard = {
-  --       name = "ssh-remote-clip",
-  --       copy = copy_settings,
-  --       paste = paste_settings,
-  --       cache_enabled = 1,
-  --     }
-  --   end
-  -- end
-  vim.g.clipboard = {
-    name = "OSC 52",
-    copy = {
-      ["+"] = require("vim.clipboard.osc52").copy,
-      ["*"] = require("vim.clipboard.osc52").copy,
-    },
-    paste = {
-      ["+"] = require("vim.clipboard.osc52").paste,
-      ["*"] = require("vim.clipboard.osc52").paste,
-    },
-  }
+  if Const.os.is_linux then
+    if Const.os.in_orb then
+      local copy_settings = {}
+      copy_settings["+"] = { "pbcopy" }
+      copy_settings["*"] = { "pbcopy" }
+      local paste_settings = {}
+      paste_settings["+"] = { "pbpaste" }
+      paste_settings["*"] = { "pbpaste" }
+      vim.g.clipboard = {
+        name = "pbcopy/pbpaste",
+        copy = copy_settings,
+        paste = paste_settings,
+        cache_enabled = 1,
+      }
+    else
+      local copy_settings = {}
+      copy_settings["+"] = { "nc", "localhost", "2224", "-w0" }
+      copy_settings["*"] = { "nc", "localhost", "2224", "-w0" }
+      local paste_settings = {}
+      paste_settings["+"] = { "nc", "localhost", "2225", "-w1" }
+      paste_settings["*"] = { "nc", "localhost", "2225", "-w1" }
+      vim.g.clipboard = {
+        name = "ssh-remote-clip",
+        copy = copy_settings,
+        paste = paste_settings,
+        cache_enabled = 1,
+      }
+    end
+  end
+  -- vim.g.clipboard = {
+  --   name = "OSC 52",
+  --   copy = {
+  --     ["+"] = require("vim.clipboard.osc52").copy,
+  --     ["*"] = require("vim.clipboard.osc52").copy,
+  --   },
+  --   paste = {
+  --     ["+"] = require("vim.clipboard.osc52").paste,
+  --     ["*"] = require("vim.clipboard.osc52").paste,
+  --   },
+  -- }
 end
 
 return {

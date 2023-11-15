@@ -28,5 +28,7 @@ declare namespace vim {
     export function reltime(start?: ReltimeItem): ReltimeItem;
 
     export function reltimefloat(x: ReltimeItem): number;
+
+    export function line(str: string): number;
   }
 }

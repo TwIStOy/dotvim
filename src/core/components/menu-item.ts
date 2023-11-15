@@ -1,6 +1,7 @@
 import { uniqueArray } from "@core/utils/array";
 import { MenuText } from "./menu-text";
 import { NuiMenuMod } from "@extra/nui";
+import { ContextMenu } from "./context-menu";
 
 const builtinKeys = [
   "j",
@@ -82,7 +83,7 @@ export class MenuItem {
     return ret;
   }
 
-  asNuiTreeNode(textWidth: number): NuiTreeNode<NuiTreeNodeContext> {
+  asNuiTreeNode(textWidth: number): NuiTreeNode<MenuItemContext> {
     if (this.text.isSeparator()) {
       return NuiMenuMod.separator(undefined, {
         char: "-",
@@ -112,10 +113,12 @@ export class MenuItem {
 
     return NuiMenuMod.item(text, {
       menuItem: this,
+      parent: null,
     });
   }
 }
 
-export type NuiTreeNodeContext = {
-  menuItem: MenuItem | null;
+export type MenuItemContext = {
+  menuItem: MenuItem;
+  parent: ContextMenu | null;
 };

@@ -184,5 +184,10 @@ declare namespace vim {
     ): number;
 
     export function nvim_get_current_win(): number;
+
+    export function nvim_win_set_cursor(
+      window: number,
+      pos: [number, number]
+    ): void;
   }
 }

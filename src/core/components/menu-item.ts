@@ -32,6 +32,7 @@ export class MenuItem {
   public children: MenuItem[];
   public description?: string;
   public callback: (this: void) => void;
+  public parent?: NuiMenu<MenuItemContext>;
 
   private _keys: string[];
 

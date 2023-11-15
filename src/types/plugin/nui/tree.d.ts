@@ -138,17 +138,19 @@ declare interface NuiTreeOptions<T> {
 declare interface NuiTree<Ctx> {
   get_node<T extends number | string | undefined>(
     node_id_or_linenr: T
-  ): LuaMultiReturn<
-    [
-      T extends string
-        ? NuiTreeNode<Ctx> | null
-        : T extends number
-        ? NuiTreeNode<Ctx> | null
-        : NuiTreeNode<Ctx> | null,
-      number | null,
-      number | null,
-    ]
-  >;
+  ):
+    | LuaMultiReturn<
+        [
+          T extends string
+            ? NuiTreeNode<Ctx>
+            : T extends number
+            ? NuiTreeNode<Ctx> | null
+            : NuiTreeNode<Ctx>,
+          number,
+          number,
+        ]
+      >
+    | LuaMultiReturn<[null, null, null]>;
 
   /**
    * If parent_id is present, child nodes under that parent are returned,

@@ -64,14 +64,15 @@ declare interface NuiMenuOptions<T> {
   on_submit?: (this: void, item: NuiTreeNode<T>) => void;
 }
 
-declare interface NuiMenu<T> extends NuiPopup {
+declare interface NuiMenu<T, U> extends NuiPopup {
   _: NuiMenuInternal<T>;
 
-  menu_props: LuaTable & {
+  menu_props: {
     on_submit: (this: void) => void;
     on_close: (this: void) => void;
     on_focus_next: (this: void) => void;
     on_focus_prev: (this: void) => void;
+    context?: U;
   };
 
   tree: NuiTree<T>;

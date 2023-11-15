@@ -139,7 +139,7 @@ const defaultMenuOptions: NuiMenuOptions<MenuItemContext> = {
   on_submit: (item) => {
     let menuItem = item.menuItem;
     let menu = menuItem.parent;
-    let menuContext = menu?.menu_props.get("menu_context");
+    let menuContext = menu?.menu_props.context;
   },
 };
 
@@ -152,22 +152,28 @@ export class ContextMenu {
     this.items = items;
   }
 
-  mount(displayOptions: DisplayOptions, parent?: NuiMenu<MenuItemContext>) {}
+  mount(
+    displayOptions: DisplayOptions,
+    parent?: NuiMenu<MenuItemContext, ContextMenuContext>
+  ) {}
 
   asNuiMenu(
-    opts: DisplayOptions
-    // menuOptions: NuiMenuOptions<MenuItemContext>,
-  ): NuiMenu<MenuItemContext> {
-    if (!opts) {
-      opts = initializeOptions();
+    opts: {
+      displayOptions?: DisplayOptions;
+      // menuOptions: NuiMenuOptions<MenuItemContext>,
     }
+  ): NuiMenu<MenuItemContext, ContextMenuContext> {
+    opts.displayOptions = initializeOptions();
 
     let popupOptions: NuiPopupOptions = tblExtend(
       "force",
       defaultPopupOptions,
       {
-        position: { row: opts.row, col: opts.col },
-        relative: { winid: opts.init_winnr, type: "win" },
+        position: {
+          row: opts.displayOptions.row,
+          col: opts.displayOptions.col,
+        },
+        relative: { winid: opts.displayOptions.init_winnr, type: "win" },
       }
     );
 

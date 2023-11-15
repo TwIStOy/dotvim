@@ -233,6 +233,13 @@ declare namespace vim {
     ...tbls: any[]
   ): any;
 
+  export interface SystemCompleted {
+    code: number;
+    signal: number;
+    stdout: string | null;
+    stderr: string | null;
+  }
+
   /**
    * Runs a system command or throws an error if `cmd` cannot be run.
    *
@@ -251,15 +258,10 @@ declare namespace vim {
       timeout?: number;
       detach?: boolean;
     },
-    on_exit?: () => void
+    on_exit?: (comp: SystemCompleted) => void
   ): {
     pid: number;
-    wait: (timeout?: number) => {
-      code: number;
-      signal: number;
-      stdout: string | null;
-      stderr: string | null;
-    };
+    wait: (timeout?: number) => SystemCompleted;
     kill: (signal: string | number) => void;
     /*
      * Requires `stdin=true`. Pass `nil` to close stdin.

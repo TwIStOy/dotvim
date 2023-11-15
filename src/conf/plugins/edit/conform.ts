@@ -1,5 +1,5 @@
-import { Plugin, PluginOpts } from "../../../core/plugin";
-import { AllFormatters }from "../../external_tools";
+import { AllFormatters } from "@conf/external_tools";
+import { Plugin, PluginOpts } from "@core/plugin";
 
 let formatters_opts = new LuaTable();
 let formatters_by_ft = new LuaTable<AnyNotNil, Array<string>>();

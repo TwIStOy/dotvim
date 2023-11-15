@@ -189,5 +189,7 @@ declare namespace vim {
       window: number,
       pos: [number, number]
     ): void;
+
+    export function nvim_set_current_win(win: number): void;
   }
 }

@@ -1,7 +1,7 @@
 import { uniqueArray } from "@core/utils/array";
 import { MenuText } from "./menu-text";
 import { NuiMenuMod } from "@extra/nui";
-import { ContextMenu } from "./context-menu";
+import { ContextMenu, ContextMenuContext } from "./context-menu";
 
 const builtinKeys = [
   "j",
@@ -32,7 +32,7 @@ export class MenuItem {
   public children: MenuItem[];
   public description?: string;
   public callback: (this: void) => void;
-  public parent?: NuiMenu<MenuItemContext>;
+  public parent?: NuiMenu<MenuItemContext, ContextMenuContext>;
 
   private _keys: string[];
 

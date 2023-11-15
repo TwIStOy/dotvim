@@ -19,6 +19,7 @@ function initializeOptions(): DisplayOptions {
 
 export interface ContextMenuContext {
   displayOptions: DisplayOptions;
+  parent?: NuiMenu<MenuItemContext, ContextMenuContext>;
 }
 
 const defaultPopupOptions: NuiPopupOptions = {
@@ -115,31 +116,21 @@ const defaultMenuOptions: NuiMenuOptions<MenuItemContext> = {
     item.menuItem.parent = menu;
     print(item.menuItem.description ?? "\n\n");
   },
-  /*
-  on_submit = function(item)
-    ---@type MenuItem
-    local menu_item = item.menu_item
-    local menu = menu_item.in_menu
-    local menu_context = menu.menu_props.menu_context
-
-    -- close all previous menus
-    local parent = menu_context.parent
-    while parent ~= nil do
-      parent:unmount()
-      parent = parent.menu_props.menu_context.parent
-    end
-
-    vim.api.nvim_set_current_win(menu_context.display_options.init_winnr)
-
-    if menu_item.callback ~= nil then
-      menu_item.callback()
-    end
-  end,
-  */
   on_submit: (item) => {
     let menuItem = item.menuItem;
     let menu = menuItem.parent;
     let menuContext = menu?.menu_props.context;
+
+    let parent = menuContext?.parent;
+    while (parent) {
+      parent.unmount();
+      parent = parent.menu_props.context?.parent;
+    }
+
+    vim.api.nvim_set_current_win(menuContext!.displayOptions.init_winnr);
+    if (menuItem.callback) {
+      menuItem.callback();
+    }
   },
 };
 
@@ -157,12 +148,10 @@ export class ContextMenu {
     parent?: NuiMenu<MenuItemContext, ContextMenuContext>
   ) {}
 
-  asNuiMenu(
-    opts: {
-      displayOptions?: DisplayOptions;
-      // menuOptions: NuiMenuOptions<MenuItemContext>,
-    }
-  ): NuiMenu<MenuItemContext, ContextMenuContext> {
+  asNuiMenu(opts: {
+    displayOptions?: DisplayOptions;
+    // menuOptions: NuiMenuOptions<MenuItemContext>,
+  }): NuiMenu<MenuItemContext, ContextMenuContext> {
     opts.displayOptions = initializeOptions();
 
     let popupOptions: NuiPopupOptions = tblExtend(

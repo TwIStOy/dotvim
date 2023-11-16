@@ -20,6 +20,7 @@ function initializeOptions(): DisplayOptions {
 export interface ContextMenuContext {
   displayOptions: DisplayOptions;
   parent?: NuiMenu<MenuItemContext, ContextMenuContext>;
+  keymapSetup?: boolean;
 }
 
 const defaultPopupOptions: NuiPopupOptions = {
@@ -71,68 +72,76 @@ function onExpand(
   contextMenu.mount(displayOptions, menu);
 }
 
-const defaultMenuOptions: NuiMenuOptions<MenuItemContext> = {
-  min_width: 20,
-  max_width: 120,
-  keymap: {
-    focus_next: ["j", "<DOWN>", "<C-n>", "<TAB>"],
-    focus_prev: ["k", "<UP>", "<C-p>", "<S-TAB>"],
-    close: ["<ESC>", "<C-c>", "q"],
-    submit: ["<CR>"],
-  },
-  on_change: (item, menu) => {
-    let props = menu.menu_props;
-    let menu_context = props.get("menu_context");
+const defaultMenuOptions: NuiMenuOptions<MenuItemContext, ContextMenuContext> =
+  {
+    min_width: 20,
+    max_width: 120,
+    keymap: {
+      focus_next: ["j", "<DOWN>", "<C-n>", "<TAB>"],
+      focus_prev: ["k", "<UP>", "<C-p>", "<S-TAB>"],
+      close: ["<ESC>", "<C-c>", "q"],
+      submit: ["<CR>"],
+    },
+    on_change: (item, menu) => {
+      let props = menu.menu_props;
+      let menuContext = props.context;
 
-    if (menu_context.keymaps === null) {
-      for (let linenr = 1; linenr < menu.tree.nodes.root_ids.length; linenr++) {
-        let [node, targetLinenr] = menu.tree.get_node(linenr);
-        if (!node || targetLinenr === null) {
-          continue;
-        }
-        if (!menu._.should_skip_item(node)) {
-          let menuItem = node.menuItem;
-          for (let key in menuItem.keys) {
-            menu.map(
-              "n",
-              key,
-              () => {
-                vim.api.nvim_win_set_cursor(menu.winid, [targetLinenr!, 0]);
-                menu._.on_change(node!);
-                if (menuItem.children && menuItem.children.length > 0) {
-                  onExpand(node!, menu);
-                } else {
-                  menu.menu_props.on_submit();
-                }
-              },
-              { noremap: true, nowait: true }
-            );
+      if (
+        menuContext?.keymapSetup === null ||
+        menuContext?.keymapSetup === false
+      ) {
+        for (
+          let linenr = 1;
+          linenr < menu.tree.nodes.root_ids.length;
+          linenr++
+        ) {
+          let [node, targetLinenr] = menu.tree.get_node(linenr);
+          if (!node || targetLinenr === null) {
+            continue;
+          }
+          if (!menu._.should_skip_item(node)) {
+            let menuItem = node.menuItem;
+            for (let key in menuItem.keys) {
+              menu.map(
+                "n",
+                key,
+                () => {
+                  vim.api.nvim_win_set_cursor(menu.winid, [targetLinenr!, 0]);
+                  menu._.on_change(node!);
+                  if (menuItem.children && menuItem.children.length > 0) {
+                    onExpand(node!, menu);
+                  } else {
+                    menu.menu_props.on_submit();
+                  }
+                },
+                { noremap: true, nowait: true }
+              );
+            }
           }
         }
+        menuContext.keymapSetup = true;
       }
-      menu_context.keymaps = true;
-    }
 
-    item.menuItem.parent = menu;
-    print(item.menuItem.description ?? "\n\n");
-  },
-  on_submit: (item) => {
-    let menuItem = item.menuItem;
-    let menu = menuItem.parent;
-    let menuContext = menu?.menu_props.context;
+      item.menuItem.parent = menu;
+      print(item.menuItem.description ?? "\n\n");
+    },
+    on_submit: (item) => {
+      let menuItem = item.menuItem;
+      let menu = menuItem.parent;
+      let menuContext = menu?.menu_props.context;
 
-    let parent = menuContext?.parent;
-    while (parent) {
-      parent.unmount();
-      parent = parent.menu_props.context?.parent;
-    }
+      let parent = menuContext?.parent;
+      while (parent) {
+        parent.unmount();
+        parent = parent.menu_props.context?.parent;
+      }
 
-    vim.api.nvim_set_current_win(menuContext!.displayOptions.init_winnr);
-    if (menuItem.callback) {
-      menuItem.callback();
-    }
-  },
-};
+      vim.api.nvim_set_current_win(menuContext!.displayOptions.init_winnr);
+      if (menuItem.callback) {
+        menuItem.callback();
+      }
+    },
+  };
 
 export class ContextMenu {
   public items: MenuItem[];

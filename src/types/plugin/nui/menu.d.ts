@@ -48,7 +48,7 @@ declare interface NuiMenuInternal<T> extends NuiPopupInternal {
 ---@field on_close? fun(): nil
 ---@field on_submit? fun(item: NuiTree.Node): nil
 */
-declare interface NuiMenuOptions<T> {
+declare interface NuiMenuOptions<T, U> {
   lines: NuiTreeNode<T>[];
   prepare_item?: NuiMenuPrepareItem<T, any>;
   should_skip_item?: NuiMenuShouldSkipItem<T>;
@@ -59,7 +59,7 @@ declare interface NuiMenuOptions<T> {
   keymap?: {
     [key in NuiMenuKeymapAction]?: string | string[];
   };
-  on_change?: (this: void, item: NuiTreeNode<T>, menu: NuiMenu<T>) => void;
+  on_change?: (this: void, item: NuiTreeNode<T>, menu: NuiMenu<T, U>) => void;
   on_close?: (this: void) => void;
   on_submit?: (this: void, item: NuiTreeNode<T>) => void;
 }
@@ -82,15 +82,3 @@ declare interface NuiMenu<T, U> extends NuiPopup {
   unmount(): void;
 }
 
-/*
-
-*/
-/*
-
-*/
-/*
-
-*/
-/*
-
-*/

@@ -8,6 +8,11 @@ export interface RightClickPathElement {
    * Idx
    */
   index?: number;
+
+  /**
+   * keymaps
+   */
+  keys?: string[];
 }
 
 export type RightClickPathPart = string | RightClickPathElement;
@@ -27,4 +32,9 @@ export interface RightClickOpt {
    * Idx
    */
   index?: number;
+
+  /**
+   * keys
+   */
+  keys?: string[];
 }

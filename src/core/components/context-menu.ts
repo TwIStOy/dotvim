@@ -48,7 +48,7 @@ function maxTextWidth(items: MenuItem[]) {
   for (let item of items) {
     ret = Math.max(ret, item.length);
   }
-  return Math.min(ret, 20);
+  return Math.max(ret, 20);
 }
 
 function findItemInMenu<T>(
@@ -100,7 +100,7 @@ const defaultMenuOptions: Omit<
       menuContext?.keymapSetup === null ||
       menuContext?.keymapSetup === false
     ) {
-      for (let linenr = 1; linenr < menu.tree.nodes.root_ids.length; linenr++) {
+      for (const linenr of $range(1, menu.tree.nodes.root_ids.length)) {
         let [node, targetLinenr] = menu.tree.get_node(linenr);
         if (!node || targetLinenr === null) {
           continue;

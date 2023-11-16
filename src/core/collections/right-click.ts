@@ -5,6 +5,7 @@ import { MenuItem } from "@core/components/menu-item";
 import { Command, invokeCommand } from "@core/types";
 import { ExcludeNil } from "@core/type_traits";
 import { RightClickPathElement, RightClickPathPart } from "@core/components";
+import { uniqueArray } from "@core/utils";
 
 type PathElement = ExcludeNil<Required<RightClickPathElement>>;
 
@@ -13,12 +14,24 @@ export class MenuItemPathMap {
   public items: { item: MenuItem; index: number }[] = [];
   public readonly title: string;
   public index: number;
+  public keys: string[];
   public readonly depth: number;
 
-  constructor(title?: string, index?: number, depth?: number) {
-    this.title = ifNil(title, "");
-    this.index = ifNil(index, 0);
-    this.depth = ifNil(depth, 0);
+  constructor(opts: {
+    title?: string;
+    index?: number;
+    depth?: number;
+    keys?: string[];
+  }) {
+    this.title = ifNil(opts.title, "");
+    this.index = ifNil(opts.index, 0);
+    this.depth = ifNil(opts.depth, 0);
+    this.keys = ifNil(opts.keys, []);
+  }
+
+  private _updateInfo(ele: RightClickPathElement) {
+    this.index = Math.max(this.index, ele.index ?? 0);
+    this.keys = uniqueArray([...this.keys, ...(ele.keys ?? [])]);
   }
 
   public push(path: RightClickPathElement[], item: MenuItem, index: number) {
@@ -27,14 +40,15 @@ export class MenuItemPathMap {
     } else {
       let next = this.next.get(path[this.depth].title);
       if (isNil(next)) {
-        next = new MenuItemPathMap(
-          path[this.depth].title,
-          path[this.depth].index,
-          this.depth + 1
-        );
+        next = new MenuItemPathMap({
+          title: path[this.depth].title,
+          index: path[this.depth].index,
+          depth: this.depth + 1,
+          keys: path[this.depth].keys,
+        });
         this.next.set(path[this.depth].title, next);
       }
-      next.index = Math.max(next.index, path[this.depth].index ?? 0);
+      this._updateInfo(path[this.depth]);
       next.push(path, item, index);
     }
   }
@@ -45,6 +59,7 @@ export class MenuItemPathMap {
     for (let [k, v] of this.next) {
       let ele = new MenuItem(k, () => {}, {
         children: v.complete(),
+        keys: v.keys,
       });
       ret.push({
         index: v.index,
@@ -70,7 +85,7 @@ export class RightClickPaletteCollection extends Collection {
 
   _getMenuItems(buffer: VimBuffer) {
     let commands = this.getCommands(buffer);
-    let pathMap = new MenuItemPathMap();
+    let pathMap = new MenuItemPathMap({});
     for (let cmd of commands) {
       if (isNil(cmd.rightClick)) {
         continue;
@@ -98,7 +113,10 @@ function commandToItemInfo(cmd: Command): ItemInfo {
     };
   }
   return {
-    item: new MenuItem(ifNil(cmd.rightClick?.title, cmd.name), callback),
+    item: new MenuItem(ifNil(cmd.rightClick?.title, cmd.name), callback, {
+      keys: cmd.rightClick?.keys,
+      description: cmd.description,
+    }),
     path: ifNil(cmd.rightClick?.path, []).map(normPathElement),
     index: ifNil(cmd.rightClick?.index, 0),
   };
@@ -109,10 +127,12 @@ function normPathElement(e: RightClickPathPart): PathElement {
     return {
       title: e,
       index: 0,
+      keys: [],
     };
   }
   return {
     title: e.title,
     index: ifNil(e.index, 0),
+    keys: e.keys ?? [],
   };
 }

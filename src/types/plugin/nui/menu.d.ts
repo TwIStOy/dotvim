@@ -31,7 +31,7 @@ declare interface NuiMenuInternal<T> extends NuiPopupInternal {
   };
   prepare_item: NuiMenuPrepareItem<T, any>;
   should_skip_item: NuiMenuShouldSkipItem<T>;
-  on_change: (item: NuiTreeNode<T>) => void;
+  on_change: (this: void, item: NuiTreeNode<T>) => void;
 }
 
 /*

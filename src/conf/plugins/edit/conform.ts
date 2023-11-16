@@ -43,7 +43,8 @@ const spec: PluginOpts = {
           });
         },
         rightClick: {
-          title: "&Format File",
+          title: "Format File",
+          keys: ["c"],
         },
       },
     ],

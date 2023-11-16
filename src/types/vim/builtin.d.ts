@@ -269,4 +269,6 @@ declare namespace vim {
     write: (data: string | null) => void;
     is_close: () => boolean;
   };
+
+  export function inspect(value: any): string;
 }

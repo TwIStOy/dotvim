@@ -19,9 +19,14 @@ export type RightClickPathPart = string | RightClickPathElement;
 
 export interface RightClickOpt {
   /**
+   * Icon before title
+   */
+  icon?: string;
+
+  /**
    * Displayed name
    */
-  title?: string;
+  title: string;
 
   /**
    *

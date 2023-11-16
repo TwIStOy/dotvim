@@ -1,3 +1,5 @@
+import { LazySpec } from "@core/plugin";
+
 type LazySpecAllowedEvent = "VeryLazy" | AutocmdEvent;
 
 export interface LazyKeySpec {
@@ -72,7 +74,7 @@ export interface LazyOpts {
    * otherwise. When specifying a name, make sure the plugin spec has been
    * defined somewhere else.
    */
-  dependencies?: string[];
+  dependencies?: (string | LazySpec)[];
 
   /**
    * `init` functions are always executed during startup

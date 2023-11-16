@@ -51,6 +51,10 @@ export type PluginOpts = {
   };
 };
 
+function isCommand(cmd: Command | CommandGroup): cmd is Command {
+  return "callback" in cmd;
+}
+
 export type LazySpec = {
   [1]: string;
 } & LazyOpts;
@@ -64,6 +68,15 @@ export class Plugin {
     this._cache = new Cache();
   }
 
+  public guessMain(): string {
+    let name = this._opts.shortUrl;
+    [name] = string.gsub(name.toLowerCase(), "^n?vim%-", "");
+    [name] = string.gsub(name, "%.n?vim$", "");
+    [name] = string.gsub(name, "%.lua$", "");
+    [name] = string.gsub(name, "[^a-z]+", "");
+    return name;
+  }
+
   private _commands(): Command[] {
     if (!this._opts.extends) {
       return [];
@@ -72,18 +85,29 @@ export class Plugin {
       return [];
     }
 
+    let defaultCategory = this.guessMain();
+
     let result: Command[] = [];
     if ("commands" in this._opts.extends.commands) {
-      result = extendCommandsInGroup(this._opts.extends.commands);
+      result = extendCommandsInGroup(this._opts.extends.commands, {
+        category: defaultCategory,
+      });
     } else {
       for (let cmd of this._opts.extends.commands) {
         if ("commands" in cmd) {
           for (let c of cmd.commands) {
             result.push(
-              tblExtend("keep", c, {
-                category: cmd.category,
-                enabled: cmd.enabled,
-              })
+              tblExtend(
+                "keep",
+                c,
+                {
+                  category: cmd.category,
+                  enabled: cmd.enabled,
+                },
+                {
+                  category: defaultCategory,
+                }
+              )
             );
           }
         } else {

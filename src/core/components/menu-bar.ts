@@ -1,9 +1,28 @@
-export interface MenubarOpt {
-  text: string;
+export interface MenuBarPathElement {
+  /**
+   * Displayed name
+   */
+  title: string;
+
+  /**
+   * Idx
+   */
+  index?: number;
+
+  /**
+   * keymaps
+   */
+  keys?: string[];
+}
+
+export type MenuBarPathPart = string | MenuBarPathElement;
+
+export interface MenuBarOpt {
+  title: string;
   /**
    * Path to the menu item.
    */
-  path: string[];
+  path?: MenuBarPathPart[];
   /**
    * Icon for the menu item.
    */
@@ -11,5 +30,5 @@ export interface MenubarOpt {
   /**
    * Keys that can be used to trigger the command.
    */
-  keys?: string | string[];
+  keys?: string[];
 }

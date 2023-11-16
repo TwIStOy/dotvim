@@ -1,5 +1,6 @@
 import { VimBuffer } from "@core/vim";
-import { RightClickOpt, MenubarOpt as MenuBarOpt } from "@core/components";
+import { RightClickOpt, MenuBarOpt as MenuBarOpt } from "@core/components";
+import { tblExtend } from "@core/utils";
 
 type MaybePromise<T> = T | Promise<T>;
 
@@ -69,14 +70,22 @@ export interface CommandGroup {
   commands: Command[];
 }
 
-export function extendCommandsInGroup(group: CommandGroup): Command[] {
+export function extendCommandsInGroup(
+  group: CommandGroup,
+  defaultValues: Omit<CommandGroup, "commands"> = {}
+): Command[] {
   let result: Command[] = [];
   for (let cmd of group.commands) {
     result.push(
-      vim.tbl_extend("keep", cmd, {
-        category: group.category,
-        enabled: group.enabled,
-      }) as Command
+      tblExtend(
+        "keep",
+        cmd,
+        {
+          category: group.category,
+          enabled: group.enabled,
+        },
+        defaultValues
+      )
     );
   }
   return result;

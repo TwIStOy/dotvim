@@ -1,5 +1,5 @@
-import { VimBuffer } from "../../vim_ext";
-import { RightClickOpt, MenubarOpt as MenuBarOpt } from "../components";
+import { VimBuffer } from "@core/vim";
+import { RightClickOpt, MenubarOpt as MenuBarOpt } from "@core/components";
 
 type MaybePromise<T> = T | Promise<T>;
 

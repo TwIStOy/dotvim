@@ -1,4 +1,4 @@
-import { ifNil } from "../../vim_ext";
+import { ifNil } from "@core/vim";
 import { executeOpration } from "./api";
 
 const allMarkdownFiles = `

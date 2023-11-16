@@ -1,5 +1,5 @@
-import { toIcon } from "../../core/string";
-import { Plugin, PluginOpts } from "../../core/plugin";
+import { Plugin, PluginOpts } from "@core/plugin";
+import { toIcon } from "@core/utils/string";
 
 const spec: PluginOpts = {
   shortUrl: "folke/which-key.nvim",

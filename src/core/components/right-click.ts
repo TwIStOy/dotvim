@@ -1,12 +1,30 @@
-import { ClickableComponent } from "./clickable";
+export interface RightClickPathElement {
+  /**
+   * Displayed name
+   */
+  title: string;
 
-export interface RightClickOpt {
-  shortCut?: string;
-  path?: string;
+  /**
+   * Idx
+   */
+  index?: number;
 }
 
-export class RightClickMenuItemComponent implements ClickableComponent {
-  onClick() {
-    throw new Error("Method not implemented.");
-  }
+export type RightClickPathPart = string | RightClickPathElement;
+
+export interface RightClickOpt {
+  /**
+   * Displayed name
+   */
+  title?: string;
+
+  /**
+   *
+   */
+  path?: RightClickPathPart[];
+
+  /**
+   * Idx
+   */
+  index?: number;
 }

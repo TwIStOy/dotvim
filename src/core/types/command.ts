@@ -10,10 +10,12 @@ export interface Command {
    * Dislay name for the command
    */
   name: string;
+
   /**
    * Description for the command
    */
   description?: string;
+
   /**
    * Category for the command
    */
@@ -78,4 +80,12 @@ export function extendCommandsInGroup(group: CommandGroup): Command[] {
     );
   }
   return result;
+}
+
+export function invokeCommand(cmd: Command) {
+  if (typeof cmd.callback === "string") {
+    vim.api.nvim_command(cmd.callback);
+  } else {
+    cmd.callback();
+  }
 }

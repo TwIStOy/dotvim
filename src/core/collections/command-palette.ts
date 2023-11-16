@@ -1,29 +1,10 @@
-import { Cache } from "@core/cache";
 import { Command } from "@core/types";
 import { VimBuffer } from "@core/vim";
 import { Collection } from "./collection";
 
-export class CommandPaletteCollection implements Collection {
-  private _commands: Command[] = [];
-  private _cache: Cache = new Cache();
-
-  push(cmd: Command) {
-    this._commands.push(cmd);
-    this._cache.clear();
-  }
-
-  getCommands(buffer: VimBuffer) {
-    return this._cache.ensure(buffer.asCacheKey(), () => {
-      return this._commands.filter((cmd) => {
-        if (cmd.enabled === undefined) {
-          return true;
-        }
-        if (typeof cmd.enabled === "boolean") {
-          return cmd.enabled;
-        }
-        return cmd.enabled(buffer);
-      });
-    });
+export class CommandPaletteCollection extends Collection {
+  constructor() {
+    super();
   }
 
   mount(buffer: VimBuffer, opts?: any): void {

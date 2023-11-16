@@ -1,5 +1,7 @@
 /** @noSelfInFile **/
 
+import { HasNil, Last } from "./type_traits";
+
 export interface CursorPosition {
   row: number;
   col: number;
@@ -23,20 +25,24 @@ export function getCursor0Index(winnr?: number): CursorPosition {
 /**
  * @brief Check if a value is nil or vim.NIL.
  */
-export function isNil(v: any): boolean {
+export function isNil(v: any): v is null | undefined {
   return v === undefined || v === null || v === vim.NIL;
 }
+
+type IfNilRet<T extends any[]> =
+  | Exclude<T[number], null | undefined>
+  | (HasNil<Last<T>> extends true ? null : never);
 
 /**
  * @brief Return the first non-nil value.
  */
-export function ifNil(...args: any[]): any {
-  for (let i = 0; i < args.length; i++) {
+export function ifNil<T extends any[]>(...args: T): IfNilRet<T> {
+  for (let i = 0; i < args.length - 1; i++) {
     if (!isNil(args[i])) {
       return args[i];
     }
   }
-  return null;
+  return args[args.length - 1];
 }
 
 export function normalizeColorValue(v: number | string): string {

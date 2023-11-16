@@ -43,6 +43,14 @@ const defaultPopupOptions: NuiPopupOptions = {
   },
 };
 
+function maxTextWidth(items: MenuItem[]) {
+  let ret = 0;
+  for (let item of items) {
+    ret = Math.max(ret, item.length);
+  }
+  return Math.min(ret, 20);
+}
+
 function findItemInMenu<T>(
   item: NuiTreeNode<T>,
   menu: NuiMenu<T, ContextMenuContext>
@@ -69,79 +77,75 @@ function onExpand(
   };
   let children = item.menuItem?.children || [];
   let contextMenu = new ContextMenu(children);
-  contextMenu.mount(displayOptions, menu);
+  contextMenu.asNuiMenu({ displayOptions, parent: menu }).mount();
 }
 
-const defaultMenuOptions: NuiMenuOptions<MenuItemContext, ContextMenuContext> =
-  {
-    min_width: 20,
-    max_width: 120,
-    keymap: {
-      focus_next: ["j", "<DOWN>", "<C-n>", "<TAB>"],
-      focus_prev: ["k", "<UP>", "<C-p>", "<S-TAB>"],
-      close: ["<ESC>", "<C-c>", "q"],
-      submit: ["<CR>"],
-    },
-    on_change: (item, menu) => {
-      let props = menu.menu_props;
-      let menuContext = props.context;
+const defaultMenuOptions: Omit<
+  NuiMenuOptions<MenuItemContext, ContextMenuContext>,
+  "lines"
+> = {
+  min_width: 20,
+  max_width: 120,
+  keymap: {
+    focus_next: ["j", "<DOWN>", "<C-n>", "<TAB>"],
+    focus_prev: ["k", "<UP>", "<C-p>", "<S-TAB>"],
+    close: ["<ESC>", "<C-c>", "q"],
+    submit: ["<CR>"],
+  },
+  on_change: (item, menu) => {
+    let props = menu.menu_props;
+    let menuContext = props.context;
 
-      if (
-        menuContext?.keymapSetup === null ||
-        menuContext?.keymapSetup === false
-      ) {
-        for (
-          let linenr = 1;
-          linenr < menu.tree.nodes.root_ids.length;
-          linenr++
-        ) {
-          let [node, targetLinenr] = menu.tree.get_node(linenr);
-          if (!node || targetLinenr === null) {
-            continue;
-          }
-          if (!menu._.should_skip_item(node)) {
-            let menuItem = node.menuItem;
-            for (let key in menuItem.keys) {
-              menu.map(
-                "n",
-                key,
-                () => {
-                  vim.api.nvim_win_set_cursor(menu.winid, [targetLinenr!, 0]);
-                  menu._.on_change(node!);
-                  if (menuItem.children && menuItem.children.length > 0) {
-                    onExpand(node!, menu);
-                  } else {
-                    menu.menu_props.on_submit();
-                  }
-                },
-                { noremap: true, nowait: true }
-              );
-            }
+    if (
+      menuContext?.keymapSetup === null ||
+      menuContext?.keymapSetup === false
+    ) {
+      for (let linenr = 1; linenr < menu.tree.nodes.root_ids.length; linenr++) {
+        let [node, targetLinenr] = menu.tree.get_node(linenr);
+        if (!node || targetLinenr === null) {
+          continue;
+        }
+        if (!menu._.should_skip_item(node)) {
+          let menuItem = node.menuItem;
+          for (let key of menuItem.keys) {
+            menu.map(
+              "n",
+              key,
+              () => {
+                vim.api.nvim_win_set_cursor(menu.winid, [targetLinenr!, 0]);
+                menu._.on_change(node!);
+                if (menuItem.children && menuItem.children.length > 0) {
+                  onExpand(node!, menu);
+                } else {
+                  menu.menu_props.on_submit();
+                }
+              },
+              { noremap: true, nowait: true }
+            );
           }
         }
-        menuContext.keymapSetup = true;
       }
+      menuContext.keymapSetup = true;
+    }
 
-      item.menuItem.parent = menu;
-      print(item.menuItem.description ?? "\n\n");
-    },
-    on_submit: (item) => {
-      let menuItem = item.menuItem;
-      let menu = menuItem.parent;
-      let menuContext = menu?.menu_props.context;
+    item.menuItem.parent = menu;
+    print(item.menuItem.description ?? "\n\n");
+  },
+  on_submit: (item) => {
+    let menuItem = item.menuItem;
+    let menu = menuItem.parent;
+    let menuContext = menu?.menu_props.context;
 
-      let parent = menuContext?.parent;
-      while (parent) {
-        parent.unmount();
-        parent = parent.menu_props.context?.parent;
-      }
+    let parent = menuContext?.parent;
+    while (parent) {
+      parent.unmount();
+      parent = parent.menu_props.context?.parent;
+    }
 
-      vim.api.nvim_set_current_win(menuContext!.displayOptions.init_winnr);
-      if (menuItem.callback) {
-        menuItem.callback();
-      }
-    },
-  };
+    vim.api.nvim_set_current_win(menuContext!.displayOptions.init_winnr);
+    menuItem.callback();
+  },
+};
 
 export class ContextMenu {
   public items: MenuItem[];
@@ -152,13 +156,9 @@ export class ContextMenu {
     this.items = items;
   }
 
-  mount(
-    displayOptions: DisplayOptions,
-    parent?: NuiMenu<MenuItemContext, ContextMenuContext>
-  ) {}
-
   asNuiMenu(opts: {
     displayOptions?: DisplayOptions;
+    parent?: NuiMenu<MenuItemContext, ContextMenuContext>;
     // menuOptions: NuiMenuOptions<MenuItemContext>,
   }): NuiMenu<MenuItemContext, ContextMenuContext> {
     opts.displayOptions = initializeOptions();
@@ -174,13 +174,55 @@ export class ContextMenu {
         relative: { winid: opts.displayOptions.init_winnr, type: "win" },
       }
     );
-
-    if (this.parent) {
-      popupOptions.zindex =
-        this.parent.asNuiMenu(menuOptions).win_config.zindex;
+    if (opts.parent) {
+      popupOptions.zindex = opts.parent?.win_config.zindex + 2;
     }
 
+    let lines = [];
+    let subTextWidth = maxTextWidth(this.items);
+    for (let item of this.items) {
+      lines.push(item.asNuiTreeNode(subTextWidth));
+    }
+    let menuOptions: NuiMenuOptions<MenuItemContext, ContextMenuContext> =
+      tblExtend("force", defaultMenuOptions, {
+        lines: lines,
+        on_close: () => {
+          if (opts.parent) {
+            vim.api.nvim_set_current_win(opts.parent.winid);
+          } else {
+            vim.api.nvim_set_current_win(opts.displayOptions?.init_winnr!);
+          }
+        },
+      });
+
     let ret = NuiMenuMod.newMenu(popupOptions, menuOptions);
+    ret.menu_props.context = {
+      displayOptions: opts.displayOptions,
+      parent: opts.parent,
+    };
+
+    ret.map(
+      "n",
+      "h",
+      () => {
+        ret.menu_props.on_close();
+      },
+      { noremap: true, nowait: true }
+    );
+    ret.map(
+      "n",
+      "l",
+      () => {
+        let [item] = ret.tree.get_node();
+        if (item) {
+          let menuItem = item.menuItem;
+          if (menuItem.children && menuItem.children.length > 0) {
+            onExpand(item, ret);
+          }
+        }
+      },
+      { noremap: true, nowait: true }
+    );
 
     return ret;
   }

@@ -38,10 +38,10 @@ export class NuiMenuMod {
     return luaRequire("nui.menu").separator(content, options);
   }
 
-  public static newMenu<T>(
+  public static newMenu<T, U>(
     popupOpts: NuiPopupOptions,
-    menuOpts: NuiMenuOptions<T>
-  ): NuiMenu<T> {
+    menuOpts: NuiMenuOptions<T, U>
+  ): NuiMenu<T, U> {
     return luaRequire("nui.menu")(popupOpts, menuOpts);
   }
 }

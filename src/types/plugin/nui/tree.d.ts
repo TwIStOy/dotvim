@@ -136,8 +136,8 @@ declare interface NuiTreeOptions<T> {
  * NuiTree can render tree-like structured content on the buffer.
  */
 declare interface NuiTree<Ctx> {
-  get_node<T extends number | string | undefined>(
-    node_id_or_linenr: T
+  get_node<T extends number | string>(
+    node_id_or_linenr?: T
   ):
     | LuaMultiReturn<
         [

@@ -1,8 +1,8 @@
+import { AllLspServers } from "@conf/external_tools";
 import WhichKey from "./which-key";
 import StartupTime from "./vim-startuptime";
 import editPlugins from "./edit";
 import lspPlugins from "./lsp";
-import { AllLspServers } from "../external_tools";
 import uiPlugins from "./ui";
 
 export const AllPlugins = [
@@ -11,8 +11,8 @@ export const AllPlugins = [
   ...editPlugins,
   ...lspPlugins,
   ...uiPlugins,
-  ...AllLspServers,
 ];
 
-export const LazySpecs = AllPlugins.map((p) => p.asLazySpec());
-
+export const LazySpecs = [...AllPlugins, ...AllLspServers].map((p) =>
+  p.asLazySpec()
+);

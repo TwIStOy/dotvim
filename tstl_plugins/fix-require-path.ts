@@ -1,16 +1,18 @@
 import * as ts from "typescript";
 import * as tstl from "typescript-to-lua";
 
-const LUA_PREFIX = "htts";
-const REQUIRE_PATH_REGEX = /require\("(.+)"\)/g;
-
 const isValidLuaRequireExpr = (node: ts.CallExpression) => {
-  return (
-    node.kind === ts.SyntaxKind.CallExpression &&
-    node.expression.getText() === "luaRequire" &&
-    node.arguments.length === 1 &&
-    node.arguments[0].kind === ts.SyntaxKind.StringLiteral
-  );
+  try {
+    return (
+      node.kind === ts.SyntaxKind.CallExpression &&
+      node.expression.getText() === "luaRequire" &&
+      node.arguments.length === 1 &&
+      node.arguments[0].kind === ts.SyntaxKind.StringLiteral
+    );
+  } catch (e) {
+    console.log(node.getSourceFile());
+    return false;
+  }
 };
 
 const plugin: tstl.Plugin = {
@@ -25,24 +27,6 @@ const plugin: tstl.Plugin = {
       }
       return context.superTransformExpression(node);
     },
-  },
-  beforeEmit(
-    _program: ts.Program,
-    _options: tstl.CompilerOptions,
-    _emitHost: tstl.EmitHost,
-    result: tstl.EmitFile[]
-  ) {
-    for (const file of result) {
-      file.code = file.code.replaceAll(
-        REQUIRE_PATH_REGEX,
-        (match: any, path: unknown) => {
-          if (typeof path !== "string") {
-            return match;
-          }
-          return `require("${path}")`;
-        }
-      );
-    }
   },
 };
 

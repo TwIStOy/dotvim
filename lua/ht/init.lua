@@ -4,7 +4,6 @@ local function yes()
   return true
 end
 
--- local httsPlugins = require("htts.conf.plugins.index")
 local httsPlugins = require("htts").LazySpecs
 
 local specs = {

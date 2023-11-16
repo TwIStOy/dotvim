@@ -78,7 +78,7 @@ export class MenuItem {
     }
 
     if (this.children.length > 0) {
-      ret += 2;
+      ret += 2; // ▸ mark
     }
 
     return ret;
@@ -92,11 +92,12 @@ export class MenuItem {
     }
 
     let text = this.text.asNuiLine();
-    let length = this.length;
+    let length = this.text.length;
 
     if (this.keys.length > 0) {
       let hint = this.keys.join("|");
       let spaceCount = textWidth - 2 - length - hint.length;
+      assert(spaceCount >= 0);
       if (spaceCount > 0) {
         text.append(" ".repeat(spaceCount));
       }

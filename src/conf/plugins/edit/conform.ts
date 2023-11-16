@@ -42,6 +42,9 @@ const spec: PluginOpts = {
             async: true,
           });
         },
+        rightClick: {
+          title: "&Format File",
+        },
       },
     ],
   },

@@ -89,6 +89,10 @@ local function setup()
       },
     }
   end, "open-command-palette")
+
+  NMAP(";'", function()
+    require("htts").onRightClick()
+  end)
 end
 
 return {

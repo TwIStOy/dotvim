@@ -235,6 +235,6 @@ declare interface TSHighlighter {
 
 declare namespace vim {
   export namespace treesitter {
-    export const highlighter: any;
+    export const highlighter: TSHighlighter;
   }
 }

@@ -2,17 +2,13 @@ import * as ts from "typescript";
 import * as tstl from "typescript-to-lua";
 
 const isValidLuaRequireExpr = (node: ts.CallExpression) => {
-  try {
-    return (
-      node.kind === ts.SyntaxKind.CallExpression &&
-      node.expression.getText() === "luaRequire" &&
-      node.arguments.length === 1 &&
-      node.arguments[0].kind === ts.SyntaxKind.StringLiteral
-    );
-  } catch (e) {
-    console.log(node.getSourceFile());
-    return false;
-  }
+  return (
+    node.getSourceFile() !== undefined &&
+    node.kind === ts.SyntaxKind.CallExpression &&
+    node.expression.getText() === "luaRequire" &&
+    node.arguments.length === 1 &&
+    node.arguments[0].kind === ts.SyntaxKind.StringLiteral
+  );
 };
 
 const plugin: tstl.Plugin = {

@@ -11,9 +11,7 @@ declare namespace vim {
      * @return [row, col] tuple
      * @see `getcurpos()`
      */
-    export function nvim_win_get_cursor(
-      window: number
-    ): LuaMultiReturn<[number, number]>;
+    export function nvim_win_get_cursor(window: number): [number, number];
 
     /**
      * Executes an Ex command.

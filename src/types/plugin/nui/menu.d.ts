@@ -81,4 +81,3 @@ declare interface NuiMenu<T, U> extends NuiPopup {
 
   unmount(): void;
 }
-

@@ -1,6 +1,6 @@
 import { NuiMenuMod } from "@extra/nui";
 import { MenuItem, MenuItemContext } from "./menu-item";
-import { tblExtend } from "@core/vim_wrapper";
+import { tblExtend } from "@core/utils/table";
 
 interface DisplayOptions {
   init_winnr: number;

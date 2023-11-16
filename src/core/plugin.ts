@@ -6,7 +6,7 @@ import {
   CommandGroup,
   extendCommandsInGroup,
 } from "./types";
-import { tblExtend } from "./vim_wrapper";
+import { tblExtend } from "./utils/table";
 
 export type AutocmdLazyEvent = "VeryLazy" | AutocmdEvent;
 
@@ -39,6 +39,16 @@ export type PluginOpts = {
    * Options for extending the plugin
    */
   extends?: ExtendPluginOpts;
+
+  /**
+   * Options for enable extra helpers
+   */
+  extra?: {
+    /**
+     * How many ms to delay the setup of the plugin.
+     */
+    delaySetup?: number;
+  };
 };
 
 export type LazySpec = {
@@ -115,9 +125,24 @@ export class Plugin {
         keySpecs.push(keySpec);
       }
     }
-    let opts = vim.tbl_extend("force", this._opts.lazy || {}, {
+    let opts = tblExtend("force", this._opts.lazy || {}, {
       keys: keySpecs,
     });
+
+    if (
+      typeof opts.config === "function" &&
+      (this._opts.extra?.delaySetup ?? 0) > 0
+    ) {
+      let rawConfig = opts.config;
+      opts.config = (plug, o) => {
+        vim.defer_fn(
+          () => {
+            rawConfig(plug, o);
+          },
+          this._opts.extra?.delaySetup!
+        );
+      };
+    }
 
     let result = {
       [1]: this._opts.shortUrl,

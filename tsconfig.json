@@ -17,8 +17,8 @@
   },
   "tstl": {
     "luaTarget": "JIT",
-    "sourceMapTraceback": true,
-    "tstlVerbose": false,
+    "sourceMapTraceback": false,
+    "tstlVerbose": true,
     "noImplicitSelf": true,
     "luaPlugins": [
       {

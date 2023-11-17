@@ -24,6 +24,11 @@ export interface LazyKeySpec {
    * description
    */
   desc?: string;
+
+  /**
+   * silent
+   */
+  silent?: boolean;
 }
 
 export interface LazyOpts {

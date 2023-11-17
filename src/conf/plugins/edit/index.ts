@@ -3,6 +3,8 @@ import copilot from "./copilot";
 import markdownPreviewNivm from "./markdown-preview-nivm";
 import vimTemplate from "./vim-template";
 import todoCommentsNvim from "./todo-comments-nvim";
+import ultimateAutopairNvim from "./ultimate-autopair-nvim";
+import taboutNvim from "./tabout-nvim";
 
 export default [
   conform,
@@ -10,4 +12,6 @@ export default [
   markdownPreviewNivm,
   vimTemplate,
   todoCommentsNvim,
+  ultimateAutopairNvim,
+  taboutNvim,
 ];

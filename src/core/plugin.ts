@@ -8,7 +8,7 @@ import {
 } from "./types";
 import { tblExtend } from "./utils/table";
 
-export type AutocmdLazyEvent = "VeryLazy" | AutocmdEvent;
+export type AutocmdLazyEvent = "VeryLazy" | AutocmdEvent | LspEvents;
 
 export interface ExtendPluginOpts {
   /**

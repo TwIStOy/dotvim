@@ -5,6 +5,7 @@ import editPlugins from "./edit";
 import lspPlugins from "./lsp";
 import uiPlugins from "./ui";
 import otherPlugins from "./other";
+import codingPlugins from "./coding";
 
 export const AllPlugins = [
   WhichKey,
@@ -13,6 +14,7 @@ export const AllPlugins = [
   ...lspPlugins,
   ...uiPlugins,
   ...otherPlugins,
+  ...codingPlugins,
 ];
 
 export const LazySpecs = [...AllPlugins, ...AllLspServers].map((p) =>

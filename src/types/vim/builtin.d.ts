@@ -1,5 +1,13 @@
 /** @noSelfInFile **/
 
+declare type LspEvents =
+  | "LspAttach"
+  | "LspDetach"
+  | "LspNotify"
+  | "LspProgress"
+  | "LspRequest"
+  | "LspTokenUpdate";
+
 declare type AutocmdEvent =
   | "BufAdd"
   | "BufDelete"

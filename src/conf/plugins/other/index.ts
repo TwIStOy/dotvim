@@ -3,5 +3,15 @@ import tmuxline from "./tmuxline";
 import closeBuffers from "./close-buffers";
 import dashNvim from "./dash-nvim";
 import gitsignsNvim from "./gitsigns-nvim";
+import octoNvim from "./octo-nvim";
+import restNvim from "./rest-nvim";
 
-export default [asyncTask, tmuxline, closeBuffers, dashNvim, gitsignsNvim];
+export default [
+  asyncTask,
+  tmuxline,
+  closeBuffers,
+  dashNvim,
+  gitsignsNvim,
+  octoNvim,
+  restNvim,
+];

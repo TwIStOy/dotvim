@@ -9,7 +9,6 @@ local httsPlugins = require("htts").LazySpecs
 local specs = {
   { import = "ht.plugins" },
   { import = "ht.plugins.edit" },
-  { import = "ht.plugins.external" },
   { import = "ht.plugins.ui" },
   { import = "ht.plugins.lsp" },
   { import = "ht.plugins.coding" },

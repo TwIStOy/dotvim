@@ -215,5 +215,7 @@ declare namespace vim {
     export function nvim_set_current_win(win: number): void;
 
     export function nvim_win_set_buf(window: number, buffer: number): void;
+
+    export function nvim_win_get_buf(window: number): number;
   }
 }

@@ -30,5 +30,17 @@ declare namespace vim {
     export function reltimefloat(x: ReltimeItem): number;
 
     export function line(str: string): number;
+
+    export function win_getid(win?: number, tab?: number): number;
+
+    export function winnr(
+      arg?:
+        | "$"
+        | "#"
+        | `${number | ""}h`
+        | `${number | ""}j`
+        | `${number | ""}k`
+        | `${number | ""}l`
+    ): number;
   }
 }

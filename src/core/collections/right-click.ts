@@ -74,9 +74,15 @@ export class MenuItemPathMap {
 }
 
 export class RightClickPaletteCollection extends Collection {
-  mount(buffer: VimBuffer, opt?: any): void {
-    let menu = new ContextMenu(this.getMenuItems(buffer));
-    menu.asNuiMenu(opt ?? {}).mount();
+  mount(buffer: VimBuffer, opt?: any): boolean {
+    let items = this.getMenuItems(buffer);
+    if (items.length > 0) {
+      let menu = new ContextMenu(items);
+      vim.schedule(() => {
+        menu.asNuiMenu(opt ?? {}).mount();
+      });
+    }
+    return items.length > 0;
   }
 
   getMenuItems(buffer: VimBuffer) {

@@ -1,7 +1,7 @@
 import { Command } from "@core/types";
 import { AllPlugins } from "./conf/plugins";
 import { RightClickPaletteCollection } from "@core/collections/right-click";
-import { VimBuffer } from "@core/vim";
+import { VimBuffer, hideCursor } from "@core/vim";
 
 export { AllPlugins, LazySpecs } from "./conf/plugins";
 
@@ -24,5 +24,6 @@ const rightClickCollection = (() => {
 export function onRightClick(opts: any) {
   let bufnr = vim.api.nvim_get_current_buf();
   let buffer = new VimBuffer(bufnr);
+  hideCursor();
   rightClickCollection.mount(buffer, opts);
 }

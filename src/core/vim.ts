@@ -130,3 +130,41 @@ export function inputArgsAndExec(cmd: string) {
     );
   };
 }
+
+export function isExiting() {
+  return !isNil(vim.v.exiting);
+}
+
+let _savedCursor: string | null = null;
+export function hideCursor() {
+  if (_savedCursor === null) {
+    _savedCursor = vim.api.nvim_get_option_value("guicursor", {
+      scope: "global",
+    });
+  }
+  // schedule this, since otherwise Neovide crashes
+  vim.schedule(() => {
+    if (_savedCursor !== null) {
+      vim.api.nvim_set_option_value("guicursor", "a:NoiceHiddenCursor", {
+        scope: "global",
+      });
+    }
+  });
+}
+
+export function showCursor() {
+  if (_savedCursor !== null && !isExiting()) {
+    vim.schedule(() => {
+      if (_savedCursor !== null && !isExiting()) {
+        vim.api.nvim_set_option_value("guicursor", "a:", {
+          scope: "global",
+        });
+        vim.api.nvim_command("redrawstatus");
+        vim.api.nvim_set_option_value("guicursor", _savedCursor, {
+          scope: "global",
+        });
+        _savedCursor = null;
+      }
+    });
+  }
+}

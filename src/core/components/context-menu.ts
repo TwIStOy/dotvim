@@ -1,6 +1,7 @@
 import { NuiMenuMod } from "@extra/nui";
 import { MenuItem, MenuItemContext } from "./menu-item";
 import { tblDeepExtend, tblExtend } from "@core/utils/table";
+import { hideCursor, showCursor } from "@core/vim";
 
 interface DisplayOptions {
   init_winnr: number;
@@ -78,6 +79,7 @@ function onExpand(
   let children = item.menuItem?.children || [];
   let contextMenu = new ContextMenu(children);
   contextMenu.asNuiMenu({ displayOptions, parent: menu }).mount();
+  hideCursor();
 }
 
 const defaultMenuOptions: Omit<
@@ -143,6 +145,7 @@ const defaultMenuOptions: Omit<
     }
 
     vim.api.nvim_set_current_win(menuContext!.displayOptions.init_winnr);
+    showCursor();
     menuItem.callback();
   },
 };
@@ -193,6 +196,7 @@ export class ContextMenu {
             vim.api.nvim_set_current_win(opts.parent.winid);
           } else {
             vim.api.nvim_set_current_win(opts.displayOptions?.init_winnr!);
+            showCursor();
           }
         },
       });

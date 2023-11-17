@@ -134,6 +134,23 @@ declare namespace vim {
       }
     ): any;
 
+    export function nvim_set_option_value(
+      name: string,
+      value: any,
+      opts?: {
+        scope?: "global" | "local";
+        /**
+         * used for getting window local options;
+         */
+        win?: number;
+        /**
+         * Buffer number. Used for getting buffer local options. Implies
+         * `scope` is "local".
+         */
+        buf?: number;
+      }
+    ): void;
+
     /**
      * Gets the full file name for the buffer.
      *

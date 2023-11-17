@@ -111,3 +111,22 @@ export function closePreviewWindow(winnr: number, bufnrs: number[]) {
   };
   vim.schedule(fn);
 }
+
+export function inputArgsAndExec(cmd: string) {
+  return () => {
+    vim.ui.input(
+      {
+        prompt: `Arguments, ${cmd}`,
+      },
+      (input) => {
+        if (input) {
+          if (input.length > 0) {
+            vim.api.nvim_command(`${cmd} ${input}`);
+          } else {
+            vim.api.nvim_command(cmd);
+          }
+        }
+      }
+    );
+  };
+}

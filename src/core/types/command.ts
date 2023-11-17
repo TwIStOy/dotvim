@@ -98,3 +98,13 @@ export function invokeCommand(cmd: Command) {
     cmd.callback();
   }
 }
+
+export function buildSimpleCommand(
+  name: string,
+  callback: string | (() => void)
+): Command {
+  return {
+    name,
+    callback,
+  };
+}

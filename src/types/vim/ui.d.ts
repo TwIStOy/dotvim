@@ -21,5 +21,7 @@ declare namespace vim {
       },
       on_confirm: (input?: string) => void
     ): void;
+
+    export function select(...args: any[]): void;
   }
 }

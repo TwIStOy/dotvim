@@ -168,3 +168,10 @@ export function showCursor() {
     });
   }
 }
+
+export function redrawAll() {
+  vim.api.nvim_command("redrawtabline!");
+  vim.api.nvim_command("redrawstatus!");
+  vim.api.nvim_command("redraw!");
+}
+

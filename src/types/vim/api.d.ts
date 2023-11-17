@@ -65,7 +65,7 @@ declare namespace vim {
       /**
        * Event(s) that will trigger the handler (`callback` or `command`).
        */
-      event: string | string[],
+      event: (AutocmdEvent | LspEvents) | (AutocmdEvent | LspEvents)[],
       opts: {
         /**
          * autocommand group name or id to match against.
@@ -213,5 +213,7 @@ declare namespace vim {
     ): void;
 
     export function nvim_set_current_win(win: number): void;
+
+    export function nvim_win_set_buf(window: number, buffer: number): void;
   }
 }

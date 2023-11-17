@@ -5,10 +5,10 @@ const spec: PluginOpts = {
   lazy: {
     dependencies: ["JoosepAlviste/nvim-ts-context-commentstring"],
     keys: [
-      { [1]: "gcc", [2]: undefined, desc: "toggle-line-comment" },
-      { [1]: "gcc", [2]: undefined, mode: "x", desc: "toggle-line-comment" },
-      { [1]: "gbc", [2]: undefined, desc: "toggle-block-comment" },
-      { [1]: "gbc", [2]: undefined, mode: "x", desc: "toggle-block-comment" },
+      { [1]: "gcc", [2]: null, desc: "toggle-line-comment" },
+      { [1]: "gcc", [2]: null, mode: "x", desc: "toggle-line-comment" },
+      { [1]: "gbc", [2]: null, desc: "toggle-block-comment" },
+      { [1]: "gbc", [2]: null, mode: "x", desc: "toggle-block-comment" },
     ],
     opts: {
       toggler: {

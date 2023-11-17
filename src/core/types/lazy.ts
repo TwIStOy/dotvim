@@ -10,7 +10,7 @@ export interface LazyKeySpec {
   /*
    * rhs
    */
-  [2]?: string | (() => void);
+  [2]: string | (() => void) | null;
   /**
    * mode, defaults to 'n'
    */

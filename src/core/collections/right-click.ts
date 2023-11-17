@@ -1,3 +1,5 @@
+/** @noSelfInFile */
+
 import { VimBuffer, ifNil, isNil } from "@core/vim";
 import { Collection } from "./collection";
 import { ContextMenu } from "@core/components/context-menu";
@@ -117,7 +119,9 @@ function commandToItemInfo(cmd: Command): ItemInfo {
       keys: cmd.rightClick?.keys,
       description: cmd.description,
     }),
-    path: ifNil(cmd.rightClick?.path, []).map(normPathElement),
+    path: ifNil(cmd.rightClick?.path, []).map((v) => {
+      return normPathElement(v);
+    }),
     index: ifNil(cmd.rightClick?.index, 0),
   };
 }

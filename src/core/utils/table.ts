@@ -18,3 +18,9 @@ export function tblExtend<T extends any[]>(
   return vim.tbl_extend(behavior, ...tbls);
 }
 
+export function tblDeepExtend<T extends any[]>(
+  behavior: "error" | "keep" | "force",
+  ...tbls: T
+): Combine<T> {
+  return vim.tbl_deep_extend(behavior, ...tbls);
+}

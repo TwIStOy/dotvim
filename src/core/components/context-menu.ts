@@ -1,6 +1,6 @@
 import { NuiMenuMod } from "@extra/nui";
 import { MenuItem, MenuItemContext } from "./menu-item";
-import { tblExtend } from "@core/utils/table";
+import { tblDeepExtend, tblExtend } from "@core/utils/table";
 
 interface DisplayOptions {
   init_winnr: number;
@@ -72,7 +72,7 @@ function onExpand(
 
   let displayOptions: DisplayOptions = {
     init_winnr: menuContext!.displayOptions.init_winnr,
-    row: menuContext!.displayOptions.row + pos! - 1,
+    row: menuContext!.displayOptions.row + pos!,
     col: menuContext!.displayOptions.col + menu.win_config.width + 4,
   };
   let children = item.menuItem?.children || [];
@@ -161,9 +161,11 @@ export class ContextMenu {
     parent?: NuiMenu<MenuItemContext, ContextMenuContext>;
     // menuOptions: NuiMenuOptions<MenuItemContext>,
   }): NuiMenu<MenuItemContext, ContextMenuContext> {
-    opts.displayOptions = initializeOptions();
+    if (!opts.displayOptions) {
+      opts.displayOptions = initializeOptions();
+    }
 
-    let popupOptions: NuiPopupOptions = tblExtend(
+    let popupOptions: NuiPopupOptions = tblDeepExtend(
       "force",
       defaultPopupOptions,
       {

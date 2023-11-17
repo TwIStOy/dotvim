@@ -159,6 +159,8 @@ declare namespace vim {
 
   export const v: AnyTable;
 
+  export const uv: AnyMod;
+
   export namespace json {
     /**
      * Encodes (or "packs") Lua object `{obj}` as JSON in a Lua string.

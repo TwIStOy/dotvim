@@ -5,6 +5,7 @@ import vimTemplate from "./vim-template";
 import todoCommentsNvim from "./todo-comments-nvim";
 import ultimateAutopairNvim from "./ultimate-autopair-nvim";
 import taboutNvim from "./tabout-nvim";
+import dial from "./dial";
 
 export default [
   conform,
@@ -14,4 +15,5 @@ export default [
   todoCommentsNvim,
   ultimateAutopairNvim,
   taboutNvim,
+  dial,
 ];

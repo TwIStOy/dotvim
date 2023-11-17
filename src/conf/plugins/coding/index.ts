@@ -1,4 +1,6 @@
 import commentNvim from "./comment-nvim";
-import Cphelper from "./cphelper";
+import cphelper from "./cphelper";
+import cppToolkit from "./cpp-toolkit";
+import cratesNvim from "./crates-nvim";
 
-export default [commentNvim, Cphelper];
+export default [commentNvim, cphelper, cppToolkit, cratesNvim];

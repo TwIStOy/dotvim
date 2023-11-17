@@ -4,7 +4,7 @@ import { tblExtend } from "@core/utils";
 
 type MaybePromise<T> = T | Promise<T>;
 
-type CommandEnabledFn = (buf: VimBuffer) => boolean;
+export type CommandEnabledFn = (buf: VimBuffer) => boolean;
 
 export interface Command {
   /**
@@ -68,25 +68,41 @@ export interface CommandGroup {
    * Commands to be registered for this plugin.
    */
   commands: Command[];
+
+  rightClick?: Required<Pick<RightClickOpt, "path">>;
+
+  menuBar?: Required<Pick<MenuBarOpt, "path">>;
 }
 
 export function extendCommandsInGroup(
   group: CommandGroup,
-  defaultValues: Omit<CommandGroup, "commands"> = {}
+  defaultValues: Omit<CommandGroup, "commands" | "rightClick"> = {}
 ): Command[] {
   let result: Command[] = [];
   for (let cmd of group.commands) {
-    result.push(
-      tblExtend(
-        "keep",
-        cmd,
-        {
-          category: group.category,
-          enabled: group.enabled,
-        },
-        defaultValues
-      )
+    let ret = tblExtend(
+      "keep",
+      cmd,
+      {
+        category: group.category,
+        enabled: group.enabled,
+      },
+      defaultValues
     );
+    if (group.rightClick && ret.rightClick !== undefined) {
+      if (ret.rightClick === true) {
+        ret.rightClick = tblExtend(
+          "keep",
+          {
+            title: cmd.name,
+          },
+          group.rightClick
+        );
+      } else {
+        ret.rightClick = tblExtend("keep", ret.rightClick, group.rightClick);
+      }
+    }
+    result.push(ret);
   }
   return result;
 }

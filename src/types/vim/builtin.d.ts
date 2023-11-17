@@ -241,6 +241,11 @@ declare namespace vim {
     ...tbls: any[]
   ): any;
 
+  export function tbl_deep_extend(
+    behavior: "error" | "keep" | "force",
+    ...tbls: any[]
+  ): any;
+
   export interface SystemCompleted {
     code: number;
     signal: number;

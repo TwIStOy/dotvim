@@ -51,6 +51,13 @@ declare namespace vim {
       data: AnyTable;
     }
 
+    export function nvim_create_augroup(
+      name: string,
+      opts?: {
+        clear?: boolean;
+      }
+    ): number;
+
     /**
      * Creates an **autocommand** event handler, defined by `callback` or `command`.
      */

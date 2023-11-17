@@ -17,3 +17,4 @@ export function tblExtend<T extends any[]>(
 ): Combine<T> {
   return vim.tbl_extend(behavior, ...tbls);
 }
+

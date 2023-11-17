@@ -50,7 +50,7 @@ export class MenuItemPathMap {
         });
         this.next.set(path[this.depth].title, next);
       }
-      this._updateInfo(path[this.depth]);
+      next._updateInfo(path[this.depth]);
       next.push(path, item, index);
     }
   }

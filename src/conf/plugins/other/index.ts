@@ -1,3 +1,4 @@
-import AsyncTask from "./asynctask";
+import asyncTask from "./asynctask";
+import tmuxline from "./tmuxline";
 
-export default [AsyncTask];
+export default [asyncTask, tmuxline];

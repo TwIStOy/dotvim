@@ -1,7 +1,10 @@
 import { RightClickIndexes } from "@conf/base";
+import { RightClickPathPart } from "@core/components";
 import { Plugin, PluginOpts } from "@core/plugin";
 
-const basePath = [{ title: "Crates", index: RightClickIndexes.crates }];
+const basePath: RightClickPathPart[] = [
+  { title: "Crates", index: RightClickIndexes.crates },
+];
 
 const spec: PluginOpts = {
   shortUrl: "saecki/crates.nvim",

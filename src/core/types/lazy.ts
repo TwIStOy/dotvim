@@ -172,4 +172,6 @@ export interface LazyOpts {
    * Version to use from the repository. Full Semver ranges are supported
    */
   version?: string | false;
+
+  build?: string | ((this: void) => void);
 }

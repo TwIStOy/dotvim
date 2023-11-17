@@ -18,7 +18,7 @@ export interface MenuBarPathElement {
 export type MenuBarPathPart = string | MenuBarPathElement;
 
 export interface MenuBarOpt {
-  title: string;
+  title?: string;
   /**
    * Path to the menu item.
    */

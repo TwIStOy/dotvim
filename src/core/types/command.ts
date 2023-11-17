@@ -117,10 +117,12 @@ export function invokeCommand(cmd: Command) {
 
 export function buildSimpleCommand(
   name: string,
-  callback: string | (() => void)
+  callback: string | (() => void),
+  description?: string
 ): Command {
   return {
     name,
     callback,
+    description,
   };
 }

@@ -4,6 +4,7 @@ import { RightClickPaletteCollection } from "@core/collections/right-click";
 import { VimBuffer, hideCursor } from "@core/vim";
 
 export { AllPlugins, LazySpecs } from "./conf/plugins";
+export { AllLspServers } from "./conf/external_tools";
 
 export function getAllCommands(): Command[] {
   let result: Command[] = [];

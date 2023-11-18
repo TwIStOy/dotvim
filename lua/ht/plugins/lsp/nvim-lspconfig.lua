@@ -64,6 +64,9 @@ return {
           end
         end
       end
+      for _, server in ipairs(require("htts").AllLspServers) do
+        server:setup(on_buffer_attach, capabilities)
+      end
       require("ht.conf.lsp.servers.default")()
     end,
   },

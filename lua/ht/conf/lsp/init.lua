@@ -8,7 +8,7 @@ local all_servers = (function()
   servers[#servers + 1] = require("ht.conf.lsp.servers.cmake")
   servers[#servers + 1] = require("ht.conf.lsp.servers.lua_ls")
   servers[#servers + 1] = require("ht.conf.lsp.servers.rime_ls")
-  servers[#servers + 1] = require("ht.conf.lsp.servers.tsserver")
+  -- servers[#servers + 1] = require("ht.conf.lsp.servers.tsserver")
   servers[#servers + 1] = require("ht.conf.lsp.servers.flutter")
 
   -- init sourcekit in macos

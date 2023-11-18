@@ -1,4 +1,4 @@
-import { LspServer } from "../../../core/ext_tool";
+import { LspServer } from "@core/ext_tool";
 
 export default new LspServer({
   name: "typescript-tools",
@@ -9,12 +9,8 @@ export default new LspServer({
       settings: {
         tsserver_path: server.executable,
         tsserver_locale: "en",
+        complete_function_calls: true,
       },
     });
-  },
-  plugin: {
-    [1]: "pmizio/typescript-tools.nvim",
-    dependencies: ["nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"],
-    lazy: true,
   },
 });

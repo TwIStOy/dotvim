@@ -61,6 +61,31 @@ const spec: PluginOpts = {
       },
     },
   },
+  extends: {
+    allowInVscode: false,
+    commands: [
+      {
+        name: "Previous buffer",
+        callback: "<cmd>BufferLineCyclePrev<CR>",
+        keys: ["<M-,>"],
+      },
+      {
+        name: "Next buffer",
+        callback: "<cmd>BufferLineCycleNext<CR>",
+        keys: ["<M-.>"],
+      },
+      {
+        name: "Move buffer left",
+        callback: "<cmd>BufferLineMovePrev<CR>",
+        keys: ["<M-<>"],
+      },
+      {
+        name: "Move buffer right",
+        callback: "<cmd>BufferLineMoveNext<CR>",
+        keys: ["<M->>"],
+      },
+    ],
+  },
 };
 
 export default new Plugin(spec);

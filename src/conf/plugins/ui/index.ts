@@ -6,6 +6,7 @@ import dressingNvim from "./dressing-nvim";
 import bufferline from "./bufferline";
 import noice from "./noice";
 import nvimNotify from "./nvim-notify";
+import lualine from "./lualine";
 
 export default [
   twilight,
@@ -16,4 +17,5 @@ export default [
   bufferline,
   nvimNotify,
   noice,
+  lualine,
 ];

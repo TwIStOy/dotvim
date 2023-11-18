@@ -2,7 +2,9 @@
 
 interface AnyMod {
   [key: string]: AnyMod;
-  (this: void, ...args:any[]): any;
+  (this: void, ...args: any[]): any;
 }
 
-declare function luaRequire(modname: string): AnyMod;
+declare function luaRequire(this: void, modname: string): AnyMod;
+
+declare function __raw_import(this: void, modname: string): AnyMod;

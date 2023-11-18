@@ -42,5 +42,15 @@ declare namespace vim {
         | `${number | ""}k`
         | `${number | ""}l`
     ): number;
+
+    export function getcwd(winnr?: number, tabnr?: number): string;
+
+    export function expand(
+      expr: string,
+      nosuf?: boolean,
+      list?: boolean
+    ): string;
+
+    export function fnamemodify(fname: string, mods: string): string;
   }
 }

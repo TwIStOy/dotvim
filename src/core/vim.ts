@@ -169,9 +169,25 @@ export function showCursor() {
   }
 }
 
+/**
+ * Redraw all UI elements.
+ */
 export function redrawAll() {
   vim.api.nvim_command("redrawtabline!");
   vim.api.nvim_command("redrawstatus!");
   vim.api.nvim_command("redraw!");
 }
 
+/**
+ * Get foreground color of a highlight.
+ */
+export function highlightFg(group: string): string {
+  let hl = vim.api.nvim_get_hl(0, {
+    name: group,
+  });
+  let fg = hl.get("fg");
+  if (!isNil(fg) && fg !== "") {
+    return string.format("#%x", fg);
+  }
+  return "";
+}

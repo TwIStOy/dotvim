@@ -217,5 +217,27 @@ declare namespace vim {
     export function nvim_win_set_buf(window: number, buffer: number): void;
 
     export function nvim_win_get_buf(window: number): number;
+
+    export function nvim_get_hl(
+      ns_id: number,
+      opts: {
+        /**
+         * Get a highlight definition by name.
+         */
+        name?: string;
+        /**
+         * Get a highlight definition by id.
+         */
+        id?: number;
+        /**
+         * Show linked group name instead of effective definition.
+         */
+        link?: boolean;
+        /**
+         * When highlight group doesn't exist create it.
+         */
+        create?: boolean;
+      }
+    ): LuaTable;
   }
 }

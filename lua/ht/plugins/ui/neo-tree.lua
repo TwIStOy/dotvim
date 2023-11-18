@@ -9,6 +9,7 @@ return {
   cmd = "Neotree",
   init = function()
     vim.g.neo_tree_remove_legacy_commands = true
+    --[[
     local RC = require("ht.core.right-click")
     RC.add_section {
       index = RC.indexes.file_explorer,
@@ -24,12 +25,13 @@ return {
         {
           "Find file in FileExplorer",
           callback = function()
-            vim.cmd([[Neotree action=focus reveal]])
+            vim.cmd("Neotree action=focus reveal")
           end,
           keys = "f",
         },
       },
     }
+    --]]
   end,
   keys = {
     { "<F3>", jump_to_nvim_tree, desc = "file-explorer" },

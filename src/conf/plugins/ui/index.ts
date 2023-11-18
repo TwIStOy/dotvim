@@ -5,6 +5,7 @@ import nvimWindowPicker from "./nvim-window-picker";
 import dressingNvim from "./dressing-nvim";
 import bufferline from "./bufferline";
 import noice from "./noice";
+import nvimNotify from "./nvim-notify";
 
 export default [
   twilight,
@@ -13,5 +14,6 @@ export default [
   nvimWindowPicker,
   dressingNvim,
   bufferline,
+  nvimNotify,
   noice,
 ];

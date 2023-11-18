@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "../../../core/plugin";
+import { Plugin, PluginOpts } from "@core/plugin";
 
 const spec: PluginOpts = {
   shortUrl: "zbirenbaum/copilot.lua",

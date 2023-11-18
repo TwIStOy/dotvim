@@ -7,6 +7,7 @@ return {
       cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
       allow_in_vscode = true,
       init = function()
+        --[[
         local RC = require("ht.core.right-click")
         RC.add_section {
           index = RC.indexes.splitline,
@@ -22,6 +23,7 @@ return {
             },
           },
         }
+        --]]
       end,
       opts = {
         use_default_keymaps = false,

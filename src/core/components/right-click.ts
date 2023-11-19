@@ -21,7 +21,7 @@ export type RightClickPathPart = string | RightClickPathElement;
 
 export interface RightClickIndex {
   order: number;
-  group: RightClickGroups;
+  group: keyof RightClickGroups;
 }
 
 export interface RightClickOpt {

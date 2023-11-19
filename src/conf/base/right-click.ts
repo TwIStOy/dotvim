@@ -10,4 +10,7 @@ export const RightClickIndexes = {
   conform: 50,
 };
 
-export type RightClickGroups = 'treesitter';
+export type RightClickGroups = {
+  treesitter: 1;
+  default: 1000;
+};

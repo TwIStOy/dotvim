@@ -33,6 +33,7 @@ export default new Plugin({
           rightClick: {
             title: "Exec request",
             keys: ["r"],
+            index: 1,
           },
         },
         {
@@ -43,6 +44,7 @@ export default new Plugin({
           rightClick: {
             title: "Preview cURL",
             keys: ["c"],
+            index: 2,
           },
         },
         {
@@ -53,6 +55,7 @@ export default new Plugin({
           rightClick: {
             title: "Re-run last",
             keys: ["l"],
+            index: 3,
           },
         },
       ],

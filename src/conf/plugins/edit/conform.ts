@@ -1,3 +1,4 @@
+import { RightClickIndexes } from "@conf/base";
 import { AllFormatters } from "@conf/external_tools";
 import { Plugin, PluginOpts } from "@core/plugin";
 
@@ -45,6 +46,7 @@ const spec: PluginOpts = {
         rightClick: {
           title: "Format File",
           keys: ["c"],
+          index: RightClickIndexes.conform,
         },
       },
     ],

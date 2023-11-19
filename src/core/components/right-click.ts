@@ -1,3 +1,5 @@
+import { RightClickGroups } from "@conf/base/right-click";
+
 export interface RightClickPathElement {
   /**
    * Displayed name
@@ -16,6 +18,11 @@ export interface RightClickPathElement {
 }
 
 export type RightClickPathPart = string | RightClickPathElement;
+
+export interface RightClickIndex {
+  order: number;
+  group: RightClickGroups;
+}
 
 export interface RightClickOpt {
   /**
@@ -36,7 +43,7 @@ export interface RightClickOpt {
   /**
    * Idx
    */
-  index?: number;
+  index: number;
 
   /**
    * keys

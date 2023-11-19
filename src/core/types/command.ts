@@ -95,6 +95,7 @@ export function extendCommandsInGroup(
           "keep",
           {
             title: cmd.name,
+            index: 1000, // a large number
           },
           group.rightClick
         );

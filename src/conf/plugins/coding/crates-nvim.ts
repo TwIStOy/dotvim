@@ -56,6 +56,7 @@ const spec: PluginOpts = {
           rightClick: {
             title: "Open homepage",
             path: basePath,
+            index: 1,
           },
         },
         {
@@ -66,6 +67,7 @@ const spec: PluginOpts = {
           rightClick: {
             title: "Open documentation",
             path: basePath,
+            index: 2,
           },
         },
         {
@@ -76,6 +78,7 @@ const spec: PluginOpts = {
           rightClick: {
             title: "Open repository",
             path: basePath,
+            index: 3,
           },
         },
         {
@@ -86,6 +89,7 @@ const spec: PluginOpts = {
           rightClick: {
             title: "Upgrade crate",
             path: basePath,
+            index: 4,
           },
         },
         {
@@ -97,6 +101,7 @@ const spec: PluginOpts = {
             title: "Crate",
             path: [...basePath, { title: "Popups", keys: ["p"] }],
             keys: ["c"],
+            index: 1,
           },
         },
         {
@@ -108,6 +113,7 @@ const spec: PluginOpts = {
             title: "Versions",
             path: [...basePath, { title: "Popups", keys: ["p"] }],
             keys: ["v"],
+            index: 2,
           },
         },
         {
@@ -119,6 +125,7 @@ const spec: PluginOpts = {
             title: "Features",
             path: [...basePath, { title: "Popups", keys: ["p"] }],
             keys: ["f"],
+            index: 3,
           },
         },
         {
@@ -130,6 +137,7 @@ const spec: PluginOpts = {
             title: "Dependencies",
             path: [...basePath, { title: "Popups", keys: ["p"] }],
             keys: ["d"],
+            index: 4,
           },
         },
       ],

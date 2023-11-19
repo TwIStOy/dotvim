@@ -1,3 +1,4 @@
+import { RightClickIndexes } from "@conf/base";
 import { Plugin, PluginOpts } from "@core/plugin";
 
 const spec: PluginOpts = {
@@ -25,7 +26,8 @@ const spec: PluginOpts = {
         },
         rightClick: {
           title: "Split/Join",
-          keys: ["j"],
+          keys: ["t"],
+          index: RightClickIndexes.treesj,
         },
       },
     ],

@@ -30,6 +30,7 @@ const spec: PluginOpts = {
           },
           rightClick: {
             title: "Fuzzy insert header",
+            index: 1,
           },
         },
         {
@@ -39,6 +40,7 @@ const spec: PluginOpts = {
           },
           rightClick: {
             title: "Gen &impl",
+            index: 2,
           },
         },
         {
@@ -49,6 +51,7 @@ const spec: PluginOpts = {
           rightClick: {
             title: "Move value",
             keys: ["m"],
+            index: 3,
           },
         },
         {
@@ -59,6 +62,7 @@ const spec: PluginOpts = {
           rightClick: {
             title: "Move value",
             keys: ["f"],
+            index: 4,
           },
         },
       ],

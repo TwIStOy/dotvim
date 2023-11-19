@@ -15,7 +15,8 @@ return {
       },
     },
     config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+      vim.g.skip_ts_context_commentstring_module = true
+      require("ts_context_commentstring").setup(opts)
     end,
   },
 }

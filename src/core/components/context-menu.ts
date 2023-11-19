@@ -44,12 +44,20 @@ const defaultPopupOptions: NuiPopupOptions = {
   },
 };
 
-function maxTextWidth(items: MenuItem[]) {
-  let ret = 0;
+function expectItemsLength(items: MenuItem[]) {
+  let textLength = 0;
+  let keysLength = 0;
+  let childrenLength = 0;
+
   for (let item of items) {
-    ret = Math.max(ret, item.length);
+    let partLength = item.getPartLength();
+    textLength = Math.max(textLength, partLength.textLength);
+    keysLength = Math.max(keysLength, partLength.keysLength);
+    childrenLength = Math.max(childrenLength, partLength.childrenLength);
   }
-  return Math.max(ret, 20);
+
+  textLength = Math.max(textLength, 15);
+  return { textLength, keysLength, childrenLength };
 }
 
 function findItemInMenu<T>(
@@ -184,9 +192,9 @@ export class ContextMenu {
     }
 
     let lines = [];
-    let subTextWidth = maxTextWidth(this.items);
+    let partLength = expectItemsLength(this.items);
     for (let item of this.items) {
-      lines.push(item.asNuiTreeNode(subTextWidth));
+      lines.push(item.asNuiTreeNode(partLength));
     }
     let menuOptions: NuiMenuOptions<MenuItemContext, ContextMenuContext> =
       tblExtend("force", defaultMenuOptions, {

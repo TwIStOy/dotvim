@@ -6,6 +6,7 @@ import lspPlugins from "./lsp";
 import uiPlugins from "./ui";
 import otherPlugins from "./other";
 import codingPlugins from "./coding";
+import treesitterPlugins from "./treesitter";
 
 export const AllPlugins = [
   WhichKey,
@@ -15,6 +16,7 @@ export const AllPlugins = [
   ...uiPlugins,
   ...otherPlugins,
   ...codingPlugins,
+  ...treesitterPlugins,
 ];
 
 export const LazySpecs = [...AllPlugins, ...AllLspServers].map((p) =>

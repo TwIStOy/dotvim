@@ -64,59 +64,80 @@ export class MenuItem {
     return this._keys;
   }
 
-  public get length(): number {
+  public get textLength(): number {
     if (this.text.isSeparator()) {
       return 0;
     }
-    let ret = this.text.length;
+    return this.text.length;
+  }
 
+  public getPartLength() {
+    if (this.text.isSeparator()) {
+      return {
+        textLength: 0,
+        keysLength: 0,
+        childrenLength: 0,
+      };
+    }
+
+    const textLength = this.text.length + 3;
+
+    let keysLength = 0;
     if (this.keys.length > 0) {
-      ret += 3 + this.keys.length;
+      keysLength = this.keys.length;
       for (const key of this.keys) {
-        ret += key.length;
+        keysLength += key.length;
       }
     }
 
+    let childrenLength = 0;
     if (this.children.length > 0) {
-      ret += 2; // ▸ mark
+      childrenLength = 2; // ▸ mark
     }
-
-    return ret;
+    return {
+      textLength,
+      keysLength,
+      childrenLength,
+    };
   }
 
-  asNuiTreeNode(textWidth: number): NuiTreeNode<MenuItemContext> {
+  asNuiTreeNode(opts: {
+    textLength: number;
+    keysLength: number;
+    childrenLength: number;
+  }): NuiTreeNode<MenuItemContext> {
     if (this.text.isSeparator()) {
       return NuiMenuMod.separator(undefined, {
         char: "-",
       });
     }
 
-    let text = this.text.asNuiLine();
-    let length = this.text.length;
+    let line = this.text.asNuiLine();
+
+    fillSpaces(line, this.text.length, opts.textLength);
 
     if (this.keys.length > 0) {
       let hint = this.keys.join("|");
-      let spaceCount = textWidth - 2 - length - hint.length;
-      assert(spaceCount >= 0);
-      if (spaceCount > 0) {
-        text.append(" ".repeat(spaceCount));
-      }
-      text.append(hint, "@variable.builtin");
-      length += spaceCount + hint.length;
+      line.append(hint, "@variable.builtin");
+      fillSpaces(line, hint.length, opts.keysLength);
     }
 
     if (this.children.length > 0) {
-      let spaceCount = textWidth - 2 - length;
-      if (spaceCount > 0) {
-        text.append(" ".repeat(spaceCount));
-      }
-      text.append("▸", "@variable.builtin");
+      line.append("▸ ", "@variable.builtin");
+    } else {
+      fillSpaces(line, 0, opts.childrenLength);
     }
 
-    return NuiMenuMod.item(text, {
+    return NuiMenuMod.item(line, {
       menuItem: this,
       parent: null,
     });
+  }
+}
+
+function fillSpaces(line: NuiLine, length: number, expect: number) {
+  if (expect > length) {
+    line.append(" ".repeat(expect - length));
   }
 }
 

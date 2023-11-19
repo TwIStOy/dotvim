@@ -5,6 +5,7 @@ import dashNvim from "./dash-nvim";
 import gitsignsNvim from "./gitsigns-nvim";
 import octoNvim from "./octo-nvim";
 import restNvim from "./rest-nvim";
+import ghActionNvim from "./gh-action-nvim";
 
 export default [
   asyncTask,
@@ -14,4 +15,5 @@ export default [
   gitsignsNvim,
   octoNvim,
   restNvim,
+  ghActionNvim,
 ];

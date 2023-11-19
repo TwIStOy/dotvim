@@ -153,7 +153,10 @@ const defaultMenuOptions: Omit<
     }
 
     vim.api.nvim_set_current_win(menuContext!.displayOptions.init_winnr);
+
     showCursor();
+    print("\n\n"); // clear the description
+
     menuItem.callback();
   },
 };

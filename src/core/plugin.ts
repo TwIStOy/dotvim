@@ -1,4 +1,5 @@
 import { Cache } from "./cache";
+import { Action } from "./model";
 import {
   LazyKeySpec,
   LazyOpts,
@@ -34,6 +35,11 @@ export type PluginOpts = {
    * Options for `lazy.nvim`
    */
   lazy?: LazyOpts;
+
+  /**
+   * All actions registered by this plugin.
+   */
+  registerActions?: Action[];
 
   /**
    * Options for extending the plugin

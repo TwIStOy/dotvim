@@ -10,6 +10,11 @@ interface ActionOptions {
   description?: string;
   icon?: string;
   condition?: ActionCondition;
+  category?: string;
+  /**
+   * Which plugin this action is from.
+   */
+  from?: string;
 }
 
 type RestKeys<Used extends (keyof ActionBuilder)[]> = Exclude<
@@ -76,12 +81,68 @@ export class ActionBuilder<Used extends (keyof ActionBuilder)[] = []> {
     return this as unknown as ActionBuilder<Push<Used, "condition">>;
   }
 
+  category(
+    this: "category" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    category: string
+  ) {
+    this._opts.category = category;
+    return this as unknown as ActionBuilder<Push<Used, "category">>;
+  }
+
+  from(
+    this: "from" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    from: string
+  ) {
+    this._opts.from = from;
+    return this as unknown as ActionBuilder<Push<Used, "from">>;
+  }
+
   build(
     this: keyof GetRequired<ActionOptions> extends TupleToUnion<Used>
       ? ActionBuilder<Used>
       : never
   ): Action {
     return new Action(this._opts);
+  }
+}
+
+export class ActionGroupBuilder {
+  private _sharedOptions: Pick<
+    ActionOptions,
+    "category" | "from" | "condition"
+  >;
+
+  constructor() {
+    this._sharedOptions = {};
+  }
+
+  category(category: string) {
+    this._sharedOptions.category = category;
+    return this;
+  }
+
+  condition(condition: ActionCondition) {
+    this._sharedOptions.condition = condition;
+    return this;
+  }
+
+  from(from: string) {
+    this._sharedOptions.from = from;
+    return this;
+  }
+
+  updateActions(actions: Action[]) {
+    for (let action of actions) {
+      if (this._sharedOptions.category && !action.opts.category) {
+        action.opts.category = this._sharedOptions.category;
+      }
+      if (this._sharedOptions.condition && !action.opts.condition) {
+        action.opts.condition = this._sharedOptions.condition;
+      }
+      if (this._sharedOptions.from && !action.opts.from) {
+        action.opts.from = this._sharedOptions.from;
+      }
+    }
   }
 }
 

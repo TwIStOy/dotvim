@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/model";
+import { ActionBuilder, Plugin, PluginOpts } from "@core/model";
 
 function showNabla() {
   luaRequire("nabla").popup({
@@ -19,6 +19,22 @@ const spec: PluginOpts = {
       },
     ],
   },
+  providedActions: [
+    ActionBuilder.start()
+      .id("nabla.show-nabla")
+      .title("Show Nabla")
+      .condition((buf) => {
+        return buf.filetype === "latex" || buf.filetype === "markdown";
+      })
+      .callback(() => {
+        luaRequire("nabla").popup({
+          border: "solid",
+        });
+      })
+      .from("nabla.nvim")
+      .category("Nabla")
+      .build(),
+  ],
 };
 
 export default new Plugin(spec);

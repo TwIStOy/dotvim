@@ -1,5 +1,6 @@
 import { GetRequired, Push, TupleToUnion } from "@core/type_traits";
 import { VimBuffer } from "@core/vim";
+import { LazyKeySpec } from "types/plugin/lazy";
 
 export type ActionCondition = (buf: VimBuffer) => boolean;
 
@@ -11,6 +12,10 @@ interface ActionOptions {
   icon?: string;
   condition?: ActionCondition;
   category?: string;
+  keys?:
+    | string
+    | string[]
+    | Pick<LazyKeySpec, 1 | "mode" | "ft" | "desc" | "silent">[];
   /**
    * Which plugin this action is from.
    */
@@ -91,6 +96,14 @@ export class ActionBuilder<Used extends (keyof ActionBuilder)[] = []> {
   ) {
     this._opts.category = category;
     return this as unknown as ActionBuilder<Push<Used, "category">>;
+  }
+
+  keys(
+    this: "keys" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    keys: string | string[]
+  ) {
+    this._opts.keys = keys;
+    return this as unknown as ActionBuilder<Push<Used, "keys">>;
   }
 
   from(
@@ -202,6 +215,25 @@ export class Action {
     if (this.opts.description) {
       print(`${this.opts.description}`);
     }
+  }
+
+  normalizeKeys(): LazyKeySpec[] {
+    let ret: LazyKeySpec[] = [];
+    if (this.opts.keys) {
+      let keys = this.opts.keys;
+      if (typeof keys === "string") {
+        ret = [{ [1]: keys, [2]: this.opts.callback }];
+      } else {
+        for (let key of keys) {
+          if (typeof key === "string") {
+            ret.push({ [1]: key, [2]: this.opts.callback });
+          } else {
+            ret.push({ ...key, [2]: this.opts.callback });
+          }
+        }
+      }
+    }
+    return ret;
   }
 }
 

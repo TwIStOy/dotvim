@@ -117,6 +117,18 @@ export class Plugin {
     });
   }
 
+  get actions(): Action[] {
+    return this._cache.ensure("actions", () => {
+      if (!this._opts.providedActions) {
+        return [];
+      }
+      if (typeof this._opts.providedActions === "function") {
+        return this._opts.providedActions();
+      }
+      return this._opts.providedActions;
+    });
+  }
+
   private getMain(): string {
     if (this._opts.lazy?.main) {
       return this._opts.lazy.main;

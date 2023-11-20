@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "rcarriga/nvim-notify",
@@ -31,7 +31,6 @@ const spec: PluginOpts = {
     },
   },
   extends: {
-    allowInVscode: false,
     commands: [
       {
         name: "List notify histories using telescope",

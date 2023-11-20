@@ -1,5 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
-import { buildSimpleCommand } from "@core/types";
+import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
 
 export const spec: PluginOpts = {
   shortUrl: "pmizio/typescript-tools.nvim",
@@ -17,8 +16,8 @@ export const spec: PluginOpts = {
       "TSToolsRenameFile",
     ],
   },
-  extends: {
     allowInVscode: false,
+  extends: {
     commands: {
       category: "TSTools",
       commands: [

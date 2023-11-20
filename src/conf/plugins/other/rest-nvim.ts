@@ -1,5 +1,5 @@
 import { RightClickIndexes } from "@conf/base";
-import { Plugin } from "@core/plugin";
+import { Plugin } from "@core/model";
 
 export default new Plugin({
   shortUrl: "rest-nvim/rest.nvim",
@@ -14,8 +14,8 @@ export default new Plugin({
       luaRequire("rest-nvim").setup(opts);
     },
   },
-  extends: {
     allowInVscode: true,
+  extends: {
     commands: {
       enabled: (buf) => {
         let [ret] = string.match(buf.fullFileName, ".*%.http");

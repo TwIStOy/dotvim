@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "numToStr/Comment.nvim",
@@ -31,9 +31,7 @@ const spec: PluginOpts = {
     },
     config: true,
   },
-  extends: {
-    allowInVscode: true,
-  },
+  allowInVscode: true,
 };
 
 export default new Plugin(spec);

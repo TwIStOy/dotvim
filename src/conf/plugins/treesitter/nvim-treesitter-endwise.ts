@@ -1,4 +1,4 @@
-import { Plugin } from "@core/plugin";
+import { Plugin } from "@core/model";
 
 export default new Plugin({
   shortUrl: "RRethy/nvim-treesitter-endwise",
@@ -11,7 +11,5 @@ export default new Plugin({
       });
     },
   },
-  extends: {
     allowInVscode: true,
-  },
 });

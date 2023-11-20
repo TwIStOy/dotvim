@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "nvim-treesitter/nvim-treesitter-textobjects",
@@ -52,8 +52,8 @@ const spec: PluginOpts = {
       luaRequire("nvim-treesitter.configs").setup(opts);
     },
   },
-  extends: {
     allowInVscode: true,
+  extends: {
     commands: {
       category: "Textobject",
       enabled: (buffer) => {

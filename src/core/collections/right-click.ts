@@ -4,10 +4,10 @@ import { VimBuffer, ifNil, isNil } from "@core/vim";
 import { Collection } from "./collection";
 import { ContextMenu } from "@core/components/context-menu";
 import { MenuItem } from "@core/components/menu-item";
-import { Command, invokeCommand } from "@core/types";
 import { ExcludeNil } from "@core/type_traits";
 import { RightClickPathElement, RightClickPathPart } from "@core/components";
 import { uniqueArray } from "@core/utils";
+import { Command, invokeCommand } from "@core/model";
 
 type PathElement = ExcludeNil<Required<RightClickPathElement>>;
 

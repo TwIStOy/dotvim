@@ -1,5 +1,5 @@
 import { MenuBarPathPart } from "@core/components";
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 const navigateMenu: MenuBarPathPart[] = ["Navigate"];
 const viewMenu: MenuBarPathPart[] = ["View"];

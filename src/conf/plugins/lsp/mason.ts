@@ -1,5 +1,5 @@
-import { Plugin, PluginOpts } from "../../../core/plugin";
-import { AllMaybeMasonPackage } from "../../external_tools";
+import { AllMaybeMasonPackage } from "@conf/external_tools";
+import { Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "williamboman/mason.nvim",

@@ -1,5 +1,5 @@
+import { Cache } from "@core/model";
 import { NuiLine, NuiText } from "../../extra/nui";
-import { Cache } from "../cache";
 import { uniqueArray } from "../utils/array";
 
 interface MenuTextPart {

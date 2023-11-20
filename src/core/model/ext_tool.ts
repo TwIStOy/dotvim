@@ -1,4 +1,4 @@
-import instContext from "../context";
+import { HttsContext } from "context";
 import { LazySpec } from "./plugin";
 
 export interface MasonPackageOpt {
@@ -70,7 +70,7 @@ class ExternalTools implements ExternalToolsOpt {
     if ("command" in this.exe) {
       return this.exe.command.join(" ");
     } else if ("masonPkg" in this.exe) {
-      return `${instContext.masonBinRoot}/${this.exe.masonPkg}`;
+      return `${HttsContext.getInstance().masonBinRoot}/${this.exe.masonPkg}`;
     } else {
       return this.exe.path;
     }

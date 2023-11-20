@@ -1,4 +1,4 @@
-import { Formatter } from "../../core/ext_tool";
+import { Formatter } from "@core/model";
 
 /**
  * Variables will be replaced.
@@ -6,7 +6,6 @@ import { Formatter } from "../../core/ext_tool";
  * $FILENAME
  * $DIRNAME
  */
-
 const ClangFormat = new Formatter({
   name: "clang-format",
   exe: {

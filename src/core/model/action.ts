@@ -33,6 +33,10 @@ export class ActionBuilder<Used extends (keyof ActionBuilder)[] = []> {
     };
   }
 
+  static start() {
+    return new ActionBuilder<[]>();
+  }
+
   id(
     this: "id" extends RestKeys<Used> ? ActionBuilder<Used> : never,
     id: string
@@ -112,6 +116,8 @@ export class ActionGroupBuilder {
     "category" | "from" | "condition"
   >;
 
+  private _actions: Action[] = [];
+
   constructor() {
     this._sharedOptions = {};
   }
@@ -131,18 +137,33 @@ export class ActionGroupBuilder {
     return this;
   }
 
-  updateActions(actions: Action[]) {
-    for (let action of actions) {
-      if (this._sharedOptions.category && !action.opts.category) {
-        action.opts.category = this._sharedOptions.category;
-      }
-      if (this._sharedOptions.condition && !action.opts.condition) {
-        action.opts.condition = this._sharedOptions.condition;
-      }
-      if (this._sharedOptions.from && !action.opts.from) {
-        action.opts.from = this._sharedOptions.from;
-      }
+  private _update(action: Action) {
+    if (this._sharedOptions.category && !action.opts.category) {
+      action.opts.category = this._sharedOptions.category;
     }
+    if (this._sharedOptions.condition && !action.opts.condition) {
+      action.opts.condition = this._sharedOptions.condition;
+    }
+    if (this._sharedOptions.from && !action.opts.from) {
+      action.opts.from = this._sharedOptions.from;
+    }
+  }
+
+  public add(action: Action) {
+    this._actions.push(action);
+    return this;
+  }
+
+  public addOpts(opts: ActionOptions) {
+    this._actions.push(new Action(opts));
+    return this;
+  }
+
+  public build(): Action[] {
+    return this._actions.map((action) => {
+      this._update(action);
+      return action;
+    });
   }
 }
 
@@ -181,5 +202,26 @@ export class Action {
     if (this.opts.description) {
       print(`${this.opts.description}`);
     }
+  }
+}
+
+export class ActionRegistry {
+  private _actions: Map<string, Action> = new Map();
+
+  constructor() {}
+
+  public add(action: Action) {
+    if (this._actions.has(action.id)) {
+      throw new Error(`Action ${action.id} already exists`);
+    }
+    this._actions.set(action.id, action);
+  }
+
+  public get(id: string) {
+    return this._actions.get(id);
+  }
+
+  public get actions() {
+    return this._actions.values();
   }
 }

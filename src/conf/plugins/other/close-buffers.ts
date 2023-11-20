@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 import { isNil, redrawAll } from "@core/vim";
 
 const spec: PluginOpts = {

@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "skywind3000/asynctasks.vim",
@@ -24,8 +24,8 @@ const spec: PluginOpts = {
       { [1]: "skywind3000/asyncrun.vim", cmd: ["AsyncRun", "AsyncStop"] },
     ],
   },
-  extends: {
     allowInVscode: true,
+  extends: {
     commands: [
       {
         name: "Run build-file task",

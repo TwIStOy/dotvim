@@ -1,5 +1,5 @@
 import { RightClickIndexes } from "@conf/base";
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "Wansmer/treesj",
@@ -13,8 +13,8 @@ const spec: PluginOpts = {
     },
     config: true,
   },
-  extends: {
     allowInVscode: true,
+  extends: {
     commands: [
       {
         name: "Toggle Split/Join",

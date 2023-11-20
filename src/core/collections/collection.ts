@@ -1,5 +1,4 @@
-import { Cache } from "@core/cache";
-import { Command } from "@core/types";
+import { Cache, Command } from "@core/model";
 import { VimBuffer } from "@core/vim";
 
 export abstract class Collection {

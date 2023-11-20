@@ -1,5 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
-import { buildSimpleCommand } from "@core/types";
+import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "folke/noice.nvim",
@@ -36,7 +35,6 @@ const spec: PluginOpts = {
     config: true,
   },
   extends: {
-    allowInVscode: false,
     commands: [
       buildSimpleCommand("Shows the message history", "Noice history"),
       buildSimpleCommand("Shows the last message in a popup", "Noice last"),

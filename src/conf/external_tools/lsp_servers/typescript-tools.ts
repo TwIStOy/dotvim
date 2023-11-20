@@ -1,4 +1,4 @@
-import { LspServer } from "@core/ext_tool";
+import { LspServer } from "@core/model";
 
 export default new LspServer({
   name: "typescript-tools",

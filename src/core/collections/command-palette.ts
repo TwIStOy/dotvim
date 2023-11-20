@@ -1,6 +1,6 @@
-import { Command } from "@core/types";
 import { VimBuffer } from "@core/vim";
 import { Collection } from "./collection";
+import { Command } from "@core/model";
 
 export class CommandPaletteCollection extends Collection {
   constructor() {

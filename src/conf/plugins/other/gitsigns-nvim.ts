@@ -1,4 +1,4 @@
-import { Plugin } from "@core/plugin";
+import { Plugin } from "@core/model";
 
 export default new Plugin({
   shortUrl: "lewis6991/gitsigns.nvim",

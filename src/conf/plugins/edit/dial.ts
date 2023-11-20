@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 function defineCustom(...elements: string[]) {
   let augend = luaRequire("dial.augend");
@@ -131,9 +131,7 @@ const spec: PluginOpts = {
       },
     ],
   },
-  extends: {
     allowInVscode: true,
-  },
 };
 
 export default new Plugin(spec);

@@ -1,6 +1,6 @@
-import { Command } from "@core/types";
 import { AllPlugins } from "./conf/plugins";
 import { RightClickPaletteCollection } from "@core/collections/right-click";
+import { Command } from "@core/model";
 import { VimBuffer, hideCursor } from "@core/vim";
 
 export { AllPlugins, LazySpecs } from "./conf/plugins";

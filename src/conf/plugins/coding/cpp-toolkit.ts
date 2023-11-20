@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
+import { ActionGroupBuilder, Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "TwIStOy/cpp-toolkit.nvim",
@@ -13,60 +13,32 @@ const spec: PluginOpts = {
       luaRequire("telescope").load_extension("cpptoolkit");
     },
   },
-  extends: {
-    allowInVscode: true,
-    commands: {
-      enabled: (buf) => {
-        return ["cpp", "c"].includes(buf.filetype);
-      },
-      rightClick: {
-        path: [{ title: "CppToolkit", index: 41 }],
-      },
-      commands: [
-        {
-          name: "Fuzzy find header and insert",
-          callback: () => {
-            vim.api.nvim_command("Telescope cpptoolkit insert_header");
-          },
-          rightClick: {
-            title: "Fuzzy insert header",
-            index: 1,
-          },
-        },
-        {
-          name: "Generate function implementation",
-          callback: () => {
-            vim.api.nvim_command("CppGenDef");
-          },
-          rightClick: {
-            title: "Gen &impl",
-            index: 2,
-          },
-        },
-        {
-          name: "Move value",
-          callback: () => {
-            vim.api.nvim_command("CppToolkit shortcut move_value");
-          },
-          rightClick: {
-            title: "Move value",
-            keys: ["m"],
-            index: 3,
-          },
-        },
-        {
-          name: "Forward value",
-          callback: () => {
-            vim.api.nvim_command("CppToolkit shortcut forward_value");
-          },
-          rightClick: {
-            title: "Move value",
-            keys: ["f"],
-            index: 4,
-          },
-        },
-      ],
-    },
+  allowInVscode: true,
+  providedActions: () => {
+    const actionsGroup = new ActionGroupBuilder()
+      .from("cpp-toolkit")
+      .category("CppToolkit");
+    actionsGroup.addOpts({
+      id: "cpptoolkit.insert-header",
+      title: "Insert header",
+      callback: "Telescope cpptoolkit insert_header",
+    });
+    actionsGroup.addOpts({
+      id: "cpptoolkit.gen-def",
+      title: "Generate function implementation",
+      callback: "CppGenDef",
+    });
+    actionsGroup.addOpts({
+      id: "cpptoolkit.move-value",
+      title: "Move value",
+      callback: "CppToolkit shortcut move_value",
+    });
+    actionsGroup.addOpts({
+      id: "cpptoolkit.forward-value",
+      title: "Forward value",
+      callback: "CppToolkit shortcut forward_value",
+    });
+    return actionsGroup.build();
   },
 };
 

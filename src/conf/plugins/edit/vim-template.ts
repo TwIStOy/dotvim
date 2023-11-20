@@ -1,5 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
-import { buildSimpleCommand } from "@core/types";
+import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
 import { inputArgsAndExec } from "@core/vim";
 
 const spec: PluginOpts = {
@@ -15,8 +14,8 @@ const spec: PluginOpts = {
       vim.g.templates_no_builtin_templates = 1;
     },
   },
-  extends: {
     allowInVscode: true,
+  extends: {
     commands: [
       buildSimpleCommand(
         "Expand template into current buffer",

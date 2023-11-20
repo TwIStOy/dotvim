@@ -1,5 +1,4 @@
-import { Plugin, PluginOpts } from "@core/plugin";
-import { buildSimpleCommand } from "@core/types";
+import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "iamcco/markdown-preview.nvim",

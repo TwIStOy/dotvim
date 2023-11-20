@@ -1,24 +1,10 @@
+import { LazyKeySpec, LazyOpts } from "types/plugin/lazy";
 import { Cache } from "./cache";
-import { Action } from "./model";
-import {
-  LazyKeySpec,
-  LazyOpts,
-  Command,
-  CommandGroup,
-  extendCommandsInGroup,
-} from "./types";
-import { tblExtend } from "./utils/table";
-
-export type AutocmdLazyEvent = "VeryLazy" | AutocmdEvent | LspEvents;
+import { Command, CommandGroup, extendCommandsInGroup } from "./command";
+import { Action } from "./action";
+import { tblExtend } from "@core/utils";
 
 export interface ExtendPluginOpts {
-  /**
-   * Whether to allow this plugin can be used in `vscode-neovim`.
-   *
-   * Defaults to `false`.
-   */
-  allowInVscode?: boolean;
-
   /**
    * Commands to be registered for this plugin.
    */
@@ -39,7 +25,7 @@ export type PluginOpts = {
   /**
    * All actions registered by this plugin.
    */
-  registerActions?: Action[];
+  providedActions?: Action[] | (() => Action[]);
 
   /**
    * Options for extending the plugin
@@ -47,14 +33,16 @@ export type PluginOpts = {
   extends?: ExtendPluginOpts;
 
   /**
-   * Options for enable extra helpers
+   * Whether to allow this plugin can be used in `vscode-neovim`.
+   *
+   * Defaults to `false`.
    */
-  extra?: {
-    /**
-     * How many ms to delay the setup of the plugin.
-     */
-    delaySetup?: number;
-  };
+  allowInVscode?: boolean;
+
+  /**
+   * How many ms to delay the setup of the plugin.
+   */
+  delaySetup?: number;
 };
 
 function isCommand(cmd: Command | CommandGroup): cmd is Command {
@@ -66,11 +54,9 @@ export type LazySpec = {
 } & LazyOpts;
 
 export class Plugin {
-  private _opts: PluginOpts;
   private _cache: Cache;
 
-  constructor(opts: PluginOpts) {
-    this._opts = opts;
+  constructor(private _opts: PluginOpts) {
     this._cache = new Cache();
   }
 
@@ -131,6 +117,39 @@ export class Plugin {
     });
   }
 
+  private getMain(): string {
+    if (this._opts.lazy?.main) {
+      return this._opts.lazy.main;
+    }
+    return this.guessMain();
+  }
+
+  private generateConfigFn() {
+    if (this._opts.delaySetup !== undefined) {
+      let config = this._opts.lazy?.config;
+      if (typeof config === "function") {
+        return (p: AnyTable, opts: AnyTable) => {
+          vim.defer_fn(() => {
+            (config as (this: void, plug: AnyTable, opts: AnyTable) => void)(
+              p,
+              opts
+            );
+          }, this._opts.delaySetup!);
+        };
+      } else if (
+        typeof this._opts.lazy?.config === "boolean" &&
+        this._opts.lazy.config
+      ) {
+        return (_: AnyTable, opts: AnyTable) => {
+          vim.defer_fn(() => {
+            luaRequire(this.getMain()).setup(opts);
+          }, this._opts.delaySetup!);
+        };
+      }
+    }
+    return this._opts.lazy?.config;
+  }
+
   asLazySpec(): LazySpec | string {
     if (!this._opts.lazy && this.commands.length === 0) {
       return this._opts.shortUrl;
@@ -155,24 +174,11 @@ export class Plugin {
         keySpecs.push(keySpec);
       }
     }
+
     let opts = tblExtend("force", this._opts.lazy || {}, {
       keys: keySpecs,
     });
-
-    if (
-      typeof opts.config === "function" &&
-      (this._opts.extra?.delaySetup ?? 0) > 0
-    ) {
-      let rawConfig = opts.config;
-      opts.config = (plug, o) => {
-        vim.defer_fn(
-          () => {
-            rawConfig(plug, o);
-          },
-          this._opts.extra?.delaySetup!
-        );
-      };
-    }
+    opts.config = this.generateConfigFn();
 
     let result = {
       [1]: this._opts.shortUrl,

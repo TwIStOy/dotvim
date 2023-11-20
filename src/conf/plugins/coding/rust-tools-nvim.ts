@@ -1,5 +1,4 @@
-import { Plugin } from "@core/plugin";
-import { buildSimpleCommand } from "@core/types";
+import { Plugin, buildSimpleCommand } from "@core/model";
 
 export default new Plugin({
   shortUrl: "simrat39/rust-tools.nvim",

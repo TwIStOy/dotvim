@@ -1,6 +1,6 @@
 import { RightClickIndexes } from "@conf/base";
 import { AllFormatters } from "@conf/external_tools";
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 let formatters_opts = new LuaTable();
 let formatters_by_ft = new LuaTable<AnyNotNil, Array<string>>();

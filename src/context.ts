@@ -1,9 +1,18 @@
-class Context {
-  public masonRoot: string;
+export class HttsContext {
+  private static instance: HttsContext;
 
+  public masonRoot: string;
   public lazyRoot: String;
 
-  constructor() {
+  public static getInstance(): HttsContext {
+    if (!HttsContext.instance) {
+      HttsContext.instance = new HttsContext();
+    }
+
+    return HttsContext.instance;
+  }
+
+  private constructor() {
     this.masonRoot = vim.fn.stdpath("data") + "/mason";
     this.lazyRoot = vim.fn.stdpath("cache") + "/lazy/lazy.nvim";
   }
@@ -12,7 +21,3 @@ class Context {
     return this.masonRoot + "/bin";
   }
 }
-
-const context = new Context();
-
-export default context;

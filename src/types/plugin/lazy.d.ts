@@ -1,8 +1,8 @@
-import { LazySpec } from "@core/plugin";
+import { LazySpec } from "@core/model";
 
-type LazySpecAllowedEvent = "VeryLazy" | AutocmdEvent;
+declare type LazySpecAllowedEvent = "VeryLazy" | AutocmdEvent | LspEvents;
 
-export interface LazyKeySpec {
+declare interface LazyKeySpec {
   /**
    * lhs
    */
@@ -31,7 +31,7 @@ export interface LazyKeySpec {
   silent?: boolean;
 }
 
-export interface LazyOpts {
+declare interface LazyOpts {
   /**
    * A directory pointing to a local plugin
    */

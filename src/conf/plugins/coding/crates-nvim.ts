@@ -1,6 +1,6 @@
 import { RightClickIndexes } from "@conf/base";
 import { RightClickPathPart } from "@core/components";
-import { Plugin, PluginOpts } from "@core/plugin";
+import { Plugin, PluginOpts } from "@core/model";
 
 const basePath: RightClickPathPart[] = [
   { title: "Crates", index: RightClickIndexes.crates },
@@ -41,8 +41,8 @@ const spec: PluginOpts = {
       luaRequire("crates").update();
     },
   },
+  allowInVscode: true,
   extends: {
-    allowInVscode: true,
     commands: {
       enabled: (buf) => {
         return buf.fullFileName.endsWith("Cargo.toml");

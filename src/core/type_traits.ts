@@ -7,6 +7,8 @@ export type HasNil<T> = T extends null | undefined ? true : false;
 
 export type ExcludeNilSingle<T> = Exclude<T, null | undefined>;
 
+export type Push<T extends any[], U> = [...T, U];
+
 /**
  * Returns the type exclude nil types(`null` and `undefined`).
  */
@@ -18,3 +20,29 @@ export type ExcludeNil<T> = T extends [infer F, ...infer R]
     }
   : ExcludeNilSingle<T>;
 
+type Unionize<T extends unknown[] | unknown> = T extends unknown[]
+  ? T[number]
+  : T;
+
+export type Without<T extends unknown[], U> = T extends [
+  infer Head,
+  ...infer Rest,
+]
+  ? Head extends Unionize<U>
+    ? Without<Rest, U>
+    : [Head, ...Without<Rest, U>]
+  : [];
+
+export type TupleToUnion<T extends unknown[]> = T[number];
+
+export type IsSame<T, U> = [T] extends [U]
+  ? [U] extends [T]
+    ? true
+    : false
+  : false;
+
+export type GetRequired<
+  T,
+  U extends Required<T> = Required<T>,
+  K extends keyof T = keyof T,
+> = Pick<T, K extends keyof T ? (T[K] extends U[K] ? K : never) : never>;

@@ -186,6 +186,13 @@ export class Plugin {
         keySpecs.push(keySpec);
       }
     }
+    for (let action of this.actions) {
+      let keys = action.normalizeKeys();
+      if (keys.length === 0) continue;
+      for (let key of keys) {
+        keySpecs.push(key);
+      }
+    }
 
     let opts = tblExtend("force", this._opts.lazy || {}, {
       keys: keySpecs,

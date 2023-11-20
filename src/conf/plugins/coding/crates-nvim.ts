@@ -1,10 +1,4 @@
-import { RightClickIndexes } from "@conf/base";
-import { RightClickPathPart } from "@core/components";
-import { Plugin, PluginOpts } from "@core/model";
-
-const basePath: RightClickPathPart[] = [
-  { title: "Crates", index: RightClickIndexes.crates },
-];
+import { ActionGroupBuilder, Plugin, PluginOpts } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "saecki/crates.nvim",
@@ -42,106 +36,68 @@ const spec: PluginOpts = {
     },
   },
   allowInVscode: true,
-  extends: {
-    commands: {
-      enabled: (buf) => {
-        return buf.fullFileName.endsWith("Cargo.toml");
+  providedActions() {
+    let group = new ActionGroupBuilder()
+      .from("crates.nvim")
+      .category("Crates")
+      .condition((buf) => buf.fullFileName.endsWith("Cargo.toml"));
+    group.addOpts({
+      id: "crates-nvim.open-homepage",
+      title: "Open homepage under cursor",
+      callback: () => {
+        luaRequire("crates").open_homepage();
       },
-      commands: [
-        {
-          name: "Open homepage under cursor",
-          callback: () => {
-            luaRequire("crates").open_homepage();
-          },
-          rightClick: {
-            title: "Open homepage",
-            path: basePath,
-            index: 1,
-          },
-        },
-        {
-          name: "Open documentation under cursor",
-          callback: () => {
-            luaRequire("crates").open_documentation();
-          },
-          rightClick: {
-            title: "Open documentation",
-            path: basePath,
-            index: 2,
-          },
-        },
-        {
-          name: "Open repository under cursor",
-          callback: () => {
-            luaRequire("crates").open_repository();
-          },
-          rightClick: {
-            title: "Open repository",
-            path: basePath,
-            index: 3,
-          },
-        },
-        {
-          name: "Upgrade crate under cursor",
-          callback: () => {
-            luaRequire("crates").upgrade_crate();
-          },
-          rightClick: {
-            title: "Upgrade crate",
-            path: basePath,
-            index: 4,
-          },
-        },
-        {
-          name: "Open crate popup",
-          callback: () => {
-            luaRequire("crates").show_crate_popup();
-          },
-          rightClick: {
-            title: "Crate",
-            path: [...basePath, { title: "Popups", keys: ["p"] }],
-            keys: ["c"],
-            index: 1,
-          },
-        },
-        {
-          name: "Open versions popup",
-          callback: () => {
-            luaRequire("crates").show_versions_popup();
-          },
-          rightClick: {
-            title: "Versions",
-            path: [...basePath, { title: "Popups", keys: ["p"] }],
-            keys: ["v"],
-            index: 2,
-          },
-        },
-        {
-          name: "Open features popup",
-          callback: () => {
-            luaRequire("crates").show_features_popup();
-          },
-          rightClick: {
-            title: "Features",
-            path: [...basePath, { title: "Popups", keys: ["p"] }],
-            keys: ["f"],
-            index: 3,
-          },
-        },
-        {
-          name: "Open dependencies popup",
-          callback: () => {
-            luaRequire("crates").show_dependencies_popup();
-          },
-          rightClick: {
-            title: "Dependencies",
-            path: [...basePath, { title: "Popups", keys: ["p"] }],
-            keys: ["d"],
-            index: 4,
-          },
-        },
-      ],
-    },
+    });
+    group.addOpts({
+      id: "crates-nvim.open-documentation",
+      title: "Open documentation under cursor",
+      callback: () => {
+        luaRequire("crates").open_documentation();
+      },
+    });
+    group.addOpts({
+      id: "crates-nvim.open-repository",
+      title: "Open repository under cursor",
+      callback: () => {
+        luaRequire("crates").open_repository();
+      },
+    });
+    group.addOpts({
+      id: "crates-nvim.upgrade-crate",
+      title: "Upgrade crate under cursor",
+      callback: () => {
+        luaRequire("crates").upgrade_crate();
+      },
+    });
+    group.addOpts({
+      id: "crates-nvim.open-crate-popup",
+      title: "Open crate popup",
+      callback: () => {
+        luaRequire("crates").show_crate_popup();
+      },
+    });
+    group.addOpts({
+      id: "crates-nvim.open-versions-popup",
+      title: "Open versions popup",
+      callback: () => {
+        luaRequire("crates").show_versions_popup();
+      },
+    });
+    group.addOpts({
+      id: "crates-nvim.open-features-popup",
+      title: "Open features popup",
+      callback: () => {
+        luaRequire("crates").show_features_popup();
+      },
+    });
+    group.addOpts({
+      id: "crates-nvim.open-dependencies-popup",
+      title: "Open dependencies popup",
+      callback: () => {
+        luaRequire("crates").show_dependencies_popup();
+      },
+    });
+    return group.build();
   },
 };
 

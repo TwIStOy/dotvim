@@ -1,4 +1,64 @@
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
+
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .category("Aerial")
+    .from("aerial.nvim")
+    .condition((buf) => {
+      return buf.lspServers.length > 0;
+    })
+    .addOpts({
+      id: "aerial.toggle",
+      title: "Toggle aerial window",
+      callback: "AerialToggle",
+    })
+    .addOpts({
+      id: "aerial.open",
+      title: "Open aerial window",
+      callback: "AerialOpen",
+    })
+    .addOpts({
+      id: "aerial.open-all",
+      title: "Open aerial for each visible window",
+      callback: "AerialOpenAll",
+    })
+    .addOpts({
+      id: "aerial.close",
+      title: "Close aerial window",
+      callback: "AerialClose",
+    })
+    .addOpts({
+      id: "aerial.close-all",
+      title: "Close all aerial windows",
+      callback: "AerialCloseAll",
+    })
+    .addOpts({
+      id: "aerial.info",
+      title: "Print out info related to aerial",
+      callback: "AerialInfo",
+    })
+    .addOpts({
+      id: "aerial.nav-toggle",
+      title: "Toggle nav window",
+      callback: "AerialNavToggle",
+    })
+    .addOpts({
+      id: "aerial.nav-open",
+      title: "Open nav window",
+      callback: "AerialNavOpen",
+    })
+    .addOpts({
+      id: "aerial.nav-close",
+      title: "Close nav window",
+      callback: "AerialNavClose",
+    })
+    .build();
+}
 
 const spec: PluginOpts = {
   shortUrl: "stevearc/aerial.nvim",
@@ -65,4 +125,4 @@ function postParseSymbol(_bufnr: number, item: any, ctx: any) {
   return true;
 }
 
-export const plugin = new Plugin(spec);
+export const plugin = new Plugin(andActions(spec, generateActions));

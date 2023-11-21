@@ -1,5 +1,11 @@
 import { AllMaybeMasonPackage } from "@conf/external_tools";
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
+import { inputArgsAndExec } from "@core/vim";
 
 const spec: PluginOpts = {
   shortUrl: "williamboman/mason.nvim",
@@ -21,6 +27,45 @@ const spec: PluginOpts = {
     },
   },
 };
+
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .category("Mason")
+    .from("mason.nvim")
+    .addOpts({
+      id: "mason.open-window",
+      title: "Open mason window",
+      callback: "Mason",
+    })
+    .addOpts({
+      id: "mason.install",
+      title: "Install a tool",
+      callback: inputArgsAndExec("MasonInstall"),
+    })
+    .addOpts({
+      id: "mason.update",
+      title: "Update a tool",
+      callback: "MasonUpdate",
+      description: "Update a tool",
+    })
+    .addOpts({
+      id: "mason.uninstall",
+      title: "Uninstall a tool",
+      callback: inputArgsAndExec("MasonUninstall"),
+      description: "Uninstall a tool",
+    })
+    .addOpts({
+      id: "mason.uninstall-all",
+      title: "Uninstall all tools",
+      callback: "MasonUninstallAll",
+    })
+    .addOpts({
+      id: "mason.show-log",
+      title: "Show mason log",
+      callback: "MasonLog",
+    })
+    .build();
+}
 
 async function config(_: any, opts: AnyNotNil) {
   luaRequire("mason").setup(opts);
@@ -99,4 +144,4 @@ async function config(_: any, opts: AnyNotNil) {
   }
 }
 
-export const plugin = new Plugin(spec);
+export const plugin = new Plugin(andActions(spec, generateActions));

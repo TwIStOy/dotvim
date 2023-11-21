@@ -1,6 +1,6 @@
 import { Plugin } from "@core/model";
 
-export default new Plugin({
+export const plugin = new Plugin({
   shortUrl: "lewis6991/gitsigns.nvim",
   lazy: {
     event: ["BufReadPre", "BufNewFile"],

@@ -91,7 +91,7 @@ export type PluginsActionIds<Ps extends Plugin<any>[]> = Ps extends [
     : never
   : [];
 
-export class Plugin<AIds extends string[]> {
+export class Plugin<AIds extends string[] = []> {
   private _cache: Cache;
 
   constructor(private _opts: PluginOpts<AIds>) {

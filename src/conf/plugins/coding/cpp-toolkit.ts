@@ -42,4 +42,4 @@ const spec = {
   })(),
 };
 
-export default new Plugin(fixPluginOpts(spec));
+export const plugin = new Plugin(fixPluginOpts(spec));

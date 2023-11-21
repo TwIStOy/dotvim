@@ -99,4 +99,4 @@ async function config(_: any, opts: AnyNotNil) {
   }
 }
 
-export default new Plugin(spec);
+export const plugin = new Plugin(spec);

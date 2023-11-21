@@ -1,6 +1,6 @@
 import { Plugin } from "@core/model";
 
-export default new Plugin({
+export const plugin = new Plugin({
   shortUrl: "nvim-zh/colorful-winsep.nvim",
   lazy: {
     event: "WinNew",

@@ -1,7 +1,7 @@
 import { RightClickIndexes } from "@conf/base";
 import { Plugin } from "@core/model";
 
-export default new Plugin({
+export const plugin = new Plugin({
   shortUrl: "rest-nvim/rest.nvim",
   lazy: {
     opts: {

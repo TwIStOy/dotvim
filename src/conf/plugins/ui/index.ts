@@ -1,14 +1,14 @@
-import twilight from "./twilight";
-import colorfulWinsepNvim from "./colorful-winsep-nvim";
-import headlinesNvim from "./headlines-nvim";
-import nvimWindowPicker from "./nvim-window-picker";
-import dressingNvim from "./dressing-nvim";
-import bufferline from "./bufferline";
-import noice from "./noice";
-import nvimNotify from "./nvim-notify";
-import lualine from "./lualine";
+import { plugin as twilight } from "./twilight";
+import { plugin as colorfulWinsepNvim } from "./colorful-winsep-nvim";
+import { plugin as headlinesNvim } from "./headlines-nvim";
+import { plugin as nvimWindowPicker } from "./nvim-window-picker";
+import { plugin as dressingNvim } from "./dressing-nvim";
+import { plugin as bufferline } from "./bufferline";
+import { plugin as noice } from "./noice";
+import { plugin as nvimNotify } from "./nvim-notify";
+import { plugin as lualine } from "./lualine";
 
-export default [
+export const plugins = [
   twilight,
   colorfulWinsepNvim,
   headlinesNvim,

@@ -37,4 +37,4 @@ const spec: PluginOpts<["nabla.show-nabla"]> = {
   ],
 };
 
-export default new Plugin(spec);
+export const plugin = new Plugin(spec);

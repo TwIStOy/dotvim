@@ -1,6 +1,6 @@
 import { Plugin, buildSimpleCommand } from "@core/model";
 
-export default new Plugin({
+export const plugin = new Plugin({
   shortUrl: "simrat39/rust-tools.nvim",
   lazy: {
     lazy: true,

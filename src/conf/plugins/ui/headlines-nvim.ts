@@ -1,6 +1,6 @@
 import { Plugin } from "@core/model";
 
-export default new Plugin({
+export const plugin = new Plugin({
   shortUrl: "lukas-reineke/headlines.nvim",
   lazy: {
     dependencies: ["nvim-treesitter/nvim-treesitter"],

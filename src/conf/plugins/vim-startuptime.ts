@@ -1,4 +1,4 @@
-import { Plugin, PluginOpts } from "@core/model";
+import { ActionGroupBuilder, Plugin, PluginOpts, andActions } from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "dstein64/vim-startuptime",
@@ -22,4 +22,15 @@ const spec: PluginOpts = {
   },
 };
 
-export default new Plugin(spec);
+const group = new ActionGroupBuilder()
+    .from("vim-startuptime")
+    .category("StartupTime")
+    .addOpts({
+      id: "vim-startuptime.show",
+      title: "Show Vim's startup time",
+      callback: () => {
+        vim.api.nvim_command("StartupTime");
+      },
+    })
+
+export const plugin = new Plugin(andActions(spec, group.build()));

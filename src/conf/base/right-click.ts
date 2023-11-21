@@ -1,3 +1,5 @@
+import { AvailableActions } from "@conf/plugins";
+
 export const RightClickIndexes = {
   textobjects: 1,
   treesj: 11,
@@ -21,7 +23,7 @@ interface RightClickMenuItemBase {
 }
 
 interface RightClickMenuActionItem extends RightClickMenuItemBase {
-  actionId: string;
+  actionId: AvailableActions;
   alwaysInMenu?: boolean;
 }
 

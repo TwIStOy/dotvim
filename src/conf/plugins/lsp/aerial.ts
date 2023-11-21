@@ -65,4 +65,4 @@ function postParseSymbol(_bufnr: number, item: any, ctx: any) {
   return true;
 }
 
-export default new Plugin(spec);
+export const plugin = new Plugin(spec);

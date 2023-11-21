@@ -8,7 +8,7 @@ export { AllLspServers } from "./conf/external_tools";
 
 export function getAllCommands(): Command[] {
   let result: Command[] = [];
-  for (let plugin of AllPlugins) {
+  for (let plugin of AllPlugins.flat()) {
     result.push(...plugin.commands);
   }
   return result;

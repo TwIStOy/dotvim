@@ -1,5 +1,5 @@
-import mason from "./mason";
-import aerial from "./aerial";
-import typescriptToolsNvim from "./typescript-tools-nvim";
+import { plugin as mason } from "./mason";
+import { plugin as aerial } from "./aerial";
+import { plugin as typescriptToolsNvim } from "./typescript-tools-nvim";
 
-export default [mason, aerial, typescriptToolsNvim];
+export const plugins = [mason, aerial, typescriptToolsNvim];

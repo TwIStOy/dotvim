@@ -34,4 +34,4 @@ const spec: PluginOpts<[]> = {
   allowInVscode: true,
 };
 
-export default new Plugin(spec);
+export const plugin = new Plugin(spec);

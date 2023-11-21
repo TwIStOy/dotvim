@@ -104,4 +104,4 @@ const spec: PluginOptsBase = {
   allowInVscode: true,
 };
 
-export default new Plugin(andActions(spec, group.build()));
+export const plugin = new Plugin(andActions(spec, group.build()));

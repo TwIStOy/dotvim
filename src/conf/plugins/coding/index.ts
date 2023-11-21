@@ -1,12 +1,12 @@
-import commentNvim from "./comment-nvim";
-import cphelper from "./cphelper";
-import cppToolkit from "./cpp-toolkit";
-import cratesNvim from "./crates-nvim";
-import nabla from "./nabla";
-import neogen from "./neogen";
-import rustToolsNvim from "./rust-tools-nvim";
+import { plugin as commentNvim } from "./comment-nvim";
+import { plugin as cphelper } from "./cphelper";
+import { plugin as cppToolkit } from "./cpp-toolkit";
+import { plugin as cratesNvim } from "./crates-nvim";
+import { plugin as nabla } from "./nabla";
+import { plugin as neogen } from "./neogen";
+import { plugin as rustToolsNvim } from "./rust-tools-nvim";
 
-export default [
+export const plugins = [
   commentNvim,
   cphelper,
   cppToolkit,
@@ -14,4 +14,4 @@ export default [
   nabla,
   neogen,
   rustToolsNvim,
-];
+] as const;

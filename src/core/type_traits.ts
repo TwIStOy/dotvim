@@ -48,3 +48,9 @@ export type GetRequired<
   U extends Required<T> = Required<T>,
   K extends keyof T = keyof T,
 > = Pick<T, K extends keyof T ? (T[K] extends U[K] ? K : never) : never>;
+
+export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+
+export type DeepWriteable<T> = {
+  -readonly [P in keyof T]: DeepWriteable<T[P]>;
+};

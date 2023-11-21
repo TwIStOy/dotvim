@@ -1,6 +1,6 @@
 import { Plugin } from "@core/model";
 
-export default new Plugin({
+export const plugin = new Plugin({
   shortUrl: "altermo/ultimate-autopair.nvim",
   lazy: {
     event: ["InsertEnter", "CmdlineEnter"],

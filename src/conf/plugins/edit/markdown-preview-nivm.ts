@@ -24,4 +24,4 @@ const spec: PluginOpts<[]> = {
   },
 };
 
-export default new Plugin(spec);
+export const plugin = new Plugin(spec);

@@ -1,13 +1,13 @@
-import conform from "./conform";
-import copilot from "./copilot";
-import markdownPreviewNivm from "./markdown-preview-nivm";
-import vimTemplate from "./vim-template";
-import todoCommentsNvim from "./todo-comments-nvim";
-import ultimateAutopairNvim from "./ultimate-autopair-nvim";
-import taboutNvim from "./tabout-nvim";
-import dial from "./dial";
+import { plugin as conform } from "./conform";
+import { plugin as copilot } from "./copilot";
+import { plugin as markdownPreviewNivm } from "./markdown-preview-nivm";
+import { plugin as vimTemplate } from "./vim-template";
+import { plugin as todoCommentsNvim } from "./todo-comments-nvim";
+import { plugin as ultimateAutopairNvim } from "./ultimate-autopair-nvim";
+import { plugin as taboutNvim } from "./tabout-nvim";
+import { plugin as dial } from "./dial";
 
-export default [
+export const plugins = [
   conform,
   copilot,
   markdownPreviewNivm,
@@ -16,4 +16,4 @@ export default [
   ultimateAutopairNvim,
   taboutNvim,
   dial,
-];
+] as const;

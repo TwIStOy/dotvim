@@ -16,7 +16,7 @@ let actions = [
     .build(),
 ];
 
-export default new Plugin(
+export const plugin = new Plugin(
   andActions(
     {
       shortUrl: "danymat/neogen",

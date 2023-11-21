@@ -16,4 +16,4 @@ export const plugins = [
   octoNvim,
   restNvim,
   ghActionNvim,
-];
+] as const;

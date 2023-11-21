@@ -1,7 +1,44 @@
 import { RightClickIndexes } from "@conf/base";
-import { Plugin } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOptsBase,
+  andActions,
+} from "@core/model";
 
-export const plugin = new Plugin({
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .from("rest.nvim")
+    .category("Rest")
+    .condition((buf) => {
+      let [ret] = string.match(buf.fullFileName, ".*%.http");
+      return ret !== null;
+    })
+    .addOpts({
+      id: "rest-nvim.run-request",
+      title: "Run the request under cursor",
+      callback: () => {
+        luaRequire("rest-nvim").run();
+      },
+    })
+    .addOpts({
+      id: "rest-nvim.preview-curl-command",
+      title: "Preview the request cURL command",
+      callback: () => {
+        luaRequire("rest-nvim").run(true);
+      },
+    })
+    .addOpts({
+      id: "rest-nvim.rerun-last-command",
+      title: "Re-run the last command",
+      callback: () => {
+        luaRequire("rest-nvim").last();
+      },
+    })
+    .build();
+}
+
+const spec: PluginOptsBase = {
   shortUrl: "rest-nvim/rest.nvim",
   lazy: {
     opts: {
@@ -14,51 +51,7 @@ export const plugin = new Plugin({
       luaRequire("rest-nvim").setup(opts);
     },
   },
-    allowInVscode: true,
-  extends: {
-    commands: {
-      enabled: (buf) => {
-        let [ret] = string.match(buf.fullFileName, ".*%.http");
-        return ret !== null;
-      },
-      rightClick: {
-        path: [{ title: "Http", keys: ["h"], index: RightClickIndexes.http }],
-      },
-      commands: [
-        {
-          name: "Run the request under cursor",
-          callback: () => {
-            luaRequire("rest-nvim").run();
-          },
-          rightClick: {
-            title: "Exec request",
-            keys: ["r"],
-            index: 1,
-          },
-        },
-        {
-          name: "Preview the request cURL command",
-          callback: () => {
-            luaRequire("rest-nvim").run(true);
-          },
-          rightClick: {
-            title: "Preview cURL",
-            keys: ["c"],
-            index: 2,
-          },
-        },
-        {
-          name: "Re-run the last command",
-          callback: () => {
-            luaRequire("rest-nvim").last();
-          },
-          rightClick: {
-            title: "Re-run last",
-            keys: ["l"],
-            index: 3,
-          },
-        },
-      ],
-    },
-  },
-});
+  allowInVscode: true,
+};
+
+export const plugin = new Plugin(andActions(spec, generateActions));

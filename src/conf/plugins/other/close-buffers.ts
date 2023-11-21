@@ -1,5 +1,55 @@
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
 import { isNil, redrawAll } from "@core/vim";
+
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .category("CloseBuffer")
+    .addOpts({
+      id: "close-buffer.delete-all-hidden-buffers",
+      title: "Delete all non-visible buffers",
+      callback: () => {
+        luaRequire("close_buffers").delete({ type: "hidden", force: true });
+        redrawAll();
+      },
+      keys: "<leader>ch",
+    })
+    .addOpts({
+      id: "close-buffer.delete-all-buffers-without-name",
+      title: "Delete all buffers without name",
+      callback: () => {
+        luaRequire("close_buffers").delete({ type: "nameless" });
+        redrawAll();
+      },
+    })
+    .addOpts({
+      id: "close-buffer.delete-current-buffer",
+      title: "Delete the current buffer",
+      callback: () => {
+        luaRequire("close_buffers").delete({ type: "this" });
+        redrawAll();
+      },
+    })
+    .addOpts({
+      id: "close-buffer.delete-all-buffers-matching-the-regex",
+      title: "Delete all buffers matching the regex",
+      callback: () => {
+        vim.ui.input({ prompt: "Regex" }, (input) => {
+          if (!isNil(input)) {
+            if (input.length > 0) {
+              luaRequire("close_buffers").delete({ regex: input });
+            }
+          }
+        });
+        redrawAll();
+      },
+    })
+    .build();
+}
 
 const spec: PluginOpts = {
   shortUrl: "kazhala/close-buffers.nvim",
@@ -27,49 +77,6 @@ const spec: PluginOpts = {
       });
     },
   },
-  extends: {
-    commands: {
-      category: "CloseBuffer",
-      commands: [
-        {
-          name: "Delete all non-visible buffers",
-          callback: () => {
-            luaRequire("close_buffers").delete({ type: "hidden", force: true });
-            redrawAll();
-          },
-          keys: "<leader>ch",
-          shortDesc: "clear-hidden-buffers",
-        },
-        {
-          name: "Delete all buffers without name",
-          callback: () => {
-            luaRequire("close_buffers").delete({ type: "nameless" });
-            redrawAll();
-          },
-        },
-        {
-          name: "Delete the current buffer",
-          callback: () => {
-            luaRequire("close_buffers").delete({ type: "this" });
-            redrawAll();
-          },
-        },
-        {
-          name: "Delete all buffers matching the regex",
-          callback: () => {
-            vim.ui.input({ prompt: "Regex" }, (input) => {
-              if (!isNil(input)) {
-                if (input.length > 0) {
-                  luaRequire("close_buffers").delete({ regex: input });
-                }
-              }
-            });
-            redrawAll();
-          },
-        },
-      ],
-    },
-  },
 };
 
-export const plugin = new Plugin(spec);
+export const plugin = new Plugin(andActions(spec, generateActions));

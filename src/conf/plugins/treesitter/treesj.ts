@@ -1,5 +1,10 @@
 import { RightClickIndexes } from "@conf/base";
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "Wansmer/treesj",
@@ -13,25 +18,19 @@ const spec: PluginOpts = {
     },
     config: true,
   },
-    allowInVscode: true,
-  extends: {
-    commands: [
-      {
-        name: "Toggle Split/Join",
-        enabled: (buffer) => {
-          return buffer.tsHighlighter.length > 0;
-        },
-        callback: () => {
-          vim.api.nvim_command("TSJToggle");
-        },
-        rightClick: {
-          title: "Split/Join",
-          keys: ["t"],
-          index: RightClickIndexes.treesj,
-        },
-      },
-    ],
-  },
+  allowInVscode: true,
 };
 
-export const plugin = new Plugin(spec);
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .category("Treesj")
+    .from("treesj")
+    .addOpts({
+      id: "treesj.toggle",
+      title: "Toggle Split/Join",
+      callback: "TSJToggle",
+    })
+    .build();
+}
+
+export const plugin = new Plugin(andActions(spec, generateActions));

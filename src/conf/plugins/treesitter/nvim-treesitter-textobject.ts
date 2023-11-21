@@ -75,7 +75,6 @@ function generateActions() {
           "@parameter.inner"
         );
       },
-      keys: ",",
     })
     .addOpts({
       id: "treesitter-textobjects.swap-next",
@@ -85,7 +84,6 @@ function generateActions() {
           "@parameter.inner"
         );
       },
-      keys: ".",
     })
     .build();
 }

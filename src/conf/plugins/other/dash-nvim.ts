@@ -1,4 +1,32 @@
-import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+  buildSimpleCommand,
+} from "@core/model";
+
+function dashEnabled() {
+  return vim.uv.os_uname().sysname === "Darwin";
+}
+
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .category("Dash")
+    .from("dash.nvim")
+    .condition(dashEnabled)
+    .addOpts({
+      id: "dash.search",
+      title: "Search Dash",
+      callback: "Dash",
+    })
+    .addOpts({
+      id: "dash.search-word",
+      title: "Search Dash for the word under the cursor",
+      callback: "DashWord",
+    })
+    .build();
+}
 
 const spec: PluginOpts = {
   shortUrl: "mrjones2014/dash.nvim",
@@ -22,9 +50,6 @@ const spec: PluginOpts = {
     },
     config: true,
   },
-  extends: {
-    commands: [buildSimpleCommand("Search Dash", "Dash")],
-  },
 };
 
-export const plugin = new Plugin(spec);
+export const plugin = new Plugin(andActions(spec, generateActions));

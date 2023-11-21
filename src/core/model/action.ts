@@ -164,6 +164,10 @@ export class ActionGroupBuilder<Ids extends string[] = []> {
     this._sharedOptions = {};
   }
 
+  static start() {
+    return new ActionGroupBuilder();
+  }
+
   category(category: string) {
     this._sharedOptions.category = category;
     return this;

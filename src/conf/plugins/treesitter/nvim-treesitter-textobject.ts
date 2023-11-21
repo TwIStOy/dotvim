@@ -1,4 +1,9 @@
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
 
 const spec: PluginOpts = {
   shortUrl: "nvim-treesitter/nvim-treesitter-textobjects",
@@ -52,43 +57,37 @@ const spec: PluginOpts = {
       luaRequire("nvim-treesitter.configs").setup(opts);
     },
   },
-    allowInVscode: true,
-  extends: {
-    commands: {
-      category: "Textobject",
-      enabled: (buffer) => {
-        return buffer.tsHighlighter.length > 0;
-      },
-      commands: [
-        {
-          name: "Swap previous",
-          callback: () => {
-            luaRequire("nvim-treesitter.textobjects.swap").swap_previous(
-              "@parameter.inner"
-            );
-          },
-          rightClick: {
-            title: "Swap previous",
-            keys: [","],
-            index: 1,
-          },
-        },
-        {
-          name: "Swap next",
-          callback: () => {
-            luaRequire("nvim-treesitter.textobjects.swap").swap_next(
-              "@parameter.inner"
-            );
-          },
-          rightClick: {
-            title: "Swap next",
-            keys: ["."],
-            index: 2,
-          },
-        },
-      ],
-    },
-  },
+  allowInVscode: true,
 };
 
-export const plugin = new Plugin(spec);
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .from("nvim-treesitter-textobjects")
+    .category("TSTextObjects")
+    .condition((buf) => {
+      return buf.tsHighlighter.length > 0;
+    })
+    .addOpts({
+      id: "treesitter-textobjects.swap-previous",
+      title: "Swap previous",
+      callback: () => {
+        luaRequire("nvim-treesitter.textobjects.swap").swap_previous(
+          "@parameter.inner"
+        );
+      },
+      keys: ",",
+    })
+    .addOpts({
+      id: "treesitter-textobjects.swap-next",
+      title: "Swap next",
+      callback: () => {
+        luaRequire("nvim-treesitter.textobjects.swap").swap_next(
+          "@parameter.inner"
+        );
+      },
+      keys: ".",
+    })
+    .build();
+}
+
+export const plugin = new Plugin(andActions(spec, generateActions));

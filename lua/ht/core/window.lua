@@ -47,25 +47,27 @@ Goto `count` window from left to right, up to bottom. Skip all `uncountable`
 filetypes and buftypes.
 --]]
 function M.goto_window(count)
-  local function skip_uncountable_windows(cnt)
-    local rest = cnt
+  vim.schedule(function()
+    local function skip_uncountable_windows(cnt)
+      local rest = cnt
 
-    for _, win_id in pairs(vim.api.nvim_tabpage_list_wins(0)) do
-      if not is_uncountable(win_id) then
-        rest = rest - 1
-        if rest == 0 then
-          return win_id
+      for _, win_id in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+        if not is_uncountable(win_id) and vim.api.nvim_win_is_valid(win_id) then
+          rest = rest - 1
+          if rest == 0 then
+            return win_id
+          end
         end
       end
+
+      return 0
     end
 
-    return 0
-  end
-
-  local win_id = skip_uncountable_windows(count)
-  if win_id > 0 then
-    vim.api.nvim_set_current_win(win_id)
-  end
+    local win_id = skip_uncountable_windows(count)
+    if win_id > 0 then
+      vim.api.nvim_set_current_win(win_id)
+    end
+  end)
 end
 
 local function quickfix_window_exists()

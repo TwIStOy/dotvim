@@ -1,4 +1,10 @@
-import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+  buildSimpleCommand,
+} from "@core/model";
 import { inputArgsAndExec } from "@core/vim";
 
 const spec: PluginOpts = {
@@ -14,22 +20,25 @@ const spec: PluginOpts = {
       vim.g.templates_no_builtin_templates = 1;
     },
   },
-    allowInVscode: true,
-  extends: {
-    commands: [
-      buildSimpleCommand(
-        "Expand template into current buffer",
-        inputArgsAndExec("Template")
-      ),
-      buildSimpleCommand(
-        "Expand template under cursor",
-        inputArgsAndExec("TemplateHere"),
-        "This command works exactly the same except that it will expand a " +
-          "matched template under the cursor instead of at the beginning of " +
-          "the buffer."
-      ),
-    ],
-  },
+  allowInVscode: true,
 };
 
-export const plugin = new Plugin(spec);
+function actions() {
+  return ActionGroupBuilder.start()
+    .category("Template")
+    .addOpts({
+      id: "template.expand-template-into-current-buffer",
+      title: "Expand template into current buffer",
+      callback: inputArgsAndExec("Template"),
+      description: "Expand a mated template fron the beginning of the buffer",
+    })
+    .addOpts({
+      id: "template.expand-template-under-cursor",
+      title: "Expand template under cursor",
+      callback: inputArgsAndExec("TemplateHere"),
+      description: "Expand a matched template under the cursor",
+    })
+    .build();
+}
+
+export const plugin = new Plugin(andActions(spec, actions));

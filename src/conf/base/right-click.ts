@@ -89,8 +89,34 @@ const FormatFileItem: RightClickMenuActionItem = {
   keys: "c",
 };
 
+const CopilotGroup: RightClickMenuGroup = {
+  items: [
+    {
+      title: "Copilot",
+      children: [
+        {
+          title: "Copilot status",
+          actionId: "copilot.status",
+          keys: "s",
+        },
+        {
+          title: "Copilot auth",
+          actionId: "copilot.auth",
+          keys: "a",
+        },
+        {
+          title: "Copilot panel",
+          actionId: "copilot.show-panel",
+          keys: "p",
+        },
+      ],
+    },
+  ],
+};
+
 export const RightClickMenu: RightClickMenuItem[] = [
   FormatFileItem,
   CppToolkitGroup,
   RustToolkitGroup,
+  CopilotGroup,
 ];

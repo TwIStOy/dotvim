@@ -1,6 +1,11 @@
-import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOptsBase,
+  andActions,
+} from "@core/model";
 
-const spec: PluginOpts<[]> = {
+const spec: PluginOptsBase = {
   shortUrl: "iamcco/markdown-preview.nvim",
   lazy: {
     ft: ["markdown"],
@@ -12,16 +17,37 @@ const spec: PluginOpts<[]> = {
       vim.g.mkdp_echo_preview_url = true;
     },
   },
-  extends: {
-    commands: {
-      category: "MdPreview",
-      commands: [
-        buildSimpleCommand("Start md preview", "MarkdownPreview"),
-        buildSimpleCommand("Stop md preview", "MarkdownPreviewStop"),
-        buildSimpleCommand("Toggle md preview", "MarkdownPreviewToggle"),
-      ],
-    },
-  },
 };
 
-export const plugin = new Plugin(spec);
+function actions() {
+  return new ActionGroupBuilder()
+    .from("markdown-preview.nvim")
+    .category("MdPreview")
+    .condition((buf) => {
+      return buf.filetype === "markdown";
+    })
+    .addOpts({
+      id: "markdown-preview.start",
+      title: "Start md preview",
+      callback: () => {
+        vim.api.nvim_command("MarkdownPreview");
+      },
+    })
+    .addOpts({
+      id: "markdown-preview.stop",
+      title: "Stop md preview",
+      callback: () => {
+        vim.api.nvim_command("MarkdownPreviewStop");
+      },
+    })
+    .addOpts({
+      id: "markdown-preview.toggle",
+      title: "Toggle md preview",
+      callback: () => {
+        vim.api.nvim_command("MarkdownPreviewToggle");
+      },
+    })
+    .build();
+}
+
+export const plugin = new Plugin(andActions(spec, actions));

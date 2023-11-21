@@ -1,6 +1,11 @@
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOptsBase,
+  andActions,
+} from "@core/model";
 
-const spec: PluginOpts<[]> = {
+const spec: PluginOptsBase = {
   shortUrl: "zbirenbaum/copilot.lua",
   lazy: {
     event: ["InsertEnter"],
@@ -56,4 +61,33 @@ const spec: PluginOpts<[]> = {
   },
 };
 
-export const plugin = new Plugin(spec);
+function actions() {
+  return new ActionGroupBuilder()
+    .from("copilot.lua")
+    .category("Copilot")
+    .addOpts({
+      id: "copilot.status",
+      title: "Copilot status",
+      description: "Show the status of Copilot",
+      callback: () => {
+        vim.api.nvim_command("Copilot status");
+      },
+    })
+    .addOpts({
+      id: "copilot.auth",
+      title: "Copilot auth",
+      callback: () => {
+        vim.api.nvim_command("Copilot auth");
+      },
+    })
+    .addOpts({
+      id: "copilot.show-panel",
+      title: "Copilot panel",
+      callback: () => {
+        vim.api.nvim_command("Copilot panel");
+      },
+    })
+    .build();
+}
+
+export const plugin = new Plugin(andActions(spec, actions));

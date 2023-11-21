@@ -1,6 +1,6 @@
 import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
 
-const spec: PluginOpts = {
+const spec: PluginOpts<[]> = {
   shortUrl: "iamcco/markdown-preview.nvim",
   lazy: {
     ft: ["markdown"],

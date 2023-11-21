@@ -6,7 +6,7 @@ function showNabla() {
   });
 }
 
-const spec: PluginOpts = {
+const spec: PluginOpts<["nabla.show-nabla"]> = {
   shortUrl: "jbyuki/nabla.nvim",
   lazy: {
     ft: ["latex", "markdown"],

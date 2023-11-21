@@ -1,8 +1,9 @@
 import { LazyKeySpec, LazyOpts } from "types/plugin/lazy";
 import { Cache } from "./cache";
 import { Command, CommandGroup, extendCommandsInGroup } from "./command";
-import { Action } from "./action";
+import { Action, ActionList, TraitActionsId } from "./action";
 import { tblExtend } from "@core/utils";
+import { Concat } from "@core/type_traits";
 
 export interface ExtendPluginOpts {
   /**
@@ -11,7 +12,7 @@ export interface ExtendPluginOpts {
   commands?: (Command | CommandGroup)[] | CommandGroup;
 }
 
-export type PluginOpts = {
+export interface PluginOptsBase {
   /**
    * Short url for the plugin
    */
@@ -21,11 +22,6 @@ export type PluginOpts = {
    * Options for `lazy.nvim`
    */
   lazy?: LazyOpts;
-
-  /**
-   * All actions registered by this plugin.
-   */
-  providedActions?: Action<any>[] | (() => Action<any>[]);
 
   /**
    * Options for extending the plugin
@@ -43,20 +39,62 @@ export type PluginOpts = {
    * How many ms to delay the setup of the plugin.
    */
   delaySetup?: number;
-};
+}
 
-function isCommand(cmd: Command | CommandGroup): cmd is Command {
-  return "callback" in cmd;
+export interface PluginOpts<AIds extends string[] = []> extends PluginOptsBase {
+  /**
+   * All actions registered by this plugin.
+   */
+  providedActions?: ActionList<AIds>;
+}
+
+type TraitActionsListFromOpt<P> = P extends { providedActions: any }
+  ? P["providedActions"] extends Action<any>[]
+    ? TraitActionsId<P["providedActions"]>
+    : never
+  : never;
+
+export function fixPluginOpts<P>(
+  opts: P
+): PluginOpts<TraitActionsListFromOpt<P>> {
+  return opts as any;
+}
+
+export function andActions<AC extends Action<any>[]>(
+  base: PluginOptsBase,
+  actions: AC
+): PluginOpts<TraitActionsId<AC>> {
+  return {
+    ...base,
+    providedActions: actions as any,
+  };
 }
 
 export type LazySpec = {
   [1]: string;
 } & LazyOpts;
 
-export class Plugin {
+export type PluginActionIds<P extends Plugin<any>> = P extends Plugin<
+  infer AIds
+>
+  ? AIds
+  : never;
+
+export type PluginsActionIds<Ps extends Plugin<any>[]> = Ps extends [
+  infer P,
+  ...infer Rest,
+]
+  ? P extends Plugin<any>
+    ? Rest extends Plugin<any>[]
+      ? Concat<PluginActionIds<P>, PluginsActionIds<Rest>>
+      : never
+    : never
+  : [];
+
+export class Plugin<AIds extends string[]> {
   private _cache: Cache;
 
-  constructor(private _opts: PluginOpts) {
+  constructor(private _opts: PluginOpts<AIds>) {
     this._cache = new Cache();
   }
 
@@ -121,9 +159,6 @@ export class Plugin {
     return this._cache.ensure("actions", () => {
       if (!this._opts.providedActions) {
         return [];
-      }
-      if (typeof this._opts.providedActions === "function") {
-        return this._opts.providedActions();
       }
       return this._opts.providedActions;
     });

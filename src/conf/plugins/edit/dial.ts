@@ -9,7 +9,7 @@ function defineCustom(...elements: string[]) {
   });
 }
 
-const spec: PluginOpts = {
+const spec: PluginOpts<[]> = {
   shortUrl: "monaqa/dial.nvim",
   lazy: {
     event: ["BufReadPost"],

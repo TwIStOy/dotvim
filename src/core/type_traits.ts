@@ -9,6 +9,8 @@ export type ExcludeNilSingle<T> = Exclude<T, null | undefined>;
 
 export type Push<T extends any[], U> = [...T, U];
 
+export type Concat<T extends any[], U extends any[]> = [...T, ...U];
+
 /**
  * Returns the type exclude nil types(`null` and `undefined`).
  */

@@ -21,7 +21,7 @@ for (let fmt of AllFormatters) {
   }
 }
 
-const spec: PluginOpts = {
+const spec: PluginOpts<[]> = {
   shortUrl: "stevearc/conform.nvim",
   lazy: {
     opts: {

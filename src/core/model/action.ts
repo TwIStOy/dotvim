@@ -46,7 +46,7 @@ export class ActionBuilder<
   }
 
   id<R extends string>(
-    this: "id" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "id" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     id: R
   ) {
     this._opts.id = id as any;
@@ -54,7 +54,7 @@ export class ActionBuilder<
   }
 
   title(
-    this: "title" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "title" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     title: string
   ) {
     this._opts.title = title;
@@ -62,7 +62,7 @@ export class ActionBuilder<
   }
 
   callback(
-    this: "callback" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "callback" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     callback: string | ((this: void) => void)
   ) {
     this._opts.callback = callback;
@@ -70,7 +70,9 @@ export class ActionBuilder<
   }
 
   description(
-    this: "description" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "description" extends RestKeys<Used>
+      ? ActionBuilder<Used, Id>
+      : never,
     description: string
   ) {
     this._opts.description = description;
@@ -78,7 +80,7 @@ export class ActionBuilder<
   }
 
   icon(
-    this: "icon" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "icon" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     icon: string
   ) {
     this._opts.icon = icon;
@@ -86,7 +88,7 @@ export class ActionBuilder<
   }
 
   condition(
-    this: "condition" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "condition" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     condition: ActionCondition
   ) {
     this._opts.condition = condition;
@@ -94,7 +96,7 @@ export class ActionBuilder<
   }
 
   category(
-    this: "category" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "category" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     category: string
   ) {
     this._opts.category = category;
@@ -102,7 +104,7 @@ export class ActionBuilder<
   }
 
   keys(
-    this: "keys" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "keys" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     keys: string | string[]
   ) {
     this._opts.keys = keys;
@@ -110,7 +112,7 @@ export class ActionBuilder<
   }
 
   from(
-    this: "from" extends RestKeys<Used> ? ActionBuilder<Used> : never,
+    this: "from" extends RestKeys<Used> ? ActionBuilder<Used, Id> : never,
     from: string
   ) {
     this._opts.from = from;
@@ -126,10 +128,25 @@ export class ActionBuilder<
   }
 }
 
-type ActionList<Ids extends string[]> = Ids extends [infer F, ...infer R]
+export type ActionList<Ids extends string[]> = Ids extends [infer F, ...infer R]
   ? F extends string
     ? R extends string[]
       ? [Action<F>, ...ActionList<R>]
+      : never
+    : never
+  : [];
+
+export type TraitActionId<A extends Action<any>> = A extends Action<infer Id>
+  ? Id
+  : never;
+
+export type TraitActionsId<A extends Action<any>[]> = A extends [
+  infer F,
+  ...infer R,
+]
+  ? F extends Action<any>
+    ? R extends Action<any>[]
+      ? [TraitActionId<F>, ...TraitActionsId<R>]
       : never
     : never
   : [];

@@ -1,6 +1,6 @@
 import { Plugin, PluginOpts } from "@core/model";
 
-const spec: PluginOpts = {
+const spec: PluginOpts<[]> = {
   shortUrl: "numToStr/Comment.nvim",
   lazy: {
     dependencies: ["JoosepAlviste/nvim-ts-context-commentstring"],

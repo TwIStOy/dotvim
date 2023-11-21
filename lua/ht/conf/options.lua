@@ -32,7 +32,8 @@ local function setup()
 
   -- cursor settings
   vim.opt.guicursor =
-    "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:Cursor/lCursor"
+    "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,n-v-c:blinkon500-blinkoff500,a:Cursor/lCursor"
+  vim.opt.termsync = true
 
   -- mouse mode
   vim.opt.mouse = "a"

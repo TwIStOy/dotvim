@@ -1,4 +1,28 @@
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
+
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .category("AsyncTask")
+    .from("asynctasks.vim")
+    .addOpts({
+      id: "asynctasks.run",
+      title: "Run build-file task",
+      callback: "AsyncTask file-build",
+      description: "Execute the build-file task using asynctasks.vim",
+    })
+    .addOpts({
+      id: "asynctasks.run",
+      title: "Run build-project task",
+      callback: "AsyncTask project-build",
+      description: "Execute the build-project task using asynctasks.vim",
+    })
+    .build();
+}
 
 const spec: PluginOpts = {
   shortUrl: "skywind3000/asynctasks.vim",
@@ -24,29 +48,7 @@ const spec: PluginOpts = {
       { [1]: "skywind3000/asyncrun.vim", cmd: ["AsyncRun", "AsyncStop"] },
     ],
   },
-    allowInVscode: true,
-  extends: {
-    commands: [
-      {
-        name: "Run build-file task",
-        description: "Execute the build-file task using asynctasks.vim",
-        callback: "AsyncTask file-build",
-        menuBar: {
-          title: "Run build-file task",
-          path: ["Build"],
-        },
-      },
-      {
-        name: "Run build-project task",
-        description: "Execute the build-project task using asynctasks.vim",
-        callback: "AsyncTask project-build",
-        menuBar: {
-          title: "Run build-project task",
-          path: ["Build"],
-        },
-      },
-    ],
-  },
+  allowInVscode: true,
 };
 
-export const plugin = new Plugin(spec);
+export const plugin = new Plugin(andActions(spec, generateActions));

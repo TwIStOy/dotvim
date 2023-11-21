@@ -83,7 +83,14 @@ const RustToolkitGroup: RightClickMenuGroup = {
   ],
 };
 
+const FormatFileItem: RightClickMenuActionItem = {
+  title: "Format file",
+  actionId: "conform.format",
+  keys: "c",
+};
+
 export const RightClickMenu: RightClickMenuItem[] = [
+  FormatFileItem,
   CppToolkitGroup,
   RustToolkitGroup,
 ];

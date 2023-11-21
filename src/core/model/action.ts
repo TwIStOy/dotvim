@@ -4,6 +4,10 @@ import { LazyKeySpec } from "types/plugin/lazy";
 
 export type ActionCondition = (buf: VimBuffer) => boolean;
 
+type SingleKey =
+  | string
+  | Pick<LazyKeySpec, 1 | "mode" | "ft" | "desc" | "silent">;
+
 interface ActionOptions<Id extends string> {
   id: Id;
   title: string;
@@ -12,10 +16,7 @@ interface ActionOptions<Id extends string> {
   icon?: string;
   condition?: ActionCondition;
   category?: string;
-  keys?:
-    | string
-    | string[]
-    | Pick<LazyKeySpec, 1 | "mode" | "ft" | "desc" | "silent">[];
+  keys?: SingleKey | SingleKey[];
   /**
    * Which plugin this action is from.
    */
@@ -251,7 +252,7 @@ export class Action<Id extends string> {
       let keys = this.opts.keys;
       if (typeof keys === "string") {
         ret = [{ [1]: keys, [2]: this.opts.callback }];
-      } else {
+      } else if (Array.isArray(keys)) {
         for (let key of keys) {
           if (typeof key === "string") {
             ret.push({ [1]: key, [2]: this.opts.callback });
@@ -259,6 +260,8 @@ export class Action<Id extends string> {
             ret.push({ ...key, [2]: this.opts.callback });
           }
         }
+      } else {
+        ret = [{ ...keys, [2]: this.opts.callback }];
       }
     }
     return ret;

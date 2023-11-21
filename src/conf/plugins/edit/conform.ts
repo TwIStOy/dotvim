@@ -1,6 +1,10 @@
-import { RightClickIndexes } from "@conf/base";
 import { AllFormatters } from "@conf/external_tools";
-import { Plugin, PluginOpts } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
 
 let formatters_opts = new LuaTable();
 let formatters_by_ft = new LuaTable<AnyNotNil, Array<string>>();
@@ -30,27 +34,25 @@ const spec: PluginOpts<[]> = {
     },
     config: true,
   },
-  extends: {
-    commands: [
-      {
-        name: "Format File",
+};
+
+export const plugin = new Plugin(
+  andActions(spec, () => {
+    return new ActionGroupBuilder()
+      .from("conform")
+      .category("Conform")
+      .addOpts({
+        id: "conform.format",
+        title: "Format File",
         description: "Format the current file using conform.nvim",
-        keys: "<leader>fc",
-        shortDesc: "format-file",
+        keys: [{ [1]: "<leader>fc", desc: "format-file" }],
         callback() {
           let conform = luaRequire("conform");
           conform.format({
             async: true,
           });
         },
-        rightClick: {
-          title: "Format File",
-          keys: ["c"],
-          index: RightClickIndexes.conform,
-        },
-      },
-    ],
-  },
-};
-
-export const plugin = new Plugin(spec);
+      })
+      .build();
+  })
+);

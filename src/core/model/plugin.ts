@@ -25,7 +25,7 @@ export type PluginOpts = {
   /**
    * All actions registered by this plugin.
    */
-  providedActions?: Action[] | (() => Action[]);
+  providedActions?: Action<any>[] | (() => Action<any>[]);
 
   /**
    * Options for extending the plugin
@@ -117,7 +117,7 @@ export class Plugin {
     });
   }
 
-  get actions(): Action[] {
+  get actions(): Action<any>[] {
     return this._cache.ensure("actions", () => {
       if (!this._opts.providedActions) {
         return [];

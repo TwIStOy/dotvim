@@ -14,7 +14,7 @@ const spec = {
     },
   },
   allowInVscode: true,
-  providedActions: (() => {
+  providedActions: () => {
     const actionsGroup = new ActionGroupBuilder()
       .from("cpp-toolkit")
       .category("CppToolkit")
@@ -39,7 +39,7 @@ const spec = {
         callback: "CppToolkit shortcut forward_value",
       });
     return actionsGroup.build();
-  })(),
+  },
 };
 
 export const plugin = new Plugin(fixPluginOpts(spec));

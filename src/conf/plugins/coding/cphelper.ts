@@ -1,7 +1,7 @@
 import { ActionGroupBuilder, Plugin, fixPluginOpts } from "@core/model";
 import { inputArgsAndExec } from "@core/vim";
 
-let actionsGroup = new ActionGroupBuilder()
+let actionsGroup = () => new ActionGroupBuilder()
   .from("cphelper")
   .category("cphelper")
   .addOpts({
@@ -38,7 +38,7 @@ let actionsGroup = new ActionGroupBuilder()
     id: "cphelper.delete-task",
     title: "Delete a test case",
     callback: inputArgsAndExec("CphDelete"),
-  });
+  }).build();
 
 const spec = {
   shortUrl: "p00f/cphelper.nvim",
@@ -62,7 +62,7 @@ const spec = {
     },
   },
   allowInVscode: true,
-  providedActions: actionsGroup.build(),
+  providedActions: actionsGroup,
 };
 
 export const plugin = new Plugin(fixPluginOpts(spec));

@@ -45,12 +45,14 @@ export interface PluginOpts<AIds extends string[] = []> extends PluginOptsBase {
   /**
    * All actions registered by this plugin.
    */
-  providedActions?: ActionList<AIds>;
+  providedActions?: ActionList<AIds> | (() => ActionList<AIds>);
 }
 
 type TraitActionsListFromOpt<P> = P extends { providedActions: any }
   ? P["providedActions"] extends Action<any>[]
     ? TraitActionsId<P["providedActions"]>
+    : P["providedActions"] extends () => Action<any>[]
+    ? TraitActionsId<ReturnType<P["providedActions"]>>
     : never
   : never;
 
@@ -60,10 +62,18 @@ export function fixPluginOpts<P>(
   return opts as any;
 }
 
-export function andActions<AC extends Action<any>[]>(
+export function andActions<AC extends Action<any>[] | (() => Action<any>[])>(
   base: PluginOptsBase,
   actions: AC
-): PluginOpts<TraitActionsId<AC>> {
+): PluginOpts<
+  TraitActionsId<
+    AC extends Action<any>[]
+      ? AC
+      : AC extends () => Action<any>[]
+      ? ReturnType<AC>
+      : never
+  >
+> {
   return {
     ...base,
     providedActions: actions as any,
@@ -159,6 +169,9 @@ export class Plugin<AIds extends string[] = []> {
     return this._cache.ensure("actions", () => {
       if (!this._opts.providedActions) {
         return [];
+      }
+      if (typeof this._opts.providedActions === "function") {
+        return this._opts.providedActions();
       }
       return this._opts.providedActions;
     });

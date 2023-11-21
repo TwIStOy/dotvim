@@ -70,4 +70,20 @@ const CppToolkitGroup: RightClickMenuGroup = {
   ],
 };
 
-export const RightClickMenu: RightClickMenuItem[] = [CppToolkitGroup];
+const RustToolkitGroup: RightClickMenuGroup = {
+  items: [
+    {
+      title: "Open cargo.toml",
+      actionId: "rust-tools.open-cargo-toml",
+    },
+    {
+      title: "Open parent module",
+      actionId: "rust-tools.open-parent-module",
+    },
+  ],
+};
+
+export const RightClickMenu: RightClickMenuItem[] = [
+  CppToolkitGroup,
+  RustToolkitGroup,
+];

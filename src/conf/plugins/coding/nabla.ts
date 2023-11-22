@@ -10,7 +10,6 @@ const spec: PluginOpts<["nabla.show-nabla"]> = {
   shortUrl: "jbyuki/nabla.nvim",
   lazy: {
     ft: ["latex", "markdown"],
-    config: true,
     keys: [
       {
         [1]: "<leader>pf",

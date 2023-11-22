@@ -1,5 +1,5 @@
+import { mountRightClickMenu } from "@conf/ui/right-click";
 import { AllPlugins } from "./conf/plugins";
-import { RightClickPaletteCollection } from "@core/collections/right-click";
 import { Command } from "@core/model";
 import { VimBuffer, hideCursor } from "@core/vim";
 
@@ -14,17 +14,9 @@ export function getAllCommands(): Command[] {
   return result;
 }
 
-const rightClickCollection = (() => {
-  let collection = new RightClickPaletteCollection();
-  for (let cmd of getAllCommands()) {
-    collection.push(cmd);
-  }
-  return collection;
-})();
-
 export function onRightClick(opts: any) {
   let bufnr = vim.api.nvim_get_current_buf();
   let buffer = new VimBuffer(bufnr);
   hideCursor();
-  rightClickCollection.mount(buffer, opts);
+  mountRightClickMenu(buffer, opts);
 }

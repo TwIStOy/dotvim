@@ -28,11 +28,13 @@ function removeBuiltinKeys(keys: string[]) {
  * A menu item component.
  */
 export class MenuItem {
-  public text: MenuText;
+  public readonly text: MenuText;
   public children: MenuItem[];
   public description?: string;
   public callback: (this: void) => void;
   public parent?: NuiMenu<MenuItemContext, ContextMenuContext>;
+  public _enabled: boolean | (() => boolean);
+  public readonly alwaysInMenu: boolean;
 
   private _keys: string[];
 
@@ -43,6 +45,8 @@ export class MenuItem {
       children?: MenuItem[];
       description?: string;
       keys?: string[];
+      enabled?: boolean | (() => boolean);
+      alwaysInMenu?: boolean;
     }
   ) {
     this.text = typeof text === "string" ? new MenuText(text) : text;
@@ -53,6 +57,8 @@ export class MenuItem {
     this._keys = removeBuiltinKeys(
       uniqueArray([...this.text.keys, ...(options?.keys ?? [])])
     );
+    this._enabled = options?.enabled ?? true;
+    this.alwaysInMenu = options?.alwaysInMenu ?? false;
   }
 
   /**
@@ -69,6 +75,13 @@ export class MenuItem {
       return 0;
     }
     return this.text.length;
+  }
+
+  public get enabled(): boolean {
+    if (typeof this._enabled === "function") {
+      return this._enabled();
+    }
+    return this._enabled;
   }
 
   public getPartLength() {
@@ -107,9 +120,7 @@ export class MenuItem {
     childrenLength: number;
   }): NuiTreeNode<MenuItemContext> {
     if (this.text.isSeparator()) {
-      return NuiMenuMod.separator(undefined, {
-        char: "-",
-      });
+      return NuiMenuMod.separator();
     }
 
     let line = this.text.asNuiLine();
@@ -120,6 +131,8 @@ export class MenuItem {
       let hint = this.keys.join("|");
       line.append(hint, "@variable.builtin");
       fillSpaces(line, hint.length, opts.keysLength);
+    } else {
+      fillSpaces(line, 0, opts.keysLength);
     }
 
     if (this.children.length > 0) {

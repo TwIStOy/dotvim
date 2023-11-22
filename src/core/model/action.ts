@@ -275,24 +275,3 @@ export class Action<Id extends string> {
     return ret;
   }
 }
-
-export class ActionRegistry {
-  private _actions: Map<string, Action<any>> = new Map();
-
-  constructor() {}
-
-  public add(action: Action<any>) {
-    if (this._actions.has(action.id)) {
-      throw new Error(`Action ${action.id} already exists`);
-    }
-    this._actions.set(action.id, action);
-  }
-
-  public get(id: string) {
-    return this._actions.get(id);
-  }
-
-  public get actions() {
-    return this._actions.values();
-  }
-}

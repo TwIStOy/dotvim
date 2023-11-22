@@ -7,7 +7,7 @@ import { plugins as uiPlugins } from "./ui";
 import { plugins as otherPlugins } from "./other";
 import { plugins as codingPlugins } from "./coding";
 import { plugins as treesitterPlugins } from "./treesitter";
-import { Plugin, PluginActionIds } from "@core/model";
+import { Action, Plugin, PluginActionIds } from "@core/model";
 import { TupleToUnion } from "@core/type_traits";
 
 export const AllPlugins = [
@@ -24,6 +24,42 @@ export const AllPlugins = [
 export const LazySpecs = [...AllPlugins, ...AllLspServers]
   .flat()
   .map((p) => p.asLazySpec());
+
+export class ActionRegistry {
+  private static instance?: ActionRegistry;
+
+  private _actions: Map<string, Action<any>> = new Map();
+
+  private constructor() {
+    AllPlugins.flat().forEach((plug) => {
+      plug.actions.forEach((action) => {
+        this.add(action);
+      });
+    });
+  }
+
+  static getInstance() {
+    if (!ActionRegistry.instance) {
+      ActionRegistry.instance = new ActionRegistry();
+    }
+    return ActionRegistry.instance;
+  }
+
+  private add(action: Action<any>) {
+    if (this._actions.has(action.id)) {
+      throw new Error(`Action ${action.id} already exists`);
+    }
+    this._actions.set(action.id, action);
+  }
+
+  public get(id: string) {
+    return this._actions.get(id);
+  }
+
+  public get actions() {
+    return this._actions.values();
+  }
+}
 
 type RemoveReadonlyFromTuple<T extends readonly any[]> = T extends readonly [
   infer A,

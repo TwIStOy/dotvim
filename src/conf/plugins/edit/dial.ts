@@ -52,6 +52,7 @@ const spec: PluginOpts<[]> = {
       ];
 
       let filetypeGroups = {
+        default: [...defaultGroup],
         cpp: [
           ...defaultGroup,
           // glog levels
@@ -131,7 +132,7 @@ const spec: PluginOpts<[]> = {
       },
     ],
   },
-    allowInVscode: true,
+  allowInVscode: true,
 };
 
 export const plugin = new Plugin(spec);

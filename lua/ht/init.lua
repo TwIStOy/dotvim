@@ -73,6 +73,14 @@ local function bootstrap_plugin_manager()
   end
 
   require("lazy").setup(lazy_settings)
+  package.path = package.path
+    .. ";"
+    .. vim.fn.expand("$HOME")
+    .. "/.luarocks/share/lua/5.1/?/init.lua;"
+  package.path = package.path
+    .. ";"
+    .. vim.fn.expand("$HOME")
+    .. "/.luarocks/share/lua/5.1/?.lua;"
 
   local FF = require("ht.core.functions")
   FF:add_function_set {

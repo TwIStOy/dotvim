@@ -7,6 +7,7 @@ import { plugins as uiPlugins } from "./ui";
 import { plugins as otherPlugins } from "./other";
 import { plugins as codingPlugins } from "./coding";
 import { plugins as treesitterPlugins } from "./treesitter";
+import { plugins as libPlugins } from "./lib";
 import { Action, Plugin, PluginActionIds } from "@core/model";
 import { TupleToUnion } from "@core/type_traits";
 
@@ -19,6 +20,7 @@ export const AllPlugins = [
   otherPlugins,
   codingPlugins,
   treesitterPlugins,
+  libPlugins,
 ] as const;
 
 export const LazySpecs = [...AllPlugins, ...AllLspServers]

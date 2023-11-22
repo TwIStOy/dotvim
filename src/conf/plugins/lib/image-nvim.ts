@@ -6,6 +6,7 @@ const spec: PluginOptsBase = {
     lazy: true,
     build: "luarocks --local install magick",
     config: true,
+    enabled: false,
     opts: {
       backend: "kitty",
       integrations: {

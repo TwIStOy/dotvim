@@ -18,4 +18,4 @@ export const plugins = [
   nvimNotify,
   noice,
   lualine,
-];
+] as const;

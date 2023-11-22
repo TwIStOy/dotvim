@@ -1,4 +1,56 @@
-import { Plugin, PluginOpts, buildSimpleCommand } from "@core/model";
+import {
+  ActionGroupBuilder,
+  Plugin,
+  PluginOpts,
+  andActions,
+} from "@core/model";
+
+function generateActions() {
+  return ActionGroupBuilder.start()
+    .from("noice.nvim")
+    .category("Noice")
+    .addOpts({
+      id: "noice.show-message-history",
+      callback: "Noice history",
+      title: "Shows the message history",
+    })
+    .addOpts({
+      id: "noice.show-last-message",
+      callback: "Noice last",
+      title: "Shows the last message in a popup",
+    })
+    .addOpts({
+      id: "noice.dismiss-all-messages",
+      callback: "Noice dismiss",
+      title: "Dismiss all visible messages",
+    })
+    .addOpts({
+      id: "noice.disable",
+      callback: "Noice disable",
+      title: "Disables Noice",
+    })
+    .addOpts({
+      id: "noice.enable",
+      callback: "Noice enable",
+      title: "Enables Noice",
+    })
+    .addOpts({
+      id: "noice.show-stats",
+      callback: "Noice stats",
+      title: "Show debugging stats",
+    })
+    .addOpts({
+      id: "noice.show-message-history-in-telescope",
+      callback: "Noice telescope",
+      title: "Opens message history in Telescope",
+    })
+    .addOpts({
+      id: "noice.show-errors",
+      callback: "Noice errors",
+      title: "Shows the error messages in a split",
+    })
+    .build();
+}
 
 const spec: PluginOpts = {
   shortUrl: "folke/noice.nvim",
@@ -34,21 +86,6 @@ const spec: PluginOpts = {
     },
     config: true,
   },
-  extends: {
-    commands: [
-      buildSimpleCommand("Shows the message history", "Noice history"),
-      buildSimpleCommand("Shows the last message in a popup", "Noice last"),
-      buildSimpleCommand("Dismiss all visible messages", "Noice dismiss"),
-      buildSimpleCommand("Disables Noice", "Noice disable"),
-      buildSimpleCommand("Enables Noice", "Noice enable"),
-      buildSimpleCommand("Show debugging stats", "Noice stats"),
-      buildSimpleCommand(
-        "Opens message history in Telescope",
-        "Noice telescope"
-      ),
-      buildSimpleCommand("Shows the error messages in a split", "Noice errors"),
-    ],
-  },
 };
 
-export const plugin = new Plugin(spec);
+export const plugin = new Plugin(andActions(spec, generateActions));

@@ -23,6 +23,7 @@ local uncountable_types = {
   DiffviewFiles = true,
   ["neo-tree"] = true,
   ["neo-tree-popup"] = true,
+  NvimSeparator = true,
 }
 
 function M.skip_filetype(ft)

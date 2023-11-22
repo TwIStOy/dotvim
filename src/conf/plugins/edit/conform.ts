@@ -32,7 +32,20 @@ const spec: PluginOpts<[]> = {
       formatters: formatters_opts,
       formatters_by_ft: formatters_by_ft,
     },
+    event: "BufReadPost",
     config: true,
+    keys: [
+      {
+        [1]: "<leader>fc",
+        [2]: () => {
+          let conform = luaRequire("conform");
+          conform.format({
+            async: true,
+          });
+        },
+        desc: "format-file",
+      },
+    ],
   },
 };
 

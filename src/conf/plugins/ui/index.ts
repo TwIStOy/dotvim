@@ -7,6 +7,9 @@ import { plugin as bufferline } from "./bufferline";
 import { plugin as noice } from "./noice";
 import { plugin as nvimNotify } from "./nvim-notify";
 import { plugin as lualine } from "./lualine";
+import { plugin as nvimColorizer } from "./nvim-colorizer";
+import { plugin as nvimScrollview } from "./nvim-scrollview";
+import { plugin as neoTreeNvim } from "./neo-tree-nvim";
 
 export const plugins = [
   twilight,
@@ -18,4 +21,7 @@ export const plugins = [
   nvimNotify,
   noice,
   lualine,
+  nvimColorizer,
+  nvimScrollview,
+  neoTreeNvim,
 ] as const;

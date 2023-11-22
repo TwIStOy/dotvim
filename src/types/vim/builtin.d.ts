@@ -161,6 +161,8 @@ declare namespace vim {
 
   export const uv: AnyMod;
 
+  export const opt_local: AnyTable;
+
   export namespace json {
     /**
      * Encodes (or "packs") Lua object `{obj}` as JSON in a Lua string.
@@ -288,4 +290,10 @@ declare namespace vim {
   };
 
   export function inspect(value: any): string;
+
+  export function uri_from_fname(this: void, uri: string): string;
+
+  export function uri_to_bufnr(this: void, uri: string): number;
+
+  export function tbl_keys(this: void, val: AnyTable): string[];
 }

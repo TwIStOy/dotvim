@@ -47,7 +47,11 @@ function intoMenuItem(buffer: VimBuffer, item: RightClickMenuItem): MenuItem[] {
         () => {
           let action = ActionRegistry.getInstance().get(item.actionId);
           if (action === undefined) {
-            throw new Error(`Action ${item.actionId} not found`);
+            vim.notify(
+              `Action ${item.actionId} not found`,
+              vim.log.levels.ERROR
+            );
+            return;
           }
           action.execute();
         },
@@ -57,7 +61,7 @@ function intoMenuItem(buffer: VimBuffer, item: RightClickMenuItem): MenuItem[] {
           enabled: () => {
             let action = ActionRegistry.getInstance().get(item.actionId);
             if (action === undefined) {
-              throw new Error(`Action ${item.actionId} not found`);
+              return false;
             }
             return action.enabled(buffer);
           },

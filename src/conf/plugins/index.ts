@@ -47,7 +47,8 @@ export class ActionRegistry {
 
   private add(action: Action<any>) {
     if (this._actions.has(action.id)) {
-      throw new Error(`Action ${action.id} already exists`);
+      vim.notify(`Action ${action.id} already exists`, vim.log.levels.ERROR);
+      return;
     }
     this._actions.set(action.id, action);
   }

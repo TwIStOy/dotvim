@@ -10,13 +10,13 @@ function generateActions() {
     .category("AsyncTask")
     .from("asynctasks.vim")
     .addOpts({
-      id: "asynctasks.run",
+      id: "asynctasks.build-file",
       title: "Run build-file task",
       callback: "AsyncTask file-build",
       description: "Execute the build-file task using asynctasks.vim",
     })
     .addOpts({
-      id: "asynctasks.run",
+      id: "asynctasks.build-project",
       title: "Run build-project task",
       callback: "AsyncTask project-build",
       description: "Execute the build-project task using asynctasks.vim",

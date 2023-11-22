@@ -1,6 +1,6 @@
 import { VimBuffer } from "@core/vim";
 import { Collection } from "./collection";
-import { Command } from "@core/model";
+import { Action, Command } from "@core/model";
 
 export class CommandPaletteCollection extends Collection {
   constructor() {
@@ -8,12 +8,12 @@ export class CommandPaletteCollection extends Collection {
   }
 
   mount(buffer: VimBuffer, opts?: any): void {
-    let commands = this.getCommands(buffer);
-    let categoryWidth = commands.reduce((acc, cmd) => {
+    let actions = this.getActions(buffer);
+    let categoryWidth = actions.reduce((acc, cmd) => {
       return Math.max(acc, cmd.category?.length ?? 0);
     }, 0);
-    let titleWidth = commands.reduce((acc, cmd) => {
-      return Math.max(acc, cmd.name.length);
+    let titleWidth = actions.reduce((acc, cmd) => {
+      return Math.max(acc, cmd.title.length);
     }, 0);
 
     luaRequire("telescope.pickers")
@@ -21,7 +21,7 @@ export class CommandPaletteCollection extends Collection {
         prompt_title: "Command Palette",
         sorter: luaRequire("telescope.config").values.generic_sorter(opts),
         finder: luaRequire("telescope.finders").new_table({
-          results: commands,
+          results: actions,
           entry_maker: generateEntryMaker(categoryWidth, titleWidth),
         }),
         previewer: false,
@@ -49,7 +49,7 @@ export class CommandPaletteCollection extends Collection {
 function generateEntryMaker(
   categoryWidth: number,
   titleWidth: number
-): (cmd: Command) => TelescopeEntry<Command> {
+): (action: Action<any>) => TelescopeEntry<Action<any>> {
   let displayer = luaRequire("telescope.pickers.entry_display").create({
     separator: " | ",
     items: [
@@ -58,10 +58,10 @@ function generateEntryMaker(
     ],
   });
 
-  let makeDisplay = (entry: TelescopeEntry<Command>) => {
+  let makeDisplay = (entry: TelescopeEntry<Action<any>>) => {
     return displayer([
-      [entry.value.category, "@variable.builtin"],
-      entry.value.name,
+      [entry.value.category ?? "", "@variable.builtin"],
+      entry.value.title,
     ]);
   };
 
@@ -69,7 +69,7 @@ function generateEntryMaker(
     return {
       value: entry,
       display: makeDisplay,
-      ordinal: entry.category + entry.name,
+      ordinal: entry.id,
     };
   };
 }

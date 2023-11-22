@@ -1,7 +1,7 @@
 local M = {}
 
 local A = vim.api
-local lsp_hover_ns = A.nvim_create_namespace("ht_lsp_hover")
+local lsp_hover_group = A.nvim_create_augroup("ht_lsp_hover", { clear = true })
 local htv = require("ht.vim")
 
 function M.declaration()
@@ -75,7 +75,7 @@ function M.show_hover()
   })
   vim.lsp.buf.hover()
   A.nvim_create_autocmd({ "CursorMoved" }, {
-    group = lsp_hover_ns,
+    group = lsp_hover_group,
     buffer = 0,
     command = 'set eventignore=""',
     once = true,

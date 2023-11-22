@@ -232,6 +232,10 @@ export class Action<Id extends string> {
     return this.opts.description;
   }
 
+  public get category() {
+    return this.opts.category;
+  }
+
   execute() {
     if (typeof this.opts.callback === "string") {
       vim.api.nvim_command(this.opts.callback);

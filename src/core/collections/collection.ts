@@ -1,27 +1,21 @@
-import { Cache, Command } from "@core/model";
+import { Action, Cache } from "@core/model";
 import { VimBuffer } from "@core/vim";
 
 export abstract class Collection {
-  protected _commands: Command[] = [];
+  protected _actions: Action<any>[] = [];
   protected _cache: Cache = new Cache();
 
   cosntructor() {}
 
-  push(cmd: Command): void {
-    this._commands.push(cmd);
+  push(action: Action<any>): void {
+    this._actions.push(action);
     this._cache.clear();
   }
 
-  getCommands(buffer: VimBuffer): Command[] {
+  getActions(buffer: VimBuffer): Action<any>[] {
     return this._cache.ensure(buffer.asCacheKey(), () => {
-      return this._commands.filter((cmd) => {
-        if (cmd.enabled === undefined) {
-          return true;
-        }
-        if (typeof cmd.enabled === "boolean") {
-          return cmd.enabled;
-        }
-        return cmd.enabled(buffer);
+      return this._actions.filter((action) => {
+        return action.enabled(buffer);
       });
     });
   }

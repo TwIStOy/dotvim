@@ -16,7 +16,7 @@ export const plugin = new Plugin({
           let filetype = vim.api.nvim_get_option_value("filetype", {
             buf: vim.api.nvim_win_get_buf(leftWinId),
           });
-          if (filetype === "NvimTree") {
+          if (filetype === "NvimTree" || filetype === "neo-tree") {
             luaRequire("colorful-winsep").NvimSeparatorDel();
           }
         }

@@ -5,6 +5,7 @@ import { plugin as cratesNvim } from "./crates-nvim";
 import { plugin as nabla } from "./nabla";
 import { plugin as neogen } from "./neogen";
 import { plugin as rustToolsNvim } from "./rust-tools-nvim";
+import { plugin as luasnip } from "./luasnip";
 
 export const plugins = [
   commentNvim,
@@ -14,4 +15,5 @@ export const plugins = [
   nabla,
   neogen,
   rustToolsNvim,
+  luasnip,
 ] as const;

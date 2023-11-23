@@ -29,6 +29,7 @@ const spec: PluginOptsBase = {
     opts: {
       auto_clean_after_session_restore: true,
       close_if_last_window: true,
+      enable_refresh_on_write: false,
       sources: ["filesystem", "buffers", "git_status"],
       source_selector: {
         winbar: true,

@@ -2,6 +2,7 @@ import { uniqueArray } from "@core/utils/array";
 import { MenuText } from "./menu-text";
 import { NuiMenuMod } from "@extra/nui";
 import { ContextMenu, ContextMenuContext } from "./context-menu";
+import { VimBuffer } from "@core/vim";
 
 const builtinKeys = [
   "j",
@@ -33,7 +34,7 @@ export class MenuItem {
   public description?: string;
   public callback: (this: void) => void;
   public parent?: NuiMenu<MenuItemContext, ContextMenuContext>;
-  public _enabled: boolean | (() => boolean);
+  public _enabled: boolean | ((buffer: VimBuffer) => boolean);
   public readonly alwaysInMenu: boolean;
 
   private _keys: string[];
@@ -45,7 +46,7 @@ export class MenuItem {
       children?: MenuItem[];
       description?: string;
       keys?: string[];
-      enabled?: boolean | (() => boolean);
+      enabled?: boolean | ((buffer: VimBuffer) => boolean);
       alwaysInMenu?: boolean;
     }
   ) {
@@ -77,9 +78,9 @@ export class MenuItem {
     return this.text.length;
   }
 
-  public get enabled(): boolean {
+  public enabled(buffer: VimBuffer): boolean {
     if (typeof this._enabled === "function") {
-      return this._enabled();
+      return this._enabled(buffer);
     }
     return this._enabled;
   }

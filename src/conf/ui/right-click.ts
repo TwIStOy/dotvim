@@ -39,7 +39,7 @@ function normalizeKeys(keys?: string | string[]): string[] {
   }
 }
 
-function intoMenuItem(buffer: VimBuffer, item: RightClickMenuItem): MenuItem[] {
+function intoMenuItem(item: RightClickMenuItem): MenuItem[] {
   if ("actionId" in item) {
     return [
       new MenuItem(
@@ -58,7 +58,7 @@ function intoMenuItem(buffer: VimBuffer, item: RightClickMenuItem): MenuItem[] {
         {
           keys: normalizeKeys(item.keys),
           alwaysInMenu: item.alwaysInMenu,
-          enabled: () => {
+          enabled: (buffer: VimBuffer) => {
             let action = ActionRegistry.getInstance().get(item.actionId);
             if (action === undefined) {
               return false;
@@ -71,16 +71,49 @@ function intoMenuItem(buffer: VimBuffer, item: RightClickMenuItem): MenuItem[] {
   } else if ("children" in item) {
     return [
       new MenuItem(item.title, () => {}, {
-        children: item.children.map((v) => intoMenuItem(buffer, v)).flat(),
+        children: item.children.map((v) => intoMenuItem(v)).flat(),
         keys: normalizeKeys(item.keys),
       }),
     ];
   } else {
     return [
       new MenuItem("---", () => {}),
-      ...item.items.map((v) => intoMenuItem(buffer, v)).flat(),
+      ...item.items.map((v) => intoMenuItem(v)).flat(),
     ];
   }
+}
+
+function filterMenuItems(buffer: VimBuffer, items: MenuItem[]): MenuItem[] {
+  return clearContiguousSeparators(
+    items.filter((v) => {
+      if (!v.enabled(buffer)) {
+        return false;
+      }
+      if (v.children.length > 0) {
+        v.children = clearContiguousSeparators(
+          filterMenuItems(buffer, v.children)
+        );
+      }
+      return true;
+    })
+  );
+}
+
+function clearContiguousSeparators(items: MenuItem[]): MenuItem[] {
+  let ret: MenuItem[] = [];
+  let lastIsSeparator = false;
+  for (let item of items) {
+    if (item.text.isSeparator()) {
+      if (lastIsSeparator) {
+        continue;
+      }
+      lastIsSeparator = true;
+    } else {
+      lastIsSeparator = false;
+    }
+    ret.push(item);
+  }
+  return ret;
 }
 
 const CppToolkitGroup: RightClickMenuGroup = {
@@ -164,13 +197,9 @@ export const rightClickMenu: RightClickMenuItem[] = [
   CopilotGroup,
 ];
 
-const _rightClickMenuCache = new Cache();
-
 export function mountRightClickMenu(buffer: VimBuffer, opt?: any): void {
-  let items = _rightClickMenuCache.ensure(buffer.asCacheKey(), () => {
-    return rightClickMenu.map((v) => intoMenuItem(buffer, v)).flat();
-  });
-  let menu = new ContextMenu(items);
+  let items = rightClickMenu.map((v) => intoMenuItem(v)).flat();
+  let menu = new ContextMenu(filterMenuItems(buffer, items));
   vim.schedule(() => {
     menu.asNuiMenu(opt ?? {}).mount();
   });

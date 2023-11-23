@@ -16,7 +16,7 @@ function generateActions() {
         luaRequire("close_buffers").delete({ type: "hidden", force: true });
         redrawAll();
       },
-      keys: "<leader>ch",
+      keys: { [1]: "<leader>ch", desc: "delete-hidden-buffers" },
     })
     .addOpts({
       id: "close-buffer.delete-all-buffers-without-name",

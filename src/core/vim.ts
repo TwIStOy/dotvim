@@ -173,7 +173,6 @@ export function showCursor() {
  * Redraw all UI elements.
  */
 export function redrawAll() {
-  vim.api.nvim_command("redrawtabline!");
   vim.api.nvim_command("redrawstatus!");
   vim.api.nvim_command("redraw!");
 }

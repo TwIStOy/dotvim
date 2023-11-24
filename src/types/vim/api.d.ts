@@ -217,6 +217,8 @@ declare namespace vim {
     export function nvim_win_set_buf(window: number, buffer: number): void;
 
     export function nvim_win_get_buf(window: number): number;
+    
+    export function nvim_win_get_width(window: number): number;
 
     export function nvim_exec_autocmds(
       event: string | string[],

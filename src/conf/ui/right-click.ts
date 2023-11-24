@@ -207,17 +207,17 @@ const builtinLspGroup: RightClickMenuGroup = {
         },
         {
           title: "Goto definition",
-          actionId: "builtin.lsp.goto-definition",
+          actionId: "glance.goto-definition",
           keys: "D",
         },
         {
           title: "Goto implementation",
-          actionId: "builtin.lsp.goto-implementation",
+          actionId: "glance.goto-implementation",
           keys: "i",
         },
         {
           title: "Inspect references",
-          actionId: "builtin.lsp.goto-reference",
+          actionId: "glance.goto-reference",
           keys: "r",
         },
         {

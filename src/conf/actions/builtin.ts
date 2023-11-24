@@ -60,34 +60,6 @@ let lspActions = ActionGroupBuilder.start()
     },
   })
   .addOpts({
-    id: "builtin.lsp.goto-definition",
-    title: "Goto definition",
-    callback: () => {
-      luaRequire("glance").open("definitions");
-    },
-  })
-  .addOpts({
-    id: "builtin.lsp.goto-implementation",
-    title: "Goto implementation",
-    callback: () => {
-      luaRequire("glance").open("implementations");
-    },
-  })
-  .addOpts({
-    id: "builtin.lsp.goto-type-definition",
-    title: "Goto type definition",
-    callback: () => {
-      luaRequire("glance").open("type_definitions");
-    },
-  })
-  .addOpts({
-    id: "builtin.lsp.goto-reference",
-    title: "Goto reference",
-    callback: () => {
-      luaRequire("glance").open("references");
-    },
-  })
-  .addOpts({
     id: "builtin.lsp.rename",
     title: "Rename",
     callback: () => {

@@ -8,8 +8,8 @@ import { plugins as otherPlugins } from "./other";
 import { plugins as codingPlugins } from "./coding";
 import { plugins as treesitterPlugins } from "./treesitter";
 import { plugins as libPlugins } from "./lib";
-import { Action, Plugin, PluginActionIds } from "@core/model";
-import { TupleToUnion } from "@core/type_traits";
+import { Action } from "@core/model";
+import { builtinActions } from "@conf/actions/builtin";
 
 export const AllPlugins = [
   WhichKey,
@@ -38,6 +38,9 @@ export class ActionRegistry {
         this.add(action);
       });
     });
+    builtinActions.forEach((action) => {
+      this.add(action);
+    });
   }
 
   static getInstance() {
@@ -63,40 +66,3 @@ export class ActionRegistry {
     return this._actions.values();
   }
 }
-
-type RemoveReadonlyFromTuple<T extends readonly any[]> = T extends readonly [
-  infer A,
-  ...infer Rest,
-]
-  ? A extends readonly any[]
-    ? [RemoveReadonlyFromTuple<A>, ...RemoveReadonlyFromTuple<Rest>]
-    : [A, ...RemoveReadonlyFromTuple<Rest>]
-  : T;
-
-type MergePluginsActions<Ps extends Plugin<any>[]> = Ps extends [
-  infer P,
-  ...infer Rest,
-]
-  ? P extends Plugin<any>
-    ? Rest extends Plugin<any>[]
-      ? [...PluginActionIds<P>, ...MergePluginsActions<Rest>]
-      : never
-    : never
-  : [];
-
-type MaybePluginOrPluginList<P> = P extends Plugin<any>[]
-  ? MergePluginsActions<P>
-  : P extends Plugin<any>
-  ? PluginActionIds<P>
-  : never;
-
-type MergePluginsActionsMaybeGroup<Ps extends any[]> = Ps extends [
-  infer P,
-  ...infer Rest,
-]
-  ? [...MaybePluginOrPluginList<P>, ...MergePluginsActionsMaybeGroup<Rest>]
-  : [];
-
-export type AvailableActions = TupleToUnion<
-  MergePluginsActionsMaybeGroup<RemoveReadonlyFromTuple<typeof AllPlugins>>
->;

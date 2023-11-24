@@ -218,6 +218,17 @@ declare namespace vim {
 
     export function nvim_win_get_buf(window: number): number;
 
+    export function nvim_exec_autocmds(
+      event: string | string[],
+      option: {
+        group?: string | number;
+        pattern?: string | string[];
+        buffer?: number;
+        modeline?: boolean;
+        data?: any;
+      }
+    ): void;
+
     export function nvim_get_hl(
       ns_id: number,
       opts: {

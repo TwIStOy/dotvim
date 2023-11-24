@@ -157,6 +157,8 @@ declare namespace vim {
    */
   export const g: AnyTable;
 
+  export const o: AnyTable;
+
   export const v: AnyTable;
 
   export const uv: AnyMod;

@@ -1,8 +1,7 @@
-import { ActionRegistry, AvailableActions } from "@conf/plugins";
+import { AvailableActions } from "@conf/actions";
+import { ActionRegistry } from "@conf/plugins";
 import { ContextMenu } from "@core/components/context-menu";
 import { MenuItem } from "@core/components/menu-item";
-import { MenuText } from "@core/components/menu-text";
-import { Cache } from "@core/model";
 import { VimBuffer, isNil } from "@core/vim";
 
 interface RightClickMenuItemBase {
@@ -79,12 +78,13 @@ function intoMenuItem(item: RightClickMenuItem): MenuItem[] {
     return [
       new MenuItem("---", () => {}),
       ...item.items.map((v) => intoMenuItem(v)).flat(),
+      new MenuItem("---", () => {}),
     ];
   }
 }
 
 function filterMenuItems(buffer: VimBuffer, items: MenuItem[]): MenuItem[] {
-  return clearContiguousSeparators(
+  let ret = clearContiguousSeparators(
     items.filter((v) => {
       if (!v.enabled(buffer)) {
         return false;
@@ -97,6 +97,11 @@ function filterMenuItems(buffer: VimBuffer, items: MenuItem[]): MenuItem[] {
       return true;
     })
   );
+  // clear last separator
+  if (ret[ret.length - 1].text.isSeparator()) {
+    ret.pop();
+  }
+  return ret;
 }
 
 function clearContiguousSeparators(items: MenuItem[]): MenuItem[] {
@@ -116,7 +121,7 @@ function clearContiguousSeparators(items: MenuItem[]): MenuItem[] {
   return ret;
 }
 
-const CppToolkitGroup: RightClickMenuGroup = {
+const cppToolkitGroup: RightClickMenuGroup = {
   items: [
     {
       title: "CppToolkit",
@@ -146,7 +151,7 @@ const CppToolkitGroup: RightClickMenuGroup = {
   ],
 };
 
-const RustToolkitGroup: RightClickMenuGroup = {
+const rustToolkitGroup: RightClickMenuGroup = {
   items: [
     {
       title: "Open cargo.toml",
@@ -159,13 +164,13 @@ const RustToolkitGroup: RightClickMenuGroup = {
   ],
 };
 
-const FormatFileItem: RightClickMenuActionItem = {
+const formatFileItem: RightClickMenuActionItem = {
   title: "Format file",
   actionId: "conform.format",
   keys: "c",
 };
 
-const CopilotGroup: RightClickMenuGroup = {
+const copilotGroup: RightClickMenuGroup = {
   items: [
     {
       title: "Copilot",
@@ -190,11 +195,47 @@ const CopilotGroup: RightClickMenuGroup = {
   ],
 };
 
+const builtinLspGroup: RightClickMenuGroup = {
+  items: [
+    {
+      title: "Lsp",
+      children: [
+        {
+          title: "Goto declaration",
+          actionId: "builtin.lsp.goto-declaration",
+          keys: "d",
+        },
+        {
+          title: "Goto definition",
+          actionId: "builtin.lsp.goto-definition",
+          keys: "D",
+        },
+        {
+          title: "Goto implementation",
+          actionId: "builtin.lsp.goto-implementation",
+          keys: "i",
+        },
+        {
+          title: "Inspect references",
+          actionId: "builtin.lsp.goto-reference",
+          keys: "r",
+        },
+        {
+          title: "Rename symbol",
+          actionId: "builtin.lsp.rename",
+          keys: "R",
+        },
+      ],
+    },
+  ],
+};
+
 export const rightClickMenu: RightClickMenuItem[] = [
-  FormatFileItem,
-  CppToolkitGroup,
-  RustToolkitGroup,
-  CopilotGroup,
+  formatFileItem,
+  cppToolkitGroup,
+  rustToolkitGroup,
+  builtinLspGroup,
+  copilotGroup,
 ];
 
 export function mountRightClickMenu(buffer: VimBuffer, opt?: any): void {

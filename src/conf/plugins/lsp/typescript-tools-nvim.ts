@@ -3,7 +3,6 @@ import {
   Plugin,
   PluginOpts,
   andActions,
-  buildSimpleCommand,
 } from "@core/model";
 
 function generateActions() {

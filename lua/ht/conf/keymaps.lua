@@ -60,10 +60,6 @@ local function setup()
     end, { silent = true })
   end
 
-  NMAP(";;", function()
-    require("ht.core.right-click").show()
-  end, "show-menu")
-
   NMAP("<M-n>", "<cmd>nohl<CR>", "nohl")
 
   NMAP("<leader>q", "<cmd>q<CR>", "quit")
@@ -90,7 +86,7 @@ local function setup()
     }
   end, "open-command-palette")
 
-  NMAP(";'", function()
+  NMAP(";;", function()
     require("htts").onRightClick()
   end)
 end

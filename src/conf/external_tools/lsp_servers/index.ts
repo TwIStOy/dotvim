@@ -1,3 +1,4 @@
-import TypescriptTool from "./typescript-tools";
+import typescriptTool from "./typescript-tools";
+import { server as clangdTool } from "./clangd";
 
-export default [TypescriptTool];
+export default [typescriptTool, clangdTool];

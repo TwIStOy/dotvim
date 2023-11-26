@@ -67,15 +67,62 @@ function generateActions() {
     .build();
 }
 
-async function config(_: any, opts: AnyNotNil) {
-  luaRequire("mason").setup(opts);
+interface VersionCheckResult {
+  name: string;
+  outdated: boolean;
+}
 
+function registryUpdate(): Promise<void> {
+  return new Promise((resolve) => {
+    let registry = luaRequire("mason-registry");
+    registry.update(() => {
+      resolve();
+    });
+  });
+}
+
+function checkPackage(pkg: any, name: string): Promise<VersionCheckResult> {
+  return new Promise((resolve) => {
+    pkg.check_new_version((result: boolean) => {
+      resolve({
+        name: name,
+        outdated: result,
+      });
+    });
+  });
+}
+
+function installPackage(pkg: any, name: string): Promise<void> {
+  return new Promise((resolve) => {
+    vim.notify(`Installing ${name}...`);
+    let handle = pkg.install(spec);
+    handle.once(
+      "closed",
+      vim.schedule_wrap(() => {
+        if (pkg.is_installed()) {
+          vim.notify(
+            `"${name}" was succesfully installed!`,
+            vim.log.levels.INFO,
+            {
+              title: "Mason",
+            }
+          );
+        } else {
+          vim.notify(`Failed to install ${name}`, vim.log.levels.ERROR, {
+            title: "Mason",
+          });
+        }
+        resolve();
+      })
+    );
+  });
+}
+
+async function installAndUpgradePackages() {
   let registry = luaRequire("mason-registry");
 
-  let check_new_version_promises: Promise<{
-    name: string;
-    has_new_version: boolean;
-  }>[] = [];
+  let upgradePackages: Promise<VersionCheckResult>[] = [];
+  let promises: Promise<void>[] = [];
 
   for (let fmt of AllMaybeMasonPackage) {
     let spec = fmt.asMasonSpec();
@@ -83,65 +130,47 @@ async function config(_: any, opts: AnyNotNil) {
 
     let pkg = registry.get_package(spec.name);
     if (!pkg.is_installed()) {
-      vim.notify(`Installing ${spec.name}...`);
-      let handle = pkg.install(spec);
-      handle.once(
-        "closed",
-        vim.schedule_wrap(() => {
-          if (pkg.is_installed()) {
-            vim.notify(
-              `"${spec!.name}" was succesfully installed!`,
-              vim.log.levels.INFO,
-              {
-                title: "Mason",
-              }
-            );
-          } else {
-            vim.notify(
-              `Failed to install ${spec!.name}`,
-              vim.log.levels.ERROR,
-              {
-                title: "Mason",
-              }
-            );
-          }
-        })
-      );
+      promises.push(installPackage(pkg, spec.name));
     } else {
-      let promise = new Promise<{
-        name: string;
-        has_new_version: boolean;
-      }>((resolve) => {
-        pkg.check_new_version((result: boolean) => {
-          resolve({
-            name: spec!.name,
-            has_new_version: result,
-          });
-        });
-      });
-      check_new_version_promises.push(promise);
+      upgradePackages.push(checkPackage(pkg, spec.name));
     }
   }
 
-  if (check_new_version_promises.length > 0) {
-    let results = await Promise.all(check_new_version_promises);
-    let should_be_updated = results.filter((r) => r.has_new_version);
-    if (should_be_updated.length == 0) {
-      vim.notify(`All tools are up to date!`, vim.log.levels.INFO, {
+  if (upgradePackages.length > 0) {
+    await registryUpdate().then(() => {
+      vim.notify("Registry updated!", vim.log.levels.INFO, {
         title: "Mason",
         render: "compact",
       });
-    } else {
-      let names = should_be_updated.map((r) => r.name).join("\n  ");
-      vim.notify(
-        `The following tools should be updated:\n  ${names}`,
-        vim.log.levels.WARN,
-        {
-          title: "Mason",
+    });
+    promises.push(
+      Promise.all(upgradePackages).then((results) => {
+        let outdatedPackages = results.filter((r) => r.outdated);
+        if (outdatedPackages.length === 0) {
+          vim.notify(`All tools are up to date!`, vim.log.levels.INFO, {
+            title: "Mason",
+            render: "compact",
+          });
+        } else {
+          let names = outdatedPackages.map((r) => r.name).join("\n  ");
+          vim.notify(
+            `The following tools should be updated:\n  ${names}`,
+            vim.log.levels.WARN,
+            {
+              title: "Mason",
+            }
+          );
         }
-      );
-    }
+      })
+    );
   }
+
+  await Promise.all(promises);
+}
+
+async function config(_: any, opts: AnyNotNil) {
+  luaRequire("mason").setup(opts);
+  installAndUpgradePackages();
 }
 
 export const plugin = new Plugin(andActions(spec, generateActions));

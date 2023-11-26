@@ -2,13 +2,11 @@
 local all_servers = (function()
   local servers = {}
 
-  servers[#servers + 1] = require("ht.conf.lsp.servers.clangd")
   servers[#servers + 1] = require("ht.conf.lsp.servers.rust-analyzer")
   servers[#servers + 1] = require("ht.conf.lsp.servers.pyright")
   servers[#servers + 1] = require("ht.conf.lsp.servers.cmake")
   servers[#servers + 1] = require("ht.conf.lsp.servers.lua_ls")
   servers[#servers + 1] = require("ht.conf.lsp.servers.rime_ls")
-  -- servers[#servers + 1] = require("ht.conf.lsp.servers.tsserver")
   servers[#servers + 1] = require("ht.conf.lsp.servers.flutter")
 
   -- init sourcekit in macos

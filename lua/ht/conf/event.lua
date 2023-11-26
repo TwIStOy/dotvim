@@ -46,6 +46,7 @@ local quick_close_filetypes = {
   "PlenaryTestPopup",
   "aerial",
   "Outline",
+  "ClangdAST",
 }
 
 local function mkdir()

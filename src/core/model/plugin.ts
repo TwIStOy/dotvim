@@ -210,7 +210,7 @@ export class Plugin<AIds extends string[] = []> {
     return this._opts.lazy?.config;
   }
 
-  asLazySpec(): LazySpec | string {
+  intoLazySpec(): LazySpec | string {
     if (!this._opts.lazy && this.commands.length === 0) {
       return this._opts.shortUrl;
     }

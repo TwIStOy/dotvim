@@ -1,5 +1,5 @@
 import { HttsContext } from "context";
-import { LazySpec } from "./plugin";
+import { LazySpec, Plugin } from "./plugin";
 
 export interface MasonPackageOpt {
   /**
@@ -121,7 +121,7 @@ type LspServerSetupFn = (
   capabilities: LuaTable
 ) => void;
 
-type LspServerOpt = (
+type LspServerOpt<ActionIds extends string[]> = (
   | {
       setup: LspServerSetupFn;
     }
@@ -133,14 +133,14 @@ type LspServerOpt = (
   /**
    * where the lsp server is from
    */
-  plugin?: LazySpec | string;
+  plugin?: Plugin<ActionIds>;
 };
 
-export class LspServer extends ExternalTools {
+export class LspServer<ActionIds extends string[] = []> extends ExternalTools {
   readonly setup: LspServerSetupFn;
-  readonly plugin?: LazySpec | string;
+  readonly plugin?: Plugin<ActionIds>;
 
-  constructor(opts: ExternalToolsOpt & LspServerOpt) {
+  constructor(opts: ExternalToolsOpt & LspServerOpt<ActionIds>) {
     super(opts);
     if ("setup" in opts) {
       this.setup = opts.setup;
@@ -165,7 +165,7 @@ export class LspServer extends ExternalTools {
     };
   }
 
-  asLazySpec(): LazySpec | string | undefined {
-    return this.plugin;
+  intoLazySpec(): LazySpec | string | undefined {
+    return this.plugin?.intoLazySpec();
   }
 }

@@ -298,4 +298,14 @@ declare namespace vim {
   export function uri_to_bufnr(this: void, uri: string): number;
 
   export function tbl_keys(this: void, val: AnyTable): string[];
+
+  export function split(
+    this: void,
+    str: string,
+    sep: string,
+    opts?: {
+      plain?: boolean;
+      trimempty?: boolean;
+    }
+  ): string[];
 }

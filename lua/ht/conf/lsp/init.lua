@@ -1,19 +1,7 @@
 ---@type ht.lsp.Server[]
 local all_servers = (function()
   local servers = {}
-
-  servers[#servers + 1] = require("ht.conf.lsp.servers.rust-analyzer")
-  servers[#servers + 1] = require("ht.conf.lsp.servers.pyright")
-  servers[#servers + 1] = require("ht.conf.lsp.servers.cmake")
-  servers[#servers + 1] = require("ht.conf.lsp.servers.lua_ls")
   servers[#servers + 1] = require("ht.conf.lsp.servers.rime_ls")
-  servers[#servers + 1] = require("ht.conf.lsp.servers.flutter")
-
-  -- init sourcekit in macos
-  if vim.fn.has("macunix") then
-    servers[#servers + 1] = require("ht.conf.lsp.servers.sourcekit")
-  end
-
   return servers
 end)()
 

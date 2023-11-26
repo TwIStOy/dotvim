@@ -1,5 +1,6 @@
 import {
   ActionGroupBuilder,
+  LspServer,
   Plugin,
   PluginOpts,
   andActions,
@@ -72,4 +73,21 @@ export const spec: PluginOpts = {
   allowInVscode: false,
 };
 
-export const plugin = new Plugin(andActions(spec, generateActions));
+const plugin = new Plugin(andActions(spec, generateActions));
+
+export const server = new LspServer({
+  name: "typescript-tools",
+  plugin,
+  exe: {
+    masonPkg: "typescript-language-server",
+  },
+  setup(_server: LspServer, on_attach: () => void, _capabilities: LuaTable) {
+    luaRequire("typescript-tools").setup({
+      on_attach: on_attach,
+      settings: {
+        tsserver_locale: "en",
+        complete_function_calls: true,
+      },
+    });
+  },
+});

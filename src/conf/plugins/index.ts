@@ -25,7 +25,7 @@ export const AllPlugins = [
 
 export const LazySpecs = [...AllPlugins, ...AllLspServers]
   .flat()
-  .map((p) => p.asLazySpec());
+  .map((p) => p.intoLazySpec());
 
 export class ActionRegistry {
   private static instance?: ActionRegistry;
@@ -38,6 +38,12 @@ export class ActionRegistry {
         this.add(action);
       });
     });
+    AllLspServers.flat().forEach((server) => {
+      server.plugin?.actions.forEach((action) => {
+        this.add(action);
+      });
+    });
+
     builtinActions.forEach((action) => {
       this.add(action);
     });

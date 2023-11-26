@@ -164,6 +164,52 @@ const rustToolkitGroup: RightClickMenuGroup = {
   ],
 };
 
+const flutterGroup: RightClickMenuGroup = {
+  items: [
+    {
+      title: "Flutter: Run",
+      actionId: "flutter-tools.run-project",
+    },
+    {
+      title: "Flutter: Restart",
+      actionId: "flutter-tools.restart-project",
+    },
+    {
+      title: "Flutter: More",
+      children: [
+        {
+          title: "Flutter: Select devices",
+          actionId: "flutter-tools.select-devices",
+        },
+        {
+          title: "Flutter: Select emulators",
+          actionId: "flutter-tools.select-emulators",
+        },
+        {
+          title: "Flutter: Hot reload",
+          actionId: "flutter-tools.hot-reload",
+        },
+        {
+          title: "Flutter: Quit",
+          actionId: "flutter-tools.quit-project",
+        },
+        {
+          title: "Flutter: Detach",
+          actionId: "flutter-tools.detach-project",
+        },
+        {
+          title: "Flutter: Toggle outline",
+          actionId: "flutter-tools.toggle-outline",
+        },
+        {
+          title: "Flutter: Open outline",
+          actionId: "flutter-tools.open-outline",
+        },
+      ],
+    },
+  ],
+};
+
 const formatFileItem: RightClickMenuActionItem = {
   title: "Format file",
   actionId: "conform.format",
@@ -234,6 +280,7 @@ export const rightClickMenu: RightClickMenuItem[] = [
   formatFileItem,
   cppToolkitGroup,
   rustToolkitGroup,
+  flutterGroup,
   builtinLspGroup,
   copilotGroup,
 ];

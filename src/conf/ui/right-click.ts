@@ -93,12 +93,15 @@ function filterMenuItems(buffer: VimBuffer, items: MenuItem[]): MenuItem[] {
         v.children = clearContiguousSeparators(
           filterMenuItems(buffer, v.children)
         );
+        if (v.children.length === 0) {
+          return false;
+        }
       }
       return true;
     })
   );
   // clear last separator
-  if (ret[ret.length - 1].text.isSeparator()) {
+  if (ret.length > 0 && ret[ret.length - 1].text.isSeparator()) {
     ret.pop();
   }
   return ret;

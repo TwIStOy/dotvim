@@ -1,4 +1,9 @@
-import { GetRequired, Push, TupleToUnion } from "@core/type_traits";
+import {
+  GetRequired,
+  Push,
+  RemoveReadonlyFromTuple,
+  TupleToUnion,
+} from "@core/type_traits";
 import { VimBuffer } from "@core/vim";
 import { LazyKeySpec } from "types/plugin/lazy";
 
@@ -274,4 +279,10 @@ export class Action<Id extends string> {
     }
     return ret;
   }
+}
+
+export function removeReadonly<T extends readonly any[]>(
+  actions: T
+): RemoveReadonlyFromTuple<T> {
+  return actions as any;
 }

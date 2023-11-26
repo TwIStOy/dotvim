@@ -51,7 +51,11 @@ declare namespace vim {
       list?: boolean
     ): string;
 
-    export function fnamemodify(fname: string, mods: string): string;
+    export function fnamemodify(
+      this: void,
+      fname: string,
+      mods: string
+    ): string;
 
     export function setreg(reg: string, val: any, options?: any): void;
   }

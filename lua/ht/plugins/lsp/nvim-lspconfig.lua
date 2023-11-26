@@ -15,7 +15,6 @@ return {
       "hrsh7th/nvim-cmp",
       "williamboman/mason.nvim",
       "MunifTanjim/nui.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
     },
     config = function()
       --- add menus for specific types

@@ -54,3 +54,10 @@ export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 export type DeepWriteable<T> = {
   -readonly [P in keyof T]: DeepWriteable<T[P]>;
 };
+
+export type RemoveReadonlyFromTuple<T extends readonly any[]> =
+  T extends readonly [infer A, ...infer Rest]
+    ? A extends readonly any[]
+      ? [RemoveReadonlyFromTuple<A>, ...RemoveReadonlyFromTuple<Rest>]
+      : [A, ...RemoveReadonlyFromTuple<Rest>]
+    : T;

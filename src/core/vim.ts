@@ -190,3 +190,19 @@ export function highlightFg(group: string): string {
   }
   return "";
 }
+
+export function system(
+  cmd: string[],
+  opts?: any
+): Promise<vim.SystemCompleted> {
+  return new Promise<vim.SystemCompleted>((resolve, reject) => {
+    const onExit = (obj: vim.SystemCompleted) => {
+      resolve(obj);
+    };
+    try {
+      vim.system(cmd, opts, onExit);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}

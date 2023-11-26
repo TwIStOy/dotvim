@@ -1,6 +1,6 @@
 import { AllPlugins } from "@conf/plugins";
 import { Plugin, PluginActionIds, TraitActionsId } from "@core/model";
-import { TupleToUnion } from "@core/type_traits";
+import { RemoveReadonlyFromTuple, TupleToUnion } from "@core/type_traits";
 import { builtinActions } from "./builtin";
 
 export type AvailableActions = TupleToUnion<
@@ -24,15 +24,6 @@ type MaybePluginOrPluginList<P> = P extends Plugin<any>[]
   : P extends Plugin<any>
   ? PluginActionIds<P>
   : never;
-
-type RemoveReadonlyFromTuple<T extends readonly any[]> = T extends readonly [
-  infer A,
-  ...infer Rest,
-]
-  ? A extends readonly any[]
-    ? [RemoveReadonlyFromTuple<A>, ...RemoveReadonlyFromTuple<Rest>]
-    : [A, ...RemoveReadonlyFromTuple<Rest>]
-  : T;
 
 type MergePluginsActions<Ps extends Plugin<any>[]> = Ps extends [
   infer P,

@@ -73,7 +73,6 @@ const spec: PluginOptsBase = {
     lazy: true,
     dependencies: [
       "nvim-lua/plenary.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
       "MunifTanjim/nui.nvim",
     ],
     event: {

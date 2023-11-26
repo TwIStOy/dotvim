@@ -1,6 +1,6 @@
 return {
   {
-    "TwIStOy/neodim",
+    "zbirenbaum/neodim",
     lazy = true,
     event = "LspAttach",
     config = function()

@@ -22,7 +22,7 @@ const spec: PluginOpts = {
           style: "bold",
         },
         hover: { enabled: true, delay: 200 },
-        separator_style: "slant",
+        separator_style: "thick",
         close_command: "BDelete! %d",
         numbers: "none",
         diagnostics: "",

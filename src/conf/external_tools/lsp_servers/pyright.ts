@@ -8,7 +8,10 @@ export const server = new LspServer({
   },
   setup: (_server: LspServer, on_attach, capabilities) => {
     luaRequire("lspconfig").pyright.setup({
-      cmd: [`${HttsContext.getInstance()}/pyright-langserver`, "--stdio"],
+      cmd: [
+        `${HttsContext.getInstance().masonBinRoot}/pyright-langserver`,
+        "--stdio",
+      ],
       on_attach: on_attach,
       capabilities: capabilities,
     });

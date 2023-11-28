@@ -31,6 +31,10 @@ const spec: PluginOpts<[]> = {
     opts: {
       formatters: formatters_opts,
       formatters_by_ft: formatters_by_ft,
+      format_on_save: {
+        lsp_fallback: true,
+        timeout_ms: 500,
+      },
     },
     event: "BufReadPost",
     config: true,

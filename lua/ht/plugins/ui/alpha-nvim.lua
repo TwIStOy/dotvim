@@ -10,6 +10,8 @@ if Const.is_gui then
   dependencies[#dependencies + 1] = "TwIStOy/project.nvim"
 end
 
+local after_lazy_vim_started = false
+
 local M = {
   "goolord/alpha-nvim",
   cond = function()
@@ -262,7 +264,16 @@ local function build_recent_files_section()
       {
         type = "group",
         val = function()
-          return { mru(1, vim.fn.getcwd(), 5) }
+          if after_lazy_vim_started then
+            return { mru(1, vim.fn.getcwd(), 5) }
+          else
+            return {
+              {
+                type = "text",
+                val = "Loading...",
+              },
+            }
+          end
         end,
         opts = { shrink_margin = false },
       },
@@ -424,6 +435,7 @@ M.config = function() -- code to run after plugin loaded
           pattern = "LazyVimStarted",
           once = true,
           callback = function()
+            after_lazy_vim_started = true
             require("alpha").redraw()
           end,
         })

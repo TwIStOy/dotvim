@@ -146,7 +146,7 @@ declare interface LazyOpts {
     | {
         event: LazySpecAllowedEvent | LazySpecAllowedEvent[];
         pattern?: string | string[];
-      };
+      }[];
 
   /**
    * When false, git submodules will not be fetched. Defaults to `true`

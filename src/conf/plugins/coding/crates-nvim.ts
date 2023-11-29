@@ -71,20 +71,20 @@ const spec: PluginOptsBase = {
   shortUrl: "saecki/crates.nvim",
   lazy: {
     lazy: true,
-    dependencies: [
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
+    dependencies: ["nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim"],
+    event: [
+      {
+        event: "BufEnter",
+        pattern: "Cargo.toml",
+      },
     ],
-    event: {
-      event: "BufRead",
-      pattern: "Cargo.toml",
-    },
     init: () => {
       // register event at very start of init
       vim.api.nvim_create_autocmd("BufRead", {
         group: vim.api.nvim_create_augroup("CmpSourceCargo", { clear: true }),
         pattern: "Cargo.toml",
         callback: () => {
+          print("F");
           const cmp = luaRequire("cmp");
           cmp.setup.buffer({ sources: [{ name: "crates" }] });
         },

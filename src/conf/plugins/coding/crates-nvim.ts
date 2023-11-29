@@ -84,9 +84,21 @@ const spec: PluginOptsBase = {
         group: vim.api.nvim_create_augroup("CmpSourceCargo", { clear: true }),
         pattern: "Cargo.toml",
         callback: () => {
-          print("F");
           const cmp = luaRequire("cmp");
           cmp.setup.buffer({ sources: [{ name: "crates" }] });
+
+          vim.keymap.set(
+            "n",
+            "K",
+            () => {
+              if (luaRequire("crates").popup_available()) {
+                luaRequire("crates").show_popup();
+              }
+            },
+            {
+              buffer: true,
+            }
+          );
         },
       });
     },
@@ -94,7 +106,11 @@ const spec: PluginOptsBase = {
       luaRequire("crates").setup({
         autoload: true,
         popup: { autofocus: true, border: "rounded" },
-        null_ls: { enabled: true, name: "crates.nvim" },
+        src: {
+          cmp: {
+            enabled: true,
+          },
+        },
       });
 
       // BufRead event is missing, because of lazy-loading

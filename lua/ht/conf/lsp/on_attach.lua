@@ -32,7 +32,9 @@ local function on_buffer_attach(client, bufnr)
 
   nmap("gt", LSP.type_definitions, "goto-type-definition")
 
-  nmap("K", LSP.show_hover, "show-hover")
+  if vim.fn.mapcheck("K", "n") == "" then
+    nmap("K", LSP.show_hover, "show-hover")
+  end
 
   nmap("gi", LSP.implementations, "goto-impl")
 

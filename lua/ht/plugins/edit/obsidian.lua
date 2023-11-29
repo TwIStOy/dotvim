@@ -124,10 +124,7 @@ M.lazy.config = function()
         tags = note.tags,
         lastModifiedTime = os.date("%Y-%m-%d"),
       }
-      if
-        note.metadata ~= nil
-        and require("obsidian").util.table_length(note.metadata) > 0
-      then
+      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
         for k, v in pairs(note.metadata) do
           if out[k] == nil then
             out[k] = v

@@ -92,7 +92,7 @@ M.lazy.config = function()
       folder = "3-Resources/0-Dairy",
       date_format = "%Y-%m-%d",
       alias_format = "%B %-d, %Y",
-      template = "daily-note.md",
+      template = "Templates.nvim/daily-note.md",
     },
     completion = {
       nvim_cmp = true,

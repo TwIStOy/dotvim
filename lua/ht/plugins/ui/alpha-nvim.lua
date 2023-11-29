@@ -156,21 +156,23 @@ local function build_buttons(arr)
     builtin.find_files { cwd = "$HOME/.dotvim" }
   end)
 
-  buttons[#buttons + 1] = button(
-    "f",
-    "󰺮  " .. arr .. " Search Obsidian",
-    function()
-      vim.cmd("ObsidianSearchByAlias")
-    end
-  )
+  if require("ht.core.globals").has_obsidian_vault then
+    buttons[#buttons + 1] = button(
+      "f",
+      "󰺮  " .. arr .. " Search Obsidian",
+      function()
+        vim.cmd("ObsidianSearchByAlias")
+      end
+    )
 
-  buttons[#buttons + 1] = button(
-    "t",
-    "󰃶  " .. arr .. " Obsidian Today",
-    function()
-      vim.cmd("ObsidianToday")
-    end
-  )
+    buttons[#buttons + 1] = button(
+      "t",
+      "󰃶  " .. arr .. " Obsidian Today",
+      function()
+        vim.cmd("ObsidianToday")
+      end
+    )
+  end
 
   buttons[#buttons + 1] =
     button("u", "󰚰  " .. arr .. " Update Plugins", ":Lazy update<CR>")

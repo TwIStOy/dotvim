@@ -1,6 +1,6 @@
 local M = {}
 
-local default_vault_path = "~/Projects/obsidian-data/Main"
+local default_vault_path = "~/Documents/Main"
 
 local function resolve_obsidian_vault()
   if vim.g.obsidian_vault_path then

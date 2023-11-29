@@ -86,10 +86,10 @@ local M = {
 M.lazy.config = function()
   local obsidian = require("obsidian").setup {
     dir = require("ht.core.globals").obsidian_vault,
-    notes_subdir = "2-Outputs/0-Zettel",
+    notes_subdir = "3-Resources/0-Zettel",
     log_level = vim.log.levels.WARN,
     daily_notes = {
-      folder = "2-Outputs/1-Journal",
+      folder = "3-Resources/0-Dairy",
       date_format = "%Y-%m-%d",
       alias_format = "%B %-d, %Y",
       template = "daily-note.md",
@@ -99,7 +99,7 @@ M.lazy.config = function()
       new_notes_location = "notes_subdir",
     },
     templates = {
-      subdir = "0-Assets/Templates.nvim",
+      subdir = "0-Assets",
       substitutions = {
         daily_title = function()
           return os.date("%B %-d, %Y")

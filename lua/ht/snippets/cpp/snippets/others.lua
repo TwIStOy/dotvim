@@ -20,7 +20,7 @@ local simple_comment = function(prefix)
     prefix,
     name = prefix:upper() .. " comment",
     dscr = prefix:upper() .. " comment",
-    mode = "wAb",
+    mode = "wb",
     nodes = {
       t("// " .. prefix:upper() .. "(hawtian): "),
       i(0),
@@ -66,9 +66,6 @@ return {
   quick_expand("a&&", "auto&& "),
 
   -- common comments
-  simple_comment("todo"),
-  simple_comment("fixme"),
-  simple_comment("note"),
   simple_comment("unsafe"),
 
   -- access modifier

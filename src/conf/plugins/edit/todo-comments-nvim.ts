@@ -62,6 +62,7 @@ const spec: PluginOpts = {
       search: { pattern: "(KEYWORDS)\\([^)]*\\):" },
       keywords: {
         HACK: { alt: ["UNSAFE"] },
+        FIX: { alt: ["FIXME", "BUG", "FIXIT", "ISSUE", "FUCKING"] },
       },
     },
     config: (_, opts) => {

@@ -34,7 +34,7 @@ function actions() {
       id: "todo-comments.goto-next-todo",
       title: "Goto next todo",
       callback: () => {
-        luaRequire("todo-comments").just_next();
+        luaRequire("todo-comments").jump_next();
       },
       keys: "]t",
       description: "jump-next-todo",
@@ -43,7 +43,7 @@ function actions() {
       id: "todo-comments.goto-previous-todo",
       title: "Goto previous todo",
       callback: () => {
-        luaRequire("todo-comments").just_prev();
+        luaRequire("todo-comments").jump_prev();
       },
       keys: "[t",
       description: "jump-prev-todo",
@@ -56,14 +56,17 @@ const spec: PluginOpts = {
   lazy: {
     event: "BufReadPost",
     cmd: ["TodoTrouble", "TodoTelescope"],
+    dependencies: ["nvim-lua/plenary.nvim"],
     opts: {
-      highlight: { keyword: "wide_bg", pattern: "(KEYWORDS)([^)]*):" },
-      search: { pattern: "(KEYWORDS)([^)]*):" },
+      highlight: { keyword: "wide_bg", pattern: "(KEYWORDS)\\([^)]*\\):" },
+      search: { pattern: "(KEYWORDS)\\([^)]*\\):" },
       keywords: {
         HACK: { alt: ["UNSAFE"] },
       },
     },
-    config: true,
+    config: (_, opts) => {
+      luaRequire("todo-comments").setup(opts);
+    },
   },
 };
 

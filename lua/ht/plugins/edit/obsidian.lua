@@ -7,9 +7,10 @@ local function setup_keymaps()
 end
 
 local M = {
-  "epwalsh/obsidian.nvim",
+  "TwIStOy/obsidian.nvim",
   lazy = {
     lazy = true,
+    dev = true,
     event = {
       ("BufReadPre %s/*.md"):format(require("ht.core.globals").obsidian_vault),
       ("BufNewFile %s/*.md"):format(require("ht.core.globals").obsidian_vault),
@@ -111,11 +112,14 @@ M.lazy.config = function()
     },
     use_advanced_uri = true,
     note_id_func = function(_)
-      return ("%0x-%0x-%x"):format(
+      return ("%0x-%04x-%4x"):format(
         os.time(),
         math.random(0, 0xffff),
         math.random(0, 0xffff)
       )
+    end,
+    disable_frontmatter = function(_fname)
+      return false
     end,
     note_frontmatter_func = function(note)
       local out = {

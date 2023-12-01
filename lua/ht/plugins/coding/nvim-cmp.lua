@@ -237,7 +237,7 @@ M.config = function()
         }(entry, vim_item)
         local strings = vim.split(kind.kind, "%s", { trimempty = true })
         kind.kind = strings[1] .. "  "
-        if string[2] and #strings[2] > 0 then
+        if strings[2] and #strings[2] > 0 then
           kind.menu = "    (" .. strings[2] .. ")"
         else
           kind.menu = ""

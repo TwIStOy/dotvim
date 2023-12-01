@@ -12,6 +12,19 @@ export const plugin = new Plugin({
       tabout: {
         hopout: true,
       },
+      config_internal_pairs: [
+        {
+          [1]: "'",
+          [2]: "'",
+          suround: true,
+          cond: (fn: AnyMod) => {
+            return !fn.in_lisp() || fn.in_string();
+          },
+          alpha: true,
+          nft: ["tex", "rust"],
+          multiline: false,
+        },
+      ],
     },
     config: true,
   },

@@ -32,7 +32,9 @@ local function on_buffer_attach(client, bufnr)
 
   nmap("gt", LSP.type_definitions, "goto-type-definition")
 
-  if vim.fn.mapcheck("K", "n") == "" then
+  local current_k_map = vim.fn.mapcheck("K", "n")
+  -- empty or contains "nvim/runtime"
+  if current_k_map == "" or current_k_map:find("nvim/runtime") ~= nil then
     nmap("K", LSP.show_hover, "show-hover")
   end
 

@@ -114,7 +114,7 @@ M.config = function()
       disallow_partial_fuzzy_matching = false,
       disallow_partial_matching = false,
     },
-    preselect = cmp.PreselectMode.Item,
+    preselect = cmp.PreselectMode.None,
     experimental = { ghost_text = false },
     snippet = {
       expand = function(args)
@@ -123,7 +123,8 @@ M.config = function()
     },
     window = {
       completion = {
-        border = "none",
+        border = "rounded",
+        winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
         focusable = false,
         col_offset = 0,
       },
@@ -236,7 +237,7 @@ M.config = function()
         }(entry, vim_item)
         local strings = vim.split(kind.kind, "%s", { trimempty = true })
         kind.kind = strings[1] .. "  "
-        if #strings[2] > 0 then
+        if string[2] and #strings[2] > 0 then
           kind.menu = "    (" .. strings[2] .. ")"
         else
           kind.menu = ""

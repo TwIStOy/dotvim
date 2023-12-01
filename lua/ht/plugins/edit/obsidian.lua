@@ -140,6 +140,7 @@ M.lazy.config = function()
       end
       return out
     end,
+    yaml_parser = "yq",
   }
 
   local au_group =

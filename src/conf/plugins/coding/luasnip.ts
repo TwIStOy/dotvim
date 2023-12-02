@@ -21,9 +21,10 @@ function addMappedSnippets(snippets: {
 }
 
 const spec: PluginOptsBase = {
-  shortUrl: "L3MON4D3/LuaSnip",
+  shortUrl: "TwIStOy/LuaSnip",
   lazy: {
     build: "make install_jsregexp",
+    dev: true,
     event: ["InsertEnter"],
     config: () => {
       let ls = luaRequire("luasnip");

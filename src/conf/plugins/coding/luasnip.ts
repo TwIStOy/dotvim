@@ -25,6 +25,7 @@ const spec: PluginOptsBase = {
   lazy: {
     build: "make install_jsregexp",
     dev: true,
+    branch: "skip-indent-in-snip-expand",
     event: ["InsertEnter"],
     config: () => {
       let ls = luaRequire("luasnip");

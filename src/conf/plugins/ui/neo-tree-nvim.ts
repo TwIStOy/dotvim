@@ -184,7 +184,7 @@ const spec: PluginOptsBase = {
         hijack_netrw_behavior: "open_current",
         use_libuv_file_watcher: false,
         filtered_items: {
-          hide_gitignored: false,
+          hide_gitignored: true,
           hide_dotfiles: false,
           hide_by_name: ["node_modules"],
           never_show: [".DS_Store", "thumbs.db"],

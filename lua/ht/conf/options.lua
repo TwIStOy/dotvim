@@ -110,6 +110,12 @@ local function setup()
   --     ["*"] = require("vim.clipboard.osc52").paste,
   --   },
   -- }
+
+  -- allow misspellings
+  vim.cmd.cnoreabbrev("qw", "wq")
+  vim.cmd.cnoreabbrev("W", "w")
+  vim.cmd.cnoreabbrev("Wq", "wq")
+  vim.cmd.cnoreabbrev("WQ", "wq")
 end
 
 return {

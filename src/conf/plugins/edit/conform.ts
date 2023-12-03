@@ -49,11 +49,16 @@ const spec: PluginOpts<[]> = {
   },
 };
 
+const NoFormatFileTypes = new Set(["alpha", "neo-tree"]);
+
 export const plugin = new Plugin(
   andActions(spec, () => {
     return new ActionGroupBuilder()
       .from("conform")
       .category("Conform")
+      .condition((buf) => {
+        return !NoFormatFileTypes.has(buf.filetype);
+      })
       .addOpts({
         id: "conform.format",
         title: "Format File",

@@ -18,6 +18,9 @@ const spec = {
     const actionsGroup = new ActionGroupBuilder()
       .from("cpp-toolkit")
       .category("CppToolkit")
+      .condition((buf) => {
+        return buf.filetype === "cpp" || buf.filetype === "c";
+      })
       .addOpts({
         id: "cpptoolkit.insert-header",
         title: "Insert header",

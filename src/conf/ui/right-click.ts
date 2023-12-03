@@ -104,6 +104,10 @@ function filterMenuItems(buffer: VimBuffer, items: MenuItem[]): MenuItem[] {
   if (ret.length > 0 && ret[ret.length - 1].text.isSeparator()) {
     ret.pop();
   }
+  // clear the first separator
+  if (ret.length > 0 && ret[0].text.isSeparator()) {
+    ret.shift();
+  }
   return ret;
 }
 

@@ -28,6 +28,8 @@ const spec: PluginOptsBase = {
         "*.hh",
         "*.hpp",
         "*.md",
+        "*.rs",
+        "*.toml",
       ],
       fix_enable: true,
     },

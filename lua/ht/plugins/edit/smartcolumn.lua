@@ -10,6 +10,7 @@ return {
         "mason",
         "help",
         "alpha",
+        "bookmarks_input",
       },
     },
     event = { "BufReadPre", "BufNewFile" },

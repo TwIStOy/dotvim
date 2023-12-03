@@ -6,6 +6,7 @@ import { plugin as todoCommentsNvim } from "./todo-comments-nvim";
 import { plugin as ultimateAutopairNvim } from "./ultimate-autopair-nvim";
 import { plugin as taboutNvim } from "./tabout-nvim";
 import { plugin as dial } from "./dial";
+import { plugin as bookmarkNvim } from "./bookmark-nvim";
 
 export const plugins = [
   conform,
@@ -16,4 +17,5 @@ export const plugins = [
   ultimateAutopairNvim,
   taboutNvim,
   dial,
+  bookmarkNvim,
 ] as const;

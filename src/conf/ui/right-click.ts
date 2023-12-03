@@ -283,12 +283,44 @@ const builtinLspGroup: RightClickMenuGroup = {
   ],
 };
 
+const bookmarkGroup: RightClickMenuGroup = {
+  items: [
+    {
+      title: "Bookmarks",
+      keys: "b",
+      children: [
+        {
+          title: "Add bookmark",
+          actionId: "bookmarks.add-bookmark",
+          keys: "a",
+        },
+        {
+          title: "Toggle bookmarks",
+          actionId: "bookmarks.toggle-bookmarks",
+          keys: "t",
+        },
+        {
+          title: "Delete bookmark at virt text line",
+          actionId: "bookmarks.delete-at-virt-line",
+          keys: "d",
+        },
+        {
+          title: "Show bookmark desc",
+          actionId: "bookmarks.show-bookmark-desc",
+          keys: "s",
+        },
+      ],
+    },
+  ],
+};
+
 export const rightClickMenu: RightClickMenuItem[] = [
   formatFileItem,
   cppToolkitGroup,
   rustToolkitGroup,
   flutterGroup,
   builtinLspGroup,
+  bookmarkGroup,
   copilotGroup,
 ];
 

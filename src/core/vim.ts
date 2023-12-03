@@ -206,3 +206,11 @@ export function system(
     }
   });
 }
+
+export function sleep(ms: number): Promise<void> {
+  return new Promise<void>((resolve) => {
+    vim.defer_fn(() => {
+      resolve();
+    }, ms);
+  });
+}

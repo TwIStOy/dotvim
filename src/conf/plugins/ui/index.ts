@@ -10,6 +10,7 @@ import { plugin as lualine } from "./lualine";
 import { plugin as nvimColorizer } from "./nvim-colorizer";
 import { plugin as nvimScrollview } from "./nvim-scrollview";
 import { plugin as neoTreeNvim } from "./neo-tree-nvim";
+import { plugin as dropNvim } from "./drop-nvim";
 
 export const plugins = [
   twilight,
@@ -24,4 +25,5 @@ export const plugins = [
   nvimColorizer,
   nvimScrollview,
   neoTreeNvim,
+  dropNvim,
 ] as const;

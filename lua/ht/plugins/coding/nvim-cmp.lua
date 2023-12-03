@@ -5,7 +5,7 @@ local M = {
     "onsails/lspkind.nvim",
     "lukas-reineke/cmp-under-comparator",
     "saadparwaiz1/cmp_luasnip",
-    "TwIStOy/LuaSnip",
+    "L3MON4D3/LuaSnip",
     "hrsh7th/cmp-cmdline",
     "dmitmel/cmp-cmdline-history",
     "hrsh7th/cmp-nvim-lsp",
@@ -118,12 +118,12 @@ M.config = function()
     experimental = { ghost_text = false },
     snippet = {
       expand = function(args)
-        local skip_indent_nodes = false
+        local indent_nodes = true
         if vim.api.nvim_get_option_value("filetype", { buf = 0 }) == "dart" then
-          skip_indent_nodes = true
+          indent_nodes = false
         end
         require("luasnip").lsp_expand(args.body, {
-          skip_indent_nodes = skip_indent_nodes,
+          indent = indent_nodes,
         })
       end,
     },

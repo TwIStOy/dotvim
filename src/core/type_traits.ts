@@ -17,10 +17,10 @@ export type Concat<T extends any[], U extends any[]> = [...T, ...U];
 export type ExcludeNil<T> = T extends [infer F, ...infer R]
   ? [ExcludeNil<F>, ...ExcludeNil<[...R]>]
   : T extends object
-  ? {
-      [K in keyof T]: ExcludeNil<T[K]>;
-    }
-  : ExcludeNilSingle<T>;
+    ? {
+        [K in keyof T]: ExcludeNil<T[K]>;
+      }
+    : ExcludeNilSingle<T>;
 
 type Unionize<T extends unknown[] | unknown> = T extends unknown[]
   ? T[number]

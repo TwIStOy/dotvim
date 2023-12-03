@@ -1,6 +1,8 @@
 import * as ts from "typescript";
 import * as tstl from "typescript-to-lua";
 
+// const RAW_IMPORT_REGEX = /__raw_import\("(.+)"\)/g;
+
 const isValidLuaRequireExpr = (node: ts.CallExpression) => {
   return (
     node.getSourceFile() !== undefined &&
@@ -24,6 +26,24 @@ const plugin: tstl.Plugin = {
       return context.superTransformExpression(node);
     },
   },
+  // beforeEmit(
+  //   _program: ts.Program,
+  //   _options: tstl.CompilerOptions,
+  //   _emitHost: tstl.EmitHost,
+  //   result: tstl.EmitFile[]
+  // ) {
+  //   for (const file of result) {
+  //     file.code = file.code.replaceAll(
+  //       RAW_IMPORT_REGEX,
+  //       (match, path: unknown) => {
+  //         if (typeof path !== "string") {
+  //           return match;
+  //         }
+  //         return `require("${path}")`;
+  //       }
+  //     );
+  //   }
+  // },
 };
 
 export default plugin;

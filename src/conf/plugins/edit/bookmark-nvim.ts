@@ -8,10 +8,31 @@ import {
 const spec: PluginOptsBase = {
   shortUrl: "crusj/bookmarks.nvim",
   lazy: {
+    dependencies: [
+      "nvim-tree/nvim-web-devicons",
+      "nvim-telescope/telescope.nvim",
+    ],
+    event: ["BufReadPost"],
     opts: {
       mappings_enabled: false,
       sign_icon: "",
-      virt_pattern: [],
+      virt_pattern: [
+        "*.dart",
+        "*.cpp",
+        "*.ts",
+        "*.lua",
+        "*.js",
+        "*.c",
+        "*.h",
+        "*.cc",
+        "*.hh",
+        "*.hpp",
+        "*.md",
+      ],
+      fix_enable: true,
+    },
+    config: (_, opts) => {
+      luaRequire("bookmarks").setup(opts);
     },
   },
 };

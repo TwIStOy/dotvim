@@ -91,6 +91,7 @@ local function config()
     require("telescope").load_extension("obsidian")
   end
   require("telescope").load_extension("my_find_files")
+  require("telescope").load_extension("bookmarks")
 end
 
 local telescope_functions = {

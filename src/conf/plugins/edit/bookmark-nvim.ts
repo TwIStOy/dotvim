@@ -39,7 +39,9 @@ const spec: PluginOptsBase = {
     keys: [
       {
         [1]: "<leader>lm",
-        [2]: "Telescope bookmarks",
+        [2]: () => {
+          vim.api.nvim_command("Telescope bookmarks");
+        },
         desc: "list-bookmarks",
         silent: true,
       },

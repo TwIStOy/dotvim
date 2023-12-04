@@ -36,6 +36,14 @@ const spec: PluginOptsBase = {
     config: (_, opts) => {
       luaRequire("bookmarks").setup(opts);
     },
+    keys: [
+      {
+        [1]: "<leader>lm",
+        [2]: "Telescope bookmarks",
+        desc: "list-bookmarks",
+        silent: true,
+      },
+    ],
   },
 };
 
@@ -49,6 +57,7 @@ function generateActions() {
       callback: () => {
         luaRequire("bookmarks").toggle_bookmarks();
       },
+      keys: [{ [1]: "<leader>bt", desc: "toggle-bookmarks", silent: true }],
     })
     .addOpts({
       id: "bookmarks.add-bookmark",
@@ -56,6 +65,7 @@ function generateActions() {
       callback: () => {
         luaRequire("bookmarks").add_bookmarks();
       },
+      keys: [{ [1]: "<leader>ba", desc: "add-bookmark", silent: true }],
     })
     .addOpts({
       id: "bookmarks.delete-at-virt-line",
@@ -63,6 +73,7 @@ function generateActions() {
       callback: () => {
         luaRequire("bookmarks.list").delete_on_virt();
       },
+      keys: [{ [1]: "<leader>bd", desc: "delete-at-virt-line", silent: true }],
     })
     .addOpts({
       id: "bookmarks.show-bookmark-desc",
@@ -70,6 +81,7 @@ function generateActions() {
       callback: () => {
         luaRequire("bookmarks.list").show_desc();
       },
+      keys: [{ [1]: "<leader>bs", desc: "show-bookmark-desc", silent: true }],
     })
     .build();
 }

@@ -24,7 +24,7 @@ const spec: PluginOpts = {
           ["]"]: { name: "+next" },
           ["["]: { name: "+prev" },
 
-          ["<leader>b"]: { name: "+build" },
+          ["<leader>b"]: { name: "+bookmarks" },
           ["<leader>f"]: { name: "+file" },
           ["<leader>l"]: { name: "+list" },
           ["<leader>n"]: { name: "+no" },

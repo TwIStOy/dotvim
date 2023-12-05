@@ -25,7 +25,7 @@
         "name": "./tstl_plugins/fix-require-path.ts"
       }
     ],
-    "noResolvePaths": ["which-key-raw-nvim"],
+    "noResolvePaths": ["which-key-raw-nvim", "3rd.cairo.cairo"],
     "luaLibImport": "require-minimal",
     "luaBundle": "init.lua",
     "luaBundleEntry": "src/index.ts"

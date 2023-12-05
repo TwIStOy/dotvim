@@ -7,6 +7,8 @@ import { plugin as ultimateAutopairNvim } from "./ultimate-autopair-nvim";
 import { plugin as taboutNvim } from "./tabout-nvim";
 import { plugin as dial } from "./dial";
 import { plugin as bookmarkNvim } from "./bookmark-nvim";
+import { plugin as vimTableMode } from "./vim-table-mode";
+import { plugin as miniMove } from "./mini-move";
 
 export const plugins = [
   conform,
@@ -18,4 +20,6 @@ export const plugins = [
   taboutNvim,
   dial,
   bookmarkNvim,
+  vimTableMode,
+  miniMove,
 ] as const;

@@ -58,5 +58,7 @@ declare namespace vim {
     ): string;
 
     export function setreg(reg: string, val: any, options?: any): void;
+
+    export function trim(s: string): string;
   }
 }

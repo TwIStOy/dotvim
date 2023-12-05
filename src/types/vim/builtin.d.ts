@@ -165,6 +165,8 @@ declare namespace vim {
 
   export const opt_local: AnyTable;
 
+  export const env: LuaTable;
+
   export namespace json {
     /**
      * Encodes (or "packs") Lua object `{obj}` as JSON in a Lua string.
@@ -206,6 +208,11 @@ declare namespace vim {
       export const WARN: number;
       export const OFF: number;
     }
+  }
+
+  export namespace base64 {
+    export function decode(str: string): string;
+    export function encode(str: string): string;
   }
 
   /**

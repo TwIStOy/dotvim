@@ -177,6 +177,14 @@ local function build_buttons(arr)
   buttons[#buttons + 1] =
     button("u", "󰚰  " .. arr .. " Update Plugins", ":Lazy update<CR>")
 
+  buttons[#buttons + 1] = button(
+    "t",
+    "󰇉  " .. arr .. " Fast TEST",
+    function()
+      vim.print(RR("htts").test())
+    end
+  )
+
   if Const.is_gui then
     buttons[#buttons + 1] = button(
       "p",

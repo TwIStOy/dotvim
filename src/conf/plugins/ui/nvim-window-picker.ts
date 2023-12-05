@@ -8,7 +8,7 @@ export const plugin = new Plugin({
     opts: {
       filter_rules: {
         bo: {
-          filetype: ["NvimTree", "neo-tree", "notify", "NvimSeparator"],
+          filetype: ["NvimTree", "neo-tree", "notify", "NvimSeparator", ""],
           buftype: ["terminal"],
         },
       },

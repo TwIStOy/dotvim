@@ -10,6 +10,7 @@ import {
 import { isNil, sleep } from "@core/vim";
 import { Image } from "../image";
 import { getTTY } from "@core/utils/term";
+import { encode_bytes } from "ht.utils.base64";
 
 const stdout: LuaFile = vim.uv.new_tty(1, false);
 const editorTTY = getTTY()!;
@@ -38,7 +39,7 @@ export class KittyBackend implements ImageRenderBackend {
     let image = this.images.get(image_id);
     if (isNil(image)) return;
     if (image.hasRendered) {
-      this._writeGraphics(
+      this.writeGraphics(
         {
           action: "d",
           quiet: 2,
@@ -59,7 +60,7 @@ export class KittyBackend implements ImageRenderBackend {
   }
 
   async deleteAll() {
-    this._writeGraphics(
+    this.writeGraphics(
       {
         action: "d",
         quiet: 2,
@@ -122,16 +123,17 @@ export class KittyBackend implements ImageRenderBackend {
     this._write("\x1b[?2026l");
   }
 
-  private _writeGraphics(
-    config: KittyControlData,
-    data?: string,
-    tty?: string
-  ) {
+  writeGraphics(config: KittyControlData, data?: string | any[], tty?: string) {
     let controlPayload = packControlData(config);
     if (isNil(data)) {
       this._write(`\x1b_G${controlPayload}\x1b\\`, tty, true);
     } else {
-      let [encoded] = string.gsub(vim.base64.encode(data), "%-", "/");
+      let encoded;
+      if (typeof data === "string") {
+        [encoded] = string.gsub(vim.base64.encode(data), "%-", "/");
+      } else {
+        [encoded] = string.gsub(encode_bytes(data), "%-", "/");
+      }
       let chunks = this._splitToChunks(encoded);
       for (let i = 0; i < chunks.length; i++) {
         let chunk = chunks[i];

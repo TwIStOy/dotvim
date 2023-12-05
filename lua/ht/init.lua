@@ -81,6 +81,14 @@ local function bootstrap_plugin_manager()
     .. ";"
     .. vim.fn.expand("$HOME")
     .. "/.luarocks/share/lua/5.1/?.lua;"
+  package.path = package.path
+    .. ";"
+    .. vim.fn.expand("$HOME")
+    .. "/.dotvim/lua/3rd/cairo/?/init.lua;"
+  package.path = package.path
+    .. ";"
+    .. vim.fn.expand("$HOME")
+    .. "/.dotvim/lua/3rd/cairo/?.lua;"
 
   local FF = require("ht.core.functions")
   FF:add_function_set {

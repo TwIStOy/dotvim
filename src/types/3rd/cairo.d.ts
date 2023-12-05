@@ -11,6 +11,13 @@ declare module "3rd.cairo.cairo" {
       width: number,
       height: number
     ): Surface;
+    save_png(...args: any[]): void;
+  }
+
+  export namespace enums {
+    export namespace CAIRO_STATUS_ {
+      export const success: any;
+    }
   }
 
   class Pattern {}

@@ -17,7 +17,7 @@
   },
   "tstl": {
     "luaTarget": "JIT",
-    "sourceMapTraceback": false,
+    "sourceMapTraceback": true,
     "tstlVerbose": false,
     "noImplicitSelf": true,
     "luaPlugins": [
@@ -28,7 +28,8 @@
     "noResolvePaths": [
       "which-key-raw-nvim",
       "3rd.cairo.cairo",
-      "ht.utils.base64"
+      "ht.utils.base64",
+      "ffi"
     ],
     "luaLibImport": "require-minimal",
     "luaBundle": "init.lua",

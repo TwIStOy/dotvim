@@ -11,12 +11,13 @@ import { isNil, sleep } from "@core/vim";
 import { Image } from "../image";
 import { getTTY } from "@core/utils/term";
 import { encode_bytes } from "ht.utils.base64";
+import { debug, info } from "@core/utils/logger";
 
 const stdout: LuaFile = vim.uv.new_tty(1, false);
 const editorTTY = getTTY()!;
 
-async function getClearTTY() {
-  if (inTmux()) return undefined;
+export async function getClearTTY() {
+  if (!inTmux()) return undefined;
   let currentTmuxTTY = await tmuxGetPaneTTY();
   if (currentTmuxTTY === editorTTY) return undefined;
   return currentTmuxTTY ?? undefined;
@@ -26,7 +27,7 @@ export class KittyBackend implements ImageRenderBackend {
   private images: LuaTable<number, Image> = new LuaTable();
 
   async supported(): Promise<boolean> {
-    if (inTmux()) {
+    if (await inTmux()) {
       return await hasPassthrough();
     }
     return true;
@@ -75,33 +76,45 @@ export class KittyBackend implements ImageRenderBackend {
     this.images = new LuaTable();
   }
 
-  private _write(data: string, tty?: string, escape?: boolean) {
+  private async _write(data: string, tty?: string, escape?: boolean) {
     if (data === "") {
       return;
     }
+    {
+      let arr = [];
+      for (let i = 0; i < data.length; i++) {
+        arr.push(data.charCodeAt(i));
+      }
+      info("payload: %s", vim.inspect(arr));
+    }
     let payload = data;
-    if (escape && inTmux()) {
+    if (escape && await inTmux()) {
       payload = tmuxEscape(data);
     }
+    let arr = [];
+    for (let i = 0; i < payload.length; i++) {
+      arr.push(payload.charCodeAt(i));
+    }
+    info("escaped_payload: %s", vim.inspect(arr));
     if (tty) {
       let [handle] = io.open(tty, "w");
       if (!handle) {
         throw new Error("failed to open tty");
       }
       handle.write(payload);
+      handle.flush();
       handle.close();
     } else {
       stdout.write(payload);
-      stdout.flush();
     }
   }
 
-  private _restore_cursor() {
-    this._write("\x1b[u");
+  private async _restore_cursor() {
+    await this._write("\x1b[u");
   }
 
   private async _move_cursor(x: number, y: number, save: boolean) {
-    if (inTmux() && inSSH()) {
+    if (await inTmux() && await inSSH()) {
       // When tmux is running over ssh, set-cursor sometimes doesn't actually get sent
       // I don't know why this fixes the issue...
       await tmuxGetCursorX();
@@ -115,11 +128,11 @@ export class KittyBackend implements ImageRenderBackend {
     await sleep(1);
   }
 
-  private _update_sync_start() {
+  update_sync_start() {
     this._write("\x1b[?2026h");
   }
 
-  private _update_sync_end() {
+  update_sync_end() {
     this._write("\x1b[?2026l");
   }
 
@@ -134,10 +147,13 @@ export class KittyBackend implements ImageRenderBackend {
       } else {
         [encoded] = string.gsub(encode_bytes(data), "%-", "/");
       }
+      debug("encoded: %s", encoded);
       let chunks = this._splitToChunks(encoded);
+      debug("chunks: %s", vim.inspect(chunks));
       for (let i = 0; i < chunks.length; i++) {
         let chunk = chunks[i];
         let m = i < chunks.length - 1 ? 1 : 0;
+        debug("controlPayload: %s,m=%s, tty: %s", controlPayload, m, tty);
         this._write(`\x1b_G${controlPayload},m=${m};${chunk}\x1b\\`, tty, true);
       }
     }

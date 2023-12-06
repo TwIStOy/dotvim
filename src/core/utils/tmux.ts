@@ -45,6 +45,6 @@ export const getCursorX = generateInvokeDisplayMessage("cursor_x");
 export const getCursorY = generateInvokeDisplayMessage("cursor_y");
 
 export function escape(data: string): string {
-  let replaced = data.replaceAll("\x1b", "\x1b\x1b");
-  return `\x1bPtmux;${replaced}\x1b\\`;
+  // let [replaced] = string.gsub(data, "\x1b", "\x1b\x1b");
+  return `\x1bPtmux;${data.replaceAll("\x1b", "\x1b\x1b")}\x1b\\`;
 }

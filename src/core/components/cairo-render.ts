@@ -1,5 +1,6 @@
 import * as cairo from "3rd.cairo.cairo";
 import { Color } from "./color";
+import { debug } from "@core/utils/logger";
 
 export type CompositeOperation =
   | "source-over"
@@ -30,14 +31,17 @@ export type CompositeOperation =
 
 let receivingBytes: any[] = [];
 function _savePngCallback(_: any, data: any, length: any) {
-  let bytes = ffi.cast("uint8_t*", data);
+  let bytes = require("ffi").cast("uint8_t*", data);
   for (let i = 0; i < length; i++) {
     receivingBytes.push(bytes[i]);
   }
   return cairo.enums.CAIRO_STATUS_.success;
 }
+const savePngCallback = require("ffi").cast(
+  "cairo_write_func_t",
+  _savePngCallback
+);
 
-const savePngCallback = ffi.cast("cairo_write_func_t", _savePngCallback);
 export class Context2D {
   private surface: cairo.Surface;
   private context: cairo.Context;
@@ -173,6 +177,11 @@ export class Context2D {
   toPngBytes() {
     receivingBytes = [];
     this.surface.save_png(savePngCallback, null);
+    debug(
+      "toPngBytes: %s, data: %s",
+      receivingBytes.length,
+      vim.inspect(receivingBytes)
+    );
     return receivingBytes;
   }
 }

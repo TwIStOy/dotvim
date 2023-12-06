@@ -6,10 +6,38 @@ export class Color {
   private _alpha: number;
 
   static fromHex(hex: number) {
+    if (hex > 0xffffff) {
+      return Color._from32BitHex(hex);
+    }
+    return Color._from24BitHex(hex);
+  }
+
+  private static _from24BitHex(hex: number) {
+    if (hex > 0xffffff) {
+      throw new Error(`Invalid hex value: ${hex}`);
+    }
     const red = ((hex >> 16) & 0xff) / 255;
     const green = ((hex >> 8) & 0xff) / 255;
     const blue = (hex & 0xff) / 255;
     return new Color(red, green, blue, 1.0);
+  }
+
+  private static _from32BitHex(hex: number) {
+    if (hex > 0xffffffff) {
+      throw new Error(`Invalid hex value: ${hex}`);
+    }
+    const red = ((hex >> 24) & 0xff) / 255;
+    const green = ((hex >> 16) & 0xff) / 255;
+    const blue = ((hex >> 8) & 0xff) / 255;
+    const alpha = (hex & 0xff) / 255;
+    return new Color(red, green, blue, alpha);
+  }
+
+  static fromStr(s: string) {
+    if (s.startsWith("#")) {
+      return Color.fromHex(tonumber(s.slice(1), 16)!);
+    }
+    return Color.fromHex(0);
   }
 
   static fromRGBA(red: number, green: number, blue: number, alpha: number) {

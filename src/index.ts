@@ -5,7 +5,7 @@ import { VimBuffer, hideCursor } from "@core/vim";
 import { randv4 } from "@core/utils/uuid";
 import { Context2D } from "@core/components/cairo-render";
 import { Color } from "@core/components/color";
-import { debug_, info } from "@core/utils/logger";
+import { info } from "@core/utils/logger";
 import { Image } from "@core/components/image/image";
 import { kittyBackend } from "@core/components/image/backend/kitty";
 
@@ -29,8 +29,8 @@ export function onRightClick(opts: any) {
 
 export function test() {
   let context = new Context2D(100, 100);
-  context.rectangle(0, 0, 50, 50);
-  context.fillColor = Color.fromRGBA(1, 0.5, 0, 0.5);
+  context.roundedRectangle(0, 0, 1, 1, 0.1);
+  context.fillColor = Color.fromRGBA(1, 0, 0, 0.5);
   context.fill();
   context.paint();
 

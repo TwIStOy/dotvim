@@ -27,7 +27,7 @@ function _log(level: number, fmt: string, ...args: unknown[]) {
   }
 }
 
-export function debug(fmt: string, ...args: unknown[]) {
+export function debug_(fmt: string, ...args: unknown[]) {
   _log(vim.log.levels.DEBUG, fmt, ...args);
 }
 

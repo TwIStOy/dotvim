@@ -1,14 +1,14 @@
-import { system } from "@core/vim";
+import { systemSync } from "@core/vim";
 import { inTmux } from "./env";
 
 function generateInvokeDisplayMessage(name: string) {
-  return async () => {
+  return () => {
     if (!inTmux()) {
       return null;
     }
     try {
       let cmd = ["tmux", "display-message", "-p", `#{${name}}`];
-      let result = await system(cmd);
+      let result = systemSync(cmd);
       if (result.stdout !== null) {
         return result.stdout.trim();
       }
@@ -22,12 +22,12 @@ function generateInvokeDisplayMessage(name: string) {
 
 /// Returns if current neovim instance is running in tmux, and the option
 /// `allow-passthrough` is enabled.
-export async function hasPassthrough(): Promise<boolean> {
+export function hasPassthrough(): boolean {
   if (!inTmux()) {
     return false;
   }
   try {
-    let result = await system(["tmux", "show", "-Apv", "allow-passthrough"]);
+    let result = systemSync(["tmux", "show", "-Apv", "allow-passthrough"]);
     return result.stdout?.endsWith("on\n") ?? false;
   } catch (e) {
     return false;
@@ -45,6 +45,5 @@ export const getCursorX = generateInvokeDisplayMessage("cursor_x");
 export const getCursorY = generateInvokeDisplayMessage("cursor_y");
 
 export function escape(data: string): string {
-  // let [replaced] = string.gsub(data, "\x1b", "\x1b\x1b");
   return `\x1bPtmux;${data.replaceAll("\x1b", "\x1b\x1b")}\x1b\\`;
 }

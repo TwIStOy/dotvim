@@ -1,176 +1,12 @@
-import { inSSH, inTmux } from "@core/utils/env";
-import { ImageRenderBackend } from "./base";
+import { inTmux } from "@core/utils/env";
+import { debug_, warn } from "@core/utils/logger";
+import { termSyncEnd, termSyncStart, termWrite } from "@core/utils/term";
 import { hasPassthrough } from "@core/utils/tmux";
-import {
-  escape as tmuxEscape,
-  getCursorX as tmuxGetCursorX,
-  getCursorY as tmuxGetCursorY,
-  getPaneTTY as tmuxGetPaneTTY,
-} from "@core/utils/tmux";
-import { isNil, sleep } from "@core/vim";
-import { Image } from "../image";
-import { getTTY } from "@core/utils/term";
+import { isNil } from "@core/vim";
 import { encode_bytes } from "ht.utils.base64";
-import { debug, info } from "@core/utils/logger";
-
-const stdout: LuaFile = vim.uv.new_tty(1, false);
-const editorTTY = getTTY()!;
-
-export async function getClearTTY() {
-  if (!inTmux()) return undefined;
-  let currentTmuxTTY = await tmuxGetPaneTTY();
-  if (currentTmuxTTY === editorTTY) return undefined;
-  return currentTmuxTTY ?? undefined;
-}
-
-export class KittyBackend implements ImageRenderBackend {
-  private images: LuaTable<number, Image> = new LuaTable();
-
-  async supported(): Promise<boolean> {
-    if (await inTmux()) {
-      return await hasPassthrough();
-    }
-    return true;
-  }
-
-  /*
-   * Delete an image from the backend.
-   */
-  async delete(image_id: number, shallow?: boolean) {
-    let image = this.images.get(image_id);
-    if (isNil(image)) return;
-    if (image.hasRendered) {
-      this.writeGraphics(
-        {
-          action: "d",
-          quiet: 2,
-          deleteImages: "i",
-          transmission: {
-            imageId: image_id,
-          },
-        },
-        undefined,
-        await getClearTTY()
-      );
-    }
-    image.hasRendered = false;
-
-    if (isNil(shallow) || !shallow) {
-      this.images.delete(image_id);
-    }
-  }
-
-  async deleteAll() {
-    this.writeGraphics(
-      {
-        action: "d",
-        quiet: 2,
-        deleteImages: "a",
-      },
-      undefined,
-      await getClearTTY()
-    );
-    for (let [_, image] of this.images) {
-      image.hasRendered = false;
-    }
-    this.images = new LuaTable();
-  }
-
-  private async _write(data: string, tty?: string, escape?: boolean) {
-    if (data === "") {
-      return;
-    }
-    {
-      let arr = [];
-      for (let i = 0; i < data.length; i++) {
-        arr.push(data.charCodeAt(i));
-      }
-      info("payload: %s", vim.inspect(arr));
-    }
-    let payload = data;
-    if (escape && await inTmux()) {
-      payload = tmuxEscape(data);
-    }
-    let arr = [];
-    for (let i = 0; i < payload.length; i++) {
-      arr.push(payload.charCodeAt(i));
-    }
-    info("escaped_payload: %s", vim.inspect(arr));
-    if (tty) {
-      let [handle] = io.open(tty, "w");
-      if (!handle) {
-        throw new Error("failed to open tty");
-      }
-      handle.write(payload);
-      handle.flush();
-      handle.close();
-    } else {
-      stdout.write(payload);
-    }
-  }
-
-  private async _restore_cursor() {
-    await this._write("\x1b[u");
-  }
-
-  private async _move_cursor(x: number, y: number, save: boolean) {
-    if (await inTmux() && await inSSH()) {
-      // When tmux is running over ssh, set-cursor sometimes doesn't actually get sent
-      // I don't know why this fixes the issue...
-      await tmuxGetCursorX();
-      await tmuxGetCursorY();
-    }
-
-    if (save) {
-      this._write("\x1b[s");
-    }
-    this._write(`\x1b[${y};${x}H`);
-    await sleep(1);
-  }
-
-  update_sync_start() {
-    this._write("\x1b[?2026h");
-  }
-
-  update_sync_end() {
-    this._write("\x1b[?2026l");
-  }
-
-  writeGraphics(config: KittyControlData, data?: string | any[], tty?: string) {
-    let controlPayload = packControlData(config);
-    if (isNil(data)) {
-      this._write(`\x1b_G${controlPayload}\x1b\\`, tty, true);
-    } else {
-      let encoded;
-      if (typeof data === "string") {
-        [encoded] = string.gsub(vim.base64.encode(data), "%-", "/");
-      } else {
-        [encoded] = string.gsub(encode_bytes(data), "%-", "/");
-      }
-      debug("encoded: %s", encoded);
-      let chunks = this._splitToChunks(encoded);
-      debug("chunks: %s", vim.inspect(chunks));
-      for (let i = 0; i < chunks.length; i++) {
-        let chunk = chunks[i];
-        let m = i < chunks.length - 1 ? 1 : 0;
-        debug("controlPayload: %s,m=%s, tty: %s", controlPayload, m, tty);
-        this._write(`\x1b_G${controlPayload},m=${m};${chunk}\x1b\\`, tty, true);
-      }
-    }
-  }
-
-  private _splitToChunks(data: string) {
-    let chunks = [];
-    // split data into 4k
-    for (let i = 0; i < data.length; i += 4096) {
-      let slice = data.slice(i, i + 4096);
-      if (slice.length > 0) {
-        chunks.push(slice);
-      }
-    }
-    return chunks;
-  }
-}
+import { Image } from "../image";
+import { ImageRenderBackend } from "./base";
+import { callOnce } from "@core/utils/fn";
 
 interface KittyControlData {
   /// The overall action this graphics command is performing.
@@ -223,7 +59,7 @@ interface KittyControlData {
     /// The image number
     imageNumber?: number;
     /// The placement id
-    placement?: number;
+    placementId?: number;
     /// The type of data compression.
     compression?: "z";
     /// Whether there is more chunked data available.
@@ -289,7 +125,7 @@ function packControlData(data: KittyControlData): string {
       ["O", trans.fileOffset],
       ["i", trans.imageId],
       ["I", trans.imageNumber],
-      ["p", trans.placement],
+      ["p", trans.placementId],
       ["o", trans.compression],
       ["m", trans.more],
     ]);
@@ -314,3 +150,96 @@ function packControlData(data: KittyControlData): string {
 
   return parts.join(",");
 }
+
+export class KittyBackend implements ImageRenderBackend {
+  private images: LuaTable<number, Image> = new LuaTable();
+
+  constructor() {
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+      callback: () => {
+        this.deleteAll();
+      },
+    });
+  }
+
+  supported(): boolean {
+    if (inTmux()) {
+      return hasPassthrough();
+    }
+    return true;
+  }
+
+  /*
+   * Delete an image from the backend.
+   */
+  delete(image_id: number, shallow?: boolean) {
+    let image = this.images.get(image_id);
+    if (isNil(image)) return;
+    if (image.rendered) {
+      this.writeGraphics({
+        action: "d",
+        quiet: 2,
+        deleteImages: "i",
+        transmission: {
+          imageId: image_id,
+        },
+      });
+    }
+    image.rendered = false;
+
+    if (isNil(shallow) || !shallow) {
+      this.images.delete(image_id);
+    }
+  }
+
+  deleteAll() {
+    this.writeGraphics({
+      action: "d",
+      // quiet: 2,
+    });
+    for (let [_, image] of this.images) {
+      image.rendered = false;
+    }
+    this.images = new LuaTable();
+  }
+
+  writeGraphics(config: KittyControlData, data?: string | any[]) {
+    let controlPayload = packControlData(config);
+    if (isNil(data)) {
+      debug_("controlPayload: %s", controlPayload);
+      termWrite(`\x1b_G${controlPayload}\x1b\\`, true);
+    } else {
+      let encoded;
+      if (typeof data === "string") {
+        [encoded] = string.gsub(vim.base64.encode(data), "%-", "/");
+      } else {
+        [encoded] = string.gsub(encode_bytes(data), "%-", "/");
+      }
+      let chunks = KittyBackend._splitToChunks(encoded);
+      for (let i = 0; i < chunks.length; i++) {
+        let chunk = chunks[i];
+        let m = i < chunks.length - 1 ? 1 : 0;
+        if (i == 0) {
+          termWrite(`\x1b_G${controlPayload},m=${m};${chunk}\x1b\\`, true);
+        } else {
+          let q = isNil(config.quiet) ? "" : `,q=${config.quiet}`;
+          termWrite(`\x1b_Gm=${m}${q};${chunk}\x1b\\`, true);
+        }
+      }
+    }
+  }
+
+  private static _splitToChunks(data: string) {
+    let chunks = [];
+    // split data into 4k
+    for (let i = 0; i < data.length; i += 4096) {
+      let slice = data.slice(i, i + 4096);
+      if (slice.length > 0) {
+        chunks.push(slice);
+      }
+    }
+    return chunks;
+  }
+}
+
+export const kittyBackend = new KittyBackend();

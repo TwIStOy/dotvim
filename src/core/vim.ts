@@ -207,6 +207,10 @@ export function system(
   });
 }
 
+export function systemSync(cmd: string[], opts?: any): vim.SystemCompleted {
+  return vim.system(cmd, opts).wait();
+}
+
 export function sleep(ms: number): Promise<void> {
   return new Promise<void>((resolve) => {
     vim.defer_fn(() => {

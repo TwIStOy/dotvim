@@ -1,6 +1,6 @@
 import * as cairo from "3rd.cairo.cairo";
 import { Color } from "./color";
-import { debug } from "@core/utils/logger";
+import { debug_ } from "@core/utils/logger";
 
 export type CompositeOperation =
   | "source-over"
@@ -177,7 +177,7 @@ export class Context2D {
   toPngBytes() {
     receivingBytes = [];
     this.surface.save_png(savePngCallback, null);
-    debug(
+    debug_(
       "toPngBytes: %s, data: %s",
       receivingBytes.length,
       vim.inspect(receivingBytes)

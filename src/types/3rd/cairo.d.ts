@@ -1,4 +1,4 @@
-declare module "3rd.cairo.cairo" {
+declare module "ht.clib.cairo" {
   type ImageType = "argb32" | "rgb24";
 
   class Surface {

@@ -1,4 +1,4 @@
-import * as cairo from "3rd.cairo.cairo";
+import * as cairo from "ht.clib.cairo";
 import { Color } from "./color";
 import { debug_ } from "@core/utils/logger";
 

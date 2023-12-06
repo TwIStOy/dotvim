@@ -31,13 +31,13 @@ export type CompositeOperation =
 
 let receivingBytes: any[] = [];
 function _savePngCallback(_: any, data: any, length: any) {
-  let bytes = require("ffi").cast("uint8_t*", data);
+  let bytes = (require("ffi") as AnyMod).cast("uint8_t*", data);
   for (let i = 0; i < length; i++) {
     receivingBytes.push(bytes[i]);
   }
   return cairo.enums.CAIRO_STATUS_.success;
 }
-const savePngCallback = require("ffi").cast(
+const savePngCallback = (require("ffi") as AnyMod).cast(
   "cairo_write_func_t",
   _savePngCallback
 );

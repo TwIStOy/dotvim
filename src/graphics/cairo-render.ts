@@ -42,7 +42,7 @@ const savePngCallback = (require("ffi") as AnyMod).cast(
   _savePngCallback
 );
 
-export class Context2D {
+export class CairoRender {
   private surface: cairo.Surface;
   private context: cairo.Context;
 
@@ -66,6 +66,10 @@ export class Context2D {
     this._fillColor = Color.fromRGBA(0, 0, 0, 0);
     this._strokeColor = Color.fromRGBA(0, 0, 0, 0);
     this._font = "10x sans-serif";
+  }
+
+  get ctx() {
+    return this.context;
   }
 
   get width() {
@@ -126,6 +130,16 @@ export class Context2D {
     this.context.fill();
   }
 
+  private _fill_preserve() {
+    this.context.rgba(
+      this._fillColor.red,
+      this._fillColor.green,
+      this._fillColor.blue,
+      this._fillColor.alpha * this._globalAlpha
+    );
+    this.context.fill_preserve();
+  }
+
   get strokeColor() {
     return this._strokeColor;
   }
@@ -144,6 +158,10 @@ export class Context2D {
 
   fill() {
     this._fill();
+  }
+
+  fillPreserve() {
+    this._fill_preserve();
   }
 
   stroke() {

@@ -3,11 +3,11 @@ import { AllPlugins } from "./conf/plugins";
 import { Command } from "@core/model";
 import { VimBuffer, hideCursor } from "@core/vim";
 import { randv4 } from "@core/utils/uuid";
-import { Context2D } from "@core/components/cairo-render";
-import { Color } from "@core/components/color";
 import { info } from "@core/utils/logger";
 import { Image } from "@core/components/image/image";
 import { kittyBackend } from "@core/components/image/backend/kitty";
+import { CairoRender } from "@glib/cairo-render";
+import { Color } from "@glib/color";
 
 export { AllPlugins, LazySpecs } from "./conf/plugins";
 export { AllLspServers } from "./conf/external_tools";
@@ -28,11 +28,10 @@ export function onRightClick(opts: any) {
 }
 
 export function test() {
-  let context = new Context2D(100, 100);
-  context.roundedRectangle(0, 0, 1, 1, 0.1);
-  context.fillColor = Color.fromRGBA(1, 0, 0, 0.5);
-  context.fill();
-  context.paint();
+  let context = new CairoRender(100, 100);
+  context.roundedRectangle(0, 0, 100, 100, 10);
+  context.fillColor = Color.fromRGBA(1, 0, 0, 1);
+  context.fillPreserve();
 
   let [file] = io.open("/tmp/test.png", "wb");
   let data = context.toPngBytes();

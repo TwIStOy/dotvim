@@ -2,27 +2,17 @@
   "$schema": "https://raw.githubusercontent.com/TypeScriptToLua/TypeScriptToLua/master/tsconfig-schema.json",
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "moduleResolution": "Node",
-    "types": [
-      "@typescript-to-lua/language-extensions",
-      "lua-types/jit"
-    ],
+    "types": ["@typescript-to-lua/language-extensions", "lua-types/jit"],
     "strict": true,
     "noImplicitAny": true,
     "outDir": "lua/htts",
     "paths": {
-      "@core/*": [
-        "core/*"
-      ],
-      "@conf/*": [
-        "conf/*"
-      ],
-      "@extra/*": [
-        "extra/*"
-      ]
+      "@core/*": ["core/*"],
+      "@conf/*": ["conf/*"],
+      "@extra/*": ["extra/*"],
+      "@glib/*": ["graphics/*"]
     },
     "baseUrl": "src/"
   },
@@ -46,7 +36,6 @@
     "luaBundle": "init.lua",
     "luaBundleEntry": "src/index.ts"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
+

@@ -1,3 +1,4 @@
+import { info } from "@core/utils/logger";
 import { CairoRender } from "./cairo-render";
 
 export class BuildContext {
@@ -18,6 +19,7 @@ export class BuildContext {
 
   build(widget: Widget) {
     let injection = this._prepareWidget();
+    info("injection: %s", vim.inspect(injection));
     this.pushRendering(widget);
     widget.prepareBuild(injection);
     widget.build(this);

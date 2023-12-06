@@ -20,11 +20,11 @@ export interface _ContainerOpts {
   /**
    * @description The height of the container.
    */
-  height: number;
+  height?: number;
   /**
    * @description The width of the container.
    */
-  width: number;
+  width?: number;
   /**
    * @description The border width of the container.
    */
@@ -36,8 +36,8 @@ export interface _ContainerOpts {
 }
 
 export class _Container extends Widget {
-  private _height: number;
-  private _width: number;
+  private _height?: number;
+  private _width?: number;
   private _border?: {
     radius?: number;
     lineWidth?: number;
@@ -56,13 +56,42 @@ export class _Container extends Widget {
 
   override canRender() {
     return (
-      this._backgroundColor.alpha === 0 && this._border?.color?.alpha === 0
+      this._backgroundColor.alpha === 0 &&
+      (this._border?.color?.alpha ?? 0) === 0
     );
+  }
+
+  get width() {
+    return this._width ?? this.maxWidth;
+  }
+
+  get height() {
+    return this._height ?? this.maxHeight;
   }
 
   override build(context: BuildContext) {
     if (!this._border) {
       // simple rectangle
+      context.renderer.rectangle(0, 0, this.width, this.height);
+      context.renderer.fillColor = this._backgroundColor;
+      context.renderer.fill();
+    } else {
+      // rounded rectangle
+      context.renderer.roundedRectangle(
+        0,
+        0,
+        this.width,
+        this.height,
+        this._border.radius ?? 0
+      );
+      context.renderer.fillColor = this._backgroundColor;
+      context.renderer.fillPreserve();
+      if (this._border.lineWidth && (this._border.color?.alpha ?? 0 > 0)) {
+        context.renderer.strokeColor =
+          this._border.color ?? Color.fromRGBA(0, 0, 0, 0);
+        context.renderer.ctx.line_width(this._border.lineWidth);
+        context.renderer.stroke();
+      }
     }
   }
 }

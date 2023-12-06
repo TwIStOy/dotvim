@@ -8,6 +8,8 @@ import { Image } from "@core/components/image/image";
 import { kittyBackend } from "@core/components/image/backend/kitty";
 import { CairoRender } from "@glib/cairo-render";
 import { Color } from "@glib/color";
+import { BuildContext } from "@glib/widget";
+import { Container } from "@glib/widgets/container";
 
 export { AllPlugins, LazySpecs } from "./conf/plugins";
 export { AllLspServers } from "./conf/external_tools";
@@ -28,13 +30,22 @@ export function onRightClick(opts: any) {
 }
 
 export function test() {
-  let context = new CairoRender(100, 100);
-  context.roundedRectangle(0, 0, 100, 100, 10);
-  context.fillColor = Color.fromRGBA(1, 0, 0, 1);
-  context.fillPreserve();
+  // let context = new CairoRender(100, 100);
+  // context.roundedRectangle(0, 0, 100, 100, 10);
+  // context.fillColor = Color.fromRGBA(1, 0, 0, 1);
+  // context.fillPreserve();
+
+  let context = new BuildContext(100, 100);
+  let root = Container({
+    backgroundColor: Color.fromRGBA(1, 0, 0, 1),
+    border: {
+      radius: 10,
+    },
+  });
+  context.build(root);
 
   let [file] = io.open("/tmp/test.png", "wb");
-  let data = context.toPngBytes();
+  let data = context.renderer.toPngBytes();
   file?.write(string.char(...data));
   file?.close();
 

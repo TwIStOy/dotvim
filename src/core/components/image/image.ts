@@ -54,6 +54,10 @@ export class Image {
     return new Image(data);
   }
 
+  static fromBuffer(buf: number[]) {
+    return new Image(buf);
+  }
+
   /**
    * Renders the image to the terminal.
    */

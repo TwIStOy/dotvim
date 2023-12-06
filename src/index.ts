@@ -29,22 +29,25 @@ export function onRightClick(opts: any) {
 
 export function test() {
   let context = new Context2D(100, 100);
-  context.rectangle(0, 0, 0.5, 0.5);
-  context.fillColor = Color.fromRGBA(1, 0, 0, 0.8);
+  context.rectangle(0, 0, 50, 50);
+  context.fillColor = Color.fromRGBA(1, 0.5, 0, 0.5);
   context.fill();
+  context.paint();
 
   let [file] = io.open("/tmp/test.png", "wb");
   let data = context.toPngBytes();
   file?.write(string.char(...data));
   file?.close();
 
-  // info("start!");
-  // vim.schedule(() => {
-  //   kittyBackend.deleteAll();
-  //   let image = Image.fromFile(
-  //     "/home/hawtian/.dotvim/screenshots/start_page.png"
-  //   );
-  //   image.render(3, 3);
-  // });
+  info("start!");
+  vim.schedule(() => {
+    kittyBackend.deleteAll();
+    // let image = Image.fromBuffer(data);
+    let image = Image.fromFile(
+      "/tmp/test.png"
+      // "/home/hawtian/.dotvim/screenshots/start_page.png"
+    );
+    image.render(3, 3);
+  });
   return randv4();
 }

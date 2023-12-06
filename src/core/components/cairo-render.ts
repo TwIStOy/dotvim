@@ -31,7 +31,6 @@ export type CompositeOperation =
 
 let receivingBytes: any[] = [];
 function _savePngCallback(_: any, data: any, length: any) {
-  debug_("savePngCallback: %d", length)
   let bytes = require("ffi").cast("uint8_t*", data);
   for (let i = 0; i < length; i++) {
     receivingBytes.push(bytes[i]);
@@ -149,6 +148,10 @@ export class Context2D {
 
   stroke() {
     this._stroke();
+  }
+
+  paint() {
+    this.context.paint();
   }
 
   rectangle(x: number, y: number, width: number, height: number) {

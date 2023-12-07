@@ -480,7 +480,7 @@ export function adjustmentRatios(
         p !== start &&
         p !== breakpoints[b + 1]
       ) {
-        info("b=%d", b);
+        info("b=%s", b);
         actualWidth += item.width;
         lineShrink += item.shrink;
         lineStretch += item.stretch;
@@ -491,7 +491,7 @@ export function adjustmentRatios(
 
     let adjustmentRatio;
     info(
-      "idealWidth: %s, actualWidth: %s, lineStretch: %d, lineShrink: %d",
+      "idealWidth: %s, actualWidth: %s, lineStretch: %s, lineShrink: %s",
       idealWidth,
       actualWidth,
       lineStretch,

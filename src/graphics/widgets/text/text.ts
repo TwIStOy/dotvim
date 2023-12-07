@@ -155,8 +155,8 @@ class _Text extends Widget {
         inputItems.push({
           type: "glue",
           width: te.x_advance,
-          stretch: 1,
-          shrink: 1,
+          stretch: te.x_advance * 1.5,
+          shrink: te.x_advance - 2,
         });
       } else {
         inputItems.push({

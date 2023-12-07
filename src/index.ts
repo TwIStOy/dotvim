@@ -36,7 +36,7 @@ export function test() {
     border: { width: 2, color: "blue" },
     heightPolicy: "expand",
     widthPolicy: "expand",
-    padding: Padding.all(30),
+    padding: Padding.all(10),
     child: Text({
       text: "ag teasd asdkfj asdkfj asdkj asdkfj asdfiasdfj asdkfj asdkfj askdfj askdfjiasd jfaskdljf alskdjfoiasjdf laskjdf lkasdjf l",
     }),

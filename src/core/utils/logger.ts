@@ -1,6 +1,6 @@
 import { isNil } from "@core/vim";
 
-export let minLogLevel = vim.log.levels.DEBUG;
+export let minLogLevel = vim.log.levels.INFO;
 
 let _log_file: LuaFile | undefined = undefined;
 

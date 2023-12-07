@@ -151,8 +151,15 @@ function packControlData(data: KittyControlData): string {
   return parts.join(",");
 }
 
+interface RenderedImage {
+  image: Image;
+  x?: number;
+  y?: number;
+  z?: number;
+}
+
 export class KittyBackend implements ImageRenderBackend {
-  private images: LuaTable<number, Image> = new LuaTable();
+  private images: LuaTable<number, RenderedImage> = new LuaTable();
 
   constructor() {
     vim.api.nvim_create_autocmd("VimLeavePre", {
@@ -160,6 +167,7 @@ export class KittyBackend implements ImageRenderBackend {
         this.deleteAll();
       },
     });
+    // TODO(hawtian): other events
   }
 
   supported(): boolean {
@@ -175,7 +183,7 @@ export class KittyBackend implements ImageRenderBackend {
   delete(image_id: number, shallow?: boolean) {
     let image = this.images.get(image_id);
     if (isNil(image)) return;
-    if (image.rendered) {
+    if (image.image.rendered) {
       this.writeGraphics({
         action: "d",
         quiet: 2,
@@ -185,7 +193,7 @@ export class KittyBackend implements ImageRenderBackend {
         },
       });
     }
-    image.rendered = false;
+    image.image.rendered = false;
 
     if (isNil(shallow) || !shallow) {
       this.images.delete(image_id);
@@ -198,7 +206,7 @@ export class KittyBackend implements ImageRenderBackend {
       // quiet: 2,
     });
     for (let [_, image] of this.images) {
-      image.rendered = false;
+      image.image.rendered = false;
     }
     this.images = new LuaTable();
   }

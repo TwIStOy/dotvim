@@ -1,6 +1,9 @@
 import { BuildContext, Widget, _WidgetOption } from "@glib/widget";
 import { AnyColor, Color, normalizeColor } from "../_utils";
 import { FlexibleSize, PixelPosition } from "@glib/base";
+import { Box, InputItem, adjustmentRatios, breakLines } from "./line-break";
+import { FontExtents } from "ht.clib.cairo";
+import { info } from "@core/utils/logger";
 
 interface TextStyle {
   /**
@@ -48,6 +51,44 @@ export function toUtfChars(str: string): string[] {
   }
   res.push(str.slice(starts[starts.length - 1] - 1));
   return res;
+}
+
+let whiteSpaceChars = [
+  "\t",
+  "\n",
+  "\x0b",
+  "\x0c",
+  "\r",
+  " ",
+  "\xc2\x85",
+  "\xc2\xa0",
+  "\xe1\x9a\x80",
+  "\xe1\xa0\x8e",
+  "\xe2\x80\x80",
+  "\xe2\x80\x81",
+  "\xe2\x80\x82",
+  "\xe2\x80\x83",
+  "\xe2\x80\x84",
+  "\xe2\x80\x85",
+  "\xe2\x80\x86",
+  "\xe2\x80\x87",
+  "\xe2\x80\x88",
+  "\xe2\x80\x89",
+  "\xe2\x80\x8a",
+  "\xe2\x80\x8b",
+  "\xe2\x80\x8c",
+  "\xe2\x80\x8d",
+  "\xe2\x80\xa8",
+  "\xe2\x80\xa9",
+  "\xe2\x80\xaf",
+  "\xe2\x81\x9f",
+  "\xe2\x81\xa0",
+  "\xe3\x80\x80",
+  "\xef\xbb\xbf",
+];
+
+function isWhiteSpace(char: string): boolean {
+  return whiteSpaceChars.includes(char);
 }
 
 class _Text extends Widget {
@@ -98,6 +139,102 @@ class _Text extends Widget {
     context.renderer.ctx.font_size(this._style.fontSize);
   }
 
+  private _showLine(
+    context: BuildContext,
+    line: string,
+    initPosition: PixelPosition,
+    fe: FontExtents,
+    expectWidth: number
+  ): number {
+    info("draw line: %s", vim.inspect(initPosition));
+    let chars = toUtfChars(line);
+    let inputItems: InputItem[] = [];
+    for (let char of chars) {
+      let te = context.renderer.ctx.text_extents(char);
+      if (isWhiteSpace(char)) {
+        inputItems.push({
+          type: "glue",
+          width: te.x_advance,
+          stretch: 1,
+          shrink: 1,
+        });
+      } else {
+        inputItems.push({
+          type: "box",
+          width: te.x_advance,
+          char: char,
+        });
+      }
+    }
+    let breakpoints;
+    try {
+      breakpoints = breakLines(inputItems, expectWidth);
+    } catch (e) {
+      error(string.format("Cannot break lines: %s", e));
+    }
+    let ratios = adjustmentRatios(inputItems, expectWidth, breakpoints);
+    let x = initPosition.x;
+    let y = initPosition.y;
+    info(
+      "breakpoints: %s, ratios: %s",
+      vim.inspect(breakpoints),
+      vim.inspect(ratios)
+    );
+
+    for (let b = 0; b < breakpoints.length - 1; b++) {
+      const start = b === 0 ? breakpoints[0] : breakpoints[b] + 1;
+      for (let p = start; p <= breakpoints[b + 1]; p++) {
+        if (inputItems[p].type === "box") {
+          let item = inputItems[p] as Box;
+          let te = context.renderer.ctx.text_extents(item.char);
+          context.renderer.ctx.rgba(
+            this._style.color.red,
+            this._style.color.green,
+            this._style.color.blue,
+            this._style.color.alpha
+          );
+          context.renderer.ctx.move_to(x, y - fe.descent);
+          context.renderer.ctx.show_text(item.char);
+          x += te.x_advance;
+        } else if (
+          inputItems[p].type === "glue" &&
+          p !== start &&
+          p !== breakpoints[b + 1]
+        ) {
+          let te = context.renderer.ctx.text_extents(" ");
+          x += te.x_advance + te.x_advance * ratios[b];
+        }
+      }
+      x = initPosition.x;
+      y += fe.height;
+    }
+    // write the last line
+    const start = breakpoints[breakpoints.length - 1] + 1;
+    for (let p = start; p < inputItems.length; p++) {
+      if (inputItems[p].type === "box") {
+        let item = inputItems[p] as Box;
+        let te = context.renderer.ctx.text_extents(item.char);
+        context.renderer.ctx.rgba(
+          this._style.color.red,
+          this._style.color.green,
+          this._style.color.blue,
+          this._style.color.alpha
+        );
+        context.renderer.ctx.move_to(x, y - fe.descent);
+        context.renderer.ctx.show_text(item.char);
+        x += te.x_advance;
+      } else if (inputItems[p].type === "glue" && p !== start) {
+        let te = context.renderer.ctx.text_extents(" ");
+        x += te.x_advance;
+      }
+    }
+    if (start < inputItems.length) {
+      x = initPosition.x;
+      y += fe.height;
+    }
+    return y;
+  }
+
   build(context: BuildContext): void {
     this._setupFont(context);
 
@@ -107,23 +244,29 @@ class _Text extends Widget {
       y: this.position.y + fe.height,
     };
 
+    let expectWidth = this._renderBox!.width;
+
     for (let line of this._text) {
-      let chars = toUtfChars(line);
-      for (let char of chars) {
-        let te = context.renderer.ctx.text_extents(char);
-        context.renderer.ctx.rgba(
-          this._style.color.red,
-          this._style.color.green,
-          this._style.color.blue,
-          this._style.color.alpha
-        );
-        context.renderer.ctx.move_to(position.x, position.y - fe.descent);
-        context.renderer.ctx.show_text(char);
-        position.x += te.x_advance;
-      }
-      position.x = this.position.x;
-      position.y += fe.height;
+      position.y = this._showLine(context, line, position, fe, expectWidth);
     }
+
+    // for (let line of this._text) {
+    //   let chars = toUtfChars(line);
+    //   for (let char of chars) {
+    //     let te = context.renderer.ctx.text_extents(char);
+    //     context.renderer.ctx.rgba(
+    //       this._style.color.red,
+    //       this._style.color.green,
+    //       this._style.color.blue,
+    //       this._style.color.alpha
+    //     );
+    //     context.renderer.ctx.move_to(position.x, position.y - fe.descent);
+    //     context.renderer.ctx.show_text(char);
+    //     position.x += te.x_advance;
+    //   }
+    //   position.x = this.position.x;
+    //   position.y += fe.height;
+    // }
   }
 
   override get expandHeight(): boolean {

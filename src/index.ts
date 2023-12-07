@@ -38,7 +38,7 @@ export function test() {
     widthPolicy: "expand",
     padding: Padding.all(30),
     child: Text({
-      text: "ag",
+      text: "ag teasd asdkfj asdkfj asdkj asdkfj asdfiasdfj asdkfj asdkfj askdfj askdfjiasd jfaskdljf alskdjfoiasjdf laskjdf lkasdjf l",
     }),
   });
   context.build(root);

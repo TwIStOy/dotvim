@@ -1,3 +1,5 @@
+import { info } from "@core/utils/logger";
+
 /**
  * An object (eg. a word) to be typeset.
  */
@@ -6,6 +8,8 @@ export interface Box {
 
   /** Amount of space required by this content. Must be >= 0. */
   width: number;
+
+  char: string;
 }
 
 /**
@@ -476,6 +480,7 @@ export function adjustmentRatios(
         p !== start &&
         p !== breakpoints[b + 1]
       ) {
+        info("b=%d", b);
         actualWidth += item.width;
         lineShrink += item.shrink;
         lineStretch += item.stretch;
@@ -485,6 +490,13 @@ export function adjustmentRatios(
     }
 
     let adjustmentRatio;
+    info(
+      "idealWidth: %s, actualWidth: %s, lineStretch: %d, lineShrink: %d",
+      idealWidth,
+      actualWidth,
+      lineStretch,
+      lineShrink
+    );
     if (actualWidth < idealWidth) {
       adjustmentRatio = (idealWidth - actualWidth) / lineStretch;
     } else {

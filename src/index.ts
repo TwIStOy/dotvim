@@ -30,13 +30,13 @@ export function onRightClick(opts: any) {
 
 export function test() {
   let context = new BuildContext(100, 100);
-  let root = (
-    <Container
-      color="red"
-      border={{ radius: 10, width: 2, color: "green" }}
-      margin={Margin.all(40)}
-    />
-  );
+  let root = Container({
+    color: "red",
+    border: { radius: 10, width: 2, color: "green" },
+    margin: Margin.all(40),
+    heightPolicy: "expand",
+    widthPolicy: "expand",
+  });
   context.build(root);
 
   let data = context.renderer.toPngBytes();

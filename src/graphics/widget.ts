@@ -1,16 +1,18 @@
-import { info } from "@core/utils/logger";
+import { isNil } from "@core/vim";
+import { PixelPosition, PixelSize, RenderBox, sizeMax, sizeMin } from "./base";
 import { CairoRender } from "./cairo-render";
 import {
   Margin,
   MarginOptions,
   Padding,
   PaddingOptions,
-  PixelPosition,
 } from "./widgets/_utils/common-options";
+import { randv4 } from "@core/utils/uuid";
 
-export class BuildContext implements graphics.BuildContext {
+export class BuildContext {
   public renderer: CairoRender;
   public _rendering: Widget[] = [];
+  public key: string = randv4();
 
   constructor(width: number, height: number) {
     this.renderer = new CairoRender(width, height);
@@ -24,34 +26,69 @@ export class BuildContext implements graphics.BuildContext {
     this._rendering.pop();
   }
 
-  build(widget: graphics.Widget) {
-    let injection = this._prepareWidget();
-    info("injection: %s", vim.inspect(injection));
-    this.pushRendering(widget);
-    widget.prepareBuild(injection);
-    widget.build(this);
-    this.popRendering();
-  }
-
-  private _prepareWidget() {
-    let top = this._rendering[this._rendering.length - 1];
-    let injection: graphics.BuildingInjections;
-    if (!top) {
-      injection = {
-        maxHeight: this.renderer.height,
-        maxWidth: this.renderer.width,
-        minHeight: 0,
-        minWidth: 0,
-      };
+  build(widget: Widget) {
+    let parentRB;
+    if (widget.parent) {
+      parentRB = widget.parent._renderBox!;
     } else {
-      injection = {
-        maxHeight: top.maxHeight,
-        maxWidth: top.maxWidth,
-        minHeight: 0,
-        minWidth: 0,
+      parentRB = {
+        contextKey: this.key,
+        position: {
+          x: 0,
+          y: 0,
+        },
+        width: this.renderer.width,
+        height: this.renderer.height,
       };
     }
-    return injection;
+    this._setupRenderBox(widget, parentRB);
+    widget.build(this);
+  }
+
+  private _setupRenderBox(widget: Widget, parent: RenderBox): RenderBox {
+    if (widget._renderBox && widget._renderBox.contextKey === this.key) {
+      return widget._renderBox;
+    }
+
+    let widthMargin = widget.margin.left + widget.margin.right;
+    let heightMargin = widget.margin.top + widget.margin.bottom;
+    if (widthMargin > parent.width || heightMargin > parent.height) {
+      throw new Error("Margin is larger than size.");
+    }
+
+    let width = parent.width - widthMargin;
+    let height = parent.height - heightMargin;
+    let position: PixelPosition = {
+      x: parent.position.x + widget.margin.left,
+      y: parent.position.y + widget.margin.top,
+    };
+    if (widget.parent) {
+      position.x += widget.parent.padding.left;
+      position.y += widget.parent.padding.top;
+      width -= widget.parent.padding.left + widget.parent.padding.right;
+      height -= widget.parent.padding.top + widget.parent.padding.bottom;
+    }
+    if (width < 0 || height < 0) {
+      throw new Error("Padding is larger than size.");
+    }
+
+    // now, the max width and height has been calculated
+
+    let widthRange = widget.guessWidthRange();
+    let heightRange = widget.guessHeightRange();
+
+    widthRange[1] = sizeMin(widthRange[1], width);
+    heightRange[1] = sizeMin(heightRange[1], height);
+
+    width = widget.selectWidth(widthRange);
+    height = widget.selectHeight(heightRange);
+
+    return {
+      contextKey: this.key,
+      position,
+      width,
+      height,
+    };
   }
 
   intoPngBytes(): number[] {
@@ -70,15 +107,16 @@ export interface _WidgetOption {
   margin?: MarginOptions;
 }
 
-export abstract class Widget implements graphics.Widget {
-  _injection: graphics.BuildingInjections | null = null;
+export type WidgetKey = string;
+
+export abstract class Widget {
+  _renderBox: RenderBox | null = null;
+
+  readonly key: WidgetKey = randv4();
 
   private _parent?: Widget;
-  children: graphics.Widget[] = [];
-
-  protected padding: PaddingOptions = Padding.zero;
-  protected margin: MarginOptions = Margin.zero;
-  protected position: PixelPosition = { x: 0, y: 0 };
+  padding: PaddingOptions = Padding.zero;
+  margin: MarginOptions = Margin.zero;
 
   constructor(opts?: _WidgetOption) {
     if (opts?.padding) {
@@ -89,16 +127,21 @@ export abstract class Widget implements graphics.Widget {
     }
   }
 
-  prepareBuild(injection: graphics.BuildingInjections) {
-    this._injection = injection;
+  get renderBox() {
+    return this._renderBox;
   }
 
-  get maxHeight() {
-    return this._injection?.maxHeight ?? Infinity;
-  }
-
-  get maxWidth() {
-    return this._injection?.maxWidth ?? Infinity;
+  get position(): PixelPosition {
+    if (isNil(this.renderBox)) {
+      throw new Error("Render box is not set.");
+    }
+    let base: PixelPosition = {
+      x: this.renderBox.position.x,
+      y: this.renderBox.position.y,
+    };
+    base.x += this.margin.left;
+    base.y += this.margin.top;
+    return base;
   }
 
   get parent() {
@@ -106,21 +149,26 @@ export abstract class Widget implements graphics.Widget {
   }
   set parent(value: Widget | undefined) {
     this._parent = value;
-    // update position
-    if (value) {
-      this.position.x =
-        value.position.x + value.padding.left + this.margin.left;
-      this.position.y = value.position.y + value.padding.top + this.margin.top;
-    } else {
-      this.position.x = this.margin.left;
-      this.position.y = this.margin.top;
-    }
   }
 
   /**
    * @description Render the widget.
    */
   abstract build(context: BuildContext): void;
+
+  /**
+   * @description Guess the width range of the widget.
+   */
+  abstract guessWidthRange(): [number, PixelSize];
+
+  /**
+   * @description Guess the height range of the widget.
+   */
+  abstract guessHeightRange(): [number, PixelSize];
+
+  abstract selectHeight(heightRange: [number, PixelSize]): number;
+
+  abstract selectWidth(widthRange: [number, PixelSize]): number;
 
   /**
    * @description Check if the widget can be rendered.

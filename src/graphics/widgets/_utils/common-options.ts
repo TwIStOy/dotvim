@@ -1,16 +1,5 @@
 import { AnyColor } from "./color";
 
-export interface PixelPosition {
-  /**
-   * @description The x position of the pixel.
-   */
-  x: number;
-  /**
-   * @description The y position of the pixel.
-   */
-  y: number;
-}
-
 export interface BorderOptions {
   /**
    * @description The border radius of the container.

@@ -22,8 +22,9 @@ class _Column extends Widget {
   override get expandHeight(): boolean {
     return this._children.some((child) => child.expandHeight);
   }
-  get expandWidth(): boolean {
-    return this._children.some((child) => child.expandWidth);
+
+  override get expandWidth(): boolean {
+    return false;
   }
 
   guessWidthRange(): [number, FlexibleSize] {
@@ -43,6 +44,9 @@ class _Column extends Widget {
   }
 
   selectHeight(heightRange: [number, number]): number {
+    if (this.expandHeight) {
+      return heightRange[1];
+    }
     return heightRange[0];
   }
 

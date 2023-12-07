@@ -3,12 +3,11 @@ import { AllPlugins } from "./conf/plugins";
 import { Command } from "@core/model";
 import { VimBuffer, hideCursor } from "@core/vim";
 import { randv4 } from "@core/utils/uuid";
-import { info } from "@core/utils/logger";
 import { Image } from "@core/components/image/image";
 import { kittyBackend } from "@core/components/image/backend/kitty";
-import { Color } from "@glib/color";
 import { BuildContext } from "@glib/widget";
 import { Container } from "@glib/widgets/container";
+import { Margin } from "@glib/widgets/_utils";
 
 export * as _ from "@glib/index";
 export { AllPlugins, LazySpecs } from "./conf/plugins";
@@ -33,29 +32,16 @@ export function test() {
   let context = new BuildContext(100, 100);
   let root = (
     <Container
-      backgroundColor="red"
-      border={{
-        radius: 10,
-        lineWidth: 2,
-        color: Color.fromRGBA(0, 1, 0, 1),
-      }}
+      color="red"
+      border={{ radius: 10, width: 2, color: "green" }}
+      margin={Margin.all(40)}
     />
   );
   context.build(root);
 
-  // let [file] = io.open("/tmp/test.png", "wb");
   let data = context.renderer.toPngBytes();
-  // file?.write(string.char(...data));
-  // file?.close();
-
-  info("start!");
   vim.schedule(() => {
     kittyBackend.deleteAll();
-    // let image = Image.fromBuffer(data);
-    // let image = Image.fromFile(
-    //   "/tmp/test.png"
-    //   // "/home/hawtian/.dotvim/screenshots/start_page.png"
-    // );
     let image = Image.fromBuffer(data);
     image.render(3, 3);
   });

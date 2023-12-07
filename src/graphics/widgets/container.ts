@@ -1,22 +1,14 @@
-import { BuiltinColor, Color } from "@glib/color";
-import { BuildContext, Widget } from "@glib/widget";
+import { BuildContext, Widget, _WidgetOption } from "@glib/widget";
+import {
+  AnyColor,
+  BorderOptions,
+  Color,
+  ColorNormalizeResult,
+  normalizeColor,
+} from "./_utils";
+import { isNil } from "@core/vim";
 
-export interface _ContainerBorderOpts {
-  /**
-   * @description The border radius of the container.
-   */
-  radius?: number;
-  /**
-   * @description The border width of the container.
-   */
-  lineWidth?: number;
-  /**
-   * @description The border color of the container.
-   */
-  color?: Color;
-}
-
-export interface _ContainerOpts {
+export interface _ContainerOpts extends _WidgetOption {
   /**
    * @description The height of the container.
    */
@@ -26,47 +18,58 @@ export interface _ContainerOpts {
    */
   width?: number;
   /**
-   * @description The border width of the container.
+   * @description The border of the container.
    */
-  border?: _ContainerBorderOpts;
+  border?: BorderOptions;
   /**
    * @description The background color of the container.
    */
-  backgroundColor?: Color | string | BuiltinColor;
+  color?: AnyColor;
 }
 
 export class _Container extends Widget {
   private _height?: number;
   private _width?: number;
-  private _border?: {
-    radius?: number;
-    lineWidth?: number;
-    color?: Color;
-  };
-  private _backgroundColor: Color;
+  private _border?: ColorNormalizeResult<BorderOptions, "color">;
+  private _color: Color;
 
   constructor(opts: _ContainerOpts) {
-    super();
+    super(opts);
 
     this._height = opts.height;
     this._width = opts.width;
-    this._border = opts.border;
-    if (typeof opts.backgroundColor === "string") {
-      this._backgroundColor = Color.fromStr(opts.backgroundColor);
-    } else {
-      this._backgroundColor =
-        opts.backgroundColor ?? Color.fromRGBA(0, 0, 0, 0);
+    if (opts.border) {
+      this._border = {
+        radius: opts.border.radius,
+        width: opts.border.width,
+        color: normalizeColor(opts.border.color),
+      };
     }
+    this._color = normalizeColor(opts.color) ?? Color.transparent;
   }
 
   override canRender() {
-    return (
-      this._backgroundColor.alpha === 0 &&
-      (this._border?.color?.alpha ?? 0) === 0
-    );
+    return this._hasBackground() || this._hasBorder();
+  }
+
+  private _hasBackground() {
+    return this._color.alpha > 0;
+  }
+
+  private _hasBorder() {
+    if (!this._border) {
+      return false;
+    }
+    if (!this._border.color) {
+      return false;
+    }
+    return this._border.color.alpha > 0 && this._border.width > 0;
   }
 
   get width() {
+    if (isNil(this._width)) {
+      // calculate width
+    }
     return this._width ?? this.maxWidth;
   }
 
@@ -75,25 +78,30 @@ export class _Container extends Widget {
   }
 
   override build(context: BuildContext) {
-    if (!this._border) {
+    if (!this._hasBorder()) {
       // simple rectangle
-      context.renderer.rectangle(0, 0, this.width, this.height);
-      context.renderer.fillColor = this._backgroundColor;
+      context.renderer.rectangle(
+        this.position.x,
+        this.position.y,
+        this.width,
+        this.height
+      );
+      context.renderer.fillColor = this._color;
       context.renderer.fill();
     } else {
       // rounded rectangle
       context.renderer.roundedRectangle(
-        0,
-        0,
+        this.position.x,
+        this.position.y,
         this.width,
         this.height,
-        this._border.radius ?? 0
+        this._border!.radius ?? 0
       );
-      context.renderer.fillColor = this._backgroundColor;
+      context.renderer.fillColor = this._color;
       context.renderer.fillPreserve();
-      if (this._border.lineWidth && (this._border.color?.alpha ?? 0 > 0)) {
-        context.renderer.strokeColor = this._border.color!;
-        context.renderer.ctx.line_width(this._border.lineWidth);
+      if (this._hasBorder()) {
+        context.renderer.strokeColor = this._border!.color!;
+        context.renderer.ctx.line_width(this._border!.width);
         context.renderer.stroke();
       }
     }

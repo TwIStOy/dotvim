@@ -1,6 +1,6 @@
 import * as cairo from "ht.clib.cairo";
-import { Color } from "./color";
 import { debug_ } from "@core/utils/logger";
+import { Color } from "./widgets/_utils/color";
 
 export type CompositeOperation =
   | "source-over"
@@ -63,8 +63,8 @@ export class CairoRender implements graphics.Renderer {
 
     this._globalCompositeOperation = "source-over";
     this._globalAlpha = 1.0;
-    this._fillColor = Color.fromRGBA(0, 0, 0, 0);
-    this._strokeColor = Color.fromRGBA(0, 0, 0, 0);
+    this._fillColor = Color.transparent;
+    this._strokeColor = Color.transparent;
     this._font = "10x sans-serif";
   }
 

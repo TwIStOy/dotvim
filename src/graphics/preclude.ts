@@ -1,4 +1,5 @@
 import { isNil } from "@core/vim";
+import { Widget } from "./widget";
 
 function createGraphicsWidget(
   this: void,
@@ -13,7 +14,12 @@ function createGraphicsWidget(
     }
     return builder(props, ...children);
   } else {
-    return type(props, ...children);
+    let result = type(props, ...children);
+    for (let child of children) {
+      (child as Widget).parent = result;
+    }
+    result.parent = undefined;
+    return result;
   }
 }
 

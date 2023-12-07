@@ -1,5 +1,12 @@
 import { info } from "@core/utils/logger";
 import { CairoRender } from "./cairo-render";
+import {
+  Margin,
+  MarginOptions,
+  Padding,
+  PaddingOptions,
+  PixelPosition,
+} from "./widgets/_utils/common-options";
 
 export class BuildContext implements graphics.BuildContext {
   public renderer: CairoRender;
@@ -38,7 +45,6 @@ export class BuildContext implements graphics.BuildContext {
       };
     } else {
       injection = {
-        parent: top,
         maxHeight: top.maxHeight,
         maxWidth: top.maxWidth,
         minHeight: 0,
@@ -53,9 +59,35 @@ export class BuildContext implements graphics.BuildContext {
   }
 }
 
+export interface _WidgetOption {
+  /**
+   * @description The padding of the widget.
+   */
+  padding?: PaddingOptions;
+  /**
+   * @description The margin of the widget.
+   */
+  margin?: MarginOptions;
+}
+
 export abstract class Widget implements graphics.Widget {
   _injection: graphics.BuildingInjections | null = null;
+
+  private _parent?: Widget;
   children: graphics.Widget[] = [];
+
+  protected padding: PaddingOptions = Padding.zero;
+  protected margin: MarginOptions = Margin.zero;
+  protected position: PixelPosition = { x: 0, y: 0 };
+
+  constructor(opts?: _WidgetOption) {
+    if (opts?.padding) {
+      this.padding = opts.padding;
+    }
+    if (opts?.margin) {
+      this.margin = opts.margin;
+    }
+  }
 
   prepareBuild(injection: graphics.BuildingInjections) {
     this._injection = injection;
@@ -67,6 +99,22 @@ export abstract class Widget implements graphics.Widget {
 
   get maxWidth() {
     return this._injection?.maxWidth ?? Infinity;
+  }
+
+  get parent() {
+    return this._parent;
+  }
+  set parent(value: Widget | undefined) {
+    this._parent = value;
+    // update position
+    if (value) {
+      this.position.x =
+        value.position.x + value.padding.left + this.margin.left;
+      this.position.y = value.position.y + value.padding.top + this.margin.top;
+    } else {
+      this.position.x = this.margin.left;
+      this.position.y = this.margin.top;
+    }
   }
 
   /**

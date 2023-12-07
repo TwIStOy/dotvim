@@ -1,4 +1,19 @@
-export type BuiltinColor = "red" | "green" | "blue";
+import { isNil } from "@core/vim";
+
+type BuiltinColor = "red" | "green" | "blue";
+type RGB = `rgb(${number}, ${number}, ${number})`;
+type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
+type Hex = `#${string}`;
+
+export type ColorSource =
+  | RGB
+  | RGBA
+  | Hex
+  | BuiltinColor
+  | number
+  | [number, number, number]
+  | [number, number, number, number];
+
 export class Color {
   // all values are in the range [0, 1]
   private _red: number;
@@ -6,7 +21,39 @@ export class Color {
   private _blue: number;
   private _alpha: number;
 
-  static fromHex(hex: number) {
+  static transparent = new Color(0, 0, 0, 0);
+
+  static from(source: ColorSource) {
+    // hex number
+    if (typeof source === "number") {
+      return Color.fromHex(source);
+    }
+    // builtin
+    if (source === "red") {
+      return Color.fromHex(0xff0000);
+    } else if (source === "green") {
+      return Color.fromHex(0x00ff00);
+    } else if (source === "blue") {
+      return Color.fromHex(0x0000ff);
+    }
+    if (Array.isArray(source)) {
+      if (source.length === 3) {
+        return Color.fromRGBA(source[0], source[1], source[2], 1.0);
+      } else if (source.length === 4) {
+        return Color.fromRGBA(source[0], source[1], source[2], source[3]);
+      }
+    }
+    // hex string
+    if (source.startsWith("#")) {
+      const hex = tonumber(source.slice(1), 16) ?? 0;
+      return Color.fromHex(hex);
+    }
+    // rgb
+    // TODO(hawtian): Add support for `rgb(255, 255, 255)` and `rgba(255, 255, 255, 1.0)`.
+    return Color.fromHex(0);
+  }
+
+  private static fromHex(hex: number) {
     if (hex > 0xffffff) {
       return Color._from32BitHex(hex);
     }
@@ -34,7 +81,7 @@ export class Color {
     return new Color(red, green, blue, alpha);
   }
 
-  static fromStr(s: string | BuiltinColor) {
+  private static fromStr(s: string | BuiltinColor) {
     if (s.startsWith("#")) {
       return Color.fromHex(tonumber(s.slice(1), 16)!);
     }
@@ -48,7 +95,12 @@ export class Color {
     return Color.fromHex(0);
   }
 
-  static fromRGBA(red: number, green: number, blue: number, alpha: number) {
+  private static fromRGBA(
+    red: number,
+    green: number,
+    blue: number,
+    alpha: number
+  ) {
     if (!Color._isValid(red)) {
       throw new Error(`Invalid red value: ${red}`);
     }
@@ -103,3 +155,19 @@ export class Color {
     this._alpha = value;
   }
 }
+
+export type AnyColor = Color | ColorSource;
+
+export function normalizeColor(color?: AnyColor) {
+  if (isNil(color)) {
+    return undefined;
+  }
+  if (color instanceof Color) {
+    return color;
+  }
+  return Color.from(color);
+}
+
+export type ColorNormalizeResult<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]: Color | undefined;
+};

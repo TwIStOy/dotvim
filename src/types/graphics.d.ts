@@ -16,7 +16,6 @@ declare namespace graphics {
   }
 
   interface BuildingInjections {
-    parent?: Widget;
     maxHeight: number;
     maxWidth: number;
     minHeight: number;

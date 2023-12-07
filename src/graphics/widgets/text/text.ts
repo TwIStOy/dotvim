@@ -1,7 +1,13 @@
 import { BuildContext, Widget, _WidgetOption } from "@glib/widget";
 import { AnyColor, Color, normalizeColor } from "../_utils";
 import { FlexibleSize, PixelPosition } from "@glib/base";
-import { Box, InputItem, adjustmentRatios, breakLines } from "./line-break";
+import {
+  Box,
+  Glue,
+  InputItem,
+  adjustmentRatios,
+  breakLines,
+} from "./line-break";
 import { FontExtents } from "ht.clib.cairo";
 import { info } from "@core/utils/logger";
 
@@ -201,8 +207,14 @@ class _Text extends Widget {
           p !== start &&
           p !== breakpoints[b + 1]
         ) {
-          let te = context.renderer.ctx.text_extents(" ");
-          x += te.x_advance + te.x_advance * ratios[b];
+          let item = inputItems[p] as Glue;
+          let gap;
+          if (ratios[b] < 0) {
+            gap = item.width + ratios[b] * item.shrink;
+          } else {
+            gap = item.width + ratios[b] * item.stretch;
+          }
+          x += gap;
         }
       }
       x = initPosition.x;

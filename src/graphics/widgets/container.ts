@@ -7,9 +7,9 @@ import {
   normalizeColor,
 } from "./_utils";
 import { isNil } from "@core/vim";
-import { PixelSize, SizePolicy } from "@glib/base";
+import { FlexibleSize, SizePolicy } from "@glib/base";
 
-export interface _ContainerOpts extends _WidgetOption {
+interface _ContainerOpts extends _WidgetOption {
   /**
    * @description The height of the container.
    */
@@ -40,7 +40,7 @@ export interface _ContainerOpts extends _WidgetOption {
   child?: Widget;
 }
 
-export class _Container extends Widget {
+class _Container extends Widget {
   private _height?: number;
   private _width?: number;
   private _widthPolicy: SizePolicy;
@@ -119,7 +119,7 @@ export class _Container extends Widget {
     throw new Error(`Unknown height policy: ${this._heightPolicy}`);
   }
 
-  guessWidthRange(): [number, PixelSize] {
+  guessWidthRange(): [number, FlexibleSize] {
     /// fixed width
     if (this._widthPolicy === "fixed") {
       return [this._width!, this._width!];
@@ -138,7 +138,7 @@ export class _Container extends Widget {
     return [0, "inf"];
   }
 
-  guessHeightRange(): [number, PixelSize] {
+  guessHeightRange(): [number, FlexibleSize] {
     /// fixed height
     if (this._heightPolicy === "fixed") {
       return [this._height!, this._height!];
@@ -169,6 +169,14 @@ export class _Container extends Widget {
       throw new Error("Render box is not set.");
     }
     return this._renderBox.height;
+  }
+
+  override get expandHeight(): boolean {
+    return this._heightPolicy === "expand";
+  }
+
+  override get expandWidth(): boolean {
+    return this._widthPolicy === "expand";
   }
 
   override build(context: BuildContext) {

@@ -1,5 +1,5 @@
 import { isNil } from "@core/vim";
-import { PixelPosition, PixelSize, RenderBox, sizeMax, sizeMin } from "./base";
+import { PixelPosition, FlexibleSize, RenderBox, sizeMin } from "./base";
 import { CairoRender } from "./cairo-render";
 import {
   Margin,
@@ -86,8 +86,8 @@ export class BuildContext {
     widthRange[1] = sizeMin(widthRange[1], width);
     heightRange[1] = sizeMin(heightRange[1], height);
 
-    width = widget.selectWidth(widthRange);
-    height = widget.selectHeight(heightRange);
+    width = widget.selectWidth(widthRange as [number, number]);
+    height = widget.selectHeight(heightRange as [number, number]);
 
     let box = {
       contextKey: this.key,
@@ -160,16 +160,16 @@ export abstract class Widget {
   /**
    * @description Guess the width range of the widget.
    */
-  abstract guessWidthRange(): [number, PixelSize];
+  abstract guessWidthRange(): [number, FlexibleSize];
 
   /**
    * @description Guess the height range of the widget.
    */
-  abstract guessHeightRange(): [number, PixelSize];
+  abstract guessHeightRange(): [number, FlexibleSize];
 
-  abstract selectHeight(heightRange: [number, PixelSize]): number;
+  abstract selectHeight(heightRange: [number, number]): number;
 
-  abstract selectWidth(widthRange: [number, PixelSize]): number;
+  abstract selectWidth(widthRange: [number, number]): number;
 
   /**
    * @description Check if the widget can be rendered.
@@ -177,4 +177,14 @@ export abstract class Widget {
   canRender(): boolean {
     return true;
   }
+
+  /**
+   * @description Returns if the widget expect to be as large as possible in height.
+   */
+  abstract get expandHeight(): boolean;
+
+  /**
+   * @description Returns if the widget expect to be as large as possible in width.
+   */
+  abstract get expandWidth(): boolean;
 }

@@ -1,12 +1,12 @@
-export type PixelSize = number | "inf";
+export type FlexibleSize = number | "inf";
 
-export function sizeMin(a: PixelSize, b: PixelSize): PixelSize {
+export function sizeMin(a: FlexibleSize, b: FlexibleSize): FlexibleSize {
   if (a === "inf") return b;
   if (b === "inf") return a;
   return math.min(a, b);
 }
 
-export function sizeMax(a: PixelSize, b: PixelSize): PixelSize {
+export function sizeMax(a: FlexibleSize, b: FlexibleSize): FlexibleSize {
   if (a === "inf") return a;
   if (b === "inf") return b;
   return math.max(a, b);

@@ -14,7 +14,9 @@
       "@extra/*": ["extra/*"],
       "@glib/*": ["graphics/*"]
     },
-    "baseUrl": "src/"
+    "baseUrl": "src/",
+    "jsx": "react",
+    "jsxFactory": "_G.createGraphicsWidget"
   },
   "tstl": {
     "luaTarget": "JIT",
@@ -34,7 +36,7 @@
     ],
     "luaLibImport": "require-minimal",
     "luaBundle": "init.lua",
-    "luaBundleEntry": "src/index.ts"
+    "luaBundleEntry": "src/index.tsx"
   },
   "include": ["src"]
 }

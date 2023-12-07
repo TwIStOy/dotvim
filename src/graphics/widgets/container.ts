@@ -1,4 +1,4 @@
-import { Color } from "@glib/color";
+import { BuiltinColor, Color } from "@glib/color";
 import { BuildContext, Widget } from "@glib/widget";
 
 export interface _ContainerBorderOpts {
@@ -32,7 +32,7 @@ export interface _ContainerOpts {
   /**
    * @description The background color of the container.
    */
-  backgroundColor?: Color;
+  backgroundColor?: Color | string | BuiltinColor;
 }
 
 export class _Container extends Widget {
@@ -51,7 +51,12 @@ export class _Container extends Widget {
     this._height = opts.height;
     this._width = opts.width;
     this._border = opts.border;
-    this._backgroundColor = opts.backgroundColor ?? Color.fromRGBA(0, 0, 0, 0);
+    if (typeof opts.backgroundColor === "string") {
+      this._backgroundColor = Color.fromStr(opts.backgroundColor);
+    } else {
+      this._backgroundColor =
+        opts.backgroundColor ?? Color.fromRGBA(0, 0, 0, 0);
+    }
   }
 
   override canRender() {
@@ -87,8 +92,7 @@ export class _Container extends Widget {
       context.renderer.fillColor = this._backgroundColor;
       context.renderer.fillPreserve();
       if (this._border.lineWidth && (this._border.color?.alpha ?? 0 > 0)) {
-        context.renderer.strokeColor =
-          this._border.color ?? Color.fromRGBA(0, 0, 0, 0);
+        context.renderer.strokeColor = this._border.color!;
         context.renderer.ctx.line_width(this._border.lineWidth);
         context.renderer.stroke();
       }
@@ -96,6 +100,8 @@ export class _Container extends Widget {
   }
 }
 
-export function Container(opts: _ContainerOpts) {
-  return new _Container(opts);
+export function Container(opts: _ContainerOpts, ...children: Widget[]) {
+  let widget = new _Container(opts);
+  widget.children = children;
+  return widget;
 }

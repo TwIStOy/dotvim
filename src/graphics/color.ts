@@ -1,3 +1,4 @@
+export type BuiltinColor = "red" | "green" | "blue";
 export class Color {
   // all values are in the range [0, 1]
   private _red: number;
@@ -33,9 +34,16 @@ export class Color {
     return new Color(red, green, blue, alpha);
   }
 
-  static fromStr(s: string) {
+  static fromStr(s: string | BuiltinColor) {
     if (s.startsWith("#")) {
       return Color.fromHex(tonumber(s.slice(1), 16)!);
+    }
+    if (s === "red") {
+      return Color.fromHex(0xff0000);
+    } else if (s === "green") {
+      return Color.fromHex(0x00ff00);
+    } else if (s === "blue") {
+      return Color.fromHex(0x0000ff);
     }
     return Color.fromHex(0);
   }

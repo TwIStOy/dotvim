@@ -1,7 +1,7 @@
 import { info } from "@core/utils/logger";
 import { CairoRender } from "./cairo-render";
 
-export class BuildContext {
+export class BuildContext implements graphics.BuildContext {
   public renderer: CairoRender;
   public _rendering: Widget[] = [];
 
@@ -17,7 +17,7 @@ export class BuildContext {
     this._rendering.pop();
   }
 
-  build(widget: Widget) {
+  build(widget: graphics.Widget) {
     let injection = this._prepareWidget();
     info("injection: %s", vim.inspect(injection));
     this.pushRendering(widget);
@@ -28,7 +28,7 @@ export class BuildContext {
 
   private _prepareWidget() {
     let top = this._rendering[this._rendering.length - 1];
-    let injection: BuildInjections;
+    let injection: graphics.BuildingInjections;
     if (!top) {
       injection = {
         maxHeight: this.renderer.height,
@@ -47,29 +47,26 @@ export class BuildContext {
     }
     return injection;
   }
+
+  intoPngBytes(): number[] {
+    return this.renderer.toPngBytes();
+  }
 }
 
-interface BuildInjections {
-  parent?: Widget;
-  maxHeight: number;
-  maxWidth: number;
-  minHeight: number;
-  minWidth: number;
-}
+export abstract class Widget implements graphics.Widget {
+  _injection: graphics.BuildingInjections | null = null;
+  children: graphics.Widget[] = [];
 
-export abstract class Widget {
-  private buildInjections: BuildInjections | null = null;
-
-  prepareBuild(injection: BuildInjections) {
-    this.buildInjections = injection;
+  prepareBuild(injection: graphics.BuildingInjections) {
+    this._injection = injection;
   }
 
   get maxHeight() {
-    return this.buildInjections?.maxHeight ?? Infinity;
+    return this._injection?.maxHeight ?? Infinity;
   }
 
   get maxWidth() {
-    return this.buildInjections?.maxWidth ?? Infinity;
+    return this._injection?.maxWidth ?? Infinity;
   }
 
   /**

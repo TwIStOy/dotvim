@@ -42,7 +42,7 @@ const savePngCallback = (require("ffi") as AnyMod).cast(
   _savePngCallback
 );
 
-export class CairoRender {
+export class CairoRender implements graphics.Renderer {
   private surface: cairo.Surface;
   private context: cairo.Context;
 

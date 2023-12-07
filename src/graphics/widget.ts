@@ -13,10 +13,11 @@ import { info } from "@core/utils/logger";
 export class BuildContext {
   public renderer: CairoRender;
   public _rendering: Widget[] = [];
-  public key: string = randv4();
+  public key: string;
 
   constructor(width: number, height: number) {
     this.renderer = new CairoRender(width, height);
+    this.key = randv4();
   }
 
   pushRendering(widget: any) {
@@ -44,8 +45,9 @@ export class BuildContext {
     }
     this._setupRenderBox(widget, parentRB);
     info(
-      "Setup render box for widget: %s, %s",
+      "Setup render box for widget: %s, parent: %s, %s",
       widget.key,
+      widget.parent?.key,
       vim.inspect(widget.renderBox)
     );
     widget.build(this);
@@ -80,20 +82,23 @@ export class BuildContext {
 
     // now, the max width and height has been calculated
 
-    let widthRange = widget.guessWidthRange();
-    let heightRange = widget.guessHeightRange();
+    let widthRange = widget.guessWidthRange(this);
+    let heightRange = widget.guessHeightRange(this);
 
     widthRange[1] = sizeMin(widthRange[1], width);
     heightRange[1] = sizeMin(heightRange[1], height);
 
-    width = widget.selectWidth(widthRange as [number, number]);
-    height = widget.selectHeight(heightRange as [number, number]);
+    let size = widget.selectSize(
+      this,
+      widthRange as [number, number],
+      heightRange as [number, number]
+    );
 
     let box = {
       contextKey: this.key,
       position,
-      width,
-      height,
+      width: size.width,
+      height: size.height,
     };
     widget._renderBox = box;
   }
@@ -160,16 +165,21 @@ export abstract class Widget {
   /**
    * @description Guess the width range of the widget.
    */
-  abstract guessWidthRange(): [number, FlexibleSize];
+  abstract guessWidthRange(context: BuildContext): [number, FlexibleSize];
 
   /**
    * @description Guess the height range of the widget.
    */
-  abstract guessHeightRange(): [number, FlexibleSize];
+  abstract guessHeightRange(context: BuildContext): [number, FlexibleSize];
 
-  abstract selectHeight(heightRange: [number, number]): number;
-
-  abstract selectWidth(widthRange: [number, number]): number;
+  abstract selectSize(
+    context: BuildContext,
+    widthRange: [number, number],
+    heightRange: [number, number]
+  ): {
+    width: number;
+    height: number;
+  };
 
   /**
    * @description Check if the widget can be rendered.

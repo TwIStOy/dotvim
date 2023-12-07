@@ -73,6 +73,9 @@ class _Container extends Widget {
     }
     this._color = normalizeColor(opts.color) ?? Color.transparent;
     this._child = opts.child;
+    if (this._child) {
+      this._child.parent = this;
+    }
   }
 
   override canRender() {
@@ -93,7 +96,7 @@ class _Container extends Widget {
     return this._border.color.alpha > 0 && this._border.width > 0;
   }
 
-  override selectWidth(widthRange: [number, number]): number {
+  private _selectWidth(widthRange: [number, number]): number {
     if (this._widthPolicy === "fixed") {
       return this._width!;
     }
@@ -106,7 +109,7 @@ class _Container extends Widget {
     throw new Error(`Unknown width policy: ${this._widthPolicy}`);
   }
 
-  override selectHeight(heightRange: [number, number]): number {
+  private _selectHeight(heightRange: [number, number]): number {
     if (this._heightPolicy === "fixed") {
       return this._height!;
     }
@@ -119,13 +122,23 @@ class _Container extends Widget {
     throw new Error(`Unknown height policy: ${this._heightPolicy}`);
   }
 
-  guessWidthRange(): [number, FlexibleSize] {
+  override selectSize(
+    _context: BuildContext,
+    widthRange: [number, number],
+    heightRange: [number, number]
+  ): { width: number; height: number } {
+    let width = this._selectWidth(widthRange);
+    let height = this._selectHeight(heightRange);
+    return { width, height };
+  }
+
+  guessWidthRange(context: BuildContext): [number, FlexibleSize] {
     /// fixed width
     if (this._widthPolicy === "fixed") {
       return [this._width!, this._width!];
     }
     if (this._child) {
-      let [min, _] = this._child.guessWidthRange();
+      let [min, _] = this._child.guessWidthRange(context);
       if (this._widthPolicy === "expand") {
         // as big as possible
         return [min, "inf"];
@@ -138,13 +151,13 @@ class _Container extends Widget {
     return [0, "inf"];
   }
 
-  guessHeightRange(): [number, FlexibleSize] {
+  guessHeightRange(context: BuildContext): [number, FlexibleSize] {
     /// fixed height
     if (this._heightPolicy === "fixed") {
       return [this._height!, this._height!];
     }
     if (this._child) {
-      let [min, _] = this._child.guessHeightRange();
+      let [min, _] = this._child.guessHeightRange(context);
       if (this._heightPolicy === "expand") {
         // as big as possible
         return [min, "inf"];

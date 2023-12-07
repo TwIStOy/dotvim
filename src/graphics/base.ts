@@ -12,6 +12,11 @@ export function sizeMax(a: FlexibleSize, b: FlexibleSize): FlexibleSize {
   return math.max(a, b);
 }
 
+export function sizeAdd(a: FlexibleSize, b: FlexibleSize): FlexibleSize {
+  if (a === "inf" || b === "inf") return "inf";
+  return a + b;
+}
+
 export type SizePolicy = "fixed" | "expand" | "shrink";
 
 export interface PixelPosition {

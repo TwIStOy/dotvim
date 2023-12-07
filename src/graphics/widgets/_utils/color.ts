@@ -1,6 +1,6 @@
 import { isNil } from "@core/vim";
 
-type BuiltinColor = "red" | "green" | "blue";
+type BuiltinColor = "red" | "green" | "blue" | "white" | "black";
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 type Hex = `#${string}`;
@@ -35,6 +35,10 @@ export class Color {
       return Color.fromHex(0x00ff00);
     } else if (source === "blue") {
       return Color.fromHex(0x0000ff);
+    } else if (source === "white") {
+      return Color.fromHex(0xffffff);
+    } else if (source === "black") {
+      return Color.fromHex(0x000000);
     }
     if (Array.isArray(source)) {
       if (source.length === 3) {
@@ -79,20 +83,6 @@ export class Color {
     const blue = ((hex >> 8) & 0xff) / 255;
     const alpha = (hex & 0xff) / 255;
     return new Color(red, green, blue, alpha);
-  }
-
-  private static fromStr(s: string | BuiltinColor) {
-    if (s.startsWith("#")) {
-      return Color.fromHex(tonumber(s.slice(1), 16)!);
-    }
-    if (s === "red") {
-      return Color.fromHex(0xff0000);
-    } else if (s === "green") {
-      return Color.fromHex(0x00ff00);
-    } else if (s === "blue") {
-      return Color.fromHex(0x0000ff);
-    }
-    return Color.fromHex(0);
   }
 
   private static fromRGBA(

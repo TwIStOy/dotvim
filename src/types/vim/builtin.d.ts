@@ -315,4 +315,10 @@ declare namespace vim {
       trimempty?: boolean;
     }
   ): string[];
+
+  export function str_utf_pos(
+    this: void,
+    str: string,
+    index?: number
+  ): number[];
 }

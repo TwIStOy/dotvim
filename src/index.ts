@@ -7,7 +7,8 @@ import { Image } from "@core/components/image/image";
 import { kittyBackend } from "@core/components/image/backend/kitty";
 import { BuildContext } from "@glib/widget";
 import { Container } from "@glib/widgets/container";
-import { Color, Margin } from "@glib/widgets/_utils";
+import { Color, Margin, Padding } from "@glib/widgets/_utils";
+import { Text, toUtfChars } from "@glib/widgets/text/text";
 
 export * as _ from "@glib/index";
 export { AllPlugins, LazySpecs } from "./conf/plugins";
@@ -31,16 +32,13 @@ export function onRightClick(opts: any) {
 export function test() {
   let context = new BuildContext(100, 100);
   let root = Container({
-    color: Color.from([1, 1, 1, 1]),
+    color: "white",
     border: { width: 2, color: "blue" },
     heightPolicy: "expand",
     widthPolicy: "expand",
-    child: Container({
-      color: "red",
-      border: { radius: 10, width: 2, color: "green" },
-      margin: Margin.all(40),
-      heightPolicy: "expand",
-      widthPolicy: "expand",
+    padding: Padding.all(30),
+    child: Text({
+      text: "ag",
     }),
   });
   context.build(root);
@@ -51,5 +49,5 @@ export function test() {
     let image = Image.fromBuffer(data);
     image.render(3, 3);
   });
-  return randv4();
+  return toUtfChars("abcdd我");
 }

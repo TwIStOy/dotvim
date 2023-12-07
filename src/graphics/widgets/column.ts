@@ -1,4 +1,4 @@
-import { FlexibleSize, sizeMax } from "@glib/base";
+import { FlexibleSize, sizeAdd, sizeMax } from "@glib/base";
 import { BuildContext, Widget, _WidgetOption } from "@glib/widget";
 
 interface _ColumnOpts extends _WidgetOption {
@@ -27,20 +27,40 @@ class _Column extends Widget {
     return false;
   }
 
-  guessWidthRange(): [number, FlexibleSize] {
+  guessWidthRange(context: BuildContext): [number, FlexibleSize] {
     let minWidth = 0;
     let maxWidth: FlexibleSize = 0;
 
     for (let child of this._children) {
-      let [min, max] = child.guessWidthRange();
+      let [min, max] = child.guessWidthRange(context);
       minWidth = Math.max(minWidth, min);
       maxWidth = sizeMax(maxWidth, max);
     }
     return [minWidth, maxWidth];
   }
 
-  guessHeightRange(): [number, FlexibleSize] {
-    throw new Error("Method not implemented.");
+  guessHeightRange(context: BuildContext): [number, FlexibleSize] {
+    let minHeight = 0;
+    let maxHeight: FlexibleSize = 0;
+    for (let child of this._children) {
+      let [min, max] = child.guessHeightRange(context);
+      minHeight += min;
+      maxHeight = sizeAdd(maxHeight, max);
+    }
+    return [minHeight, maxHeight];
+  }
+
+  override selectSize(
+    _context: BuildContext,
+    widthRange: [number, number],
+    heightRange: [number, number]
+  ): { width: number; height: number } {
+    let width = this.selectWidth(widthRange);
+    let height = this.selectHeight(heightRange);
+    return {
+      width,
+      height,
+    };
   }
 
   selectHeight(heightRange: [number, number]): number {

@@ -7,7 +7,7 @@ import { Image } from "@core/components/image/image";
 import { kittyBackend } from "@core/components/image/backend/kitty";
 import { BuildContext } from "@glib/widget";
 import { Container } from "@glib/widgets/container";
-import { Margin } from "@glib/widgets/_utils";
+import { Color, Margin } from "@glib/widgets/_utils";
 
 export * as _ from "@glib/index";
 export { AllPlugins, LazySpecs } from "./conf/plugins";
@@ -31,11 +31,17 @@ export function onRightClick(opts: any) {
 export function test() {
   let context = new BuildContext(100, 100);
   let root = Container({
-    color: "red",
-    border: { radius: 10, width: 2, color: "green" },
-    margin: Margin.all(40),
+    color: Color.from([1, 1, 1, 1]),
+    border: { width: 2, color: "blue" },
     heightPolicy: "expand",
     widthPolicy: "expand",
+    child: Container({
+      color: "red",
+      border: { radius: 10, width: 2, color: "green" },
+      margin: Margin.all(40),
+      heightPolicy: "expand",
+      widthPolicy: "expand",
+    }),
   });
   context.build(root);
 

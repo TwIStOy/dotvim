@@ -8,6 +8,7 @@ import {
   PaddingOptions,
 } from "./widgets/_utils/common-options";
 import { randv4 } from "@core/utils/uuid";
+import { info } from "@core/utils/logger";
 
 export class BuildContext {
   public renderer: CairoRender;
@@ -42,10 +43,15 @@ export class BuildContext {
       };
     }
     this._setupRenderBox(widget, parentRB);
+    info(
+      "Setup render box for widget: %s, %s",
+      widget.key,
+      vim.inspect(widget.renderBox)
+    );
     widget.build(this);
   }
 
-  private _setupRenderBox(widget: Widget, parent: RenderBox): RenderBox {
+  private _setupRenderBox(widget: Widget, parent: RenderBox) {
     if (widget._renderBox && widget._renderBox.contextKey === this.key) {
       return widget._renderBox;
     }
@@ -83,12 +89,13 @@ export class BuildContext {
     width = widget.selectWidth(widthRange);
     height = widget.selectHeight(heightRange);
 
-    return {
+    let box = {
       contextKey: this.key,
       position,
       width,
       height,
     };
+    widget._renderBox = box;
   }
 
   intoPngBytes(): number[] {
@@ -135,13 +142,7 @@ export abstract class Widget {
     if (isNil(this.renderBox)) {
       throw new Error("Render box is not set.");
     }
-    let base: PixelPosition = {
-      x: this.renderBox.position.x,
-      y: this.renderBox.position.y,
-    };
-    base.x += this.margin.left;
-    base.y += this.margin.top;
-    return base;
+    return this._renderBox!.position;
   }
 
   get parent() {

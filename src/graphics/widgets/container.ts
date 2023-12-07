@@ -199,6 +199,9 @@ export class _Container extends Widget {
         context.renderer.stroke();
       }
     }
+    if (this._child) {
+      context.build(this._child);
+    }
   }
 }
 

@@ -29,15 +29,18 @@ export function onRightClick(opts: any) {
 }
 
 export function test() {
-  let context = new BuildContext(400, 400);
+  let context = new BuildContext(500, 400);
   let root = Container({
     color: "white",
     border: { width: 2, color: "blue" },
     heightPolicy: "expand",
     widthPolicy: "expand",
-    padding: Padding.all(5),
+    padding: Padding.all(10),
     child: Text({
       text: `When the first paper volume of Donald Knuth's The Art of Computer Programming was published in 1968,[4] it was typeset using hot metal typesetting set by a Monotype Corporation typecaster. This method, dating back to the 19th century, produced a "good classic style" appreciated by Knuth.`,
+      style: {
+        fontSize: 20,
+      },
     }),
   });
   context.build(root);

@@ -10,6 +10,7 @@ import {
 } from "./line-break";
 import { FontExtents } from "ht.clib.cairo";
 import { info } from "@core/utils/logger";
+import { ifNil } from "@core/vim";
 
 interface TextStyle {
   /**
@@ -121,10 +122,10 @@ class _Text extends Widget {
     if (opts.style) {
       this._style = {
         color: normalizeColor(opts.style.color) ?? Color.from("black"),
-        fontFamily: opts.style.fontFamily ?? "Sans",
-        fontSlant: opts.style.fontSlant ?? "normal",
-        fontWeight: opts.style.fontWeight ?? "normal",
-        fontSize: opts.style.fontSize ?? 12,
+        fontFamily: ifNil(opts.style.fontFamily, "Sans"),
+        fontSlant: ifNil(opts.style.fontSlant, "normal"),
+        fontWeight: ifNil(opts.style.fontWeight, "normal"),
+        fontSize: ifNil(opts.style.fontSize, 12),
       };
     } else {
       this._style = {

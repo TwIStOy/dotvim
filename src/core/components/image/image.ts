@@ -119,6 +119,10 @@ export class Image {
       debug_("termSize: %s", vim.inspect(termSize));
     }
     debug_("render image at (%s, %s)", x, y);
+    this._transmit();
+    vim.wait(10, () => {
+      return false;
+    });
     KittyBackend.getInstance().writeGraphics({
       action: "p",
       quiet: 2,
@@ -133,25 +137,6 @@ export class Image {
         cursorMovementPolicy: 1,
       },
     });
-    // KittyBackend.getInstance().writeGraphics(
-    //   {
-    //     action: "T",
-    //     quiet: 2,
-    //     transmission: {
-    //       imageId: this.id,
-    //       format: toFormatCode(this.format),
-    //       placementId: this.id,
-    //     },
-    //     display: {
-    //       xOffset: ifNil(x, 0),
-    //       yOffset: ifNil(x, 0),
-    //       z: ifNil(z, 0),
-    //       cursorMovementPolicy: 1,
-    //     },
-    //   },
-    //   this.data
-    // );
-    // termSyncEnd();
     this.rendered = true;
   }
 

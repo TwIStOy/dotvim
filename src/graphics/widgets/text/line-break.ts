@@ -1,4 +1,5 @@
 import { debug_ } from "@core/utils/logger";
+import { TextStyle } from "./common";
 
 /**
  * An object (eg. a word) to be typeset.
@@ -9,7 +10,11 @@ export interface Box {
   /** Amount of space required by this content. Must be >= 0. */
   width: number;
 
+  /** The content to be typeset. */
   char: string;
+
+  /** The content style **/
+  style: TextStyle;
 }
 
 /**
@@ -29,6 +34,7 @@ export interface Glue {
   stretch: number;
   /** Maximum amount by which this space can shrink. */
   shrink: number;
+  style: TextStyle;
 }
 
 /**

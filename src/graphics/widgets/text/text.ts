@@ -1,5 +1,4 @@
 import { Widget, WidgetKind, _WidgetOption } from "@glib/widget";
-import { AnyColor, Color, normalizeColor } from "../_utils";
 import {
   FlexibleRange,
   FlexibleSize,
@@ -17,105 +16,37 @@ import { FontExtents } from "ht.clib.cairo";
 import { debug_, info } from "@core/utils/logger";
 import { ifNil, isNil } from "@core/vim";
 import { BuildContext } from "@glib/build-context";
-
-interface TextStyle {
-  /**
-   * @description The color of the text.
-   */
-  color?: AnyColor;
-  /**
-   * @description The font family of the text.
-   */
-  fontFamily?: string;
-  /**
-   * @description The font weight of the text.
-   */
-  fontWeight?: string;
-  /**
-   * @description The font slant of the text.
-   */
-  fontSlant?: string;
-  /**
-   * @description The font size of the text.
-   */
-  fontSize?: number;
-}
+import { TextOverflowPolicy, TextStyle, isUTFWhitespace } from "./common";
+import { TextSpan, _TextSpan } from "./text-span";
+import { Cache } from "@core/model";
+import { normalizeColor } from "../_utils";
 
 interface _TextOpts {
   /**
    * @description The text of the text widget.
    */
-  text: string | string[];
+  text: string | _TextSpan | _TextSpan[];
   /**
    * @description The max width of lines.
    */
   width?: number;
   /**
-   * @description The style of the text.
+   * @description The style of the text. If text is string.
    */
   style?: TextStyle;
-}
-
-export function toUtfChars(str: string): string[] {
-  let starts = vim.str_utf_pos(str);
-  let res = [];
-  for (let i = 0; i < starts.length - 1; i++) {
-    res.push(str.slice(starts[i] - 1, starts[i + 1] - 1));
-  }
-  res.push(str.slice(starts[starts.length - 1] - 1));
-  return res;
-}
-
-let whiteSpaceChars = [
-  "\t",
-  "\n",
-  "\x0b",
-  "\x0c",
-  "\r",
-  " ",
-  "\xc2\x85",
-  "\xc2\xa0",
-  "\xe1\x9a\x80",
-  "\xe1\xa0\x8e",
-  "\xe2\x80\x80",
-  "\xe2\x80\x81",
-  "\xe2\x80\x82",
-  "\xe2\x80\x83",
-  "\xe2\x80\x84",
-  "\xe2\x80\x85",
-  "\xe2\x80\x86",
-  "\xe2\x80\x87",
-  "\xe2\x80\x88",
-  "\xe2\x80\x89",
-  "\xe2\x80\x8a",
-  "\xe2\x80\x8b",
-  "\xe2\x80\x8c",
-  "\xe2\x80\x8d",
-  "\xe2\x80\xa8",
-  "\xe2\x80\xa9",
-  "\xe2\x80\xaf",
-  "\xe2\x81\x9f",
-  "\xe2\x81\xa0",
-  "\xe3\x80\x80",
-  "\xef\xbb\xbf",
-];
-
-function isWhiteSpace(char: string): boolean {
-  return whiteSpaceChars.includes(char);
+  /**
+   * @description The overflow policy of the text.
+   */
+  overflow?: TextOverflowPolicy;
 }
 
 class _Text extends Widget {
   override readonly kind: WidgetKind = "Text";
 
-  private _text: string[];
+  private _text: _TextSpan[];
   private _width: FlexibleSize;
-  private _style: {
-    color: Color;
-    fontFamily: string;
-    fontWeight: string;
-    fontSlant: string;
-    fontSize: number;
-  };
+  private _cache: Cache = new Cache();
+  private _overflow: TextOverflowPolicy;
 
   constructor(opts: _TextOpts) {
     super({
@@ -123,29 +54,19 @@ class _Text extends Widget {
       flexPolicy: "shrink",
     });
 
-    if (type(opts.text) === "string") {
-      this._text = [opts.text as string];
+    if (typeof opts.text === "string") {
+      this._text = [TextSpan(opts.text)];
+    } else if (vim.tbl_islist(opts.text)) {
+      this._text = opts.text;
     } else {
-      this._text = opts.text as string[];
+      this._text = [opts.text];
     }
-    if (opts.style) {
-      this._style = {
-        color: normalizeColor(opts.style.color) ?? Color.from("black"),
-        fontFamily: ifNil(opts.style.fontFamily, "Sans"),
-        fontSlant: ifNil(opts.style.fontSlant, "normal"),
-        fontWeight: ifNil(opts.style.fontWeight, "normal"),
-        fontSize: ifNil(opts.style.fontSize, 12),
-      };
-    } else {
-      this._style = {
-        color: Color.from("black"),
-        fontFamily: "Sans",
-        fontSlant: "normal",
-        fontWeight: "normal",
-        fontSize: 12,
-      };
-    }
+
     this._width = opts.width ?? "inf";
+    this._overflow = ifNil(opts.overflow, {
+      kind: "wrap",
+      algorithm: "tex",
+    } as const);
   }
 
   _widthRange(
@@ -166,6 +87,40 @@ class _Text extends Widget {
     }
   }
 
+  private _getInputItems(context: BuildContext): InputItem[] {
+    return this._cache.ensure(["input-items", context.key], () => {
+      let res: InputItem[] = [];
+      for (let span of this._text) {
+        res.push(...span.toInputItems(context));
+      }
+      return res;
+    });
+  }
+
+  private _getBreakpoints(context: BuildContext, width: number) {
+    return this._cache.ensure(["break-lines", context.key, width], () => {
+      let inputItems = this._getInputItems(context);
+      return breakLines(inputItems, width);
+    });
+  }
+
+  private _getAdjustmentRatios(context: BuildContext, width: number) {
+    return this._cache.ensure(["adjustment-ratios", context.key, width], () => {
+      let inputItems = this._getInputItems(context);
+      let breakpoints = this._getBreakpoints(context, width);
+      return adjustmentRatios(inputItems, width, breakpoints);
+    });
+  }
+
+  private _expectLines(context: BuildContext, width: number) {
+    let breakpoints = this._getBreakpoints(context, width);
+    if (breakpoints[breakpoints.length - 1] + 1 < this._text.length) {
+      return breakpoints.length + 1;
+    } else {
+      return breakpoints.length;
+    }
+  }
+
   _heightRange(
     context: BuildContext,
     _maxAvailable: number,
@@ -178,12 +133,9 @@ class _Text extends Widget {
         max: "inf",
       };
     } else {
-      this._setupFont(context);
+      let lines = this._expectLines(context, determinedWidth);
+      // TODO(hawtian): calc each lines's height
       let fe = context.renderer.ctx.font_extents();
-      let lines = this._text.reduce((previous, line): number => {
-        let cnt = this._breakLine(context, line, determinedWidth);
-        return previous + cnt;
-      }, 0);
       info(
         "determinedWidth: %s, lines: %s, base: %s",
         determinedWidth,
@@ -209,153 +161,159 @@ class _Text extends Widget {
     this._renderBox = initBox;
   }
 
-  private _setupFont(context: BuildContext) {
+  private setupFont(context: BuildContext, style: TextStyle) {
     context.renderer.ctx.font_face(
-      this._style.fontFamily,
-      this._style.fontSlant,
-      this._style.fontWeight
+      ifNil(style.fontFamily, _TextSpan.defaultStyle.fontFamily),
+      ifNil(style.fontSlant, _TextSpan.defaultStyle.fontSlant),
+      ifNil(style.fontWeight, _TextSpan.defaultStyle.fontWeight)
     );
-    context.renderer.ctx.font_size(this._style.fontSize);
+    context.renderer.ctx.font_size(
+      ifNil(style.fontSize, _TextSpan.defaultStyle.fontSize)
+    );
   }
 
-  private _breakLine(context: BuildContext, line: string, width: number) {
-    let inputItems = this._lineToInputItems(context, line);
-    let breakpoints;
-    try {
-      breakpoints = breakLines(inputItems, width);
-    } catch (e) {
-      error(string.format("Cannot break lines: %s", e));
-    }
-    if (breakpoints[breakpoints.length - 1] + 1 >= inputItems.length) {
-      return breakpoints.length + 1;
-    } else {
-      return breakpoints.length;
-    }
-  }
-
-  private _lineToInputItems(context: BuildContext, line: string) {
-    let chars = toUtfChars(line);
-    let inputItems: InputItem[] = [];
-    for (let char of chars) {
-      let te = context.renderer.ctx.text_extents(char);
-      if (isWhiteSpace(char)) {
-        inputItems.push({
-          type: "glue",
-          width: te.x_advance,
-          stretch: te.x_advance * 1.5,
-          shrink: te.x_advance - 2,
-        });
-      } else {
-        inputItems.push({
-          type: "box",
-          width: te.x_advance,
-          char: char,
-        });
-      }
-    }
-    return inputItems;
-  }
-
-  private _showLine(
+  /*
+   * pos: top-left corner of the box
+   *
+   * @returns box size
+   */
+  private _drawBox(
     context: BuildContext,
-    line: string,
-    initPosition: PixelPosition,
-    fe: FontExtents,
-    expectWidth: number
-  ): number {
-    let inputItems = this._lineToInputItems(context, line);
-    let breakpoints;
-    try {
-      breakpoints = breakLines(inputItems, expectWidth);
-    } catch (e) {
-      error(string.format("Cannot break lines: %s", e));
+    item: Box,
+    pos: PixelPosition
+  ): {
+    width: number;
+    height: number;
+  } {
+    let char = item.char;
+    let style = item.style;
+    this.setupFont(context, style);
+    let fe = context.renderer.ctx.font_extents();
+    let te = context.renderer.ctx.text_extents(char);
+    if (style.background) {
+      let color = normalizeColor(style.background)!;
+      context.renderer.ctx.move_to(pos.x, pos.y);
+      context.renderer.fillColor = color;
+      context.renderer.rectangle(pos.x, pos.y, te.x_advance, fe.height);
     }
-    let ratios = adjustmentRatios(inputItems, expectWidth, breakpoints);
+    let color = normalizeColor(style.color)!;
+    context.renderer.ctx.move_to(pos.x, pos.y + fe.height - fe.descent);
+    context.renderer.fillColor = color;
+    context.renderer.ctx.show_text(char);
+    // TODO(hawtian): draw underline
+    return {
+      width: te.x_advance,
+      height: fe.height,
+    };
+  }
+
+  private _drawGlue(
+    context: BuildContext,
+    item: Glue,
+    pos: PixelPosition,
+    ratio: number
+  ): {
+    width: number;
+    height: number;
+  } {
+    let style = item.style;
+    this.setupFont(context, style);
+    let fe = context.renderer.ctx.font_extents();
+    let te = context.renderer.ctx.text_extents(" ");
+    if (style.background) {
+      let color = normalizeColor(style.background)!;
+      context.renderer.ctx.move_to(pos.x, pos.y);
+      context.renderer.fillColor = color;
+      context.renderer.rectangle(pos.x, pos.y, te.x_advance, fe.height);
+    }
+    let gap;
+    if (ratio < 0) {
+      gap = item.width + ratio * item.shrink;
+    } else {
+      gap = item.width + ratio * item.stretch;
+    }
+    return {
+      width: gap,
+      height: fe.height,
+    };
+  }
+
+  private _drawItems(
+    context: BuildContext,
+    initPosition: PixelPosition,
+    expectWidth: number
+  ) {
+    let inputItems = this._getInputItems(context);
+    let breakpoints = this._getBreakpoints(context, expectWidth);
+    let ratios = this._getAdjustmentRatios(context, expectWidth);
     let x = initPosition.x;
     let y = initPosition.y;
-    debug_(
-      "breakpoints: %s, ratios: %s",
-      vim.inspect(breakpoints),
-      vim.inspect(ratios)
-    );
 
     for (let b = 0; b < breakpoints.length - 1; b++) {
       const start = b === 0 ? breakpoints[0] : breakpoints[b] + 1;
+      let lineHeight = 0;
       for (let p = start; p <= breakpoints[b + 1]; p++) {
+        let boxSize;
         if (inputItems[p].type === "box") {
           let item = inputItems[p] as Box;
-          let te = context.renderer.ctx.text_extents(item.char);
-          context.renderer.ctx.rgba(
-            this._style.color.red,
-            this._style.color.green,
-            this._style.color.blue,
-            this._style.color.alpha
-          );
-          context.renderer.ctx.move_to(x, y - fe.descent);
-          context.renderer.ctx.show_text(item.char);
-          x += te.x_advance;
+          boxSize = this._drawBox(context, item, {
+            x,
+            y,
+          });
         } else if (
           inputItems[p].type === "glue" &&
           p !== start &&
           p !== breakpoints[b + 1]
         ) {
           let item = inputItems[p] as Glue;
-          let gap;
-          if (ratios[b] < 0) {
-            gap = item.width + ratios[b] * item.shrink;
-          } else {
-            gap = item.width + ratios[b] * item.stretch;
-          }
-          x += gap;
+          boxSize = this._drawGlue(context, item, { x, y }, ratios[b]);
+        }
+        if (boxSize) {
+          x += boxSize.width;
+          lineHeight = Math.max(lineHeight, boxSize.height);
         }
       }
       x = initPosition.x;
-      y += fe.height;
+      y += lineHeight;
     }
     // write the last line
-    const start = breakpoints[breakpoints.length - 1] + 1;
-    for (let p = start; p < inputItems.length; p++) {
-      if (inputItems[p].type === "box") {
-        let item = inputItems[p] as Box;
-        let te = context.renderer.ctx.text_extents(item.char);
-        context.renderer.ctx.rgba(
-          this._style.color.red,
-          this._style.color.green,
-          this._style.color.blue,
-          this._style.color.alpha
-        );
-        context.renderer.ctx.move_to(x, y - fe.descent);
-        context.renderer.ctx.show_text(item.char);
-        x += te.x_advance;
-      } else if (inputItems[p].type === "glue" && p !== start) {
-        let te = context.renderer.ctx.text_extents(" ");
-        x += te.x_advance;
+    {
+      const start = breakpoints[breakpoints.length - 1] + 1;
+      let lineHeight = 0;
+      for (let p = start; p < inputItems.length; p++) {
+        let boxSize;
+        if (inputItems[p].type === "box") {
+          let item = inputItems[p] as Box;
+          boxSize = this._drawBox(context, item, {
+            x,
+            y,
+          });
+        } else if (inputItems[p].type === "glue" && p !== start) {
+          let item = inputItems[p] as Glue;
+          boxSize = this._drawGlue(context, item, { x, y }, 0);
+        }
+        if (boxSize) {
+          x += boxSize.width;
+          lineHeight = Math.max(lineHeight, boxSize.height);
+        }
       }
-    }
-    if (start < inputItems.length) {
-      x = initPosition.x;
-      y += fe.height;
+      if (start < inputItems.length) {
+        x = initPosition.x;
+        y += lineHeight;
+      }
     }
     return y;
   }
 
   build(context: BuildContext): void {
-    this._setupFont(context);
-
-    let fe = context.renderer.ctx.font_extents();
-    let position: PixelPosition = {
-      x: this._renderBox!.position.x,
-      y: this._renderBox!.position.y + fe.height,
-    };
-
     let expectWidth = this._renderBox!.width;
-
-    for (let line of this._text) {
-      position.y = this._showLine(context, line, position, fe, expectWidth);
-    }
+    this._drawItems(context, this._renderBox!.position, expectWidth);
   }
 }
 
+/**
+ * A text paragraph.
+ */
 export function Text(opts: _TextOpts): Widget {
   return new _Text(opts);
 }

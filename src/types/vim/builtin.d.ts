@@ -306,6 +306,8 @@ declare namespace vim {
 
   export function tbl_keys(this: void, val: AnyTable): string[];
 
+  export function tbl_islist(this: void, val: any): val is ArrayLike<unknown>;
+
   export function split(
     this: void,
     str: string,

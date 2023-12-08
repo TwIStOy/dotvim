@@ -4,13 +4,14 @@ import { Command } from "@core/model";
 import { VimBuffer, hideCursor } from "@core/vim";
 import { Padding } from "@glib/widgets/_utils";
 import { Container } from "@glib/widgets/container";
-import { Text, toUtfChars } from "@glib/widgets/text/text";
+import { Text } from "@glib/widgets/text/text";
 import { AllPlugins } from "./conf/plugins";
 import { KittyBackend } from "@core/components/image/backend/kitty";
 import { Column } from "@glib/widgets/column";
 import { Spacing } from "@glib/widgets/spacing";
 import { error_, info } from "@core/utils/logger";
 import { BuildContext } from "@glib/build-context";
+import { toUtfChars } from "@glib/widgets/text/common";
 
 export * as _ from "@glib/index";
 export { AllLspServers } from "./conf/external_tools";

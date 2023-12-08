@@ -35,7 +35,7 @@ export function test() {
     border: { width: 2, color: "blue" },
     heightPolicy: "expand",
     widthPolicy: "expand",
-    padding: Padding.zero,
+    padding: Padding.all(5),
     child: Text({
       text: `When the first paper volume of Donald Knuth's The Art of Computer Programming was published in 1968,[4] it was typeset using hot metal typesetting set by a Monotype Corporation typecaster. This method, dating back to the 19th century, produced a "good classic style" appreciated by Knuth.`,
     }),

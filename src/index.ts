@@ -36,8 +36,8 @@ export function test() {
 
   let context = new BuildContext(500, 400);
   let root = Container({
-    color: "black",
-    border: { width: 2, color: "blue", radius: 5 },
+    color: "#1e2030",
+    border: { width: 2, color: "black", radius: 5 },
     height: "expand",
     width: "expand",
     padding: Padding.all(10),

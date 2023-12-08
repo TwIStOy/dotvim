@@ -20,6 +20,8 @@ declare namespace vim {
      */
     export function stdpath(path: StdPathInput): string;
 
+    export function has(varname: string): number;
+
     /**
      * The number of display cells `string` occupies.
      */

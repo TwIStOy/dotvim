@@ -6,6 +6,8 @@ interface _ColumnOpts extends _WidgetOption {
 }
 
 class _Column extends Widget {
+  override readonly kind: string = "Column";
+
   private _children: Widget[];
 
   constructor(opts: _ColumnOpts) {

@@ -1,7 +1,21 @@
-import { termSyncEnd, termSyncStart } from "@core/utils/term";
-import { kittyBackend } from "./backend/kitty";
-import { isNil } from "@core/vim";
+import {
+  termGetSize,
+  termMoveCursor,
+  termRestoreCursor,
+  termSyncEnd,
+  termSyncStart,
+} from "@core/utils/term";
+import { ifNil, isNil } from "@core/vim";
 import { info } from "@core/utils/logger";
+import { KittyBackend } from "./backend/kitty";
+import {
+  escape as tmuxEscape,
+  getCursorX as tmuxGetCursorX,
+  getCursorY as tmuxGetCursorY,
+  getPaneTop as tmuxGetPeneTop,
+  getPaneLeft as tmuxGetPaneLeft,
+} from "@core/utils/tmux";
+import { inTmux } from "@core/utils/env";
 
 let _nextInternalId = 110;
 
@@ -65,8 +79,29 @@ export class Image {
     if (this.rendered) {
       this.clear();
     }
-    termSyncStart();
-    kittyBackend.writeGraphics(
+    // termSyncStart();
+    if (inTmux()) {
+      // relative position is not supported in tmux, calculate current cursor pos
+      let pane_left = tonumber(tmuxGetPaneLeft())!;
+      let pane_top = tonumber(tmuxGetPeneTop())!;
+      let cursor_x = tonumber(tmuxGetCursorX())!;
+      let cursor_y = tonumber(tmuxGetCursorY())!;
+      info(
+        "pane_left: %d, pane_top: %d, cursor_x: %d, cursor_y: %d",
+        pane_left,
+        pane_top,
+        cursor_x,
+        cursor_y
+      );
+      let left_cells = pane_left + cursor_x;
+      let top_cells = pane_top + cursor_y;
+      let termSize = termGetSize();
+      x = ifNil(x, 0) + termSize.cell_width * left_cells;
+      y = ifNil(y, 0) + termSize.cell_height * top_cells;
+      info("termSize: %s", vim.inspect(termSize));
+    }
+    info("render image at (%s, %s)", x, y);
+    KittyBackend.getInstance().writeGraphics(
       {
         action: "T",
         quiet: 2,
@@ -84,7 +119,7 @@ export class Image {
       },
       this.data
     );
-    termSyncEnd();
+    // termSyncEnd();
     this.rendered = true;
   }
 
@@ -93,7 +128,7 @@ export class Image {
       return;
     }
     termSyncStart();
-    kittyBackend.writeGraphics({
+    KittyBackend.getInstance().writeGraphics({
       action: "d",
       quiet: 2,
       deleteImages: "i",

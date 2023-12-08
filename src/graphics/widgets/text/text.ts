@@ -98,6 +98,8 @@ function isWhiteSpace(char: string): boolean {
 }
 
 class _Text extends Widget {
+  override readonly kind: string = "Text";
+
   private _text: string[];
   private _width: FlexibleSize;
   private _style: {

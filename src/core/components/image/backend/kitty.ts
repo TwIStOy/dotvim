@@ -160,8 +160,16 @@ interface RenderedImage {
 
 export class KittyBackend implements ImageRenderBackend {
   private images: LuaTable<number, RenderedImage> = new LuaTable();
+  private static _instance: KittyBackend | null = null;
 
-  constructor() {
+  static getInstance() {
+    if (isNil(KittyBackend._instance)) {
+      KittyBackend._instance = new KittyBackend();
+    }
+    return KittyBackend._instance;
+  }
+
+  private constructor() {
     vim.api.nvim_create_autocmd("VimLeavePre", {
       callback: () => {
         this.deleteAll();
@@ -250,4 +258,3 @@ export class KittyBackend implements ImageRenderBackend {
   }
 }
 
-export const kittyBackend = new KittyBackend();

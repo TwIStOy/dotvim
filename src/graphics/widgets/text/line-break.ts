@@ -480,7 +480,6 @@ export function adjustmentRatios(
         p !== start &&
         p !== breakpoints[b + 1]
       ) {
-        info("b=%s", b);
         actualWidth += item.width;
         lineShrink += item.shrink;
         lineStretch += item.stretch;

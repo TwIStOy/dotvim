@@ -45,7 +45,8 @@ export class BuildContext {
     }
     this._setupRenderBox(widget, parentRB);
     info(
-      "Setup render box for widget: %s, parent: %s, %s",
+      "Setup render box for widget: (%s, %s), parent: %s, %s",
+      widget.kind,
       widget.key,
       widget.parent?.key,
       vim.inspect(widget.renderBox)
@@ -124,6 +125,7 @@ export type WidgetKey = string;
 export abstract class Widget {
   _renderBox: RenderBox | null = null;
 
+  abstract readonly kind: string;
   readonly key: WidgetKey = randv4();
 
   private _parent?: Widget;

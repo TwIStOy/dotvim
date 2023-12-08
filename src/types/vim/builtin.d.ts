@@ -321,4 +321,10 @@ declare namespace vim {
     str: string,
     index?: number
   ): number[];
+
+  export function wait(
+    timeout: number,
+    condition: () => boolean,
+    interval?: number
+  ): 0 | -1 | -2 | -3;
 }

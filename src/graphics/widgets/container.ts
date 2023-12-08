@@ -41,6 +41,8 @@ interface _ContainerOpts extends _WidgetOption {
 }
 
 class _Container extends Widget {
+  override readonly kind: string = "Container";
+
   private _height?: number;
   private _width?: number;
   private _widthPolicy: SizePolicy;

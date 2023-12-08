@@ -43,6 +43,8 @@ export const getPanePid = generateInvokeDisplayMessage("pane_pid");
 export const getPaneTTY = generateInvokeDisplayMessage("pane_tty");
 export const getCursorX = generateInvokeDisplayMessage("cursor_x");
 export const getCursorY = generateInvokeDisplayMessage("cursor_y");
+export const getPaneLeft = generateInvokeDisplayMessage("pane_left")
+export const getPaneTop = generateInvokeDisplayMessage("pane_top")
 
 export function escape(data: string): string {
   return `\x1bPtmux;${data.replaceAll("\x1b", "\x1b\x1b")}\x1b\\`;

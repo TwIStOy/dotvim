@@ -19,7 +19,17 @@ function _open_log_file() {
 function _log(level: number, fmt: string, ...args: unknown[]) {
   if (level < minLogLevel) return;
 
-  let line = string.format(fmt, ...args);
+  let line = string.format(
+    fmt,
+    ...args.map((v) => {
+      if (isNil(v)) return "nil";
+      if (typeof v === "object") {
+        let [x] = string.gsub(vim.inspect(v), "\n%s*", " ");
+        return x;
+      }
+      return v;
+    })
+  );
   _open_log_file();
   if (!isNil(_log_file)) {
     _log_file.write(line + "\n");
@@ -39,7 +49,7 @@ export function warn(fmt: string, ...args: unknown[]) {
   _log(vim.log.levels.WARN, fmt, ...args);
 }
 
-export function error(fmt: string, ...args: unknown[]) {
+export function error_(fmt: string, ...args: unknown[]) {
   _log(vim.log.levels.ERROR, fmt, ...args);
 }
 

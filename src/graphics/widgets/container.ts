@@ -1,4 +1,17 @@
-import { BuildContext, Widget, _WidgetOption } from "@glib/widget";
+import { ifNil } from "@core/vim";
+import {
+  FlexibleRange,
+  RenderBox,
+  sizeMax,
+  sizeMin
+} from "@glib/base";
+import { BuildContext } from "@glib/build-context";
+import {
+  FlexiblePolicy,
+  Widget,
+  WidgetKind,
+  _WidgetPaddingMargin,
+} from "@glib/widget";
 import {
   AnyColor,
   BorderOptions,
@@ -6,26 +19,16 @@ import {
   ColorNormalizeResult,
   normalizeColor,
 } from "./_utils";
-import { isNil } from "@core/vim";
-import { FlexibleSize, SizePolicy } from "@glib/base";
 
-interface _ContainerOpts extends _WidgetOption {
+interface _ContainerOpts extends _WidgetPaddingMargin {
   /**
    * @description The height of the container.
    */
-  height?: number;
-  /**
-   * @description The height policy of the container.
-   */
-  heightPolicy?: SizePolicy;
+  height?: number | FlexiblePolicy;
   /**
    * @description The width of the container.
    */
-  width?: number;
-  /**
-   * @description The width policy of the container.
-   */
-  widthPolicy?: SizePolicy;
+  width?: number | FlexiblePolicy;
   /**
    * @description The border of the container.
    */
@@ -41,31 +44,24 @@ interface _ContainerOpts extends _WidgetOption {
 }
 
 class _Container extends Widget {
-  override readonly kind: string = "Container";
+  override readonly kind: WidgetKind = "Container";
 
-  private _height?: number;
-  private _width?: number;
-  private _widthPolicy: SizePolicy;
-  private _heightPolicy: SizePolicy;
+  private _height: number | FlexiblePolicy;
+  private _width: number | FlexiblePolicy;
   private _border?: ColorNormalizeResult<BorderOptions, "color">;
   private _color: Color;
   private _child?: Widget;
 
   constructor(opts: _ContainerOpts) {
-    super(opts);
+    super({
+      ...opts,
+      flexible: "none",
+      flexPolicy: "shrink",
+    });
 
-    this._height = opts.height;
-    this._width = opts.width;
-    if (opts.width) {
-      this._widthPolicy = "fixed";
-    } else {
-      this._widthPolicy = opts.widthPolicy ?? "shrink";
-    }
-    if (opts.height) {
-      this._heightPolicy = "fixed";
-    } else {
-      this._heightPolicy = opts.heightPolicy ?? "shrink";
-    }
+    this._height = ifNil(opts.height, "shrink" as const);
+    this._width = ifNil(opts.width, "shrink" as const);
+
     if (opts.border) {
       this._border = {
         radius: opts.border.radius,
@@ -80,8 +76,8 @@ class _Container extends Widget {
     }
   }
 
-  override canRender() {
-    return this._hasBackground() || this._hasBorder();
+  override skipRender(): boolean {
+    return !this._hasBackground() && !this._hasBorder();
   }
 
   private _hasBackground() {
@@ -98,120 +94,140 @@ class _Container extends Widget {
     return this._border.color.alpha > 0 && this._border.width > 0;
   }
 
-  private _selectWidth(widthRange: [number, number]): number {
-    if (this._widthPolicy === "fixed") {
-      return this._width!;
+  _heightRange(
+    context: BuildContext,
+    maxAvailable: number,
+    determinedWidth?: number | undefined
+  ): FlexibleRange {
+    if (typeof this._height === "number") {
+      return {
+        min: this._height,
+        max: this._height,
+      };
+    } else {
+      let min, max;
+      if (this._child) {
+        let c = this._child._heightRange(
+          context,
+          maxAvailable,
+          determinedWidth
+        );
+        if (this._height === "shrink") {
+          min = c.min;
+          max = c.max;
+        } else {
+          min = c.min;
+          max = sizeMax(c.max, maxAvailable);
+        }
+        return { min, max };
+      } else {
+        return {
+          min: 0,
+          max: maxAvailable,
+        };
+      }
     }
-    if (this._widthPolicy === "expand") {
-      return widthRange[1];
-    }
-    if (this._widthPolicy === "shrink") {
-      return widthRange[0];
-    }
-    throw new Error(`Unknown width policy: ${this._widthPolicy}`);
   }
 
-  private _selectHeight(heightRange: [number, number]): number {
-    if (this._heightPolicy === "fixed") {
-      return this._height!;
+  _widthRange(
+    context: BuildContext,
+    maxAvailable: number,
+    determinedHeight?: number | undefined
+  ): FlexibleRange {
+    if (typeof this._width === "number") {
+      return {
+        min: this._width,
+        max: this._width,
+      };
+    } else {
+      let min, max;
+      if (this._child) {
+        let c = this._child._widthRange(
+          context,
+          maxAvailable,
+          determinedHeight
+        );
+        if (this._width === "shrink") {
+          min = c.min;
+          max = c.max;
+        } else {
+          min = c.min;
+          max = sizeMax(c.max, maxAvailable);
+        }
+        return { min, max };
+      } else {
+        return {
+          min: 0,
+          max: maxAvailable,
+        };
+      }
     }
-    if (this._heightPolicy === "expand") {
-      return heightRange[1];
-    }
-    if (this._heightPolicy === "shrink") {
-      return heightRange[0];
-    }
-    throw new Error(`Unknown height policy: ${this._heightPolicy}`);
   }
 
-  override selectSize(
-    _context: BuildContext,
-    widthRange: [number, number],
-    heightRange: [number, number]
-  ): { width: number; height: number } {
-    let width = this._selectWidth(widthRange);
-    let height = this._selectHeight(heightRange);
-    return { width, height };
-  }
-
-  guessWidthRange(context: BuildContext): [number, FlexibleSize] {
-    /// fixed width
-    if (this._widthPolicy === "fixed") {
-      return [this._width!, this._width!];
+  calculateRenderBox(
+    context: BuildContext,
+    inheritBox?: RenderBox | undefined
+  ): void {
+    if (!inheritBox) {
+      inheritBox = context.getInitialRenderBox();
     }
+    // process margin
+    let initBox = this.processMargin(inheritBox);
+
+    let widthRange = this._widthRange(context, initBox.width);
+    let heightRange = this._heightRange(context, initBox.height);
+
+    let width: number;
+    if (typeof this._width === "number") {
+      width = this._width;
+    } else if (this._width === "shrink") {
+      width = widthRange.min;
+    } else {
+      width = sizeMin(widthRange.max, initBox.width) as number;
+    }
+
+    let height: number;
+    if (typeof this._height === "number") {
+      height = this._height;
+    } else if (this._height === "shrink") {
+      height = heightRange.min;
+    } else {
+      height = sizeMin(heightRange.max, initBox.height) as number;
+    }
+
+    let myBox = {
+      ...initBox,
+      width,
+      height,
+    };
+    this._renderBox = myBox;
+
+    // process padding
+    let paddingBox = this.processPadding(myBox);
+
     if (this._child) {
-      let [min, _] = this._child.guessWidthRange(context);
-      if (this._widthPolicy === "expand") {
-        // as big as possible
-        return [min, "inf"];
-      }
-      if (this._widthPolicy === "shrink") {
-        // as small as possible
-        return [min, min];
-      }
+      this._child.calculateRenderBox(context, paddingBox);
     }
-    return [0, "inf"];
-  }
-
-  guessHeightRange(context: BuildContext): [number, FlexibleSize] {
-    /// fixed height
-    if (this._heightPolicy === "fixed") {
-      return [this._height!, this._height!];
-    }
-    if (this._child) {
-      let [min, _] = this._child.guessHeightRange(context);
-      if (this._heightPolicy === "expand") {
-        // as big as possible
-        return [min, "inf"];
-      }
-      if (this._heightPolicy === "shrink") {
-        // as small as possible
-        return [min, min];
-      }
-    }
-    return [0, "inf"];
-  }
-
-  get width(): number {
-    if (isNil(this._renderBox)) {
-      throw new Error("Render box is not set.");
-    }
-    return this._renderBox.width;
-  }
-
-  get height(): number {
-    if (isNil(this._renderBox)) {
-      throw new Error("Render box is not set.");
-    }
-    return this._renderBox.height;
-  }
-
-  override get expandHeight(): boolean {
-    return this._heightPolicy === "expand";
-  }
-
-  override get expandWidth(): boolean {
-    return this._widthPolicy === "expand";
   }
 
   override build(context: BuildContext) {
     if (!this._hasBorder()) {
       // simple rectangle
       context.renderer.rectangle(
-        this.position.x,
-        this.position.y,
-        this.width,
-        this.height
+        this._renderBox!.position.x,
+        this._renderBox!.position.y,
+        this._renderBox!.width,
+        this._renderBox!.height
       );
       context.renderer.fillColor = this._color;
       context.renderer.fill();
     } else {
       // rounded rectangle
       context.renderer.roundedRectangle(
-        this.position.x,
-        this.position.y,
-        this.width,
-        this.height,
+        this._renderBox!.position.x,
+        this._renderBox!.position.y,
+        this._renderBox!.width,
+        this._renderBox!.height,
         this._border!.radius ?? 0
       );
       context.renderer.fillColor = this._color;
@@ -223,7 +239,7 @@ class _Container extends Widget {
       }
     }
     if (this._child) {
-      context.build(this._child);
+      this._child.build(context);
     }
   }
 }

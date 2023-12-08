@@ -1,4 +1,4 @@
-import { info } from "@core/utils/logger";
+import { debug_ } from "@core/utils/logger";
 
 /**
  * An object (eg. a word) to be typeset.
@@ -489,7 +489,7 @@ export function adjustmentRatios(
     }
 
     let adjustmentRatio;
-    info(
+    debug_(
       "idealWidth: %s, actualWidth: %s, lineStretch: %s, lineShrink: %s",
       idealWidth,
       actualWidth,

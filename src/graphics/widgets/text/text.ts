@@ -1,6 +1,11 @@
-import { BuildContext, Widget, _WidgetOption } from "@glib/widget";
+import { Widget, WidgetKind, _WidgetOption } from "@glib/widget";
 import { AnyColor, Color, normalizeColor } from "../_utils";
-import { FlexibleSize, PixelPosition } from "@glib/base";
+import {
+  FlexibleRange,
+  FlexibleSize,
+  PixelPosition,
+  RenderBox,
+} from "@glib/base";
 import {
   Box,
   Glue,
@@ -9,8 +14,9 @@ import {
   breakLines,
 } from "./line-break";
 import { FontExtents } from "ht.clib.cairo";
-import { info } from "@core/utils/logger";
-import { ifNil } from "@core/vim";
+import { debug_, info } from "@core/utils/logger";
+import { ifNil, isNil } from "@core/vim";
+import { BuildContext } from "@glib/build-context";
 
 interface TextStyle {
   /**
@@ -35,7 +41,7 @@ interface TextStyle {
   fontSize?: number;
 }
 
-interface _TextOpts extends _WidgetOption {
+interface _TextOpts {
   /**
    * @description The text of the text widget.
    */
@@ -99,7 +105,7 @@ function isWhiteSpace(char: string): boolean {
 }
 
 class _Text extends Widget {
-  override readonly kind: string = "Text";
+  override readonly kind: WidgetKind = "Text";
 
   private _text: string[];
   private _width: FlexibleSize;
@@ -112,7 +118,10 @@ class _Text extends Widget {
   };
 
   constructor(opts: _TextOpts) {
-    super(opts);
+    super({
+      flexible: "height",
+      flexPolicy: "shrink",
+    });
 
     if (type(opts.text) === "string") {
       this._text = [opts.text as string];
@@ -139,6 +148,61 @@ class _Text extends Widget {
     this._width = opts.width ?? "inf";
   }
 
+  _widthRange(
+    _context: BuildContext,
+    maxAvailable: number,
+    _determinedHeight?: number | undefined
+  ): FlexibleRange {
+    if (this._width === "inf") {
+      return {
+        min: 0,
+        max: maxAvailable,
+      };
+    } else {
+      return {
+        min: this._width,
+        max: this._width,
+      };
+    }
+  }
+
+  _heightRange(
+    context: BuildContext,
+    _maxAvailable: number,
+    determinedWidth?: number | undefined
+  ): FlexibleRange {
+    let fe = context.renderer.ctx.font_extents();
+    if (isNil(determinedWidth)) {
+      return {
+        min: fe.height * this._text.length,
+        max: "inf",
+      };
+    } else {
+      this._setupFont(context);
+      let lines = this._text.reduce((previous, line): number => {
+        let cnt = this._breakLine(context, line, determinedWidth);
+        return previous + cnt;
+      }, 0);
+      info("determinedWidth: %s, lines: %s", determinedWidth, lines);
+      return {
+        min: fe.height * lines,
+        max: "inf",
+      };
+    }
+  }
+
+  calculateRenderBox(
+    context: BuildContext,
+    inheritBox?: RenderBox | undefined
+  ): void {
+    if (!inheritBox) {
+      inheritBox = context.getInitialRenderBox();
+    }
+    // process margin
+    let initBox = this.processMargin(inheritBox);
+    this._renderBox = initBox;
+  }
+
   private _setupFont(context: BuildContext) {
     context.renderer.ctx.font_face(
       this._style.fontFamily,
@@ -148,14 +212,22 @@ class _Text extends Widget {
     context.renderer.ctx.font_size(this._style.fontSize);
   }
 
-  private _showLine(
-    context: BuildContext,
-    line: string,
-    initPosition: PixelPosition,
-    fe: FontExtents,
-    expectWidth: number
-  ): number {
-    info("draw line: %s", vim.inspect(initPosition));
+  private _breakLine(context: BuildContext, line: string, width: number) {
+    let inputItems = this._lineToInputItems(context, line);
+    let breakpoints;
+    try {
+      breakpoints = breakLines(inputItems, width);
+    } catch (e) {
+      error(string.format("Cannot break lines: %s", e));
+    }
+    if (breakpoints[breakpoints.length - 1] + 1 >= inputItems.length) {
+      return breakpoints.length + 1;
+    } else {
+      return breakpoints.length;
+    }
+  }
+
+  private _lineToInputItems(context: BuildContext, line: string) {
     let chars = toUtfChars(line);
     let inputItems: InputItem[] = [];
     for (let char of chars) {
@@ -175,6 +247,17 @@ class _Text extends Widget {
         });
       }
     }
+    return inputItems;
+  }
+
+  private _showLine(
+    context: BuildContext,
+    line: string,
+    initPosition: PixelPosition,
+    fe: FontExtents,
+    expectWidth: number
+  ): number {
+    let inputItems = this._lineToInputItems(context, line);
     let breakpoints;
     try {
       breakpoints = breakLines(inputItems, expectWidth);
@@ -184,7 +267,7 @@ class _Text extends Widget {
     let ratios = adjustmentRatios(inputItems, expectWidth, breakpoints);
     let x = initPosition.x;
     let y = initPosition.y;
-    info(
+    debug_(
       "breakpoints: %s, ratios: %s",
       vim.inspect(breakpoints),
       vim.inspect(ratios)
@@ -255,8 +338,8 @@ class _Text extends Widget {
 
     let fe = context.renderer.ctx.font_extents();
     let position: PixelPosition = {
-      x: this.position.x,
-      y: this.position.y + fe.height,
+      x: this._renderBox!.position.x,
+      y: this._renderBox!.position.y + fe.height,
     };
 
     let expectWidth = this._renderBox!.width;
@@ -264,80 +347,6 @@ class _Text extends Widget {
     for (let line of this._text) {
       position.y = this._showLine(context, line, position, fe, expectWidth);
     }
-
-    // for (let line of this._text) {
-    //   let chars = toUtfChars(line);
-    //   for (let char of chars) {
-    //     let te = context.renderer.ctx.text_extents(char);
-    //     context.renderer.ctx.rgba(
-    //       this._style.color.red,
-    //       this._style.color.green,
-    //       this._style.color.blue,
-    //       this._style.color.alpha
-    //     );
-    //     context.renderer.ctx.move_to(position.x, position.y - fe.descent);
-    //     context.renderer.ctx.show_text(char);
-    //     position.x += te.x_advance;
-    //   }
-    //   position.x = this.position.x;
-    //   position.y += fe.height;
-    // }
-  }
-
-  override get expandHeight(): boolean {
-    return false;
-  }
-
-  override get expandWidth(): boolean {
-    if (this._width === "inf") {
-      return true;
-    }
-    return false;
-  }
-
-  guessWidthRange(_context: BuildContext): [number, FlexibleSize] {
-    if (this._width === "inf") {
-      return [0, "inf"];
-    } else {
-      return [this._width, this._width];
-    }
-  }
-
-  guessHeightRange(context: BuildContext): [number, FlexibleSize] {
-    context.renderer.ctx.font_face(
-      this._style.fontFamily,
-      this._style.fontSlant,
-      this._style.fontWeight
-    );
-    context.renderer.ctx.font_size(this._style.fontSize);
-    let fe = context.renderer.ctx.font_extents();
-    return [fe.height, "inf"];
-  }
-
-  override selectSize(
-    context: BuildContext,
-    widthRange: [number, number],
-    heightRange: [number, number]
-  ): { width: number; height: number } {
-    this._setupFont(context);
-    let fe = context.renderer.ctx.font_extents();
-
-    let width = widthRange[1];
-    let expectHeight = 0;
-    // sum all lines
-    for (let line of this._text) {
-      let chars = toUtfChars(line);
-      let expectWidth = 0;
-      for (let char of chars) {
-        let te = context.renderer.ctx.text_extents(char);
-        expectWidth += te.x_advance;
-      }
-      expectHeight = fe.height * Math.ceil(expectWidth / width);
-    }
-    return {
-      width,
-      height: Math.min(expectHeight, heightRange[1]),
-    };
   }
 }
 

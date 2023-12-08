@@ -17,8 +17,6 @@ export function sizeAdd(a: FlexibleSize, b: FlexibleSize): FlexibleSize {
   return a + b;
 }
 
-export type SizePolicy = "fixed" | "expand" | "shrink";
-
 export interface PixelPosition {
   /**
    * @description The x position of the pixel.
@@ -46,4 +44,9 @@ export interface RenderBox {
    * Width of the box.
    */
   height: number;
+}
+
+export interface FlexibleRange {
+  min: number;
+  max: FlexibleSize;
 }

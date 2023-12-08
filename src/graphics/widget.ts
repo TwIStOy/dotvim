@@ -1,115 +1,38 @@
-import { isNil } from "@core/vim";
-import { PixelPosition, FlexibleSize, RenderBox, sizeMin } from "./base";
-import { CairoRender } from "./cairo-render";
+import { randv4 } from "@core/utils/uuid";
+import { ifNil } from "@core/vim";
+import { FlexibleRange, RenderBox } from "./base";
+import { BuildContext } from "./build-context";
 import {
   Margin,
   MarginOptions,
   Padding,
   PaddingOptions,
 } from "./widgets/_utils/common-options";
-import { randv4 } from "@core/utils/uuid";
 import { info } from "@core/utils/logger";
 
-export class BuildContext {
-  public renderer: CairoRender;
-  public _rendering: Widget[] = [];
-  public key: string;
+export type FlexibleType = "none" | "width" | "height" | "both";
 
-  constructor(width: number, height: number) {
-    this.renderer = new CairoRender(width, height);
-    this.key = randv4();
-  }
-
-  pushRendering(widget: any) {
-    this._rendering.push(widget);
-  }
-
-  popRendering() {
-    this._rendering.pop();
-  }
-
-  build(widget: Widget) {
-    let parentRB;
-    if (widget.parent) {
-      parentRB = widget.parent._renderBox!;
-    } else {
-      parentRB = {
-        contextKey: this.key,
-        position: {
-          x: 0,
-          y: 0,
-        },
-        width: this.renderer.width,
-        height: this.renderer.height,
-      };
-    }
-    this._setupRenderBox(widget, parentRB);
-    info(
-      "Setup render box for widget: (%s, %s), parent: %s, %s",
-      widget.kind,
-      widget.key,
-      widget.parent?.key,
-      vim.inspect(widget.renderBox)
-    );
-    widget.build(this);
-  }
-
-  private _setupRenderBox(widget: Widget, parent: RenderBox) {
-    if (widget._renderBox && widget._renderBox.contextKey === this.key) {
-      return widget._renderBox;
-    }
-
-    let widthMargin = widget.margin.left + widget.margin.right;
-    let heightMargin = widget.margin.top + widget.margin.bottom;
-    if (widthMargin > parent.width || heightMargin > parent.height) {
-      throw new Error("Margin is larger than size.");
-    }
-
-    let width = parent.width - widthMargin;
-    let height = parent.height - heightMargin;
-    let position: PixelPosition = {
-      x: parent.position.x + widget.margin.left,
-      y: parent.position.y + widget.margin.top,
-    };
-    if (widget.parent) {
-      position.x += widget.parent.padding.left;
-      position.y += widget.parent.padding.top;
-      width -= widget.parent.padding.left + widget.parent.padding.right;
-      height -= widget.parent.padding.top + widget.parent.padding.bottom;
-    }
-    if (width < 0 || height < 0) {
-      throw new Error("Padding is larger than size.");
-    }
-
-    // now, the max width and height has been calculated
-
-    let widthRange = widget.guessWidthRange(this);
-    let heightRange = widget.guessHeightRange(this);
-
-    widthRange[1] = sizeMin(widthRange[1], width);
-    heightRange[1] = sizeMin(heightRange[1], height);
-
-    let size = widget.selectSize(
-      this,
-      widthRange as [number, number],
-      heightRange as [number, number]
-    );
-
-    let box = {
-      contextKey: this.key,
-      position,
-      width: size.width,
-      height: size.height,
-    };
-    widget._renderBox = box;
-  }
-
-  intoPngBytes(): number[] {
-    return this.renderer.toPngBytes();
-  }
-}
+export type FlexiblePolicy = "expand" | "shrink";
 
 export interface _WidgetOption {
+  /**
+   * @description Which direction the widget is flexible.
+   *
+   * - `none` means the widget has a fixed size.
+   * - `width` means the widget can be as large as possible in width.
+   * - `height` means the widget can be as large as possible in height.
+   * - `both` means the widget can be as large as possible in both width and
+   *   height.
+   */
+  flexible: FlexibleType;
+
+  /**
+   * If the widget is flexible, how it should be flexible. Default is `expand`.
+   */
+  flexPolicy?: FlexiblePolicy;
+}
+
+export interface _WidgetPaddingMargin {
   /**
    * @description The padding of the widget.
    */
@@ -122,41 +45,52 @@ export interface _WidgetOption {
 
 export type WidgetKey = string;
 
-export abstract class Widget {
-  _renderBox: RenderBox | null = null;
+export type WidgetKind = "Container" | "Spacing" | "Column" | "Text";
 
-  abstract readonly kind: string;
+export abstract class Widget {
+  __renderBox: RenderBox | null = null;
+
+  /**
+   * @description The kind of the widget.
+   */
+  abstract readonly kind: WidgetKind;
+  /**
+   * @description The unique key of the widget.
+   */
   readonly key: WidgetKey = randv4();
 
+  /**
+   * @description The parent of the widget.
+   */
   private _parent?: Widget;
-  padding: PaddingOptions = Padding.zero;
-  margin: MarginOptions = Margin.zero;
 
-  constructor(opts?: _WidgetOption) {
-    if (opts?.padding) {
-      this.padding = opts.padding;
-    }
-    if (opts?.margin) {
-      this.margin = opts.margin;
-    }
-  }
+  _flexible: FlexibleType;
+  _flexPolicy: FlexiblePolicy;
 
-  get renderBox() {
-    return this._renderBox;
-  }
+  _padding: PaddingOptions;
+  _margin: MarginOptions;
 
-  get position(): PixelPosition {
-    if (isNil(this.renderBox)) {
-      throw new Error("Render box is not set.");
-    }
-    return this._renderBox!.position;
+  constructor(opts: _WidgetOption & _WidgetPaddingMargin) {
+    this._flexible = ifNil(opts.flexible, "none" as const);
+    this._flexPolicy = ifNil(opts.flexPolicy, "expand" as const);
+    this._padding = ifNil(opts.padding, Padding.zero);
+    this._margin = ifNil(opts.margin, Margin.zero);
   }
 
   get parent() {
     return this._parent;
   }
+
   set parent(value: Widget | undefined) {
     this._parent = value;
+  }
+
+  get _renderBox() {
+    return this.__renderBox;
+  }
+  set _renderBox(value: RenderBox | null) {
+    info("%s #%s box: %s", this.kind, this.key, value);
+    this.__renderBox = value;
   }
 
   /**
@@ -164,39 +98,71 @@ export abstract class Widget {
    */
   abstract build(context: BuildContext): void;
 
-  /**
-   * @description Guess the width range of the widget.
-   */
-  abstract guessWidthRange(context: BuildContext): [number, FlexibleSize];
+  isHeightFlexible(): boolean {
+    return this._flexible === "height" || this._flexible === "both";
+  }
 
-  /**
-   * @description Guess the height range of the widget.
-   */
-  abstract guessHeightRange(context: BuildContext): [number, FlexibleSize];
+  isWidthFlexible(): boolean {
+    return this._flexible === "width" || this._flexible === "both";
+  }
 
-  abstract selectSize(
-    context: BuildContext,
-    widthRange: [number, number],
-    heightRange: [number, number]
-  ): {
-    width: number;
-    height: number;
-  };
+  protected processMargin(box: RenderBox): RenderBox {
+    return {
+      ...box,
+      position: {
+        x: box.position.x + this._margin.left,
+        y: box.position.y + this._margin.top,
+      },
+      width: box.width - this._margin.left - this._margin.right,
+      height: box.height - this._margin.top - this._margin.bottom,
+    };
+  }
 
-  /**
-   * @description Check if the widget can be rendered.
-   */
-  canRender(): boolean {
-    return true;
+  protected processPadding(box: RenderBox): RenderBox {
+    return {
+      ...box,
+      position: {
+        x: box.position.x + this._padding.left,
+        y: box.position.y + this._padding.top,
+      },
+      width: box.width - this._padding.left - this._padding.right,
+      height: box.height - this._padding.top - this._padding.bottom,
+    };
   }
 
   /**
-   * @description Returns if the widget expect to be as large as possible in height.
+   * @description Calculate the expected width range of the widget.
+   *
+   * If `determinedHeight` is provided, the width range will be calculated
+   * based on the determined height.
    */
-  abstract get expandHeight(): boolean;
+  abstract _widthRange(
+    context: BuildContext,
+    maxAvailable: number,
+    determinedHeight?: number
+  ): FlexibleRange;
 
   /**
-   * @description Returns if the widget expect to be as large as possible in width.
+   * @description Calculate the expected height range of the widget.
+   *
+   * If `determinedWidth` is provided, the height range will be calculated
+   * based on the determined width.
    */
-  abstract get expandWidth(): boolean;
+  abstract _heightRange(
+    context: BuildContext,
+    maxAvailable: number,
+    determinedWidth?: number
+  ): FlexibleRange;
+
+  abstract calculateRenderBox(
+    context: BuildContext,
+    inheritBox?: RenderBox
+  ): void;
+
+  /**
+   * @description Whether the widget should be rendered.
+   */
+  skipRender() {
+    return false;
+  }
 }

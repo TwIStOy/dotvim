@@ -117,9 +117,17 @@ class _Column extends Widget {
 
     this._renderBox = myBox;
 
-    let spacingSize = Math.max((height - fixedHeight) / spacingNum, 0);
+    let spacingSize = Math.max(
+      (paddingBox.height - fixedHeight) / spacingNum,
+      0
+    );
 
-    info("Column %s spacings, height: %s", spacingNum, spacingSize);
+    info(
+      "Column %s spacings, height: %s, fixed: %s",
+      spacingNum,
+      spacingSize,
+      fixedHeight
+    );
 
     let usedHeight = 0;
     for (let child of this._children) {

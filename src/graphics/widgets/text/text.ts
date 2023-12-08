@@ -171,19 +171,25 @@ class _Text extends Widget {
     _maxAvailable: number,
     determinedWidth?: number | undefined
   ): FlexibleRange {
-    let fe = context.renderer.ctx.font_extents();
     if (isNil(determinedWidth)) {
+      let fe = context.renderer.ctx.font_extents();
       return {
         min: fe.height * this._text.length,
         max: "inf",
       };
     } else {
       this._setupFont(context);
+      let fe = context.renderer.ctx.font_extents();
       let lines = this._text.reduce((previous, line): number => {
         let cnt = this._breakLine(context, line, determinedWidth);
         return previous + cnt;
       }, 0);
-      info("determinedWidth: %s, lines: %s", determinedWidth, lines);
+      info(
+        "determinedWidth: %s, lines: %s, base: %s",
+        determinedWidth,
+        lines,
+        fe.height
+      );
       return {
         min: fe.height * lines,
         max: "inf",

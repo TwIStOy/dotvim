@@ -3,6 +3,7 @@ import { TextStyle, isUTFWhitespace, toUtfChars } from "./common";
 import { Color } from "../_utils";
 import { InputItem } from "./line-break";
 import { BuildContext } from "@glib/build-context";
+import { info } from "@core/utils/logger";
 
 interface _TextSpanDataOpt {
   text: string;
@@ -89,7 +90,7 @@ export class _TextSpan {
     if (this._data) {
       this.setupStyle(context);
       for (let char of this._data._chars) {
-        if (isUTFWhitespace(char)) {
+        if (!isUTFWhitespace(char)) {
           items.push({
             type: "box",
             width: context.renderer.ctx.text_extents(char).x_advance,

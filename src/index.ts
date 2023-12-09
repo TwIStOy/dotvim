@@ -12,6 +12,7 @@ import { Spacing } from "@glib/widgets/spacing";
 import { error_, info } from "@core/utils/logger";
 import { BuildContext } from "@glib/build-context";
 import { toUtfChars } from "@glib/widgets/text/common";
+import { TextSpan } from "@glib/widgets/text/text-span";
 
 export * as _ from "@glib/index";
 export { AllLspServers } from "./conf/external_tools";
@@ -46,11 +47,23 @@ export function test() {
       children: [
         Spacing(),
         Text({
-          text,
-          style: {
-            fontSize: 20,
-            color: "white",
-          },
+          text: [
+            TextSpan({
+              text,
+              style: {
+                fontSize: 20,
+                color: "white",
+                background: "blue",
+              },
+            }),
+            TextSpan({
+              text,
+              style: {
+                fontSize: 20,
+                color: "red",
+              },
+            }),
+          ],
         }),
         Spacing(),
       ],

@@ -55,7 +55,12 @@ class _Text extends Widget {
     });
 
     if (typeof opts.text === "string") {
-      this._text = [TextSpan(opts.text)];
+      this._text = [
+        TextSpan({
+          text: opts.text,
+          style: opts.style,
+        }),
+      ];
     } else if (vim.tbl_islist(opts.text)) {
       this._text = opts.text;
     } else {
@@ -194,11 +199,11 @@ class _Text extends Widget {
       let color = normalizeColor(style.background)!;
       context.renderer.ctx.move_to(pos.x, pos.y);
       context.renderer.fillColor = color;
-      context.renderer.rectangle(pos.x, pos.y, te.x_advance, fe.height);
+      context.renderer.rectangle(pos.x, pos.y, te.x_advance + 0.5, fe.height);
+      context.renderer.fill();
     }
-    let color = normalizeColor(style.color)!;
     context.renderer.ctx.move_to(pos.x, pos.y + fe.height - fe.descent);
-    context.renderer.fillColor = color;
+    context.renderer.color = style.color!;
     context.renderer.ctx.show_text(char);
     // TODO(hawtian): draw underline
     return {
@@ -219,18 +224,18 @@ class _Text extends Widget {
     let style = item.style;
     this.setupFont(context, style);
     let fe = context.renderer.ctx.font_extents();
-    let te = context.renderer.ctx.text_extents(" ");
-    if (style.background) {
-      let color = normalizeColor(style.background)!;
-      context.renderer.ctx.move_to(pos.x, pos.y);
-      context.renderer.fillColor = color;
-      context.renderer.rectangle(pos.x, pos.y, te.x_advance, fe.height);
-    }
     let gap;
     if (ratio < 0) {
       gap = item.width + ratio * item.shrink;
     } else {
       gap = item.width + ratio * item.stretch;
+    }
+    if (style.background) {
+      let color = normalizeColor(style.background)!;
+      context.renderer.ctx.move_to(pos.x, pos.y);
+      context.renderer.fillColor = color;
+      context.renderer.rectangle(pos.x, pos.y, gap + 0.5, fe.height);
+      context.renderer.fill();
     }
     return {
       width: gap,

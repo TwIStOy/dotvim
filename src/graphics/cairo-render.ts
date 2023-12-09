@@ -1,6 +1,6 @@
 import * as cairo from "ht.clib.cairo";
 import { debug_ } from "@core/utils/logger";
-import { Color } from "./widgets/_utils/color";
+import { AnyColor, Color, normalizeColor } from "./widgets/_utils/color";
 
 export type CompositeOperation =
   | "source-over"
@@ -84,6 +84,11 @@ export class CairoRender {
   }
   set height(value: number) {
     this.setDimensions(this._width, value);
+  }
+
+  set color(value: AnyColor) {
+    let c = normalizeColor(value)!;
+    this.context.rgba(c.red, c.green, c.blue, c.alpha);
   }
 
   setDimensions(width: number, height: number) {

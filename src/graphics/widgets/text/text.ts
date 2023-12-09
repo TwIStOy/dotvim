@@ -1,10 +1,16 @@
-import { Widget, WidgetKind, _WidgetOption } from "@glib/widget";
+import { Cache } from "@core/model";
+import { info } from "@core/utils/logger";
+import { ifNil, isNil } from "@core/vim";
 import {
   FlexibleRange,
   FlexibleSize,
   PixelPosition,
   RenderBox,
 } from "@glib/base";
+import { BuildContext } from "@glib/build-context";
+import { Widget, WidgetKind } from "@glib/widget";
+import { normalizeColor } from "../_utils";
+import { TextOverflowPolicy, TextStyle } from "./common";
 import {
   Box,
   Glue,
@@ -12,14 +18,7 @@ import {
   adjustmentRatios,
   breakLines,
 } from "./line-break";
-import { FontExtents } from "ht.clib.cairo";
-import { debug_, info } from "@core/utils/logger";
-import { ifNil, isNil } from "@core/vim";
-import { BuildContext } from "@glib/build-context";
-import { TextOverflowPolicy, TextStyle, isUTFWhitespace } from "./common";
 import { TextSpan, _TextSpan } from "./text-span";
-import { Cache } from "@core/model";
-import { normalizeColor } from "../_utils";
 
 interface _TextOpts {
   /**

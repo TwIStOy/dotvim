@@ -14,7 +14,7 @@
       "@extra/*": ["extra/*"],
       "@glib/*": ["graphics/*"]
     },
-    "baseUrl": "src/",
+    "baseUrl": "src/"
   },
   "tstl": {
     "luaTarget": "JIT",
@@ -30,7 +30,8 @@
       "which-key-raw-nvim",
       "ht.clib.cairo",
       "ht.utils.base64",
-      "ffi"
+      "ffi",
+      "lgi"
     ],
     "luaLibImport": "require-minimal",
     "luaBundle": "init.lua",
@@ -38,4 +39,3 @@
   },
   "include": ["src"]
 }
-

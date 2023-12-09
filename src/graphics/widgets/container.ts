@@ -1,10 +1,5 @@
 import { ifNil } from "@core/vim";
-import {
-  FlexibleRange,
-  RenderBox,
-  sizeMax,
-  sizeMin
-} from "@glib/base";
+import { FlexibleRange, RenderBox, sizeMax, sizeMin } from "@glib/base";
 import { BuildContext } from "@glib/build-context";
 import {
   FlexiblePolicy,
@@ -222,19 +217,48 @@ class _Container extends Widget {
       context.renderer.fillColor = this._color;
       context.renderer.fill();
     } else {
-      // rounded rectangle
-      context.renderer.roundedRectangle(
-        this._renderBox!.position.x,
-        this._renderBox!.position.y,
-        this._renderBox!.width,
-        this._renderBox!.height,
-        this._border!.radius ?? 0
+      // rounded rectangle, https://www.cairographics.org/samples/rounded_rectangle/
+      let x = this._renderBox!.position.x;
+      let y = this._renderBox!.position.y;
+      let width = this._renderBox!.width;
+      let height = this._renderBox!.height;
+      let radius = this._border!.radius ?? 0;
+      context.renderer.ctx.new_sub_path();
+      context.renderer.ctx.arc(
+        x + width - radius,
+        y + radius,
+        radius,
+        -Math.PI / 2,
+        0
       );
+      context.renderer.ctx.arc(
+        x + width - radius,
+        y + height - radius,
+        radius,
+        0,
+        Math.PI / 2
+      );
+      context.renderer.ctx.arc(
+        x + radius,
+        y + height - radius,
+        radius,
+        Math.PI / 2,
+        Math.PI
+      );
+      context.renderer.ctx.arc(
+        x + radius,
+        y + radius,
+        radius,
+        Math.PI,
+        (Math.PI * 3) / 2
+      );
+      context.renderer.ctx.close_path();
+
       context.renderer.fillColor = this._color;
       context.renderer.fillPreserve();
       if (this._hasBorder()) {
         context.renderer.strokeColor = this._border!.color!;
-        context.renderer.ctx.line_width(this._border!.width);
+        context.renderer.ctx.set_line_width(this._border!.width);
         context.renderer.stroke();
       }
     }

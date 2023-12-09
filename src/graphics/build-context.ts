@@ -23,7 +23,7 @@ export class BuildContext {
     };
   }
 
-  intoPngBytes(): number[] {
-    return this.renderer.toPngBytes();
-  }
+  // intoPngBytes(): number[] {
+  //   return this.renderer.toPngBytes();
+  // }
 }

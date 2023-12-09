@@ -13,6 +13,7 @@ import { error_, info } from "@core/utils/logger";
 import { BuildContext } from "@glib/build-context";
 import { toUtfChars } from "@glib/widgets/text/common";
 import { TextSpan } from "@glib/widgets/text/text-span";
+import { Markup } from "@glib/widgets/markup";
 
 export * as _ from "@glib/index";
 export { AllLspServers } from "./conf/external_tools";
@@ -39,32 +40,16 @@ export function test() {
   let context = new BuildContext(500, 400);
   let root = Container({
     color: "#1e2030",
-    border: { width: 2, color: "black", radius: 5 },
+    border: { width: 2, color: "black", radius: 15 },
     height: "expand",
     width: "expand",
     padding: Padding.all(10),
     child: Column({
       children: [
         Spacing(),
-        Text({
-          text: [
-            TextSpan({
-              text,
-              style: {
-                fontSize: 20,
-                color: "white",
-                background: "blue",
-              },
-            }),
-            TextSpan({
-              text,
-              style: {
-                fontSize: 20,
-                color: "red",
-              },
-            }),
-          ],
-        }),
+        Markup(
+          `<span foreground="white">${text}</span><span foreground="blue">${text}</span>`
+        ),
         Spacing(),
       ],
     }),

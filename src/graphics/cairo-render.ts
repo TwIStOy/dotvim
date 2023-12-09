@@ -1,6 +1,6 @@
-import * as cairo from "ht.clib.cairo";
-import { debug_ } from "@core/utils/logger";
+import { debug_, info, warn } from "@core/utils/logger";
 import { AnyColor, Color, normalizeColor } from "./widgets/_utils/color";
+import * as lgi from "lgi";
 
 export type CompositeOperation =
   | "source-over"
@@ -29,13 +29,24 @@ export type CompositeOperation =
   | "screen"
   | "soft-light";
 
+require("ht.clib.cairo");
+(require("ffi") as AnyMod).cdef(`
+typedef int32_t cairo_enum_t;
+typedef cairo_enum_t cairo_status_t;
+typedef cairo_status_t (*cairo_write_func_t) (void *closure, const void *data, unsigned int length);
+cairo_status_t
+cairo_surface_write_to_png_stream (cairo_surface_t *surface,
+                                   cairo_write_func_t write_func,
+                                   void *closure);
+`);
+
 let receivingBytes: any[] = [];
 function _savePngCallback(_: any, data: any, length: any) {
   let bytes = (require("ffi") as AnyMod).cast("uint8_t*", data);
   for (let i = 0; i < length; i++) {
     receivingBytes.push(bytes[i]);
   }
-  return cairo.enums.CAIRO_STATUS_.success;
+  return 0;
 }
 const savePngCallback = (require("ffi") as AnyMod).cast(
   "cairo_write_func_t",
@@ -43,8 +54,8 @@ const savePngCallback = (require("ffi") as AnyMod).cast(
 );
 
 export class CairoRender {
-  private surface: cairo.Surface;
-  private context: cairo.Context;
+  private surface: lgi.cairo.Surface;
+  private context: lgi.cairo.Context;
 
   private _width: number;
   private _height: number;
@@ -55,8 +66,8 @@ export class CairoRender {
   private _font: string;
 
   constructor(width: number, height: number) {
-    this.surface = cairo.image_surface("argb32", width, height);
-    this.context = this.surface.context();
+    this.surface = lgi.cairo.ImageSurface(0, width, height);
+    this.context = lgi.cairo.Context(this.surface);
 
     this._width = width;
     this._height = height;
@@ -88,12 +99,12 @@ export class CairoRender {
 
   set color(value: AnyColor) {
     let c = normalizeColor(value)!;
-    this.context.rgba(c.red, c.green, c.blue, c.alpha);
+    this.context.set_source_rgba(c.red, c.green, c.blue, c.alpha);
   }
 
   setDimensions(width: number, height: number) {
-    const newSurface = cairo.image_surface("argb32", width, height);
-    const newContext = newSurface.context();
+    const newSurface = lgi.cairo.ImageSurface(0, width, height);
+    const newContext = lgi.cairo.Context(this.surface);
 
     this.surface.flush();
     newContext.source(this.surface);
@@ -126,7 +137,7 @@ export class CairoRender {
     this._fillColor = value;
   }
   private _fill() {
-    this.context.rgba(
+    this.context.set_source_rgba(
       this._fillColor.red,
       this._fillColor.green,
       this._fillColor.blue,
@@ -136,7 +147,7 @@ export class CairoRender {
   }
 
   private _fill_preserve() {
-    this.context.rgba(
+    this.context.set_source_rgba(
       this._fillColor.red,
       this._fillColor.green,
       this._fillColor.blue,
@@ -152,7 +163,7 @@ export class CairoRender {
     this._strokeColor = value;
   }
   private _stroke() {
-    this.context.rgba(
+    this.context.set_source_rgba(
       this._strokeColor.red,
       this._strokeColor.green,
       this._strokeColor.blue,
@@ -195,20 +206,44 @@ export class CairoRender {
     this.context.save();
     this.context.rectangle(x, y, width, height);
     this.context.clip();
-    this.context.rgba(0, 0, 0, 0);
+    this.context.set_source_rgba(0, 0, 0, 0);
     this.context.operator("source");
     this.context.paint();
     this.context.restore();
   }
 
   toPngBytes() {
+    this.surface.flush();
+
+    info("this.surface: %s", tostring(this.surface));
+
+    let _surface_ptr = luaRequire("lgi.core").record.query(
+      this.surface,
+      "addr"
+    );
+    const surface_ptr = (require("ffi") as AnyMod).cast(
+      "cairo_surface_t*",
+      _surface_ptr
+    );
     receivingBytes = [];
-    this.surface.save_png(savePngCallback, null);
+    try {
+      luaRequire("ht.clib.cairo").C.cairo_surface_write_to_png_stream(
+        surface_ptr,
+        savePngCallback,
+        null
+      );
+    } catch (e) {
+      warn("error: %s", e);
+    }
     debug_(
       "toPngBytes: %s, data: %s",
       receivingBytes.length,
       vim.inspect(receivingBytes)
     );
     return receivingBytes;
+  }
+
+  writePng() {
+    this.surface.write_to_png("/tmp/test.png");
   }
 }

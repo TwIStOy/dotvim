@@ -75,7 +75,14 @@ declare module "lgi" {
       save(): void;
       restore(): void;
 
+      set_source_rgb(r: number, g: number, b: number): void;
       set_source_rgba(r: number, g: number, b: number, a: number): void;
+
+      new_sub_path(): void;
+      move_to(x: number, y: number): void;
+
+
+
       source(source: Surface, x?: number, y?: number): void;
       operator(): Operator;
       operator(op: Operator): void;
@@ -101,8 +108,6 @@ declare module "lgi" {
       rotate(rads: number): this;
 
       new_path(): void;
-      new_sub_path(): void;
-      move_to(x: number, y: number): void;
       line_to(x: number, y: number): void;
       curve_to(
         x1: number,

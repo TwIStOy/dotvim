@@ -28,7 +28,7 @@ declare interface TSNode {
    * Iterates over all the direct children of `TSNode`, regardless of whether
    * they are named or not.
    */
-  iter_children(): LuaIterable<TSNode>;
+  iter_children(): LuaIterable<LuaMultiReturn<[TSNode, string]>>;
 
   /**
    * Returns a table of nodes corresponding to the `name` field.
@@ -93,7 +93,9 @@ declare interface TSNode {
    *   - end row
    *   - end column
    */
-  range(include_bytes: false): LuaMultiReturn<[number, number, number, number]>;
+  range(
+    include_bytes?: false
+  ): LuaMultiReturn<[number, number, number, number]>;
 
   /**
    * Get the node's type as tring.
@@ -160,6 +162,18 @@ declare interface TSNode {
    * Check if `rhs` refers to the same node within the same tree.
    */
   equal(rhs: TSNode): boolean;
+
+  named_descendant_for_range(
+    start_row: number,
+    start_col: number,
+    end_row: number,
+    end_col: number
+  ): TSNode | null;
+
+  /**
+   * Returns the number of bytes spanned by the node.
+   */
+  byte_length(): number;
 }
 
 declare interface TSTree {
@@ -178,7 +192,7 @@ declare interface LanguageTree {
   /*
    * Returns a map of language to child tree.
    */
-  children(): Map<string, LanguageTree>;
+  children(): LuaMap<string, LanguageTree>;
 
   /**
    * Invalidates this parser and all its children.
@@ -191,7 +205,7 @@ declare interface LanguageTree {
    * - this LanguageTree is the root, in which case the result is empty or a singleton list; or
    * - the root LanguageTree is fully parsed.
    */
-  trees(): TSTree[];
+  trees(): LuaMap<number, TSTree>;
 
   /**
    * Gets the tree that contains `range`.
@@ -226,6 +240,18 @@ declare interface LanguageTree {
    * with empty ranges.
    */
   parse(range?: boolean): TSTree[];
+
+  /**
+   * Gets the language of this tree node.
+   */
+  lang(): string;
+
+  /**
+   * Invokes the callback for each `LanguageTree` recursively.
+   *
+   * NOTE: This includes the invoking tree's child trees as well.
+   */
+  for_each_tree(fn: (tree: TSTree, ltree: LanguageTree) => void): void;
 }
 
 declare interface TSHighlighter {
@@ -236,5 +262,26 @@ declare interface TSHighlighter {
 declare namespace vim {
   export namespace treesitter {
     export const highlighter: TSHighlighter;
+
+    /**
+     * @description Returns a string parser.
+     *
+     * @param str Text to parser.
+     * @param lang Language of this string.
+     * @param opts Options to pass to the created language tree.
+     */
+    export function get_string_parser(
+      str: string,
+      lang: string,
+      opts?: LuaTable
+    ): LanguageTree;
+
+    export function get_node_text(
+      node: TSNode,
+      bufnr: number | string,
+      opts?: {
+        metadata: LuaTable;
+      }
+    ): string;
   }
 }

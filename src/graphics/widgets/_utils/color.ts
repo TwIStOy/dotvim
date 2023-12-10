@@ -1,3 +1,4 @@
+import { info } from "@core/utils/logger";
 import { isNil } from "@core/vim";
 
 type BuiltinColor = "red" | "green" | "blue" | "white" | "black";

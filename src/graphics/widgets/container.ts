@@ -14,6 +14,7 @@ import {
   ColorNormalizeResult,
   normalizeColor,
 } from "./_utils";
+import { info } from "@core/utils/logger";
 
 interface _ContainerOpts extends _WidgetPaddingMargin {
   /**
@@ -62,6 +63,12 @@ class _Container extends Widget {
         radius: opts.border.radius,
         width: opts.border.width,
         color: normalizeColor(opts.border.color),
+      };
+      this._margin = {
+        left: this._margin.left + opts.border.width / 2.0,
+        right: this._margin.right + opts.border.width / 2.0,
+        top: this._margin.top + opts.border.width / 2.0,
+        bottom: this._margin.bottom + opts.border.width / 2.0,
       };
     }
     this._color = normalizeColor(opts.color) ?? Color.transparent;
@@ -206,62 +213,68 @@ class _Container extends Widget {
   }
 
   override build(context: BuildContext) {
-    if (!this._hasBorder()) {
-      // simple rectangle
-      context.renderer.rectangle(
-        this._renderBox!.position.x,
-        this._renderBox!.position.y,
-        this._renderBox!.width,
-        this._renderBox!.height
-      );
-      context.renderer.fillColor = this._color;
-      context.renderer.fill();
-    } else {
-      // rounded rectangle, https://www.cairographics.org/samples/rounded_rectangle/
-      let x = this._renderBox!.position.x;
-      let y = this._renderBox!.position.y;
-      let width = this._renderBox!.width;
-      let height = this._renderBox!.height;
-      let radius = this._border!.radius ?? 0;
-      context.renderer.ctx.new_sub_path();
-      context.renderer.ctx.arc(
-        x + width - radius,
-        y + radius,
-        radius,
-        -Math.PI / 2,
-        0
-      );
-      context.renderer.ctx.arc(
-        x + width - radius,
-        y + height - radius,
-        radius,
-        0,
-        Math.PI / 2
-      );
-      context.renderer.ctx.arc(
-        x + radius,
-        y + height - radius,
-        radius,
-        Math.PI / 2,
-        Math.PI
-      );
-      context.renderer.ctx.arc(
-        x + radius,
-        y + radius,
-        radius,
-        Math.PI,
-        (Math.PI * 3) / 2
-      );
-      context.renderer.ctx.close_path();
+    // // simple rectangle
+    // context.renderer.rectangle(
+    //   this._renderBox!.position.x,
+    //   this._renderBox!.position.y,
+    //   this._renderBox!.width,
+    //   this._renderBox!.height
+    // );
+    // context.renderer.fillColor = this._color;
+    // context.renderer.fill();
 
-      context.renderer.fillColor = this._color;
-      context.renderer.fillPreserve();
-      if (this._hasBorder()) {
-        context.renderer.strokeColor = this._border!.color!;
-        context.renderer.ctx.set_line_width(this._border!.width);
-        context.renderer.stroke();
-      }
+    // rounded rectangle, https://www.cairographics.org/samples/rounded_rectangle/
+    let x = this._renderBox!.position.x;
+    let y = this._renderBox!.position.y;
+    let width = this._renderBox!.width;
+    let height = this._renderBox!.height;
+    let radius = (this._border?.radius ?? 0) / 1.0;
+    let degress = Math.PI / 180.0;
+
+    context.renderer.ctx.new_sub_path();
+    context.renderer.ctx.arc(
+      x + width - radius,
+      y + radius,
+      radius,
+      -90 * degress,
+      0
+    );
+    context.renderer.ctx.arc(
+      x + width - radius,
+      y + height - radius,
+      radius,
+      0,
+      90 * degress
+    );
+    context.renderer.ctx.arc(
+      x + radius,
+      y + height - radius,
+      radius,
+      90 * degress,
+      180 * degress
+    );
+    context.renderer.ctx.arc(
+      x + radius,
+      y + radius,
+      radius,
+      180 * degress,
+      270 * degress
+    );
+    context.renderer.ctx.close_path();
+
+    info("%s", tostring(this._border?.width));
+    context.renderer.color = this._color;
+    if (this._hasBorder()) {
+      context.renderer.ctx.fill_preserve();
+    } else {
+      context.renderer.ctx.fill();
     }
+    if (this._hasBorder()) {
+      context.renderer.strokeColor = this._border!.color!;
+      context.renderer.ctx.set_line_width(this._border!.width);
+      context.renderer.stroke();
+    }
+
     if (this._child) {
       this._child.build(context);
     }

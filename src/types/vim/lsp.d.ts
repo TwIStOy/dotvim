@@ -69,6 +69,34 @@ declare namespace vim {
       method?: string;
     }): client[];
 
+    interface LspHandlerContext {
+      method: string;
+      client_id: number;
+      bufnr?: number;
+      params?: any;
+    }
+
+    interface ResponseError {
+      code: number;
+      message: string;
+      data?: string | number | boolean | LuaTable[] | LuaTable;
+    }
+
+    type LspHandler = (
+      err: ResponseError | null,
+      result: any,
+      context: LspHandlerContext,
+      config?: LuaTable
+    ) => any | null;
+
+    function buf_request(
+      this: void,
+      bufnr: number | null,
+      method: string,
+      params: any,
+      handler: LspHandler | null
+    ): LuaMultiReturn<[LuaTable<number, number>, () => {}]>;
+
     export namespace buf {
       type LspOnListHandler = (options: {
         items: LuaTable[];

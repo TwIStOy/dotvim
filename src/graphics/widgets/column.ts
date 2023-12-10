@@ -150,6 +150,7 @@ class _Column extends Widget {
         width: paddingBox.width,
       };
       child.calculateRenderBox(context, box);
+      usedHeight += heightRange.min;
     }
   }
 

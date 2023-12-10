@@ -1,10 +1,15 @@
 import { info } from "@core/utils/logger";
 import { isNil } from "@core/vim";
-
-export interface RenderedNode {
-  kind: "unknown" | "span" | "i" | "b";
-  content: string | (string | RenderedNode)[];
-}
+import {
+  BoldNode,
+  CodeBlockNode,
+  HeadingNode,
+  ItalicNode,
+  ParagraphNode,
+  RenderedNode,
+  SectionNode,
+  SpanNode,
+} from "./rendered-node";
 
 export class MarkupRenderer {
   private source: string;
@@ -47,17 +52,18 @@ export class MarkupRenderer {
       }
     });
 
-    info("injections: %s", this.injections)
+    info("injections: %s", this.injections);
   }
 
   render() {
     let root = this.parser.parse(true)[0].root();
-    return this.renderNode(root, this.parser.lang());
+    return this.renderNode(root, this.parser.lang(), 0);
   }
 
   private skipChildrenHelper(
     node: TSNode,
     lang: string,
+    depth: number,
     skipStartNum: number,
     skipEndNum: number
   ) {
@@ -92,7 +98,7 @@ export class MarkupRenderer {
         parts.push(this.source.slice(startByte, childStartByte));
       }
       startByte = childEndByte;
-      parts.push(this.renderNode(child, lang));
+      parts.push(this.renderNode(child, lang, depth + 1));
     }
     if (startByte < endByte) {
       parts.push(this.source.slice(startByte, endByte));
@@ -101,61 +107,142 @@ export class MarkupRenderer {
     return parts;
   }
 
-  private render_emphasis(node: TSNode, lang: string): RenderedNode {
-    return {
-      kind: "i",
-      content: this.skipChildrenHelper(node, lang, 1, 1),
-    };
+  private render_emphasis(
+    node: TSNode,
+    lang: string,
+    depth: number
+  ): RenderedNode {
+    return new ItalicNode(this.skipChildrenHelper(node, lang, depth, 1, 1));
   }
 
-  private render_strong_emphasis(node: TSNode, lang: string): RenderedNode {
-    return {
-      kind: "b",
-      content: this.skipChildrenHelper(node, lang, 2, 2),
-    };
+  private render_strong_emphasis(
+    node: TSNode,
+    lang: string,
+    depth: number
+  ): RenderedNode {
+    return new BoldNode(this.skipChildrenHelper(node, lang, depth, 2, 2));
   }
 
-  private renderNode(node: TSNode, lang: string): RenderedNode {
+  private render_atx_heading(
+    node: TSNode,
+    lang: string,
+    depth: number
+  ): RenderedNode {
+    let [_startRow, _startColumn, startByte] = node.start();
+    let [_endRow, _endColumn, _endByte] = node.end_();
+
+    let firstChildType;
+
+    // first children
+    {
+      let child = node.child(0);
+      let [_childStartRow, _childStartColumn, childStartByte] = child.start();
+      assert(childStartByte === startByte);
+      startByte += child.byte_length();
+      firstChildType = child.type();
+    }
+
+    // second must be body
+    let body = node.child(1);
+    let [level] = string.match(firstChildType, "atx_h(%d+)_marker");
+
+    return new HeadingNode(
+      this.renderNode(body, lang, depth + 1),
+      tonumber(level)!
+    );
+  }
+
+  private render_fenced_code_block(
+    node: TSNode,
+    _lang: string,
+    _depth: number
+  ): RenderedNode {
+    let [_startRow, _startColumn, startByte] = node.start();
+    let [_endRow, _endColumn, endByte] = node.end_();
+
+    let language = null;
+
+    // first is fenced_code_block_delimiter
+    {
+      let firstChild = node.child(0);
+      let [_childStartRow, _childStartColumn, childStartByte] =
+        firstChild.start();
+      assert(childStartByte === startByte);
+      startByte += firstChild.byte_length();
+    }
+
+    // find info_string child
+    for (let i = 0; i < node.child_count(); i++) {
+      let child = node.child(i);
+      if (child.type() === "info_string") {
+        language = vim.treesitter.get_node_text(child, this.source);
+        let [_childEndRow, _childEndColumn, childEndByte] = child.end_();
+        startByte = childEndByte;
+        break;
+      }
+    }
+
+    // last is fenced_code_block_delimiter
+    {
+      let lastChild = node.child(node.child_count() - 1);
+      let [_childStartRow, _childStartColumn, childStartByte] =
+        lastChild.start();
+      endByte = childStartByte;
+    }
+
+    let body = this.source.slice(startByte, endByte);
+    return new CodeBlockNode(body, language);
+  }
+
+  private render_code_span(
+    node: TSNode,
+    lang: string,
+    depth: number
+  ): RenderedNode {
+    return new SpanNode(this.skipChildrenHelper(node, lang, depth, 1, 1));
+  }
+
+  private render_section(
+    node: TSNode,
+    lang: string,
+    depth: number
+  ): RenderedNode {
+    return new SectionNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
+  }
+
+  private renderNode(node: TSNode, lang: string, depth: number): RenderedNode {
     // try redirect to injection first
     let injection = this.injections.get(node.id());
     if (!isNil(injection)) {
-      return this.renderNode(injection.root, injection.lang);
+      return this.renderNode(injection.root, injection.lang, depth);
     }
 
-    info("renderNode %s: %s", lang, node.type());
+    info(
+      "%srenderNode %s: %s, %s",
+      " ".repeat(depth * 2.0),
+      lang,
+      node.type(),
+      depth
+    );
 
     if (node.type() === "emphasis") {
-      return this.render_emphasis(node, lang);
+      return this.render_emphasis(node, lang, depth);
     } else if (node.type() === "strong_emphasis") {
-      return this.render_strong_emphasis(node, lang);
+      return this.render_strong_emphasis(node, lang, depth);
+    } else if (node.type() === "atx_heading") {
+      return this.render_atx_heading(node, lang, depth);
+    } else if (node.type() === "fenced_code_block") {
+      return this.render_fenced_code_block(node, lang, depth);
+    } else if (node.type() === "section") {
+      return this.render_section(node, lang, depth);
+    } else if (node.type() === "code_span") {
+      return this.render_code_span(node, lang, depth);
+    } else if (node.type() === "paragraph") {
+      return new ParagraphNode(
+        this.skipChildrenHelper(node, lang, depth, 0, 0)
+      );
     } else {
-      // skip this node
-      let parts: RenderedNode[] = [];
-      for (let [child, _] of node.iter_children()) {
-        let res = this.renderNode(child, lang);
-        if (res.content.length > 0) {
-          parts.push(res);
-        }
-      }
-      return {
-        kind: "span",
-        content: parts,
-      };
+      return new SpanNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
     }
   }
-
-  // private visitNode(node: TSNode, lang: string): RenderedNode {
-  //   let injection = this.injections.get(node.id());
-  //   if (!isNil(injection)) {
-  //     this.visitNode(injection.root, injection.lang);
-  //   }
-  //   let parts = [];
-  //   for (let [child, _] of node.iter_children()) {
-  //     parts.push(this.renderNode(child, lang));
-  //   }
-  //   return {
-  //     kind: "span",
-  //     content: parts,
-  //   };
-  // }
 }

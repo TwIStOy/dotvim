@@ -1,4 +1,4 @@
-import { parseMarkdownContent } from "@core/format/markdown";
+import { MarkupRenderer } from "@core/format/markdown";
 import { info } from "@core/utils/logger";
 import { isNil } from "@core/vim";
 import { Hover, MarkupContent } from "vscode-languageserver-types";
@@ -22,7 +22,7 @@ function bufHover() {
     result.contents;
     if (isMarkupContent(result.contents)) {
       info("markup content! %s", result.contents.value);
-      parseMarkdownContent(result.contents.value);
+      let markup = new MarkupRenderer(result.contents.value);
     }
     info("%s %s", err, res);
   });

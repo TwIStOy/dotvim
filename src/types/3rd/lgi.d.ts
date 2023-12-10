@@ -81,8 +81,6 @@ declare module "lgi" {
       new_sub_path(): void;
       move_to(x: number, y: number): void;
 
-
-
       source(source: Surface, x?: number, y?: number): void;
       operator(): Operator;
       operator(op: Operator): void;
@@ -238,5 +236,9 @@ declare module "lgi" {
     function create_layout(cr: cairo.Context): Pango.Layout;
 
     function show_layout(cr: cairo.Context, layout: Pango.Layout): void;
+  }
+
+  namespace GLib {
+    function markup_escape_text(str: string, length: number): string;
   }
 }

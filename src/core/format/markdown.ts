@@ -9,6 +9,7 @@ import {
   RenderedNode,
   SectionNode,
   SpanNode,
+  ThematicBreak,
 } from "./rendered-node";
 
 export class MarkupRenderer {
@@ -210,6 +211,14 @@ export class MarkupRenderer {
     return new SectionNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
   }
 
+  private render_thematic_break(
+    _node: TSNode,
+    _lang: string,
+    _depth: number
+  ): RenderedNode {
+    return new ThematicBreak();
+  }
+
   private renderNode(node: TSNode, lang: string, depth: number): RenderedNode {
     // try redirect to injection first
     let injection = this.injections.get(node.id());
@@ -237,6 +246,8 @@ export class MarkupRenderer {
       return this.render_section(node, lang, depth);
     } else if (node.type() === "code_span") {
       return this.render_code_span(node, lang, depth);
+    } else if (node.type() === "thematic_break") {
+      return this.render_thematic_break(node, lang, depth);
     } else if (node.type() === "paragraph") {
       return new ParagraphNode(
         this.skipChildrenHelper(node, lang, depth, 0, 0)

@@ -15,18 +15,44 @@ export type RenderedNodeKind =
   | "heading"
   | "code_block"
   | "section"
-  | "code_span";
+  | "code_span"
+  | "thematic_break";
 
 type StringOrNode = string | RenderedNode;
 export type RenderedNodeContent = StringOrNode | StringOrNode[];
 
+export type RenderedElementKind = "markup" | "sep";
+
+interface MarkupElement {
+  kind: "markup";
+  markup: string;
+}
+
+interface SeparatorElement {
+  kind: "sep";
+  width: number;
+}
+
+export type RenderedElement = MarkupElement | SeparatorElement;
+
 export class PangoMarkupGenerator {
-  result: string[] = [];
+  result: RenderedElement[] = [];
   currentMarkup: string[] = [];
 
   newParagraph() {
-    this.result.push(this.currentMarkup.join(""));
+    this.result.push({
+      kind: "markup",
+      markup: this.currentMarkup.join(""),
+    });
     this.currentMarkup = [];
+  }
+
+  addSpe() {
+    this.newParagraph();
+    this.result.push({
+      kind: "sep",
+      width: 4,
+    });
   }
 
   addLines(lines: string | string[], pid?: number) {
@@ -34,29 +60,49 @@ export class PangoMarkupGenerator {
       if (pid === undefined || pid >= this.result.length) {
         this.currentMarkup.push(lines);
       } else {
-        this.result[pid] += lines;
+        assert(this.result[pid].kind === "markup");
+        (this.result[pid] as MarkupElement).markup += lines;
       }
     } else {
       if (pid === undefined || pid >= this.result.length) {
         this.currentMarkup.push(...lines);
       } else {
-        this.result[pid] += lines.join("");
+        assert(this.result[pid].kind === "markup");
+        (this.result[pid] as MarkupElement).markup += lines.join("");
       }
     }
     return this.result.length;
   }
 
-  done(): string[] {
+  done(): RenderedElement[] {
     if (this.currentMarkup.length > 0) {
-      this.result.push(this.currentMarkup.join(""));
+      this.result.push({
+        kind: "markup",
+        markup: this.currentMarkup.join(""),
+      });
       this.currentMarkup = [];
     }
     let result = this.result;
     // clean empty tags
     result = result
-      .map((line) => line.replaceAll("<span></span>", "").trim())
-      .filter((line) => line.length > 0)
-      .map((line) => this._addCommonTag(line));
+      .map((p) => {
+        if (p.kind === "markup") {
+          p.markup = p.markup.replaceAll("<span></span>", "").trim();
+        }
+        return p;
+      })
+      .filter((p) => {
+        if (p.kind === "markup") {
+          return p.markup.length > 0;
+        }
+        return true;
+      })
+      .map((p) => {
+        if (p.kind === "markup") {
+          p.markup = this._addCommonTag(p.markup);
+        }
+        return p;
+      });
     return result;
   }
 
@@ -94,8 +140,6 @@ export abstract class RenderedNode {
     this.params = params;
   }
 
-  abstract startNewParagraph(): boolean;
-
   abstract intoPangoMarkup(pango: PangoMarkupGenerator): void;
 }
 
@@ -111,6 +155,8 @@ abstract class SimpleWrapperNode extends RenderedNode {
   abstract openTag(): string;
 
   abstract closeTag(): string;
+
+  abstract startNewParagraph(): boolean;
 
   override intoPangoMarkup(pango: PangoMarkupGenerator): void {
     info("kind: %s, new: %s", this.kind, this.startNewParagraph());
@@ -304,5 +350,15 @@ export class CodeSpanNode extends SimpleWrapperNode {
 
   startNewParagraph(): boolean {
     return false;
+  }
+}
+
+export class ThematicBreak extends RenderedNode {
+  constructor() {
+    super("thematic_break", "");
+  }
+
+  override intoPangoMarkup(pango: PangoMarkupGenerator): void {
+    pango.addSpe();
   }
 }

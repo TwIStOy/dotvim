@@ -38,9 +38,6 @@ export function onRightClick(opts: any) {
 }
 
 export function test() {
-  // const text = `When the first paper volume of Donald Knuth's The Art of Computer Programming was published in 1968,[4] it was typeset using hot metal typesetting set by a Monotype Corporation typecaster. This method, dating back to the 19th century, produced a "good classic style" appreciated by Knuth.`;
-  //
-
   let [file] = io.open("/tmp/test.md", "r");
   let content = file!.read("*a");
   file!.close();
@@ -65,6 +62,7 @@ export function test() {
     name: "Normal",
   });
   let background = ifNil(hl_normal.get("guibg"), hl_normal.get("bg"));
+  let foreground = ifNil(hl_normal.get("guifg"), hl_normal.get("fg"));
 
   let root = Container({
     color: background,
@@ -73,7 +71,22 @@ export function test() {
     width: "expand",
     padding: Padding.all(10),
     child: Column({
-      children: [Spacing(), ...paragraphs.map((m) => Markup(m)), Spacing()],
+      children: [
+        Spacing(),
+        ...paragraphs.map((m) => {
+          if (m.kind === "markup") {
+            return Markup(m.markup);
+          } else {
+            return Container({
+              margin: Padding.all(4),
+              height: m.width,
+              width: "expand",
+              color: foreground,
+            });
+          }
+        }),
+        Spacing(),
+      ],
     }),
   });
   try {

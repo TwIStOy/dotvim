@@ -1,7 +1,7 @@
 import { mountRightClickMenu } from "@conf/ui/right-click";
 import { Image } from "@core/components/image/image";
 import { Command } from "@core/model";
-import { VimBuffer, hideCursor } from "@core/vim";
+import { VimBuffer, hideCursor, ifNil } from "@core/vim";
 import { Padding } from "@glib/widgets/_utils";
 import { Container } from "@glib/widgets/container";
 import { Text } from "@glib/widgets/text/text";
@@ -61,19 +61,19 @@ export function test() {
     info("paragraph: %s", p);
   }
 
+  let hl_normal = vim.api.nvim_get_hl(0, {
+    name: "Normal",
+  });
+  let background = ifNil(hl_normal.get("guibg"), hl_normal.get("bg"));
+
   let root = Container({
-    // color: "#1e2030",
-    color: "white",
+    color: background,
     border: { width: 4, color: "black", radius: 20 },
     height: "expand",
     width: "expand",
     padding: Padding.all(10),
     child: Column({
-      children: [
-        Spacing(),
-        ...paragraphs.map((m) => Markup(m)),
-        Spacing(),
-      ],
+      children: [Spacing(), ...paragraphs.map((m) => Markup(m)), Spacing()],
     }),
   });
   try {

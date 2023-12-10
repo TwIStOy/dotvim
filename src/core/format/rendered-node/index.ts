@@ -1,6 +1,7 @@
 import { info } from "@core/utils/logger";
-import { isNil } from "@core/vim";
+import { ifNil, isNil } from "@core/vim";
 import * as lgi from "lgi";
+import { highlightContent } from "./codeblock";
 
 function escapeMarkup(str: string): string {
   return lgi.GLib.markup_escape_text(str, -1);
@@ -54,8 +55,27 @@ export class PangoMarkupGenerator {
     // clean empty tags
     result = result
       .map((line) => line.replaceAll("<span></span>", "").trim())
-      .filter((line) => line.length > 0);
+      .filter((line) => line.length > 0)
+      .map((line) => this._addCommonTag(line));
     return result;
+  }
+
+  private _addCommonTag(p: string) {
+    let normal = vim.api.nvim_get_hl(0, {
+      name: "Normal",
+    });
+    info("normal, %s", normal);
+    let foreground = ifNil(normal.get("guifg"), normal.get("fg"));
+    let background = ifNil(normal.get("guibg"), normal.get("bg"));
+    let openTag = "<span";
+    if (!isNil(foreground)) {
+      openTag += ` foreground="#${string.format("%06x", foreground)}"`;
+    }
+    if (!isNil(background)) {
+      openTag += ` background="#${string.format("%06x", background)}"`;
+    }
+    openTag += ">";
+    return `${openTag}${p}</span>`;
   }
 }
 
@@ -167,6 +187,16 @@ export class CodeBlockNode extends SimpleWrapperNode {
 
   startNewParagraph(): boolean {
     return true;
+  }
+
+  intoPangoMarkup(pango: PangoMarkupGenerator): void {
+    let content = this.content as string;
+    let language = this.params as string | null;
+    if (language !== null) {
+      highlightContent(pango, content, language);
+    } else {
+      super.intoPangoMarkup(pango);
+    }
   }
 }
 

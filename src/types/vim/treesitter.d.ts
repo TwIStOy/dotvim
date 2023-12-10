@@ -259,6 +259,20 @@ declare interface TSHighlighter {
   bufnr: number;
 }
 
+declare interface TSMetadata {}
+
+declare interface TSQuery {
+  iter_captures(
+    node: TSNode,
+    source?: number | string,
+    start?: number,
+    stop?: number
+  ): LuaIterable<LuaMultiReturn<[number, TSNode, TSMetadata]>>;
+
+  captures: LuaTable<number, string>;
+
+}
+
 declare namespace vim {
   export namespace treesitter {
     export const highlighter: TSHighlighter;
@@ -283,5 +297,15 @@ declare namespace vim {
         metadata: LuaTable;
       }
     ): string;
+
+    export namespace query {
+      /**
+       * Returns the runtime query `{query_name}` for `{lang}`
+       *
+       * @param lang Language to use for the query.
+       * @param query_name Name of the query.
+       */
+      export function get(lang: string, query_name: string): TSQuery;
+    }
   }
 }

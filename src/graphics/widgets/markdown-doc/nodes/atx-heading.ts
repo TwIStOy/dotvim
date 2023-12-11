@@ -1,10 +1,11 @@
 import { BuildContext } from "@glib/build-context";
 import { Widget } from "@glib/widget";
-import { MdNode } from "./base";
-import { MdNodeFactory } from "./node-factory";
+import { MdNode } from "../base";
+import { MdNodeFactory } from "../node-factory";
+import { PangoSpanProperties } from "../property";
 
 export class MdAtxHeading extends MdNode {
-  intoWidget(_context: BuildContext): Widget {
+  intoWidgetOrSpan(_context: BuildContext): string | Widget {
     let body = this.node.child(1);
     let [_startRow, _startColumn, startByte] = this.node.start();
     let firstChildType;
@@ -28,5 +29,9 @@ export class MdAtxHeading extends MdNode {
     }
     pd.push(np);
     return MdNodeFactory.getInstance().create(body, this.source, pd);
+  }
+
+  override isEmpty(): boolean {
+    return false;
   }
 }

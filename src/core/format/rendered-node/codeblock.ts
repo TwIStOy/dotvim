@@ -70,29 +70,33 @@ export function highlightContent(
   });
   let m = 0;
   info("markers: %s", markers);
-  pango.addLines('<span><tt>');
+  pango.pushTag("<span><tt>", "</tt></span>");
   for (let i = 0; i < content.length; i++) {
     while (m < markers.length && markers[m].offset <= i) {
       let marker = markers[m];
       if (marker.kind === "start") {
-        pango.addLines(intoOpenTag(marker.capture));
+        pango.pushTag(intoOpenTag(marker.capture), "</span>");
       } else {
-        pango.addLines("</span>");
+        pango.popTag("</span>");
       }
       m++;
     }
-    pango.addLines(escapeMarkup(content[i]));
+    if (content[i] === "\n" || content[i] === "\r") {
+      pango.newLine();
+    } else {
+      pango.appendLine(escapeMarkup(content[i]));
+    }
   }
   while (m < markers.length) {
     let marker = markers[m];
     if (marker.kind === "start") {
-      pango.addLines(intoOpenTag(marker.capture));
+      pango.pushTag(intoOpenTag(marker.capture), "</span>");
     } else {
-      pango.addLines("</span>");
+      pango.popTag("</span>");
     }
     m++;
   }
-  pango.addLines("</tt></span>");
+  pango.popTag("</tt></span>");
 }
 
 function intoOpenTag(capture: string): string {

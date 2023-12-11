@@ -1,7 +1,10 @@
-import { MdAtxHeading } from "./atx-heading";
 import { MdNodeFactory } from "./node-factory";
-import { MdSection } from "./section";
-import { MdThematicBreak } from "./thematic-break";
+import {
+  MdAtxHeading,
+  MdCodeFenceBlock,
+  MdSection,
+  MdThematicBreak,
+} from "./nodes";
 
 let factory = MdNodeFactory.getInstance();
 
@@ -13,4 +16,7 @@ factory.register("thematic_break", (node, source, inherit) => {
 });
 factory.register("section", (node, source, inherit) => {
   return new MdSection(node, source, inherit);
+});
+factory.register("code_fence_content", (node, source, inherit) => {
+  return new MdCodeFenceBlock(node, source, inherit);
 });

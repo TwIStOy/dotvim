@@ -2,6 +2,7 @@ import { info } from "@core/utils/logger";
 import { ifNil, isNil } from "@core/vim";
 import { highlightContent } from "./codeblock";
 import { escapeMarkup } from "./util";
+import { SpanProperties } from "../markup/property";
 
 export type RenderedNodeKind =
   | "paragraph"
@@ -19,10 +20,10 @@ export type RenderedNodeKind =
 type StringOrNode = string | RenderedNode;
 export type RenderedNodeContent = StringOrNode | StringOrNode[];
 
-export type RenderedElementKind = "markup" | "sep";
+export type RenderedElementKind = "line" | "sep" | "lines";
 
-interface MarkupElement {
-  kind: "markup";
+interface MarkupLineElement {
+  kind: "line";
   markup: string;
 }
 
@@ -31,81 +32,140 @@ interface SeparatorElement {
   width: number;
 }
 
-export type RenderedElement = MarkupElement | SeparatorElement;
+interface ParagraphElement {
+  kind: "lines";
+  lines: RenderedElement[];
+}
+
+export type RenderedElement =
+  | MarkupLineElement
+  | SeparatorElement
+  | ParagraphElement;
+
+interface Tag {
+  open: string;
+  close: string;
+}
 
 export class PangoMarkupGenerator {
   result: RenderedElement[] = [];
-  currentMarkup: string[] = [];
+
+  openTags: Tag[] = [];
+  currentParagraph: RenderedElement[] = [];
+  currentLine: string[] = [];
+  currentLineDirty: boolean = false;
+
+  newLine() {
+    if (this.currentLineDirty) {
+      // close all tags
+      for (let i = 0; i < this.openTags.length; i++) {
+        this.currentLine.push(this.openTags[i].close);
+      }
+      this.currentParagraph.push({
+        kind: "line",
+        markup: this.currentLine.join(""),
+      });
+      this.currentLine = [];
+      for (let i = 0; i < this.openTags.length; i++) {
+        this.currentLine.push(`<span ${this.openTags[i]}>`);
+      }
+      this.currentLineDirty = false;
+    }
+  }
 
   newParagraph() {
-    this.result.push({
-      kind: "markup",
-      markup: this.currentMarkup.join(""),
-    });
-    this.currentMarkup = [];
+    this.newLine();
+
+    if (this.currentParagraph.length > 0) {
+      this.result.push({
+        kind: "lines",
+        lines: this.currentParagraph,
+      });
+      this.currentParagraph = [];
+    }
   }
 
   addSpe() {
-    this.newParagraph();
-    this.result.push({
+    this.currentParagraph.push({
       kind: "sep",
       width: 2,
     });
   }
 
-  addLines(lines: string | string[], pid?: number) {
-    if (typeof lines === "string") {
-      if (pid === undefined || pid >= this.result.length) {
-        this.currentMarkup.push(lines);
-      } else {
-        assert(this.result[pid].kind === "markup");
-        (this.result[pid] as MarkupElement).markup += lines;
+  appendLine(s: string) {
+    this.currentLine.push(s);
+    this.currentLineDirty = true;
+  }
+
+  appendStr(s: string) {
+    let parts = s.split("\n");
+    for (let i = 0; i < parts.length; i++) {
+      if (i > 0) {
+        this.newLine();
       }
-    } else {
-      if (pid === undefined || pid >= this.result.length) {
-        this.currentMarkup.push(...lines);
-      } else {
-        assert(this.result[pid].kind === "markup");
-        (this.result[pid] as MarkupElement).markup += lines.join("");
-      }
+      this.currentLine.push(parts[i]);
     }
-    return this.result.length;
+  }
+
+  private static strip(e: RenderedElement): RenderedElement {
+    if (e.kind === "line") {
+      e.markup = e.markup.replaceAll("<span></span>", "").trim();
+    } else if (e.kind === "lines") {
+      e.lines = e.lines.map((p) => {
+        return PangoMarkupGenerator.strip(p);
+      });
+    }
+    return e;
+  }
+
+  private static notEmpty(e: RenderedElement): boolean {
+    if (e.kind === "line") {
+      return e.markup.length > 0;
+    } else if (e.kind === "lines") {
+      return e.lines.some((p) => {
+        return PangoMarkupGenerator.notEmpty(p);
+      });
+    }
+    return true;
   }
 
   done(): RenderedElement[] {
-    if (this.currentMarkup.length > 0) {
-      this.result.push({
-        kind: "markup",
-        markup: this.currentMarkup.join(""),
-      });
-      this.currentMarkup = [];
-    }
+    this.newParagraph();
+
     let result = this.result;
     // clean empty tags
     result = result
       .map((p) => {
-        if (p.kind === "markup") {
-          p.markup = p.markup.replaceAll("<span></span>", "").trim();
-        }
-        return p;
+        return PangoMarkupGenerator.strip(p);
       })
       .filter((p) => {
-        if (p.kind === "markup") {
+        if (p.kind === "line") {
           return p.markup.length > 0;
         }
         return true;
       })
       .map((p) => {
-        if (p.kind === "markup") {
-          let markup = this._addCommonTag(p.markup);
-          p.markup = markup;
-        }
-        return p;
+        return PangoMarkupGenerator.addCommonTag(p);
       });
     return result;
   }
 
-  private _addCommonTag(p: string) {
+  pushTag(open: string, close: string) {
+    this.openTags.push({
+      open,
+      close,
+    });
+    this.currentLine.push(open);
+  }
+
+  popTag(close: string) {
+    let previous = this.openTags.pop();
+    assert(previous);
+    assert(previous?.close === close);
+    this.currentLine.push(close);
+  }
+
+  private static _addCommonTag(p: string) {
     let normal = vim.api.nvim_get_hl(0, {
       name: "Normal",
     });
@@ -122,6 +182,17 @@ export class PangoMarkupGenerator {
     openTag += ` size="15pt"`;
     openTag += ">";
     return `${openTag}${p}</span>`;
+  }
+
+  private static addCommonTag(p: RenderedElement) {
+    if (p.kind === "line") {
+      p.markup = PangoMarkupGenerator._addCommonTag(p.markup);
+    } else if (p.kind === "lines") {
+      p.lines = p.lines.map((p) => {
+        return PangoMarkupGenerator.addCommonTag(p);
+      });
+    }
+    return p;
   }
 }
 
@@ -187,13 +258,13 @@ abstract class SimpleWrapperNode extends RenderedNode {
       pango.newParagraph();
     }
 
-    let start = pango.addLines(this.openTag());
+    pango.pushTag(this.openTag(), this.closeTag());
     if (typeof this.content === "string") {
-      pango.addLines(escapeMarkup(this.content));
+      pango.appendStr(escapeMarkup(this.content));
     } else if (vim.tbl_islist(this.content)) {
       for (let item of this.content) {
         if (typeof item === "string") {
-          pango.addLines(escapeMarkup(item));
+          pango.appendStr(escapeMarkup(item));
         } else {
           item.intoPangoMarkup(pango);
         }
@@ -201,7 +272,7 @@ abstract class SimpleWrapperNode extends RenderedNode {
     } else {
       this.content.intoPangoMarkup(pango);
     }
-    pango.addLines(this.closeTag(), start);
+    pango.popTag(this.closeTag());
   }
 }
 
@@ -364,7 +435,7 @@ export class CodeSpanNode extends SimpleWrapperNode {
   }
 
   openTag(): string {
-    return '<span><tt>';
+    return "<span><tt>";
   }
 
   closeTag(): string {

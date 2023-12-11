@@ -15,7 +15,11 @@ import { toUtfChars } from "@glib/widgets/text/common";
 import { TextSpan } from "@glib/widgets/text/text-span";
 import { Markup } from "@glib/widgets/markup";
 import { MarkupRenderer } from "@core/format/markdown";
-import { PangoMarkupGenerator } from "@core/format/rendered-node";
+import {
+  PangoMarkupGenerator,
+  RenderedElement,
+} from "@core/format/rendered-node";
+import { Widget } from "@glib/widget";
 
 export * as _ from "@glib/index";
 export { AllLspServers } from "./conf/external_tools";
@@ -37,6 +41,28 @@ export function onRightClick(opts: any) {
   mountRightClickMenu(buffer, opts);
 }
 
+function intoWidget(m: RenderedElement, fg: number): Widget {
+  if (m.kind === "line") {
+    return Markup({
+      markup: m.markup,
+      margin: Padding.from({
+        top: 4,
+      }),
+    });
+  } else if (m.kind === "lines") {
+    return Column({
+      children: m.lines.map((p) => intoWidget(p, fg)),
+    });
+  } else {
+    return Container({
+      margin: Padding.vertical(4),
+      height: m.width,
+      width: "expand",
+      color: fg,
+    });
+  }
+}
+
 export function test() {
   let [file] = io.open("/tmp/test.md", "r");
   let content = file!.read("*a");
@@ -54,15 +80,15 @@ export function test() {
 
   let paragraphs = generator.done();
 
-  for (let p of paragraphs) {
-    if (p.kind === "markup") {
-      info("=================ST==================");
-      info("%s", vim.inspect(p.markup));
-      info("=================ED==================");
-    } else {
-      info("paragraph: %s", p);
-    }
-  }
+  // for (let p of paragraphs) {
+  //   if (p.kind === "markup") {
+  //     info("=================ST==================");
+  //     info("%s", vim.inspect(p.markup));
+  //     info("=================ED==================");
+  //   } else {
+  //     info("paragraph: %s", p);
+  //   }
+  // }
 
   let hl_normal = vim.api.nvim_get_hl(0, {
     name: "Normal",
@@ -80,21 +106,7 @@ export function test() {
       children: [
         Spacing(),
         ...paragraphs.map((m) => {
-          if (m.kind === "markup") {
-            return Markup({
-              markup: m.markup,
-              margin: Padding.from({
-                top: 4,
-              }),
-            });
-          } else {
-            return Container({
-              margin: Padding.vertical(4),
-              height: m.width,
-              width: "expand",
-              color: foreground,
-            });
-          }
+          return intoWidget(m, foreground);
         }),
         Spacing(),
       ],

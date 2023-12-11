@@ -1,4 +1,7 @@
+import { BuildContext } from "@glib/build-context";
 import { StatelessWidget } from "../stateless-widget";
+import { PangoSpanProperties } from "./property";
+import { Widget } from "@glib/widget";
 
 export class MdNodeFactory {
   static _instance?: MdNodeFactory;
@@ -9,7 +12,7 @@ export class MdNodeFactory {
       node: TSNode,
       source: string,
       inherit: PangoSpanProperties[]
-    ) => StatelessWidget
+    ) => MdEmptibleNode
   > = new Map();
 
   static getInstance() {
@@ -25,7 +28,7 @@ export class MdNodeFactory {
       node: TSNode,
       source: string,
       inherit: PangoSpanProperties[]
-    ) => StatelessWidget
+    ) => MdEmptibleNode
   ) {
     this.constructos.set(type, constructor);
   }
@@ -34,11 +37,17 @@ export class MdNodeFactory {
     node: TSNode,
     source: string,
     inherit: PangoSpanProperties[]
-  ): StatelessWidget {
+  ): MdEmptibleNode {
     let type = node.type();
     if (this.constructos.has(type)) {
       return this.constructos.get(type)!(node, source, inherit);
     }
     throw new Error(`Unknown node type: ${type}`);
   }
+}
+
+export abstract class MdEmptibleNode extends StatelessWidget {
+  abstract isEmpty(): boolean;
+
+  abstract intoWidgetOrSpan(context: BuildContext): Widget | string;
 }

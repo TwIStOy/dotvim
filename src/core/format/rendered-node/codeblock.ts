@@ -1,4 +1,4 @@
-import { info } from "@core/utils/logger";
+import { debug_, info } from "@core/utils/logger";
 import { PangoMarkupGenerator } from ".";
 import { isNil } from "@core/vim";
 import { escapeMarkup } from "./util";
@@ -69,7 +69,7 @@ export function highlightContent(
     return 1;
   });
   let m = 0;
-  info("markers: %s", markers);
+  debug_("markers: %s", markers);
   pango.pushTag("<span><tt>", "</tt></span>");
   for (let i = 0; i < content.length; i++) {
     while (m < markers.length && markers[m].offset <= i) {

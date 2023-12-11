@@ -41,25 +41,28 @@ export function onRightClick(opts: any) {
   mountRightClickMenu(buffer, opts);
 }
 
-function intoWidget(m: RenderedElement, fg: number): Widget {
+function intoWidget(m: RenderedElement, fg: number): Widget[] {
   if (m.kind === "line") {
-    return Markup({
-      markup: m.markup,
-      margin: Padding.from({
-        top: 4,
+    info("line: %s", vim.inspect(m.markup));
+    return [
+      Markup({
+        markup: m.markup,
+        margin: Padding.from({
+          // top: 4,
+        }),
       }),
-    });
+    ];
   } else if (m.kind === "lines") {
-    return Column({
-      children: m.lines.map((p) => intoWidget(p, fg)),
-    });
+    return m.lines.map((p) => intoWidget(p, fg)).flat();
   } else {
-    return Container({
-      margin: Padding.vertical(4),
-      height: m.width,
-      width: "expand",
-      color: fg,
-    });
+    return [
+      Container({
+        margin: Padding.vertical(4),
+        height: m.width,
+        width: "expand",
+        color: fg,
+      }),
+    ];
   }
 }
 
@@ -91,7 +94,7 @@ export function test() {
   // }
 
   let hl_normal = vim.api.nvim_get_hl(0, {
-    name: "Normal",
+    name: "NormalFloat",
   });
   let background = ifNil(hl_normal.get("guibg"), hl_normal.get("bg"));
   let foreground = ifNil(hl_normal.get("guifg"), hl_normal.get("fg"));
@@ -104,10 +107,11 @@ export function test() {
     padding: Padding.all(10),
     child: Column({
       children: [
-        Spacing(),
-        ...paragraphs.map((m) => {
-          return intoWidget(m, foreground);
-        }),
+        ...paragraphs
+          .map((m) => {
+            return intoWidget(m, foreground);
+          })
+          .flat(),
         Spacing(),
       ],
     }),
@@ -123,7 +127,7 @@ export function test() {
   vim.schedule(() => {
     KittyBackend.getInstance().deleteAll();
     let image = Image.fromBuffer(data);
-    image.render(100, 100);
+    image.render(0, 0);
     info("=====================================================");
   });
   return toUtfChars("abcdd我");

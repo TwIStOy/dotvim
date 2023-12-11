@@ -56,9 +56,10 @@ export class PangoMarkupGenerator {
   currentLineDirty: boolean = false;
 
   newLine() {
+    info("@@@@ newline: %s, parts: [%s]", this.currentLineDirty, this.currentLine)
     if (this.currentLineDirty) {
       // close all tags
-      for (let i = 0; i < this.openTags.length; i++) {
+      for (let i = this.openTags.length - 1; i >= 0; i--) {
         this.currentLine.push(this.openTags[i].close);
       }
       this.currentParagraph.push({
@@ -67,7 +68,7 @@ export class PangoMarkupGenerator {
       });
       this.currentLine = [];
       for (let i = 0; i < this.openTags.length; i++) {
-        this.currentLine.push(`<span ${this.openTags[i]}>`);
+        this.currentLine.push(this.openTags[i].open);
       }
       this.currentLineDirty = false;
     }
@@ -86,24 +87,33 @@ export class PangoMarkupGenerator {
   }
 
   addSpe() {
+    this.newParagraph();
     this.currentParagraph.push({
       kind: "sep",
       width: 2,
     });
+    this.newParagraph();
   }
 
   appendLine(s: string) {
-    this.currentLine.push(s);
-    this.currentLineDirty = true;
+    if (s.length > 0) {
+      this.currentLine.push(s);
+      this.currentLineDirty = true;
+    }
   }
 
   appendStr(s: string) {
-    let parts = s.split("\n");
-    for (let i = 0; i < parts.length; i++) {
-      if (i > 0) {
-        this.newLine();
+    if (s.length > 0) {
+      let parts = s.split("\n");
+      for (let i = 0; i < parts.length; i++) {
+        if (i > 0) {
+          this.newLine();
+        }
+        if (parts[i].length > 0) {
+          this.currentLine.push(parts[i]);
+          this.currentLineDirty = true;
+        }
       }
-      this.currentLine.push(parts[i]);
     }
   }
 

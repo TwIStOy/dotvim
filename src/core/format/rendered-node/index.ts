@@ -177,7 +177,7 @@ export class PangoMarkupGenerator {
 
   private static _addCommonTag(p: string) {
     let normal = vim.api.nvim_get_hl(0, {
-      name: "Normal",
+      name: "NormalFloat",
     });
     info("normal, %s", normal);
     let foreground = ifNil(normal.get("guifg"), normal.get("fg"));

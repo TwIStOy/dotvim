@@ -97,7 +97,8 @@ export class PangoMarkupGenerator {
       })
       .map((p) => {
         if (p.kind === "markup") {
-          p.markup = this._addCommonTag(p.markup);
+          let markup = this._addCommonTag(p.markup);
+          p.markup = markup;
         }
         return p;
       });
@@ -118,6 +119,7 @@ export class PangoMarkupGenerator {
     if (!isNil(background)) {
       openTag += ` background="#${string.format("%06x", background)}"`;
     }
+    openTag += ` size="15pt"`;
     openTag += ">";
     return `${openTag}${p}</span>`;
   }
@@ -362,7 +364,7 @@ export class CodeSpanNode extends SimpleWrapperNode {
   }
 
   openTag(): string {
-    return '<span allow_breaks="false"><tt>';
+    return '<span><tt>';
   }
 
   closeTag(): string {

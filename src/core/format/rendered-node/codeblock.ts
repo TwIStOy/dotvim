@@ -70,7 +70,7 @@ export function highlightContent(
   });
   let m = 0;
   info("markers: %s", markers);
-  pango.addLines('<span allow_breaks="false"><tt>');
+  pango.addLines('<span><tt>');
   for (let i = 0; i < content.length; i++) {
     while (m < markers.length && markers[m].offset <= i) {
       let marker = markers[m];

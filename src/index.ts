@@ -17,7 +17,6 @@ import { Markup } from "@glib/widgets/markup";
 import { MarkupRenderer } from "@core/format/markdown";
 import { PangoMarkupGenerator } from "@core/format/rendered-node";
 
-export { mdNode } from "@glib/widgets/markdown-doc/md-node";
 export * as _ from "@glib/index";
 export { AllLspServers } from "./conf/external_tools";
 export { AllPlugins, LazySpecs } from "./conf/plugins";

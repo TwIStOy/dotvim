@@ -22,8 +22,4 @@ export class BuildContext {
       height: this.renderer.height,
     };
   }
-
-  // intoPngBytes(): number[] {
-  //   return this.renderer.toPngBytes();
-  // }
 }

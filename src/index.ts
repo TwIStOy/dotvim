@@ -59,7 +59,7 @@ function intoWidget(m: RenderedElement, fg: number): Widget[] {
       Container({
         margin: Padding.vertical(4),
         height: m.width,
-        width: "expand",
+        width: "shrink",
         color: fg,
       }),
     ];
@@ -83,16 +83,6 @@ export function test() {
 
   let paragraphs = generator.done();
 
-  // for (let p of paragraphs) {
-  //   if (p.kind === "markup") {
-  //     info("=================ST==================");
-  //     info("%s", vim.inspect(p.markup));
-  //     info("=================ED==================");
-  //   } else {
-  //     info("paragraph: %s", p);
-  //   }
-  // }
-
   let hl_normal = vim.api.nvim_get_hl(0, {
     name: "NormalFloat",
   });
@@ -102,8 +92,8 @@ export function test() {
   let root = Container({
     color: background,
     border: { width: 4, color: "black", radius: 20 },
-    height: "expand",
-    width: "expand",
+    height: "shrink",
+    width: "shrink",
     padding: Padding.all(10),
     child: Column({
       children: [

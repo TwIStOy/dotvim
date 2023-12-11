@@ -107,7 +107,7 @@ export class CairoRender {
     const newContext = lgi.cairo.Context(this.surface);
 
     this.surface.flush();
-    newContext.source(this.surface);
+    newContext.set_source_surface(this.surface);
     newContext.paint();
 
     this.surface = newSurface;

@@ -53,6 +53,17 @@ export type WidgetKind =
   | "Markup"
   | "StatelessWidget";
 
+export interface WidgetSizeHint {
+  /**
+   * @description The widget width should be in this range.
+   */
+  range: FlexibleRange;
+  /**
+   * @description The recommended width of the widget.
+   */
+  recommanded?: number;
+}
+
 export abstract class Widget {
   __renderBox: RenderBox | null = null;
 
@@ -146,7 +157,7 @@ export abstract class Widget {
     context: BuildContext,
     maxAvailable: number,
     determinedHeight?: number
-  ): FlexibleRange;
+  ): WidgetSizeHint;
 
   /**
    * @description Calculate the expected height range of the widget.
@@ -158,7 +169,7 @@ export abstract class Widget {
     context: BuildContext,
     maxAvailable: number,
     determinedWidth?: number
-  ): FlexibleRange;
+  ): WidgetSizeHint;
 
   abstract calculateRenderBox(
     context: BuildContext,

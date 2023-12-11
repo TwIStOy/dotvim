@@ -8,7 +8,7 @@ import {
   RenderBox,
 } from "@glib/base";
 import { BuildContext } from "@glib/build-context";
-import { Widget, WidgetKind } from "@glib/widget";
+import { Widget, WidgetKind, WidgetSizeHint } from "@glib/widget";
 import { normalizeColor } from "../_utils";
 import { TextOverflowPolicy, TextStyle } from "./common";
 import {
@@ -77,16 +77,20 @@ class _Text extends Widget {
     _context: BuildContext,
     maxAvailable: number,
     _determinedHeight?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
     if (this._width === "inf") {
       return {
-        min: 0,
-        max: maxAvailable,
+        range: {
+          min: 0,
+          max: maxAvailable,
+        },
       };
     } else {
       return {
-        min: this._width,
-        max: this._width,
+        range: {
+          min: this._width,
+          max: this._width,
+        },
       };
     }
   }
@@ -129,12 +133,14 @@ class _Text extends Widget {
     context: BuildContext,
     _maxAvailable: number,
     determinedWidth?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
     if (isNil(determinedWidth)) {
       let fe = context.renderer.ctx.font_extents();
       return {
-        min: fe.height * this._text.length,
-        max: "inf",
+        range: {
+          min: fe.height * this._text.length,
+          max: "inf",
+        },
       };
     } else {
       let lines = this._expectLines(context, determinedWidth);
@@ -147,8 +153,10 @@ class _Text extends Widget {
         fe.height
       );
       return {
-        min: fe.height * lines,
-        max: "inf",
+        range: {
+          min: fe.height * lines,
+          max: "inf",
+        },
       };
     }
   }

@@ -1,10 +1,11 @@
-import { ifNil } from "@core/vim";
-import { FlexibleRange, RenderBox, sizeMax, sizeMin } from "@glib/base";
+import { ifNil, isNil } from "@core/vim";
+import { RenderBox, sizeAdd, sizeMax, sizeMin } from "@glib/base";
 import { BuildContext } from "@glib/build-context";
 import {
   FlexiblePolicy,
   Widget,
   WidgetKind,
+  WidgetSizeHint,
   _WidgetPaddingMargin,
 } from "@glib/widget";
 import {
@@ -96,74 +97,100 @@ class _Container extends Widget {
     return this._border.color.alpha > 0 && this._border.width > 0;
   }
 
+  private fitChildSize(
+    context: BuildContext,
+    key: "_width" | "_height",
+    fn: "_widthRange" | "_heightRange",
+    maxAvailable: number,
+    determinedRhs?: number | undefined
+  ): WidgetSizeHint {
+    let value = this[key];
+    if (typeof value === "number") {
+      return {
+        range: {
+          min: value,
+          max: value,
+        },
+        recommanded: value,
+      };
+    } else {
+      if (!isNil(this._child)) {
+        let c = this._child[fn](context, maxAvailable, determinedRhs);
+        info("C, %s, max: %s", c, maxAvailable);
+        // try to fix child's recommanded width or height
+        let recommanded = c.recommanded;
+        if (!isNil(recommanded) && recommanded > maxAvailable) {
+          recommanded = undefined;
+        }
+        if (this[key] === "shrink") {
+          // "shrink" means the size of `Containter` should be the same as its
+          // child
+          return {
+            ...c,
+            recommanded,
+          };
+        } else {
+          return {
+            range: {
+              min: c.range.min,
+              max: sizeMax(c.range.max, maxAvailable),
+            },
+            recommanded: maxAvailable,
+          };
+        }
+      } else {
+        return {
+          range: {
+            min: 0,
+            max: maxAvailable,
+          },
+        };
+      }
+    }
+  }
+
   _heightRange(
     context: BuildContext,
     maxAvailable: number,
     determinedWidth?: number | undefined
-  ): FlexibleRange {
-    if (typeof this._height === "number") {
-      return {
-        min: this._height,
-        max: this._height,
-      };
-    } else {
-      let min, max;
-      if (this._child) {
-        let c = this._child._heightRange(
-          context,
-          maxAvailable,
-          determinedWidth
-        );
-        if (this._height === "shrink") {
-          min = c.min;
-          max = c.max;
-        } else {
-          min = c.min;
-          max = sizeMax(c.max, maxAvailable);
-        }
-        return { min, max };
-      } else {
-        return {
-          min: 0,
-          max: maxAvailable,
-        };
-      }
-    }
+  ): WidgetSizeHint {
+    let padding = this._padding.top + this._padding.bottom;
+    let res = this.fitChildSize(
+      context,
+      "_height",
+      "_heightRange",
+      maxAvailable,
+      determinedWidth
+    );
+    return {
+      range: {
+        min: res.range.min + padding,
+        max: sizeAdd(res.range.max, padding),
+      },
+      recommanded: res.recommanded ? res.recommanded + padding : undefined,
+    };
   }
 
   _widthRange(
     context: BuildContext,
     maxAvailable: number,
     determinedHeight?: number | undefined
-  ): FlexibleRange {
-    if (typeof this._width === "number") {
-      return {
-        min: this._width,
-        max: this._width,
-      };
-    } else {
-      let min, max;
-      if (this._child) {
-        let c = this._child._widthRange(
-          context,
-          maxAvailable,
-          determinedHeight
-        );
-        if (this._width === "shrink") {
-          min = c.min;
-          max = c.max;
-        } else {
-          min = c.min;
-          max = sizeMax(c.max, maxAvailable);
-        }
-        return { min, max };
-      } else {
-        return {
-          min: 0,
-          max: maxAvailable,
-        };
-      }
-    }
+  ): WidgetSizeHint {
+    let padding = this._padding.left + this._padding.right;
+    let res = this.fitChildSize(
+      context,
+      "_width",
+      "_widthRange",
+      maxAvailable,
+      determinedHeight
+    );
+    return {
+      range: {
+        min: res.range.min + padding,
+        max: sizeAdd(res.range.max, padding),
+      },
+      recommanded: res.recommanded ? res.recommanded + padding : undefined,
+    };
   }
 
   calculateRenderBox(
@@ -176,25 +203,29 @@ class _Container extends Widget {
     // process margin
     let initBox = this.processMargin(inheritBox);
 
-    let widthRange = this._widthRange(context, initBox.width);
-    let heightRange = this._heightRange(context, initBox.height);
-
     let width: number;
+    let widthRange = this._widthRange(context, initBox.width);
     if (typeof this._width === "number") {
       width = this._width;
+    } else if (!isNil(widthRange.recommanded)) {
+      width = widthRange.recommanded;
     } else if (this._width === "shrink") {
-      width = widthRange.min;
+      width = widthRange.range.min;
     } else {
-      width = sizeMin(widthRange.max, initBox.width) as number;
+      width = sizeMin(widthRange.range.max, initBox.width) as number;
     }
+    info("w_range: %s, width: %s", widthRange, width);
 
     let height: number;
+    let heightRange = this._heightRange(context, initBox.height);
     if (typeof this._height === "number") {
       height = this._height;
+    } else if (!isNil(heightRange.recommanded)) {
+      height = heightRange.recommanded;
     } else if (this._height === "shrink") {
-      height = heightRange.min;
+      height = heightRange.range.min;
     } else {
-      height = sizeMin(heightRange.max, initBox.height) as number;
+      height = sizeMin(heightRange.range.max, initBox.height) as number;
     }
 
     let myBox = {
@@ -213,15 +244,7 @@ class _Container extends Widget {
   }
 
   override build(context: BuildContext) {
-    // // simple rectangle
-    // context.renderer.rectangle(
-    //   this._renderBox!.position.x,
-    //   this._renderBox!.position.y,
-    //   this._renderBox!.width,
-    //   this._renderBox!.height
-    // );
-    // context.renderer.fillColor = this._color;
-    // context.renderer.fill();
+    info("Build box, %s", this._renderBox);
 
     // rounded rectangle, https://www.cairographics.org/samples/rounded_rectangle/
     let x = this._renderBox!.position.x;

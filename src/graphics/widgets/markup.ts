@@ -1,8 +1,13 @@
 import { info } from "@core/utils/logger";
 import { ifNil, isNil } from "@core/vim";
-import { FlexibleRange, RenderBox } from "@glib/base";
+import { RenderBox } from "@glib/base";
 import { BuildContext } from "@glib/build-context";
-import { Widget, WidgetKind, _WidgetPaddingMargin } from "@glib/widget";
+import {
+  Widget,
+  WidgetKind,
+  WidgetSizeHint,
+  _WidgetPaddingMargin,
+} from "@glib/widget";
 import * as lgi from "lgi";
 
 interface _MarkupOpts extends _WidgetPaddingMargin {
@@ -52,19 +57,33 @@ class _Markup extends Widget {
   }
 
   _widthRange(
-    _context: BuildContext,
+    context: BuildContext,
     maxAvailable: number,
     _determinedHeight?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
+    // try create the layout first to get the recommanded width
+    let layout = lgi.PangoCairo.create_layout(context.renderer.ctx);
+    layout.set_markup(this.markup, -1);
+    layout.set_single_paragraph_mode(true);
+    layout.set_width(-1);
+
+    let [width, _height] = layout.get_pixel_size();
+
     if (isNil(this.width)) {
       return {
-        min: 0,
-        max: maxAvailable,
+        range: {
+          min: 0,
+          max: maxAvailable,
+        },
+        recommanded: width + this._padding.left + this._padding.right,
       };
     } else {
       return {
-        min: this.width,
-        max: this.width,
+        range: {
+          min: this.width,
+          max: this.width,
+        },
+        recommanded: width + this._padding.left + this._padding.right,
       };
     }
   }
@@ -90,15 +109,26 @@ class _Markup extends Widget {
     context: BuildContext,
     _maxAvailable: number,
     determinedWidth?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
     let layout = this._getLayout(context);
     let width = ifNil(this.width, determinedWidth, -1);
-    layout.set_width(width * lgi.Pango.SCALE);
-    let [pixelWidth, pixelHeight] = layout.get_pixel_size();
-    info("width: %s, height: %s", pixelWidth, pixelHeight);
+    if (isNil(width)) {
+      width = -1;
+    }
+    vim.print(debug.traceback());
+    if (width === -1) {
+      layout.set_width(-1);
+    } else {
+      layout.set_width(width * lgi.Pango.SCALE);
+    }
+
+    let [_pixelWidth, pixelHeight] = layout.get_pixel_size();
     return {
-      min: pixelHeight,
-      max: "inf",
+      range: {
+        min: pixelHeight + this._padding.top + this._padding.bottom,
+        max: "inf",
+      },
+      recommanded: pixelHeight + this._padding.top + this._padding.bottom,
     };
   }
 

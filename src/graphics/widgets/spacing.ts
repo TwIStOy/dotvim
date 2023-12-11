@@ -1,5 +1,5 @@
-import { FlexibleRange, RenderBox } from "@glib/base";
-import { FlexibleType, Widget, WidgetKind } from "@glib/widget";
+import { RenderBox } from "@glib/base";
+import { FlexibleType, Widget, WidgetKind, WidgetSizeHint } from "@glib/widget";
 import { ifNil, isNil } from "@core/vim";
 import { BuildContext } from "@glib/build-context";
 
@@ -48,16 +48,20 @@ class _Spacing extends Widget {
     _context: BuildContext,
     maxAvailable: number,
     _determinedHeight?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
     if (isNil(this._width)) {
       return {
-        min: 0,
-        max: maxAvailable,
+        range: {
+          min: 0,
+          max: maxAvailable,
+        },
       };
     } else {
       return {
-        min: this._width,
-        max: this._width,
+        range: {
+          min: this._width,
+          max: this._width,
+        },
       };
     }
   }
@@ -66,16 +70,20 @@ class _Spacing extends Widget {
     _context: BuildContext,
     maxAvailable: number,
     _determinedWidth?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
     if (isNil(this._height)) {
       return {
-        min: 0,
-        max: maxAvailable,
+        range: {
+          min: 0,
+          max: maxAvailable,
+        },
       };
     } else {
       return {
-        min: this._height,
-        max: this._height,
+        range: {
+          min: this._height,
+          max: this._height,
+        },
       };
     }
   }

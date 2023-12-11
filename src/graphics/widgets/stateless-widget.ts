@@ -4,6 +4,7 @@ import { BuildContext } from "@glib/build-context";
 import {
   Widget,
   WidgetKind,
+  WidgetSizeHint,
   _WidgetOption,
   _WidgetPaddingMargin,
 } from "@glib/widget";
@@ -49,7 +50,7 @@ export abstract class StatelessWidget extends Widget {
     context: BuildContext,
     maxAvailable: number,
     determinedHeight?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
     let inner = this.getWidget(context);
     return inner._widthRange(context, maxAvailable, determinedHeight);
   }
@@ -58,7 +59,7 @@ export abstract class StatelessWidget extends Widget {
     context: BuildContext,
     maxAvailable: number,
     determinedWidth?: number | undefined
-  ): FlexibleRange {
+  ): WidgetSizeHint {
     let inner = this.getWidget(context);
     return inner._heightRange(context, maxAvailable, determinedWidth);
   }

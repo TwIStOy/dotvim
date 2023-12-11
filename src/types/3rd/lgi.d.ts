@@ -81,7 +81,7 @@ declare module "lgi" {
       new_sub_path(): void;
       move_to(x: number, y: number): void;
 
-      source(source: Surface, x?: number, y?: number): void;
+      set_source_surface(source: Surface, x?: number, y?: number): void;
       operator(): Operator;
       operator(op: Operator): void;
 

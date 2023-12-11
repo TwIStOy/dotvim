@@ -3,8 +3,10 @@ import { isNil } from "@core/vim";
 import {
   BoldNode,
   CodeBlockNode,
+  CodeSpanNode,
   HeadingNode,
   ItalicNode,
+  ListItemNode,
   ParagraphNode,
   RenderedNode,
   SectionNode,
@@ -66,7 +68,8 @@ export class MarkupRenderer {
     lang: string,
     depth: number,
     skipStartNum: number,
-    skipEndNum: number
+    skipEndNum: number,
+    stripTrail: boolean = true
   ) {
     let [_startRow, _startColumn, startByte] = node.start();
     let [_endRow, _endColumn, endByte] = node.end_();
@@ -102,7 +105,40 @@ export class MarkupRenderer {
       parts.push(this.renderNode(child, lang, depth + 1));
     }
     if (startByte < endByte) {
-      parts.push(this.source.slice(startByte, endByte));
+      let lastContent = this.source.slice(startByte, endByte);
+      if (stripTrail) lastContent = lastContent.trimEnd();
+      {
+        let line = "";
+        for (let p of parts) {
+          if (line.length > 0) {
+            line += ", ";
+          }
+
+          if (typeof p === "string") {
+            line += vim.inspect(p);
+          } else {
+            line += p.kind;
+          }
+        }
+        info(
+          "!%d, parts: %s, lastContent: %s",
+          parts.length,
+          line,
+          vim.inspect(lastContent)
+        );
+      }
+      if (lastContent.length > 0) {
+        parts.push(lastContent);
+      }
+    }
+    if (stripTrail) {
+      while (parts.length > 0 && type(parts[parts.length - 1]) === "string") {
+        let p = (parts[parts.length - 1] as string).trimEnd();
+        if (p.length > 0) {
+          break;
+        }
+        parts.pop();
+      }
     }
 
     return parts;
@@ -197,10 +233,31 @@ export class MarkupRenderer {
 
   private render_code_span(
     node: TSNode,
-    lang: string,
-    depth: number
+    _lang: string,
+    _depth: number
   ): RenderedNode {
-    return new SpanNode(this.skipChildrenHelper(node, lang, depth, 1, 1));
+    let [_startRow, _startColumn, startByte] = node.start();
+    let [_endRow, _endColumn, endByte] = node.end_();
+
+    // first is code_span_delimiter
+    {
+      let firstChild = node.child(0);
+      let [_childStartRow, _childStartColumn, childStartByte] =
+        firstChild.start();
+      assert(childStartByte === startByte);
+      startByte += firstChild.byte_length();
+    }
+
+    // last is code_span_delimiter
+    {
+      let lastChild = node.child(node.child_count() - 1);
+      let [_childStartRow, _childStartColumn, childStartByte] =
+        lastChild.start();
+      endByte = childStartByte;
+    }
+
+    let body = this.source.slice(startByte, endByte);
+    return new CodeSpanNode(body);
   }
 
   private render_section(
@@ -217,6 +274,10 @@ export class MarkupRenderer {
     _depth: number
   ): RenderedNode {
     return new ThematicBreak();
+  }
+
+  private render_list_item(node: TSNode, lang: string, depth: number) {
+    return new ListItemNode(this.skipChildrenHelper(node, lang, depth, 1, 0));
   }
 
   private renderNode(node: TSNode, lang: string, depth: number): RenderedNode {
@@ -249,9 +310,13 @@ export class MarkupRenderer {
     } else if (node.type() === "thematic_break") {
       return this.render_thematic_break(node, lang, depth);
     } else if (node.type() === "paragraph") {
+      return new SpanNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
+    } else if (node.type() === "list") {
       return new ParagraphNode(
         this.skipChildrenHelper(node, lang, depth, 0, 0)
       );
+    } else if (node.type() === "list_item") {
+      return this.render_list_item(node, lang, depth);
     } else {
       return new SpanNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
     }

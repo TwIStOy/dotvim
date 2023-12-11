@@ -48,14 +48,20 @@ export function test() {
   let rr = render.render();
   let generator = new PangoMarkupGenerator();
 
-  let context = new BuildContext(500, 400);
+  let context = new BuildContext(1000, 400);
 
   rr.intoPangoMarkup(generator);
 
   let paragraphs = generator.done();
 
   for (let p of paragraphs) {
-    info("paragraph: %s", p);
+    if (p.kind === "markup") {
+      info("=================ST==================");
+      info("%s", p.markup);
+      info("=================ED==================");
+    } else {
+      info("paragraph: %s", p);
+    }
   }
 
   let hl_normal = vim.api.nvim_get_hl(0, {
@@ -75,10 +81,15 @@ export function test() {
         Spacing(),
         ...paragraphs.map((m) => {
           if (m.kind === "markup") {
-            return Markup(m.markup);
+            return Markup({
+              markup: m.markup,
+              margin: Padding.from({
+                top: 4,
+              }),
+            });
           } else {
             return Container({
-              margin: Padding.all(4),
+              margin: Padding.vertical(4),
               height: m.width,
               width: "expand",
               color: foreground,

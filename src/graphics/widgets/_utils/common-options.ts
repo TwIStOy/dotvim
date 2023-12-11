@@ -1,4 +1,6 @@
+import { AllOptional } from "@core/type_traits";
 import { AnyColor } from "./color";
+import { ifNil } from "@core/vim";
 
 export interface BorderOptions {
   /**
@@ -48,6 +50,33 @@ export class Padding {
       right: value,
       bottom: value,
       left: value,
+    };
+  }
+
+  static vertical(value: number): PaddingOptions {
+    return {
+      top: value,
+      right: 0,
+      bottom: value,
+      left: 0,
+    };
+  }
+
+  static horizontal(value: number): PaddingOptions {
+    return {
+      top: 0,
+      right: value,
+      bottom: 0,
+      left: value,
+    };
+  }
+
+  static from(value: AllOptional<PaddingOptions>): PaddingOptions {
+    return {
+      top: ifNil(value.top, 0),
+      right: ifNil(value.right, 0),
+      bottom: ifNil(value.bottom, 0),
+      left: ifNil(value.left, 0),
     };
   }
 }

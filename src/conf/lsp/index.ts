@@ -22,7 +22,7 @@ function bufHover() {
     result.contents;
     if (isMarkupContent(result.contents)) {
       info("markup content! %s", result.contents.value);
-      let markup = new MarkupRenderer(result.contents.value);
+      // let markup = new MarkupRenderer(result.contents.value);
     }
     info("%s %s", err, res);
   });

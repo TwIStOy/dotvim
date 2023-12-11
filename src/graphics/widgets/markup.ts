@@ -2,10 +2,10 @@ import { info } from "@core/utils/logger";
 import { ifNil, isNil } from "@core/vim";
 import { FlexibleRange, RenderBox } from "@glib/base";
 import { BuildContext } from "@glib/build-context";
-import { Widget, WidgetKind } from "@glib/widget";
+import { Widget, WidgetKind, _WidgetPaddingMargin } from "@glib/widget";
 import * as lgi from "lgi";
 
-interface _MarkupOpts {
+interface _MarkupOpts extends _WidgetPaddingMargin {
   /**
    * Pango markup string.
    */
@@ -28,6 +28,7 @@ class _Markup extends Widget {
 
   constructor(opts: _MarkupOpts | string) {
     super({
+      ...(type(opts) === "string" ? {} : (opts as _MarkupOpts)),
       flexible: "height",
       flexPolicy: "shrink",
     });

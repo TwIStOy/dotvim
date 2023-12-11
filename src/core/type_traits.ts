@@ -61,3 +61,7 @@ export type RemoveReadonlyFromTuple<T extends readonly any[]> =
       ? [RemoveReadonlyFromTuple<A>, ...RemoveReadonlyFromTuple<Rest>]
       : [A, ...RemoveReadonlyFromTuple<Rest>]
     : T;
+
+export type AllOptional<T> = {
+  [K in keyof T]?: T[K];
+};

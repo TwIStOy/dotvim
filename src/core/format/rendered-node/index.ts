@@ -1,11 +1,7 @@
 import { info } from "@core/utils/logger";
 import { ifNil, isNil } from "@core/vim";
-import * as lgi from "lgi";
 import { highlightContent } from "./codeblock";
-
-function escapeMarkup(str: string): string {
-  return lgi.GLib.markup_escape_text(str, -1);
-}
+import { escapeMarkup } from "./util";
 
 export type RenderedNodeKind =
   | "paragraph"
@@ -16,7 +12,8 @@ export type RenderedNodeKind =
   | "code_block"
   | "section"
   | "code_span"
-  | "thematic_break";
+  | "thematic_break"
+  | "list_item";
 
 type StringOrNode = string | RenderedNode;
 export type RenderedNodeContent = StringOrNode | StringOrNode[];
@@ -51,7 +48,7 @@ export class PangoMarkupGenerator {
     this.newParagraph();
     this.result.push({
       kind: "sep",
-      width: 4,
+      width: 2,
     });
   }
 
@@ -239,7 +236,8 @@ export class CodeBlockNode extends SimpleWrapperNode {
     let content = this.content as string;
     let language = this.params as string | null;
     if (language !== null) {
-      highlightContent(pango, content, language);
+      pango.newParagraph();
+      highlightContent(pango, content.trim(), language);
     } else {
       super.intoPangoMarkup(pango);
     }
@@ -360,5 +358,23 @@ export class ThematicBreak extends RenderedNode {
 
   override intoPangoMarkup(pango: PangoMarkupGenerator): void {
     pango.addSpe();
+  }
+}
+
+export class ListItemNode extends SimpleWrapperNode {
+  constructor(content: RenderedNodeContent) {
+    super("list_item", content);
+  }
+
+  openTag(): string {
+    return "<span> - ";
+  }
+
+  closeTag(): string {
+    return "</span>";
+  }
+
+  startNewParagraph(): boolean {
+    return true;
   }
 }

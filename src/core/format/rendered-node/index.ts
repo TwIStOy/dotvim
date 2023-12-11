@@ -13,6 +13,7 @@ export type RenderedNodeKind =
   | "section"
   | "code_span"
   | "thematic_break"
+  | "list"
   | "list_item";
 
 type StringOrNode = string | RenderedNode;
@@ -138,6 +139,28 @@ export abstract class RenderedNode {
   }
 
   abstract intoPangoMarkup(pango: PangoMarkupGenerator): void;
+
+  empty(): boolean {
+    if (typeof this.content === "string") {
+      return this.content.trimEnd().length === 0;
+    } else if (vim.tbl_islist(this.content)) {
+      if (this.content.length === 0) {
+        return true;
+      }
+      for (let item of this.content) {
+        if (typeof item === "string") {
+          if (item.trimEnd().length > 0) {
+            return false;
+          }
+        } else {
+          if (!item.empty()) {
+            return false;
+          }
+        }
+      }
+    }
+    return false;
+  }
 }
 
 abstract class SimpleWrapperNode extends RenderedNode {
@@ -372,6 +395,24 @@ export class ListItemNode extends SimpleWrapperNode {
 
   closeTag(): string {
     return "</span>";
+  }
+
+  startNewParagraph(): boolean {
+    return true;
+  }
+}
+
+export class ListNode extends SimpleWrapperNode {
+  constructor(content: RenderedNodeContent) {
+    super("list", content);
+  }
+
+  openTag(): string {
+    return "";
+  }
+
+  closeTag(): string {
+    return "";
   }
 
   startNewParagraph(): boolean {

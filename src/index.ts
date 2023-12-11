@@ -17,6 +17,7 @@ import { Markup } from "@glib/widgets/markup";
 import { MarkupRenderer } from "@core/format/markdown";
 import { PangoMarkupGenerator } from "@core/format/rendered-node";
 
+export { mdNode } from "@glib/widgets/markdown-doc/md-node";
 export * as _ from "@glib/index";
 export { AllLspServers } from "./conf/external_tools";
 export { AllPlugins, LazySpecs } from "./conf/plugins";
@@ -57,7 +58,7 @@ export function test() {
   for (let p of paragraphs) {
     if (p.kind === "markup") {
       info("=================ST==================");
-      info("%s", p.markup);
+      info("%s", vim.inspect(p.markup));
       info("=================ED==================");
     } else {
       info("paragraph: %s", p);

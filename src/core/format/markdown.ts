@@ -107,35 +107,37 @@ export class MarkupRenderer {
     if (startByte < endByte) {
       let lastContent = this.source.slice(startByte, endByte);
       if (stripTrail) lastContent = lastContent.trimEnd();
-      {
-        let line = "";
-        for (let p of parts) {
-          if (line.length > 0) {
-            line += ", ";
-          }
-
-          if (typeof p === "string") {
-            line += vim.inspect(p);
-          } else {
-            line += p.kind;
-          }
-        }
-        info(
-          "!%d, parts: %s, lastContent: %s",
-          parts.length,
-          line,
-          vim.inspect(lastContent)
-        );
-      }
       if (lastContent.length > 0) {
         parts.push(lastContent);
       }
     }
+    {
+      let line = "";
+      for (let p of parts) {
+        if (line.length > 0) {
+          line += ", ";
+        }
+
+        if (typeof p === "string") {
+          line += vim.inspect(p);
+        } else {
+          line += p.kind;
+        }
+      }
+      info("!%d, %s, parts: [%s]", parts.length, node.type(), line);
+    }
     if (stripTrail) {
-      while (parts.length > 0 && type(parts[parts.length - 1]) === "string") {
-        let p = (parts[parts.length - 1] as string).trimEnd();
-        if (p.length > 0) {
-          break;
+      while (parts.length > 0) {
+        let p = parts[parts.length - 1];
+        if (typeof p === "string") {
+          let newP = p.trimEnd();
+          if (newP.length > 0) {
+            break;
+          }
+        } else {
+          if (!p.empty()) {
+            break;
+          }
         }
         parts.pop();
       }
@@ -313,7 +315,7 @@ export class MarkupRenderer {
       return new SpanNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
     } else if (node.type() === "list") {
       return new ParagraphNode(
-        this.skipChildrenHelper(node, lang, depth, 0, 0)
+        this.skipChildrenHelper(node, lang, depth, 0, 0, true)
       );
     } else if (node.type() === "list_item") {
       return this.render_list_item(node, lang, depth);

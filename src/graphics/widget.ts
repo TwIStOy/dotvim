@@ -45,7 +45,13 @@ export interface _WidgetPaddingMargin {
 
 export type WidgetKey = string;
 
-export type WidgetKind = "Container" | "Spacing" | "Column" | "Text" | "Markup";
+export type WidgetKind =
+  | "Container"
+  | "Spacing"
+  | "Column"
+  | "Text"
+  | "Markup"
+  | "StatelessWidget";
 
 export abstract class Widget {
   __renderBox: RenderBox | null = null;

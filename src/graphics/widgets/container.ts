@@ -155,6 +155,7 @@ class _Container extends Widget {
     determinedWidth?: number | undefined
   ): WidgetSizeHint {
     let padding = this._padding.top + this._padding.bottom;
+    let margin = this._margin.top + this._margin.bottom;
     let res = this.fitChildSize(
       context,
       "_height",
@@ -164,10 +165,12 @@ class _Container extends Widget {
     );
     return {
       range: {
-        min: res.range.min + padding,
-        max: sizeAdd(res.range.max, padding),
+        min: res.range.min + padding + margin,
+        max: sizeAdd(res.range.max, padding + margin),
       },
-      recommanded: res.recommanded ? res.recommanded + padding : undefined,
+      recommanded: res.recommanded
+        ? res.recommanded + padding + margin
+        : undefined,
     };
   }
 
@@ -177,6 +180,7 @@ class _Container extends Widget {
     determinedHeight?: number | undefined
   ): WidgetSizeHint {
     let padding = this._padding.left + this._padding.right;
+    let margin = this._margin.left + this._margin.right;
     let res = this.fitChildSize(
       context,
       "_width",
@@ -186,10 +190,12 @@ class _Container extends Widget {
     );
     return {
       range: {
-        min: res.range.min + padding,
-        max: sizeAdd(res.range.max, padding),
+        min: res.range.min + padding + margin,
+        max: sizeAdd(res.range.max, padding + margin),
       },
-      recommanded: res.recommanded ? res.recommanded + padding : undefined,
+      recommanded: res.recommanded
+        ? res.recommanded + padding + margin
+        : undefined,
     };
   }
 
@@ -227,6 +233,7 @@ class _Container extends Widget {
     } else {
       height = sizeMin(heightRange.range.max, initBox.height) as number;
     }
+    info("h_range: %s, height: %s", heightRange, height);
 
     let myBox = {
       ...initBox,

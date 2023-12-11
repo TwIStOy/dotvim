@@ -199,7 +199,6 @@ class _Column extends Widget {
       };
       child.calculateRenderBox(context, box);
       usedHeight += height;
-      usedHeight += child._margin.top + child._margin.bottom;
     }
   }
 

@@ -21,6 +21,9 @@ function bufHover() {
     let result = res as Hover;
     result.contents;
     if (isMarkupContent(result.contents)) {
+      let [file] = io.open("/tmp/test.md", "w");
+      file?.write(result.contents.value);
+      file?.close();
       info("markup content! %s", result.contents.value);
       // let markup = new MarkupRenderer(result.contents.value);
     }

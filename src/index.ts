@@ -59,7 +59,7 @@ function intoWidget(m: RenderedElement, fg: number): Widget[] {
       Container({
         margin: Padding.vertical(4),
         height: m.width,
-        width: "shrink",
+        width: "expand",
         color: fg,
       }),
     ];

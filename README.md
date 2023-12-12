@@ -21,7 +21,9 @@
 
 - [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
 - [Neovim 0.9+ (nightly is better)](https://github.com/neovim/neovim)
-- Terminal with true color support
+- Terminal with true color and graphic protocol support, recommand [Kitty](https://sw.kovidgoyal.net/kitty/binary/)
+- [node.js](https://nodejs.org/en)
+- `luarocks` and [lgi](https://github.com/lgi-devs/lgi)
 - (Optional) [rime_ls](https://github.com/wlh320/rime-ls): [RIME](https://github.com/rime) as [LSP](https://microsoft.github.io/language-server-protocol/specifications/specification-current)
 - Optional Requirements:
   - [ripgrep](https://github.com/BurntSushi/ripgrep)
@@ -39,6 +41,7 @@
 $ ln -s /path/to/dotvim ~/.dotvim
 $ mkdir -p ~/.config/nvim
 $ cp ~/.dotvim/init.lua ~/.config/nvim/init.lua
+$ cd ~/.dotvim/ && npm install && npm build
 ```
 
 - Update `vim.g.python3_host_prog = '/usr/local/bin/python3'` in `~/.config/nvim/init.lua` to the result of `which python3`.

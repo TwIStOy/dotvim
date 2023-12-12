@@ -82,7 +82,7 @@ export function buildImage(
   let bg = ifNil(hl_normal.get("guibg"), hl_normal.get("bg"));
   let rootWidget = Container({
     color: bg,
-    border: { width: 4, color: "black", radius: 20 },
+    border: { width: 1, color: "black", radius: 20 },
     height: "shrink",
     width: "shrink",
     padding: Padding.all(10),
@@ -144,8 +144,8 @@ function hoverCallback(
   // let image = Image.fromBuffer(data);
   let cursor = cursorPositionToClient();
   let xOffset = Math.min(
-    termSize.screen_cols - cursor.col - imageWidthCells - 1,
-    1
+    termSize.screen_cols - cursor.col - imageWidthCells,
+    0
   );
   let yOffset = Math.min(
     termSize.screen_rows - cursor.row - imageHeightCells - 1,
@@ -160,7 +160,11 @@ function hoverCallback(
     imageWidthCells,
     imageHeightCells
   );
-  hoverImage(data, xOffset, yOffset);
+  hoverImage(
+    data,
+    xOffset * termSize.cell_width,
+    yOffset * termSize.cell_height
+  );
 }
 
 function bufHover() {

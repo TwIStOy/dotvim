@@ -132,7 +132,7 @@ export class Image {
       },
       display: {
         xOffset: ifNil(x, 0),
-        yOffset: ifNil(x, 0),
+        yOffset: ifNil(y, 0),
         z: ifNil(z, 0),
         cursorMovementPolicy: 1,
       },

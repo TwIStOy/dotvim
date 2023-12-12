@@ -75,6 +75,7 @@ export function test() {
 
   let render = new MarkupRenderer(content!);
   let rr = render.render();
+  info("rr:\n%s", rr.debugStringLines().join("\n"));
   let generator = new PangoMarkupGenerator();
 
   let context = new BuildContext(1000, 400);

@@ -4,6 +4,7 @@ import {
   BoldNode,
   CodeBlockNode,
   CodeSpanNode,
+  HardLineBreak,
   HeadingNode,
   ItalicNode,
   ListItemNode,
@@ -20,6 +21,10 @@ export class MarkupRenderer {
   private parser: LanguageTree;
 
   constructor(source: string) {
+    // if the last char is not "\n", append "\n"
+    if (source.slice(-1) !== "\n") {
+      source += "\n";
+    }
     this.source = source;
     this.injections = new LuaMap();
 
@@ -78,16 +83,18 @@ export class MarkupRenderer {
     for (let i = 0; i < skipStartNum; i++) {
       let child = node.child(i);
       let [_childStartRow, _childStartColumn, childStartByte] = child.start();
+      let [_childEndRow, _childEndColumn, childEndByte] = child.end_();
       assert(childStartByte === startByte);
-      startByte += child.byte_length();
+      startByte = childEndByte;
     }
 
     // last children
     for (let i = 0; i < skipEndNum; i++) {
       let child = node.child(node.child_count() - 1 - i);
+      let [_childStartRow, _childStartColumn, childStartByte] = child.start();
       let [_childEndRow, _childEndColumn, childEndByte] = child.end_();
       assert(childEndByte === endByte);
-      endByte -= child.byte_length();
+      endByte = childStartByte;
     }
 
     let childNum = node.child_count();
@@ -99,9 +106,11 @@ export class MarkupRenderer {
       let [_childEndRow, _childEndColumn, childEndByte] = child.end_();
 
       if (startByte < childStartByte) {
+        // push text part
         parts.push(this.source.slice(startByte, childStartByte));
       }
       startByte = childEndByte;
+      // push sub node
       parts.push(this.renderNode(child, lang, depth + 1));
     }
     if (startByte < endByte) {
@@ -124,8 +133,8 @@ export class MarkupRenderer {
           line += p.kind;
         }
       }
-      info("!%d, %s, parts: [%s]", parts.length, node.type(), line);
     }
+
     if (stripTrail) {
       while (parts.length > 0) {
         let p = parts[parts.length - 1];
@@ -204,10 +213,12 @@ export class MarkupRenderer {
     // first is fenced_code_block_delimiter
     {
       let firstChild = node.child(0);
-      let [_childStartRow, _childStartColumn, childStartByte] =
-        firstChild.start();
-      assert(childStartByte === startByte);
-      startByte += firstChild.byte_length();
+      if (firstChild.type() === "fenced_code_block_delimiter") {
+        let [_childStartRow, _childStartColumn, childStartByte] =
+          firstChild.start();
+        assert(childStartByte === startByte);
+        startByte += firstChild.byte_length();
+      }
     }
 
     // find info_string child
@@ -224,12 +235,15 @@ export class MarkupRenderer {
     // last is fenced_code_block_delimiter
     {
       let lastChild = node.child(node.child_count() - 1);
-      let [_childStartRow, _childStartColumn, childStartByte] =
-        lastChild.start();
-      endByte = childStartByte;
+      if (lastChild.type() === "fenced_code_block_delimiter") {
+        let [_childStartRow, _childStartColumn, childStartByte] =
+          lastChild.start();
+        endByte = childStartByte;
+      }
     }
 
     let body = this.source.slice(startByte, endByte);
+    info("code %d body: %s", endByte - startByte, body);
     return new CodeBlockNode(body, language);
   }
 
@@ -289,14 +303,6 @@ export class MarkupRenderer {
       return this.renderNode(injection.root, injection.lang, depth);
     }
 
-    info(
-      "%srenderNode %s: %s, %s",
-      " ".repeat(depth * 2.0),
-      lang,
-      node.type(),
-      depth
-    );
-
     if (node.type() === "emphasis") {
       return this.render_emphasis(node, lang, depth);
     } else if (node.type() === "strong_emphasis") {
@@ -311,6 +317,8 @@ export class MarkupRenderer {
       return this.render_code_span(node, lang, depth);
     } else if (node.type() === "thematic_break") {
       return this.render_thematic_break(node, lang, depth);
+    } else if (node.type() === "hard_line_break") {
+      return new HardLineBreak();
     } else if (node.type() === "paragraph") {
       return new SpanNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
     } else if (node.type() === "list") {
@@ -320,6 +328,7 @@ export class MarkupRenderer {
     } else if (node.type() === "list_item") {
       return this.render_list_item(node, lang, depth);
     } else {
+      // final
       return new SpanNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
     }
   }

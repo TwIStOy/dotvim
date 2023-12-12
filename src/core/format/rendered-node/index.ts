@@ -14,6 +14,7 @@ export type RenderedNodeKind =
   | "section"
   | "code_span"
   | "thematic_break"
+  | "hard_line_break"
   | "list"
   | "list_item";
 
@@ -56,7 +57,11 @@ export class PangoMarkupGenerator {
   currentLineDirty: boolean = false;
 
   newLine() {
-    info("@@@@ newline: %s, parts: [%s]", this.currentLineDirty, this.currentLine)
+    info(
+      "@@@@ newline: %s, parts: [%s]",
+      this.currentLineDirty,
+      this.currentLine
+    );
     if (this.currentLineDirty) {
       // close all tags
       for (let i = this.openTags.length - 1; i >= 0; i--) {
@@ -222,6 +227,27 @@ export abstract class RenderedNode {
   }
 
   abstract intoPangoMarkup(pango: PangoMarkupGenerator): void;
+
+  debugStringLines(): string[] {
+    let ret: string[] = [];
+    ret.push(`${this.kind}:`);
+    if (vim.tbl_islist(this.content)) {
+      for (let item of this.content) {
+        if (typeof item === "string") {
+          ret.push(`  str: ${vim.inspect(item)}`);
+        } else {
+          ret.push(...item.debugStringLines().map((p) => `  ${p}`));
+        }
+      }
+    } else {
+      if (typeof this.content === "string") {
+        ret.push(`  str: ${vim.inspect(this.content)}`);
+      } else {
+        ret.push(...this.content.debugStringLines().map((p) => `  ${p}`));
+      }
+    }
+    return ret;
+  }
 
   empty(): boolean {
     if (typeof this.content === "string") {
@@ -465,6 +491,14 @@ export class ThematicBreak extends RenderedNode {
   override intoPangoMarkup(pango: PangoMarkupGenerator): void {
     pango.addSpe();
   }
+
+  override debugStringLines(): string[] {
+    return ["thematic break"];
+  }
+
+  override empty(): boolean {
+    return false;
+  }
 }
 
 export class ListItemNode extends SimpleWrapperNode {
@@ -500,5 +534,19 @@ export class ListNode extends SimpleWrapperNode {
 
   startNewParagraph(): boolean {
     return true;
+  }
+}
+
+export class HardLineBreak extends RenderedNode {
+  constructor() {
+    super("hard_line_break", "");
+  }
+
+  override intoPangoMarkup(pango: PangoMarkupGenerator): void {
+    pango.newLine();
+  }
+
+  override debugStringLines(): string[] {
+    return ["hard-line-break"];
   }
 }

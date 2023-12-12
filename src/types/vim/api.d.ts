@@ -254,5 +254,7 @@ declare namespace vim {
     ): LuaTable;
 
     export function nvim_get_namespaces(): LuaTable<string, number>;
+
+    export function nvim_win_get_position(window: number): [number, number];
   }
 }

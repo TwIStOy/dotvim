@@ -1,7 +1,7 @@
 import { mountRightClickMenu } from "@conf/ui/right-click";
 import { Image } from "@core/components/image/image";
 import { Command } from "@core/model";
-import { VimBuffer, hideCursor, ifNil } from "@core/vim";
+import { VimBuffer, cursorPositionToClient, hideCursor, ifNil } from "@core/vim";
 import { Padding } from "@glib/widgets/_utils";
 import { Container } from "@glib/widgets/container";
 import { Text } from "@glib/widgets/text/text";
@@ -20,6 +20,7 @@ import {
   RenderedElement,
 } from "@core/format/rendered-node";
 import { Widget } from "@glib/widget";
+import { termGetSize } from "@core/utils/term";
 
 export * as _ from "@glib/index";
 export { AllLspServers } from "./conf/external_tools";
@@ -67,59 +68,61 @@ function intoWidget(m: RenderedElement, fg: number): Widget[] {
 }
 
 export function test() {
-  let [file] = io.open("/tmp/test.md", "r");
-  let content = file!.read("*a");
-  file!.close();
-
-  info("content: %s", content);
-
-  let render = new MarkupRenderer(content!);
-  let rr = render.render();
-  info("rr:\n%s", rr.debugStringLines().join("\n"));
-  let generator = new PangoMarkupGenerator();
-
-  let context = new BuildContext(1000, 400);
-
-  rr.intoPangoMarkup(generator);
-
-  let paragraphs = generator.done();
-
-  let hl_normal = vim.api.nvim_get_hl(0, {
-    name: "NormalFloat",
-  });
-  let background = ifNil(hl_normal.get("guibg"), hl_normal.get("bg"));
-  let foreground = ifNil(hl_normal.get("guifg"), hl_normal.get("fg"));
-
-  let root = Container({
-    color: background,
-    border: { width: 4, color: "black", radius: 20 },
-    height: "shrink",
-    width: "shrink",
-    padding: Padding.all(10),
-    child: Column({
-      children: [
-        ...paragraphs
-          .map((m) => {
-            return intoWidget(m, foreground);
-          })
-          .flat(),
-        Spacing(),
-      ],
-    }),
-  });
-  try {
-    root.calculateRenderBox(context);
-    root.build(context);
-  } catch (e) {
-    error_("build failed, %s", e);
-  }
-
-  let data = context.renderer.toPngBytes();
-  vim.schedule(() => {
-    KittyBackend.getInstance().deleteAll();
-    let image = Image.fromBuffer(data);
-    image.render(0, 0);
-    info("=====================================================");
-  });
+  // let [file] = io.open("/tmp/test.md", "r");
+  // let content = file!.read("*a");
+  // file!.close();
+  //
+  // info("content: %s", content);
+  //
+  // let render = new MarkupRenderer(content!);
+  // let rr = render.render();
+  // info("rr:\n%s", rr.debugStringLines().join("\n"));
+  // let generator = new PangoMarkupGenerator();
+  //
+  // let context = new BuildContext(1000, 400);
+  //
+  // rr.intoPangoMarkup(generator);
+  //
+  // let paragraphs = generator.done();
+  //
+  // let hl_normal = vim.api.nvim_get_hl(0, {
+  //   name: "NormalFloat",
+  // });
+  // let background = ifNil(hl_normal.get("guibg"), hl_normal.get("bg"));
+  // let foreground = ifNil(hl_normal.get("guifg"), hl_normal.get("fg"));
+  //
+  // let root = Container({
+  //   color: background,
+  //   border: { width: 4, color: "black", radius: 20 },
+  //   height: "shrink",
+  //   width: "shrink",
+  //   padding: Padding.all(10),
+  //   child: Column({
+  //     children: [
+  //       ...paragraphs
+  //         .map((m) => {
+  //           return intoWidget(m, foreground);
+  //         })
+  //         .flat(),
+  //       Spacing(),
+  //     ],
+  //   }),
+  // });
+  // try {
+  //   root.calculateRenderBox(context);
+  //   root.build(context);
+  // } catch (e) {
+  //   error_("build failed, %s", e);
+  // }
+  //
+  // let data = context.renderer.toPngBytes();
+  // vim.schedule(() => {
+  //   KittyBackend.getInstance().deleteAll();
+  //   let image = Image.fromBuffer(data);
+  //   image.render(0, 0);
+  //   info("=====================================================");
+  // });
+  let termSize = termGetSize();
+  info("term: %s, cursor: %s", termSize, cursorPositionToClient());
   return toUtfChars("abcdd我");
 }

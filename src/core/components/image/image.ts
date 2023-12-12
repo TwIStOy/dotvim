@@ -114,8 +114,8 @@ export class Image {
       let left_cells = pane_left + cursor_x;
       let top_cells = pane_top + cursor_y;
       let termSize = termGetSize();
-      x = ifNil(x, 0) + termSize.cell_width * left_cells;
-      y = ifNil(y, 0) + termSize.cell_height * top_cells;
+      x = (ifNil(x, 0) + left_cells) * termSize.cell_width;
+      y = (ifNil(y, 0) + top_cells) * termSize.cell_height;
       debug_("termSize: %s", vim.inspect(termSize));
     }
     debug_("render image at (%s, %s)", x, y);

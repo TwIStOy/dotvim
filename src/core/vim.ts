@@ -218,3 +218,16 @@ export function sleep(ms: number): Promise<void> {
     }, ms);
   });
 }
+
+export function cursorPositionToClient(): CursorPosition {
+  let [row, col] = vim.api.nvim_win_get_cursor(0);
+  let win_pos = vim.api.nvim_win_get_position(0);
+  let lineStart = vim.fn.line("w0");
+
+  row = row - lineStart + win_pos[0];
+  col = col + win_pos[1];
+  return {
+    row,
+    col,
+  };
+}

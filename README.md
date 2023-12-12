@@ -29,6 +29,10 @@
   - [delta](https://github.com/dandavison/delta)
   - [bat](https://github.com/sharkdp/bat)
 
+## Features
+
+- Lsp hover using Kitty's image protocol ![](https://raw.githubusercontent.com/TwIStOy/dotvim/master/screenshots/floating-hover.png)
+
 ## Installation
 
 ```

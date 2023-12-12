@@ -7,6 +7,7 @@ import {
   RenderedElement,
   SpanNode,
 } from "@core/format/rendered-node";
+import { info } from "@core/utils/logger";
 import { termGetSize } from "@core/utils/term";
 import { cursorPositionToClient, ifNil, isNil } from "@core/vim";
 import { BuildContext } from "@glib/build-context";
@@ -20,6 +21,10 @@ import {
   MarkedString,
   MarkupContent,
 } from "vscode-languageserver-types";
+
+const lsp_hover_group = vim.api.nvim_create_augroup("ht_lsp_hover", {
+  clear: true,
+});
 
 function isMarkupContent(arg: any): arg is MarkupContent {
   return !isNil(arg.kind);
@@ -46,7 +51,9 @@ function intoWidget(m: RenderedElement): Widget {
   }
 }
 
-function buildImage(contents: MarkupContent | MarkedString | MarkedString[]) {
+export function buildImage(
+  contents: MarkupContent | MarkedString | MarkedString[]
+) {
   let root;
   if (isMarkupContent(contents)) {
     let markup = new MarkupRenderer(contents.value);
@@ -88,6 +95,8 @@ function buildImage(contents: MarkupContent | MarkedString | MarkedString[]) {
   rootWidget.calculateRenderBox(context);
   rootWidget.build(context);
   let imageData = context.renderer.toPngBytes();
+  // try to write to file
+  context.renderer.writePng();
   return {
     data: imageData,
     width: rootWidget._renderBox!.width,
@@ -95,45 +104,29 @@ function buildImage(contents: MarkupContent | MarkedString | MarkedString[]) {
   };
 }
 
-export function showHover() {
-  bufHover();
-}
+function hoverImage(data: number[], x: number, y: number) {
+  let image = Image.fromBuffer(data);
 
-class HoverImage {
-  private image: Image;
+  vim.o.eventignore = "CursorHold";
+  // close current diagnostic window
+  vim.api.nvim_exec_autocmds("User", {
+    pattern: "ShowHover",
+  });
+  vim.api.nvim_create_autocmd(
+    ["CursorMoved", "FocusLost", "WinLeave", "WinClosed"],
+    {
+      once: true,
+      group: lsp_hover_group,
+      buffer: 0,
+      callback: () => {
+        KittyBackend.getInstance().delete(image.id);
+        vim.o.eventignore = "";
+        return true;
+      },
+    }
+  );
 
-  constructor(
-    data: number[],
-    private x: number,
-    private y: number
-  ) {
-    this.image = Image.fromBuffer(data);
-
-    vim.o.eventignore = "CursorHold";
-    // close current diagnostic window
-    vim.api.nvim_exec_autocmds("User", {
-      pattern: "ShowHover",
-    });
-    vim.api.nvim_create_autocmd(
-      ["CursorMoved", "FocusLost", "WinLeave", "WinClosed"],
-      {
-        once: true,
-        callback: () => {
-          this.delete();
-          return true;
-        },
-      }
-    );
-    vim.schedule(() => {
-      this.image.render(this.x, this.y);
-    });
-  }
-
-  delete() {
-    vim.schedule(() => {
-      KittyBackend.getInstance().delete(this.image.id);
-    });
-  }
+  KittyBackend.getInstance().render(image, x, y);
 }
 
 function hoverCallback(
@@ -150,9 +143,24 @@ function hoverCallback(
   let imageHeightCells = Math.ceil(height / termSize.cell_height);
   // let image = Image.fromBuffer(data);
   let cursor = cursorPositionToClient();
-  let xOffset = Math.min(termSize.screen_cols - cursor.col - imageWidthCells);
-  let yOffset = Math.min(termSize.screen_rows - cursor.row - imageHeightCells);
-  new HoverImage(data, xOffset, yOffset);
+  let xOffset = Math.min(
+    termSize.screen_cols - cursor.col - imageWidthCells - 1,
+    1
+  );
+  let yOffset = Math.min(
+    termSize.screen_rows - cursor.row - imageHeightCells - 1,
+    1
+  );
+  info(
+    "cursor: %s, image: %s, offset: {%s, %s}, %s, %s",
+    cursor,
+    termSize,
+    xOffset,
+    yOffset,
+    imageWidthCells,
+    imageHeightCells
+  );
+  hoverImage(data, xOffset, yOffset);
 }
 
 function bufHover() {
@@ -165,4 +173,8 @@ function bufHover() {
       hoverCallback(res.contents);
     }
   );
+}
+
+export function showHover() {
+  bufHover();
 }

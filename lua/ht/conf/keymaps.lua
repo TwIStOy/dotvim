@@ -89,6 +89,10 @@ local function setup()
   NMAP(";;", function()
     require("htts").onRightClick()
   end)
+
+  NMAP(";'", function()
+    RR("htts").showHover()
+  end)
 end
 
 return {

@@ -57,11 +57,6 @@ export class PangoMarkupGenerator {
   currentLineDirty: boolean = false;
 
   newLine() {
-    info(
-      "@@@@ newline: %s, parts: [%s]",
-      this.currentLineDirty,
-      this.currentLine
-    );
     if (this.currentLineDirty) {
       // close all tags
       for (let i = this.openTags.length - 1; i >= 0; i--) {
@@ -184,7 +179,7 @@ export class PangoMarkupGenerator {
     let normal = vim.api.nvim_get_hl(0, {
       name: "NormalFloat",
     });
-    info("normal, %s", normal);
+    // info("normal, %s", normal);
     let foreground = ifNil(normal.get("guifg"), normal.get("fg"));
     let background = ifNil(normal.get("guibg"), normal.get("bg"));
     let openTag = "<span";
@@ -288,8 +283,6 @@ abstract class SimpleWrapperNode extends RenderedNode {
   abstract startNewParagraph(): boolean;
 
   override intoPangoMarkup(pango: PangoMarkupGenerator): void {
-    info("kind: %s, new: %s", this.kind, this.startNewParagraph());
-
     if (this.startNewParagraph()) {
       pango.newParagraph();
     }

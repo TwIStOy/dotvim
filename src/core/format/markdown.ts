@@ -34,7 +34,6 @@ export class MarkupRenderer {
     this.parser.for_each_tree((parent_tree, parent_ltree) => {
       let parent = parent_tree.root();
       for (let [_, child] of parent_ltree.children()) {
-        info("child: %s", child);
         for (let [_, tree] of child.trees()) {
           let r = tree.root();
           let [startLine, startCol, endLine, endCol] = r.range(false);
@@ -59,8 +58,6 @@ export class MarkupRenderer {
         }
       }
     });
-
-    info("injections: %s", this.injections);
   }
 
   render() {
@@ -243,7 +240,6 @@ export class MarkupRenderer {
     }
 
     let body = this.source.slice(startByte, endByte);
-    info("code %d body: %s", endByte - startByte, body);
     return new CodeBlockNode(body, language);
   }
 

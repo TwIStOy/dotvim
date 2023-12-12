@@ -106,7 +106,6 @@ export abstract class Widget {
     return this.__renderBox;
   }
   set _renderBox(value: RenderBox | null) {
-    info("%s #%s box: %s", this.kind, this.key, value);
     this.__renderBox = value;
   }
 

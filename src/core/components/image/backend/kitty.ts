@@ -185,6 +185,15 @@ export class KittyBackend implements ImageRenderBackend {
     return true;
   }
 
+  render(image: Image, x?: number, y?: number, z?: number) {
+    this.images.set(image.id, { image, x, y, z });
+    if (image.rendered) {
+      this.delete(image.id, true);
+    }
+    image.rendered = true;
+    image.render(x, y, z);
+  }
+
   /*
    * Delete an image from the backend.
    */
@@ -211,7 +220,7 @@ export class KittyBackend implements ImageRenderBackend {
   deleteAll() {
     this.writeGraphics({
       action: "d",
-      // quiet: 2,
+      quiet: 2,
     });
     for (let [_, image] of this.images) {
       image.image.rendered = false;
@@ -257,4 +266,3 @@ export class KittyBackend implements ImageRenderBackend {
     return chunks;
   }
 }
-

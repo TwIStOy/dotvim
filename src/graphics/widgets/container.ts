@@ -251,7 +251,7 @@ class _Container extends Widget {
   }
 
   override build(context: BuildContext) {
-    info("Build box, %s", this._renderBox);
+    // info("Build box, %s", this._renderBox);
 
     // rounded rectangle, https://www.cairographics.org/samples/rounded_rectangle/
     let x = this._renderBox!.position.x;
@@ -292,7 +292,7 @@ class _Container extends Widget {
     );
     context.renderer.ctx.close_path();
 
-    info("%s", tostring(this._border?.width));
+    // info("%s", tostring(this._border?.width));
     context.renderer.color = this._color;
     if (this._hasBorder()) {
       context.renderer.ctx.fill_preserve();

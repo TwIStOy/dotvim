@@ -164,13 +164,13 @@ class _Column extends Widget {
       0
     );
 
-    info(
-      "Column %s spacings, height: %s, fixed: %s",
-      spacingNum,
-      spacingSize,
-      fixedHeight
-    );
-
+    // info(
+    //   "Column %s spacings, height: %s, fixed: %s",
+    //   spacingNum,
+    //   spacingSize,
+    //   fixedHeight
+    // );
+    //
     let usedHeight = 0;
     for (let child of this._children) {
       if (child.kind === "Spacing" && child.isHeightFlexible()) {
@@ -236,7 +236,7 @@ class _Column extends Widget {
       },
       recommanded: recommendedWidth ? recommendedWidth + padding : undefined,
     };
-    info("Column guess width: %s", res);
+    // info("Column guess width: %s", res);
     return res;
   }
 
@@ -248,6 +248,8 @@ class _Column extends Widget {
     let minHeight = 0;
     let maxHeight: FlexibleSize = 0;
     let recommendedHeight: number[] = [];
+
+    let childrenRanges = [];
     for (let child of this._children) {
       let range = child._heightRange(_context, maxAvailable, determinedWidth);
       minHeight += range.range.min;
@@ -261,9 +263,13 @@ class _Column extends Widget {
       if (!isNil(range.recommanded)) {
         recommendedHeight.push(range.recommanded);
       }
+      childrenRanges.push({
+        range,
+        kind: child.kind,
+      });
     }
 
-    return {
+    let ret = {
       range: {
         min: minHeight,
         max: sizeMin(maxHeight, maxAvailable),
@@ -272,11 +278,12 @@ class _Column extends Widget {
         recommendedHeight.length === this._children.length
           ? recommendedHeight.reduce(
               (previous: number, current: number): number => {
-                return Math.max(previous, current);
+                return previous + current;
               }
             )
           : undefined,
     };
+    return ret;
   }
 }
 

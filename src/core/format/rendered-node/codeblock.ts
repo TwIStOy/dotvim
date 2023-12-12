@@ -40,8 +40,8 @@ export function highlightContent(
     let capture = highlights.captures.get(id);
     let [_startLine, _startCol, startByte, _endLine, _endCol, endByte] =
       node.range(true);
-    let text = content.slice(startByte, endByte);
-    info("capture: %s, type: %s, text: %s", capture, node.type(), text);
+    // let text = content.slice(startByte, endByte);
+    // info("capture: %s, type: %s, text: %s", capture, node.type(), text);
     if (startByte < endByte) {
       markers.push({
         kind: "start",

@@ -115,7 +115,6 @@ class _Markup extends Widget {
     if (isNil(width)) {
       width = -1;
     }
-    vim.print(debug.traceback());
     if (width === -1) {
       layout.set_width(-1);
     } else {

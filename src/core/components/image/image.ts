@@ -48,7 +48,7 @@ export class Image {
     this.id = _nextInternalId;
     this.format = format;
     this.data = data;
-    info("Image id: %d, size: %d, f: %s", this.id, data.length, this.format);
+    // info("Image id: %d, size: %d, f: %s", this.id, data.length, this.format);
   }
 
   static fromFile(path: string) {

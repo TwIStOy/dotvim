@@ -102,8 +102,12 @@ class _Container extends Widget {
     key: "_width" | "_height",
     fn: "_widthRange" | "_heightRange",
     maxAvailable: number,
-    determinedRhs?: number | undefined
+    opts?: {
+      determinedRhs?: number;
+      depth?: number;
+    }
   ): WidgetSizeHint {
+    opts = ifNil(opts, {});
     let value = this[key];
     if (typeof value === "number") {
       return {
@@ -115,7 +119,10 @@ class _Container extends Widget {
       };
     } else {
       if (!isNil(this._child)) {
-        let c = this._child[fn](context, maxAvailable, determinedRhs);
+        let c = this._child[fn](context, maxAvailable, {
+          ...opts,
+          depth: ifNil(opts?.depth, 0) + 1,
+        });
         info("C, %s, max: %s", c, maxAvailable);
         // try to fix child's recommanded width or height
         let recommanded = c.recommanded;
@@ -149,19 +156,23 @@ class _Container extends Widget {
     }
   }
 
-  _heightRange(
+  override _heightRange(
     context: BuildContext,
     maxAvailable: number,
-    determinedWidth?: number | undefined
+    opts?: {
+      determinedWidth?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     let padding = this._padding.top + this._padding.bottom;
     let margin = this._margin.top + this._margin.bottom;
+    let contentMax = Math.max(maxAvailable - padding - margin, 0);
     let res = this.fitChildSize(
       context,
       "_height",
       "_heightRange",
-      maxAvailable,
-      determinedWidth
+      contentMax,
+      opts
     );
     return {
       range: {
@@ -174,19 +185,23 @@ class _Container extends Widget {
     };
   }
 
-  _widthRange(
+  override _widthRange(
     context: BuildContext,
     maxAvailable: number,
-    determinedHeight?: number | undefined
+    opts?: {
+      determinedHeight?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     let padding = this._padding.left + this._padding.right;
     let margin = this._margin.left + this._margin.right;
+    let contentMax = Math.max(maxAvailable - padding - margin, 0);
     let res = this.fitChildSize(
       context,
       "_width",
       "_widthRange",
-      maxAvailable,
-      determinedHeight
+      contentMax,
+      opts
     );
     return {
       range: {
@@ -223,7 +238,10 @@ class _Container extends Widget {
     info("w_range: %s, width: %s", widthRange, width);
 
     let height: number;
-    let heightRange = this._heightRange(context, initBox.height);
+    info("st h_range, max: %s", initBox.height);
+    let heightRange = this._heightRange(context, initBox.height, {
+      determinedWidth: width,
+    });
     if (typeof this._height === "number") {
       height = this._height;
     } else if (!isNil(heightRange.recommanded)) {

@@ -76,7 +76,10 @@ class _Text extends Widget {
   _widthRange(
     _context: BuildContext,
     maxAvailable: number,
-    _determinedHeight?: number | undefined
+    _opts?: {
+      determinedHeight?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     if (this._width === "inf") {
       return {
@@ -132,9 +135,12 @@ class _Text extends Widget {
   _heightRange(
     context: BuildContext,
     _maxAvailable: number,
-    determinedWidth?: number | undefined
+    opts?: {
+      determinedWidth?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
-    if (isNil(determinedWidth)) {
+    if (isNil(opts?.determinedWidth)) {
       let fe = context.renderer.ctx.font_extents();
       return {
         range: {
@@ -143,12 +149,12 @@ class _Text extends Widget {
         },
       };
     } else {
-      let lines = this._expectLines(context, determinedWidth);
+      let lines = this._expectLines(context, opts!.determinedWidth);
       // TODO(hawtian): calc each lines's height
       let fe = context.renderer.ctx.font_extents();
       info(
         "determinedWidth: %s, lines: %s, base: %s",
-        determinedWidth,
+        vim.inspect(opts?.determinedWidth),
         lines,
         fe.height
       );

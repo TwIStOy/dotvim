@@ -56,6 +56,11 @@ export function buildImage(
 ) {
   let root;
   if (isMarkupContent(contents)) {
+    {
+      let [file] = io.open("/tmp/test.md", "w");
+      file?.write(contents.value);
+      file?.close();
+    }
     let markup = new MarkupRenderer(contents.value);
     root = markup.render();
   } else {
@@ -82,7 +87,7 @@ export function buildImage(
   let bg = ifNil(hl_normal.get("guibg"), hl_normal.get("bg"));
   let rootWidget = Container({
     color: bg,
-    border: { width: 1, color: "black", radius: 4 },
+    border: { width: 1, color: "black", radius: 2 },
     height: "shrink",
     width: "shrink",
     padding: Padding.all(10),

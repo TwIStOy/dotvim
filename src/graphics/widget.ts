@@ -155,7 +155,10 @@ export abstract class Widget {
   abstract _widthRange(
     context: BuildContext,
     maxAvailable: number,
-    determinedHeight?: number
+    opts?: {
+      determinedHeight?: number;
+      depth?: number;
+    }
   ): WidgetSizeHint;
 
   /**
@@ -167,7 +170,10 @@ export abstract class Widget {
   abstract _heightRange(
     context: BuildContext,
     maxAvailable: number,
-    determinedWidth?: number
+    opts?: {
+      determinedWidth?: number;
+      depth?: number;
+    }
   ): WidgetSizeHint;
 
   abstract calculateRenderBox(

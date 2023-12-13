@@ -60,7 +60,10 @@ class _Markup extends Widget {
   _widthRange(
     context: BuildContext,
     maxAvailable: number,
-    _determinedHeight?: number | undefined
+    _opts?: {
+      determinedHeight?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     // try create the layout first to get the recommanded width
     let layout = lgi.PangoCairo.create_layout(context.renderer.ctx);
@@ -109,10 +112,13 @@ class _Markup extends Widget {
   _heightRange(
     context: BuildContext,
     _maxAvailable: number,
-    determinedWidth?: number | undefined
+    opts?: {
+      determinedWidth?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     let layout = this._getLayout(context);
-    let width = ifNil(this.width, determinedWidth, -1);
+    let width = ifNil(this.width, opts?.determinedWidth, -1);
     if (isNil(width)) {
       width = -1;
     }
@@ -122,7 +128,15 @@ class _Markup extends Widget {
       layout.set_width(width * lgi.Pango.SCALE);
     }
 
-    let [_pixelWidth, pixelHeight] = layout.get_pixel_size();
+    let [pixelWidth, pixelHeight] = layout.get_pixel_size();
+    info(
+      "%slayout(%s, %s), when width is %s",
+      " ".repeat((opts?.depth ?? 0) * 2),
+      pixelWidth,
+      pixelHeight,
+      width
+    );
+
     return {
       range: {
         min: pixelHeight + this._padding.top + this._padding.bottom,

@@ -47,7 +47,10 @@ class _Spacing extends Widget {
   _widthRange(
     _context: BuildContext,
     maxAvailable: number,
-    _determinedHeight?: number | undefined
+    _opts?: {
+      determinedHeight?: number;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     if (isNil(this._width)) {
       return {
@@ -69,7 +72,10 @@ class _Spacing extends Widget {
   _heightRange(
     _context: BuildContext,
     maxAvailable: number,
-    _determinedWidth?: number | undefined
+    _opts?: {
+      determinedWidth?: number;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     if (isNil(this._height)) {
       return {

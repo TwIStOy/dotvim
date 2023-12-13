@@ -96,7 +96,9 @@ class _Column extends Widget {
     // is trying to fix the max available height, even all its children have the
     // fixed height.
     let height;
-    let heightRange = this._heightRange(context, initBox.height, width);
+    let heightRange = this._heightRange(context, initBox.height, {
+      determinedWidth: width,
+    });
     for (let child of this._children) {
       if (
         child.kind !== "Spacing" &&
@@ -143,11 +145,9 @@ class _Column extends Widget {
         if (child.kind === "Spacing" && child.isHeightFlexible()) {
           return previous;
         }
-        let heightRange = child._heightRange(
-          context,
-          paddingBox.height,
-          paddingBox.width
-        );
+        let heightRange = child._heightRange(context, paddingBox.height, {
+          determinedWidth: paddingBox.width,
+        });
         if (heightRange.recommanded) {
           return previous + heightRange.recommanded;
         } else {
@@ -177,11 +177,9 @@ class _Column extends Widget {
         usedHeight += spacingSize;
         continue;
       }
-      let heightRange = child._heightRange(
-        context,
-        paddingBox.height,
-        paddingBox.width
-      );
+      let heightRange = child._heightRange(context, paddingBox.height, {
+        determinedWidth: paddingBox.width,
+      });
       let height;
       if (heightRange.recommanded) {
         height = heightRange.recommanded;
@@ -205,14 +203,20 @@ class _Column extends Widget {
   override _widthRange(
     context: BuildContext,
     maxAvailable: number,
-    determinedHeight?: number | undefined
+    opts?: {
+      determinedHeight?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     let minWidth = 0;
     let maxWidth: FlexibleSize = 0;
     let recommendedWidth: number | undefined;
 
     for (let child of this._children) {
-      let range = child._widthRange(context, maxAvailable, determinedHeight);
+      let range = child._widthRange(context, maxAvailable, {
+        ...(opts ?? {}),
+        depth: (opts?.depth ?? 0) + 1,
+      });
       minWidth = Math.max(minWidth, range.range.min);
       maxWidth = sizeMax(maxWidth, range.range.max);
       if (!isNil(range.recommanded)) {
@@ -225,7 +229,7 @@ class _Column extends Widget {
     maxWidth = sizeMin(maxWidth, maxAvailable);
     if (!isNil(recommendedWidth) && maxWidth != "inf") {
       if (recommendedWidth > maxWidth) {
-        recommendedWidth = undefined;
+        recommendedWidth = maxWidth;
       }
     }
     let padding = this._padding.left + this._padding.right;
@@ -243,7 +247,10 @@ class _Column extends Widget {
   override _heightRange(
     _context: BuildContext,
     maxAvailable: number,
-    determinedWidth?: number | undefined
+    opts?: {
+      determinedWidth?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     let minHeight = 0;
     let maxHeight: FlexibleSize = 0;
@@ -251,7 +258,10 @@ class _Column extends Widget {
 
     let childrenRanges = [];
     for (let child of this._children) {
-      let range = child._heightRange(_context, maxAvailable, determinedWidth);
+      let range = child._heightRange(_context, maxAvailable, {
+        ...(opts ?? {}),
+        depth: (opts?.depth ?? 0) + 1,
+      });
       minHeight += range.range.min;
       if (range.range.max === "inf") {
         maxHeight = "inf";
@@ -283,6 +293,13 @@ class _Column extends Widget {
             )
           : undefined,
     };
+
+    info(
+      "%scolumn children recommanded: %s, res: %s",
+      " ".repeat((opts?.depth ?? 0) * 2),
+      recommendedHeight,
+      vim.inspect(ret.recommanded)
+    );
     return ret;
   }
 }

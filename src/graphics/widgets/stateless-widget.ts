@@ -49,19 +49,25 @@ export abstract class StatelessWidget extends Widget {
   _widthRange(
     context: BuildContext,
     maxAvailable: number,
-    determinedHeight?: number | undefined
+    opts?: {
+      determinedHeight?: number | undefined;
+      depth?: number;
+    }
   ): WidgetSizeHint {
     let inner = this.getWidget(context);
-    return inner._widthRange(context, maxAvailable, determinedHeight);
+    return inner._widthRange(context, maxAvailable, opts);
   }
 
   _heightRange(
     context: BuildContext,
     maxAvailable: number,
-    determinedWidth?: number | undefined
+    opts?: {
+      determinedWidth?: number | undefined
+      depth?: number;
+    }
   ): WidgetSizeHint {
     let inner = this.getWidget(context);
-    return inner._heightRange(context, maxAvailable, determinedWidth);
+    return inner._heightRange(context, maxAvailable, opts);
   }
 
   calculateRenderBox(

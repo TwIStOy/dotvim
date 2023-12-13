@@ -31,10 +31,9 @@ function _log(level: number, fmt: string, ...args: unknown[]) {
     })
   );
   let fn = debug.getinfo(3, "n")?.name ?? "??";
-  let source = debug.getinfo(3, "S")?.source ?? "??";
   let lineNo = tostring(debug.getinfo(3, "l")?.currentline ?? "??");
 
-  line = string.format("[%s:%s:%s]: %s", source, fn, lineNo, line);
+  line = string.format("[%s:%s]: %s", fn, lineNo, line);
 
   _open_log_file();
   if (!isNil(_log_file)) {

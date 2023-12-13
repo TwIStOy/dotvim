@@ -48,10 +48,11 @@ class _Markup extends Widget {
   build(context: BuildContext): void {
     let width = ifNil(this.width, this._renderBox!.width);
     let layout = this._getLayout(context);
+    width = width - this._padding.left - this._padding.right;
     layout.set_width(width * lgi.Pango.SCALE);
     context.renderer.ctx.move_to(
-      this._renderBox!.position.x,
-      this._renderBox!.position.y
+      this._renderBox!.position.x + this._padding.left,
+      this._renderBox!.position.y + this._padding.top
     );
     lgi.PangoCairo.show_layout(context.renderer.ctx, layout);
   }

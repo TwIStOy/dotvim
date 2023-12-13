@@ -316,7 +316,9 @@ export class MarkupRenderer {
     } else if (node.type() === "hard_line_break") {
       return new HardLineBreak();
     } else if (node.type() === "paragraph") {
-      return new SpanNode(this.skipChildrenHelper(node, lang, depth, 0, 0));
+      return new ParagraphNode(
+        this.skipChildrenHelper(node, lang, depth, 0, 0)
+      );
     } else if (node.type() === "list") {
       return new ParagraphNode(
         this.skipChildrenHelper(node, lang, depth, 0, 0, true)

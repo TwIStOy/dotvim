@@ -56,6 +56,11 @@ export function buildImage(
 ) {
   let root;
   if (isMarkupContent(contents)) {
+    {
+      let [file] = io.open("/tmp/test.md", "w");
+      file?.write(contents.value);
+      file?.close();
+    }
     let markup = new MarkupRenderer(contents.value);
     root = markup.render();
   } else {

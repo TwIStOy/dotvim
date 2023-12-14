@@ -12,8 +12,10 @@ local todo_comment = function(keyword)
       f(function()
         local CommentFt = require("Comment.ft")
         local CommentU = require("Comment.utils")
-        local current_file = vim.fn.expand("%:p")
-        local pattern = CommentFt.get(current_file, CommentU.ctype.linewise)
+        local ft = vim.api.nvim_get_option_value("filetype", {
+          buf = 0,
+        })
+        local pattern = CommentFt.get(ft, CommentU.ctype.linewise)
         if pattern == nil then
           -- keep the input
           pattern = "%s"

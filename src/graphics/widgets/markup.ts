@@ -55,6 +55,7 @@ class _Markup extends Widget {
       this._renderBox!.position.y + this._padding.top
     );
     lgi.PangoCairo.show_layout(context.renderer.ctx, layout);
+    info("build markup: %s", vim.inspect(this.markup));
   }
 
   _widthRange(

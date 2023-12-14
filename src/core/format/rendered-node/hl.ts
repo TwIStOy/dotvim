@@ -1,3 +1,4 @@
+import { info } from "@core/utils/logger";
 import { isNil } from "@core/vim";
 
 export function HlGroupToSpanProperties(group: string) {
@@ -63,6 +64,8 @@ export function HlGroupToSpanProperties(group: string) {
 
     parts.pop();
   }
+
+  info("Hl, %s, %s", group, properties);
 
   return properties;
 }

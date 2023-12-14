@@ -96,7 +96,7 @@ export function buildImage(
     }),
   });
 
-  let context = new BuildContext(800, 600);
+  let context = new BuildContext(2000, 2000);
   rootWidget.calculateRenderBox(context);
   rootWidget.build(context);
   let imageData = context.renderer.toPngBytes();

@@ -70,7 +70,7 @@ export function highlightContent(
   });
   let m = 0;
   debug_("markers: %s", markers);
-  pango.pushTag("<span><tt>", "</tt></span>");
+  pango.pushTag(`<span font_family="MonoLisa">`, "</span>");
   for (let i = 0; i < content.length; i++) {
     while (m < markers.length && markers[m].offset <= i) {
       let marker = markers[m];
@@ -96,7 +96,7 @@ export function highlightContent(
     }
     m++;
   }
-  pango.popTag("</tt></span>");
+  pango.popTag("</span>");
 }
 
 function intoOpenTag(capture: string): string {

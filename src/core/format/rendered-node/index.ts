@@ -1,8 +1,9 @@
 import { info } from "@core/utils/logger";
 import { ifNil, isNil } from "@core/vim";
 import { highlightContent } from "./codeblock";
-import { escapeMarkup } from "./util";
+import { escapeMarkup, packPropertiesTbl } from "./util";
 import { SpanProperties } from "../markup/property";
+import { HlGroupToSpanProperties } from "./hl";
 
 export type RenderedNodeKind =
   | "paragraph"
@@ -190,6 +191,7 @@ export class PangoMarkupGenerator {
       openTag += ` background="#${string.format("%06x", background)}"`;
     }
     openTag += ` size="15pt"`;
+    openTag += ` font_family="MonoLisa"`;
     openTag += ">";
     return `${openTag}${p}</span>`;
   }
@@ -346,11 +348,14 @@ export class CodeBlockNode extends SimpleWrapperNode {
   }
 
   openTag(): string {
-    return '<span allow_breaks="false"><tt>';
+    let hl = HlGroupToSpanProperties(`@text.literal.markdown_inline`);
+    hl.set("font_family", "MonoLisa");
+    let pp = packPropertiesTbl(hl);
+    return `<span allow_breaks="false" ${pp}>`;
   }
 
   closeTag(): string {
-    return "</tt></span>";
+    return "</span>";
   }
 
   startNewParagraph(): boolean {
@@ -403,14 +408,16 @@ export class HeadingNode extends SimpleWrapperNode {
 
   openTag(): string {
     let level = this.params! as number;
+    let hl = HlGroupToSpanProperties(`@text.title.${level}.markdown`);
     if (level === 1) {
-      return `<span font_size="200%">`;
+      hl.set("font_size", "200%");
     } else if (level === 2) {
-      return `<span font_size="150%">`;
+      hl.set("font_size", "150%");
     } else if (level === 3) {
-      return `<span font_size="120%">`;
+      hl.set("font_size", "130%");
     }
-    return `<span>`;
+    let pp = packPropertiesTbl(hl);
+    return `<span ${pp}>`;
   }
 
   closeTag(): string {
@@ -464,11 +471,14 @@ export class CodeSpanNode extends SimpleWrapperNode {
   }
 
   openTag(): string {
-    return "<span><tt>";
+    let hl = HlGroupToSpanProperties(`@text.literal.markdown_inline`);
+    hl.set("font_family", "MonoLisa");
+    let pp = packPropertiesTbl(hl);
+    return `<span ${pp}>`;
   }
 
   closeTag(): string {
-    return "</tt></span>";
+    return "</span>";
   }
 
   startNewParagraph(): boolean {

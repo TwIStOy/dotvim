@@ -75,6 +75,12 @@ function intoWidget(m: RenderedElement, fg: number): Widget[] {
 }
 
 export function test() {
+  let chan_id = vim.fn.sockconnect("tcp", "127.0.0.1:7000", {
+    rpc: 1,
+  });
+  vim.print(chan_id);
+  vim.fn.rpcnotify(chan_id, "ping");
+
   // let [file] = io.open("/tmp/test.md", "r");
   // let content = file!.read("*a");
   // file!.close();
@@ -91,25 +97,4 @@ export function test() {
   // let termSize = termGetSize();
   // info("term: %s, cursor: %s", termSize, cursorPositionToClient());
   // return toUtfChars("abcdd我");
-  // let ffi = require("ffi") as AnyMod;
-  //
-  // ffi.cdef(`
-  //      char*  ttyname(int);
-  // `);
-  // let name = ffi.string(ffi.C.ttyname(1));
-  // return name;
-
-  KittyBackend.getInstance().writeGraphics({
-    action: "p",
-    quiet: 2,
-    transmission: {
-      imageId: 10,
-      placementId: 10,
-    },
-    display: {
-      xOffset: 10,
-      yOffset: 10,
-      cursorMovementPolicy: 1,
-    },
-  });
 }

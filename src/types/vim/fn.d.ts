@@ -62,5 +62,21 @@ declare namespace vim {
     export function setreg(reg: string, val: any, options?: any): void;
 
     export function trim(s: string): string;
+
+    export function jobstart(cmd: string, opts?: any): number;
+
+    export function rpcnotify(
+      this: void,
+      channel: number,
+      method: string,
+      args?: any[]
+    ): void;
+
+    export function sockconnect(
+      this: void,
+      mode: "tcp" | "pipe",
+      address: string,
+      opts?: any
+    ): number;
   }
 }

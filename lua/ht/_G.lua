@@ -125,3 +125,25 @@ end, {
   force = true,
   desc = "Start profile",
 })
+
+TestConn = function()
+  local ch = vim.fn.sockconnect("tcp", "127.0.0.1:7000", { rpc = 1 })
+  local doc = [[
+### instance-method `Host::OnDataReceived`  
+
+---
+-> `void`  
+Parameters:  
+- `Receiver<details::ServiceEvent> * chan`
+- `std::queue<details::ServiceEvent> value`
+
+---
+```cpp
+// In Host
+private: auto Host::OnDataReceived(Receiver<details::ServiceEvent> *chan,
+                          std::queue<details::ServiceEvent> value) -> void
+
+```
+  ]]
+  vim.rpcnotify(ch, "hover", doc, "cpp")
+end

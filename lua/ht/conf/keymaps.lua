@@ -91,7 +91,7 @@ local function setup()
   end)
 
   NMAP(";'", function()
-    RR("htts").showHover()
+    RR("external-widget.hover").show_hover()
   end)
 end
 

@@ -11,6 +11,7 @@ import { plugin as nvimColorizer } from "./nvim-colorizer";
 import { plugin as nvimScrollview } from "./nvim-scrollview";
 import { plugin as neoTreeNvim } from "./neo-tree-nvim";
 import { plugin as dropNvim } from "./drop-nvim";
+import { plugin as extWidget } from "./ext-widget";
 
 export const plugins = [
   twilight,
@@ -26,4 +27,5 @@ export const plugins = [
   nvimScrollview,
   neoTreeNvim,
   dropNvim,
+  extWidget,
 ] as const;

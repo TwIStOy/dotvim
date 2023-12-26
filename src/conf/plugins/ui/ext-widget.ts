@@ -8,14 +8,7 @@ export const plugin = new Plugin({
     dev: true,
     build: "cargo build --release",
     config: () => {
-      luaRequire("external-widget.config").setup({
-        hover: {
-          window: {
-            x_offset: 5,
-            y_offset: 5,
-          }
-        }
-      });
+      luaRequire("external-widget.config").setup({});
     },
   },
 });

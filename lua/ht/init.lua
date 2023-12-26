@@ -52,7 +52,7 @@ local function bootstrap_plugin_manager()
       cache = { enabled = true },
       install = { colorscheme = { "tokyonight", "habamax" } },
       rtp = {
-        paths = { "~/.dotvim", "~/Projects/nvim-plugins/external-widget.nvim" },
+        paths = { "~/.dotvim" },
         disabled_plugins = {
           "gzip",
           "matchit",

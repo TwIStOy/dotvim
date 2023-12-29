@@ -129,7 +129,7 @@ M.config = function()
     },
     window = {
       completion = {
-        border = "rounded",
+        border = "none",
         winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
         focusable = false,
         col_offset = 0,

@@ -9,27 +9,6 @@ local function set_ime(args)
 end
 
 function M.setup()
-  vim.g.neovide_font_features = {
-    ["Iosevka"] = {
-      "+ss07",
-      "cv49=16",
-      "cv94=1",
-      "VXLA=2",
-      "VXLC=2",
-      "cv34=12",
-      "cv31=13",
-    },
-    ["MonoLisa Nerd Font"] = {
-      "+ss11",
-      "+zero",
-      "-calt",
-      "+ss09",
-      "+ss02",
-    },
-  }
-
-  vim.o.guifont = "MonoLisa Nerd Font:h18"
-
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
   vim.g.neovide_padding_right = 0
@@ -48,6 +27,7 @@ function M.setup()
 
   vim.g.neovide_floating_blur_amount_x = 6.0
   vim.g.neovide_floating_blur_amount_y = 6.0
+  vim.g.neovide_floating_shadow = true
 
   vim.g.neovide_scroll_animation_length = 0.2
 

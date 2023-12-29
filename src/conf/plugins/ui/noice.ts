@@ -102,7 +102,7 @@ const spec: PluginOpts = {
         command_palette: true,
         long_message_to_split: true,
         inc_rename: false,
-        lsp_doc_border: isNil(vim.g.neovide),
+        lsp_doc_border: true,
       },
     },
     config: true,

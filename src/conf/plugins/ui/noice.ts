@@ -4,6 +4,7 @@ import {
   PluginOpts,
   andActions,
 } from "@core/model";
+import { isNil } from "@core/vim";
 
 function generateActions() {
   return ActionGroupBuilder.start()
@@ -52,6 +53,26 @@ function generateActions() {
     .build();
 }
 
+function document_border() {
+  if (isNil(vim.g.neovide)) {
+    return null;
+  }
+  return {
+    view: "hover",
+    opts: {
+      border: "solid",
+      replace: true,
+      render: "plain",
+      format: ["{message}"],
+      win_options: {
+        concealcursor: "n",
+        conceallevel: 3,
+        winhl: "FloatBorder:NoiceGuiDocPopupBorder,Normal:NoicePopup",
+      },
+    },
+  };
+}
+
 const spec: PluginOpts = {
   shortUrl: "folke/noice.nvim",
   lazy: {
@@ -81,7 +102,7 @@ const spec: PluginOpts = {
         command_palette: true,
         long_message_to_split: true,
         inc_rename: false,
-        lsp_doc_border: true,
+        lsp_doc_border: isNil(vim.g.neovide),
       },
     },
     config: true,

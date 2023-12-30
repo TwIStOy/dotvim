@@ -95,6 +95,22 @@ const spec: PluginOpts = {
             throttle: 50,
           },
         },
+        hover: {
+          enabled: true,
+          opts: {
+            border: {
+              style: "none",
+              padding: [1, 2],
+            },
+            position: { row: 2, col: 2 },
+            win_options: {
+              winhighlight: {
+                Normal: "NormalNC",
+                FloatBorder: "NoiceGuiDocPopupBorder",
+              },
+            },
+          },
+        },
       },
       messages: { enabled: false },
       presets: {
@@ -102,7 +118,7 @@ const spec: PluginOpts = {
         command_palette: true,
         long_message_to_split: true,
         inc_rename: false,
-        lsp_doc_border: true,
+        lsp_doc_border: false,
       },
     },
     config: true,

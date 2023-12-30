@@ -11,6 +11,7 @@ return {
         "help",
         "alpha",
         "bookmarks_input",
+        "noice",
       },
     },
     event = { "BufReadPre", "BufNewFile" },

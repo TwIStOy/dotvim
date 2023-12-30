@@ -77,7 +77,8 @@ local function setup()
     ---@param event vim.AutocmdCallback.Event
     callback = function(event)
       local ft = vim.api.nvim_get_option_value("ft", { buf = event.buf })
-      if relative_number_blacklist[ft] == nil then
+      local bt = vim.api.nvim_get_option_value("bt", { buf = event.buf })
+      if relative_number_blacklist[ft] == nil and bt ~= "nofile" then
         local winnr = vim.api.nvim_get_current_win()
         vim.api.nvim_set_option_value("nu", true, {
           win = winnr,

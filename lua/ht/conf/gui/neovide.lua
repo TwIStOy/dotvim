@@ -27,7 +27,11 @@ function M.setup()
 
   vim.g.neovide_floating_blur_amount_x = 6.0
   vim.g.neovide_floating_blur_amount_y = 6.0
+
   vim.g.neovide_floating_shadow = true
+  vim.g.neovide_floating_z_height = 10
+  vim.g.neovide_light_angle_degrees = 45
+  vim.g.neovide_light_radius = 5
 
   vim.g.neovide_scroll_animation_length = 0.2
 

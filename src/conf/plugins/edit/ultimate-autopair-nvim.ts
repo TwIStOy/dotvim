@@ -6,17 +6,24 @@ export const plugin = new Plugin({
     event: ["InsertEnter", "CmdlineEnter"],
     opts: {
       close: {
-        map: "<M-0>",
-        cmap: "<M-0>",
+        map: "<C-0>",
+        cmap: "<C-0>",
       },
       tabout: {
         hopout: true,
       },
       fastwarp: {
-        map: "<C-i>",
-        rmap: "<C-I>",
-        cmap: "<C-i>",
-        crmap: "<C-I>",
+        enable: true,
+        map: "<C-=>",
+        rmap: "<C-->",
+        cmap: "<C-=>",
+        crmap: "<C-->",
+        enable_normal: true,
+        enable_reverse: true,
+        hopout: false,
+        multiline: true,
+        nocursormove: true,
+        no_nothing_if_fail: false,
       },
       config_internal_pairs: [
         {

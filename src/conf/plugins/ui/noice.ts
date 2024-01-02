@@ -78,6 +78,7 @@ const spec: PluginOpts = {
   lazy: {
     event: ["ModeChanged", "BufReadPre", "InsertEnter"],
     dependencies: ["MunifTanjim/nui.nvim", "rcarriga/nvim-notify"],
+    enabled: isNil(vim.g.neovide),
     opts: {
       lsp: {
         progress: { enabled: false, throttle: 1000 / 10 },

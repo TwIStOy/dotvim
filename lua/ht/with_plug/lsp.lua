@@ -63,7 +63,7 @@ function M.open_diagnostic()
 
   vim.api.nvim_set_option_value(
     "winhl",
-    "FloatBorder:NormalFloat",
+    "FloatBorder:NormalFloat,Normal:NormalFloat",
     { win = win }
   )
 end

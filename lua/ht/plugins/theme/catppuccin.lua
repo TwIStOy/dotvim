@@ -3,7 +3,7 @@ local colors = require("ht.conf.colors")
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  enabled = true,
+  enabled = false,
   build = ":CatppuccinCompile",
   config = function()
     require("catppuccin").setup {

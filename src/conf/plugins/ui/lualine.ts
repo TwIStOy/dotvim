@@ -77,6 +77,13 @@ const spec: PluginOpts = {
             [1]: componentFileInfo,
             separator: "",
           },
+          {
+            [1]: () => {
+              let lsp = luaRequire("ht.with_plug.lsp");
+              return lsp.progress();
+            },
+            separator: "",
+          },
         ],
         lualine_x: [
           {

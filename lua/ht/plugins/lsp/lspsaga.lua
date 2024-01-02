@@ -5,7 +5,7 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
-      "catppuccin",
+      -- "catppuccin",
     },
     config = function()
       require("lspsaga").setup {
@@ -19,6 +19,7 @@ return {
         symbol_in_winbar = { enable = false },
         ui = {
           -- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+          border = "solid",
         },
       }
     end,

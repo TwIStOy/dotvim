@@ -3,6 +3,12 @@ local f = ls.function_node
 local tsp = require("luasnip.extras.treesitter_postfix")
 local su = require("ht.snippets.utils")
 
+local wrapped_types = {
+  "struct_expression",
+  "call_expression",
+  "identifier",
+}
+
 return {
   tsp.treesitter_postfix({
     trig = ".rc",
@@ -10,10 +16,10 @@ return {
     dscr = "Wrap expression with Rc::new()",
     wordTrig = false,
     reparseBuffer = nil,
-    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types({
-      "call_expression",
-      "identifier",
-    }, ".rc"),
+    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types(
+      wrapped_types,
+      ".rc"
+    ),
   }, {
     f(function(_, parent)
       return su.replace_all(parent.snippet.env.LS_TSMATCH, "Rc::new(%s)")
@@ -26,10 +32,10 @@ return {
     dscr = "Wrap expression with Arc::new()",
     wordTrig = false,
     reparseBuffer = nil,
-    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types({
-      "call_expression",
-      "identifier",
-    }, ".arc"),
+    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types(
+      wrapped_types,
+      ".arc"
+    ),
   }, {
     f(function(_, parent)
       return su.replace_all(parent.snippet.env.LS_TSMATCH, "Arc::new(%s)")
@@ -42,10 +48,10 @@ return {
     dscr = "Wrap expression with Box::new()",
     wordTrig = false,
     reparseBuffer = nil,
-    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types({
-      "call_expression",
-      "identifier",
-    }, ".box"),
+    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types(
+      wrapped_types,
+      ".box"
+    ),
   }, {
     f(function(_, parent)
       return su.replace_all(parent.snippet.env.LS_TSMATCH, "Box::new(%s)")
@@ -58,13 +64,45 @@ return {
     dscr = "Wrap expression with Mutex::new()",
     wordTrig = false,
     reparseBuffer = nil,
-    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types({
-      "call_expression",
-      "identifier",
-    }, ".mu"),
+    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types(
+      wrapped_types,
+      ".mu"
+    ),
   }, {
     f(function(_, parent)
       return su.replace_all(parent.snippet.env.LS_TSMATCH, "Mutex::new(%s)")
+    end, {}),
+  }),
+
+  tsp.treesitter_postfix({
+    trig = ".ok",
+    name = "Ok(?)",
+    dscr = "Wrap expression with Ok(?)",
+    wordTrig = false,
+    reparseBuffer = nil,
+    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types(
+      wrapped_types,
+      ".ok"
+    ),
+  }, {
+    f(function(_, parent)
+      return su.replace_all(parent.snippet.env.LS_TSMATCH, "Ok(%s)")
+    end, {}),
+  }),
+
+  tsp.treesitter_postfix({
+    trig = ".err",
+    name = "Err(?)",
+    dscr = "Wrap expression with Err()",
+    wordTrig = false,
+    reparseBuffer = nil,
+    matchTSNode = tsp.builtin.tsnode_matcher.find_topmost_types(
+      wrapped_types,
+      ".err"
+    ),
+  }, {
+    f(function(_, parent)
+      return su.replace_all(parent.snippet.env.LS_TSMATCH, "Err(%s)")
     end, {}),
   }),
 }

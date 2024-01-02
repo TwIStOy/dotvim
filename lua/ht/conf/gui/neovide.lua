@@ -20,7 +20,6 @@ function M.setup()
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_no_idle = true
   vim.g.neovide_input_macos_alt_is_meta = true
-  vim.g.neovide_input_use_logo = true
 
   vim.g.neovide_cursor_animation_length = 0
   vim.g.neovide_cursor_trail_size = 0
@@ -36,6 +35,7 @@ function M.setup()
   vim.g.neovide_scroll_animation_length = 0.2
 
   vim.g.neovide_underline_automatic_scaling = true
+  vim.g.neovide_underline_stroke_scale = 0.6
 
   vim.o.winblend = 20
   vim.o.pumblend = 20

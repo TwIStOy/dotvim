@@ -40,6 +40,8 @@ function M.setup()
   vim.o.winblend = 20
   vim.o.pumblend = 20
 
+  vim.g.neovide_input_ime = false
+
   local ime_input = vim.api.nvim_create_augroup("ime_input", { clear = true })
 
   vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {

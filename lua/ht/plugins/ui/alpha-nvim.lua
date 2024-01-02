@@ -39,6 +39,15 @@ local function get_extension(fn)
   return ext
 end
 
+local redraw_autocmd_id = nil
+
+local function clear_auto_commands()
+  if redraw_autocmd_id ~= nil then
+    vim.api.nvim_del_autocmd(redraw_autocmd_id)
+    redraw_autocmd_id = nil
+  end
+end
+
 local function button(sc, txt, callback, opts)
   local on_press
   if type(callback) == "string" then
@@ -55,6 +64,11 @@ local function button(sc, txt, callback, opts)
     on_press = callback
   end
 
+  local on_press_then_clear = function()
+    on_press()
+    clear_auto_commands()
+  end
+
   opts = opts or {}
   opts = vim.tbl_extend("force", {
     position = "center",
@@ -67,10 +81,20 @@ local function button(sc, txt, callback, opts)
       "n",
       sc,
       "",
-      { noremap = true, silent = true, nowait = true, callback = on_press },
+      {
+        noremap = true,
+        silent = true,
+        nowait = true,
+        callback = on_press_then_clear,
+      },
     },
   }, opts)
-  return { type = "button", val = txt, on_press = on_press, opts = opts }
+  return {
+    type = "button",
+    val = txt,
+    on_press = on_press_then_clear,
+    opts = opts,
+  }
 end
 
 local function file_button(fn, sc, short_fn)
@@ -446,6 +470,12 @@ M.config = function() -- code to run after plugin loaded
           once = true,
           callback = function()
             after_lazy_vim_started = true
+            require("alpha").redraw()
+          end,
+        })
+        redraw_autocmd_id = vim.api.nvim_create_autocmd("DirChanged", {
+          pattern = "*",
+          callback = function()
             require("alpha").redraw()
           end,
         })

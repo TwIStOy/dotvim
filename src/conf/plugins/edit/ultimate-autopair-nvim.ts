@@ -12,6 +12,12 @@ export const plugin = new Plugin({
       tabout: {
         hopout: true,
       },
+      fastwarp: {
+        map: "<C-i>",
+        rmap: "<C-I>",
+        cmap: "<C-i>",
+        crmap: "<C-I>",
+      },
       config_internal_pairs: [
         {
           [1]: "'",

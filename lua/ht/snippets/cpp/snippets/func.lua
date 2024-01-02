@@ -134,6 +134,16 @@ return {
   },
 
   snippet {
+    "rv",
+    name = "ranges::views::",
+    desc = "ranges::views::",
+    mode = "w",
+    nodes = {
+      t("ranges::views::"),
+    },
+  },
+
+  snippet {
     ",d",
     name = "Doxygen comment",
     dscr = "Doxygen template to document a var/func/etc",

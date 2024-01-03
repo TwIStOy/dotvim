@@ -35,10 +35,5 @@ return function()
     quick_expand("happy", "ヽ(´▽`)/"),
     quick_expand("sad", "(－‸ლ)"),
     quick_expand("confused", "(｡･ω･｡)"),
-
-    todo_comment("todo"),
-    todo_comment("fixme"),
-    todo_comment("fucking"),
-    todo_comment("note"),
   }
 end

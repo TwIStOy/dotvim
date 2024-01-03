@@ -105,4 +105,27 @@ return {
       return su.replace_all(parent.snippet.env.LS_TSMATCH, "Err(%s)")
     end, {}),
   }),
+
+  tsp.treesitter_postfix({
+    trig = ".some",
+    name = "(.some) Some(?)",
+    dscr = "Wrap expression with Some(?)",
+    wordTrig = false,
+    reparseBuffer = nil,
+    matchTSNode = {
+      query = [[
+        [
+          (struct_expression)
+          (call_expression)
+          (identifier)
+          (field_expression)
+        ] @prefix
+      ]],
+      query_lang = "rust",
+    },
+  }, {
+    f(function(_, parent)
+      return su.replace_all(parent.snippet.env.LS_TSMATCH, "Some(%s)")
+    end, {}),
+  }),
 }

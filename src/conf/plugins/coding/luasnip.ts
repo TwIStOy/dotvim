@@ -40,7 +40,7 @@ const spec: PluginOptsBase = {
 
       addSnippets("all", luaRequire("ht.snippets.all")());
       addSnippets("cpp", luaRequire("ht.snippets.cpp")());
-      addSnippets("rust", luaRequire("ht.snippets.rust")());
+      // addSnippets("rust", luaRequire("ht.snippets.rust")());
       addSnippets("lua", luaRequire("ht.snippets.lua")());
       addSnippets("dart", luaRequire("ht.snippets.dart")());
       addMappedSnippets(luaRequire("ht.snippets.markdown")());

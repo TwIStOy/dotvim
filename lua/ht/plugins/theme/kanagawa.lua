@@ -1,6 +1,6 @@
 return {
   "rebelot/kanagawa.nvim",
-  enabled = true,
+  enabled = false,
   opts = {
     theme = "dragon",
     compile = false,

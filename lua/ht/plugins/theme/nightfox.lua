@@ -1,6 +1,6 @@
 return {
   "EdenEast/nightfox.nvim",
-  enabled = true,
+  enabled = false,
   lazy = false,
   opts = {
     terminal_colors = true,

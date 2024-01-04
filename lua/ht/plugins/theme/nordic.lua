@@ -31,6 +31,8 @@ return {
     },
     override = {
       FoldColumn = { bg = "none" },
+      ["@lsp.typemod.variable.mutable.rust"] = { underline = true },
+      ["@lsp.typemod.selfKeyword.mutable.rust"] = { underline = true },
     },
   },
   config = function(_, opts)

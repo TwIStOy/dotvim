@@ -1,7 +1,7 @@
 return {
   {
     "neanias/everforest-nvim",
-    enabled = false,
+    enabled = true,
     lazy = false,
     config = function()
       local everforest = require("everforest")
@@ -17,6 +17,7 @@ return {
           hl["@lsp.type.keyword"] = { link = "Keyword" }
           hl["@lsp.typemod.variable.mutable.rust"] = { underline = true }
           hl["@lsp.typemod.selfKeyword.mutable.rust"] = { underline = true }
+          hl["IlluminatedWordText"] = { underline = true }
         end,
       }
       everforest.load()

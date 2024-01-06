@@ -37,6 +37,12 @@ function M.setup()
   vim.g.neovide_underline_automatic_scaling = true
   vim.g.neovide_underline_stroke_scale = 0.6
 
+  vim.g.neovide_native_border_width = 1.0
+  -- vim.g.neovide_native_border_inactive_color = 0xff22262c
+  vim.g.neovide_native_border_inactive_color = 0xffff0000
+  vim.g.neovide_native_border_active_color = 0xff477fef
+  vim.g.neovide_unlink_border_highlights = true
+
   vim.o.winblend = 20
   vim.o.pumblend = 20
 

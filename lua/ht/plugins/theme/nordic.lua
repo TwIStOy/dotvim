@@ -1,7 +1,7 @@
 return {
   "AlexvZyl/nordic.nvim",
   lazy = false,
-  enabled = true,
+  enabled = false,
   priority = 1000,
   opts = {
     -- Enable bold keywords.

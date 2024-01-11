@@ -9,6 +9,7 @@ return {
         italics = true,
         transparent_background_level = 0,
         show_eob = false,
+        ui_contrast = true,
         options = {
           theme = "auto",
         },

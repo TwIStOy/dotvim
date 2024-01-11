@@ -1,5 +1,3 @@
-local colors = require("ht.conf.colors")
-
 return {
   "catppuccin/nvim",
   name = "catppuccin",
@@ -7,18 +5,14 @@ return {
   build = ":CatppuccinCompile",
   config = function()
     require("catppuccin").setup {
-      flavour = "macchiato",
-      -- flavour = "mocha",
-      color_overrides = {
-        mocha = colors[2],
-      },
-      term_colors = false,
+      flavour = "frappe",
+      term_colors = true,
       transparent_background = false,
       compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
       dim_inactive = { enabled = false },
       styles = {
         comments = { "italic" },
-        conditionals = {},
+        conditionals = { "italic" },
         properties = {},
         functions = {},
         keywords = {},

@@ -111,6 +111,7 @@ M.lazy.config = function()
       },
     },
     use_advanced_uri = true,
+    mappings = {},
     note_id_func = function(_)
       return ("%0x-%04x-%4x"):format(
         os.time(),
@@ -149,6 +150,7 @@ M.lazy.config = function()
     group = au_group,
     pattern = tostring(obsidian.dir / "**.md"),
     callback = function()
+      vim.wo.conceallevel = 2
       setup_keymaps()
     end,
   })

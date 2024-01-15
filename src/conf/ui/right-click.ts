@@ -158,16 +158,28 @@ const cppToolkitGroup: RightClickMenuGroup = {
   ],
 };
 
-const rustToolkitGroup: RightClickMenuGroup = {
+const rustaceanvimGroup: RightClickMenuGroup = {
   items: [
     {
       title: "Open cargo.toml",
-      actionId: "rust-tools.open-cargo-toml",
+      actionId: "rustaceanvim.open-cargo-toml",
     },
     {
       title: "Open parent module",
-      actionId: "rust-tools.open-parent-module",
+      actionId: "rustaceanvim.open-parent-module",
     },
+    {
+      title: "Rebuild proc macro",
+      actionId: "rustaceanvim.rebuild-proc-macro",
+    },
+    {
+      title: "Explain errors",
+      actionId: "rustaceanvim.explain-errors",
+    },
+    {
+      title: 'View syntax tree',
+      actionId: 'rustaceanvim.view-syntax-tree',
+    }
   ],
 };
 
@@ -317,7 +329,7 @@ const bookmarkGroup: RightClickMenuGroup = {
 export const rightClickMenu: RightClickMenuItem[] = [
   formatFileItem,
   cppToolkitGroup,
-  rustToolkitGroup,
+  rustaceanvimGroup,
   flutterGroup,
   builtinLspGroup,
   bookmarkGroup,

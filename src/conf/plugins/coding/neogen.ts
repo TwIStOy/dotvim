@@ -1,20 +1,29 @@
-import { ActionBuilder, Plugin, andActions } from "@core/model";
+import {
+  ActionBuilder,
+  ActionGroupBuilder,
+  Plugin,
+  andActions,
+} from "@core/model";
 
-let actions = [
-  ActionBuilder.start()
-    .id("neogen.generate-annotation")
-    .category("Neogen")
-    .condition((buf) => {
-      return buf.tsHighlighter.length > 0;
-    })
+let group = () =>
+  new ActionGroupBuilder()
     .from("neogen")
-    .title("Generate annotation on this")
-    .icon("📝")
-    .callback(() => {
-      luaRequire("neogen").generate();
-    })
-    .build(),
-];
+    .category("Neogen")
+    .add(
+      ActionBuilder.start()
+        .id("neogen.generate-annotation")
+        .category("Neogen")
+        .condition((buf) => {
+          return buf.tsHighlighter.length > 0;
+        })
+        .from("neogen")
+        .title("Generate annotation on this")
+        .icon("📝")
+        .callback(() => {
+          luaRequire("neogen").generate();
+        })
+        .build()
+    );
 
 export const plugin = new Plugin(
   andActions(
@@ -25,10 +34,11 @@ export const plugin = new Plugin(
         cmd: ["Neogen"],
         opts: {
           input_after_comment: false,
+          snippet_engine: "luasnip",
         },
         config: true,
       },
     },
-    actions
+    () => group().build()
   )
 );

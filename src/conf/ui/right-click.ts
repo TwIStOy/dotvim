@@ -177,9 +177,18 @@ const rustaceanvimGroup: RightClickMenuGroup = {
       actionId: "rustaceanvim.explain-errors",
     },
     {
-      title: 'View syntax tree',
-      actionId: 'rustaceanvim.view-syntax-tree',
-    }
+      title: "View syntax tree",
+      actionId: "rustaceanvim.view-syntax-tree",
+    },
+  ],
+};
+
+const generateAnnotationGroup: RightClickMenuGroup = {
+  items: [
+    {
+      title: "Generate annotation",
+      actionId: "neogen.generate-annotation",
+    },
   ],
 };
 
@@ -328,6 +337,7 @@ const bookmarkGroup: RightClickMenuGroup = {
 
 export const rightClickMenu: RightClickMenuItem[] = [
   formatFileItem,
+  generateAnnotationGroup,
   cppToolkitGroup,
   rustaceanvimGroup,
   flutterGroup,

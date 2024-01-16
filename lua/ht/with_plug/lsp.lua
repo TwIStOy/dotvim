@@ -73,8 +73,8 @@ function M.show_hover()
   vim.api.nvim_exec_autocmds("User", {
     pattern = "ShowHover",
   })
-  -- vim.lsp.buf.hover()
-  vim.api.nvim_command("Lspsaga hover_doc")
+  vim.lsp.buf.hover()
+  -- vim.api.nvim_command("Lspsaga hover_doc")
   A.nvim_create_autocmd({ "CursorMoved" }, {
     group = lsp_hover_group,
     buffer = 0,

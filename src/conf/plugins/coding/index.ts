@@ -6,6 +6,7 @@ import { plugin as nabla } from "./nabla";
 import { plugin as neogen } from "./neogen";
 import { plugin as luasnip } from "./luasnip";
 import { plugin as luasnipSnippets } from "./luasnip-snippets";
+import { plugin as nvimLint } from "./nvim-lint";
 
 export const plugins = [
   commentNvim,
@@ -16,4 +17,5 @@ export const plugins = [
   neogen,
   luasnip,
   luasnipSnippets,
+  nvimLint,
 ] as const;

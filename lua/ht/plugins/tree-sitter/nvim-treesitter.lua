@@ -86,6 +86,7 @@ return {
         "sql",
         "svelte",
         "swift",
+        "ssh_config",
         "thrift",
         "toml",
         "tsx",

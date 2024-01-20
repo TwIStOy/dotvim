@@ -28,6 +28,6 @@ export const plugins = [
   nvimScrollview,
   neoTreeNvim,
   dropNvim,
-  extWidget,
+  // extWidget,
   // dropbar,
 ] as const;

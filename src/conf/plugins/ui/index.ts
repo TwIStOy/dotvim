@@ -12,6 +12,7 @@ import { plugin as nvimScrollview } from "./nvim-scrollview";
 import { plugin as neoTreeNvim } from "./neo-tree-nvim";
 import { plugin as dropNvim } from "./drop-nvim";
 import { plugin as extWidget } from "./ext-widget";
+import { plugin as dropbar } from "./dropbar";
 
 export const plugins = [
   twilight,
@@ -28,4 +29,5 @@ export const plugins = [
   neoTreeNvim,
   dropNvim,
   extWidget,
+  // dropbar,
 ] as const;

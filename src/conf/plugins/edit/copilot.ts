@@ -10,22 +10,24 @@ const spec: PluginOptsBase = {
   lazy: {
     event: ["InsertEnter"],
     dependencies: ["nvim-lua/plenary.nvim"],
-    config() {
+    opts: {
+      suggestion: {
+        auto_trigger: true,
+        keymap: {
+          accept: "<C-l>",
+        },
+      },
+    },
+    config: (_, opts) => {
       vim.defer_fn(() => {
         vim.system(["fish", "-c", "which node"], { text: true }, (comp) => {
-          const [nodePath, ..._args] = string.match(
-            comp.stdout!,
-            "^%s*(.-)%s*$"
-          );
-          let opts = {
-            suggestion: {
-              auto_trigger: true,
-              keymap: {
-                accept: "<C-l>",
-              },
-            },
-            copilot_node_command: nodePath,
-          };
+          if (comp.code === 0) {
+            const [nodePath, ..._args] = string.match(
+              comp.stdout!,
+              "^%s*(.-)%s*$"
+            );
+            opts.copilot_node_command = nodePath;
+          }
           vim.schedule(() => {
             luaRequire("copilot").setup(opts);
           });

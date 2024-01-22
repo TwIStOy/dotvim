@@ -1,6 +1,7 @@
 import { AllLspServers } from "@conf/external_tools";
 import { plugin as WhichKey } from "./which-key";
 import { plugin as StartupTime } from "./vim-startuptime";
+import { plugin as flattenNvim } from "./flatten-nvim";
 import { plugins as editPlugins } from "./edit";
 import { plugins as lspPlugins } from "./lsp";
 import { plugins as uiPlugins } from "./ui";
@@ -14,6 +15,7 @@ import { builtinActions } from "@conf/actions/builtin";
 export const AllPlugins = [
   WhichKey,
   StartupTime,
+  flattenNvim,
   editPlugins,
   lspPlugins,
   uiPlugins,

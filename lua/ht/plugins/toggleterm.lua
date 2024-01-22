@@ -1,4 +1,5 @@
 local _lazygit = nil
+local _yazi = nil
 
 return {
   Use {
@@ -26,6 +27,32 @@ return {
       FuncSpec("Toggle terminal", "ToggleTerm", {
         keys = "<C-t>",
         desc = "toggle-terminal",
+      }),
+      FuncSpec("Open Yazi", function()
+        if vim.fn.executable("yazi") ~= 1 then
+          vim.notify(
+            "Command [yazi] not found!",
+            vim.log.levels.ERROR,
+            { title = "toggleterm.nvim" }
+          )
+          return
+        end
+        local root = vim.fn.getcwd()
+        if not _yazi then
+          _yazi = require("toggleterm.terminal").Terminal:new {
+            cmd = "yazi",
+            direction = "float",
+            close_on_exit = true,
+            start_in_insert = true,
+            hidden = true,
+          }
+        else
+          _yazi:change_dir(root)
+        end
+        _yazi:toggle()
+      end, {
+        keys = "<leader>ff",
+        desc = "toggle-yazi",
       }),
       FuncSpec("Open lazygit", function()
         if vim.fn.executable("lazygit") ~= 1 then

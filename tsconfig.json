@@ -22,9 +22,6 @@
     "tstlVerbose": false,
     "noImplicitSelf": true,
     "luaPlugins": [
-      {
-        "name": "./tstl_plugins/fix-require-path.ts"
-      }
     ],
     "noResolvePaths": [
       "which-key-raw-nvim",

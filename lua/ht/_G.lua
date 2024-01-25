@@ -1,4 +1,5 @@
 __raw_import = require
+luaRequire = require
 
 RELOAD = function(...)
   local ok, plenary_reload = pcall(require, "plenary.reload")

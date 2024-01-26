@@ -12,8 +12,8 @@ export const server = new LspServer({
         `${HttsContext.getInstance().masonBinRoot}/pyright-langserver`,
         "--stdio",
       ],
-      on_attach: on_attach,
-      capabilities: capabilities,
+      on_attach,
+      capabilities,
     });
   },
 });

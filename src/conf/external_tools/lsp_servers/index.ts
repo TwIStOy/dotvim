@@ -6,6 +6,7 @@ import { server as pyright } from "./pyright";
 import { server as cmake } from "./cmake";
 import { server as flutter } from "./flutter";
 import { server as luaLs } from "./lua_ls";
+import { server as nil } from "./nil";
 
 export default [
   typescript,
@@ -16,4 +17,5 @@ export default [
   cmake,
   flutter,
   luaLs,
+  nil,
 ] as const;

@@ -105,6 +105,12 @@ const Gersemi = new Formatter({
   },
 });
 
+const Alejandra = new Formatter({
+  name: "alejandra",
+  exe: false,
+  ft: ["nix"],
+});
+
 export default [
   ClangFormat,
   Stylua,
@@ -113,4 +119,5 @@ export default [
   Black,
   DartFmt,
   Gersemi,
+  Alejandra,
 ];

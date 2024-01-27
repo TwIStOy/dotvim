@@ -87,9 +87,7 @@ const DartFmt = new Formatter({
 
 const Gersemi = new Formatter({
   name: "gersemi",
-  exe: {
-    masonPkg: "gersemi",
-  },
+  exe: false,
   ft: ["cmake"],
   opts: {
     args: ["-"],

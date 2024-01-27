@@ -1,17 +1,11 @@
 import { LspServer } from "@core/model";
-import { HttsContext } from "context";
 
 export const server = new LspServer({
   name: "pyright",
-  exe: {
-    masonPkg: "pyright",
-  },
+  exe: false,
   setup: (_server: LspServer, on_attach, capabilities) => {
     luaRequire("lspconfig").pyright.setup({
-      cmd: [
-        `${HttsContext.getInstance().masonBinRoot}/pyright-langserver`,
-        "--stdio",
-      ],
+      cmd: ["pyright-langserver", "--stdio"],
       on_attach,
       capabilities,
     });

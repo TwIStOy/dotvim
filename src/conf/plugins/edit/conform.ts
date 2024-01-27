@@ -34,6 +34,7 @@ const spec: PluginOpts<[]> = {
     },
     event: "BufReadPost",
     config: true,
+    cmd: ["ConformInfo"],
     keys: [
       {
         [1]: "<leader>fc",

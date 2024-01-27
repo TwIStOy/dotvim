@@ -77,13 +77,11 @@ function wrapOnAttach(defaultCallback: (client: any, bufnr: number) => void) {
 export const server = new LspServer({
   name: "clangd",
   plugin,
-  exe: {
-    masonPkg: "clangd",
-  },
+  exe: false,
   setup(_server: LspServer, on_attach: () => void, capabilities: LuaTable) {
     luaRequire("lspconfig").clangd.setup({
       cmd: [
-        `${HttsContext.getInstance().masonBinRoot}/clangd`,
+        "clangd",
         "--clang-tidy",
         "--background-index",
         "--background-index-priority=normal",

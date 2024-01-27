@@ -78,10 +78,8 @@ const plugin = new Plugin(andActions(spec, generateActions));
 export const server = new LspServer({
   name: "typescript-tools",
   plugin,
-  exe: {
-    masonPkg: "typescript-language-server",
-  },
-  setup(_server: LspServer, on_attach: () => void, _capabilities: LuaTable) {
+  exe: false,
+  setup(_: LspServer, on_attach: () => void, _capabilities: LuaTable) {
     luaRequire("typescript-tools").setup({
       on_attach: on_attach,
       settings: {

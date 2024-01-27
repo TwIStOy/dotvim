@@ -5,11 +5,12 @@ import {
   PluginOpts,
   andActions,
 } from "@core/model";
-import { inputArgsAndExec } from "@core/vim";
+import { inputArgsAndExec, isNil } from "@core/vim";
 
 const spec: PluginOpts = {
   shortUrl: "williamboman/mason.nvim",
   lazy: {
+    enabled: false,
     opts: {
       PATH: "skip",
     },
@@ -129,6 +130,13 @@ async function installAndUpgradePackages() {
     if (!spec) continue;
 
     let pkg = registry.get_package(spec.name);
+    if (isNil(pkg)) {
+      vim.notify(`"${spec.name}" is not a Mason package`, vim.log.levels.INFO, {
+        title: "Mason",
+        render: "compact",
+      });
+      continue;
+    }
     if (!pkg.is_installed()) {
       promises.push(installPackage(pkg, spec.name));
     } else {
@@ -168,7 +176,7 @@ async function installAndUpgradePackages() {
   await Promise.all(promises);
 }
 
-async function config(_: any, opts: AnyNotNil) {
+function config(_: any, opts: AnyNotNil) {
   luaRequire("mason").setup(opts);
   installAndUpgradePackages();
 }

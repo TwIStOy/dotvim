@@ -122,10 +122,8 @@ const plugin = new Plugin(
 export const server = new LspServer({
   name: "rust-analyzer",
   plugin,
-  exe: {
-    masonPkg: "rust-analyzer",
-  },
-  setup: (_server, on_attach, capabilities) => {
+  exe: false,
+  setup: (_, on_attach, capabilities) => {
     vim.g.rustaceanvim = {
       tools: {
         on_initialized: () => {
@@ -134,7 +132,6 @@ export const server = new LspServer({
         inlay_hints: { auto: true },
       },
       server: {
-        cmd: [HttsContext.getInstance().masonBinRoot + "/rust-analyzer"],
         on_attach: on_attach,
         capabilities: capabilities,
         settings: {

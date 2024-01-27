@@ -9,9 +9,7 @@ import { LspServer } from "@core/model";
 
 export const server = new LspServer({
   name: "lua_ls",
-  exe: {
-    masonPkg: "lua-language-server",
-  },
+  exe: false,
   setup: (s: LspServer, on_attach, capabilities) => {
     let luaLibraries = [
       vim.fn.expand("$VIMRUNTIME/lua"),
@@ -24,7 +22,6 @@ export const server = new LspServer({
     ];
 
     luaRequire("lspconfig").lua_ls.setup({
-      cmd: [s.executable],
       on_attach: on_attach,
       capabilities: capabilities,
       settings: {

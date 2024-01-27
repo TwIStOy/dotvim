@@ -8,9 +8,7 @@ import { Formatter } from "@core/model";
  */
 const ClangFormat = new Formatter({
   name: "clang-format",
-  exe: {
-    masonPkg: "clang-format",
-  },
+  exe: false,
   ft: ["c", "cpp", "cs", "java", "cuda", "proto"],
   opts: {
     args: ["-assume-filename", "$FILENAME"],
@@ -20,9 +18,7 @@ const ClangFormat = new Formatter({
 
 const Stylua = new Formatter({
   name: "stylua",
-  exe: {
-    masonPkg: "stylua",
-  },
+  exe: false,
   ft: ["lua"],
   opts: {
     args: ["--search-parent-directories", "--stdin-filepath", "$FILENAME", "-"],
@@ -42,9 +38,7 @@ const RustFmt = new Formatter({
 
 const Prettier = new Formatter({
   name: "prettier",
-  exe: {
-    masonPkg: "prettier",
-  },
+  exe: false,
   ft: [
     "javascript",
     "javascriptreact",
@@ -71,9 +65,7 @@ const Prettier = new Formatter({
 
 const Black = new Formatter({
   name: "black",
-  exe: {
-    masonPkg: "black",
-  },
+  exe: false,
   ft: ["python"],
   opts: {
     args: ["--stdin-filename", "$FILENAME", "--quiet", "-"],

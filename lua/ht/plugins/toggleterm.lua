@@ -41,6 +41,7 @@ return {
         if not _yazi then
           _yazi = require("toggleterm.terminal").Terminal:new {
             cmd = "yazi",
+            dir = root,
             direction = "float",
             close_on_exit = true,
             start_in_insert = true,

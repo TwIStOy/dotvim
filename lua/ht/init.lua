@@ -52,7 +52,10 @@ local function bootstrap_plugin_manager()
       cache = { enabled = true },
       install = { colorscheme = { "tokyonight", "habamax" } },
       rtp = {
-        paths = { "~/.dotvim" },
+        paths = {
+          "~/.dotvim",
+          "~/.local/share/dotvim",
+        },
         disabled_plugins = {
           "gzip",
           "matchit",

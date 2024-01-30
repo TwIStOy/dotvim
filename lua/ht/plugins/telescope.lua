@@ -188,6 +188,7 @@ return {
         "folke/flash.nvim",
         {
           "nvim-telescope/telescope-fzf-native.nvim",
+          dir = vim.F.if_nil(_G.nix_plugins, {})["telescope-fzf-native-nvim"],
           lazy = true,
           build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
         },

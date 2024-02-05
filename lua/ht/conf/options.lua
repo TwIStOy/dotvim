@@ -99,17 +99,6 @@ local function setup()
       }
     end
   end
-  -- vim.g.clipboard = {
-  --   name = "OSC 52",
-  --   copy = {
-  --     ["+"] = require("vim.clipboard.osc52").copy,
-  --     ["*"] = require("vim.clipboard.osc52").copy,
-  --   },
-  --   paste = {
-  --     ["+"] = require("vim.clipboard.osc52").paste,
-  --     ["*"] = require("vim.clipboard.osc52").paste,
-  --   },
-  -- }
 
   -- allow misspellings
   vim.cmd.cnoreabbrev("qw", "wq")

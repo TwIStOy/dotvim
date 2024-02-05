@@ -33,3 +33,7 @@ function parseOsReleaseFile(): Record<string, string> {
 }
 
 export const osRelease = parseOsReleaseFile();
+
+export function isNixOS(): boolean {
+  return osRelease.ID === "nixos";
+}

@@ -87,7 +87,7 @@ A language server for librime
   end
 
   require("lspconfig").rime_ls.setup {
-    cmd = vim.g.rime_ls_cmd,
+    cmd = "rime_ls",
     init_options = {
       enabled = false,
       shared_data_dir = "/usr/share/rime-data",

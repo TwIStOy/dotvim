@@ -27,3 +27,12 @@ export async function getCurrentRepoPath(
   return ret.stdout!.trim();
 }
 
+export function readFileSync(filename: string): string | undefined {
+  let [file] = io.open(filename, "r");
+  if (!file) {
+    return undefined;
+  }
+  let content = file!.read("*a");
+  file.close();
+  return content;
+}

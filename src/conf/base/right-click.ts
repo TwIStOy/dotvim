@@ -1,4 +1,3 @@
-
 export const RightClickIndexes = {
   textobjects: 1,
   treesj: 11,
@@ -15,4 +14,3 @@ export type RightClickGroups = {
   treesitter: 1;
   default: 1000;
 };
-

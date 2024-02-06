@@ -7,6 +7,7 @@ import { server as cmake } from "./cmake";
 import { server as flutter } from "./flutter";
 import { server as luaLs } from "./lua_ls";
 import { server as nil } from "./nil";
+import { server as gopls } from "./gopls";
 
 export default [
   typescript,
@@ -18,4 +19,5 @@ export default [
   flutter,
   luaLs,
   nil,
+  gopls,
 ] as const;

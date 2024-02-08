@@ -81,10 +81,11 @@ A language server for librime
   end
 
   require("lspconfig").rime_ls.setup {
-    cmd = {"rime_ls"},
+    cmd = { "rime_ls" },
     init_options = {
       enabled = false,
-      shared_data_dir = "/usr/share/rime-data",
+      -- shared_data_dir = "/usr/share/rime-data",
+      shared_data_dir = "~/.local/share/rime-ls",
       user_data_dir = "~/.local/share/rime-ls",
       log_dir = "~/.local/share/rime-ls/log",
       max_candidates = 9,

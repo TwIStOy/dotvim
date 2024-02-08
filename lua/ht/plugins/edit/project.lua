@@ -16,6 +16,7 @@ return {
           ".bzr",
           ".svn",
           "Makefile",
+          "HomePage.md", -- for my personal obsidian notes 
         },
         exclude_dirs = {
           "~/.cargo/*",

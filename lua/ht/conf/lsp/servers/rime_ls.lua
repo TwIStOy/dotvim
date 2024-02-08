@@ -22,25 +22,9 @@ local function rime_on_attach(client, bufnr)
     )
   end
 
-  local deploy_rime = function()
-    client.request(
-      "workspace/executeCommand",
-      { command = "rime-ls.deploy" },
-      function(_, result, ctx, _)
-        if ctx.client_id == client.id then
-          vim.g.global_rime_enabled = result
-        end
-      end
-    )
-  end
-
   vim.keymap.set({ "n", "i" }, "<M-;>", function()
     toggle_rime()
   end, { silent = true, desc = "rime-toggle", buffer = bufnr })
-
-  vim.api.nvim_create_user_command("RimeDeploy", function()
-    deploy_rime()
-  end, {})
 
   if vim.api.nvim_buf_get_option(bufnr, "ft") == "markdown" then
     local toggle_markdown_code = function()
@@ -99,7 +83,7 @@ A language server for librime
   require("lspconfig").rime_ls.setup {
     cmd = { "rime_ls" },
     init_options = {
-      enabled = true,
+      enabled = false,
       shared_data_dir = "~/.local/share/rime-ls-data-files",
       user_data_dir = "~/.local/share/rime-ls-files",
       log_dir = "~/.local/share/rime-ls-files/log",

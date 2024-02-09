@@ -126,6 +126,7 @@ export const server = new LspServer({
   exe: false,
   setup: (_, on_attach, capabilities) => {
     luaRequire("flutter-tools").setup({
+      fvm: true,
       ui: {
         border: "solid",
         notification_style: "plugin",

@@ -16,7 +16,7 @@ export interface LocalToolOpt {
   /**
    * Absolute path of tool.
    */
-  command: string[];
+  command: string[] | (() => any);
 }
 
 export interface AbsolutePathToolOpt {
@@ -68,6 +68,9 @@ class ExternalTools implements ExternalToolsOpt {
       return this.name;
     }
     if ("command" in this.exe) {
+      if (typeof this.exe.command === "function") {
+        return this.exe.command();
+      }
       return this.exe.command.join(" ");
     } else if ("masonPkg" in this.exe) {
       return `${HttsContext.getInstance().masonBinRoot}/${this.exe.masonPkg}`;

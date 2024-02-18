@@ -42,6 +42,7 @@ const spec: PluginOpts<[]> = {
           let conform = luaRequire("conform");
           conform.format({
             async: true,
+            lsp_fallback: "always",
           });
         },
         desc: "format-file",

@@ -101,6 +101,18 @@ const Alejandra = new Formatter({
   ft: ["nix"],
 });
 
+const SwiftFormat = new Formatter({
+  name: "swiftformat",
+  exe: {
+    command: ["/opt/homebrew/bin/swift-format"],
+  },
+  ft: ["swift"],
+  opts: {
+    args: ["$FILENAME", "--in-place"],
+    stdin: false,
+  },
+});
+
 export default [
   ClangFormat,
   Stylua,
@@ -110,4 +122,5 @@ export default [
   DartFmt,
   Gersemi,
   Alejandra,
+  SwiftFormat,
 ];

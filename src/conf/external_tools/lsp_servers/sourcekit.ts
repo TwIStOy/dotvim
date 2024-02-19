@@ -9,7 +9,10 @@ export const server = new LspServer({
     capabilities: LuaTable
   ) => {
     luaRequire("lspconfig").sourcekit.setup({
-      cmd: ["xcrun", "--toolchain", "swift", "sourcekit-lsp"],
+      // cmd: ["xcrun", "--toolchain", "swift", "sourcekit-lsp"],
+      cmd: [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp",
+      ],
       filetypes: ["swift", "objective-c", "objective-cpp"],
       on_attach: on_attach,
       capabilities: capabilities,

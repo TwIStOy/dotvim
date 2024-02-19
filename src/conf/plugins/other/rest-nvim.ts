@@ -45,6 +45,7 @@ const spec: PluginOptsBase = {
       skip_ssl_verification: true,
     },
     ft: ["http"],
+    cmd: ["RestNvim", "RestNvimPreview", "RestNvimLast"],
     lazy: true,
     dependencies: ["nvim-lua/plenary.nvim"],
     config: (_, opts) => {

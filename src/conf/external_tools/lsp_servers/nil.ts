@@ -17,10 +17,12 @@ export const server = new LspServer({
           formatting: {
             command: ["alejandra"],
           },
-          flake: {
-            autoArchive: true,
-            autoEvalInputs: true,
-          },
+          nix: {
+            flake: {
+              autoArchive: true,
+              autoEvalInputs: true,
+            },
+          }
         },
       },
     });

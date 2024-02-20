@@ -13,9 +13,9 @@ export const server = new LspServer({
       on_attach,
       capabilities,
       settings: {
-        nil: {
+        ['nil']: {
           formatting: {
-            command: ["nixpkgs-fmt"],
+            command: ["alejandra"],
           },
           flake: {
             autoArchive: true,

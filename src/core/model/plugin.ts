@@ -4,6 +4,7 @@ import { Command, CommandGroup, extendCommandsInGroup } from "./command";
 import { Action, ActionList, TraitActionsId } from "./action";
 import { tblExtend } from "@core/utils";
 import { Concat } from "@core/type_traits";
+import { ifNil, isNil } from "@core/vim";
 
 export interface ExtendPluginOpts {
   /**
@@ -17,6 +18,12 @@ export interface PluginOptsBase {
    * Short url for the plugin
    */
   shortUrl: string;
+
+  /**
+   * If present, the plugin has been installed by `nix`. Then given the path
+   * to the plugin.
+   */
+  nixPath?: string;
 
   /**
    * Options for `lazy.nvim`
@@ -246,6 +253,11 @@ export class Plugin<AIds extends string[] = []> {
       keys: keySpecs,
     });
     opts.config = this.generateConfigFn();
+    if (!isNil(this._opts.nixPath)) {
+      let nixPlugins = ifNil(nix_plugins, new LuaTable());
+      let dir = nixPlugins.get(this._opts.shortUrl);
+      opts.dir = dir;
+    }
 
     let result = {
       [1]: this._opts.shortUrl,

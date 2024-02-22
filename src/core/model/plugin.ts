@@ -255,7 +255,7 @@ export class Plugin<AIds extends string[] = []> {
     opts.config = this.generateConfigFn();
     if (!isNil(this._opts.nixPath)) {
       let nixPlugins = ifNil(nix_plugins, new LuaTable());
-      let dir = nixPlugins.get(this._opts.shortUrl);
+      let dir = nixPlugins.get(this._opts.nixPath);
       if (!isNil(dir)) {
         opts.dir = dir;
         opts.build = undefined;

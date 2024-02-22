@@ -256,7 +256,10 @@ export class Plugin<AIds extends string[] = []> {
     if (!isNil(this._opts.nixPath)) {
       let nixPlugins = ifNil(nix_plugins, new LuaTable());
       let dir = nixPlugins.get(this._opts.shortUrl);
-      opts.dir = dir;
+      if (!isNil(dir)) {
+        opts.dir = dir;
+        opts.build = undefined;
+      }
     }
 
     let result = {

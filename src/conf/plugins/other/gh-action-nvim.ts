@@ -6,6 +6,7 @@ export const plugin = new Plugin({
   lazy: {
     cmd: ["GhActions"],
     dependencies: ["nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim"],
+    build: "make",
     opts: {},
     config: (_, opts) => {
       luaRequire("gh-actions").setup(opts);

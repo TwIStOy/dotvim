@@ -7,6 +7,7 @@ import {
 
 const spec: PluginOptsBase = {
   shortUrl: "iamcco/markdown-preview.nvim",
+  nixPath: "markdown-preview-nvim",
   lazy: {
     ft: ["markdown"],
     build: () => {

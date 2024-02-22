@@ -199,7 +199,7 @@ M.config = function()
           and entry.source.source.client.name == "rime_ls"
         then
           -- cmp enabled
-          cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true }
+          cmp.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true }
         else
           fallback()
         end

@@ -82,6 +82,7 @@ A language server for librime
 
   require("lspconfig").rime_ls.setup {
     cmd = { "rime_ls" },
+    -- cmd = { "socat", "tcp:127.0.0.1:9257", "-" },
     init_options = {
       enabled = false,
       shared_data_dir = "~/.local/share/rime-ls-data-files",

@@ -18,6 +18,7 @@ export const server = new LspServer({
             command: ["alejandra"],
           },
           nix: {
+            maxMemoryMB: 16 * 1024,
             flake: {
               autoArchive: true,
               autoEvalInputs: true,

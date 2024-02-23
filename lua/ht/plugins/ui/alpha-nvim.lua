@@ -144,17 +144,28 @@ local function project_button(sc, project_path)
   end
   icon_txt = icon_txt .. "  "
 
+  local cmd = "<cmd>cd " .. project_path .. " <CR>"
+  local on_press = function()
+    local key =
+      vim.api.nvim_replace_termcodes(cmd .. "<Ignore>", true, false, true)
+    vim.api.nvim_feedkeys(key, "t", false)
+    print("test")
+    vim.schedule(function()
+      require("alpha").redraw()
+    end)
+  end
+
   return button(
     sc,
     icon_txt .. vim.fn.fnamemodify(project_path, ":~"),
-    "<cmd>cd " .. project_path .. " <CR>"
+    on_press
   )
 end
 
 local function fortune()
   local stats = require("lazy").stats()
   return string.format(
-    "󰂖 %d plugins loaded in %dms",
+    "󱐌 %d plugins loaded in %dms",
     stats.count,
     stats.startuptime
   )
@@ -201,13 +212,13 @@ local function build_buttons(arr)
   buttons[#buttons + 1] =
     button("u", "󰚰  " .. arr .. " Update Plugins", ":Lazy update<CR>")
 
-  buttons[#buttons + 1] = button(
-    "t",
-    "󰇉  " .. arr .. " Fast TEST",
-    function()
-      vim.print(RR("htts").test())
-    end
-  )
+  -- buttons[#buttons + 1] = button(
+  --   "t",
+  --   "󰇉  " .. arr .. " Fast TEST",
+  --   function()
+  --     vim.print(RR("htts").test())
+  --   end
+  -- )
 
   if Const.is_gui then
     buttons[#buttons + 1] = button(
@@ -365,13 +376,22 @@ local function build_recent_projects_section()
   return ret
 end
 
-local function build_recent_section()
+local function build_recent_val()
   local cwd = vim.fn.getcwd()
+  local res
   if cwd == "/" then
-    return build_recent_projects_section()
+    res = build_recent_projects_section()
   else
-    return build_recent_files_section()
+    res = build_recent_files_section()
   end
+  return res.val
+end
+
+local function build_recent_section()
+  return {
+    type = "group",
+    val = build_recent_val,
+  }
 end
 
 M.config = function() -- code to run after plugin loaded

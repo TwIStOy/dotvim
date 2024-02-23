@@ -1,5 +1,3 @@
-local lib = require("dora.lib")
-
 ---@class dora.core.ActionKeySpec: LazyKeysBase
 ---@field mode? string|string[]
 

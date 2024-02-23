@@ -1,0 +1,4 @@
+---@class dora.core.Plugin.Meta
+---@field nixpkg? string Path to the nix package if the plugin is loaded from nix
+---@field ui? string[] Which UIs the plugin supports, default: {"nvim"}
+---@field description? string Description of the plugin

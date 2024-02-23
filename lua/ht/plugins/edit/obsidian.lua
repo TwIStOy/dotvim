@@ -95,9 +95,9 @@ M.lazy.config = function()
       alias_format = "%B %-d, %Y",
       template = "Templates.nvim/daily-note.md",
     },
+    new_notes_location = "notes_subdir",
     completion = {
       nvim_cmp = true,
-      new_notes_location = "notes_subdir",
     },
     templates = {
       subdir = "0-Assets",

@@ -1,6 +1,5 @@
 local Globals = require("ht.core.globals")
 local entry_display = require("telescope.pickers.entry_display")
-local obsidian = require("obsidian")
 local pickers = require("telescope.pickers")
 local conf = require("telescope.config").values
 local actions = require("telescope.actions")
@@ -10,7 +9,6 @@ local finders = require("telescope.finders")
 local extra_obsidian = require("ht.extra.obsidian")
 local Tbl = require("ht.utils.table")
 local hv = require("ht.vim")
-assert(obsidian ~= nil)
 
 local note_path_blacklist_pattern = {
   "1-Inputs/Weread",
@@ -152,7 +150,9 @@ local function find_notes(opts, notes)
           local entry = action_state.get_selected_entry()
           actions.close(bufnr)
           if entry ~= nil then
-            vim.cmd(("e %s/%s"):format(Globals.obsidian_vault, entry.value.value.path))
+            vim.cmd(
+              ("e %s/%s"):format(Globals.obsidian_vault, entry.value.value.path)
+            )
           end
         end)
         return true

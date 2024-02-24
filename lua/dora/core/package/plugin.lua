@@ -29,7 +29,7 @@ end
 
 ---Converts a plugin into a lazy plugin
 ---@return LazyPluginSpec? opts options for `lazy.nvim`, nil to skip this
-function Plugin:into_lazy_plugin()
+function Plugin:into_lazy_spec()
   if vim.g.vscode and not self.vscode then
     -- skip this plugin if it's not allowed in vscode
     return nil

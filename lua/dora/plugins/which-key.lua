@@ -1,4 +1,4 @@
----@type dora.core.PluginOptions
+---@type dora.lib.PluginOptions
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",

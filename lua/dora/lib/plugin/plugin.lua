@@ -15,62 +15,70 @@ local Plugin = {}
 ---@param option dora.lib.PluginOptions
 ---@return dora.lib.Plugin
 local function new_plugin(option)
-	local actions = {}
-	if option.actions ~= nil then
-		for _, action in ipairs(option.actions) do
-			actions[#actions + 1] = lib.action.new_action(action)
-		end
-	end
-	option.actions = actions
-	return setmetatable(option, { __index = Plugin }) --[[@as dora.lib.Plugin]]
+  local actions = {}
+  if option.actions ~= nil then
+    for _, action in ipairs(option.actions) do
+      actions[#actions + 1] = lib.action.new_action(action)
+    end
+  end
+  option.actions = actions
+  return setmetatable(option, { __index = Plugin }) --[[@as dora.lib.Plugin]]
 end
 
 ---Converts a plugin into a lazy plugin
 ---@return LazyPluginSpec? opts options for `lazy.nvim`, nil to skip this
 function Plugin:into_lazy_spec()
-	local current_gui = lib.vim.current_gui()
-	if self.gui ~= nil and current_gui ~= nil then
-		if type(self.gui) == "string" then
-			if current_gui ~= self.gui then
-				return nil
-			end
-		else
-			if
-				not vim.list_contains(self.gui --[[ @as string[] ]], current_gui)
-			then
-				return nil
-			end
-		end
-	end
+  local current_gui = lib.vim.current_gui()
+  if current_gui ~= nil then
+    if self.gui == nil then
+      return nil
+    end
+    if type(self.gui) == "string" then
+      if current_gui ~= self.gui and self.gui ~= "all" then
+        return nil
+      end
+    else
+      if
+        not vim.list_contains(self.gui --[[ @as string[] ]], current_gui)
+      then
+        return nil
+      end
+    end
+  end
 
-	-- only export the fields that are in the base class
-	---@type LazyPluginSpec
-	local lazy = lib.tbl.filter_out_keys(self, { "nixpkg", "gui", "actions" })
+  -- only export the fields that are in the base class
+  ---@type LazyPluginSpec
+  local lazy = lib.tbl.filter_out_keys(self, { "nixpkg", "gui", "actions" })
 
-	-- if `nixpkg` is set, load this plugin from nix
-	if self.nixpkg ~= nil then
-		local nixpkg = self.nixpkg
-		local path = lib.nix.resolve_pkg_path(nixpkg)
-		if path ~= nil then
-			lazy.dir = path
-			lazy.build = nil -- skip build if it's from nix
-		end
-	end
+  local enabled = lazy.enabled
+  if type(enabled) == "function" then
+    enabled = enabled()
+  end
 
-	if self.actions ~= nil then
-		local all_keys = self.keys
-		for _, action in ipairs(self.actions) do
-			local keys = action:into_lazy_keys()
-			for _, key in ipairs(keys) do
-				all_keys[#all_keys + 1] = key
-			end
-		end
-		lazy.keys = all_keys
-	end
+  -- if `nixpkg` is set, load this plugin from nix
+  if self.nixpkg ~= nil then
+    local nixpkg = self.nixpkg
+    local path = lib.nix.resolve_pkg_path(nixpkg)
+    if path ~= nil then
+      lazy.dir = path
+      lazy.build = nil -- skip build if it's from nix
+    end
+  end
 
-	return lazy
+  if self.actions ~= nil and enabled then
+    local all_keys = self.keys
+    for _, action in ipairs(self.actions) do
+      local keys = action:into_lazy_keys()
+      for _, key in ipairs(keys) do
+        all_keys[#all_keys + 1] = key
+      end
+    end
+    lazy.keys = all_keys
+  end
+
+  return lazy
 end
 
 return {
-	new_plugin = new_plugin,
+  new_plugin = new_plugin,
 }

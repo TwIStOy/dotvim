@@ -1,1 +1,0 @@
----@alias dora.core.LazyExpr<T> T|fun():T

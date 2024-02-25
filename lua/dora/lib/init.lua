@@ -10,4 +10,5 @@ return {
   },
   tbl = require("dora.lib.tbl"),
   fs = require("dora.lib.fs"),
+  cache = require("dora.lib.cache"),
 }

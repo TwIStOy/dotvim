@@ -32,4 +32,12 @@ return {
       },
     },
   },
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    allow_in_vscode = true,
+    event = "BufReadPost",
+    config = true,
+    gui = "all",
+  },
 }

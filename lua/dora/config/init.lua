@@ -4,7 +4,8 @@
 ---@field obsidian_vaults dora.config.path.ObsidianVaults
 
 ---@class dora.config.SetupOptions
----@field paths dora.config.Paths
+---@field paths? dora.config.Paths
+---@field lsp? dora.config.lsp.BackendConfig
 local config = {
   paths = {
     obsidian_vaults = {

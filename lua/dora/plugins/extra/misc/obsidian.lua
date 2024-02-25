@@ -51,8 +51,11 @@ return {
       "ObsidianYesterday",
     },
     cond = lib.cache.call_once(resolve_obsidian_vault),
+    opts = function(_, opts)
+      local opts = opts or {}
+    end,
     actions = lib.plguin.action.make_options {
       from = "obsidian.nvim",
-    }
+    },
   },
 }

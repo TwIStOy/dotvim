@@ -3,7 +3,7 @@ local lib = require("dora.lib")
 ---@class dora.lib.AdditionalPluginOptions
 ---@field nixpkg? string Whether the plugin will be loaded from nix
 ---@field gui? string|string[] Can be used in which gui environment
----@field actions? dora.lib.ActionOptions[]
+---@field actions? dora.lib.ActionOptions[]|fun():dora.lib.ActionOptions[]
 ---@field keys? LazyKeysSpec[]
 
 ---@class dora.lib.PluginOptions: dora.lib.AdditionalPluginOptions,LazyPluginSpec
@@ -17,7 +17,14 @@ local Plugin = {}
 local function new_plugin(option)
   local actions = {}
   if option.actions ~= nil then
-    for _, action in ipairs(option.actions) do
+    ---@type dora.lib.ActionOptions[]
+    local values
+    if type(option.actions) == "function" then
+      values = option.actions()
+    else
+      values = option.actions --[[@as dora.lib.ActionOptions[] ]]
+    end
+    for _, action in ipairs(values) do
       actions[#actions + 1] = lib.action.new_action(action)
     end
   end

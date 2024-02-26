@@ -54,22 +54,23 @@ end
 ---Converts a plugin into a lazy plugin
 ---@return LazyPluginSpec? opts options for `lazy.nvim`, nil to skip this
 function Plugin:into_lazy_spec()
-  local current_gui = lib.vim.current_gui()
-  if current_gui ~= nil then
-    if self.options.gui == nil then
-      return nil
+  local gui_cond = function()
+    local current_gui = lib.vim.current_gui()
+    if current_gui == nil then
+      return true
     end
-    if type(self.options.gui) == "string" then
-      if current_gui ~= self.options.gui and self.options.gui ~= "all" then
-        return nil
-      end
-    else
-      if
-        not vim.list_contains(self.gui --[[ @as string[] ]], current_gui)
-      then
-        return nil
-      end
+    local gui = self.options.gui
+    if gui == nil then
+      return false
     end
+    if type(gui) == "string" then
+      if current_gui == gui or gui == "all" then
+        return true
+      end
+    elseif vim.list_contains(gui, current_gui) then
+      return true
+    end
+    return false
   end
 
   -- only export the fields that are in the base class
@@ -77,9 +78,27 @@ function Plugin:into_lazy_spec()
   local lazy =
     lib.tbl.filter_out_keys(self.options, { "nixpkg", "gui", "actions" })
 
+  if lazy.cond == nil then
+    lazy.cond = gui_cond
+  elseif type(lazy.cond) == "function" then
+    local old_cond = lazy.cond --[[@as fun():boolean ]]
+    lazy.cond = function()
+      return (not not old_cond()) and gui_cond()
+    end
+  elseif type(lazy.cond) == "boolean" then
+    if lazy.cond == true then
+      lazy.cond = gui_cond
+    end
+  end
+
   local enabled = lazy.enabled
   if type(enabled) == "function" then
-    enabled = enabled()
+    enabled = not not enabled()
+  end
+  if type(lazy.cond) == "function" then
+    enabled = enabled and lazy.cond()
+  else
+    enabled = enabled and not not lazy.cond
   end
 
   -- if `nixpkg` is set, load this plugin from nix

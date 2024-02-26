@@ -51,6 +51,21 @@ function Plugin:name()
   return self.options[1]
 end
 
+function Plugin:alias()
+  local res = {
+    self.options[1],
+  }
+  if self.options.name ~= nil then
+    res[#res + 1] = self.options.name
+  end
+  -- $USER/$REPO, REPO can be used
+  local repo = self.options[1]:match(".*/(.*)")
+  res[#res + 1] = repo
+  return res
+end
+
+-- TODO(Hawtian Wang): resort all plugins
+
 ---Converts a plugin into a lazy plugin
 ---@return LazyPluginSpec? opts options for `lazy.nvim`, nil to skip this
 function Plugin:into_lazy_spec()

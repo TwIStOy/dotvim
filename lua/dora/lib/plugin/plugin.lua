@@ -2,7 +2,7 @@ local lib = require("dora.lib")
 
 ---@class dora.lib.AdditionalPluginOptions
 ---@field nixpkg? string Whether the plugin will be loaded from nix
----@field gui? string|string[] Can be used in which gui environment
+---@field gui? "all"|string|string[] Can be used in which gui environment
 ---@field actions? dora.lib.ActionOptions[]|fun():dora.lib.ActionOptions[]
 ---@field keys? LazyKeysSpec[]
 

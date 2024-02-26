@@ -12,4 +12,29 @@ function M.require_then(name, callback)
   end
 end
 
+---@param callback string|fun(): any
+---@param feedkeys? boolean
+---@return fun(): any
+function M.normalize_callback(callback, feedkeys)
+  if type(callback) == "string" then
+    if feedkeys == true then
+      return function()
+        local key = vim.api.nvim_replace_termcodes(
+          callback .. "<Ignore>",
+          true,
+          false,
+          true
+        )
+        vim.api.nvim_feedkeys(key, "t", false)
+      end
+    else
+      return function()
+        vim.api.nvim_command(callback)
+      end
+    end
+  else
+    return callback
+  end
+end
+
 return M

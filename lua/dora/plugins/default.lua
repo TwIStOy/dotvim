@@ -2,6 +2,7 @@ local lib = require("dora.lib")
 
 ---@type dora.lib.PluginOptions[]
 return {
+  { "folke/lazy.nvim", version = "*" },
   {
     "TwIStOy/nvim-lastplace",
     event = "BufReadPre",

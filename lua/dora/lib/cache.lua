@@ -8,6 +8,7 @@ CacheManager.new = function()
   return self
 end
 
+---@return dora.lib.CacheManager
 local function new_cache_manager()
   return CacheManager.new()
 end
@@ -84,7 +85,10 @@ local function call_once(fun)
   end
 end
 
-return {
+---@class dora.lib.cache
+local M = {
   new_cache_manager = new_cache_manager,
   call_once = call_once,
 }
+
+return M

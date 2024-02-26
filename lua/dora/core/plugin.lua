@@ -14,14 +14,15 @@ local M = {}
 ---@field actions? dora.core.action.ActionOptions[]|fun():dora.core.action.ActionOptions[]
 ---@field keys? LazyKeysSpec[]
 
----@class dora.lib.PluginOptions: dora.core.plugin.ExtraPluginOptions,LazyPluginSpec
+---@class dora.core.plugin.PluginOptions: dora.core.plugin.ExtraPluginOptions,LazyPluginSpec
 
----@class dora.lib.Plugin: dora.lib.PluginOptions
+---@class dora.core.plugin.Plugin
+---@field options dora.core.plugin.PluginOptions
 ---@field actions dora.core.action.Action[]
 local Plugin = {}
 
----@param option dora.lib.PluginOptions
----@return dora.lib.Plugin
+---@param option dora.core.plugin.PluginOptions
+---@return dora.core.plugin.Plugin
 function M.new_plugin(option)
   local actions = {}
   if option.actions ~= nil then
@@ -36,8 +37,18 @@ function M.new_plugin(option)
       actions[#actions + 1] = action_module.new_action(action)
     end
   end
-  option.actions = actions
-  return setmetatable(option, { __index = Plugin }) --[[@as dora.lib.Plugin]]
+  return setmetatable({
+    options = option,
+    actions = actions,
+  }, { __index = Plugin })
+end
+
+---@return string
+function Plugin:name()
+  if self.options.name ~= nil then
+    return self.options.name
+  end
+  return self.options[1]
 end
 
 ---Converts a plugin into a lazy plugin
@@ -45,11 +56,11 @@ end
 function Plugin:into_lazy_spec()
   local current_gui = lib.vim.current_gui()
   if current_gui ~= nil then
-    if self.gui == nil then
+    if self.options.gui == nil then
       return nil
     end
-    if type(self.gui) == "string" then
-      if current_gui ~= self.gui and self.gui ~= "all" then
+    if type(self.options.gui) == "string" then
+      if current_gui ~= self.options.gui and self.options.gui ~= "all" then
         return nil
       end
     else
@@ -63,7 +74,8 @@ function Plugin:into_lazy_spec()
 
   -- only export the fields that are in the base class
   ---@type LazyPluginSpec
-  local lazy = lib.tbl.filter_out_keys(self, { "nixpkg", "gui", "actions" })
+  local lazy =
+    lib.tbl.filter_out_keys(self.options, { "nixpkg", "gui", "actions" })
 
   local enabled = lazy.enabled
   if type(enabled) == "function" then
@@ -71,8 +83,8 @@ function Plugin:into_lazy_spec()
   end
 
   -- if `nixpkg` is set, load this plugin from nix
-  if self.nixpkg ~= nil then
-    local nixpkg = self.nixpkg
+  if self.options.nixpkg ~= nil then
+    local nixpkg = self.options.nixpkg
     local path = config.nixpkgs.resolve_pkg(nixpkg --[[ @as string ]])
     if path ~= nil then
       lazy.dir = path
@@ -81,7 +93,7 @@ function Plugin:into_lazy_spec()
   end
 
   if self.actions ~= nil and enabled then
-    local all_keys = self.keys
+    local all_keys = self.options.keys
     for _, action in ipairs(self.actions) do
       local keys = action:into_lazy_keys()
       for _, key in ipairs(keys) do

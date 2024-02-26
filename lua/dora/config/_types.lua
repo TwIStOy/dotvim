@@ -1,0 +1,2 @@
+---@class dora.config.Configuration<T>
+---@field public config T

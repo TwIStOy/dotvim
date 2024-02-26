@@ -13,4 +13,7 @@ M.func = require("dora.lib.func")
 ---@type dora.lib.vim
 M.vim = require("dora.lib.vim")
 
+---@type dora.lib.tbl
+M.tbl = require("dora.lib.tbl")
+
 return M

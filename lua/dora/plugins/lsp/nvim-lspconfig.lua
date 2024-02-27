@@ -79,7 +79,9 @@ return {
       require("lspconfig")[server].setup(final_opts)
     end
 
-    for server, server_opts in pairs(config.lsp.config.server_opts) do
+    vim.print(config.lsp.config)
+
+    for server, server_opts in pairs(config.lsp.config.server_opts or {}) do
       setup_server(server, server_opts)
     end
   end,

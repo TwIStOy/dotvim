@@ -21,9 +21,10 @@ dora.setup {
     { import = "extra.completion" },
     { import = "extra.editor" },
     { import = "extra.lang.latex" },
+    { import = "extra.lang.cpp" },
   },
 }
 
-vim.cmd[[
+vim.cmd([[
 colorscheme catppuccin
-]]
+]])

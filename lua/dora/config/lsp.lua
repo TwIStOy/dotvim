@@ -40,9 +40,8 @@ local Config = {
     references = "glance",
     code_action = "lspsaga",
   },
-  capabilities = {
-    offsetEncoding = { "utf-16" },
-  },
+  server_opts = {},
+  setups = {},
 }
 M.config = Config
 

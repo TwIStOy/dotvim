@@ -24,8 +24,8 @@ function M.setup(opts)
   M.lsp.setup(opts.lsp or {})
   M.nixpkgs.setup(opts.nixpkgs or {})
   M.icon.setup(opts.icons or {})
-  M.plugins.setup(opts.plugins or {})
   M.ui.setup(opts.ui or {})
+  M.plugins.setup(opts.plugins or {})
 end
 
 return M

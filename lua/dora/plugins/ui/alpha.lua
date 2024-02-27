@@ -124,6 +124,7 @@ return {
         end
         return make_button(sc, icon .. short_filename, "e " .. filename, {
           hl = button_highlights,
+          feedkeys = false,
         })
       end
 

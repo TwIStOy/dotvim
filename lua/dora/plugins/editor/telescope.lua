@@ -114,7 +114,7 @@ return {
         },
       }
 
-      local default_actions = action.make_options {
+      local common_actions = action.make_options {
         from = "telescope.nvim",
         category = "Telescope",
         actions = {
@@ -161,10 +161,10 @@ return {
         },
       }
 
-      local res = {}
-      vim.list_extend(res, default_actions)
-      vim.list_extend(res, lsp_actions)
-      return res
+      return {
+        unpack(lsp_actions),
+        unpack(common_actions),
+      }
     end,
   },
 }

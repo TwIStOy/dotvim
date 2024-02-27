@@ -1,7 +1,11 @@
+---@type dora.lib
+local lib = require("dora.lib")
+
 ---@type dora.core.package.PackageOption
 return {
   name = "_builtin",
-  plugins = {
+  plugins = lib.tbl.flatten_array {
+    require("dora.packages._builtin.plugins._"),
     { "folke/lazy.nvim", lazy = true },
     {
       "catppuccin/nvim",

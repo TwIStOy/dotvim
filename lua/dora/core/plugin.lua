@@ -106,7 +106,7 @@ function Plugin:into_lazy_spec()
     end
   end
 
-  local enabled = lazy.enabled
+  local enabled = vim.F.if_nil(lazy.enabled, true)
   if type(enabled) == "function" then
     enabled = not not enabled()
   end
@@ -130,7 +130,14 @@ function Plugin:into_lazy_spec()
   end
 
   if self.actions ~= nil and enabled then
-    local all_keys = self.options.keys
+    local all_keys
+    if self.options.keys == nil then
+      all_keys = {}
+    elseif vim.tbl_isarray(self.options.keys) then
+      all_keys = vim.deepcopy(self.options.keys)
+    else
+      all_keys = { vim.deepcopy(self.options.keys) }
+    end
     for _, action in ipairs(self.actions) do
       local keys = action:into_lazy_keys()
       for _, key in ipairs(keys) do
@@ -138,6 +145,10 @@ function Plugin:into_lazy_spec()
       end
     end
     lazy.keys = all_keys
+  end
+
+  if self.options[1] == "akinsho/toggleterm.nvim" then
+    vim.print(lazy)
   end
 
   return lazy

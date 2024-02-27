@@ -65,19 +65,26 @@ function Action:into_lazy_keys()
       },
     }
   end
-  ---@param key dora.core.action.KeySpec|string
-  return vim.tbl_map(function(key)
+  local keys = self.keys
+  if not vim.tbl_isarray(keys) then
+    keys = { keys }
+  end
+
+  local res = {}
+  for _, key in ipairs(keys) do
     if type(key) == "string" then
-      return {
+      res[#res + 1] = {
         key,
         callback,
       }
     else
-      local res = vim.deepcopy(key)
-      res[2] = callback
-      return res
+      local k = vim.deepcopy(key)
+      k[2] = callback
+      res[#res + 1] = k
     end
-  end, self.keys --[[@as (string|dora.core.action.KeySpec)[] ]])
+  end
+
+  return res
 end
 
 ---@param opts dora.core.action.ActionOptions

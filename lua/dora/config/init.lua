@@ -8,6 +8,8 @@ local M = {
   icon = require("dora.config.icon"),
   ---@type dora.config.plugins
   plugins = require("dora.config.plugins"),
+  ---@type dora.config.ui
+  ui = require("dora.config.ui"),
 }
 
 ---@class dora.config.SetupOptions
@@ -15,6 +17,7 @@ local M = {
 ---@field nixpkgs? table<string, string>
 ---@field icons? table<string, string>
 ---@field plugins? (dora.config.plugins.ImportConfig|dora.core.plugin.PluginOptions)[]
+---@field ui? dora.config.ui.SetupOptions
 
 ---@param opts dora.config.SetupOptions
 function M.setup(opts)
@@ -22,6 +25,7 @@ function M.setup(opts)
   M.nixpkgs.setup(opts.nixpkgs or {})
   M.icon.setup(opts.icons or {})
   M.plugins.setup(opts.plugins or {})
+  M.ui.setup(opts.ui or {})
 end
 
 return M

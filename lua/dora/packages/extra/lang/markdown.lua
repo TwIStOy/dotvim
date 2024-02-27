@@ -24,6 +24,7 @@ return {
     },
     {
       "iamcco/markdown-preview.nvim",
+      name = "markdown-preview.nvim",
       nixpkg = "markdown-preview-nvim",
       ft = { "markdown" },
       build = function()
@@ -102,6 +103,17 @@ return {
           },
         }
       end,
+    },
+    {
+      "lukas-reineke/headlines.nvim",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+      },
+      enabled = function()
+        return not vim.g.neovide
+      end,
+      ft = { "markdown", "vimwiki" },
+      opts = {},
     },
   },
 }

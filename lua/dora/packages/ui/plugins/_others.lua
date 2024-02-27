@@ -102,4 +102,15 @@ return {
       end,
     },
   },
+  {
+    "s1n7ax/nvim-window-picker",
+    opts = {
+      filter_rules = {
+        bo = {
+          filetype = { "NvimTree", "neo-tree", "notify", "NvimSeparator", "" },
+          buftype = { "terminal" },
+        },
+      },
+    },
+  },
 }

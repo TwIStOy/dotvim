@@ -31,6 +31,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    gui = "all",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
@@ -78,6 +79,7 @@ return {
   },
   {
     "RRethy/nvim-treesitter-endwise",
+    gui = "all",
     ft = { "lua", "ruby", "vimscript" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
@@ -86,5 +88,18 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
+  },
+  {
+    "Wansmer/treesj",
+    gui = "all",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
+    opts = {
+      use_default_keymaps = false,
+      check_syntax_error = false,
+      max_join_length = 120,
+    },
   },
 }

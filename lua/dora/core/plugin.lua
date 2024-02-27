@@ -13,6 +13,7 @@ local M = {}
 ---@field gui? "all"|string[] Can be used in which gui environment
 ---@field actions? dora.core.action.ActionOptions[]|fun():dora.core.action.ActionOptions[]
 ---@field keys? LazyKeysSpec[]
+---@field after? string|string[] The plugin spec must be after these plugins' specs in 'lazy.nvim'
 
 ---@class dora.core.plugin.PluginOptions: dora.core.plugin.ExtraPluginOptions,LazyPluginSpec
 
@@ -51,6 +52,7 @@ function Plugin:name()
   return self.options[1]
 end
 
+---@return string[]
 function Plugin:alias()
   local res = {
     self.options[1],
@@ -64,7 +66,14 @@ function Plugin:alias()
   return res
 end
 
--- TODO(Hawtian Wang): resort all plugins
+---@return string[]
+function Plugin:resolve_afters()
+  local res = self.options.after
+  if type(res) == "string" then
+    return { res }
+  end
+  return res or {}
+end
 
 ---Converts a plugin into a lazy plugin
 ---@return LazyPluginSpec? opts options for `lazy.nvim`, nil to skip this
@@ -90,8 +99,10 @@ function Plugin:into_lazy_spec()
 
   -- only export the fields that are in the base class
   ---@type LazyPluginSpec
-  local lazy =
-    lib.tbl.filter_out_keys(self.options, { "nixpkg", "gui", "actions" })
+  local lazy = lib.tbl.filter_out_keys(
+    self.options,
+    { "nixpkg", "gui", "actions", "after" }
+  )
 
   if lazy.cond == nil then
     lazy.cond = gui_cond

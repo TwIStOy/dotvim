@@ -4,6 +4,7 @@ return {
     "L3MON4D3/LuaSnip",
     gui = "all",
     build = "make install_jsregex",
+    after = { "nvim-cmp" },
     dependencies = {
       {
         "nvim-cmp",

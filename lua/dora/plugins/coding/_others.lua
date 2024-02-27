@@ -4,7 +4,7 @@ return {
     "altermo/ultimate-autopair.nvim",
     gui = "all",
     event = {
-      "InertEnter",
+      "InsertEnter",
       "CmdlineEnter",
     },
     opts = {

@@ -50,53 +50,53 @@ return {
           {
             id = "illuminate.pause",
             callback = "IlluminatePause",
-            desc = "Globally pause vim-illuminate",
+            title = "Globally pause vim-illuminate",
           },
           {
             id = "illuminate.resume",
             callback = "IlluminateResume",
-            desc = "Globally resume vim-illuminate",
+            title = "Globally resume vim-illuminate",
           },
           {
             id = "illuminate.toggle",
             callback = "IlluminateToggle",
-            desc = "Globally toggle the pause/resume for vim-illuminate",
+            title = "Globally toggle the pause/resume for vim-illuminate",
           },
           {
             id = "illuminate.pause_buf",
             callback = "IlluminatePauseBuf",
-            desc = "Buffer-local pause of vim-illuminate",
+            title = "Buffer-local pause of vim-illuminate",
           },
           {
             id = "illuminate.resume_buf",
             callback = "IlluminateResumeBuf",
-            desc = "Buffer-local resume of vim-illuminate",
+            title = "Buffer-local resume of vim-illuminate",
           },
           {
             id = "illuminate.toggle_buf",
             callback = "IlluminateToggleBuf",
-            desc = "Buffer-local toggle of the pause/resume for vim-illuminate",
+            title = "Buffer-local toggle of the pause/resume for vim-illuminate",
           },
           {
             id = "illuminate.freeze",
             callback = function()
               require("illuminate").freeze_buf()
             end,
-            desc = "Freeze the illumination on the buffer, this won't clear the highlights",
+            title = "Freeze the illumination on the buffer, this won't clear the highlights",
           },
           {
             id = "illuminate.unfreeze",
             callback = function()
               require("illuminate").unfreeze_buf()
             end,
-            desc = "Unfreeze the illumination on the buffer",
+            title = "Unfreeze the illumination on the buffer",
           },
           {
             id = "illuminate.toggle_freeze",
             callback = function()
               require("illuminate").toggle_freeze_buf()
             end,
-            desc = "Toggle the frozen state of the buffer",
+            title = "Toggle the frozen state of the buffer",
           },
         },
       }

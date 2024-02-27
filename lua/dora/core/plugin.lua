@@ -1,7 +1,5 @@
 ---@type dora.lib
 local lib = require("dora.lib")
----@type dora.config
-local config = require("dora.config")
 ---@type dora.core.action
 local action_module = require("dora.core.action")
 
@@ -126,6 +124,9 @@ function Plugin:into_lazy_spec()
   else
     enabled = enabled and not not lazy.cond
   end
+
+  ---@type dora.config
+  local config = require("dora.config")
 
   -- if `nixpkg` is set, load this plugin from nix
   if self.options.nixpkg ~= nil then

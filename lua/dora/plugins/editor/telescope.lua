@@ -97,19 +97,19 @@ return {
         actions = {
           {
             id = "telescope.lsp-document-symbols",
+            title = "Find document symbols",
             callback = function()
               require("telescope.builtin").lsp_document_symbols {}
             end,
-            description = "document-symbols",
-            keys = "<leader>ls",
+            keys = { "<leader>ls", desc = "document-symbols" },
           },
           {
             id = "telescope.lsp-workspace-symbols",
+            title = "Find workspace symbols",
             callback = function()
               require("telescope.builtin").lsp_workspace_symbols {}
             end,
-            description = "workspace-symbols",
-            keys = "<leader>lw",
+            keys = { "<leader>lw", desc = "workspace-symbols" },
           },
         },
       }
@@ -120,11 +120,11 @@ return {
         actions = {
           {
             id = "telescope.all-buffers",
+            title = "Find all buffers",
             callback = function()
               require("telescope.builtin").buffers {}
             end,
-            description = "f-buffers",
-            keys = "<F4>",
+            keys = { "<F4>", desc = "all-buffers" },
           },
           {
             id = "telescope.find-files",
@@ -139,8 +139,8 @@ return {
                 require("telescope.builtin").find_files {}
               end
             end,
-            description = "edit-project-files",
-            keys = "<leader>e",
+            title = "Edit project files",
+            keys = { "<leader>e", desc = "edit-project-files" },
           },
           {
             id = "telescope.live-grep",
@@ -155,8 +155,8 @@ return {
                 require("telescope.builtin").live_grep {}
               end
             end,
-            description = "Search for a string in current working directory",
-            keys = { "<leader>lg", "<D-/>" },
+            title = "Search for a string in current working directory",
+            keys = { "<leader>lg", desc = "live-grep" },
           },
         },
       }

@@ -40,6 +40,7 @@ return {
         actions = {
           {
             id = "close-buffer.delete-all-hidden-buffers",
+            title = "Delete all hidden buffers",
             callback = function()
               require("close_buffers").delete { type = "hidden", force = true }
               redraw_all()
@@ -48,6 +49,7 @@ return {
           },
           {
             id = "close-buffer.delete-all-buffers-without-name",
+            title = "Delete all buffers without name",
             callback = function()
               require("close_buffers").delete { type = "nameless" }
               redraw_all()
@@ -55,6 +57,7 @@ return {
           },
           {
             id = "close-buffer.delete-current-buffer",
+            title = "Delete current buffer",
             callback = function()
               require("close_buffers").delete { type = "this" }
               redraw_all()
@@ -62,6 +65,7 @@ return {
           },
           {
             id = "close-buffer.delete-all-buffers-matching-the-regex",
+            title = "Delete all buffers matching the regex",
             callback = function()
               vim.ui.input({ prompt = "Regex" }, function(input)
                 if input ~= nil and #input > 0 then
@@ -93,11 +97,13 @@ return {
         actions = {
           {
             id = "trouble.open-workspace-diagnostic",
+            title = "Open workspace diagnostic",
             callback = "Trouble workspace_diagnostic",
             keys = { "<leader>xw", desc = "lsp-workspace-diagnostic" },
           },
           {
             id = "trouble.open-document-diagnostic",
+            title = "Open document diagnostic",
             callback = "Trouble document_diagnostic",
             keys = { "<leader>xd", desc = "lsp-document-diagnostic" },
           },
@@ -110,6 +116,7 @@ return {
         actions = {
           {
             id = "trouble.toggle-window",
+            title = "Toggle trouble window",
             callback = "TroubleToggle",
             keys = { "<leader>xx", desc = "trouble-toggle" },
           },
@@ -125,6 +132,7 @@ return {
         actions = {
           {
             id = "trouble.previous-trouble",
+            title = "Previous trouble",
             callback = function()
               require("trouble").previous { skip_groups = true, jump = true }
             end,
@@ -132,6 +140,7 @@ return {
           },
           {
             id = "trouble.next-trouble",
+            title = "Next trouble",
             callback = function()
               require("trouble").next { skip_groups = true, jump = true }
             end,
@@ -172,22 +181,19 @@ return {
             id = "todo-comments.open-todos-in-trouble",
             title = "Open todos in trouble",
             callback = "TodoTrouble",
-            keys = "<leader>xt",
-            description = "touble-todo",
+            keys = { "<leader>xt", desc = "touble-todo" },
           },
           {
             id = "todo-comments.open-todos-fix-fixme-in-trouble",
             title = "Open todos,fix,fixme in trouble",
             callback = "TodoTrouble keywords=TODO,FIX,FIXME",
-            keys = "<leader>xT",
-            description = "trouble-TFF",
+            keys = { "<leader>xT", desc = "trouble-TFF" },
           },
           {
             id = "todo-comments.list-all-todos-in-telescope",
             title = "List all todos in telescope",
             callback = "TodoTelescope",
-            keys = "<leader>lt",
-            description = "list-todos",
+            keys = { "<leader>lt", desc = "list-todos" },
           },
           {
             id = "todo-comments.goto-next-todo",
@@ -195,8 +201,7 @@ return {
             callback = function()
               require("todo-comments").jump_next()
             end,
-            keys = "]t",
-            description = "jump-next-todo",
+            keys = { "]t", desc = "jump-next-todo" },
           },
           {
             id = "todo-comments.goto-previous-todo",
@@ -204,8 +209,7 @@ return {
             callback = function()
               require("todo-comments").jump_prev()
             end,
-            keys = "[t",
-            description = "jump-prev-todo",
+            keys = { "[t", desc = "jump-previous-todo" },
           },
         },
       }

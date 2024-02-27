@@ -1,7 +1,7 @@
 ---@class dora.core.registry
 local M = {}
 
----@type table<string, dora.core.plugin.Plugin>
+---@type table<string, dora.core.plugin.Plugin[]>
 M.plugins = {}
 ---@type table<string, dora.core.action.Action>
 M.actions = {}
@@ -10,7 +10,10 @@ M.alias_to_fullname = {}
 
 ---@param plugin dora.core.plugin.Plugin
 function M.register_plugin(plugin)
-  M.plugins[plugin:name()] = plugin
+  if M.plugins[plugin:name()] == nil then
+    M.plugins[plugin:name()] = {}
+  end
+  table.insert(M.plugins[plugin:name()], plugin)
   for _, alias in ipairs(plugin:alias()) do
     M.alias_to_fullname[alias] = plugin:name()
   end
@@ -42,19 +45,22 @@ function M.sort_plugins()
   local incoming_counts = {}
 
   local num_of_plugins = 0
-  for _, plugin in pairs(M.plugins) do
-    local deps = plugin:resolve_afters()
-    for _, dep in ipairs(deps) do
-      local depname = M.alias_to_fullname[dep]
-      if depname == nil then
-        error("Dependency " .. dep .. " not found")
-      end
+  for _, plugins in pairs(M.plugins) do
+    for _, plugin in ipairs(plugins) do
+      local deps = plugin:resolve_afters()
+      for _, dep in ipairs(deps) do
+        local depname = M.alias_to_fullname[dep]
+        if depname == nil then
+          error("Dependency " .. dep .. " not found")
+        end
 
-      if outgoing_edges[depname] == nil then
-        outgoing_edges[depname] = {}
+        if outgoing_edges[depname] == nil then
+          outgoing_edges[depname] = {}
+        end
+        table.insert(outgoing_edges[depname], plugin:name())
+        incoming_counts[plugin:name()] = (incoming_counts[plugin:name()] or 0)
+          + 1
       end
-      table.insert(outgoing_edges[depname], plugin:name())
-      incoming_counts[plugin:name()] = (incoming_counts[plugin:name()] or 0) + 1
     end
     num_of_plugins = num_of_plugins + 1
   end
@@ -95,9 +101,11 @@ function M.sort_plugins()
     error("Cycle detected")
   end
 
-  return vim.tbl_map(function(name)
-    return M.plugins[name]
-  end, sorted)
+  local res = {}
+  for _, value in ipairs(sorted) do
+    res = vim.list_extend(res, M.plugins[value])
+  end
+  return res
 end
 
 return M

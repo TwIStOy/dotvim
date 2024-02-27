@@ -10,8 +10,8 @@ M.config = {}
 
 ---@param opts dora.config.lsp.SetupOptions
 function M.setup(opts)
-  M.config = vim.tbl_deep_extend("force", M.config, opts.config) --[[@as dora.config.lsp.Config]]
-  M.methods = vim.tbl_extend("force", M.methods, opts.methods) --[[@as dora.config.lsp.methods]]
+  M.config = vim.tbl_deep_extend("force", M.config, opts.config or {}) --[[@as dora.config.lsp.Config]]
+  M.methods = vim.tbl_extend("force", M.methods, opts.methods or {}) --[[@as dora.config.lsp.methods]]
 end
 
 ---@alias dora.config.lsp.config.Backend "native" | "telescope" | "glance" | "lspsaga"

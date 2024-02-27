@@ -23,18 +23,24 @@ function M.setup(opts)
 
   ---@type dora.core.registry
   local registry = require("dora.core.registry")
+  ---@type dora.core.plugin
+  local plugin = require("dora.core.plugin")
 
   config.setup(opts or {})
 
-  ---@param plug dora.core.plugin.Plugin
-  local plugin_specs = vim.tbl_map(function(plug)
-    return plug:into_lazy_spec()
-  end, registry.sort_plugins())
+  local specs = {}
+  for _, pkg in ipairs(config.package.sorted_package()) do
+    for _, plug_opts in ipairs(pkg:plugins()) do
+      local plug = plugin.new_plugin(plug_opts)
+      registry.register_plugin(plug)
+      specs[#specs + 1] = plug:into_lazy_spec()
+    end
+  end
 
   bootstrap_lazy_nvim()
 
   require("lazy").setup {
-    spec = plugin_specs,
+    spec = specs,
     change_detection = { enabled = false },
     install = {
       missing = true,

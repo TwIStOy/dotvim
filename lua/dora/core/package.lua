@@ -15,6 +15,16 @@ function Package:name()
   return self._.name
 end
 
+---@return string[]
+function Package:deps()
+  return self._.deps or {}
+end
+
+---@return dora.core.plugin.PluginOption[]
+function Package:plugins()
+  return self._.plugins or {}
+end
+
 ---@param opts dora.core.package.PackageOption
 ---@return dora.core.package.Package
 function M.new_package(opts)

@@ -43,7 +43,7 @@ return {
           condition = function(buf)
             return buf.filetype == "markdown"
           end,
-          opts = {
+          actions = {
             {
               id = "markdown-preview.start",
               title = "Start md preview",
@@ -84,7 +84,7 @@ return {
           condition = function(buf)
             return buf.filetype == "markdown"
           end,
-          opts = {
+          actions = {
             {
               id = "table-mode.enable",
               title = "Enable table mode",

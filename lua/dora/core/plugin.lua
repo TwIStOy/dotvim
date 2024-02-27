@@ -59,18 +59,11 @@ function Plugin:alias()
     res[#res + 1] = self.options.name
   end
   -- $USER/$REPO, REPO can be used
-  local repo = self.options[1]:match(".*/(.*)")
-  res[#res + 1] = repo
-  return res
-end
-
----@return string[]
-function Plugin:resolve_afters()
-  local res = self.options.after
-  if type(res) == "string" then
-    return { res }
+  local repo = (self.options[1]):match(".*/(.*)")
+  if repo ~= nil then
+    res[#res + 1] = repo
   end
-  return res or {}
+  return res
 end
 
 ---Converts a plugin into a lazy plugin
@@ -97,10 +90,8 @@ function Plugin:into_lazy_spec()
 
   -- only export the fields that are in the base class
   ---@type LazyPluginSpec
-  local lazy = lib.tbl.filter_out_keys(
-    self.options,
-    { "nixpkg", "gui", "actions", "after" }
-  )
+  local lazy =
+    lib.tbl.filter_out_keys(self.options, { "nixpkg", "gui", "actions" })
 
   if lazy.cond == nil then
     lazy.cond = gui_cond

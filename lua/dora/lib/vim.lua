@@ -63,4 +63,22 @@ function M.current_gui()
   end
 end
 
+---@param cmd string
+---@return fun():any
+function M.input_then_exec(cmd)
+  return function()
+    vim.ui.input({
+      prompt = "Arguments, " .. cmd,
+    }, function(input)
+      if input then
+        if input.length > 0 then
+          vim.api.nvim_command(cmd .. input)
+        else
+          vim.api.nvim_command(cmd)
+        end
+      end
+    end)
+  end
+end
+
 return M

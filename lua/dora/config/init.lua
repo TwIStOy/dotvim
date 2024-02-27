@@ -16,7 +16,7 @@ local M = {
 ---@field lsp? dora.config.lsp.SetupOptions
 ---@field nixpkgs? table<string, string>
 ---@field icons? table<string, string>
----@field plugins? (dora.config.plugins.ImportConfig|dora.core.plugin.PluginOptions)[]
+---@field plugins? (dora.config.plugins.ImportConfig|dora.core.plugin.PluginOption)[]
 ---@field ui? dora.config.ui.SetupOptions
 
 ---@param opts dora.config.SetupOptions

@@ -13,14 +13,14 @@ local M = {}
 ---@field keys? LazyKeysSpec[]
 ---@field after? string|string[] The plugin spec must be after these plugins' specs in 'lazy.nvim'
 
----@class dora.core.plugin.PluginOptions: dora.core.plugin.ExtraPluginOptions,LazyPluginSpec
+---@class dora.core.plugin.PluginOption: dora.core.plugin.ExtraPluginOptions,LazyPluginSpec
 
 ---@class dora.core.plugin.Plugin
----@field options dora.core.plugin.PluginOptions
+---@field options dora.core.plugin.PluginOption
 ---@field actions dora.core.action.Action[]
 local Plugin = {}
 
----@param option dora.core.plugin.PluginOptions
+---@param option dora.core.plugin.PluginOption
 ---@return dora.core.plugin.Plugin
 function M.new_plugin(option)
   local actions = {}

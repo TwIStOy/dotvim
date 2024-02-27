@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOptions[]
+---@type dora.core.plugin.PluginOption[]
 return {
   {
     "dstein64/vim-startuptime",

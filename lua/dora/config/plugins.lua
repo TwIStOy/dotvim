@@ -9,9 +9,9 @@ local M = {}
 ---@class dora.config.plugins.ImportConfig
 ---@field import string
 
----@class dora.config.plugins.ModuleOption: dora.config.plugins.ImportConfig,dora.core.plugin.PluginOptions
+---@class dora.config.plugins.ModuleOption: dora.config.plugins.ImportConfig,dora.core.plugin.PluginOption
 
----@return dora.core.plugin.PluginOptions[]
+---@return dora.core.plugin.PluginOption[]
 local function normalize_plugin_options(plugins)
   if vim.tbl_isarray(plugins) then
     return plugins
@@ -39,20 +39,20 @@ local function use_import_module(module)
   load_plugin_module(module.import)
 end
 
----@param module dora.core.plugin.PluginOptions
+---@param module dora.core.plugin.PluginOption
 local function use_plugin_module(module)
   local plug = plugin.new_plugin(module)
   registry.register_plugin(plug)
 end
 
----@param modules dora.core.plugin.PluginOptions[]
+---@param modules dora.core.plugin.PluginOption[]
 local function use_plugins_module(modules)
   for _, value in ipairs(modules) do
     use_plugin_module(value)
   end
 end
 
----@param opts dora.config.plugins.ImportConfig|dora.core.plugin.PluginOptions|dora.core.plugin.PluginOptions[]
+---@param opts dora.config.plugins.ImportConfig|dora.core.plugin.PluginOption|dora.core.plugin.PluginOption[]
 local function use_module(opts)
   vim.validate { opts = { opts, "table" } }
 
@@ -61,7 +61,7 @@ local function use_module(opts)
   elseif vim.tbl_isarray(opts) then
     use_plugins_module(opts)
   else
-    use_plugin_module(opts --[[@as dora.core.plugin.PluginOptions]])
+    use_plugin_module(opts --[[@as dora.core.plugin.PluginOption]])
   end
 end
 

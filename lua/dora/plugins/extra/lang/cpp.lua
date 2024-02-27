@@ -84,7 +84,7 @@ local function update_config()
   end
 end
 
----@type dora.core.plugin.PluginOptions[]
+---@type dora.core.plugin.PluginOption[]
 return {
   {
     "p00f/clangd_extensions.nvim",

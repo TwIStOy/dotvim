@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOptions
+---@type dora.core.plugin.PluginOption
 return {
   "nvim-treesitter/nvim-treesitter",
   gui = "all",
@@ -22,9 +22,7 @@ return {
       ensure_installed = {
         "astro",
         "bash",
-        "c",
         "cmake",
-        "cpp",
         "css",
         "dart",
         "diff",

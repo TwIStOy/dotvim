@@ -34,7 +34,7 @@ end
 ---@param name string
 ---@return boolean
 function M.has(name)
-  return M.plugins[name] ~= nil
+  return M.alias_to_fullname[name] ~= nil
 end
 
 ---@return dora.core.plugin.Plugin[]

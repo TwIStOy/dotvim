@@ -34,6 +34,7 @@ return {
       },
       {
         "TwIStOy/luasnip-snippets",
+        dependencies = "nvim-treesitter",
         opts = {
           user = {
             name = "Hawtian Wang",

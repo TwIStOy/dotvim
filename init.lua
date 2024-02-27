@@ -15,8 +15,14 @@ dora.setup {
     { import = "theme" },
     { import = "coding" },
     { import = "editor" },
+    { import = "treesitter" },
+    { import = "ui" },
     { import = "extra.completion" },
     { import = "extra.editor" },
     { import = "extra.lang.latex" },
   },
 }
+
+vim.cmd[[
+colorscheme catppuccin
+]]

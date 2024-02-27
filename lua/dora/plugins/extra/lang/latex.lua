@@ -2,6 +2,7 @@
 return {
   {
     "kdheepak/cmp-latex-symbols",
+    ft = "latex",
     after = "hrsh7th/nvim-cmp",
     dependencies = {
       {

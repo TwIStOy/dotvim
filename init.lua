@@ -17,6 +17,7 @@ dora.setup {
     { import = "editor" },
     { import = "treesitter" },
     { import = "ui" },
+    { import = "lsp" },
     { import = "extra.completion" },
     { import = "extra.editor" },
     { import = "extra.lang.latex" },

@@ -3,6 +3,7 @@ return {
   {
     "folke/flash.nvim",
     after = "telescope.nvim",
+    event = "BufReadPost",
     dependencies = {
       {
         "telescope.nvim",

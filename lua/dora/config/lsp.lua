@@ -25,7 +25,10 @@ end
 ---@field code_action? dora.config.lsp.config.Backend
 
 ---@class dora.config.lsp.Config
----@field backend dora.config.lsp.config.BackendOptions
+---@field backend? dora.config.lsp.config.BackendOptions
+---@field server_opts? table<string, table>
+---@field capabilities? table
+---@field setups? table<string, function>
 
 ---@type dora.config.lsp.Config
 local Config = {
@@ -36,6 +39,9 @@ local Config = {
     implementations = "glance",
     references = "glance",
     code_action = "lspsaga",
+  },
+  capabilities = {
+    offsetEncoding = { "utf-16" },
   },
 }
 M.config = Config

@@ -2,6 +2,7 @@
 return {
   {
     "nvim-telescope/telescope-fzf-native.nvim",
+    name = "telescope-fzf-native.nvim",
     nixpkg = "telescope-fzf-native-nvim",
     lazy = true,
     build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
@@ -10,12 +11,12 @@ return {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
     lazy = true,
-    after = "nvim-telescope/telescope-fzf-native.nvim",
+    after = "telescope-fzf-native.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "kkharji/sqlite.lua",
       "folke/flash.nvim",
-      "nvim-telescope/telescope-fzf-native.nvim",
+      "telescope-fzf-native.nvim",
       "TwIStOy/project.nvim",
     },
     opts = function()

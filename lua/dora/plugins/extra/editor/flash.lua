@@ -29,8 +29,8 @@ return {
               end,
             }
           end
-          opts.mappings.i["<C-s>"] = flash
-          opts.mappings.n["s"] = flash
+          opts.defaults.mappings.i["<C-s>"] = flash
+          opts.defaults.mappings.n["s"] = flash
         end,
       },
     },

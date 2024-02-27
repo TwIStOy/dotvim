@@ -41,7 +41,7 @@ return {
     },
     actions = function()
       ---@type dora.core.action
-      local action = require("dora.lib.action")
+      local action = require("dora.core.action")
 
       return action.make_options {
         from = "vim-illuminate",

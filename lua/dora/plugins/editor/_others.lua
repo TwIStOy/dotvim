@@ -27,7 +27,7 @@ return {
     },
     actions = function()
       ---@type dora.core.action
-      local action = require("dora.lib.action")
+      local action = require("dora.core.action")
 
       local function redraw_all()
         vim.api.nvim_command("redrawstatus!")
@@ -86,7 +86,7 @@ return {
     opts = { use_diagnostic_signs = true },
     actions = function()
       ---@type dora.core.action
-      local action = require("dora.lib.action")
+      local action = require("dora.core.action")
 
       local lsp_actions = action.make_options {
         from = "trouble.nvim",
@@ -171,7 +171,7 @@ return {
     },
     actions = function()
       ---@type dora.core.action
-      local action = require("dora.lib.action")
+      local action = require("dora.core.action")
 
       return action.make_options {
         from = "todo-comments.nvim",

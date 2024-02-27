@@ -38,4 +38,23 @@ function M.filter_out_keys(t, keys)
   return res
 end
 
+---@param tbl any
+---@return any[]
+function M.flatten_array(tbl)
+  if type(tbl) ~= "table" then
+    return { tbl }
+  end
+
+  if vim.tbl_isarray(tbl) then
+    local res = {}
+    for _, value in ipairs(tbl) do
+      local inner_value = M.flatten_array(value)
+      res = vim.list_extend(res, inner_value)
+    end
+    return res
+  else
+    return { tbl }
+  end
+end
+
 return M

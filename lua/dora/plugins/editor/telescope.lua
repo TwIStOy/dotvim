@@ -10,6 +10,7 @@ return {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
     lazy = true,
+    after = "nvim-telescope/telescope-fzf-native.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "kkharji/sqlite.lua",

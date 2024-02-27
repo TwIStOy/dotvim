@@ -20,13 +20,13 @@ local Action = {}
 ---@field plugin? string
 ---@field condition? dora.core.action.Condition
 
----@class dora.lib.action._MakeActionOptionsArgs
+---@class dora.core.action._MakeActionOptionsArgs
 ---@field from? string
 ---@field category? string
 ---@field condition? dora.core.action.Condition
 ---@field actions? dora.core.action.ActionOptions[]
 
----@param opts dora.lib.action._MakeActionOptionsArgs
+---@param opts dora.core.action._MakeActionOptionsArgs
 ---@return dora.core.action.ActionOptions[]
 function M.make_options(opts)
   local common_opts = {

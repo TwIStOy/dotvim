@@ -157,7 +157,7 @@ return {
             cmp.config.compare.offset,
             cmp.config.compare.exact,
             cmp.config.compare.score,
-            require("clangd_extensions.cmp_scores"),
+            -- require("clangd_extensions.cmp_scores"),
             cmp.config.compare.locality,
             cmp.config.compare.recently_used,
             cmp.config.compare.kind,

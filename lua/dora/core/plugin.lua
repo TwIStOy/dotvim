@@ -9,7 +9,7 @@ local M = {}
 ---@class dora.core.plugin.ExtraPluginOptions
 ---@field nixpkg? string Whether the plugin will be loaded from nix
 ---@field gui? "all"|string[] Can be used in which gui environment
----@field actions? dora.core.action.ActionOptions[]|fun():dora.core.action.ActionOptions[]
+---@field actions? dora.core.action.ActionOption[]|fun():dora.core.action.ActionOption[]
 ---@field keys? LazyKeysSpec[]
 ---@field after? string|string[] The plugin spec must be after these plugins' specs in 'lazy.nvim'
 
@@ -25,12 +25,12 @@ local Plugin = {}
 function M.new_plugin(option)
   local actions = {}
   if option.actions ~= nil then
-    ---@type dora.core.action.ActionOptions[]
+    ---@type dora.core.action.ActionOption[]
     local values
     if type(option.actions) == "function" then
       values = option.actions()
     else
-      values = option.actions --[[@as dora.core.action.ActionOptions[] ]]
+      values = option.actions --[[@as dora.core.action.ActionOption[] ]]
     end
     for _, action in ipairs(values) do
       actions[#actions + 1] = action_module.new_action(action)
@@ -122,7 +122,7 @@ function Plugin:into_lazy_spec()
   -- if `nixpkg` is set, load this plugin from nix
   if self.options.nixpkg ~= nil then
     local nixpkg = self.options.nixpkg
-    local path = config.nixpkgs.resolve_pkg(nixpkg --[[ @as string ]])
+    local path = config.nix.resolve_pkg(nixpkg --[[ @as string ]])
     if path ~= nil then
       lazy.dir = path
       lazy.build = nil -- skip build if it's from nix

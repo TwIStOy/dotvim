@@ -1,6 +1,6 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.misc.competitive-programming",
+  name = "dora.packages.extra.misc.competitive-programming",
   plugins = {
     {
       "p00f/cphelper.nvim",

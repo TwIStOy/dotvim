@@ -1,10 +1,10 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.lang.cpp",
+  name = "dora.packages.extra.lang.cpp",
   deps = {
-    "coding",
-    "lsp",
-    "treesitter",
+    "dora.packages.coding",
+    "dora.packages.lsp",
+    "dora.packages.treesitter",
   },
   plugins = {
     {

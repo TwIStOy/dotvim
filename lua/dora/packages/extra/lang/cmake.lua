@@ -1,10 +1,10 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.lang.cmake",
+  name = "dora.packages.extra.lang.cmake",
   deps = {
-    "coding",
-    "lsp",
-    "treesitter",
+    "dora.packages.coding",
+    "dora.packages.lsp",
+    "dora.packages.treesitter",
   },
   plugins = {
     {

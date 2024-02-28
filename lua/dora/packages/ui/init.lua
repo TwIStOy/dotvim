@@ -3,7 +3,7 @@ local lib = require("dora.lib")
 
 ---@type dora.core.package.PackageOption
 return {
-  name = "ui",
+  name = "dora.packages.ui",
   plugins = lib.tbl.flatten_array {
     require("dora.packages.ui.plugins._others"),
     require("dora.packages.ui.plugins.bufferline"),

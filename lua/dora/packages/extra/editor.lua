@@ -1,8 +1,8 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.editor",
+  name = "dora.packages.extra.editor",
   deps = {
-    "editor",
+    "dora.packages.editor",
   },
   plugins = {
     {

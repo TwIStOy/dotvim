@@ -1,8 +1,8 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.misc.copilot",
+  name = "dora.packages.extra.misc.copilot",
   deps = {
-    "coding",
+    "dora.packages.coding",
   },
   plugins = {
     {

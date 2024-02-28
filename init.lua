@@ -20,6 +20,7 @@ dora.setup {
     "extra.misc.darwin",
     "extra.editor",
     "extra.lang.cpp",
+    "extra.lang.lua",
     "extra.lang.latex",
     "extra.lang.markdown",
     "extra.lang.rust",

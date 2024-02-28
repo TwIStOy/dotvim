@@ -29,7 +29,8 @@ function M.setup(opts)
   config.setup(opts or {})
 
   local specs = {}
-  for _, pkg in ipairs(config.package.sorted_package()) do
+  local packages = config.package.sorted_package()
+  for _, pkg in ipairs(packages) do
     for _, plug_opts in ipairs(pkg:plugins()) do
       local plug = plugin.new_plugin(plug_opts)
       registry.register_plugin(plug)
@@ -66,6 +67,10 @@ function M.setup(opts)
       },
     },
   }
+
+  for _, pkg in ipairs(packages) do
+    pkg:setup()
+  end
 end
 
 return M

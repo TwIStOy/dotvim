@@ -63,6 +63,20 @@ return {
           },
           setup = {
             clangd = function()
+              ---@type dora.lib
+              local lib = require("dora.lib")
+
+              lib.vim.on_lsp_attach(function(client, bufnr)
+                if client and client.name == "clangd" then
+                  vim.keymap.set("n", "<leader>fa", function()
+                    vim.api.nvim_command("ClangdSwitchSourceHeader")
+                  end, {
+                    desc = "clangd-switch-header",
+                    buffer = bufnr,
+                  })
+                end
+              end)
+
               require("clangd_extensions").setup {
                 autoSetHints = false,
                 hover_with_actions = true,

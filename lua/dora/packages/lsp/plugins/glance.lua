@@ -42,15 +42,17 @@ return {
       folds = { fold_closed = "󰅂", fold_open = "󰅀", folded = false },
       indent_lines = { enable = false },
       winbar = { enable = true },
-      hooks = function(results, open, jump, method)
-        if method == "references" or method == "implementations" then
-          open(results)
-        elseif #results == 1 then
-          jump(results[1])
-        else
-          open(results)
-        end
-      end,
+      hooks = {
+        before_open = function(results, open, jump, method)
+          if method == "references" or method == "implementations" then
+            open(results)
+          elseif #results == 1 then
+            jump(results[1])
+          else
+            open(results)
+          end
+        end,
+      },
     }
   end,
 }

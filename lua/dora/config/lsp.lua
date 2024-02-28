@@ -153,7 +153,7 @@ function Methods.next_diagnostic()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.marker.nextInFiles")
   else
-    vim.lsp.diagnostic.goto_next()
+    vim.diagnostic.goto_next { wrap = false }
   end
 end
 
@@ -161,12 +161,13 @@ function Methods.prev_diagnostic()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.marker.prevInFiles")
   else
-    vim.lsp.diagnostic.goto_prev()
+    vim.diagnostic.goto_prev { wrap = false }
   end
 end
 
 local lsp_hover_group =
-  vim.api.nvim_create_augroup("dora_lsp_hover", { clear = true })
+  
+vim.api.nvim_create_augroup("dora_lsp_hover", { clear = true })
 
 function Methods.show_hover()
   if vim.g.vscode then
@@ -283,6 +284,15 @@ function Methods.open_diagnostic()
     "BufLeave",
     "FocusLost",
   }, win, { bufnr, vim.api.nvim_get_current_buf() })
+end
+
+function Methods.rename(new_name, options)
+  options = options or {}
+  local filter = function(client)
+    return not vim.tbl_contains({ "null-ls", "copilot" }, client.name)
+  end
+  options.filter = options.filter or filter
+  vim.lsp.buf.rename(new_name, options)
 end
 
 return M

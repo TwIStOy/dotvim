@@ -1,6 +1,6 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.lang.cpp",
+  name = "extra.lang.lua",
   deps = {
     "coding",
     "lsp",

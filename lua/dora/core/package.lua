@@ -25,6 +25,12 @@ function Package:plugins()
   return self._.plugins or {}
 end
 
+function Package:setup()
+  if self._.setup then
+    self._.setup()
+  end
+end
+
 ---@param opts dora.core.package.PackageOption
 ---@return dora.core.package.Package
 function M.new_package(opts)

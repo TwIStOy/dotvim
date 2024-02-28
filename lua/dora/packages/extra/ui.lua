@@ -1,6 +1,6 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.ui",
+  name = "dora.packages.extra.ui",
   deps = {},
   plugins = {
     {

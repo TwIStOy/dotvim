@@ -3,9 +3,9 @@ local lib = require("dora.lib")
 
 ---@type dora.core.package.PackageOption
 return {
-  name = "lsp",
+  name = "dora.packages.lsp",
   deps = {
-    "coding",
+    "dora.packages.coding",
   },
   plugins = lib.tbl.flatten_array {
     require("dora.packages.lsp.plugins.nvim-lspconfig"),

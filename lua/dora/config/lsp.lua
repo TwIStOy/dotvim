@@ -166,8 +166,7 @@ function Methods.prev_diagnostic()
 end
 
 local lsp_hover_group =
-  
-vim.api.nvim_create_augroup("dora_lsp_hover", { clear = true })
+  vim.api.nvim_create_augroup("dora_lsp_hover", { clear = true })
 
 function Methods.show_hover()
   if vim.g.vscode then

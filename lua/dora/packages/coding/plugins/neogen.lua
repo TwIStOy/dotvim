@@ -6,6 +6,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     cmd = { "Neogen" },
+    gui = "all",
     opts = {
       input_after_comment = false,
       snippet_engine = "luasnip",

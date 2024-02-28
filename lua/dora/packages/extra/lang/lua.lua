@@ -1,10 +1,10 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.lang.lua",
+  name = "dora.packages.extra.lang.lua",
   deps = {
-    "coding",
-    "lsp",
-    "treesitter",
+    "dora.packages.coding",
+    "dora.packages.lsp",
+    "dora.packages.treesitter",
   },
   plugins = {
     {
@@ -69,6 +69,27 @@ return {
           lua = { "stylua" },
         },
       },
+    },
+    {
+      "dial.nvim",
+      opts = function(_, opts)
+        local function define_custom(...)
+          local augend = require("dial.augend")
+          return augend.constant.new {
+            elements = { ... },
+            word = true,
+            cyclic = true,
+          }
+        end
+
+        if opts.ft.lua == nil then
+          opts.ft.lua = {}
+        end
+
+        vim.list_extend(opts.ft.lua, {
+          define_custom("==", "~="),
+        })
+      end,
     },
   },
 }

@@ -65,26 +65,6 @@ return {
     }
 
     opts.ft = {
-      cpp = {
-        define_custom("Debug", "Info", "Warn", "Error", "Fatal"),
-        define_custom("first", "second"),
-        define_custom("true_type", "false_type"),
-        define_custom("uint8_t", "uint16_t", "uint32_t", "uint64_t"),
-        define_custom("int8_t", "int16_t", "int32_t", "int64_t"),
-        define_custom("htonl", "ntohl"),
-        define_custom("htons", "ntohs"),
-        define_custom("ASSERT_EQ", "ASSERT_NE"),
-        define_custom("EXPECT_EQ", "EXPECT_NE"),
-        define_custom("==", "!="),
-        define_custom("static_cast", "dynamic_cast", "reinterpret_cast"),
-        define_custom("private", "public", "protected"),
-      },
-      python = { define_custom("True", "False") },
-      lua = { define_custom("==", "~=") },
-      cmake = {
-        define_custom("on", "off"),
-        define_custom("ON", "OFF"),
-      },
       toml = { augend.semver.alias.semver },
     }
 

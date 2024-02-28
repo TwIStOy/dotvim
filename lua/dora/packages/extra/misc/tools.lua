@@ -1,6 +1,6 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.misc.tools",
+  name = "dora.packages.extra.misc.tools",
   plugins = {
     {
       "skywind3000/asynctasks.vim",

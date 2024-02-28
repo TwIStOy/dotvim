@@ -1,6 +1,23 @@
 ---@type dora.core.plugin.PluginOption[]
 return {
   {
+    "m4xshen/smartcolumn.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      colorcolumn = "80",
+      disabled_filetypes = {
+        "help",
+        "NvimTree",
+        "lazy",
+        "mason",
+        "help",
+        "alpha",
+        "bookmarks_input",
+        "noice",
+      },
+    },
+  },
+  {
     "kazhala/close-buffers.nvim",
     cmd = {
       "BDelete",
@@ -21,7 +38,7 @@ return {
         require("bufferline").cycle(1)
         local bufnr = vim.api.nvim_get_current_buf()
         for _, window in ipairs(windows) do
-          vim.api.nvim_win_Set_buf(window, bufnr)
+          vim.api.nvim_win_set_buf(window, bufnr)
         end
       end,
     },
@@ -272,7 +289,7 @@ return {
     cmd = { "Template", "TemplateHere" },
     init = function()
       vim.g.templates_directory = {
-        os.getenv("HOME") .. "/.dotvim/vim-templates",
+        vim.fn.stdpath("config") .. "/templates",
       }
       vim.g.templates_no_autocmd = 0
       vim.g.templates_debug = 0

@@ -1,10 +1,10 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "extra.lang.cmake",
+  name = "dora.packages.extra.lang.cmake",
   deps = {
-    "coding",
-    "lsp",
-    "treesitter",
+    "dora.packages.coding",
+    "dora.packages.lsp",
+    "dora.packages.treesitter",
   },
   plugins = {
     {
@@ -37,6 +37,28 @@ return {
           cpp = { "gersemi" },
         },
       },
+    },
+    {
+      "dial.nvim",
+      opts = function(_, opts)
+        local function define_custom(...)
+          local augend = require("dial.augend")
+          return augend.constant.new {
+            elements = { ... },
+            word = true,
+            cyclic = true,
+          }
+        end
+
+        if opts.ft.cmake == nil then
+          opts.ft.cmake = {}
+        end
+
+        vim.list_extend(opts.ft.cmake, {
+          define_custom("on", "off"),
+          define_custom("ON", "OFF"),
+        })
+      end,
     },
   },
 }

@@ -6,34 +6,31 @@ return {
     "nvim-telescope/telescope.nvim",
   },
   event = "BufReadPost",
-  opts = {
-    mappings_enabled = false,
-    sign_icon = "",
-    virt_pattern = {
-      "*.dart",
-      "*.cpp",
-      "*.ts",
-      "*.lua",
-      "*.js",
-      "*.c",
-      "*.h",
-      "*.cc",
-      "*.hh",
-      "*.hpp",
-      "*.md",
-      "*.rs",
-      "*.toml",
-    },
-    fix_enable = true,
-  },
-  keys = {
-    {
-      "<leader>lm",
-      "Telescope bookmarks",
-      desc = "list-bookmarks",
-      silent = true,
-    },
-  },
+  opts = function()
+    ---@type dora.config
+    local config = require("dora.config")
+
+    return {
+      mappings_enabled = false,
+      sign_icon = config.icon.predefined_icon("Bookmark"),
+      virt_pattern = {
+        "*.dart",
+        "*.cpp",
+        "*.ts",
+        "*.lua",
+        "*.js",
+        "*.c",
+        "*.h",
+        "*.cc",
+        "*.hh",
+        "*.hpp",
+        "*.md",
+        "*.rs",
+        "*.toml",
+      },
+      fix_enable = true,
+    }
+  end,
   config = function(_, opts)
     require("bookmarks").setup(opts)
     require("telescope").load_extension("bookmarks")
@@ -46,6 +43,14 @@ return {
       from = "bookmarks.nvim",
       category = "Bookmarks",
       actions = {
+        {
+          id = "bookmarks.list-bookmarks",
+          title = "List bookmarks",
+          callback = function()
+            vim.api.nvim_command("Telescope bookmarks")
+          end,
+          keys = { "<leader>lm", desc = "list-bookmarks", silent = true },
+        },
         {
           id = "bookmarks.toggle-bookmarks",
           title = "Toggle bookmarks",

@@ -3,7 +3,7 @@ local lib = require("dora.lib")
 
 ---@type dora.core.package.PackageOption
 return {
-  name = "coding",
+  name = "dora.packages.coding",
   plugins = lib.tbl.flatten_array {
     require("dora.packages.coding.plugins.nvim-cmp"),
     require("dora.packages.coding.plugins.luasnip"),

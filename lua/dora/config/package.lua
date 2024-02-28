@@ -13,8 +13,7 @@ local function load_package(name)
   end
 
   ---@type dora.core.package.PackageOption
-  local module = require("dora.packages." .. name)
-
+  local module = require(name)
   if module == nil then
     vim.notify("Failed to load package module: " .. name, vim.log.levels.WARN)
     return
@@ -30,7 +29,7 @@ end
 
 ---@param pkgs string[]
 function M.setup(pkgs)
-  for _, dep in ipairs { "_builtin", unpack(pkgs) } do
+  for _, dep in ipairs(pkgs) do
     load_package(dep)
   end
 end

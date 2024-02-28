@@ -61,6 +61,7 @@ M.icons = {
   Window = "",
   WordFile = "󰈭",
   VimLogo = "",
+  Bookmark = "",
 }
 
 ---@param kind string

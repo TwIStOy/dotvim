@@ -98,7 +98,7 @@ return {
         unpack(ft_opts),
       }
     end
-    require("dial.config").augends.register_group(groups)
+    require("dial.config").augends:register_group(groups)
 
     vim.keymap.set({ "n", "v" }, "<C-a>", require("dial.map").inc_normal(), {
       desc = "dial inc",

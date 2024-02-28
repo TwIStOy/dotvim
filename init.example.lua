@@ -23,13 +23,17 @@ dora.setup {
     "dora.packages.extra.misc.darwin",
     "dora.packages.extra.editor",
     "dora.packages.extra.lang.cpp",
+    "dora.packages.extra.lang.cmake",
     "dora.packages.extra.lang.lua",
     "dora.packages.extra.lang.latex",
     "dora.packages.extra.lang.markdown",
+    "dora.packages.extra.lang.python",
     "dora.packages.extra.lang.rust",
     "dora.packages.extra.misc.competitive-programming",
+    "dora.packages.extra.obsidian",
     "dora.packages.extra.misc.copilot",
   },
+  plugins = {},
 }
 
 vim.cmd([[

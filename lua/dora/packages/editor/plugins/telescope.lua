@@ -71,10 +71,8 @@ return {
     end,
     config = function(_, opts)
       require("telescope").setup(opts)
-
       require("telescope").load_extension("fzf")
 
-      -- require("telescope").load_extension("notify")
       -- require("telescope").load_extension("possession")
       -- require("telescope").load_extension("command_palette")
       -- require("telescope").load_extension("projects")

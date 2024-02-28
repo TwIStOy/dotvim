@@ -1,55 +1,36 @@
----@alias dora.config.path.ObsidianVaults string[]
-
----@class dora.config.hello.HelloOptions
----@field header_text string[]
-
----@class dora.config.Paths
----@field obsidian_vaults? dora.config.path.ObsidianVaults
----@field lazy? string
-
----@class dora.config.SetupOptions
----@field obsidian? dora.config.configs.Obsidian
----@field lsp? dora.config.lsp.BackendConfig
----@field theme? string
----@field hello? dora.config.hello.HelloOptions
-local config = {
-  obsidian = require("dora.config.configs.obsidian"),
-  lazy = require("dora.config.configs.lazy"),
-  paths = {
-    obsidian_vaults = {
-      "~/obsidian-data",
-    },
-    lazy = vim.fn.stdpath("data") .. "/lazy/lazy.nvim",
-  },
-  theme = "catppuccin",
-  hello = {
-    header_text = require("dora.config.hello").header_text,
-  },
+---@class dora.config
+local M = {
+  ---@type dora.config.lsp
+  lsp = require("dora.config.lsp"),
+  ---@type dora.config.nixpkgs
+  nixpkgs = require("dora.config.nixpkgs"),
+  ---@type dora.config.icon
+  icon = require("dora.config.icon"),
+  ---@type dora.config.package
+  package = require("dora.config.package"),
+  ---@type dora.config.ui
+  ui = require("dora.config.ui"),
+  ---@type dora.config.vim
+  vim = require("dora.config.vim"),
 }
 
----@class dora.config
----@field config dora.config.SetupOptions
-local M = {}
-
----@return string?
-function M.resolve_obsidian_vaults()
-  ---@type dora.lib
-  local lib = require("dora.lib")
-
-  local paths = lib.tbl.optional_field(M.config, "obsidian", "vaults") or {}
-  for _, path in ipairs(paths) do
-    local p = vim.fn.resolve(vim.fn.expand(path))
-    if vim.fn.isdirectory(p) == 1 then
-      return p
-    end
-  end
-  return nil
-end
+---@class dora.config.SetupOptions
+---@field lsp? dora.config.lsp.SetupOptions
+---@field nixpkgs? table<string, string>
+---@field icons? table<string, string>
+---@field ui? dora.config.ui.SetupOptions
+---@field packages? string[]
+---@field vim? dora.config.vim.SetupOption
 
 ---@param opts dora.config.SetupOptions
 function M.setup(opts)
-  M.config = vim.tbl_deep_extend("force", config, opts)
-  require("dora.config.keymaps")()
+  M.lsp.setup(opts.lsp or {})
+  M.nixpkgs.setup(opts.nixpkgs or {})
+  M.icon.setup(opts.icons or {})
+  M.ui.setup(opts.ui or {})
+  M.vim.setup(opts.vim or {})
+
+  M.package.setup(opts.packages or {})
 end
 
 return M

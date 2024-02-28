@@ -1,9 +1,55 @@
----@class dora.config.lsp.BackendConfig
----@field definitions 'native' | 'telescope' | 'glance'
-
+---@class dora.config.lsp
 local M = {}
 
-function M.declaration()
+---@type dora.config.lsp.Config
+M.config = {}
+
+---@class dora.config.lsp.SetupOptions
+---@field config? dora.config.lsp.Config
+---@field methods? dora.config.lsp.methods
+
+---@param opts dora.config.lsp.SetupOptions
+function M.setup(opts)
+  M.config = vim.tbl_deep_extend("force", M.config, opts.config or {}) --[[@as dora.config.lsp.Config]]
+  M.methods = vim.tbl_extend("force", M.methods, opts.methods or {}) --[[@as dora.config.lsp.methods]]
+end
+
+---@alias dora.config.lsp.config.Backend "native" | "telescope" | "glance" | "lspsaga"
+
+---@class dora.config.lsp.config.BackendOptions
+---@field ["*"] dora.config.lsp.config.Backend|nil
+---@field definitions? dora.config.lsp.config.Backend
+---@field type_definitions? dora.config.lsp.config.Backend
+---@field implementations? dora.config.lsp.config.Backend
+---@field references? dora.config.lsp.config.Backend
+---@field code_action? dora.config.lsp.config.Backend
+
+---@class dora.config.lsp.Config
+---@field backend? dora.config.lsp.config.BackendOptions
+---@field server_opts? table<string, table>
+---@field capabilities? table
+---@field setups? table<string, function>
+
+---@type dora.config.lsp.Config
+local Config = {
+  backend = {
+    ["*"] = "native",
+    definitions = "glance",
+    type_definitions = "glance",
+    implementations = "glance",
+    references = "glance",
+    code_action = "lspsaga",
+  },
+  server_opts = {},
+  setups = {},
+}
+M.config = Config
+
+---@class dora.config.lsp.methods
+local Methods = {}
+M.methods = Methods
+
+function Methods.declaration()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.revealDeclaration")
   else
@@ -11,9 +57,20 @@ function M.declaration()
   end
 end
 
-function M.definitions()
-  local config = require("dora.config").config
-  local backend = config.lsp.definitions or "native"
+---@param method string
+---@return dora.config.lsp.config.Backend
+local function get_backend(method)
+  ---@type dora.lib
+  local lib = require("dora.lib")
+  return vim.F.if_nil(
+    lib.tbl.optional_field(M.config, "backend", method),
+    lib.tbl.optional_field(M.config, "backend", "*"),
+    "native"
+  )
+end
+
+function Methods.definitions()
+  local backend = get_backend("definitions")
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.revealDefinition")
   elseif backend == "native" then
@@ -30,9 +87,8 @@ function M.definitions()
   end
 end
 
-function M.type_definitions()
-  local config = require("dora.config").config
-  local backend = config.lsp.type_definitions or "native"
+function Methods.type_definitions()
+  local backend = get_backend("type_definitions")
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.goToTypeDefinition")
   elseif backend == "native" then
@@ -49,9 +105,8 @@ function M.type_definitions()
   end
 end
 
-function M.implementations()
-  local config = require("dora.config").config
-  local backend = config.lsp.implementations or "native"
+function Methods.implementations()
+  local backend = get_backend("implementations")
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.goToImplementation")
   elseif backend == "native" then
@@ -68,9 +123,8 @@ function M.implementations()
   end
 end
 
-function M.references()
-  local config = require("dora.config").config
-  local backend = config.lsp.implementations or "native"
+function Methods.references()
+  local backend = get_backend("references")
   if vim.g.vscode then
     require("vscode-neovim").call("references-view.findReferences")
   elseif backend == "native" then
@@ -87,7 +141,7 @@ function M.references()
   end
 end
 
-function M.code_action()
+function Methods.code_action()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.quickFix")
   else
@@ -95,32 +149,33 @@ function M.code_action()
   end
 end
 
-function M.next_diagnostic()
+function Methods.next_diagnostic()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.marker.nextInFiles")
   else
-    vim.lsp.diagnostic.goto_next()
+    vim.diagnostic.goto_next { wrap = false }
   end
 end
 
-function M.prev_diagnostic()
+function Methods.prev_diagnostic()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.marker.prevInFiles")
   else
-    vim.lsp.diagnostic.goto_prev()
+    vim.diagnostic.goto_prev { wrap = false }
   end
 end
 
 local lsp_hover_group =
-  vim.api.nvim_create_augroup("dora_lsp_hover", { clear = true })
+  
+vim.api.nvim_create_augroup("dora_lsp_hover", { clear = true })
 
-function M.show_hover()
+function Methods.show_hover()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.showHover")
   else
     vim.o.eventignore = "CursorHold"
     vim.api.nvim_exec_autocmds("User", {
-      pattern = "ShowHover",
+      pattern = "DoraShowHover",
     })
     vim.lsp.buf.hover()
     vim.api.nvim_create_autocmd({ "CursorMoved" }, {
@@ -200,7 +255,7 @@ local function close_preview_autocmd(events, winnr, bufnrs)
   end
 end
 
-function M.open_diagnostic()
+function Methods.open_diagnostic()
   local opts = {
     focusable = false,
     border = "solid",
@@ -225,10 +280,19 @@ function M.open_diagnostic()
   close_preview_autocmd({
     "CursorMoved",
     "InsertEnter",
-    "User ShowHover",
+    "User DoraShowHover",
     "BufLeave",
     "FocusLost",
   }, win, { bufnr, vim.api.nvim_get_current_buf() })
+end
+
+function Methods.rename(new_name, options)
+  options = options or {}
+  local filter = function(client)
+    return not vim.tbl_contains({ "null-ls", "copilot" }, client.name)
+  end
+  options.filter = options.filter or filter
+  vim.lsp.buf.rename(new_name, options)
 end
 
 return M

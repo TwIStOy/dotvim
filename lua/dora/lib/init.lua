@@ -1,30 +1,22 @@
 ---@class dora.lib
-local M = {
-  plugin = require("dora.lib.plugin"),
-  vim = require("dora.lib.vim"),
-  ---@class dora.lib.tbl
-  tbl = require("dora.lib.tbl"),
-  fs = require("dora.lib.fs"),
-  ---@class dora.lib.fn
-  fn = require("dora.lib.fn"),
-  ---@class dora.lib.cache
-  cache = require("dora.lib.cache"),
-}
+local M = {}
 
-M.env = {
-  ---@type string?
-  gui = (function()
-    if vim.g["neovide"] then
-      return "neovide"
-    end
-    if vim.g["fvim_loaded"] then
-      return "fvim"
-    end
-    if vim.g.vscode then
-      return "vscode"
-    end
-    return nil
-  end)(),
-}
+---@type dora.lib.class
+M.class = require("dora.lib.class")
+
+---@type dora.lib.promise
+M.promise = require("dora.lib.promise")
+
+---@type dora.lib.func
+M.func = require("dora.lib.func")
+
+---@type dora.lib.vim
+M.vim = require("dora.lib.vim")
+
+---@type dora.lib.tbl
+M.tbl = require("dora.lib.tbl")
+
+---@type dora.lib.fs
+M.fs = require("dora.lib.fs")
 
 return M

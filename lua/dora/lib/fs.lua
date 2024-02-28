@@ -1,24 +1,36 @@
+---@class dora.lib.fs
 local M = {}
 
----Check if the current directory is in a git repo.
----@param buffer VimBuffer?
----@return boolean
-function M.in_git_repo(buffer)
+---Returns the path of the current file's git repo.
+---@return string?
+function M.git_repo_path()
   local Path = require("plenary.path")
-  local cwd = nil
-  if buffer ~= nil and buffer.filename ~= nil and buffer.filename ~= "" then
-    cwd = tostring(Path.new(buffer.filename):parent())
+  local current_file = vim.api.nvim_buf_get_name(0)
+  local current_dir
+
+  if current_file == "" then
+    current_dir = Path.new(vim.fn.getcwd())
+  else
+    local current = Path.new(current_file)
+    current_dir = current:parent()
   end
 
   local p = vim.system({
     "git",
     "rev-parse",
-    "--is-inside-work-tree",
+    "--show-toplevel",
   }, {
-    cwd = cwd,
+    cwd = tostring(current_dir),
   })
+
   local res = p:wait()
-  return res.code == 0
+  if res.code ~= 0 then
+    return nil
+  end
+
+  local stdout = res.stdout
+
+  return stdout:match("^()%s*$") and "" or stdout:match("^%s*(.*%S)")
 end
 
 return M

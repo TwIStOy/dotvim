@@ -12,8 +12,20 @@ return {
     vim.g.neo_tree_remove_legacy_commands = true
   end,
   keys = {
-    { "<F3>", "Neotree action=focus", desc = "file-explorer" },
-    { "<leader>ft", "Neotree action=focus", desc = "file-explorer" },
+    {
+      "<F3>",
+      function()
+        vim.api.nvim_command("Neotree action=focus")
+      end,
+      desc = "file-explorer",
+    },
+    {
+      "<leader>ft",
+      function()
+        vim.api.nvim_command("Neotree action=focus")
+      end,
+      desc = "file-explorer",
+    },
   },
   opts = function()
     ---@type dora.config

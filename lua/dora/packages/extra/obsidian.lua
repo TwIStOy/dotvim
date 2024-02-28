@@ -9,11 +9,11 @@ return {
     local au_group =
       vim.api.nvim_create_augroup("obsidian_extra_setup", { clear = true })
 
-    ---@type dora.core.registry
-    local registry = require("dora.core.registry")
+    ---@type dora.lib
+    local lib = require("dora.lib")
 
     local dir = vim.F.if_nil(
-      registry.get_plugin("obsidian.nvim").options.opts.dir,
+      lib.lazy.opts("obsidian.nvim").dir,
       vim.fn.expand("~/obsidian-data")
     )
 
@@ -21,7 +21,7 @@ return {
       { "BufNewFile", "BufReadPost", "BufWinEnter" },
       {
         group = au_group,
-        pattern = tostring(dir / "**.md"),
+        pattern = dir .. "/**.md",
         callback = function()
           vim.wo.conceallevel = 2
           vim.keymap.set("n", "gf", function()

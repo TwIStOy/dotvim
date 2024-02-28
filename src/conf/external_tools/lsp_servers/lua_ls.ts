@@ -15,6 +15,7 @@ export const server = new LspServer({
       vim.fn.expand("$VIMRUNTIME/lua"),
       vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
       "${3rd}/luassert/library",
+      `${vim.fn.stdpath("data")}/lazy/lazy.nvim/lua`,
       `${vim.fn.stdpath("data")}/lazy/plenary.nvim/lua`,
       `${vim.fn.stdpath("data")}/lazy/noice.nvim/lua`,
       `${vim.fn.stdpath("data")}/lazy/nui.nvim/lua`,

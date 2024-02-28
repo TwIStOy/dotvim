@@ -147,10 +147,6 @@ function Plugin:into_lazy_spec()
     lazy.keys = all_keys
   end
 
-  if self.options[1] == "akinsho/toggleterm.nvim" then
-    vim.print(lazy)
-  end
-
   return lazy
 end
 

@@ -15,7 +15,7 @@ return {
   event = { "BufReadPost" },
   keys = {
     {
-      "<leader>cf",
+      "<leader>fc",
       function()
         local conform = require("conform")
         conform.format {

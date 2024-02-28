@@ -194,5 +194,13 @@ return {
         opts.linters_by_ft.cpp = { "cpplint", "cppcheck" }
       end,
     },
+    {
+      "conform.nvim",
+      opts = {
+        formatters_by_ft = {
+          cpp = { "clang_format" },
+        },
+      },
+    },
   },
 }

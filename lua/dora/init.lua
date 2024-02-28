@@ -26,6 +26,9 @@ function M.setup(opts)
   ---@type dora.core.plugin
   local plugin = require("dora.core.plugin")
 
+  -- set mapleader at very beginning of profile
+  vim.api.nvim_set_var("mapleader", " ")
+
   config.setup(opts or {})
 
   local specs = {}

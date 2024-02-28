@@ -86,7 +86,7 @@ return {
                 )
                 return
               end
-              local repo_path = require("ht.utils.fs").git_repo_path()
+              local repo_path = require("dora.lib").fs.git_repo_path()
               if repo_path == nil then
                 vim.notify(
                   "Not in a git repo!",

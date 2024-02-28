@@ -10,6 +10,7 @@ return {
   plugins = lib.tbl.flatten_array {
     require("dora.packages.lsp.plugins.nvim-lspconfig"),
     require("dora.packages.lsp.plugins.lspsaga"),
+    require("dora.packages.lsp.plugins.lspkind"),
     require("dora.packages.lsp.plugins.glance"),
   },
   setup = function()

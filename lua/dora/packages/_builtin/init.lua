@@ -145,4 +145,8 @@ return {
       lazy = true,
     },
   },
+  setup = function()
+    require("dora.packages._builtin.setup.options")()
+    require("dora.packages._builtin.setup.keymaps")()
+  end,
 }

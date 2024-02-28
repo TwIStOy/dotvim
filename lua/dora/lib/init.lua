@@ -16,4 +16,7 @@ M.vim = require("dora.lib.vim")
 ---@type dora.lib.tbl
 M.tbl = require("dora.lib.tbl")
 
+---@type dora.lib.fs
+M.fs = require("dora.lib.fs")
+
 return M

@@ -1,6 +1,17 @@
 ---@type dora.core.plugin.PluginOption[]
 return {
   {
+    "TwIStOy/luasnip-snippets",
+    lazy = true,
+    dependencies = "nvim-treesitter",
+    gui = "all",
+    opts = {
+      user = {
+        name = "Hawtian Wang",
+      },
+    },
+  },
+  {
     "L3MON4D3/LuaSnip",
     gui = "all",
     build = "make install_jsregex",
@@ -31,15 +42,7 @@ return {
           }
         end,
       },
-      {
-        "TwIStOy/luasnip-snippets",
-        dependencies = "nvim-treesitter",
-        opts = {
-          user = {
-            name = "Hawtian Wang",
-          },
-        },
-      },
+      "luasnip-snippets",
     },
     opts = {
       enable_autosnippets = true,

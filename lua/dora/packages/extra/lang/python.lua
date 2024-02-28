@@ -1,6 +1,6 @@
 ---@type dora.core.package.PackageOption
 return {
-  name = "dora.packages.extra.lang.cmake",
+  name = "dora.packages.extra.lang.python",
   deps = {
     "dora.packages.coding",
     "dora.packages.lsp",
@@ -11,10 +11,7 @@ return {
       "nvim-treesitter",
       opts = function(_, opts)
         if type(opts.ensure_installed) == "table" then
-          if vim.list_contains(opts.ensure_installed, "cmake") then
-            return
-          end
-          vim.list_extend(opts.ensure_installed, { "cmake" })
+          vim.list_extend(opts.ensure_installed, { "python" })
         end
       end,
     },
@@ -23,9 +20,7 @@ return {
       opts = {
         servers = {
           opts = {
-            cmake = {
-              initializationOptions = { buildDirectory = "build" },
-            },
+            pyright = {},
           },
         },
       },
@@ -34,7 +29,7 @@ return {
       "conform.nvim",
       opts = {
         formatters_by_ft = {
-          cpp = { "gersemi" },
+          cpp = { "black" },
         },
       },
     },
@@ -50,13 +45,12 @@ return {
           }
         end
 
-        if opts.ft.cmake == nil then
-          opts.ft.cmake = {}
+        if opts.ft.python == nil then
+          opts.ft.python = {}
         end
 
-        vim.list_extend(opts.ft.cmake, {
-          define_custom("on", "off"),
-          define_custom("ON", "OFF"),
+        vim.list_extend(opts.ft.python, {
+          define_custom("True", "False"),
         })
       end,
     },

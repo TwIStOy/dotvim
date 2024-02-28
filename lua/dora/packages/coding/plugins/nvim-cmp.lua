@@ -36,7 +36,6 @@ return {
       sources = {
         { name = "nvim_lsp", group_index = 1, max_item_count = 100 },
         { name = "async_path", group_index = 4 },
-        { name = "calc", group_index = 5 },
         {
           name = "buffer",
           group_index = 5,

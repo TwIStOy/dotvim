@@ -3,7 +3,7 @@ local lib = require("dora.lib")
 
 ---@type dora.core.package.PackageOption
 return {
-  name = "editor",
+  name = "dora.packages.editor",
   plugins = lib.tbl.flatten_array {
     require("dora.packages.editor.plugins.neo-tree"),
     require("dora.packages.editor.plugins.telescope"),

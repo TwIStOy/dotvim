@@ -70,5 +70,26 @@ return {
         },
       },
     },
+    {
+      "dial.nvim",
+      opts = function(_, opts)
+        local function define_custom(...)
+          local augend = require("dial.augend")
+          return augend.constant.new {
+            elements = { ... },
+            word = true,
+            cyclic = true,
+          }
+        end
+
+        if opts.ft.lua == nil then
+          opts.ft.lua = {}
+        end
+
+        vim.list_extend(opts.ft.lua, {
+          define_custom("==", "~="),
+        })
+      end,
+    },
   },
 }

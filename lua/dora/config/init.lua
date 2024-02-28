@@ -12,6 +12,8 @@ local M = {
   ui = require("dora.config.ui"),
   ---@type dora.config.vim
   vim = require("dora.config.vim"),
+  ---@type dora.config.integration
+  integration = require("dora.config.integration"),
 }
 
 ---@class dora.config.SetupOptions

@@ -202,5 +202,37 @@ return {
         },
       },
     },
+    {
+      "dial.nvim",
+      opts = function(_, opts)
+        local function define_custom(...)
+          local augend = require("dial.augend")
+          return augend.constant.new {
+            elements = { ... },
+            word = true,
+            cyclic = true,
+          }
+        end
+
+        if opts.ft.cpp == nil then
+          opts.ft.cpp = {}
+        end
+
+        vim.list_extend(opts.ft.cpp, {
+          define_custom("Debug", "Info", "Warn", "Error", "Fatal"),
+          define_custom("first", "second"),
+          define_custom("true_type", "false_type"),
+          define_custom("uint8_t", "uint16_t", "uint32_t", "uint64_t"),
+          define_custom("int8_t", "int16_t", "int32_t", "int64_t"),
+          define_custom("htonl", "ntohl"),
+          define_custom("htons", "ntohs"),
+          define_custom("ASSERT_EQ", "ASSERT_NE"),
+          define_custom("EXPECT_EQ", "EXPECT_NE"),
+          define_custom("==", "!="),
+          define_custom("static_cast", "dynamic_cast", "reinterpret_cast"),
+          define_custom("private", "public", "protected"),
+        })
+      end,
+    },
   },
 }

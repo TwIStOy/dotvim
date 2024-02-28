@@ -35,8 +35,8 @@ return {
       ---@type dora.core.action
       local action = require("dora.core.action")
 
-      ---@type dora.config.integration
-      local integration = require("dora.config.integration")
+      ---@type dora.config
+      local config = require("dora.config")
 
       ---@type dora.core.action.ActionOption[]
       local actions = {
@@ -48,12 +48,13 @@ return {
         },
       }
 
-      if integration.enabled("yazi") then
+      if config.integration.enabled("yazi") then
         actions[#actions + 1] = {
           id = "toggleterm.yazi",
           title = "Open Yazi",
           callback = function()
-            if vim.fn.executable("yazi") ~= 1 then
+            local executable = config.nix.resolve_bin("yazi")
+            if vim.fn.executable(executable) ~= 1 then
               vim.notify(
                 "Command [yazi] not found!",
                 vim.log.levels.ERROR,
@@ -80,12 +81,13 @@ return {
         }
       end
 
-      if integration.enabled("lazygit") then
+      if config.integration.enabled("lazygit") then
         actions[#actions + 1] = {
           id = "toggleterm.lazygit",
           title = "Open lazygit",
           callback = function()
-            if vim.fn.executable("lazygit") ~= 1 then
+            local executable = config.nix.resolve_bin("lazygit")
+            if vim.fn.executable(executable) ~= 1 then
               vim.notify(
                 "Command [lazygit] not found!",
                 vim.log.levels.ERROR,

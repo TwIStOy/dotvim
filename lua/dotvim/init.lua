@@ -44,7 +44,6 @@ function M.setup(opts)
     "dora.packages.extra.lang.python",
     "dora.packages.extra.lang.rust",
     "dora.packages.extra.lang.dart",
-    "dora.packages.extra.lang.swift",
     "dora.packages.extra.lang.typescript",
     "dora.packages.extra.lang.nix",
     "dora.packages.extra.misc.competitive-programming",
@@ -56,6 +55,10 @@ function M.setup(opts)
     "dotvim.packages.obsidian",
     "dotvim.packages.lsp",
   }
+
+  if vim.uv.os_uname() == "Darwin" then
+    table.insert(opts.packages, "dora.packages.extra.lang.swift")
+  end
 
   dora.setup(opts)
 

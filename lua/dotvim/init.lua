@@ -47,17 +47,19 @@ function M.setup(opts)
     "dora.packages.extra.lang.typescript",
     "dora.packages.extra.lang.nix",
     "dora.packages.extra.misc.competitive-programming",
-    "dora.packages.extra.obsidian",
     "dora.packages.extra.misc.copilot",
     "dora.packages.extra.misc.wakatime",
     "dora.packages.extra.misc.rime",
+    "dora.packages.extra.obsidian",
 
+    "dotvim.packages._",
     "dotvim.packages.obsidian",
     "dotvim.packages.lsp",
   }
 
   if vim.uv.os_uname() == "Darwin" then
     table.insert(opts.packages, "dora.packages.extra.lang.swift")
+    table.insert(opts.packages, "dora.packages.extra.misc.darwin")
   end
 
   opts.lazy = function(lazy_opts)

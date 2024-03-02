@@ -11,11 +11,11 @@ return {
         local function post_parse_symbol(_, _item, ctx)
           local function merge_nested_namespaces(item)
             if
-              item.kind == "Namespace"
-              and #item.children == 1
-              and item.children[1].kind == "Namespace"
-              and item.lnum == item.children[1].lnum
-              and item.end_lnum == item.children[1].end_lnum
+                item.kind == "Namespace"
+                and #item.children == 1
+                and item.children[1].kind == "Namespace"
+                and item.lnum == item.children[1].lnum
+                and item.end_lnum == item.children[1].end_lnum
             then
               item.name = item.name .. "::" .. item.children[1].name
               item.children = item.children[1].children
@@ -33,6 +33,18 @@ return {
         end
 
         opts.post_parse_symbol = post_parse_symbol
+      end,
+    },
+    {
+      "nvim-lspconfig",
+      opts = function(_, opts)
+        -- add dora.nvim into
+        if opts.servers.opts.lua_ls ~= nil then
+          table.insert(
+            opts.servers.opts.lua_ls.settings.Lua.workspace.library,
+            vim.fn.stdpath("data") .. "/lazy/dora.nvim/lua"
+          )
+        end
       end,
     },
   },

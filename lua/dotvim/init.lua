@@ -3,13 +3,13 @@ local function install_missing_dora()
 
   if not vim.uv.fs_stat(dora_path) then
     vim
-      .system({
-        "git",
-        "clone",
-        "https://github.com/TwIStOy/dora.nvim.git",
-        dora_path,
-      })
-      :wait()
+        .system({
+          "git",
+          "clone",
+          "https://github.com/TwIStOy/dora.nvim.git",
+          dora_path,
+        })
+        :wait()
   end
 
   vim.opt.rtp:prepend(dora_path)
@@ -58,6 +58,13 @@ function M.setup(opts)
 
   if vim.uv.os_uname() == "Darwin" then
     table.insert(opts.packages, "dora.packages.extra.lang.swift")
+  end
+
+  opts.lazy = function(lazy_opts)
+    table.insert(
+      lazy_opts.performance.rtp.paths,
+      os.getenv("HOME") .. ".dotvim"
+    )
   end
 
   dora.setup(opts)

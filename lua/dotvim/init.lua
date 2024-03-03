@@ -65,7 +65,7 @@ function M.setup(opts)
   opts.lazy = function(lazy_opts)
     table.insert(
       lazy_opts.performance.rtp.paths,
-      os.getenv("HOME") .. ".dotvim"
+      os.getenv("HOME") .. "/.dotvim"
     )
   end
 

@@ -48,7 +48,7 @@ local function entry_maker(opts, link_count_width, id_width, title_width)
     separator = " | ",
     items = {
       { width = link_count_width, right_justify = true },
-      { width = id_width, right_justify = true },
+      { width = id_width,         right_justify = true },
       { width = title_width },
     },
   }
@@ -56,7 +56,7 @@ local function entry_maker(opts, link_count_width, id_width, title_width)
   local function make_display(entry)
     return displayer {
       { entry.value.value:link_count(), "Comment" },
-      { entry.value.value:id(), "@variable.builtin" },
+      { entry.value.value:id(),         "@variable.builtin" },
       entry.value.title,
     }
   end
@@ -78,7 +78,7 @@ local function tag_entry_maker(opts, tag_width)
   local displayer = entry_display.create {
     separator = " | ",
     items = {
-      { width = 5, right_justify = true },
+      { width = 5,        right_justify = true },
       { width = tag_width },
     },
   }
@@ -132,33 +132,33 @@ local function find_notes(opts, notes)
   end
 
   pickers
-    .new(opts, {
-      prompt_title = "Obsidian Notes",
-      sorter = conf.generic_sorter(opts),
-      finder = finders.new_table {
-        results = entries,
-        entry_maker = entry_maker(
-          opts,
-          link_count_width,
-          id_width,
-          title_width
-        ),
-      },
-      previewer = conf.file_previewer(opts),
-      attach_mappings = function(bufnr, map)
-        map("i", "<CR>", function()
-          local entry = action_state.get_selected_entry()
-          actions.close(bufnr)
-          if entry ~= nil then
-            vim.cmd(
-              ("e %s/%s"):format(Globals.obsidian_vault, entry.value.value.path)
-            )
-          end
-        end)
-        return true
-      end,
-    })
-    :find()
+      .new(opts, {
+        prompt_title = "Obsidian Notes",
+        sorter = conf.generic_sorter(opts),
+        finder = finders.new_table {
+          results = entries,
+          entry_maker = entry_maker(
+            opts,
+            link_count_width,
+            id_width,
+            title_width
+          ),
+        },
+        previewer = conf.file_previewer(opts),
+        attach_mappings = function(bufnr, map)
+          map("i", "<CR>", function()
+            local entry = action_state.get_selected_entry()
+            actions.close(bufnr)
+            if entry ~= nil then
+              vim.cmd(
+                ("e %s/%s"):format(Globals.obsidian_vault, entry.value.value.path)
+              )
+            end
+          end)
+          return true
+        end,
+      })
+      :find()
 end
 
 local function find_notes_alias(opts)
@@ -192,27 +192,27 @@ local function find_notes_tags(opts, inner_opts)
   end
 
   pickers
-    .new(opts, {
-      prompt_title = "Obsidian Tags",
-      sorter = conf.generic_sorter(opts),
-      finder = finders.new_table {
-        results = values,
-        entry_maker = tag_entry_maker(opts, tag_width),
-      },
-      previewer = false,
-      attach_mappings = function(bufnr, map)
-        map("i", "<CR>", function()
-          local entry = action_state.get_selected_entry()
-          actions.close(bufnr)
-          if entry ~= nil then
-            local value = entry.value
-            find_notes(inner_opts, value.notes)
-          end
-        end)
-        return true
-      end,
-    })
-    :find()
+      .new(opts, {
+        prompt_title = "Obsidian Tags",
+        sorter = conf.generic_sorter(opts),
+        finder = finders.new_table {
+          results = values,
+          entry_maker = tag_entry_maker(opts, tag_width),
+        },
+        previewer = false,
+        attach_mappings = function(bufnr, map)
+          map("i", "<CR>", function()
+            local entry = action_state.get_selected_entry()
+            actions.close(bufnr)
+            if entry ~= nil then
+              local value = entry.value
+              find_notes(inner_opts, value.notes)
+            end
+          end)
+          return true
+        end,
+      })
+      :find()
 end
 
 return telescope.register_extension {

@@ -5,7 +5,7 @@ local M = {}
 local lib = require("dora.lib")
 
 --[[
-Expect https://github.com/TwIStOy/obsidian-local-graphql
+Expect plugin https://github.com/TwIStOy/obsidian-local-graphql
 ]]
 
 local graphql_url = "http://localhost:28123"
@@ -13,6 +13,7 @@ local graphql_url = "http://localhost:28123"
 local all_markdown_files = [[
 query {
   vault {
+    basePath
     allMarkdownFiles {
       path
       basename
@@ -120,14 +121,31 @@ local function is_nil(v)
   return v == nil or v == vim.NIL
 end
 
----@async
----@return dotvim.extra.obsidian.ObsidianNote[]
-function M.get_all_markdown_files()
-  local response = request_obsidian(graphql_url, all_markdown_files)
-  if response == nil then
-    return {}
-  end
+---@return string?
+function M.get_vault_base_path()
+  local Curl = require("plenary.curl")
+  local response = Curl.post(graphql_url, {
+    headers = {
+      content_type = "application/json",
+    },
+    body = vim.fn.json_encode { query = "query { vault { basePath } }" },
+  })
   local data = vim.fn.json_decode(response.body)
+  return data.data.vault.basePath
+end
+
+---@return string, dotvim.extra.obsidian.ObsidianNote[]
+function M.get_all_markdown_files()
+  local Curl = require("plenary.curl")
+  local response = Curl.post(graphql_url, {
+    headers = {
+      content_type = "application/json",
+    },
+    body = vim.fn.json_encode { query = all_markdown_files },
+  })
+  local data = vim.fn.json_decode(response.body)
+
+  local basePath = data.data.vault.basePath
   local files = data.data.vault.allMarkdownFiles
   local ret = {}
   local backlinks_count = {}
@@ -163,7 +181,7 @@ function M.get_all_markdown_files()
   for _, note in ipairs(ret) do
     note.cachedMetadata.backlinks_count = backlinks_count[note.path] or 0
   end
-  return ret
+  return basePath, ret
 end
 
 return M

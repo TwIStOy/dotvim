@@ -174,8 +174,30 @@ function M.find_notes_tags(opts, next_opts)
   local finders = require("telescope.finders")
   local action_state = require("telescope.actions.state")
   local actions = require("telescope.actions")
+  local previewers = require("telescope.previewers.buffer_previewer")
 
   opts = opts or {}
+
+  local previewer = previewers.new_buffer_previewer {
+    title = "Tag Preview",
+    dyn_title = function(_, entry)
+      return ("󰓼 %s %d"):format(entry.value.tag, #entry.value.notes)
+    end,
+    get_buffer_by_name = function(_, entry)
+      return entry.value.tag
+    end,
+    define_preview = function(self, entry, _)
+      ---@type dotvim.extra.obsidian.ObsidianNote[]
+      local notes = entry.value.notes
+      local lines = {}
+      for _, note in ipairs(notes) do
+        table.insert(lines, ("- %s"):format(note:title()))
+      end
+
+      vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", "markdown")
+      vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
+    end,
+  }
 
   pickers
       .new(opts, {
@@ -185,7 +207,7 @@ function M.find_notes_tags(opts, next_opts)
           results = values,
           entry_maker = tag_entry_maker(opts),
         },
-        previewer = false,
+        previewer = previewer,
         attach_mappings = function(bufnr, map)
           map("i", "<CR>", function()
             local entry = action_state.get_selected_entry()

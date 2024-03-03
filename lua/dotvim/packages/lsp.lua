@@ -45,6 +45,22 @@ return {
             vim.fn.stdpath("data") .. "/lazy/dora.nvim/lua"
           )
         end
+        if opts.servers.opts.clangd ~= nil then
+          opts.servers.opts.clangd.cmd = {
+            "clangd",
+            "--clang-tidy",
+            "--background-index",
+            "--background-index-priority=normal",
+            "--ranking-model=decision_forest",
+            "--completion-style=detailed",
+            "--header-insertion=iwyu",
+            "--limit-references=100",
+            "--limit-results=100",
+            "--include-cleaner-stdlib",
+            "--all-scopes-completion",
+            "-j=20",
+          }
+        end
       end,
     },
   },

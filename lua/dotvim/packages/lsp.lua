@@ -11,11 +11,11 @@ return {
         local function post_parse_symbol(_, _item, ctx)
           local function merge_nested_namespaces(item)
             if
-                item.kind == "Namespace"
-                and #item.children == 1
-                and item.children[1].kind == "Namespace"
-                and item.lnum == item.children[1].lnum
-                and item.end_lnum == item.children[1].end_lnum
+              item.kind == "Namespace"
+              and #item.children == 1
+              and item.children[1].kind == "Namespace"
+              and item.lnum == item.children[1].lnum
+              and item.end_lnum == item.children[1].end_lnum
             then
               item.name = item.name .. "::" .. item.children[1].name
               item.children = item.children[1].children
@@ -60,6 +60,51 @@ return {
             "--all-scopes-completion",
             "-j=20",
           }
+        end
+      end,
+    },
+    {
+      "catppuccin",
+      opts = function(_, opts)
+        local clear_diagnostic_background = function(c)
+          return {
+            DiagnosticVirtualTextError = {
+              bg = c.none,
+            },
+            DiagnosticVirtualTextWarn = {
+              bg = c.none,
+            },
+            DiagnosticVirtualTextInfo = {
+              bg = c.none,
+            },
+            DiagnosticVirtualTextHint = {
+              bg = c.none,
+            },
+          }
+        end
+        if opts.custom_highlights ~= nil then
+          local old_custom_highlights = opts.custom_highlights
+          if type(old_custom_highlights) == "function" then
+            opts.custom_highlights = function(c)
+              local ret = old_custom_highlights(c)
+              return vim.tbl_deep_extend(
+                "force",
+                ret,
+                clear_diagnostic_background(c)
+              )
+            end
+          else
+            opts.custom_highlights = function(c)
+              local ret = old_custom_highlights
+              return vim.tbl_deep_extend(
+                "force",
+                ret,
+                clear_diagnostic_background(c)
+              )
+            end
+          end
+        else
+          opts.custom_highlights = clear_diagnostic_background
         end
       end,
     },

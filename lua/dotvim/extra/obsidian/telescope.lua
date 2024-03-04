@@ -9,7 +9,7 @@ local function note_entry_maker(_, base_path)
   local displayer = entry_display.create {
     separator = " | ",
     items = {
-      { width = 9,       right_justify = true },
+      { width = 9, right_justify = true },
       { remaining = true },
     },
   }
@@ -51,7 +51,7 @@ local function tag_entry_maker(_)
   local displayer = entry_display.create {
     separator = " | ",
     items = {
-      { width = 5,       right_justify = true },
+      { width = 5, right_justify = true },
       { remaining = true },
     },
   }
@@ -87,26 +87,26 @@ local function notes_picker(opts, notes, base_path)
   local actions = require("telescope.actions")
 
   pickers
-      .new(opts, {
-        prompt_title = "Obsidian Notes",
-        sorter = conf.generic_sorter(opts),
-        finder = finders.new_table {
-          results = notes,
-          entry_maker = note_entry_maker(opts, base_path),
-        },
-        previewer = conf.file_previewer(opts),
-        attach_mappings = function(bufnr, map)
-          map("i", "<CR>", function()
-            local entry = action_state.get_selected_entry()
-            actions.close(bufnr)
-            if entry ~= nil then
-              vim.cmd(("e %s"):format(entry.path))
-            end
-          end)
-          return true
-        end,
-      })
-      :find()
+    .new(opts, {
+      prompt_title = "Obsidian Notes",
+      sorter = conf.generic_sorter(opts),
+      finder = finders.new_table {
+        results = notes,
+        entry_maker = note_entry_maker(opts, base_path),
+      },
+      previewer = conf.file_previewer(opts),
+      attach_mappings = function(bufnr, map)
+        map("i", "<CR>", function()
+          local entry = action_state.get_selected_entry()
+          actions.close(bufnr)
+          if entry ~= nil then
+            vim.cmd(("e %s"):format(entry.path))
+          end
+        end)
+        return true
+      end,
+    })
+    :find()
 end
 
 local note_path_blacklist_pattern = {
@@ -194,33 +194,35 @@ function M.find_notes_tags(opts, next_opts)
         table.insert(lines, ("- %s"):format(note:title()))
       end
 
-      vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", "markdown")
+      vim.api.nvim_set_option_value("filetype", "markdown", {
+        buf = self.state.bufnr,
+      })
       vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
     end,
   }
 
   pickers
-      .new(opts, {
-        prompt_title = "Obsidian Tags",
-        sorter = conf.generic_sorter(opts),
-        finder = finders.new_table {
-          results = values,
-          entry_maker = tag_entry_maker(opts),
-        },
-        previewer = previewer,
-        attach_mappings = function(bufnr, map)
-          map("i", "<CR>", function()
-            local entry = action_state.get_selected_entry()
-            actions.close(bufnr)
-            if entry ~= nil then
-              local value = entry.value
-              notes_picker(next_opts, value.notes, value.base_path)
-            end
-          end)
-          return true
-        end,
-      })
-      :find()
+    .new(opts, {
+      prompt_title = "Obsidian Tags",
+      sorter = conf.generic_sorter(opts),
+      finder = finders.new_table {
+        results = values,
+        entry_maker = tag_entry_maker(opts),
+      },
+      previewer = previewer,
+      attach_mappings = function(bufnr, map)
+        map("i", "<CR>", function()
+          local entry = action_state.get_selected_entry()
+          actions.close(bufnr)
+          if entry ~= nil then
+            local value = entry.value
+            notes_picker(next_opts, value.notes, value.base_path)
+          end
+        end)
+        return true
+      end,
+    })
+    :find()
 end
 
 return M

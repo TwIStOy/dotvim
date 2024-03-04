@@ -1,18 +1,24 @@
+local dora_dev = os.getenv("HOME") .. "/Projects/nvim-plugins/dora.nvim"
+
 local function install_missing_dora()
   local dora_path = vim.fn.stdpath("data") .. "/lazy/dora.nvim"
 
   if not vim.uv.fs_stat(dora_path) then
     vim
-        .system({
-          "git",
-          "clone",
-          "https://github.com/TwIStOy/dora.nvim.git",
-          dora_path,
-        })
-        :wait()
+      .system({
+        "git",
+        "clone",
+        "https://github.com/TwIStOy/dora.nvim.git",
+        dora_path,
+      })
+      :wait()
   end
 
-  vim.opt.rtp:prepend(dora_path)
+  if vim.fn.isdirectory(dora_dev) == 1 then
+    vim.opt.rtp:prepend(dora_dev)
+  else
+    vim.opt.rtp:prepend(dora_path)
+  end
 end
 
 local M = {}
@@ -63,10 +69,52 @@ function M.setup(opts)
   end
 
   opts.lazy = function(lazy_opts)
-    table.insert(
-      lazy_opts.performance.rtp.paths,
-      os.getenv("HOME") .. "/.dotvim"
-    )
+    if vim.fn.isdirectory(dora_dev) == 1 then
+      lazy_opts.performance.rtp.paths = {
+        dora_dev,
+        os.getenv("HOME") .. "/.dotvim",
+      }
+    else
+      table.insert(
+        lazy_opts.performance.rtp.paths,
+        os.getenv("HOME") .. "/.dotvim"
+      )
+    end
+
+    -- try to resolve my custom plugins
+    local function resolve_my_dev_plugins(plugin)
+      local dev_base = os.getenv("HOME") .. "/Projects/nvim-plugins"
+      local name = plugin.name
+      local dev_path = dev_base .. "/" .. name
+      if vim.fn.isdirectory(dev_path) == 1 then
+        return dev_path
+      end
+    end
+    if lazy_opts.dev ~= nil then
+      local old_resolver = lazy_opts.dev.path
+      lazy_opts.dev.path = function(plugin)
+        local old_path = old_resolver(plugin)
+        if old_path == "/dev/null/must_not_exists" then
+          local dev_path = resolve_my_dev_plugins(plugin)
+          if dev_path ~= nil then
+            return dev_path
+          end
+        end
+        return old_path
+      end
+    else
+      lazy_opts.dev = {
+        path = function(plugin)
+          local dev_path = resolve_my_dev_plugins(plugin)
+          if dev_path ~= nil then
+            return dev_path
+          end
+          return "/dev/null/must_not_exists"
+        end,
+        patterns = { "/" }, -- hack to make sure all plugins are `dev`
+        fallback = true,
+      }
+    end
   end
 
   dora.setup(opts)

@@ -23,6 +23,18 @@ end
 
 local M = {}
 
+local function load_nix_aware_file()
+  local path = vim.fn.stdpath("config") .. "/nix-aware.json"
+  if not not vim.uv.fs_stat(path) then
+    local lib = require("dora.lib")
+    local content = lib.fs.read_file(path)
+    if content ~= nil then
+      return vim.fn.json_decode(content)
+    end
+  end
+  return {}
+end
+
 function M.setup(opts)
   install_missing_dora()
 
@@ -116,6 +128,8 @@ function M.setup(opts)
       }
     end
   end
+
+  opts.nix = load_nix_aware_file()
 
   dora.setup(opts)
 

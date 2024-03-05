@@ -108,5 +108,13 @@ return {
         end
       end,
     },
+    {
+      "nvim-lint",
+      opts = {
+        linters_by_ft = {
+          nix = { "statix" },
+        },
+      },
+    },
   },
 }

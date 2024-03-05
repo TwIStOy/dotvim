@@ -73,6 +73,7 @@ function M.setup(opts)
     "dotvim.packages._",
     "dotvim.packages.obsidian",
     "dotvim.packages.lsp",
+    "dotvim.packages.editor",
   }
 
   if vim.uv.os_uname() == "Darwin" then

@@ -1,8 +1,17 @@
 ---@type dora.core.package.PackageOption
 return {
   name = "dotvim.packages._",
-  deps = {},
-  plugins = {},
+  deps = {
+    "dora.packages._builtin",
+  },
+  plugins = {
+    {
+      "catppuccin",
+      opts = function(_, opts)
+        opts.flavour = "latte"
+      end,
+    },
+  },
   setup = function()
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",

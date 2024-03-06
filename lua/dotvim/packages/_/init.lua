@@ -52,5 +52,8 @@ return {
         vim.bo.formatoptions = vim.bo.formatoptions:gsub("o", "")
       end,
     })
+    if vim.g.neovide then
+      require("dotvim.packages._.neovide").setup()
+    end
   end,
 }

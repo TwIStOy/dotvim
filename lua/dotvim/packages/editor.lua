@@ -78,5 +78,11 @@ return {
         require("project_nvim").setup(opts)
       end,
     },
+    {
+      "Bekaboo/dropbar.nvim",
+      dependencies = {
+        "telescope-fzf-native.nvim",
+      },
+    },
   },
 }

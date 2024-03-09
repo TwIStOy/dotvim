@@ -11,7 +11,7 @@
       <img alt="Repo Size" src="https://img.shields.io/github/repo-size/TwIStOy/dotvim?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41" /></a>
 </p>
 
-![](https://raw.githubusercontent.com/TwIStOy/dotvim/master/screenshots/start_page.png)
+<!-- ![](https://raw.githubusercontent.com/TwIStOy/dotvim/master/screenshots/start_page.png) -->
 
 # ✨Features
 

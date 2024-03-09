@@ -2,17 +2,13 @@
 
 <p align="center">
     <a href="https://github.com/TwIStOy/dotvim/pulse">
-      <img src="https://img.shields.io/github/last-commit/TwIStOy/dotvim?style=for-the-badge&logo=github&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/>
-    </a>
+      <img src="https://img.shields.io/github/last-commit/TwIStOy/dotvim?style=for-the-badge&logo=github&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/></a>
     <a href="https://github.com/TwIStOy/dotvim/blob/main/LICENSE">
-      <img alt="License" src="https://img.shields.io/github/license/TwIStOy/dotvim?style=for-the-badge&logo=starship&color=ee999f&logoColor=D9E0EE&labelColor=302D41" />
-    </a>
+      <img alt="License" src="https://img.shields.io/github/license/TwIStOy/dotvim?style=for-the-badge&logo=starship&color=ee999f&logoColor=D9E0EE&labelColor=302D41" /></a>
     <a href="https://github.com/TwIStOy/dotvim/stargazers">
-      <img src="https://img.shields.io/github/stars/TwIStOy/dotvim?style=for-the-badge&logo=apachespark&color=eed49f&logoColor=D9E0EE&labelColor=302D41"/>
-    </a>
+      <img src="https://img.shields.io/github/stars/TwIStOy/dotvim?style=for-the-badge&logo=apachespark&color=eed49f&logoColor=D9E0EE&labelColor=302D41"/></a>
     <a href="https://github.com/TwIStOy/dotvim">
-      <img alt="Repo Size" src="https://img.shields.io/github/repo-size/TwIStOy/dotvim?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41" />
-    </a>
+      <img alt="Repo Size" src="https://img.shields.io/github/repo-size/TwIStOy/dotvim?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41" /></a>
 </p>
 
 ![](https://raw.githubusercontent.com/TwIStOy/dotvim/master/screenshots/start_page.png)

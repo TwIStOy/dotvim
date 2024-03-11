@@ -10,6 +10,8 @@ return {
       opts = function(_, opts)
         -- opts.flavour = "latte"
         opts.flavour = "frappe"
+        opts.styles.comments = {}
+        opts.styles.conditionals = {}
         opts.color_overrides = {
           frappe = {
             rosewater = "#F5B8AB",

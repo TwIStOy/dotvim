@@ -36,6 +36,8 @@ local function load_nix_aware_file()
 end
 
 function M.setup(opts)
+  require("dotvim.extra.fswatch")()
+
   install_missing_dora()
 
   ---@class dora

@@ -77,6 +77,7 @@ function M.setup(opts)
     "dotvim.packages.lsp",
     "dotvim.packages.editor",
     "dotvim.packages.ui",
+    "dotvim.packages.tools",
   }
 
   if vim.uv.os_uname() == "Darwin" then

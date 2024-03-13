@@ -57,8 +57,10 @@ local function fswatch(path, opts, callback)
     path,
   }, {
     stdout = function(_, data)
-      for line in vim.gsplit(data, "\n", { plain = true, trimempty = true }) do
-        fswatch_output_handler(line, opts, callback)
+      if data ~= nil then
+        for line in vim.gsplit(data, "\n", { plain = true, trimempty = true }) do
+          fswatch_output_handler(line, opts, callback)
+        end
       end
     end,
   })

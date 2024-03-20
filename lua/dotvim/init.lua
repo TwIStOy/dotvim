@@ -138,7 +138,9 @@ function M.setup(opts)
 
   dora.setup(opts)
 
-  vim.cmd("colorscheme catppuccin")
+  if not vim.g.vscode then
+    vim.cmd("colorscheme catppuccin")
+  end
 end
 
 return M

@@ -1,6 +1,6 @@
 local dora_dev = os.getenv("HOME") .. "/Projects/nvim-plugins/dora.nvim"
 
-local function install_missing_dora()
+local function install_missing_dora(...)
   local dora_path = vim.fn.stdpath("data") .. "/lazy/dora.nvim"
 
   if not vim.uv.fs_stat(dora_path) then

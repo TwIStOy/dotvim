@@ -6,11 +6,11 @@ return {
   },
   plugins = {
     {
-      "vim-illuminate",
+      "local-highlight.nvim",
       opts = function(_, opts)
-        ---@type string[]
-        local denylist = vim.deepcopy(opts.filetypes_denylist)
-        vim.list_extend(denylist, {
+        local disable_file_types = vim.deepcopy(opts.disable_file_types)
+
+        vim.list_extend(disable_file_types, {
           "noice",
           "neo-tree",
           "startify",
@@ -38,12 +38,51 @@ return {
           "fzf",
         })
         local ret = {}
-        for _, ft in ipairs(denylist) do
+        for _, ft in ipairs(disable_file_types) do
           ret[ft] = true
         end
-        opts.filetypes_denylist = vim.tbl_keys(ret)
+        opts.disable_file_types = vim.tbl_keys(ret)
       end,
     },
+    -- {
+    --   "vim-illuminate",
+    --   opts = function(_, opts)
+    --     ---@type string[]
+    --     local denylist = vim.deepcopy(opts.filetypes_denylist)
+    --     vim.list_extend(denylist, {
+    --       "noice",
+    --       "neo-tree",
+    --       "startify",
+    --       "NvimTree",
+    --       "packer",
+    --       "alpha",
+    --       "nuipopup",
+    --       "toggleterm",
+    --       "noice",
+    --       "crates.nvim",
+    --       "lazy",
+    --       "Trouble",
+    --       "rightclickpopup",
+    --       "TelescopePrompt",
+    --       "Glance",
+    --       "DressingInput",
+    --       "lspinfo",
+    --       "nofile",
+    --       "mason",
+    --       "Outline",
+    --       "aerial",
+    --       "flutterToolsOutline",
+    --       "neo-tree",
+    --       "neo-tree-popup",
+    --       "fzf",
+    --     })
+    --     local ret = {}
+    --     for _, ft in ipairs(denylist) do
+    --       ret[ft] = true
+    --     end
+    --     opts.filetypes_denylist = vim.tbl_keys(ret)
+    --   end,
+    -- },
     {
       "project.nvim",
       event = {

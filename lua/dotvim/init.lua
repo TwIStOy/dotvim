@@ -143,4 +143,40 @@ function M.setup(opts)
   end
 end
 
+NeovideTest = function()
+  vim.api.nvim_open_win(0, true, {
+    relative = "editor",
+    width = 20,
+    height = 20,
+    row = 20,
+    col = 20,
+    style = "minimal",
+    focusable = false,
+    border = "none",
+    zindex = 500,
+  })
+  vim.api.nvim_open_win(0, true, {
+    relative = "editor",
+    row = 36,
+    col = 4,
+    width = 20,
+    height = 20,
+    style = "minimal",
+    focusable = false,
+    border = "none",
+    zindex = 500,
+  })
+  vim.api.nvim_open_win(0, true, {
+    relative = "editor",
+    row = 36,
+    col = 36,
+    width = 24,
+    height = 20,
+    style = "minimal",
+    focusable = false,
+    border = "none",
+    zindex = 500,
+  })
+end
+
 return M

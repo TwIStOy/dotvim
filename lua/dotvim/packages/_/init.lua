@@ -8,7 +8,7 @@ return {
     {
       "catppuccin",
       opts = function(_, opts)
-        opts.flavour = "mocha"
+        opts.flavour = "latte"
         opts.styles.comments = {}
         opts.styles.conditionals = {}
         opts.color_overrides = {

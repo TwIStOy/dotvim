@@ -140,7 +140,7 @@ function M.setup(opts)
   dora.setup(opts)
 
   if not vim.g.vscode then
-    require("bamboo").load()
+    vim.cmd("colorscheme catppuccin")
   end
 end
 

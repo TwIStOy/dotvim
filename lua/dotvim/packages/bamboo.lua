@@ -8,9 +8,10 @@ return {
     {
       "ribru17/bamboo.nvim",
       lazy = false,
+      enabled = false,
       priority = 1000,
       opts = {
-        cmp_itemkind_reverse = true,
+        cmp_itemkind_reverse = false,
         code_style = {
           comments = { italic = true },
           conditionals = { italic = true },

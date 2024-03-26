@@ -78,6 +78,7 @@ function M.setup(opts)
     "dotvim.packages.editor",
     "dotvim.packages.ui",
     "dotvim.packages.tools",
+    "dotvim.packages.bamboo",
   }
 
   if vim.uv.os_uname() == "Darwin" then
@@ -139,7 +140,7 @@ function M.setup(opts)
   dora.setup(opts)
 
   if not vim.g.vscode then
-    vim.cmd("colorscheme catppuccin")
+    require("bamboo").load()
   end
 end
 

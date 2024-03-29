@@ -3,14 +3,14 @@ local Utils = require("dotvim.utils")
 
 ---@type dotvim.core.package.PackageOption
 return {
-  name = "dotvim.packages.base",
+  name = "base",
   setup = function()
-    require("dotvim.packages.base.setup.options")
-    require("dotvim.packages.base.setup.keymaps")
-    require("dotvim.packages.base.setup.autocmds")
+    require("dotvim.pkgs.base.setup.options")
+    require("dotvim.pkgs.base.setup.keymaps")
+    require("dotvim.pkgs.base.setup.autocmds")
   end,
   plugins = Utils.tbl.flatten_array {
-    require("dotvim.packages.base.plugins.init"),
+    require("dotvim.pkgs.base.plugins.init"),
     { "folke/lazy.nvim", lazy = true },
     {
       "dstein64/vim-startuptime",

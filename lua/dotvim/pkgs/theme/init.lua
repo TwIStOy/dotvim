@@ -1,8 +1,8 @@
 ---@type dotvim.core.package.PackageOption
 return {
-  name = "dotvim.packages.theme",
+  name = "theme",
   plugins = {
-    require("dotvim.packages.theme.plugins.catppuccin"),
+    require("dotvim.pkgs.theme.plugins.catppuccin"),
   },
   setup = function()
     vim.cmd("colorscheme catppuccino")

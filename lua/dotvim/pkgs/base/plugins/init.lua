@@ -10,6 +10,6 @@ return {
     keys = { { "J", "<Plug>(jplus)", mode = { "n", "v" }, noremap = false } },
     gui = "all",
   },
-  require("dotvim.packages.base.plugins.mason"),
-  require("dotvim.packages.base.plugins.toggleterm"),
+  require("dotvim.pkgs.base.plugins.mason"),
+  require("dotvim.pkgs.base.plugins.toggleterm"),
 }

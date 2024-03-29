@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption
+---@type dotvim.core.plugin.PluginOption
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
@@ -13,8 +13,8 @@ return {
     end
   end,
   opts = function()
-    ---@type dora.config
-    local config = require("dora.config")
+    ---@type dotvim.utils
+    local Utils = require("dotvim.utils")
 
     local function cwd()
       local dir = vim.fn.getcwd()
@@ -23,7 +23,7 @@ return {
       if match == 1 then
         dir = "~" .. string.sub(dir, #home + 1)
       end
-      return config.icon.predefined_icon("FolderOpen", 1) .. dir
+      return Utils.icon.predefined_icon("FolderOpen", 1) .. dir
     end
 
     local function fileinfo()
@@ -64,7 +64,7 @@ return {
             "mode",
             icons_enabled = true,
             icon = {
-              config.icon.predefined_icon("VimLogo", 1),
+              Utils.icon.predefined_icon("VimLogo", 1),
               align = "left",
             },
           },
@@ -77,10 +77,10 @@ return {
           {
             "diagnostics",
             symbols = {
-              error = config.icon.predefined_icon("DiagnosticError", 1),
-              warn = config.icon.predefined_icon("DiagnosticWarn", 1),
-              info = config.icon.predefined_icon("DiagnosticInfo", 1),
-              hint = config.icon.predefined_icon("DiagnosticHint", 1),
+              error = Utils.icon.predefined_icon("DiagnosticError", 1),
+              warn = Utils.icon.predefined_icon("DiagnosticWarn", 1),
+              info = Utils.icon.predefined_icon("DiagnosticInfo", 1),
+              hint = Utils.icon.predefined_icon("DiagnosticHint", 1),
             },
           },
           "branch",

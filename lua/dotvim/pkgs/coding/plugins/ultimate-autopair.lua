@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption
+---@type dotvim.core.plugin.PluginOption
 return {
   "altermo/ultimate-autopair.nvim",
   gui = "all",

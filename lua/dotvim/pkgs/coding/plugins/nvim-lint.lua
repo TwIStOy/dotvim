@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption
+---@type dotvim.core.plugin.PluginOption
 return {
   "mfussenegger/nvim-lint",
   event = { "BufReadPost", "BufNewFile" },
@@ -19,14 +19,14 @@ return {
       end
     end
 
-    ---@type dora.utils
-    local utils = require("dora.utils")
+    ---@type dotvim.utils
+    local Utils = require("dotvim.utils")
     for _, name in pairs(used_linters) do
       local linter = require("lint").linters[name]
       if linter == nil then
         error("Linter " .. linter .. " not found")
       end
-      linter.cmd = utils.which_binary(linter.cmd)
+      linter.cmd = Utils.which(linter.cmd)
     end
 
     vim.api.nvim_create_autocmd("BufWritePost", {

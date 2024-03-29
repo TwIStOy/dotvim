@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption[]
+---@type dotvim.core.plugin.PluginOption[]
 return {
   {
     "goolord/alpha-nvim",
@@ -14,10 +14,8 @@ return {
       "nvim-lua/plenary.nvim",
     },
     opts = function()
-      ---@type dora.lib
-      local lib = require("dora.lib")
-      ---@type dora.config
-      local config = require("dora.config")
+      ---@type dotvim.utils
+      local Utils = require("dotvim.utils")
 
       local redraw_alpha_autocmd = nil
 
@@ -34,7 +32,7 @@ return {
       ---@param opts? table
       local function make_button(sc, txt, callback, opts)
         opts = opts or {}
-        local on_press = lib.func.normalize_callback(
+        local on_press = Utils.fn.normalize_callback(
           callback,
           vim.F.if_nil(opts.feedkeys, true)
         )
@@ -234,13 +232,13 @@ return {
 
       local function make_recent_project_buttons()
         local function _build_buttons()
-          local recent_projects = lib.func.require_then(
+          local recent_projects = Utils.fn.require_then(
             "project_nvim",
             function(project_nvim)
               return project_nvim.get_recent_projects()
             end
           ) or {}
-          lib.tbl.list_reverse(recent_projects)
+          Utils.tbl.list_reverse(recent_projects)
 
           local buttons = {}
           local special_shortcuts = { "a", "s", "d" }
@@ -302,7 +300,9 @@ return {
 
       local function make_header_liens()
         local lines = {}
-        for i, line in ipairs(config.ui.dashboard_header) do
+        for i, line in
+          ipairs(require("dotvim.pkgs.ui.dashboard").dashboard_header_winnee)
+        do
           lines[i] = {
             type = "text",
             val = line,
@@ -315,7 +315,7 @@ return {
         end
         lines[#lines + 1] = {
           type = "text",
-          val = "dora.version: " .. require("dora.version").version(),
+          val = "dotvim.version: " .. require("dotvim.version").version(),
           opts = {
             hl = "SpecialComment",
             position = "center",
@@ -343,7 +343,9 @@ return {
         buttons[#buttons + 1] =
           make_button("e", "󱪝  New File", ":ene <BAR> startinsert <CR>")
 
-        if lib.vim.current_gui() ~= nil then
+        local cwd = vim.fn.getcwd()
+
+        if cwd == "/" then
           buttons[#buttons + 1] =
             make_button("p", "  Projects", "PickRecentProject", {
               feedkeys = false,

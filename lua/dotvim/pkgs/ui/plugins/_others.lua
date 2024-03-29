@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption[]
+---@type dotvim.core.plugin.PluginOption[]
 return {
   {
     "rcarriga/nvim-notify",
@@ -66,17 +66,17 @@ return {
       vim.defer_fn(function()
         require("notify").setup(opts)
 
-        ---@type dora.core.registry
-        local registry = require("dora.core.registry")
+        ---@type dotvim.utils
+        local Utils = require("dotvim.utils")
 
-        if registry.has("telescope.nvim") then
+        if Utils.lazy.has("telescope.nvim") then
           require("telescope").load_extension("notify")
         end
       end, 30)
     end,
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
 
       return action.make_options {
         from = "nvim-notify",

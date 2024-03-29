@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption[]
+---@type dotvim.core.plugin.PluginOption[]
 return {
   {
     "akinsho/bufferline.nvim",
@@ -51,8 +51,8 @@ return {
       },
     },
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
 
       return action.make_options {
         from = "bufferline.nvim",

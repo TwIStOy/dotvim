@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption
+---@type dotvim.core.plugin.PluginOption
 return {
   "stevearc/conform.nvim",
   gui = "all",
@@ -43,8 +43,8 @@ return {
       end
     end
 
-    ---@type dora.utils
-    local utils = require("dora.utils")
+    ---@type dotvim.utils
+    local Utils = require("dotvim.utils")
 
     local custom_formatters = {}
     for _, formatter in ipairs(used_formatters) do
@@ -62,7 +62,7 @@ return {
       if command == nil then
         error("Formatter " .. formatter .. " does not have a command")
       end
-      local resolved_command = utils.which_binary(command)
+      local resolved_command = Utils.which(command)
       if resolved_command ~= command then
         custom_formatters[formatter] = vim.tbl_extend("force", formatter_opts, {
           command = resolved_command,

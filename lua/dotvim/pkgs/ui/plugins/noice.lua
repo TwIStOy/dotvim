@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption[]
+---@type dotvim.core.plugin.PluginOption[]
 return {
   {
     "folke/noice.nvim",
@@ -14,7 +14,7 @@ return {
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
-          -- ["cmp.entry.get_documentation"] = true,
+          ["cmp.entry.get_documentation"] = false,
         },
         signature = {
           enabled = false,
@@ -93,8 +93,8 @@ return {
       end)
     end,
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
 
       return action.make_options {
         from = "noice.nvim",

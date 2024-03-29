@@ -88,7 +88,7 @@ end
 ---@return dotvim.core.action.ActionOption[]
 function M.make_options(opts)
   local common_opts = {
-    from = opts.from,
+    plugin = opts.from,
     category = opts.category,
     condition = opts.condition,
   }

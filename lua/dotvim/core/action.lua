@@ -4,7 +4,7 @@ local M = {}
 ---@class dotvim.core.action.KeySpec: LazyKeysBase
 ---@field mode? string|string[]
 
----@alias dotvim.core.action.Condition fun(buf:dora.lib.vim.BufferWrapper):boolean
+---@alias dotvim.core.action.Condition fun(buf:dotvim.core.vim.BufferWrapper):boolean
 
 ---@class dotvim.core.action.ActionOption
 ---@field id string Unique id
@@ -66,6 +66,16 @@ function Action:into_lazy_keys_spec()
   end
 
   return res
+end
+
+---@param buffer dotvim.core.vim.BufferWrapper
+---@return boolean
+function Action:is_valid(buffer)
+  local cond = self.condition
+  if cond == nil then
+    return true
+  end
+  return cond(buffer)
 end
 
 return M

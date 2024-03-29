@@ -7,6 +7,18 @@ M.action = require("dotvim.core.action")
 ---@type dotvim.core.lsp
 M.lsp = require("dotvim.core.lsp")
 
+---@type dotvim.core.plugin
+M.plugin = require("dotvim.core.plugin")
+
+---@type dotvim.core.package
+M.package = require("dotvim.core.package")
+
+---@type dotvim.core.registry
+M.registry = require("dotvim.core.registry")
+
+---@type dotvim.core.vim
+M.vim = require("dotvim.core.vim")
+
 ---@param cmd string|fun(string):any
 ---@return fun():any
 function M.input_then_exec(cmd)

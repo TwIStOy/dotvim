@@ -7,7 +7,7 @@ local uncount_lsp = {
   ["none-ls"] = true,
 }
 
----@class dotvim.vim.BufferWrapper Buffer relative properties
+---@class dotvim.core.vim.BufferWrapper Buffer relative properties
 ---@field bufnr number
 ---@field filetype string
 ---@field full_file_name string
@@ -43,7 +43,7 @@ function Buffer:lang_server_count()
 end
 
 ---@param bufnr number
----@return dotvim.vim.BufferWrapper
+---@return dotvim.core.vim.BufferWrapper
 function M.wrap_buffer(bufnr)
   return setmetatable({
     bufnr = bufnr,

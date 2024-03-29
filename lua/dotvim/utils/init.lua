@@ -10,6 +10,9 @@ M.fn = require("dotvim.utils.fn")
 ---@type dotvim.utils.fs
 M.fs = require("dotvim.utils.fs")
 
+---@type dotvim.utils.icon
+M.icon = require("dotvim.utils.icon")
+
 ---@type dotvim.utils.lazy
 M.lazy = require("dotvim.utils.lazy")
 

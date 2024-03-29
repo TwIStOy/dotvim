@@ -16,6 +16,17 @@ function M.invoke_once(fun)
   end
 end
 
+---@generic T
+---@param name string
+---@param callback fun(module): T
+---@return T?
+function M.require_then(name, callback)
+  local has_module, module = pcall(require, name)
+  if has_module then
+    return callback(module)
+  end
+end
+
 ---@class dotvim.utils.fn.CacheManager
 ---@field private entries table<string, any>
 local CacheManager = {}

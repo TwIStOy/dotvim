@@ -78,4 +78,25 @@ function Action:is_valid(buffer)
   return cond(buffer)
 end
 
+---@class dotvim.core.action._MakeActionOptionsArgs
+---@field from? string
+---@field category? string
+---@field condition? dotvim.core.action.Condition
+---@field actions? dotvim.core.action.ActionOption[]
+
+---@param opts dotvim.core.action._MakeActionOptionsArgs
+---@return dotvim.core.action.ActionOption[]
+function M.make_options(opts)
+  local common_opts = {
+    from = opts.from,
+    category = opts.category,
+    condition = opts.condition,
+  }
+  local res = {}
+  for _, action in ipairs(opts.actions) do
+    res[#res + 1] = vim.tbl_extend("keep", action, common_opts)
+  end
+  return res
+end
+
 return M

@@ -1,6 +1,6 @@
 ---@class dotvim.core.plugin.ExtraPluginOptions
 ---@field pname? string nix plugin name
----@field gui? "all"|string[] Can be used in which gui environment
+---@field vscode? boolean whether this plugin can be used in vscode-neovim
 ---@field actions? dotvim.core.action.ActionOption[]|fun():dotvim.core.action.ActionOption[]
 
 ---@class dotvim.core.plugin.PluginOption: dotvim.core.plugin.ExtraPluginOptions,LazyPluginSpec

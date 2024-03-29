@@ -2,6 +2,5 @@
 return {
   name = "dotvim.packages.tools",
   deps = {},
-  plugins = {
-  },
+  plugins = {},
 }

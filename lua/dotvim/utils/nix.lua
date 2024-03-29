@@ -2,12 +2,12 @@
 local M = {}
 
 ---@type dotvim.utils.fn
-local fn = require("dotvim.utils.fn")
+local Fn = require("dotvim.utils.fn")
 ---@type dotvim.utils.fs
-local fs = require("dotvim.utils.fs")
+local Fs = require("dotvim.utils.fs")
 
 ---@type fun():string[]
-local get_plugin_packages = fn.invoke_once(function()
+local get_plugin_packages = Fn.invoke_once(function()
   local obj = vim
     .system(
       { "nix-store", "--query", "--requisites", "/run/current-system" },
@@ -29,12 +29,96 @@ local get_plugin_packages = fn.invoke_once(function()
   end
 end)
 
+---@type string[]
+local deps_nix_managed_vim_plugins = {}
+---@type table<string, string>
+local deps_nix_managed_binaries = {}
+local resolve_bin_cache = Fn.new_cache_manager()
+
 function M.update_nix_plugin_packages()
   local packages = get_plugin_packages()
-  fs.write_file(
+  Fs.write_file(
     vim.fn.stdpath("data") .. "/nix-plugin-packages",
     table.concat(packages, "\n")
   )
+  deps_nix_managed_vim_plugins = packages
+end
+
+local function load_nix_related_data()
+  Fs.read_file_then(
+    vim.fn.stdpath("data") .. "/nix-plugin-packages",
+    function(data)
+      deps_nix_managed_vim_plugins = vim.split(data, "\n", { trimempty = true })
+    end
+  )
+  Fs.read_file_then(vim.fn.stdpath("data") .. "/nix-binaries", function(data)
+    local ok, ret = pcall(vim.fn.json_decode, data)
+    if ok then
+      resolve_bin_cache:clear()
+      deps_nix_managed_binaries = ret
+    end
+  end)
+end
+
+local assume_data_loaded = Fn.invoke_once(function()
+  load_nix_related_data()
+  return nil
+end)
+
+---@param name string
+---@return string?
+M.resolve_plugin = function(name)
+  assume_data_loaded()
+  for _, pkg in ipairs(deps_nix_managed_vim_plugins) do
+    if pkg:find(name, 1, true) then
+      return pkg
+    end
+  end
+  return nil
+end
+
+---@return boolean
+M.has_nix_store = Fn.invoke_once(function()
+  return vim.fn.executable("nix-store") == 1
+end)
+
+local detect_path_parts = {
+  ".nix-profile/bin",
+  "/etc/profiles/per-user",
+  "/run/current-system/sw/bin",
+  "/ni/var/nix/profiles/default/bin",
+}
+
+M.is_nix_managed = Fn.invoke_once(function()
+  local path = vim.split(vim.fn.getenv("PATH"), ":", { trimempty = true })
+  for _, p in ipairs(path) do
+    for _, part in ipairs(detect_path_parts) do
+      if p:find(part) then
+        return true
+      end
+    end
+  end
+  return false
+end)
+
+---@return boolean
+M.is_nixos = Fn.invoke_once(function()
+  ---@diagnostic disable-next-line: undefined-field
+  local version = vim.uv.os_uname().version
+  return version:find("NixOs", 1, true) ~= nil
+end)
+
+---@param name string
+---@return string?
+M.resolve_bin = function(name)
+  assume_data_loaded()
+  return resolve_bin_cache:ensure(name, function()
+    local bin = deps_nix_managed_binaries[name]
+    if bin then
+      return bin
+    end
+    return nil
+  end)
 end
 
 return M

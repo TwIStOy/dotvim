@@ -15,6 +15,16 @@ function M.read_file(file)
 end
 
 ---@param file string filename
+---@param callback fun(data: string)
+function M.read_file_then(file, callback)
+  local data = M.read_file(file)
+  if data == nil then
+    return
+  end
+  callback(data)
+end
+
+---@param file string filename
 ---@param contents string
 function M.write_file(file, contents)
   local fd = assert(io.open(file, "w+"))

@@ -96,10 +96,10 @@ function M.foldr(tbl, fn, acc)
   return acc
 end
 
----@param tbl table
 ---@param value any
+---@param tbl table
 ---@param ... string
-function M.tbl_set(tbl, value, ...)
+function M.tbl_set(value, tbl, ...)
   local len = select("#", ...)
   local keys = { ... }
   local now = tbl

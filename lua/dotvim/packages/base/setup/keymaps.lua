@@ -1,17 +1,13 @@
+local Shared = require("dotvim.packages.base.setup.shared")
+
 return function()
-  ---@type dora.config
-  local config = require("dora.config")
-
-  ---@type dora.lib
-  local lib = require("dora.lib")
-
   -- Disable arrows
   vim.api.nvim_set_keymap("", "<Left>", "<Nop>", {})
   vim.api.nvim_set_keymap("", "<Right>", "<Nop>", {})
   vim.api.nvim_set_keymap("", "<Up>", "<Nop>", {})
   vim.api.nvim_set_keymap("", "<Down>", "<Nop>", {})
 
-  if lib.vim.current_gui() == "vscode" then
+  if not not vim.g.vscode then
     vim.keymap.set("n", "<leader>1", function()
       require("vscode-neovim").call("workbench.action.focusFirstEditorGroup")
     end, { desc = "goto-win-1" })
@@ -48,7 +44,7 @@ return function()
 
         for _, win_id in pairs(vim.api.nvim_tabpage_list_wins(0)) do
           if
-            not config.vim.is_uncountable(win_id)
+            not Shared.is_uncountable(win_id)
             and vim.api.nvim_win_is_valid(win_id)
           then
             rest = rest - 1

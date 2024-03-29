@@ -1,3 +1,57 @@
+local relative_number_blacklist = {
+  ["startify"] = true,
+  ["NvimTree"] = true,
+  ["packer"] = true,
+  ["alpha"] = true,
+  ["nuipopup"] = true,
+  ["toggleterm"] = true,
+  ["noice"] = true,
+  ["crates.nvim"] = true,
+  ["lazy"] = true,
+  ["Trouble"] = true,
+  ["rightclickpopup"] = true,
+  ["TelescopePrompt"] = true,
+  ["Glance"] = true,
+  ["DressingInput"] = true,
+  ["lspinfo"] = true,
+  ["nofile"] = true,
+  ["mason"] = true,
+  ["Outline"] = true,
+  ["aerial"] = true,
+  ["flutterToolsOutline"] = true,
+  ["neo-tree"] = true,
+  ["neo-tree-popup"] = true,
+  ["fzf"] = true,
+  [""] = true,
+}
+
+local cursorline_blacklist = {
+  ["alpha"] = true,
+  ["noice"] = true,
+  ["mason"] = true,
+}
+
+local quick_close_filetypes = {
+  "qf",
+  "help",
+  "man",
+  "notify",
+  "nofile",
+  "lspinfo",
+  "terminal",
+  "prompt",
+  "toggleterm",
+  "copilot",
+  "startuptime",
+  "tsplayground",
+  "PlenaryTestPopup",
+  "aerial",
+  "Outline",
+  "ClangdAST",
+}
+
+local Shared = require("dotvim.packages.base.setup.shared")
+
 local function mkdir()
   local dir = vim.fn.expand("<afile>:p:h")
   if vim.fn.isdirectory(dir) == 0 then
@@ -6,9 +60,6 @@ local function mkdir()
 end
 
 return function()
-  ---@type dora.config
-  local config = require("dora.config")
-
   vim.api.nvim_create_autocmd("TermEnter", {
     pattern = "*",
     callback = function()
@@ -27,13 +78,9 @@ return function()
   vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
     pattern = "*",
     callback = function(event)
-      local lookup_table = vim.tbl_add_reverse_lookup(
-        vim.deepcopy(config.vim.config.relative_number_blacklist or {})
-      )
-
       local ft = vim.api.nvim_get_option_value("ft", { buf = event.buf })
       local bt = vim.api.nvim_get_option_value("bt", { buf = event.buf })
-      if lookup_table[ft] == nil and bt ~= "nofile" then
+      if relative_number_blacklist[ft] == nil and bt ~= "nofile" then
         local winnr = vim.api.nvim_get_current_win()
         vim.api.nvim_set_option_value("nu", true, {
           win = winnr,
@@ -51,13 +98,9 @@ return function()
   vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
     pattern = "*",
     callback = function(event)
-      local lookup_table = vim.tbl_add_reverse_lookup(
-        vim.deepcopy(config.vim.config.relative_number_blacklist or {})
-      )
-
       local ft = vim.api.nvim_get_option_value("ft", { buf = event.buf })
       local bt = vim.api.nvim_get_option_value("bt", { buf = event.buf })
-      if lookup_table[ft] == nil and bt ~= "nofile" then
+      if relative_number_blacklist[ft] == nil and bt ~= "nofile" then
         local winnr = vim.api.nvim_get_current_win()
         vim.api.nvim_set_option_value("nu", true, {
           win = winnr,
@@ -71,7 +114,7 @@ return function()
 
   -- quick close buffers with <q>
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = config.vim.config.quick_close_filetypes,
+    pattern = quick_close_filetypes,
     callback = function(event)
       vim.bo[event.buf].buflisted = false
       vim.api.nvim_buf_set_keymap(
@@ -88,10 +131,7 @@ return function()
     pattern = "*",
     callback = function(event)
       local ft = vim.api.nvim_get_option_value("ft", { buf = event.buf })
-      local lookup_table = vim.tbl_add_reverse_lookup(
-        vim.deepcopy(config.vim.config.cursorline_blacklist or {})
-      )
-      if lookup_table[ft] == nil then
+      if cursorline_blacklist[ft] == nil then
         local winnr = vim.api.nvim_get_current_win()
         vim.api.nvim_set_option_value("cursorline", true, {
           win = winnr,
@@ -134,7 +174,7 @@ return function()
     pattern = "*",
     callback = function()
       -- close when all windows are uncountable
-      config.vim.check_last_window()
+      Shared.check_last_window()
     end,
   })
 

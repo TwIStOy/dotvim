@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption[]
+---@type dotvim.core.plugin.PluginOption[]
 return {
   {
     "nvim-telescope/telescope-fzf-native.nvim",
@@ -18,8 +18,6 @@ return {
       "TwIStOy/project.nvim",
     },
     opts = function()
-      ---@type dora.lib
-      local lib = require("dora.lib")
       local actions = require("telescope.actions")
 
       return {
@@ -32,7 +30,7 @@ return {
             path = vim.fn.stdpath("data")
               .. "/database/telescope_history.sqlite3",
           },
-          winblend = lib.vim.current_gui() ~= nil and 20 or 0,
+          winblend = vim.g.neovide ~= nil and 20 or 0,
           color_devicons = true,
 
           mappings = {
@@ -73,8 +71,8 @@ return {
       require("telescope").load_extension("fzf")
     end,
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
 
       local lsp_actions = action.make_options {
         from = "telescope.nvim",
@@ -117,10 +115,10 @@ return {
           {
             id = "telescope.find-files",
             callback = function()
-              if vim.b._dora_project_cwd ~= nil then
+              if vim.b._dotvim_project_cwd ~= nil then
                 require("telescope.builtin").find_files {
-                  cwd = vim.b._dora_project_cwd,
-                  no_ignore = vim.b._dora_project_no_ignore,
+                  cwd = vim.b._dotvim_project_cwd,
+                  no_ignore = vim.b._dotvim_project_no_ignore,
                   follow = true,
                 }
               else
@@ -133,10 +131,10 @@ return {
           {
             id = "telescope.live-grep",
             callback = function()
-              if vim.b._dora_project_cwd ~= nil then
+              if vim.b._dotvim_project_cwd ~= nil then
                 require("telescope.builtin").live_grep {
-                  cwd = vim.b._dora_project_cwd,
-                  no_ignore = vim.b._dora_project_no_ignore,
+                  cwd = vim.b._dotvim_project_cwd,
+                  no_ignore = vim.b._dotvim_project_no_ignore,
                   follow = true,
                 }
               else

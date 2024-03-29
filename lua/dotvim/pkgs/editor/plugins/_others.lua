@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption[]
+---@type dotvim.core.plugin.PluginOption[]
 return {
   {
     "m4xshen/smartcolumn.nvim",
@@ -43,8 +43,8 @@ return {
       end,
     },
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
 
       local function redraw_all()
         vim.api.nvim_command("redrawstatus!")
@@ -102,8 +102,8 @@ return {
     cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" },
     opts = { use_diagnostic_signs = true },
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
 
       local lsp_actions = action.make_options {
         from = "trouble.nvim",
@@ -187,8 +187,8 @@ return {
       },
     },
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
 
       return action.make_options {
         from = "todo-comments.nvim",
@@ -297,10 +297,10 @@ return {
     end,
     gui = "all",
     actions = function()
-      ---@type dora.core.action
-      local action = require("dora.core.action")
-      ---@type dora.lib
-      local lib = require("dora.lib")
+      ---@type dotvim.core.action
+      local action = require("dotvim.core.action")
+      ---@type dotvim.core
+      local Core = require("dotvim.core")
 
       return action.make_options {
         from = "vim-template",
@@ -309,13 +309,13 @@ return {
           {
             id = "template.expand-template-into-current-buffer",
             title = "Expand template into current buffer",
-            callback = lib.vim.input_then_exec("Template"),
+            callback = Core.input_then_exec("Template"),
             description = "Expand a mated template fron the beginning of the buffer",
           },
           {
             id = "template.expand-template-under-cursor",
             title = "Expand template under cursor",
-            callback = lib.vim.input_then_exec("TemplateHere"),
+            callback = Core.input_then_exec("TemplateHere"),
             description = "Expand a matched template under the cursor",
           },
         },

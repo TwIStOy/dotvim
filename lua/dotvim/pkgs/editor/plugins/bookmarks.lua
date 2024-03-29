@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption
+---@type dotvim.core.plugin.PluginOption
 return {
   "crusj/bookmarks.nvim",
   dependencies = {
@@ -7,12 +7,12 @@ return {
   },
   event = "BufReadPost",
   opts = function()
-    ---@type dora.config
-    local config = require("dora.config")
+    ---@type dotvim.utils
+    local Utils = require("dotvim.utils")
 
     return {
       mappings_enabled = false,
-      sign_icon = config.icon.predefined_icon("Bookmark"),
+      sign_icon = Utils.icon.predefined_icon("Bookmark"),
       virt_pattern = {
         "*.dart",
         "*.cpp",
@@ -36,8 +36,8 @@ return {
     require("telescope").load_extension("bookmarks")
   end,
   actions = function()
-    ---@type dora.core.action
-    local action = require("dora.core.action")
+    ---@type dotvim.core.action
+    local action = require("dotvim.core.action")
 
     return action.make_options {
       from = "bookmarks.nvim",

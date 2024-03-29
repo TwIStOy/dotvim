@@ -1,4 +1,4 @@
----@type dora.core.plugin.PluginOption
+---@type dotvim.core.plugin.PluginOption
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "main",
@@ -28,9 +28,9 @@ return {
     },
   },
   opts = function()
-    ---@type dora.config
-    local config = require("dora.config")
-    local predefined_icon = config.icon.predefined_icon
+    ---@type dotvim.utils
+    local Utils = require("dotvim.utils")
+    local predefined_icon = Utils.icon.predefined_icon
 
     return {
       auto_clean_after_session_restore = true,

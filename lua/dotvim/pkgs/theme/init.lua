@@ -5,6 +5,8 @@ return {
     require("dotvim.pkgs.theme.plugins.catppuccin"),
   },
   setup = function()
-    vim.cmd("colorscheme catppuccino")
+    if not vim.g.vscode then
+      vim.cmd("colorscheme catppuccin")
+    end
   end,
 }

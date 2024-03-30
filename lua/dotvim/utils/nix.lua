@@ -44,6 +44,22 @@ function M.update_nix_plugin_packages()
   deps_nix_managed_vim_plugins = packages
 end
 
+---@param plugin dotvim.core.plugin.PluginOption
+---@return string
+function M.normalize_plugin_pname(plugin)
+  if plugin.pname == nil then
+    return plugin.name
+  else
+    if type(plugin.pname) == "function" then
+      return plugin.pname(plugin)
+    elseif type(plugin.pname) == "string" then
+      return plugin.pname
+    else
+      error("invalid pname type")
+    end
+  end
+end
+
 local function load_nix_related_data()
   Fs.read_file_then(
     vim.fn.stdpath("data") .. "/nix-plugin-packages",

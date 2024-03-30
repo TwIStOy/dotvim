@@ -35,7 +35,10 @@ local function split_rgb(value)
   return r, g, b
 end
 
-local code_cache = require("dora.lib").func.new_cache_manager()
+---@type dotvim.utils.fn
+local Fn = require("dotvim.utils.fn")
+
+local code_cache = Fn.new_cache_manager()
 
 ---@param name string
 ---@return string?

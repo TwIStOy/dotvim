@@ -9,7 +9,7 @@ local M = {
   },
 }
 
-local methods = require("dotvim.core.lsp.methods")
+local methods = require("dotvim.pkgs.lsp.methods")
 
 ---@type dotvim.core
 local Core = require("dotvim.core")

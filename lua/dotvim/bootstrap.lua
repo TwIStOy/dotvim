@@ -15,6 +15,13 @@ local function install_missing_lazy()
   vim.opt.rtp:prepend(lazypath)
 end
 
+local function def_command()
+  vim.api.nvim_create_user_command("UpdateNixPluginPackages", function()
+    local Utils = require("dotvim.utils")
+    Utils.nix.update_nix_plugin_packages()
+  end, {})
+end
+
 ---@class dotvim.bootstrap
 local M = {}
 
@@ -153,6 +160,8 @@ function M.setup()
   for _, pkg in ipairs(packages) do
     pkg:setup()
   end
+
+  def_command()
 end
 
 return M

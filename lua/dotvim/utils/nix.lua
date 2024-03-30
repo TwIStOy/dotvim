@@ -41,6 +41,7 @@ function M.update_nix_plugin_packages()
     vim.fn.stdpath("data") .. "/nix-plugin-packages",
     table.concat(packages, "\n")
   )
+  vim.notify("nix plugin packages updated:\n" .. table.concat(packages, "\n"))
   deps_nix_managed_vim_plugins = packages
 end
 
@@ -109,7 +110,7 @@ M.is_nix_managed = Fn.invoke_once(function()
   local path = vim.split(vim.fn.getenv("PATH"), ":", { trimempty = true })
   for _, p in ipairs(path) do
     for _, part in ipairs(detect_path_parts) do
-      if p:find(part) then
+      if p:find(part, 1, true) then
         return true
       end
     end

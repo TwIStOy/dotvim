@@ -5,6 +5,7 @@ local M = {
     require("dotvim.pkgs.lsp.plugins.nvim-lspconfig"),
     require("dotvim.pkgs.lsp.plugins.lspkind"),
     require("dotvim.pkgs.lsp.plugins.glance"),
+    require("dotvim.pkgs.lsp.plugins.aerial"),
   },
 }
 

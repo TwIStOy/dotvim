@@ -1,7 +1,7 @@
 local telescope = require("telescope")
 
 ---@type dotvim.extra.obsidian.telescope
-local Extra = require("dotvim.extra.obsidian")
+local Extra = require("dotvim.extra.obsidian.telescope")
 
 return telescope.register_extension {
   exports = {

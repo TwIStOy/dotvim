@@ -8,6 +8,9 @@ return {
     require("dotvim.pkgs.base.setup.options")()
     require("dotvim.pkgs.base.setup.keymaps")()
     require("dotvim.pkgs.base.setup.autocmds")()
+    if vim.g.neovide then
+      require("dotvim.pkgs.base.setup.neovide").setup()
+    end
   end,
   plugins = Utils.tbl.flatten_array {
     require("dotvim.pkgs.base.plugins.init"),

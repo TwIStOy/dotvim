@@ -1,4 +1,4 @@
-local Shared = require("dotvim.packages.base.setup.shared")
+local Shared = require("dotvim.pkgs.base.setup.shared")
 
 return function()
   -- Disable arrows

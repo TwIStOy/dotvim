@@ -17,6 +17,7 @@ return {
     require("dotvim.pkgs.editor.plugins.neo-tree"),
     require("dotvim.pkgs.editor.plugins.nvim-hlslens"),
     require("dotvim.pkgs.editor.plugins.obsidian"),
+    require("dotvim.pkgs.editor.plugins.project"),
     require("dotvim.pkgs.editor.plugins.telescope"),
     require("dotvim.pkgs.editor.plugins.which-key"),
   },

@@ -50,7 +50,7 @@ local quick_close_filetypes = {
   "ClangdAST",
 }
 
-local Shared = require("dotvim.packages.base.setup.shared")
+local Shared = require("dotvim.pkgs.base.setup.shared")
 
 local function mkdir()
   local dir = vim.fn.expand("<afile>:p:h")

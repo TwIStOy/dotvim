@@ -32,8 +32,22 @@ end)
 ---@type string[]
 local deps_nix_managed_vim_plugins = {}
 ---@type table<string, string>
-local deps_nix_managed_binaries = {}
+local nix_aware = {}
 local resolve_bin_cache = Fn.new_cache_manager()
+
+local function load_nix_aware_file()
+  local path = vim.fn.stdpath("config") .. "/nix-aware.json"
+  ---@diagnostic disable-next-line: undefined-field
+  if not not vim.uv.fs_stat(path) then
+    ---@type dotvim.utils
+    local Utils = require("dotvim.utils")
+    local content = Utils.fs.read_file(path)
+    if content ~= nil then
+      return vim.fn.json_decode(content)
+    end
+  end
+  return {}
+end
 
 function M.update_nix_plugin_packages()
   local packages = get_plugin_packages()
@@ -68,13 +82,8 @@ local function load_nix_related_data()
       deps_nix_managed_vim_plugins = vim.split(data, "\n", { trimempty = true })
     end
   )
-  Fs.read_file_then(vim.fn.stdpath("data") .. "/nix-binaries", function(data)
-    local ok, ret = pcall(vim.fn.json_decode, data)
-    if ok then
-      resolve_bin_cache:clear()
-      deps_nix_managed_binaries = ret
-    end
-  end)
+  resolve_bin_cache:clear()
+  nix_aware = load_nix_aware_file()
 end
 
 local assume_data_loaded = Fn.invoke_once(function()
@@ -86,6 +95,9 @@ end)
 ---@return string?
 M.resolve_plugin = function(name)
   assume_data_loaded()
+  if nix_aware.pkgs[name] ~= nil then
+    return nix_aware.pkgs[name]
+  end
   for _, pkg in ipairs(deps_nix_managed_vim_plugins) do
     if pkg:find(name, 1, true) then
       return pkg
@@ -130,7 +142,7 @@ end)
 M.resolve_bin = function(name)
   assume_data_loaded()
   return resolve_bin_cache:ensure(name, function()
-    local bin = deps_nix_managed_binaries[name]
+    local bin = nix_aware.bin[name]
     if bin then
       return bin
     end

@@ -1,11 +1,11 @@
 local just_inserted = false
 
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.misc.rime",
+  name = "extra.misc.rime",
   deps = {
-    "dora.packages.coding",
-    "dora.packages.lsp",
+    "coding",
+    "lsp",
   },
   plugins = {
     {
@@ -42,9 +42,6 @@ A language server for librime
             always_incomplete = true,
           },
         }
-
-        ---@type dora.lib
-        local lib = require("dora.lib")
 
         local function is_rime_entry(entry)
           return vim.tbl_get(entry, "source", "name") == "nvim_lsp"
@@ -90,11 +87,14 @@ A language server for librime
         end)
 
         opts.servers.setup.rime_ls = function(_, server_opts)
+          ---@type dotvim.core
+          local Core = require("dotvim.core")
+
           vim.g.global_rime_enabled = server_opts.init_options.enabled or false
 
           require("lspconfig").rime_ls.setup(server_opts)
 
-          lib.vim.on_lsp_attach(function(client, bufnr)
+          Core.lsp.on_lsp_attach(function(client, bufnr)
             local toggle_rime = function()
               client.request(
                 "workspace/executeCommand",

@@ -1,11 +1,12 @@
 local _copilot_setup_done = false
 
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.misc.copilot",
+  name = "extra.misc.copilot",
   deps = {
-    "dora.packages.coding",
-    "dora.packages.ui",
+    "coding",
+    "editor",
+    "ui",
   },
   plugins = {
     {
@@ -142,8 +143,8 @@ return {
           end
         end
 
-        ---@type dora.lib
-        local lib = require("dora.lib")
+        ---@type dotvim.core
+        local Core = require("dotvim.core")
 
         local spinner_count = 1
 
@@ -153,7 +154,7 @@ return {
 
         function component:init(options)
           component.super:init(options)
-          lib.vim.on_lsp_attach(function(client, _)
+          Core.lsp.on_lsp_attach(function(client, _)
             if client and client.name == "copilot" then
               require("copilot.api").register_status_notification_handler(
                 function()

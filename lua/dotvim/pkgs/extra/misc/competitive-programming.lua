@@ -1,6 +1,6 @@
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.misc.competitive-programming",
+  name = "extra.misc.competitive-programming",
   plugins = {
     {
       "p00f/cphelper.nvim",
@@ -22,12 +22,10 @@ return {
           "g++ solution.cpp -std=c++20 -o cpp.out"
       end,
       actions = function()
-        ---@type dora.core.action
-        local action = require("dora.core.action")
-        ---@type dora.lib
-        local lib = require("dora.lib")
+        ---@type dotvim.core
+        local Core = require("dotvim.core")
 
-        return action.make_options {
+        return Core.action.make_options {
           from = "cphelper.nvim",
           category = "cphelper",
           actions = {
@@ -44,7 +42,7 @@ return {
             {
               id = "cphelper.run-specified-case",
               title = "Test a solution with a specified case",
-              callback = lib.vim.input_then_exec("CphTest"),
+              callback = Core.input_then_exec("CphTest"),
             },
             {
               id = "cphelper.retest-all-cases",
@@ -54,17 +52,17 @@ return {
             {
               id = "cphelper.retest-specified-case",
               title = "Retest a solution with a specified case without recompiling",
-              callback = lib.vim.input_then_exec("CphRetest"),
+              callback = Core.input_then_exec("CphRetest"),
             },
             {
               id = "cphelper.edit-task",
               title = "Edit/Add a test case",
-              callback = lib.vim.input_then_exec("CphEdit"),
+              callback = Core.input_then_exec("CphEdit"),
             },
             {
               id = "cphelper.delete-task",
               title = "Delete a test case",
-              callback = lib.vim.input_then_exec("CphDelete"),
+              callback = Core.input_then_exec("CphDelete"),
             },
           },
         }

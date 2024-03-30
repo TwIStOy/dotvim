@@ -1,6 +1,6 @@
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.misc.darwin",
+  name = "extra.misc.darwin",
   plugins = {
     {
       "mrjones2014/dash.nvim",

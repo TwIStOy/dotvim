@@ -1,5 +1,5 @@
 ---@type dotvim.utils
-local Utils = require("dora.utils")
+local Utils = require("dotvim.utils")
 
 ---@type dotvim.core.plugin.PluginOption
 return {

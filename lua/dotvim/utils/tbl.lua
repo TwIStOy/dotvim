@@ -119,4 +119,18 @@ function M.tbl_set(value, tbl, ...)
   return tbl
 end
 
+---@generic T
+---@generic U
+---@param array U[]
+---@param init T
+---@param fn fun(T, U):T
+---@return T
+function M.reduce_left(array, init, fn)
+  local ret = init
+  for _, v in ipairs(array) do
+    ret = fn(ret, v)
+  end
+  return ret
+end
+
 return M

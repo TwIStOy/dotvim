@@ -29,6 +29,13 @@ function Action:execute()
   end
 end
 
+function Action:category_length()
+  if self.category == nil then
+    return 0
+  end
+  return #self.category
+end
+
 ---@return LazyKeysSpec[]
 function Action:into_lazy_keys_spec()
   local keys = self.keys

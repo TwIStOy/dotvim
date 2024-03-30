@@ -4,6 +4,9 @@ local M = {}
 ---@type dotvim.utils.ansi
 M.ansi = require("dotvim.utils.ansi")
 
+---@type dotvim.utils.async
+M.async = require("dotvim.utils.async")
+
 ---@type dotvim.utils.fn
 M.fn = require("dotvim.utils.fn")
 

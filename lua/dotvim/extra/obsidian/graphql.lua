@@ -1,8 +1,8 @@
 ---@class dotvim.extra.obsidian.graphql
 local M = {}
 
----@type dora.lib
-local lib = require("dora.lib")
+---@type dotvim.utils
+local Utils = require("dotvim.utils")
 
 --[[
 Expect plugin https://github.com/TwIStOy/obsidian-local-graphql
@@ -53,7 +53,7 @@ local function request_obsidian(url, query)
   }
   ---@type vim.SystemCompleted
   local ret =
-      lib.async.wrap(vim.system)(cmd, { text = true, timeout = 10 * 1000 })
+    Utils.async.wrap(vim.system)(cmd, { text = true, timeout = 10 * 1000 })
   if ret.code == 0 then
     local ok, data = pcall(vim.fn.json_decode, ret.stdout)
     if ok then

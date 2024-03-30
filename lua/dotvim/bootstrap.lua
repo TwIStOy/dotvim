@@ -103,6 +103,7 @@ function M.setup()
         end
         for _, action_spec in ipairs(actions) do
           local action = Core.action.new_action(action_spec)
+          Core.registry.register_action(action)
           vim.list_extend(all_keys, action:into_lazy_keys_spec())
         end
         plugin.keys = all_keys

@@ -69,6 +69,7 @@ return {
     config = function(_, opts)
       require("telescope").setup(opts)
       require("telescope").load_extension("fzf")
+      require("telescope").load_extension("command_palette")
     end,
     actions = function()
       ---@type dotvim.core.action

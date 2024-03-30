@@ -1,10 +1,10 @@
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.lang.markdown",
+  name = "extra.languages.markdown",
   deps = {
-    "dora.packages.coding",
-    "dora.packages.lsp",
-    "dora.packages.treesitter",
+    "coding",
+    "lsp",
+    "treesitter",
   },
   plugins = {
     {
@@ -34,8 +34,8 @@ return {
         vim.g.mkdp_echo_preview_url = true
       end,
       actions = function()
-        ---@type dora.core.action
-        local action = require("dora.core.action")
+        ---@type dotvim.core.action
+        local action = require("dotvim.core.action")
 
         return action.make_options {
           from = "markdown-preview.nvim",
@@ -75,8 +75,8 @@ return {
       cmd = { "TableModeEnable", "TableModeDisable" },
       gui = "all",
       actions = function()
-        ---@type dora.core.action
-        local action = require("dora.core.action")
+        ---@type dotvim.core.action
+        local action = require("dotvim.core.action")
 
         return action.make_options {
           from = "vim-table-mode",

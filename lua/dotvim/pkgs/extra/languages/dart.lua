@@ -1,11 +1,11 @@
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.lang.dart",
+  name = "extra.languages.dart",
   deps = {
-    "dora.packages.coding",
-    "dora.packages.lsp",
-    "dora.packages.treesitter",
-    "dora.packages.ui",
+    "coding",
+    "lsp",
+    "treesitter",
+    "ui",
   },
   plugins = {
     {
@@ -26,8 +26,8 @@ return {
       lazy = true,
       opts = {},
       actions = function()
-        ---@type dora.core.action
-        local action = require("dora.core.action")
+        ---@type dotvim.core.action
+        local action = require("dotvim.core.action")
 
         return action.make_options {
           from = "flutter-tools.nvim",
@@ -167,11 +167,11 @@ return {
           },
           setup = {
             dart = function(_, server_opts)
-              ---@type dora.lib
-              local lib = require("dora.lib")
+              ---@type dotvim.utils
+              local Utils = require("dotvim.utils")
 
               local lsp_opts =
-                lib.tbl.filter_out_keys(server_opts, { "flutter-tools" })
+                Utils.tbl.filter_out_keys(server_opts, { "flutter-tools" })
               local flutter_tools_opts = server_opts["flutter-tools"] or {}
               flutter_tools_opts.lsp = lsp_opts
               require("flutter-tools").setup(flutter_tools_opts)

@@ -1,10 +1,10 @@
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.lang.typescript",
+  name = "extra.languages.typescript",
   deps = {
-    "dora.packages.coding",
-    "dora.packages.lsp",
-    "dora.packages.treesitter",
+    "coding",
+    "lsp",
+    "treesitter",
   },
   plugins = {
     {
@@ -30,8 +30,8 @@ return {
         "TSToolsRenameFile",
       },
       actions = function()
-        ---@type dora.core.action
-        local action = require("dora.core.action")
+        ---@type dotvim.core.action
+        local action = require("dotvim.core.action")
 
         return action.make_options {
           from = "typescript-tools.nvim",

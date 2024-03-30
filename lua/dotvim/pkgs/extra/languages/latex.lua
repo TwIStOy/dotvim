@@ -1,10 +1,10 @@
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.lang.latex",
+  name = "extra.languages.latex",
   deps = {
-    "dora.packages.coding",
-    "dora.packages.lsp",
-    "dora.packages.treesitter",
+    "coding",
+    "lsp",
+    "treesitter",
   },
   plugins = {
     {

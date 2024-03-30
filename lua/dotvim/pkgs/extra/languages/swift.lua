@@ -1,10 +1,10 @@
----@type dora.core.package.PackageOption
+---@type dotvim.core.package.PackageOption
 return {
-  name = "dora.packages.extra.lang.swift",
+  name = "extra.languages.swift",
   deps = {
-    "dora.packages.coding",
-    "dora.packages.lsp",
-    "dora.packages.treesitter",
+    "coding",
+    "lsp",
+    "treesitter",
   },
   plugins = {
     {

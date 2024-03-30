@@ -45,6 +45,7 @@ return {
                 "--limit-references=100",
                 "--limit-results=100",
                 "--include-cleaner-stdlib",
+                "--all-scopes-completion",
                 "-j=20",
               },
               root_dir = function(fname)

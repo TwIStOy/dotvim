@@ -127,6 +127,9 @@ return {
   {
     "nvim-zh/colorful-winsep.nvim",
     event = "WinNew",
+    enabled = function()
+      return not vim.g.neovide
+    end,
     opts = {
       create_event = function()
         local winCount =

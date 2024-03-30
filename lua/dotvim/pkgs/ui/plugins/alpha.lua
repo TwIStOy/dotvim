@@ -292,7 +292,8 @@ return {
       local function make_fortune_text()
         local stats = require("lazy").stats()
         return string.format(
-          "󱐌 %d plugins loaded in %dms",
+          "󱐌 %d/%d plugins loaded in %dms",
+          stats.loaded,
           stats.count,
           stats.startuptime
         )
@@ -350,6 +351,21 @@ return {
             make_button("p", "  Projects", "PickRecentProject", {
               feedkeys = false,
             })
+        end
+
+        buttons[#buttons + 1] =
+          make_button("u", "󰚰  Update Plugins", ":Lazy update<CR>")
+
+        local vault_dir = function()
+          return vim.F.if_nil(
+            Utils.lazy.opts("obsidian.nvim").dir,
+            vim.fn.expand("~/obsidian-data")
+          )
+        end
+
+        if vim.uv.fs_stat(vault_dir()) then
+          buttons[#buttons + 1] =
+            make_button("t", "󱨰  Today Note", ":ObsidianToday<CR>")
         end
 
         buttons[#buttons + 1] = make_button("q", "󰗼  Quit", function()

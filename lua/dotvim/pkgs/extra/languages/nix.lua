@@ -41,6 +41,14 @@ return {
       },
     },
     {
+      "nvim-lint",
+      opts = {
+        linters_by_ft = {
+          nix = { "statix" },
+        },
+      },
+    },
+    {
       "conform.nvim",
       opts = {
         formatters_by_ft = {

@@ -5,9 +5,9 @@ local Utils = require("dotvim.utils")
 return {
   name = "base",
   setup = function()
-    require("dotvim.pkgs.base.setup.options")
-    require("dotvim.pkgs.base.setup.keymaps")
-    require("dotvim.pkgs.base.setup.autocmds")
+    require("dotvim.pkgs.base.setup.options")()
+    require("dotvim.pkgs.base.setup.keymaps")()
+    require("dotvim.pkgs.base.setup.autocmds")()
   end,
   plugins = Utils.tbl.flatten_array {
     require("dotvim.pkgs.base.plugins.init"),

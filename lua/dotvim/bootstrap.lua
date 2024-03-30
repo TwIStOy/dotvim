@@ -71,7 +71,7 @@ function M.setup()
 
   Utils.lazy.setup_on_lazy_plugins(function()
     for _, _plugin in pairs(require("lazy.core.config").spec.plugins) do
-      local plugin = _plugin --[[@as dora.core.plugin.Plugin]]
+      local plugin = _plugin
       if
         (plugin._.kind ~= "disabled" or plugin._.kind ~= "clean")
         and plugin.actions ~= nil
@@ -86,18 +86,17 @@ function M.setup()
         else
           all_keys = { plugin.keys }
         end
-        ---@type dora.core.action.ActionOption[]
         local actions
         if type(plugin.actions) == "function" then
           actions = plugin.actions()
         elseif vim.tbl_isarray(plugin.actions) then
-          actions = plugin.actions --[[ @as dora.core.action.ActionOption[] ]]
+          actions = plugin.actions
         else
           actions = { plugin.actions }
         end
         for _, action_spec in ipairs(actions) do
-          local action = require("dora.core.action").new_action(action_spec)
-          vim.list_extend(all_keys, action:into_lazy_keys())
+          local action = Core.action.new_action(action_spec)
+          vim.list_extend(all_keys, action:into_lazy_keys_spec())
         end
         plugin.keys = all_keys
       end
@@ -115,8 +114,7 @@ function M.setup()
       install = { colorscheme = { "tokyonight", "habamax" } },
       rtp = {
         paths = {
-          -- dora.nvim default install path
-          vim.fn.stdpath("data") .. "/dora.nvim",
+          os.getenv("HOME") .. "/.dotvim",
         },
         disabled_plugins = {
           "gzip",

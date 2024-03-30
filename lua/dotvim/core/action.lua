@@ -99,4 +99,10 @@ function M.make_options(opts)
   return res
 end
 
+---@param opts dotvim.core.action.ActionOption
+---@return dotvim.core.action.Action
+function M.new_action(opts)
+  return setmetatable(opts, { __index = Action }) --[[@as dotvim.core.action.Action]]
+end
+
 return M

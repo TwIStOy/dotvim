@@ -25,7 +25,7 @@ end
 ---@class dotvim.bootstrap
 local M = {}
 
-local packages = {
+local enabled_packages = {
   "base",
   "coding",
   "editor",
@@ -58,9 +58,10 @@ function M.setup()
   -- set mapleader at very beginning of profile
   vim.api.nvim_set_var("mapleader", " ")
 
-  for _, pkg in ipairs(packages) do
+  for _, pkg in ipairs(enabled_packages) do
     Core.package.load_package(pkg)
   end
+  ---@diagnostic disable-next-line: undefined-field
   if vim.uv.os_uname().sysname == "Darwin" then
     Core.package.load_package("extra.misc.darwin")
   end
@@ -78,7 +79,7 @@ function M.setup()
 
   Utils.lazy.setup_on_lazy_plugins(function()
     for _, _plugin in pairs(require("lazy.core.config").spec.plugins) do
-      local plugin = _plugin
+      local plugin = _plugin --[[@as dotvim.core.plugin.PluginOption]]
       if
         (plugin._.kind ~= "disabled" or plugin._.kind ~= "clean")
         and plugin.actions ~= nil

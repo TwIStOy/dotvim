@@ -10,5 +10,6 @@ return {
     require("dotvim.pkgs.ui.plugins.bufferline"),
     require("dotvim.pkgs.ui.plugins.lualine"),
     require("dotvim.pkgs.ui.plugins.noice"),
+    require("dotvim.pkgs.ui.plugins.nvim-colorizer"),
   },
 }

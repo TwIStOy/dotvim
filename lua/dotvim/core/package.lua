@@ -115,7 +115,7 @@ function M.load_package(name)
     return loaded_packages[name]
   end
 
-  local module = require(("dotvim.packages.%s"):format(name))
+  local module = require(("dotvim.pkgs.%s"):format(name))
   if module == nil then
     vim.notify("Failed to load package module: " .. name, vim.log.levels.WARN)
     return nil

@@ -152,7 +152,14 @@ return {
     opts = {
       filter_rules = {
         bo = {
-          filetype = { "NvimTree", "neo-tree", "notify", "NvimSeparator", "" },
+          filetype = {
+            "NvimTree",
+            "neo-tree",
+            "notify",
+            "NvimSeparator",
+            "",
+            "noice",
+          },
           buftype = { "terminal" },
         },
       },

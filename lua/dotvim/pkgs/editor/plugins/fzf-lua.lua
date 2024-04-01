@@ -6,7 +6,11 @@ return {
     "nvim-web-devicons",
   },
   lazy = true,
-  opts = {},
+  opts = {
+    winopts = {
+      border = "none",
+    },
+  },
   cmd = { "FzfLua" },
   config = function(_, opts)
     ---@type dotvim.utils

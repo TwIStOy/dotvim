@@ -69,7 +69,7 @@ function M.toggle()
   renderer:add_mappings {
     {
       mode = { "n", "i" },
-      key = "<leader>c",
+      key = "<Esc>",
       handler = function()
         renderer:close()
       end,
@@ -160,6 +160,7 @@ function M.toggle()
       n.rows(
         {
           flex = 0,
+          ---@diagnostic disable-next-line: undefined-field
           hidden = signal.search_info:map(function(value)
             return value == ""
           end),

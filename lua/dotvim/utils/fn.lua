@@ -167,4 +167,21 @@ function M.throttle(delay, callback)
   end
 end
 
+---@param callback fun()
+function M.preserve_cursor_position(callback)
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+  callback()
+
+  vim.schedule(function()
+    local lastline = vim.fn.line("$")
+
+    if line > lastline then
+      line = lastline
+    end
+
+    vim.api.nvim_win_set_cursor(0, { line, col })
+  end)
+end
+
 return M

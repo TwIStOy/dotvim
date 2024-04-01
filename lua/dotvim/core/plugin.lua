@@ -12,7 +12,7 @@ local M = {}
 
 ---@param plugin dotvim.core.plugin.PluginOption
 ---@return string
-local function guess_name(plugin)
+function M.guess_name(plugin)
   -- if has '/', use the second part as name
   if plugin.name ~= nil then
     return plugin.name
@@ -28,7 +28,7 @@ end
 ---@return dotvim.core.plugin.PluginOption
 function M.fix_cond(plugin, processed)
   local in_vscode = not not vim.g.vscode
-  local name = guess_name(plugin)
+  local name = M.guess_name(plugin)
   if processed[name] then
     return plugin
   end

@@ -143,6 +143,12 @@ function M.setup()
   if Utils.nix.is_nix_managed() then
     lazy_opts.dev = {
       path = function(plugin)
+        local name = Core.plugin.guess_name(plugin)
+        local dev_path = os.getenv("HOME") .. "/Projects/nvim-plugins/" .. name
+        ---@diagnostic disable-next-line: undefined-field
+        if vim.uv.fs_stat(dev_path) then
+          return dev_path
+        end
         local pname = Utils.nix.normalize_plugin_pname(plugin)
         local resolved_path = Utils.nix.resolve_plugin(pname)
         if resolved_path ~= nil then

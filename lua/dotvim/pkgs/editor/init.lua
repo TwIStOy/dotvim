@@ -20,6 +20,7 @@ return {
     require("dotvim.pkgs.editor.plugins.project"),
     require("dotvim.pkgs.editor.plugins.telescope"),
     require("dotvim.pkgs.editor.plugins.which-key"),
+    require("dotvim.pkgs.editor.plugins.nvim-spectre"),
   },
   setup = function()
     require("dotvim.pkgs.editor.setup.obsidian")()

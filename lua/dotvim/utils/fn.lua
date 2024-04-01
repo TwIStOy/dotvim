@@ -137,4 +137,34 @@ function M.new_cache_manager()
   return CacheManager.new()
 end
 
+---@generic F: function
+---@param callback F
+---@return F
+function M.throttle(delay, callback)
+  ---@diagnostic disable-next-line: undefined-field
+  local timer = vim.loop.new_timer()
+  local running = false
+  local first = true
+
+  return function(...)
+    local args = { ... }
+    local wrapped = function()
+      callback(unpack(args))
+    end
+    if not running then
+      if first then
+        wrapped()
+        first = false
+      end
+
+      timer:start(delay, 0, function()
+        running = false
+        vim.schedule(wrapped)
+      end)
+
+      running = true
+    end
+  end
+end
+
 return M

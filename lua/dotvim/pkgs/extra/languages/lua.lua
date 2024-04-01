@@ -29,6 +29,8 @@ return {
           "noice.nvim",
           "nui.nvim",
           "plenary.nvim",
+          "nui-components.nvim",
+          "nvim-spectre"
         }
         for _, plugin in ipairs(add_plugins) do
           table.insert(

@@ -89,7 +89,6 @@ return {
           style = { "underline" },
         },
         ["@variable.builtin"] = { fg = C.maroon, style = { "italic" } },
-        NoicePopupBorder = { bg = C.mantle },
       }
     end,
     integrations = {

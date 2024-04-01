@@ -35,6 +35,7 @@ return {
         "neo-tree",
         "neo-tree-popup",
         "fzf",
+        "spectre_panel",
       },
     },
   },

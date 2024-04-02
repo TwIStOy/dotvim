@@ -282,7 +282,7 @@ return {
 
       local function make_recent_buttons()
         local cwd = vim.fn.getcwd()
-        if cwd == "/" then
+        if cwd == "/" or cwd == os.getenv("HOME") then
           return make_recent_project_buttons()
         else
           return make_recent_files_buttons()

@@ -4,6 +4,7 @@ local Utils = require("dotvim.utils")
 ---@type dotvim.core.package.PackageOption
 return {
   name = "editor",
+  deps = { "base" },
   plugins = Utils.tbl.flatten_array {
     require("dotvim.pkgs.editor.plugins._others"),
     require("dotvim.pkgs.editor.plugins.bookmarks"),
@@ -22,6 +23,7 @@ return {
     require("dotvim.pkgs.editor.plugins.which-key"),
     require("dotvim.pkgs.editor.plugins.nvim-spectre"),
     require("dotvim.pkgs.editor.plugins.fugit2"),
+    require("dotvim.pkgs.editor.plugins.hardtime"),
   },
   setup = function()
     require("dotvim.pkgs.editor.setup.obsidian")()

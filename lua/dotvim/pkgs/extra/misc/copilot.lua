@@ -180,28 +180,39 @@ return {
               fg = hl_fg("Comment"),
             },
           }, "copilot_lualine_sleeping", options)
+          self.current_icon = spinners[1]
         end
 
-        function component:update_status()
+        ---@type dotvim.utils
+        local Utils = require("dotvim.utils")
+        local update_status = Utils.fn.throttle(1000, function(self)
           local status = copilot_status()
           if status == "Normal" then
-            return normal_icon
+            self.current_icon = normal_icon
           elseif status == "Disabled" then
-            return disable_icon
+            self.current_icon = disable_icon
           elseif status == "Error" then
-            return highlight.component_format_highlight(self.error_hl)
-              .. warning_icon
+            self.current_icon = highlight.component_format_highlight(
+              self.error_hl
+            ) .. warning_icon
           elseif status == "InProgress" then
             local icon = spinners[spinner_count]
             spinner_count = (spinner_count + 1) % #spinners + 1
-            return highlight.component_format_highlight(self.in_progress_hl)
-              .. icon
+            self.current_icon = highlight.component_format_highlight(
+              self.in_progress_hl
+            ) .. icon
           elseif status == "Sleeping" then
-            return highlight.component_format_highlight(self.sleeping_hl)
-              .. sleeping_icon
+            self.current_icon = highlight.component_format_highlight(
+              self.sleeping_hl
+            ) .. sleeping_icon
           else
-            return normal_icon
+            self.current_icon = normal_icon
           end
+        end)
+
+        function component:update_status()
+          update_status(self)
+          return self.current_icon
         end
 
         table.insert(opts.sections.lualine_y, 1, component)

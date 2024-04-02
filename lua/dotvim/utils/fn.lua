@@ -142,7 +142,7 @@ end
 ---@return F
 function M.throttle(delay, callback)
   ---@diagnostic disable-next-line: undefined-field
-  local timer = vim.loop.new_timer()
+  local timer = vim.uv.new_timer()
   local running = false
   local first = true
 

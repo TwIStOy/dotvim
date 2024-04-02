@@ -5,6 +5,7 @@ return {
     "coding",
     "lsp",
     "treesitter",
+    "editor",
   },
   plugins = {
     {

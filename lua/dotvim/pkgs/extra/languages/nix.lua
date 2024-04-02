@@ -3,6 +3,7 @@ return {
   name = "extra.languages.nix",
   deps = {
     "coding",
+    "editor",
     "lsp",
     "treesitter",
   },

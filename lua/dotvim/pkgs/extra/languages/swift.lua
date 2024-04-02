@@ -3,6 +3,7 @@ return {
   name = "extra.languages.swift",
   deps = {
     "coding",
+    "editor",
     "lsp",
     "treesitter",
   },
@@ -24,6 +25,7 @@ return {
           },
           setup = {
             sourcekit = function(_, server_opts)
+              ---@diagnostic disable-next-line: undefined-field
               if vim.uv.os_uname().sysname == "Darwin" then
                 -- skip if not on macOS
                 require("lspconfig").sourcekit.setup(server_opts)

@@ -77,6 +77,7 @@ return {
       vim.list_extend(groups[ft], opts.commons)
       vim.list_extend(groups[ft], ft_opts)
     end
+    groups.default = opts.commons
     require("dial.config").augends:register_group(groups)
 
     vim.keymap.set({ "n", "v" }, "<C-a>", require("dial.map").inc_normal(), {

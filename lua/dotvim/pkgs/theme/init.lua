@@ -7,7 +7,7 @@ return {
   },
   setup = function()
     if not vim.g.vscode then
-      vim.cmd("colorscheme rose-pine")
+      vim.cmd("colorscheme catppuccin")
     end
   end,
 }

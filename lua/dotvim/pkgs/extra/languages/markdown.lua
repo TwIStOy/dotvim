@@ -4,6 +4,7 @@ return {
   deps = {
     "coding",
     "lsp",
+    "editor",
     "treesitter",
   },
   plugins = {

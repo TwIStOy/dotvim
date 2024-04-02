@@ -5,7 +5,7 @@ return {
   lazy = true,
   build = ":CatppuccinCompile",
   opts = {
-    flavour = "mocha",
+    flavour = "frappe",
     term_colors = true,
     transparent_background = false,
     compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
@@ -82,13 +82,35 @@ return {
         crust = "#dddddd",
       },
     },
-    custom_highlights = function(C)
+    custom_highlights = function(colors)
       return {
         ["@lsp.typemod.variable.mutable.rust"] = { style = { "underline" } },
         ["@lsp.typemod.selfKeyword.mutable.rust"] = {
           style = { "underline" },
         },
-        ["@variable.builtin"] = { fg = C.maroon, style = { "italic" } },
+        ["@variable.builtin"] = { fg = colors.maroon, style = { "italic" } },
+
+        CurSearch = { bg = colors.sky },
+        IncSearch = { bg = colors.sky },
+        CursorLineNr = { fg = colors.blue, style = { "bold" } },
+        DashboardFooter = { fg = colors.overlay0 },
+        TreesitterContextBottom = { style = {} },
+        WinSeparator = { fg = colors.overlay0, style = { "bold" } },
+        ["@markup.italic"] = { fg = colors.blue, style = { "italic" } },
+        ["@markup.strong"] = { fg = colors.blue, style = { "bold" } },
+        Headline = { style = { "bold" } },
+        Headline1 = { fg = colors.blue, style = { "bold" } },
+        Headline2 = { fg = colors.pink, style = { "bold" } },
+        Headline3 = { fg = colors.lavender, style = { "bold" } },
+        Headline4 = { fg = colors.green, style = { "bold" } },
+        Headline5 = { fg = colors.peach, style = { "bold" } },
+        Headline6 = { fg = colors.flamingo, style = { "bold" } },
+        rainbow1 = { fg = colors.blue, style = { "bold" } },
+        rainbow2 = { fg = colors.pink, style = { "bold" } },
+        rainbow3 = { fg = colors.lavender, style = { "bold" } },
+        rainbow4 = { fg = colors.green, style = { "bold" } },
+        rainbow5 = { fg = colors.peach, style = { "bold" } },
+        rainbow6 = { fg = colors.flamingo, style = { "bold" } },
       }
     end,
     integrations = {

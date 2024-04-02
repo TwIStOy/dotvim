@@ -3,6 +3,7 @@ return {
   name = "extra.languages.python",
   deps = {
     "coding",
+    "editor",
     "lsp",
     "treesitter",
   },

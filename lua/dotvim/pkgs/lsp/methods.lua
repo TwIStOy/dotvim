@@ -73,7 +73,7 @@ function Methods.show_hover()
   else
     vim.o.eventignore = "CursorHold"
     vim.api.nvim_exec_autocmds("User", {
-      pattern = "DoraShowHover",
+      pattern = "DotvimShowHover",
     })
     vim.lsp.buf.hover()
     vim.api.nvim_create_autocmd({ "CursorMoved" }, {
@@ -178,7 +178,7 @@ function Methods.open_diagnostic()
   close_preview_autocmd({
     "CursorMoved",
     "InsertEnter",
-    "User DoraShowHover",
+    "User DotvimShowHover",
     "BufLeave",
     "FocusLost",
   }, win, { bufnr, vim.api.nvim_get_current_buf() })

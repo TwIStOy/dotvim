@@ -1,6 +1,7 @@
 ---@type dotvim.core.plugin.PluginOption
 return {
   "SuperBo/fugit2.nvim",
+  pname = "fugit2-nvim",
   opts = {},
   dependencies = {
     "MunifTanjim/nui.nvim",

@@ -1,6 +1,9 @@
 ---@type dotvim.core.package.PackageOption
 local M = {
   name = "lsp",
+  deps = {
+    "coding",
+  },
   plugins = {
     require("dotvim.pkgs.lsp.plugins.nvim-lspconfig"),
     require("dotvim.pkgs.lsp.plugins.lspkind"),

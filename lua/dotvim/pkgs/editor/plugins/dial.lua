@@ -73,10 +73,9 @@ return {
   config = function(_, opts)
     local groups = {}
     for ft, ft_opts in pairs(opts.ft) do
-      groups[ft] = {
-        unpack(opts.commons),
-        unpack(ft_opts),
-      }
+      groups[ft] = {}
+      vim.list_extend(groups[ft], opts.commons)
+      vim.list_extend(groups[ft], ft_opts)
     end
     require("dial.config").augends:register_group(groups)
 

@@ -4,6 +4,7 @@ return {
   plugins = {
     require("dotvim.pkgs.theme.plugins.catppuccin"),
     require("dotvim.pkgs.theme.plugins.rose-pine"),
+    require("dotvim.pkgs.theme.plugins.cyberdream"),
   },
   setup = function()
     if not vim.g.vscode then

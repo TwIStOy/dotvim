@@ -47,7 +47,6 @@ local enabled_packages = {
   "extra.misc.competitive-programming",
   "extra.misc.copilot",
   "extra.misc.rime",
-  "extra.misc.codesnap",
 }
 
 function M.setup()

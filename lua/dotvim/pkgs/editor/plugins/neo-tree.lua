@@ -8,6 +8,7 @@ return {
     "nvim-telescope/telescope.nvim",
   },
   cmd = { "Neotree" },
+  event = { "VeryLazy" },
   init = function()
     vim.g.neo_tree_remove_legacy_commands = true
   end,

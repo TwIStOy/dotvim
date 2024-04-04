@@ -44,6 +44,8 @@ local enabled_packages = {
   "extra.languages.rust",
   "extra.languages.swift",
   "extra.languages.typescript",
+  "extra.languages.json",
+  "extra.languages.yaml",
   "extra.misc.competitive-programming",
   "extra.misc.copilot",
   "extra.misc.rime",

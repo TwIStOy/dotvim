@@ -42,9 +42,6 @@ return {
         "ini",
         "java",
         "javascript",
-        "json",
-        "jsonc",
-        "jsonnet",
         "just",
         "llvm",
         "lua",
@@ -75,7 +72,6 @@ return {
         "vim",
         "vimdoc",
         "vue",
-        "yaml",
       },
       indent = {
         enable = false,

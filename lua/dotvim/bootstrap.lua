@@ -46,6 +46,7 @@ local enabled_packages = {
   "extra.languages.typescript",
   "extra.languages.json",
   "extra.languages.yaml",
+  "extra.languages.toml",
   "extra.misc.competitive-programming",
   "extra.misc.copilot",
   "extra.misc.rime",

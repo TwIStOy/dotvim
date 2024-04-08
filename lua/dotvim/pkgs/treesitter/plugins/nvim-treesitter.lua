@@ -65,7 +65,6 @@ return {
         "svelte",
         "swift",
         "thrift",
-        "toml",
         "tsx",
         "twig",
         "typescript",

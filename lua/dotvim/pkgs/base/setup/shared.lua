@@ -16,6 +16,7 @@ local uncountable_filetypes = {
   ["neo-tree"] = true,
   ["neo-tree-popup"] = true,
   ["NvimSeparator"] = true,
+  ["neotest-summary"] = true,
 }
 
 function M.is_uncountable(win_id)

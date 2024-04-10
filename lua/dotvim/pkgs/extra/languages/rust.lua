@@ -144,6 +144,31 @@ return {
       version = "^4",
       dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
       ft = { "rust" },
+      init = function()
+        vim.g.rustaceanvim = {
+          server = {
+            default_settings = {
+              ["rust-analyzer"] = {
+                imports = {
+                  granularity = {
+                    group = "crate",
+                  },
+                },
+                completion = {
+                  postfix = {
+                    enable = false,
+                  },
+                  privateEditable = {
+                    enable = true,
+                  },
+                },
+                files = { watcher = "server" },
+                lru = { capacity = 1024 * 2 },
+              },
+            },
+          },
+        }
+      end,
       actions = function()
         ---@type dotvim.core.action
         local action = require("dotvim.core.action")

@@ -159,6 +159,7 @@ return {
             "NvimSeparator",
             "",
             "noice",
+            "neotest-summary",
           },
           buftype = { "terminal" },
         },

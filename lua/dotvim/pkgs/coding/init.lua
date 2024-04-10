@@ -15,5 +15,6 @@ return {
     require("dotvim.pkgs.coding.plugins.nvim-surround"),
     require("dotvim.pkgs.coding.plugins.nvim-ts-context-commentstring"),
     require("dotvim.pkgs.coding.plugins.ultimate-autopair"),
+    require("dotvim.pkgs.coding.plugins.neotest"),
   },
 }

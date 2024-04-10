@@ -10,6 +10,9 @@ local M = {
     require("dotvim.pkgs.lsp.plugins.glance"),
     require("dotvim.pkgs.lsp.plugins.aerial"),
   },
+  setup = function()
+    require("dotvim.extra.fswatch")()
+  end,
 }
 
 local methods = require("dotvim.pkgs.lsp.methods")

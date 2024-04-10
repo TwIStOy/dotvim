@@ -22,6 +22,7 @@ local relative_number_blacklist = {
   ["neo-tree"] = true,
   ["neo-tree-popup"] = true,
   ["fzf"] = true,
+  ["neotest-summary"] = true,
   [""] = true,
 }
 
@@ -48,6 +49,7 @@ local quick_close_filetypes = {
   "aerial",
   "Outline",
   "ClangdAST",
+  "neotest-summary",
 }
 
 local Shared = require("dotvim.pkgs.base.setup.shared")

@@ -51,7 +51,7 @@ return {
         callback = function()
           require("neotest").run.run { suite = true }
         end,
-        keys = { "<leader>ts", desc = "run-test-suit" },
+        keys = { "<leader>ta", desc = "run-test-suit" },
       },
       {
         id = "neotest.run-current-file",

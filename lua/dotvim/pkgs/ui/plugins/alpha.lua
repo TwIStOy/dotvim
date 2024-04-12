@@ -300,31 +300,37 @@ return {
       end
 
       local function make_header_liens()
-        local lines = {}
-        for i, line in
-          ipairs(require("dotvim.pkgs.ui.dashboard").dashboard_header_winnee)
-        do
-          lines[i] = {
+        local resolve_lines = function()
+          local lines = {}
+          for i, line in
+            ipairs(
+              require("dotvim.pkgs.ui.dashboard").resolve_dashboard_header()
+            )
+          do
+            lines[i] = {
+              type = "text",
+              val = line,
+              opts = {
+                hl = "StartLogo" .. i,
+                position = "center",
+                shrink_margin = false,
+              },
+            }
+          end
+          lines[#lines + 1] = {
             type = "text",
-            val = line,
+            val = "dotvim.version: " .. require("dotvim.version").version(),
             opts = {
-              hl = "StartLogo" .. i,
+              hl = "SpecialComment",
               position = "center",
-              shrink_margin = false,
             },
           }
+          return lines
         end
-        lines[#lines + 1] = {
-          type = "text",
-          val = "dotvim.version: " .. require("dotvim.version").version(),
-          opts = {
-            hl = "SpecialComment",
-            position = "center",
-          },
-        }
+
         return {
           type = "group",
-          val = lines,
+          val = resolve_lines,
           opts = {
             position = "center",
           },

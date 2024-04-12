@@ -6,6 +6,11 @@ return {
   build = ":CatppuccinCompile",
   opts = {
     flavour = "frappe",
+    background = {
+      light = "latte",
+      dark = "frappe",
+    },
+    no_italic = true,
     term_colors = true,
     transparent_background = false,
     compile_path = vim.fn.stdpath("cache") .. "/catppuccin",

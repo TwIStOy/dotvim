@@ -52,6 +52,7 @@ local quick_close_filetypes = {
   "ClangdAST",
   "neotest-summary",
   "neotest-output",
+  "spectre_panel",
 }
 
 local Shared = require("dotvim.pkgs.base.setup.shared")

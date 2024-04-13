@@ -8,8 +8,8 @@ return {
   },
   setup = function()
     if not vim.g.vscode then
-      vim.o.background = "light"
-      vim.cmd("colorscheme rose-pine")
+      vim.o.background = "dark"
+      vim.cmd("colorscheme catppuccin")
     end
   end,
 }

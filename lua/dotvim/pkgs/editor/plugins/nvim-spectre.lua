@@ -32,7 +32,24 @@ return {
         cmd = Utils.which("sd"),
       },
     }
+    opts.live_update = true
+
     return opts
+  end,
+  config = function(_, opts)
+    require("spectre").setup(opts)
+    vim.api.nvim_create_autocmd({ "FileType" }, {
+      pattern = "spectre_panel",
+      callback = function()
+        vim.api.nvim_buf_set_keymap(
+          0,
+          "n",
+          "r",
+          [[<cmd>lua require("spectre.actions").run_current_replace()<CR>]],
+          { noremap = true, silent = true }
+        )
+      end,
+    })
   end,
   actions = {
     {

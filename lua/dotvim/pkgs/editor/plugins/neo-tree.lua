@@ -200,4 +200,9 @@ return {
       },
     }
   end,
+  config = function(_, opts)
+    vim.defer_fn(function()
+      require("neo-tree").setup(opts)
+    end, 100)
+  end,
 }

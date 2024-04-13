@@ -7,6 +7,8 @@ return {
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
+  lazy = true,
+  cmd = { "Neotest" },
   opts = {
     adapters = {},
     icons = {

@@ -72,6 +72,7 @@ return {
       require("telescope").load_extension("command_palette")
       require("telescope").load_extension("obsidian")
       require("telescope").load_extension("projects")
+      require("telescope").load_extension("notify")
     end,
     actions = function()
       ---@type dotvim.core.action

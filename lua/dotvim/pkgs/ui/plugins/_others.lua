@@ -65,13 +65,6 @@ return {
     config = function(_, opts)
       vim.defer_fn(function()
         require("notify").setup(opts)
-
-        ---@type dotvim.utils
-        local Utils = require("dotvim.utils")
-
-        if Utils.lazy.has("telescope.nvim") then
-          require("telescope").load_extension("notify")
-        end
       end, 30)
     end,
     actions = function()

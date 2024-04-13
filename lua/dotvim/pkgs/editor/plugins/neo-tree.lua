@@ -5,7 +5,6 @@ return {
   dependencies = {
     "MunifTanjim/nui.nvim",
     "nvim-tree/nvim-web-devicons",
-    "nvim-telescope/telescope.nvim",
   },
   cmd = { "Neotree" },
   event = { "VeryLazy" },

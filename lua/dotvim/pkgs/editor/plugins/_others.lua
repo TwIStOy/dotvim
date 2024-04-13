@@ -166,11 +166,11 @@ return {
         },
       }
 
-      return {
-        unpack(lsp_actions),
-        unpack(common_actions),
-        unpack(actions_in_trouble_window),
-      }
+      local ret = {}
+      vim.list_extend(ret, lsp_actions)
+      vim.list_extend(ret, common_actions)
+      vim.list_extend(ret, actions_in_trouble_window)
+      return ret
     end,
   },
   {

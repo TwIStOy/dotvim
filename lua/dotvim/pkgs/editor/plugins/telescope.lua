@@ -150,10 +150,10 @@ return {
         },
       }
 
-      return {
-        unpack(lsp_actions),
-        unpack(common_actions),
-      }
+      local ret = {}
+      vim.list_extend(ret, lsp_actions)
+      vim.list_extend(ret, common_actions)
+      return ret
     end,
   },
 }

@@ -18,15 +18,16 @@ def get_uncommit_changes():
 
 
 def update_version():
-  version_template = '''local M = {{}}
-
-M.last_updated_time = '{}.{:02d}.{:02d}'
-
-return M
+  version_template = '''
+return {{
+  version = function()
+    return "{}.{:02d}.{:02d}"
+  end,
+}}
 '''
   now = datetime.datetime.now()
   version_str = version_template.format(now.year, now.month, now.day)
-  with open(os.path.join(repo_home(), 'lua/ht/version.lua'), 'w') as fp:
+  with open(os.path.join(repo_home(), 'lua/dotvim/version.lua'), 'w') as fp:
     fp.write(version_str)
 
 

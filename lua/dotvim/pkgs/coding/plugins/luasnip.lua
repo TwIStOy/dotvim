@@ -9,6 +9,11 @@ return {
       user = {
         name = "Hawtian Wang",
       },
+      snippet = {
+        lua = {
+          vim_snippet = true,
+        },
+      },
     },
   },
   {

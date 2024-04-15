@@ -193,4 +193,11 @@ function Methods.rename(new_name, options)
   vim.lsp.buf.rename(new_name, options)
 end
 
+function Methods.organize_imports()
+  vim.lsp.buf.code_action {
+    context = { only = { "source.organizeImports" } },
+    apply = true,
+  }
+end
+
 return Methods

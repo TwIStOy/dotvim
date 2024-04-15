@@ -30,8 +30,9 @@ local function create_lsp_autocmds(buffer)
   })
 end
 
+---@param client? vim.lsp.Client
 ---@param buffer? number
-local function setup_lsp_keymaps(buffer)
+local function setup_lsp_keymaps(client, buffer)
   ---comment normal map
   ---@param lhs string
   ---@param rhs any
@@ -67,6 +68,21 @@ local function setup_lsp_keymaps(buffer)
   nmap("[c", methods.prev_diagnostic, "previous-diagnostic")
 
   nmap("]c", methods.next_diagnostic, "next-diagnostic")
+
+  local organize_imports = function() end
+  local code_action_kinds = vim.F.if_nil(
+    vim.tbl_get(
+      vim.F.if_nil(client, {}),
+      "server_capabilities",
+      "codeActionProvider",
+      "codeActionKinds"
+    ),
+    {}
+  )
+  if vim.list_contains(code_action_kinds, "source.organizeImports") then
+    organize_imports = methods.organize_imports
+  end
+  nmap("<leader>fi", organize_imports, "organize-imports")
 end
 
 M.setup = function()
@@ -75,12 +91,12 @@ M.setup = function()
   if vim.g.vscode then
     setup_lsp_keymaps()
   else
-    Core.lsp.on_lsp_attach(function(_, buffer)
+    Core.lsp.on_lsp_attach(function(client, buffer)
       local exists, value =
         pcall(vim.api.nvim_buf_get_var, buffer, "_dotvim_lsp_attached")
       if not exists or not value then
         create_lsp_autocmds(buffer)
-        setup_lsp_keymaps(buffer)
+        setup_lsp_keymaps(client, buffer)
         vim.api.nvim_buf_set_var(buffer, "_dotvim_lsp_attached", true)
       end
     end)

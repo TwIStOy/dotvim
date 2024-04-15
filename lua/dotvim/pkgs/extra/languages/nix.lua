@@ -57,5 +57,19 @@ return {
         },
       },
     },
+    {
+      "telescope.nvim",
+      dependencies = {
+        "mrcjkb/telescope-manix",
+      },
+    },
   },
+  setup = function()
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "nix",
+      callback = function()
+        require("telescope").load_extension("manix")
+      end,
+    })
+  end,
 }

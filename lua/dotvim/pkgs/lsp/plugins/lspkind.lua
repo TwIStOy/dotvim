@@ -2,6 +2,14 @@
 return {
   "onsails/lspkind.nvim",
   lazy = true,
+  opts = {
+    symbol_map = {
+      TypeParameter = "",
+    },
+  },
+  config = function(_, opts)
+    require("lspkind").init(opts)
+  end,
   dependencies = {
     {
       "nvim-cmp",

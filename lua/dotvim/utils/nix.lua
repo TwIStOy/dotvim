@@ -95,7 +95,7 @@ end)
 ---@return string?
 M.resolve_plugin = function(name)
   assume_data_loaded()
-  if nix_aware.pkgs[name] ~= nil then
+  if vim.tbl_get(nix_aware, "pkgs", name) ~= nil then
     return nix_aware.pkgs[name]
   end
   for _, pkg in ipairs(deps_nix_managed_vim_plugins) do

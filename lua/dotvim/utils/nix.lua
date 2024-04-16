@@ -142,7 +142,7 @@ end)
 M.resolve_bin = function(name)
   assume_data_loaded()
   return resolve_bin_cache:ensure(name, function()
-    local bin = nix_aware.bin[name]
+    local bin = vim.tbl_get(nix_aware, "bin", name)
     if bin then
       return bin
     end

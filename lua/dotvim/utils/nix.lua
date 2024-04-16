@@ -119,15 +119,25 @@ local detect_path_parts = {
 }
 
 M.is_nix_managed = Fn.invoke_once(function()
-  local path = vim.split(vim.fn.getenv("PATH"), ":", { trimempty = true })
-  for _, p in ipairs(path) do
-    for _, part in ipairs(detect_path_parts) do
-      if p:find(part, 1, true) then
-        return true
+  local has_nix_store_in_path = function()
+    local path = vim.split(vim.fn.getenv("PATH"), ":", { trimempty = true })
+    for _, p in ipairs(path) do
+      for _, part in ipairs(detect_path_parts) do
+        if p:find(part, 1, true) then
+          return true
+        end
       end
     end
+    return false
   end
-  return false
+
+  local has_generated_nix_aware_file = function()
+    local path = vim.fn.stdpath("config") .. "/nix-aware.json"
+    ---@diagnostic disable-next-line: undefined-field
+    return not not vim.uv.fs_stat(path)
+  end
+
+  return has_nix_store_in_path() and has_generated_nix_aware_file()
 end)
 
 ---@return boolean

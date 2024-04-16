@@ -64,7 +64,7 @@ function M.which(name)
     end
 
     -- nixos should not try to resolve binaries from mason
-    if M.nix.is_nixos then
+    if M.nix.is_nixos() then
       return name
     end
 

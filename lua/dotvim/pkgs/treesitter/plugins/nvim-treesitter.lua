@@ -38,7 +38,6 @@ return {
         "go",
         "graphql",
         "html",
-        "http",
         "ini",
         "java",
         "javascript",

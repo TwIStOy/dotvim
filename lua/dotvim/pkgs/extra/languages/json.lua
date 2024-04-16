@@ -33,5 +33,15 @@ return {
         }
       end,
     },
+    {
+      "Myzel394/jsonfly.nvim",
+      ft = { "json" },
+      dependencies = {
+        "telescope.nvim",
+      },
+      config = function()
+        require("telescope").load_extension("jsonfly")
+      end,
+    },
   },
 }

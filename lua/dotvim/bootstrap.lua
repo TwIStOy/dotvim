@@ -48,7 +48,7 @@ local enabled_packages = {
   "extra.languages.yaml",
   "extra.languages.toml",
   "extra.misc.competitive-programming",
-  "extra.misc.copilot",
+  "extra.misc.ai",
   "extra.misc.rime",
 }
 

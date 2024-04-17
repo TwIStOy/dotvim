@@ -2,7 +2,7 @@ local _copilot_setup_done = false
 
 ---@type dotvim.core.package.PackageOption
 return {
-  name = "extra.misc.copilot",
+  name = "extra.misc.ai",
   deps = {
     "coding",
     "editor",
@@ -217,6 +217,23 @@ return {
 
         table.insert(opts.sections.lualine_y, 1, component)
       end,
+    },
+    {
+      "David-Kunz/gen.nvim",
+      cmd = "Gen",
+      opts = {
+        model = "mistral", -- The default model to use.
+        host = "localhost", -- The host running the Ollama service.
+        port = "11434", -- The port on which the Ollama service is listening.
+        quit_map = "q",
+        retry_map = "<c-r>",
+        init = function() end, -- do nothing!
+        display_mode = "float", -- The display mode. Can be "float" or "split".
+        show_prompt = false, -- Shows the prompt submitted to Ollama.
+        show_model = false, -- Displays which model you are using at the beginning of your chat session.
+        no_auto_close = false, -- Never closes the window automatically.
+        debug = false, -- Prints errors and the command which is run.
+      },
     },
   },
 }

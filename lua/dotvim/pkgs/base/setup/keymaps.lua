@@ -83,4 +83,10 @@ return function()
     "<cmd>confirm qall<CR>",
     { desc = "quit-all" }
   )
+  vim.keymap.set(
+    "n",
+    "<C-p>",
+    "<cmd>Telescope command_palette<CR>",
+    { desc = "command-palette" }
+  )
 end

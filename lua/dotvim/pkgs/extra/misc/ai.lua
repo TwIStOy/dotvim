@@ -55,6 +55,34 @@ return {
       end,
     },
     {
+      "CopilotC-Nvim/CopilotChat.nvim",
+      branch = "canary",
+      dependencies = {
+        "copilot.lua",
+        "plenary.nvim",
+      },
+      cmd = {
+        "CopilotChat",
+        "CopilotChatOpen",
+        "CopilotChatClose",
+        "CopilotChatToggle",
+        "CopilotChatReset",
+        "CopilotChatSave",
+        "CopilotChatLoad",
+        "CopilotChatDebugInfo",
+        "CopilotChatExplain",
+        "CopilotChatReview",
+        "CopilotChatFix",
+        "CopilotChatOptimize",
+        "CopilotChatDocs",
+        "CopilotChatTests",
+        "CopilotChatFixDiagnostic",
+        "CopilotChatCommit",
+        "CopilotChatCommitStaged",
+      },
+      opts = {},
+    },
+    {
       "lualine.nvim",
       opts = function(_, opts)
         local spinners = {

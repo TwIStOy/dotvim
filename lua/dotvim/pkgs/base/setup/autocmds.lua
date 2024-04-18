@@ -132,6 +132,24 @@ return function()
     end,
   })
 
+  -- special case for `neo-tree`
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "neo-tree",
+    callback = function(event)
+      vim.bo[event.buf].buflisted = false
+      local buf = event.buf
+      vim.api.nvim_buf_set_keymap(event.buf, "n", "q", "", {
+        noremap = true,
+        callback = function()
+          vim.api.nvim_win_close(0, true)
+          if vim.api.nvim_buf_is_valid(buf) then
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+        end,
+      })
+    end,
+  })
+
   vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
     pattern = "*",
     callback = function(event)

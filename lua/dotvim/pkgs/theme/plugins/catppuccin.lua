@@ -94,6 +94,8 @@ return {
         },
         ["@variable.builtin"] = { fg = colors.maroon, style = { "italic" } },
 
+        CmpItemMenu = { link = "@comment" },
+
         CurSearch = { bg = colors.sky },
         IncSearch = { bg = colors.sky },
         CursorLineNr = { fg = colors.blue, style = { "bold" } },

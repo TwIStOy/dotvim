@@ -1,4 +1,5 @@
 local MAX_MENU_WIDTH = 20
+local MIN_ABBR_WIDTH = 25
 
 ---@type dotvim.core.plugin.PluginOption
 return {
@@ -35,6 +36,10 @@ return {
             }(entry, vim_item)
             local strings = vim.split(ret.kind, "%s", { trimempty = true })
             ret.kind = strings[1] .. "  "
+
+            if #ret.abbr < MIN_ABBR_WIDTH then
+              ret.abbr = ret.abbr .. string.rep(" ", MIN_ABBR_WIDTH - #ret.abbr)
+            end
 
             local menu_text = vim.F.if_nil(
               require("dotvim.extra.lsp").get_lsp_item_import_location(

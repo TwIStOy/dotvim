@@ -30,6 +30,19 @@ function M.get_lsp_item_import_location(completion, source)
     end
 
     return string.sub(import_str, i + 6, j - 1)
+  elseif source_name == "rust-analyzer" then
+    local imports = vim.tbl_get(completion, "data", "imports")
+    if imports == nil or type(imports) ~= "table" or #imports == 0 then
+      return
+    end
+    local import = imports[1]
+    local full_import_path = import.full_import_path
+    local imported_name = import.imported_name
+    local i, j = full_import_path:find("::" .. imported_name .. "$")
+    if i == nil then
+      return
+    end
+    return string.sub(full_import_path, 1, i - 1)
   end
 end
 

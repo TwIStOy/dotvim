@@ -38,7 +38,7 @@ function M.get_lsp_item_import_location(completion, source)
     local import = imports[1]
     local full_import_path = import.full_import_path
     local imported_name = import.imported_name
-    local i, j = full_import_path:find("::" .. imported_name .. "$")
+    local i, _ = full_import_path:find("::" .. imported_name .. "$")
     if i == nil then
       return
     end

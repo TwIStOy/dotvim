@@ -8,6 +8,6 @@ M.obsidian = require("dotvim.extra.obsidian")
 M.ui = require("dotvim.extra.ui")
 
 ---@type dotvim.extra.lsp
-local Lsp = require("dotvim.extra.lsp")
+M.Lsp = require("dotvim.extra.lsp")
 
 return M

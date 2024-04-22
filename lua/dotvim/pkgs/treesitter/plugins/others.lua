@@ -86,4 +86,15 @@ return {
       max_join_length = 120,
     },
   },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    enabled = false,
+    opts = {
+      mode = "topline",
+    },
+    config = function(_, opts)
+      require("treesitter-context").setup(opts)
+    end,
+  },
 }

@@ -92,7 +92,7 @@ function M.setup()
         local all_keys
         if plugin.keys == nil then
           all_keys = {}
-        elseif vim.tbl_isarray(plugin.keys) then
+        elseif vim.isarray(plugin.keys) then
           all_keys = plugin.keys --[[ @as LazyKeysSpec[] ]]
         else
           all_keys = { plugin.keys }
@@ -100,7 +100,7 @@ function M.setup()
         local actions
         if type(plugin.actions) == "function" then
           actions = plugin.actions()
-        elseif vim.tbl_isarray(plugin.actions) then
+        elseif vim.isarray(plugin.actions) then
           actions = plugin.actions
         else
           actions = { plugin.actions }

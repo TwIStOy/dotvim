@@ -53,7 +53,7 @@ function Action:into_lazy_keys_spec()
       },
     }
   end
-  if not vim.tbl_isarray(keys) then
+  if not vim.isarray(keys) then
     keys = { keys }
   end
 

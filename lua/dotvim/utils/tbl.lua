@@ -30,7 +30,7 @@ function M.list_reverse(lst)
 end
 
 local function normalize_search_table(tbl)
-  if vim.tbl_isarray(tbl) then
+  if vim.isarray(tbl) then
     local ret = {}
     for _, v in ipairs(tbl) do
       ret[#ret + 1] = v
@@ -62,7 +62,7 @@ function M.flatten_array(tbl)
     return { tbl }
   end
 
-  if vim.tbl_isarray(tbl) then
+  if vim.isarray(tbl) then
     local res = {}
     for _, value in ipairs(tbl) do
       local inner_value = M.flatten_array(value)

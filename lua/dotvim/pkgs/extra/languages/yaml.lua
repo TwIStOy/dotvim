@@ -17,6 +17,14 @@ return {
       end,
     },
     {
+      "mason.nvim",
+      opts = function(_, opts)
+        vim.list_extend(opts.extra.ensure_installed, {
+          "yaml-language-server",
+        })
+      end,
+    },
+    {
       "b0o/schemastore.nvim",
       lazy = true,
     },

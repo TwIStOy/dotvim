@@ -45,8 +45,11 @@ return {
     ---@type dotvim.utils
     local Utils = require("dotvim.utils")
 
+    ---@type dotvim.core.action
+    local Action = require("dotvim.core.action")
+
     ---@type dotvim.core.action.ActionOption[]
-    return {
+    local actions = {
       {
         id = "neotest.run-suit",
         title = "Run test suit",
@@ -86,6 +89,12 @@ return {
         end,
         keys = { "<leader>ts", desc = "neotest-summary" },
       },
+    }
+
+    return Action.make_options {
+      from = "neotest",
+      category = "Neotest",
+      actions = actions,
     }
   end,
 }

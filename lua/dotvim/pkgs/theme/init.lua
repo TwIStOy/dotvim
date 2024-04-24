@@ -10,7 +10,7 @@ return {
   },
   setup = function()
     if not vim.g.vscode then
-      vim.o.background = "dark"
+      vim.o.background = "light"
       vim.cmd("colorscheme catppuccin")
     end
   end,

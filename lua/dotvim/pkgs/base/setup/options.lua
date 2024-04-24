@@ -78,4 +78,8 @@ return function()
   vim.cmd.cnoreabbrev("W", "w")
   vim.cmd.cnoreabbrev("Wq", "wq")
   vim.cmd.cnoreabbrev("WQ", "wq")
+
+  vim.opt.backup = false
+  vim.opt.writebackup = false
+  vim.opt.swapfile = false
 end

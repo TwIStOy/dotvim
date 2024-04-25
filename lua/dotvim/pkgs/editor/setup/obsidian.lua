@@ -14,6 +14,12 @@ return function()
           vim.api.nvim_command("ObsidianFollowLink")
         end
       end, { buffer = true, desc = "obsidian-follow-link" })
+      vim.keymap.set("n", "<leader>ch", function()
+        return require("obsidian").util.toggle_checkbox()
+      end, { buffer = true, desc = "obsidian-toggle-checkbox" })
+      vim.keymap.set("n", "<cr>", function()
+        return require("obsidian").util.smart_action()
+      end, { buffer = true, desc = "obsidian-smart-action", expr = true })
     end,
   })
 end

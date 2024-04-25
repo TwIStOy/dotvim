@@ -162,7 +162,17 @@ return {
                     enable = true,
                   },
                 },
-                files = { watcher = "server" },
+                files = {
+                  watcher = "server",
+                  excludeDirs = {
+                    ".direnv",
+                    ".devenv",
+                  },
+                  watcherExclude = {
+                    ".direnv",
+                    ".devenv",
+                  },
+                },
                 lru = { capacity = 1024 * 2 },
               },
             },

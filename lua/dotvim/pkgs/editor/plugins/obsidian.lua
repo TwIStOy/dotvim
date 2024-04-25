@@ -88,7 +88,7 @@ return {
           suffix = suffix .. string.char(math.random(65, 90))
         end
       end
-      return tostring(os.time()) .. "-" .. suffix
+      return ("%0x-%s"):format(os.time(), suffix)
     end,
     note_frontmatter_func = function(note)
       local out = {

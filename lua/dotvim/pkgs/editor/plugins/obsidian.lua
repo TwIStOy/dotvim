@@ -109,6 +109,39 @@ return {
       end
       return out
     end,
+    callbacks = {
+      enter_note = function(client, note)
+        local util = require("obsidian.util")
+        local vault_name = client:vault_name()
+        local path =
+          tostring(client:vault_relative_path(note.path, { strict = true }))
+        local encoded_vault = util.urlencode(vault_name)
+        local encoded_path = util.urlencode(path)
+        local line = vim.api.nvim_win_get_cursor(0)[1] or 1
+        local uri = ("obsidian://advanced-uri?vault=%s&filepath=%s&line=%i&viewmode=preview"):format(
+          encoded_vault,
+          encoded_path,
+          line
+        )
+        uri = vim.fn.shellescape(uri)
+        local cmd = "open"
+        local args = { "-a", "/Applications/Obsidian.app", "--background", uri }
+        local cmd_with_args = cmd .. " " .. table.concat(args, " ")
+        vim.fn.jobstart(cmd_with_args, {
+          on_exit = function(_, exit_code)
+            if exit_code ~= 0 then
+              vim.notify(
+                ("open command failed with exit code '%s': %s"):format(
+                  exit_code,
+                  cmd_with_args
+                ),
+                vim.log.levels.ERROR
+              )
+            end
+          end,
+        })
+      end,
+    },
     yaml_parser = "yq",
   },
 }

@@ -51,33 +51,34 @@ end
 ---@param name string
 ---@return string
 function M.which(name)
-  if type(name) ~= "string" then
-    return name
-  end
-
-  return which_cache:ensure({ "bin", name }, function()
-    if M.nix.is_nix_managed() then
-      local ret = M.nix.resolve_bin(name)
-      if ret ~= nil then
-        return ret
-      end
-    end
-
-    -- nixos should not try to resolve binaries from mason
-    if M.nix.is_nixos() then
-      return name
-    end
-
-    if M.lazy.has("mason.nvim") then
-      local mason_root = require("mason.settings").current.install_root_dir
-      local path = mason_root .. "/bin/" .. name
-      if vim.fn.executable(path) == 1 then
-        return path
-      end
-    end
-
-    return name
-  end)
+  return name
+  -- if type(name) ~= "string" then
+  --   return name
+  -- end
+  --
+  -- return which_cache:ensure({ "bin", name }, function()
+  --   if M.nix.is_nix_managed() then
+  --     local ret = M.nix.resolve_bin(name)
+  --     if ret ~= nil then
+  --       return ret
+  --     end
+  --   end
+  --
+  --   -- nixos should not try to resolve binaries from mason
+  --   if M.nix.is_nixos() then
+  --     return name
+  --   end
+  --
+  --   if M.lazy.has("mason.nvim") then
+  --     local mason_root = require("mason.settings").current.install_root_dir
+  --     local path = mason_root .. "/bin/" .. name
+  --     if vim.fn.executable(path) == 1 then
+  --       return path
+  --     end
+  --   end
+  --
+  --   return name
+  -- end)
 end
 
 ---NOTE: opts will be modified in place

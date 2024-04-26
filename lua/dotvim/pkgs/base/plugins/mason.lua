@@ -2,7 +2,7 @@
 return {
   "williamboman/mason.nvim",
   opts = {
-    PATH = "skip",
+    PATH = "append",
     ui = {
       icons = {
         package_installed = " ",

@@ -126,6 +126,12 @@ return {
           end
         end
       end
+      if #outdated_packages == 0 then
+        vim.notify("All packages are up to date", vim.log.levels.INFO, {
+          title = "mason.nvim",
+          render = "compact",
+        })
+      end
     end
 
     local do_setup = coroutine.wrap(function()

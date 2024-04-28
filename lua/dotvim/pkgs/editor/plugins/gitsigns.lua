@@ -19,6 +19,6 @@ return {
       interval = 1000,
       follow_files = true,
     },
-    update_debounce = 20,
+    update_debounce = 100,
   },
 }

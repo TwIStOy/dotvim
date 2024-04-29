@@ -84,6 +84,7 @@ function M.setup()
     for _, _plugin in pairs(require("lazy.core.config").spec.plugins) do
       local plugin = _plugin --[[@as dotvim.core.plugin.PluginOption]]
       if
+        ---@diagnostic disable-next-line: undefined-field
         (plugin._.kind ~= "disabled" or plugin._.kind ~= "clean")
         and plugin.actions ~= nil
       then
@@ -92,20 +93,25 @@ function M.setup()
         local all_keys
         if plugin.keys == nil then
           all_keys = {}
+          ---@diagnostic disable-next-line: param-type-mismatch
         elseif vim.isarray(plugin.keys) then
           all_keys = plugin.keys --[[ @as LazyKeysSpec[] ]]
         else
+          ---@diagnostic disable-next-line: assign-type-mismatch
           all_keys = { plugin.keys }
         end
         local actions
         if type(plugin.actions) == "function" then
           actions = plugin.actions()
+          ---@diagnostic disable-next-line: param-type-mismatch
         elseif vim.isarray(plugin.actions) then
           actions = plugin.actions
         else
           actions = { plugin.actions }
         end
+        ---@diagnostic disable-next-line: param-type-mismatch
         for _, action_spec in ipairs(actions) do
+          ---@diagnostic disable-next-line: param-type-mismatch
           local action = Core.action.new_action(action_spec)
           Core.registry.register_action(action)
           vim.list_extend(all_keys, action:into_lazy_keys_spec())

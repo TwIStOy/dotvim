@@ -60,6 +60,7 @@ local function setup_lsp_keymaps(client, buffer)
   nmap("gi", methods.implementations, "goto-impl")
 
   nmap("gR", methods.rename, "rename-symbol")
+  nmap("crn", methods.rename, "rename-symbol")
 
   nmap("ga", methods.code_action, "code-action")
 

@@ -39,6 +39,7 @@ return {
           ["<leader>n"] = { name = "+no" },
           ["<leader>p"] = { name = "+preview" },
           ["<leader>r"] = { name = "+remote" },
+          ["<leader>s"] = { name = "+search" },
           ["<leader>t"] = { name = "+test/toggle" },
           ["<leader>v"] = { name = "+vcs" },
           ["<leader>w"] = { name = "+window" },

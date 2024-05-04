@@ -171,7 +171,7 @@ return {
   actions = {
     {
       id = "catppuccin.compile",
-      title = "Recompile Catppuccin",
+      title = "Compile Catppuccin",
       callback = "CatppuccinCompile",
       plugin = "catppuccin.nvim",
     },

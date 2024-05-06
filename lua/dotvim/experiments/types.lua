@@ -63,7 +63,7 @@ function M.list_of(type)
   return Type.new {
     name = "list_of_" .. type.name,
     checker = function(value)
-      if type(value) ~= "table" or not vim.tbl_islist(value) then
+      if type(value) ~= "table" or not vim.islist(value) then
         return false
       end
       for _, v in ipairs(value) do
@@ -98,7 +98,18 @@ function M.dict_of(type)
       return true
     end,
     merge = function(prev, incoming)
-      return vim.tbl_deep_extend("force", prev, incoming)
+      local ret = {}
+      for k, v in pairs(prev) do
+        ret[k] = v
+      end
+      for k, v in pairs(incoming) do
+        if ret[k] == nil then
+          ret[k] = v
+        else
+          ret[k] = type.merge(ret[k], v)
+        end
+      end
+      return ret
     end,
   }
 end

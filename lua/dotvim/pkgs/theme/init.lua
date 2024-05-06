@@ -7,6 +7,7 @@ return {
     require("dotvim.pkgs.theme.plugins.cyberdream"),
     require("dotvim.pkgs.theme.plugins.eldritch"),
     require("dotvim.pkgs.theme.plugins.rasmus"),
+    require("dotvim.pkgs.theme.plugins.oldworld"),
   },
   setup = function()
     if not vim.g.vscode then

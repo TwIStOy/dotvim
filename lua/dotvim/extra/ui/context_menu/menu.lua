@@ -1,8 +1,10 @@
 ---@class dotvim.extra.ui.context_menu.ContextMenu
----@field private render any
----@field private parent? dotvim.extra.ui.context_menu.ContextMenu
----@field private pos { row: integer, col: integer }
----@field private nodes dotvim.extra.ui.context_menu.TreeNode[]
+---@field render any
+---@field parent? dotvim.extra.ui.context_menu.ContextMenu
+---@field pos { row: integer, col: integer }
+---@field nodes dotvim.extra.ui.context_menu.TreeNode[]
+---@field current_node dotvim.extra.ui.context_menu.TreeNode
+---@field sub? dotvim.extra.ui.context_menu.ContextMenu
 local ContextMenu = {}
 
 ---@type dotvim.utils
@@ -23,7 +25,11 @@ function ContextMenu:close()
   end
 end
 
-function ContextMenu:close_self_only()
+function ContextMenu:close_subtree()
+  if self.sub ~= nil then
+    self.sub.parent = nil
+    self.sub:close_subtree()
+  end
   if self.parent ~= nil then
     self.parent.render:focus()
   end
@@ -130,24 +136,37 @@ function ContextMenu:init(items, parent)
     relative = "editor",
     position = self.pos,
   }
+  self.render:add_mappings {
+    {
+      mode = "n",
+      key = "h",
+      handle = function()
+        self:close_subtree()
+      end,
+    },
+    {
+      mode = "n",
+      key = "l",
+      handle = function()
+        if self.sub ~= nil then
+          self.sub.render:focus()
+        end
+      end,
+    },
+  }
   self.nodes = nodes
+  self.current_node = nodes[1]
 end
 
-function ContextMenu:mount()
-  ---@param node dotvim.extra.ui.context_menu.TreeNode
-  ---@param component any
-  ---@diagnostic disable-next-line: unused-local
-  local on_select = function(node, component)
-    if node.item.callback ~= nil then
-      node.item.callback()
-      self:close()
-    end
-  end
-
+function ContextMenu:mount(focus)
   ---@param node dotvim.extra.ui.context_menu.TreeNode
   ---@param component any
   ---@diagnostic disable-next-line: unused-local
   local on_change = function(node, component)
+    self.current_node = node
+    if self.sub ~= nil then
+      self.sub:close_subtree()
+    end
     local children = node.item.children
     if children == nil or #children == 0 then
       return
@@ -155,12 +174,25 @@ function ContextMenu:mount()
     -- construct a new menu
     local sub_menu = ContextMenu.construct()
     sub_menu:init(children, { parent = self, from_index = node.idx })
-    sub_menu:mount()
+    sub_menu:mount(false)
+    self.sub = sub_menu
+  end
+
+  ---@param node dotvim.extra.ui.context_menu.TreeNode
+  ---@param component any
+  ---@diagnostic disable-next-line: unused-local
+  local on_select = function(node, component)
+    if node.item.callback ~= nil then
+      node.item.callback()
+      self:close()
+    else
+      on_change(node, component)
+    end
   end
 
   local body = function()
     return n.tree {
-      autofocus = true,
+      autofocus = focus,
       border_style = "single",
       data = self.nodes,
       on_select = on_select,

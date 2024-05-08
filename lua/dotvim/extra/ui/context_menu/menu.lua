@@ -5,6 +5,7 @@
 ---@field nodes dotvim.extra.ui.context_menu.TreeNode[]
 ---@field current_node dotvim.extra.ui.context_menu.TreeNode
 ---@field sub? dotvim.extra.ui.context_menu.ContextMenu
+---@field from_window? integer
 local ContextMenu = {}
 
 ---@type dotvim.utils
@@ -124,6 +125,7 @@ function ContextMenu:init(items, parent)
   if parent == nil then
     local row, col = Utils.vim.cursor0_to_editor()
     self.pos = { row = row + 2, col = col }
+    self.from_window = vim.api.nvim_get_current_win()
   else
     self.parent = parent.parent
     self.pos = vim.deepcopy(parent.parent.pos)
@@ -132,10 +134,15 @@ function ContextMenu:init(items, parent)
   end
   self.render = n.create_renderer {
     width = width + 2,
-    height = height + 10,
+    height = height + 2,
     relative = "editor",
     position = self.pos,
   }
+  if parent == nil then
+    self.render:on_unmount(function()
+      vim.api.nvim_set_current_win(self.from_window)
+    end)
+  end
   self.render:add_mappings {
     {
       mode = "n",

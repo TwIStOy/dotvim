@@ -12,7 +12,7 @@ local function build_nodes()
 
   return {
     new_item {
-      text = "󰘖  Expand Binding",
+      "󰘖  Expand Binding",
       callback = function()
         expand_binding.do_refactor()
       end,

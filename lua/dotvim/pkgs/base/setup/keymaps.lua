@@ -92,6 +92,6 @@ return function()
   vim.keymap.set("n", ";;", function()
     ---@type dotvim.extra
     local Extra = require("dotvim.extra")
-    Extra.ui.context_menu.open_context_menu()
+    Extra.context_menu.open_context_menu()
   end, { desc = "open-context-menu" })
 end

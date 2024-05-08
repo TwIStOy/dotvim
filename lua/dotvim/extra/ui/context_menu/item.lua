@@ -1,5 +1,4 @@
-local MenuText = require("right-click.components.text")
-local Config = require("right-click.config").config
+local MenuText = require("dotvim.extra.ui.context_menu.text")
 
 ---@class dotvim.extra.ui.context_menu.MenuItem
 ---@field text dotvim.extra.ui.context_menu.MenuText
@@ -116,41 +115,6 @@ function MenuItem:expected_length()
   end
 
   return len
-end
-
----@param text_width number
----@return NuiTreeNode
-function MenuItem:into_nui_node(text_width)
-  local nui_menu = require("nui.menu")
-  if self.text.raw_text == "---" then
-    -- separator
-    return nui_menu.separator(nil, { "-" })
-  end
-
-  local opts = { menu_item = self }
-  local text = self.text:into_nui_line()
-
-  local length = self.text:length()
-
-  if self.extra_keys ~= nil and #self.extra_keys > 0 then
-    local hint = table.concat(self.extra_keys, "|")
-    -- always reserve 2 spaces for arrow
-    local space_count = text_width - 2 - length - #hint
-    if space_count > 0 then
-      text:append(string.rep(" ", space_count))
-    end
-    text:append(hint, Config.highlight.key)
-    length = length + space_count + #hint
-  end
-
-  if self.children ~= nil and #self.children > 0 and text_width ~= nil then
-    local spaces = text_width - length - 2
-    if spaces > 0 then
-      text:append(string.rep(" ", spaces))
-    end
-    text:append(Config.expandable_sign)
-  end
-  return nui_menu.item(text, opts)
 end
 
 return new_item

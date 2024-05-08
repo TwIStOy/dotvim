@@ -132,7 +132,7 @@ function ContextMenu:init(items, parent)
   end
   self.render = n.create_renderer {
     width = width + 2,
-    height = height + 2,
+    height = height + 10,
     relative = "editor",
     position = self.pos,
   }
@@ -140,14 +140,14 @@ function ContextMenu:init(items, parent)
     {
       mode = "n",
       key = "h",
-      handle = function()
+      handler = function()
         self:close_subtree()
       end,
     },
     {
       mode = "n",
       key = "l",
-      handle = function()
+      handler = function()
         if self.sub ~= nil then
           self.sub.render:focus()
         end
@@ -197,9 +197,11 @@ function ContextMenu:mount(focus)
       data = self.nodes,
       on_select = on_select,
       on_change = on_change,
-      prepare_node = make_prepare_node_func(self.render.get_size().width - 2),
+      prepare_node = make_prepare_node_func(self.render:get_size().width - 2),
       should_skip_item = should_skip_item,
     }
   end
   self.render:render(body)
 end
+
+return ContextMenu

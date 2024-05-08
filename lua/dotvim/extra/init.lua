@@ -10,4 +10,7 @@ M.ui = require("dotvim.extra.ui")
 ---@type dotvim.extra.lsp
 M.Lsp = require("dotvim.extra.lsp")
 
+---@type dotvim.extra.context_menu
+M.context_menu = require("dotvim.extra.context_menu")
+
 return M

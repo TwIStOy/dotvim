@@ -75,9 +75,10 @@ function M.flatten_array(tbl)
 end
 
 ---@generic T
+---@generic U
 ---@param tbl T[]
----@param fn fun(T, T):T
----@param acc T
+---@param fn fun(U, T):U
+---@param acc U
 function M.foldl(tbl, fn, acc)
   for _, v in ipairs(tbl) do
     acc = fn(acc, v)

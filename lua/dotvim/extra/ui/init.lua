@@ -10,4 +10,7 @@ M.spectre = require("dotvim.extra.ui.spectre")
 ---@type dotvim.extra.ui.copilot_chat
 M.copilot_chat = require("dotvim.extra.ui.copilot-chat")
 
+---@type dotvim.extra.ui.context_menu
+M.context_menu = require("dotvim.extra.ui.context_menu")
+
 return M

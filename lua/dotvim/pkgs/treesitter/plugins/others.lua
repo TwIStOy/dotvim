@@ -97,4 +97,8 @@ return {
       require("treesitter-context").setup(opts)
     end,
   },
+  {
+    "TwIStOy/refactor.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  }
 }

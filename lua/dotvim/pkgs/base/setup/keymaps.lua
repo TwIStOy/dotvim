@@ -89,4 +89,9 @@ return function()
     "<cmd>Telescope command_palette<CR>",
     { desc = "command-palette" }
   )
+  vim.keymap.set("n", ";;", function()
+    ---@type dotvim.extra
+    local Extra = require("dotvim.extra")
+    Extra.ui.context_menu.open_context_menu()
+  end, { desc = "open-context-menu" })
 end

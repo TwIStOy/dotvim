@@ -25,6 +25,7 @@ return {
     require("dotvim.pkgs.editor.plugins.fugit2"),
     require("dotvim.pkgs.editor.plugins.hardtime"),
     require("dotvim.pkgs.editor.plugins.ssr"),
+    require("dotvim.pkgs.editor.plugins.right-click"),
   },
   setup = function()
     require("dotvim.pkgs.editor.setup.obsidian")()

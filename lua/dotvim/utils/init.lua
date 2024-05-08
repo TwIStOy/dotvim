@@ -28,6 +28,9 @@ M.tbl = require("dotvim.utils.tbl")
 ---@type dotvim.utils.value
 M.value = require("dotvim.utils.value")
 
+---@type dotvim.utils.vim
+M.vim = require("dotvim.utils.vim")
+
 local which_cache = M.fn.new_cache_manager()
 
 ---Get the path to a plugin

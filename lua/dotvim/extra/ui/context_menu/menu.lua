@@ -33,6 +33,7 @@ function ContextMenu:close_subtree()
   end
   if self.parent ~= nil then
     self.parent.render:focus()
+    self.parent.sub = nil
   end
   self.render:close()
 end
@@ -81,6 +82,8 @@ local function make_prepare_node_func(width)
         text:append(string.rep(" ", spaces), hl("Normal"))
       end
       text:append("▶", hl("Normal"))
+    elseif width ~= nil then
+      text:append(string.rep(" ", width - length), hl("Normal"))
     end
 
     return text
@@ -129,7 +132,7 @@ function ContextMenu:init(items, parent)
   else
     self.parent = parent.parent
     self.pos = vim.deepcopy(parent.parent.pos)
-    self.pos.row = self.pos.row + parent.from_index
+    self.pos.row = self.pos.row + parent.from_index - 1
     self.pos.col = self.pos.col + self.parent.render:get_size().width
   end
   self.render = n.create_renderer {
@@ -141,6 +144,17 @@ function ContextMenu:init(items, parent)
   if parent == nil then
     self.render:on_unmount(function()
       vim.api.nvim_set_current_win(self.from_window)
+      if self.sub ~= nil then
+        self.sub.parent = nil
+        self.sub:close_subtree()
+      end
+    end)
+  else
+    self.render:on_unmount(function()
+      if self.sub ~= nil then
+        self.sub.parent = nil
+        self.sub:close_subtree()
+      end
     end)
   end
   self.render:add_mappings {
@@ -156,7 +170,10 @@ function ContextMenu:init(items, parent)
       key = "l",
       handler = function()
         if self.sub ~= nil then
-          self.sub.render:focus()
+          local components = self.sub.render:get_focusable_components()
+          if components ~= nil and #components > 0 then
+            components[1]:focus()
+          end
         end
       end,
     },
@@ -201,6 +218,9 @@ function ContextMenu:mount(focus)
     return n.tree {
       autofocus = focus,
       border_style = "single",
+      window = {
+        highlight = "Normal:Normal",
+      },
       data = self.nodes,
       on_select = on_select,
       on_change = on_change,

@@ -12,6 +12,18 @@ local function build_nodes()
 
   return {
     new_item {
+      "&Refactor",
+      children = {
+        {
+          "Expand Binding",
+          callback = function()
+            expand_binding.do_refactor()
+          end,
+          disabled = not expand_binding.available(),
+        },
+      },
+    },
+    new_item {
       "󰘖  Expand Binding",
       callback = function()
         expand_binding.do_refactor()

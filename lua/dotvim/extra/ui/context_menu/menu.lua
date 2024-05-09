@@ -101,6 +101,15 @@ local function should_skip_item(node)
   return false
 end
 
+function ContextMenu:all_skipped()
+  for _, node in ipairs(self.nodes) do
+    if not should_skip_item(node) then
+      return false
+    end
+  end
+  return true
+end
+
 ---@class dotvim.extra.ui.context_menu.ParentOpts
 ---@field parent dotvim.extra.ui.context_menu.ContextMenu
 ---@field from_index integer
@@ -169,7 +178,7 @@ function ContextMenu:init(items, parent)
       mode = "n",
       key = "l",
       handler = function()
-        if self.sub ~= nil then
+        if self.sub ~= nil and not self.sub:all_skipped() then
           local components = self.sub.render:get_focusable_components()
           if components ~= nil and #components > 0 then
             components[1]:focus()

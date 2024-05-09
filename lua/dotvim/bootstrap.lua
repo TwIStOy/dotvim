@@ -168,6 +168,20 @@ function M.setup()
       patterns = { "/" }, -- hack to make sure all plugins are `dev`
       fallback = true,
     }
+  else
+    lazy_opts.dev = {
+      path = function(plugin)
+        local name = Core.plugin.guess_name(plugin)
+        local dev_path = os.getenv("HOME") .. "/Projects/nvim-plugins/" .. name
+        ---@diagnostic disable-next-line: undefined-field
+        if vim.uv.fs_stat(dev_path) then
+          return dev_path
+        end
+        return "/dev/null/must_not_exists"
+      end,
+      patterns = { "/" }, -- hack to make sure all plugins are `dev`
+      fallback = true,
+    }
   end
 
   require("lazy").setup(lazy_opts)

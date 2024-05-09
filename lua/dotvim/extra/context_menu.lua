@@ -6,29 +6,33 @@ local new_item = require("dotvim.extra.ui.context_menu.item")
 local ContextMenu = require("dotvim.extra.ui.context_menu.menu")
 
 ---@return dotvim.extra.ui.context_menu.MenuItem[]
-local function build_nodes()
-  local expand_binding =
-    require("refactor.actions.nix").expand_binding.create_context()
+local function build_nodes_from_refactor()
+  local ft = vim.api.nvim_get_option_value("filetype", {
+    buf = 0,
+  })
+  local contexts = require("refactor.actions").create_context(ft)
+  return vim
+    .iter(contexts)
+    :map(function(ctx)
+      return {
+        ctx.name,
+        callback = function()
+          vim.schedule(function()
+            ctx.do_refactor()
+          end)
+        end,
+        disabled = not ctx.available(),
+      }
+    end)
+    :totable()
+end
 
+---@return dotvim.extra.ui.context_menu.MenuItem[]
+local function build_nodes()
   return {
     new_item {
       "&Refactor",
-      children = {
-        {
-          "Expand Binding",
-          callback = function()
-            expand_binding.do_refactor()
-          end,
-          disabled = not expand_binding.available(),
-        },
-      },
-    },
-    new_item {
-      "󰘖  Expand Binding",
-      callback = function()
-        expand_binding.do_refactor()
-      end,
-      disabled = not expand_binding.available(),
+      children = build_nodes_from_refactor(),
     },
   }
 end

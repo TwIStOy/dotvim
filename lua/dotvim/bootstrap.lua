@@ -50,6 +50,7 @@ local enabled_packages = {
   "extra.misc.competitive-programming",
   "extra.misc.ai",
   "extra.misc.rime",
+  "extra.misc.devdocs",
 }
 
 function M.setup()

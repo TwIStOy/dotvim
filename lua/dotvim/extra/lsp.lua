@@ -10,8 +10,6 @@ function M.get_lsp_item_import_location(completion, source)
     return nil
   end
 
-  vim.print(source_name, completion)
-
   if source_name == "tsserver" or source_name == "typescript-tools" then
     return vim.F.if_nil(
       vim.tbl_get(completion, "data", "entryNames", 1, "source"),

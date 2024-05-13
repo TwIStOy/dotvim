@@ -174,7 +174,7 @@ return {
     end,
   },
   {
-    "folke/todo-comments.nvim",
+    "TwIStOy/todo-comments.nvim",
     event = "BufReadPost",
     cmd = { "TodoTrouble", "TodoTelescope" },
     dependencies = { "nvim-lua/plenary.nvim", "telescope.nvim", "trouble.nvim" },

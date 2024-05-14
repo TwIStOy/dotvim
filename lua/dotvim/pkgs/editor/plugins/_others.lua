@@ -1,19 +1,12 @@
 ---@type dotvim.core.plugin.PluginOption[]
 return {
   {
-    "m4xshen/smartcolumn.nvim",
+    "Bekaboo/deadcolumn.nvim",
     event = { "BufReadPre", "BufNewFile" },
     opts = {
-      colorcolumn = "80",
-      disabled_filetypes = {
-        "help",
-        "NvimTree",
-        "lazy",
-        "mason",
-        "help",
-        "alpha",
-        "bookmarks_input",
-        "noice",
+      scope = "visible",
+      extra = {
+        follow_tw = "+1",
       },
     },
   },

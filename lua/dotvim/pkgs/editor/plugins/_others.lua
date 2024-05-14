@@ -5,6 +5,9 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       scope = "visible",
+      modes = function(mode)
+        return mode:find("^[iRss\x13]") ~= nil
+      end,
       extra = {
         follow_tw = "+1",
       },

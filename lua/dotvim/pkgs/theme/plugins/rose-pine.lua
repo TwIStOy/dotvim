@@ -4,7 +4,7 @@ return {
   name = "rose-pine",
   lazy = true,
   opts = {
-    variant = "dawn",
+    variant = "auto",
     dark_variant = "moon",
     extend_background_behind_borders = true,
     styles = {

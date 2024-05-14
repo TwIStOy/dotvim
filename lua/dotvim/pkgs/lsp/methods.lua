@@ -52,7 +52,7 @@ function Methods.next_diagnostic()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.marker.nextInFiles")
   else
-    vim.diagnostic.goto_next { wrap = false }
+    vim.diagnostic.goto_next { wrap = false, float = false }
   end
 end
 
@@ -60,7 +60,7 @@ function Methods.prev_diagnostic()
   if vim.g.vscode then
     require("vscode-neovim").call("editor.action.marker.prevInFiles")
   else
-    vim.diagnostic.goto_prev { wrap = false }
+    vim.diagnostic.goto_prev { wrap = false, float = false }
   end
 end
 
@@ -153,7 +153,7 @@ local function close_preview_autocmd(events, winnr, bufnrs)
   end
 end
 
-function Methods.open_diagnostic()
+local function open_builtin_diagnostic()
   local opts = {
     focusable = false,
     border = "solid",
@@ -182,6 +182,10 @@ function Methods.open_diagnostic()
     "BufLeave",
     "FocusLost",
   }, win, { bufnr, vim.api.nvim_get_current_buf() })
+end
+
+function Methods.open_diagnostic()
+  require("corn").render()
 end
 
 function Methods.rename(new_name, options)

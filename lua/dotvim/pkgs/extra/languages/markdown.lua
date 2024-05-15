@@ -9,6 +9,14 @@ return {
   },
   plugins = {
     {
+      "nvim-treesitter",
+      opts = function(_, opts)
+        if type(opts.ensure_installed) == "table" then
+          vim.list_extend(opts.ensure_installed, { "mermaid" })
+        end
+      end,
+    },
+    {
       "jbyuki/nabla.nvim",
       ft = { "latex", "markdown" },
       keys = {
@@ -110,7 +118,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
       },
       enabled = function()
-        return not vim.g.neovide
+        return false
       end,
       ft = { "markdown", "vimwiki" },
       opts = {},

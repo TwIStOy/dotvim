@@ -6,7 +6,7 @@ return {
   opts = {
     variant = "auto",
     dark_variant = "moon",
-    extend_background_behind_borders = true,
+    extend_background_behind_borders = false,
     styles = {
       bold = true,
       italic = false,

@@ -53,7 +53,6 @@ return {
         vim.cmd("BufferLineSortByDirectory")
       end,
       { private = true, nowait = true, desc = "Sort Dir" },
-      -- { private = true, nowait = true, desc = "Sort dir", exit = true },
     },
     ["3"] = {
       function()

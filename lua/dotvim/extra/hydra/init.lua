@@ -15,34 +15,13 @@ function M.create_hydra(opts)
   return Hydra(opts)
 end
 
-local function fold_dydra_opts()
-  return {
-    body = "<leader>z",
-    mode = { "n" },
-    config = {
-      color = "pink",
-      hint = {
-        type = "window",
-        position = "middle",
-        show_name = true,
-      },
-      invoke_on_body = true,
-    },
-    heads = {
-      { "<Esc>", nil, { exit = true } },
-      {
-        "R",
-        function()
-          require("ufo").openAllFolds()
-        end,
-        { silent = true, nowait = true, exit = true, desc = "Open all folds" },
-      },
-    },
-  }
+function M.load_my_hydra(name)
+  local module_name = ("dotvim.extra.hydra.hydras.%s"):format(name)
+  return M.create_hydra(require(module_name))
 end
 
 function M.create_hydras()
-  M.create_hydra(require("dotvim.extra.hydra.bufferline"))
+  M.load_my_hydra("bufferline")
 end
 
 return M

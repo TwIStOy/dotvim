@@ -29,7 +29,9 @@ return {
       local orig = vim.notify
       vim.notify = temp
 
+      ---@diagnostic disable-next-line: undefined-field
       local timer = vim.uv.new_timer()
+      ---@diagnostic disable-next-line: undefined-field
       local check = vim.uv.new_check()
 
       local replay = function()

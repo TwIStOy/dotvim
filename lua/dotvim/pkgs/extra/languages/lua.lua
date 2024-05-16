@@ -33,6 +33,7 @@ return {
           "nui-components.nvim",
           "nvim-spectre",
           "LuaSnip",
+          "hydra.nvim",
         }
         for _, plugin in ipairs(add_plugins) do
           table.insert(

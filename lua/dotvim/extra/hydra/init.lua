@@ -22,6 +22,7 @@ end
 
 function M.create_hydras()
   M.load_my_hydra("bufferline")
+  M.load_my_hydra("window")
 end
 
 return M

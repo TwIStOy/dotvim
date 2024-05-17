@@ -4,6 +4,9 @@ local M = {}
 ---@type dotvim.extra.hydra.utils
 M.Utils = require("dotvim.extra.hydra.utils")
 
+---@type dotvim.utils
+local Utils = require("dotvim.utils")
+
 ---@class dotvim.extra.hydra.CreateHydraOpts
 ---@field heads table<string, hydra.Head|string|function>
 
@@ -20,9 +23,19 @@ function M.load_my_hydra(name)
   return M.create_hydra(require(module_name))
 end
 
-function M.create_hydras()
-  M.load_my_hydra("bufferline")
-  M.load_my_hydra("window")
-end
+M.hydras = {}
+
+local hydra_names = {
+  "bufferline",
+  "window",
+  "git-conflict",
+}
+
+M.create_hydras = Utils.fn.invoke_once(function()
+  for _, name in ipairs(hydra_names) do
+    M.hydras[name] = M.load_my_hydra(name)
+  end
+  return nil
+end)
 
 return M

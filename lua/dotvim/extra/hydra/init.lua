@@ -29,6 +29,7 @@ local hydra_names = {
   "bufferline",
   "window",
   "git-conflict",
+  "bookmarks",
 }
 
 M.create_hydras = Utils.fn.invoke_once(function()

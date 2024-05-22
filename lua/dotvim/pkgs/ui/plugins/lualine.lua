@@ -92,16 +92,6 @@ return {
     ---@type dotvim.utils
     local Utils = require("dotvim.utils")
 
-    local function cwd()
-      local dir = vim.fn.getcwd()
-      local home = os.getenv("HOME") --[[@as string]]
-      local match = string.find(dir, home, 1, true)
-      if match == 1 then
-        dir = "~" .. string.sub(dir, #home + 1)
-      end
-      return Utils.icon.predefined_icon("FolderOpen", 1) .. dir
-    end
-
     local space = {
       function()
         return " "
@@ -127,6 +117,85 @@ return {
       },
     }
 
+    local mode = {
+      "mode",
+      icons_enabled = true,
+      icon = {
+        Utils.icon.predefined_icon("VimLogo", 1),
+        align = "left",
+      },
+      separator = { left = "", right = "" },
+    }
+
+    local diagnostics = {
+      "diagnostics",
+      sources = { "nvim_diagnostic" },
+      symbols = {
+        error = Utils.icon.predefined_icon("DiagnosticError", 1),
+        warn = Utils.icon.predefined_icon("DiagnosticWarn", 1),
+        info = Utils.icon.predefined_icon("DiagnosticInfo", 1),
+        hint = Utils.icon.predefined_icon("DiagnosticHint", 1),
+      },
+      color = {
+        bg = resolve_bg("CursorLine"),
+        fg = resolve_bg("ModesInsert"),
+        gui = "bold",
+      },
+      separator = { left = "", right = "" },
+      padding = 1,
+    }
+
+    local lsp_progress = {
+      function()
+        local ok, lsp_progress = pcall(require, "lsp-progress")
+        if not ok then
+          return ""
+        end
+        return lsp_progress.progress {
+          max_size = 80,
+          format = function(messages)
+            if #messages > 0 then
+              return table.concat(messages, " ")
+            end
+            return ""
+          end,
+        }
+      end,
+      separator = { left = "", right = "" },
+      color = {
+        bg = resolve_bg("CursorLine"),
+        fg = resolve_fg("Comment"),
+        gui = "bold",
+      },
+    }
+
+    local diff = {
+      "diff",
+      color = {
+        bg = resolve_bg("CursorLine"),
+        fg = resolve_bg("Normal"),
+        gui = "bold",
+      },
+      padding = { left = 1 },
+      separator = { left = "", right = "" },
+      symbols = {
+        added = Utils.icon.predefined_icon("GitAdd", 1),
+        modified = Utils.icon.predefined_icon("GitChange", 1),
+        removed = Utils.icon.predefined_icon("GitDelete", 1),
+      },
+    }
+
+    local branch = {
+      "branch",
+      icon = "",
+      color = {
+        bg = resolve_fg("Keyword"),
+        fg = resolve_bg("Normal"),
+        gui = "bold",
+      },
+      separator = { left = "", right = "" },
+    }
+
     return {
       options = {
         component_separators = { left = "", right = "" },
@@ -141,97 +210,20 @@ return {
       },
       sections = {
         lualine_a = {
-          {
-            "mode",
-            icons_enabled = true,
-            icon = {
-              Utils.icon.predefined_icon("VimLogo", 1),
-              align = "left",
-            },
-            separator = { left = "", right = "" },
-          },
+          mode,
         },
         lualine_b = { space },
         lualine_c = {
-          {
-            cwd,
-            color = {
-              bg = resolve_fg("Macro"),
-              fg = resolve_bg("Normal"),
-              gui = "bold",
-            },
-            separator = { left = "", right = "" },
-          },
+          get_component("cwd"),
           get_component("file"),
           space,
-          {
-            "branch",
-            icon = "",
-            color = {
-              bg = resolve_fg("Keyword"),
-              fg = resolve_bg("Normal"),
-              gui = "bold",
-            },
-            separator = { left = "", right = "" },
-          },
-          {
-            "diff",
-            color = {
-              bg = resolve_bg("CursorLine"),
-              fg = resolve_bg("Normal"),
-              gui = "bold",
-            },
-            padding = { left = 1 },
-            separator = { left = "", right = "" },
-            symbols = {
-              added = Utils.icon.predefined_icon("GitAdd", 1),
-              modified = Utils.icon.predefined_icon("GitChange", 1),
-              removed = Utils.icon.predefined_icon("GitDelete", 1),
-            },
-          },
+          branch,
+          diff,
         },
         lualine_x = {
-          { -- Setup lsp-progress component
-            function()
-              local ok, lsp_progress = pcall(require, "lsp-progress")
-              if not ok then
-                return ""
-              end
-              return lsp_progress.progress {
-                max_size = 80,
-                format = function(messages)
-                  if #messages > 0 then
-                    return table.concat(messages, " ")
-                  end
-                  return ""
-                end,
-              }
-            end,
-            separator = { left = "", right = "" },
-            color = {
-              bg = resolve_bg("CursorLine"),
-              fg = resolve_fg("Comment"),
-              gui = "bold",
-            },
-          },
+          lsp_progress,
           space,
-          {
-            "diagnostics",
-            sources = { "nvim_diagnostic" },
-            symbols = {
-              error = Utils.icon.predefined_icon("DiagnosticError", 1),
-              warn = Utils.icon.predefined_icon("DiagnosticWarn", 1),
-              info = Utils.icon.predefined_icon("DiagnosticInfo", 1),
-              hint = Utils.icon.predefined_icon("DiagnosticHint", 1),
-            },
-            color = {
-              bg = resolve_bg("CursorLine"),
-              fg = resolve_bg("ModesInsert"),
-              gui = "bold",
-            },
-            separator = { left = "", right = "" },
-            padding = 1,
-          },
+          diagnostics,
         },
         lualine_y = {
           space,
@@ -239,7 +231,17 @@ return {
         lualine_z = { lsp },
       },
       tabline = {},
-      extensions = { "neo-tree", "lazy" },
+      extensions = {
+        "lazy",
+        {
+          filetypes = { "neo-tree" },
+          sections = {
+            lualine_a = {
+              get_component("cwd"),
+            },
+          },
+        },
+      },
     }
   end,
 }

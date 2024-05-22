@@ -4,6 +4,7 @@ local Utils = require("dotvim.utils")
 local current_file = "󰈚 Empty"
 vim.api.nvim_create_autocmd({
   "BufEnter",
+  "DirChanged",
 }, {
   callback = function()
     local icon = "󰈚 "

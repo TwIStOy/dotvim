@@ -1,4 +1,4 @@
 vim.loader.enable()
-local dotpath = "/Users/hawtian/.dotvim"
+local dotpath = os.getenv("HOME") .. "/.dotvim"
 vim.opt.rtp:prepend(dotpath)
-require("dotvim").setup()
+require("dotvim.bootstrap").setup()

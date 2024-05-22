@@ -10,4 +10,30 @@ function M.cursor0_to_editor()
   return win_row + row - line_start, col
 end
 
+---@param group string
+---@return string
+function M.resolve_fg(group)
+  local info = vim.api.nvim_get_hl(0, {
+    name = group,
+    create = false,
+  })
+  if info == nil or info.fg == nil then
+    return "NONE"
+  end
+  return string.format("#%06x", info.fg)
+end
+
+---@param group string
+---@return string
+function M.resolve_bg(group)
+  local info = vim.api.nvim_get_hl(0, {
+    name = group,
+    create = false,
+  })
+  if info == nil or info.bg == nil then
+    return "NONE"
+  end
+  return string.format("#%06x", info.bg)
+end
+
 return M

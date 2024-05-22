@@ -1,3 +1,79 @@
+local function resolve_fg(group)
+  local info = vim.api.nvim_get_hl(0, {
+    name = group,
+    create = false,
+  })
+  if info == nil or info.fg == nil then
+    return "NONE"
+  end
+  return string.format("#%06x", info.fg)
+end
+
+local function resolve_bg(group)
+  local info = vim.api.nvim_get_hl(0, {
+    name = group,
+    create = false,
+  })
+  if info == nil or info.bg == nil then
+    return "NONE"
+  end
+  return string.format("#%06x", info.bg)
+end
+
+local function getLspName()
+  local buf_clients = vim.lsp.buf_get_clients()
+  local buf_ft = vim.bo.filetype
+  if next(buf_clients) == nil then
+    return "  No servers"
+  end
+  local buf_client_names = {}
+
+  for _, client in pairs(buf_clients) do
+    if client.name ~= "null-ls" or client.name == "copilot" then
+      table.insert(buf_client_names, client.name)
+    end
+  end
+
+  local lint_s, lint = pcall(require, "lint")
+  if lint_s then
+    for ft_k, ft_v in pairs(lint.linters_by_ft) do
+      if type(ft_v) == "table" then
+        for _, linter in ipairs(ft_v) do
+          if buf_ft == ft_k then
+            table.insert(buf_client_names, linter)
+          end
+        end
+      elseif type(ft_v) == "string" then
+        if buf_ft == ft_k then
+          table.insert(buf_client_names, ft_v)
+        end
+      end
+    end
+  end
+
+  local ok, conform = pcall(require, "conform")
+  local formatters = table.concat(conform.list_formatters_for_buffer(), " ")
+  if ok then
+    for formatter in formatters:gmatch("%w+") do
+      if formatter then
+        table.insert(buf_client_names, formatter)
+      end
+    end
+  end
+
+  local hash = {}
+  local unique_client_names = {}
+
+  for _, v in ipairs(buf_client_names) do
+    if not hash[v] then
+      unique_client_names[#unique_client_names + 1] = v
+      hash[v] = true
+    end
+  end
+  local language_servers = table.concat(unique_client_names, ", ")
+  return language_servers
+end
+
 ---@type dotvim.core.plugin.PluginOption
 return {
   "nvim-lualine/lualine.nvim",
@@ -26,38 +102,42 @@ return {
       return Utils.icon.predefined_icon("FolderOpen", 1) .. dir
     end
 
-    local function fileinfo()
-      local icon = "󰈚 "
-      local currentFile = vim.fn.expand("%")
-      local filename
-      if currentFile == "" then
-        filename = "Empty "
-      else
-        filename = vim.fn.fnamemodify(currentFile, ":.")
-        local deviconsPresent, devicons = pcall(require, "nvim-web-devicons")
-        if deviconsPresent then
-          local ftIcon = devicons.get_icon(filename)
-          if ftIcon ~= nil then
-            icon = ftIcon .. " "
-          end
-          if vim.fn.expand("%:e") == "md" then
-            icon = icon .. " "
-          end
-        end
-      end
-      return icon .. filename
+    local space = {
+      function()
+        return " "
+      end,
+      color = { bg = resolve_bg("Normal"), fg = resolve_bg("Normal") },
+      separator = { left = "", right = "" },
+      padding = 0,
+    }
+
+    local function get_component(name)
+      return require("dotvim.pkgs.ui.lualine_components." .. name)
     end
+
+    local lsp = {
+      function()
+        return getLspName()
+      end,
+      separator = { left = "", right = "" },
+      color = {
+        bg = resolve_fg("@parameter"),
+        fg = resolve_bg("Normal"),
+        gui = "italic,bold",
+      },
+    }
 
     return {
       options = {
-        component_separators = { left = "|", right = "|" },
-        section_separators = { left = "", right = "" },
-        -- section_separators = { left = "", right = "" },
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
         theme = "auto",
         globalstatus = true,
         disabled_filetypes = {
           statusline = { "dashboard", "alpha", "starter" },
         },
+        always_divide_middle = true,
+        padding = 0,
       },
       sections = {
         lualine_a = {
@@ -68,29 +148,95 @@ return {
               Utils.icon.predefined_icon("VimLogo", 1),
               align = "left",
             },
+            separator = { left = "", right = "" },
           },
         },
-        lualine_b = { cwd },
+        lualine_b = { space },
         lualine_c = {
-          { fileinfo, separator = "" },
+          {
+            cwd,
+            color = {
+              bg = resolve_fg("Macro"),
+              fg = resolve_bg("Normal"),
+              gui = "bold",
+            },
+            separator = { left = "", right = "" },
+          },
+          get_component("file"),
+          space,
+          {
+            "branch",
+            icon = "",
+            color = {
+              bg = resolve_fg("Keyword"),
+              fg = resolve_bg("Normal"),
+              gui = "bold",
+            },
+            separator = { left = "", right = "" },
+          },
+          {
+            "diff",
+            color = {
+              bg = resolve_bg("CursorLine"),
+              fg = resolve_bg("Normal"),
+              gui = "bold",
+            },
+            padding = { left = 1 },
+            separator = { left = "", right = "" },
+            symbols = {
+              added = Utils.icon.predefined_icon("GitAdd", 1),
+              modified = Utils.icon.predefined_icon("GitChange", 1),
+              removed = Utils.icon.predefined_icon("GitDelete", 1),
+            },
+          },
         },
         lualine_x = {
+          { -- Setup lsp-progress component
+            function()
+              local ok, lsp_progress = pcall(require, "lsp-progress")
+              if not ok then
+                return ""
+              end
+              return lsp_progress.progress {
+                max_size = 80,
+                format = function(messages)
+                  if #messages > 0 then
+                    return table.concat(messages, " ")
+                  end
+                  return ""
+                end,
+              }
+            end,
+            separator = { left = "", right = "" },
+            color = {
+              bg = resolve_bg("CursorLine"),
+              fg = resolve_fg("Comment"),
+              gui = "bold",
+            },
+          },
+          space,
           {
             "diagnostics",
+            sources = { "nvim_diagnostic" },
             symbols = {
               error = Utils.icon.predefined_icon("DiagnosticError", 1),
               warn = Utils.icon.predefined_icon("DiagnosticWarn", 1),
               info = Utils.icon.predefined_icon("DiagnosticInfo", 1),
               hint = Utils.icon.predefined_icon("DiagnosticHint", 1),
             },
+            color = {
+              bg = resolve_bg("CursorLine"),
+              fg = resolve_bg("ModesInsert"),
+              gui = "bold",
+            },
+            separator = { left = "", right = "" },
+            padding = 1,
           },
-          "branch",
-          "diff",
         },
         lualine_y = {
-          { "filetype", colored = true, icon_only = false },
+          space,
         },
-        lualine_z = { "progress", "location" },
+        lualine_z = { lsp },
       },
       tabline = {},
       extensions = { "neo-tree", "lazy" },

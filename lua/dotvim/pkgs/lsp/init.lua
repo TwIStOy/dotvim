@@ -11,6 +11,7 @@ local M = {
     require("dotvim.pkgs.lsp.plugins.aerial"),
     require("dotvim.pkgs.lsp.plugins.lsp-lines"),
     require("dotvim.pkgs.lsp.plugins.corn"),
+    require("dotvim.pkgs.lsp.plugins.lsp-progress"),
   },
   setup = function()
     require("dotvim.extra.fswatch")()

@@ -243,7 +243,7 @@ return {
           return self.current_icon
         end
 
-        table.insert(opts.sections.lualine_y, 1, component)
+        -- table.insert(opts.sections.lualine_y, 1, component)
       end,
     },
     {

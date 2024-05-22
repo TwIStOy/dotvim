@@ -1,3 +1,7 @@
+local fix_formatters_name = {
+  ["clang_format"] = "clang-format",
+}
+
 local function resolve_fg(group)
   local info = vim.api.nvim_get_hl(0, {
     name = group,
@@ -52,11 +56,13 @@ local function getLspName()
   end
 
   local ok, conform = pcall(require, "conform")
-  local formatters = table.concat(conform.list_formatters_for_buffer(), " ")
   if ok then
-    for formatter in formatters:gmatch("%w+") do
+    for _, formatter in ipairs(conform.list_formatters_for_buffer()) do
       if formatter then
-        table.insert(buf_client_names, formatter)
+        table.insert(
+          buf_client_names,
+          vim.F.if_nil(fix_formatters_name[formatter], formatter)
+        )
       end
     end
   end

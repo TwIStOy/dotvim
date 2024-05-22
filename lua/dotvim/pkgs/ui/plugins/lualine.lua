@@ -74,6 +74,22 @@ local function getLspName()
   return language_servers
 end
 
+local function get_focused_term()
+  local ok, Terminal = pcall(require, "toggleterm.terminal")
+  if not ok then
+    return nil
+  end
+  local focused_id = Terminal.get_focused_id()
+  if focused_id == nil then
+    return nil
+  end
+  local focused = Terminal.get(focused_id, false)
+  if focused == nil then
+    return nil
+  end
+  return focused
+end
+
 ---@type dotvim.core.plugin.PluginOption
 return {
   "nvim-lualine/lualine.nvim",
@@ -232,12 +248,101 @@ return {
       },
       tabline = {},
       extensions = {
-        "lazy",
         {
           filetypes = { "neo-tree" },
           sections = {
             lualine_a = {
               get_component("cwd"),
+            },
+          },
+        },
+        {
+          filetypes = { "toggleterm" },
+          sections = {
+            lualine_a = {
+              {
+                function()
+                  return "ToggleTerm #" .. vim.b.toggle_number
+                end,
+                separator = { left = "", right = "" },
+              },
+            },
+            lualine_b = {
+              space,
+            },
+            lualine_c = {
+              {
+                function()
+                  local term = get_focused_term()
+                  if not term then
+                    return ""
+                  end
+                  local dir = term.dir
+                  local home = os.getenv("HOME") --[[@as string]]
+                  local match = string.find(dir, home, 1, true)
+                  if match == 1 then
+                    dir = "~" .. string.sub(dir, #home + 1)
+                  end
+                  return Utils.icon.predefined_icon("FolderOpen", 1) .. dir
+                end,
+                color = {
+                  bg = Utils.vim.resolve_fg("Macro"),
+                  fg = Utils.vim.resolve_bg("Normal"),
+                  gui = "bold",
+                },
+                separator = { left = "", right = "" },
+              },
+              {
+                function()
+                  local term = get_focused_term()
+                  if not term then
+                    return ""
+                  end
+                  return term.cmd
+                end,
+                color = {
+                  bg = Utils.vim.resolve_bg("CursorLine"),
+                  fg = Utils.vim.resolve_fg("Normal"),
+                },
+                separator = { left = "", right = "" },
+                padding = { left = 1 },
+              },
+            },
+          },
+        },
+        {
+          filetypes = { "lazy" },
+          sections = {
+            lualine_a = {
+              {
+                function()
+                  return "lazy 💤"
+                end,
+                separator = { left = "", right = "" },
+              },
+            },
+            lualine_b = {
+              {
+                function()
+                  local ok, lazy = pcall(require, "lazy")
+                  if not ok then
+                    return ""
+                  end
+                  return "loaded: "
+                    .. lazy.stats().loaded
+                    .. "/"
+                    .. lazy.stats().count
+                end,
+                padding = { left = 1 },
+                separator = { left = "", right = "" },
+              },
+            },
+            lualine_c = {
+              {
+                require("lazy.status").updates,
+                cond = require("lazy.status").has_updates,
+                separator = { left = "", right = "" },
+              },
             },
           },
         },

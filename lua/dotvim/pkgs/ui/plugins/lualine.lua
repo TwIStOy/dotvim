@@ -25,7 +25,9 @@ local function resolve_bg(group)
 end
 
 local function getLspName()
-  local buf_clients = vim.lsp.buf_get_clients()
+  local buf_clients = vim.lsp.get_clients {
+    bufnr = 0,
+  }
   local buf_ft = vim.bo.filetype
   if next(buf_clients) == nil then
     return "  No servers"

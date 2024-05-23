@@ -12,7 +12,7 @@ return {
   setup = function()
     if not vim.g.vscode then
       vim.o.background = "light"
-      vim.cmd("colorscheme rose-pine")
+      vim.cmd("colorscheme catppuccin")
     end
   end,
 }

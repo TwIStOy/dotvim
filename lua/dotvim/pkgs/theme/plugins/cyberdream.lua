@@ -5,17 +5,19 @@ return {
   priority = 1000,
   config = function()
     require("cyberdream").setup {
-      transparent = true,
+      transparent = false,
       italic_comments = true,
       hide_fillchars = true,
       borderless_telescope = true,
       terminal_colors = true,
       theme = {
-        ["@lsp.typemod.variable.mutable.rust"] = { underline = true },
-        ["@lsp.typemod.selfKeyword.mutable.rust"] = {
-          underline = true,
+        highlights = {
+          ["@lsp.typemod.variable.mutable.rust"] = { underline = true },
+          ["@lsp.typemod.selfKeyword.mutable.rust"] = {
+            underline = true,
+          },
+          ["@variable.builtin"] = { italic = true },
         },
-        ["@variable.builtin"] = { italic = true },
       },
     }
   end,

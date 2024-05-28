@@ -6,7 +6,7 @@ return {
   build = ":CatppuccinCompile",
   opts = {
     background = {
-      light = "latte",
+      light = "macchiato",
       dark = "mocha",
     },
     no_italic = true,

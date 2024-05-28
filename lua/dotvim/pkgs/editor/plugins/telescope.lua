@@ -138,7 +138,12 @@ return {
               if vim.b._dotvim_project_cwd ~= nil then
                 require("telescope.builtin").live_grep {
                   cwd = vim.b._dotvim_project_cwd,
-                  additional_args = { "--no-ignore" },
+                  additional_args = function()
+                    if vim.b._dotvim_project_no_ignore then
+                      return { "--no-ignore" }
+                    end
+                    return {}
+                  end,
                   follow = true,
                 }
               else

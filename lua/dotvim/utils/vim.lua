@@ -16,6 +16,7 @@ function M.resolve_fg(group)
   local info = vim.api.nvim_get_hl(0, {
     name = group,
     create = false,
+    link = false,
   })
   if info == nil or info.fg == nil then
     return "NONE"

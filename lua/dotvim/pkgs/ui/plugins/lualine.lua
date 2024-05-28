@@ -135,7 +135,7 @@ return {
       end,
       separator = { left = "", right = "" },
       color = {
-        bg = resolve_fg("@parameter"),
+        bg = resolve_fg("String"),
         fg = resolve_bg("Normal"),
         gui = "italic,bold",
       },

@@ -123,6 +123,7 @@ return {
       color = { bg = resolve_bg("Normal"), fg = resolve_bg("Normal") },
       separator = { left = "", right = "" },
       padding = 0,
+      draw_empty = true,
     }
 
     local function get_component(name)
@@ -213,7 +214,7 @@ return {
       "branch",
       icon = "",
       color = {
-        bg = resolve_fg("Keyword"),
+        bg = resolve_fg("Type"),
         fg = resolve_bg("Normal"),
         gui = "bold",
       },

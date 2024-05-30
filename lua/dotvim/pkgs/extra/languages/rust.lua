@@ -162,6 +162,11 @@ return {
                     enable = true,
                   },
                 },
+                diagnostics = {
+                  disabled = {
+                    "inactive-code",
+                  },
+                },
                 files = {
                   watcher = "server",
                   excludeDirs = {

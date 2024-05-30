@@ -4,12 +4,14 @@ return {
   lazy = false,
   priority = 1000,
   opts = {
+    style = "night",
     styles = {
       comments = { italic = false },
       keywords = { italic = false },
       functions = {},
       variables = {},
     },
+    transparent = false,
     day_brightness = 0.3,
     sidebars = { "qf", "vista_kind", "terminal", "packer", "help" },
     on_highlights = function(highlights, colors)

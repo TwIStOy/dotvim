@@ -162,10 +162,13 @@ return {
                     enable = true,
                   },
                 },
-                diagnostics = {
-                  disabled = {
-                    "inactive-code",
-                  },
+                -- diagnostics = {
+                --   disabled = {
+                --     "inactive-code",
+                --   },
+                -- },
+                check = {
+                  command = "clippy",
                 },
                 files = {
                   watcher = "server",

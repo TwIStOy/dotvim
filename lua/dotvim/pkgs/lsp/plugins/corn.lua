@@ -16,6 +16,7 @@ return {
       hint = Utils.icon.predefined_icon("DiagnosticHint", 1),
     },
     item_preprocess_func = function(item)
+      -- TODO(hawtian): improve line-breaks by Knuth-Plass algorithm
       local max_width = vim.api.nvim_win_get_width(0) / 2
       item.message = vim.fn.split(item.message, "\n")
       local lines = {}

@@ -126,6 +126,16 @@ return {
       draw_empty = true,
     }
 
+    local full_space = {
+      function()
+        return "%"
+      end,
+      color = { bg = resolve_bg("Normal"), fg = resolve_bg("Normal") },
+      separator = { left = "", right = "" },
+      padding = 0,
+      draw_empty = true,
+    }
+
     local function get_component(name)
       return require("dotvim.pkgs.ui.lualine_components." .. name)
     end
@@ -235,6 +245,7 @@ return {
       },
       sections = {
         lualine_a = {
+          space,
           mode,
         },
         lualine_b = { space },
@@ -244,6 +255,7 @@ return {
           space,
           branch,
           diff,
+          full_space,
         },
         lualine_x = {
           lsp_progress,

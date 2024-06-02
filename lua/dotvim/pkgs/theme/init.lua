@@ -11,11 +11,12 @@ return {
     require("dotvim.pkgs.theme.plugins.flexoki"),
     require("dotvim.pkgs.theme.plugins.tokyo-night"),
     require("dotvim.pkgs.theme.plugins.evergarden"),
+    require("dotvim.pkgs.theme.plugins.citruszest"),
   },
   setup = function()
     if not vim.g.vscode then
       vim.o.background = "dark"
-      vim.cmd("colorscheme tokyonight")
+      vim.cmd("colorscheme citruszest")
     end
   end,
 }

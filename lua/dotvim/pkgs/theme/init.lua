@@ -10,6 +10,7 @@ return {
     require("dotvim.pkgs.theme.plugins.oldworld"),
     require("dotvim.pkgs.theme.plugins.flexoki"),
     require("dotvim.pkgs.theme.plugins.tokyo-night"),
+    require("dotvim.pkgs.theme.plugins.evergarden"),
   },
   setup = function()
     if not vim.g.vscode then

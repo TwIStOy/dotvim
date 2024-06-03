@@ -156,6 +156,7 @@ return {
             "neotest-summary",
             "aerial",
             "trouble",
+            "Outline",
           },
           buftype = { "terminal" },
         },

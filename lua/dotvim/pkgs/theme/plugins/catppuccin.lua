@@ -117,6 +117,12 @@ return {
         rainbow4 = { fg = colors.green, style = { "bold" } },
         rainbow5 = { fg = colors.peach, style = { "bold" } },
         rainbow6 = { fg = colors.flamingo, style = { "bold" } },
+
+        HydraRed = { fg = colors.red },
+        HydraBlue = { fg = colors.blue },
+        HydraAmaranth = { fg = colors.mauve },
+        HydraPink = { fg = colors.pink },
+        HydraTeal = { fg = colors.teal },
       }
     end,
     integrations = {

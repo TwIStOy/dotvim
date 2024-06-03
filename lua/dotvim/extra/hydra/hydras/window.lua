@@ -1,8 +1,10 @@
 local hint = [[
-^ ^ _k_ ^ ^ ^      _<Up>_         ^ _?_: pick window
-_h_ ^ ^ _l_ ^ _<Left>_ _<Right>_    ^ _s_: split horizontal
-^ ^ _j_^ ^  ^     _<Down>_        ^ _v_: split vertical
-^^focus ^^^ ^   _=_: equalize    ^ _<Esc>_: exit
+^                    ^
+^  ^ ^ _k_ ^ ^ ^      _<Up>_         ^ _?_: pick window  ^
+^  _h_ ^ ^ _l_ ^ _<Left>_ _<Right>_    ^ _s_: split horizontal  ^
+^  ^ ^ _j_^ ^  ^     _<Down>_        ^ _v_: split vertical  ^
+^  ^^focus ^^^ ^   _=_: equalize    ^ _<Esc>_: exit  ^
+^                    ^
 ]]
 
 ---@type dotvim.extra.hydra.CreateHydraOpts

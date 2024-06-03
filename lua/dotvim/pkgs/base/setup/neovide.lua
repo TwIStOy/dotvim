@@ -41,6 +41,8 @@ function M.setup()
   vim.g.neovide_underline_automatic_scaling = true
   vim.g.neovide_underline_stroke_scale = 0.6
 
+  vim.g.experimental_layer_grouping = true
+
   vim.o.winblend = 30
   vim.o.pumblend = 30
 

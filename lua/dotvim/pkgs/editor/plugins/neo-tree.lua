@@ -37,8 +37,9 @@ return {
       close_if_last_window = true,
       enable_refresh_on_write = false,
       sources = { "filesystem", "buffers", "git_status" },
+      open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "edgy" },
       source_selector = {
-        winbar = true,
+        winbar = false,
         content_layout = "center",
         sources = {
           {
@@ -161,7 +162,7 @@ return {
         end,
       },
       window = {
-        width = 40,
+        width = 30,
         mappings = {
           ["<space>"] = false,
           ["[b"] = "prev_source",

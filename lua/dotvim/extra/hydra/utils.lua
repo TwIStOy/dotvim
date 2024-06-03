@@ -18,7 +18,11 @@ end
 function M.normalize_heads(opts)
   local ret = {}
   for key, opt in pairs(opts) do
-    ret[#ret + 1] = { key, unpack(M.normalize_head(opt)) }
+    if type(key) == "string" then
+      ret[#ret + 1] = { key, unpack(M.normalize_head(opt)) }
+    else
+      ret[#ret + 1] = opt
+    end
   end
   return ret
 end

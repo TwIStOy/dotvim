@@ -23,9 +23,11 @@ return {
   opts = {
     backends = { "lsp", "markdown", "man" },
     layout = {
-      default_direction = "right",
+      default_direction = "prefer_left",
       placement = "edge",
-      preserve_equality = true,
+      width = 30,
+      preserve_equality = false,
+      resize_to_content = false,
     },
     attach_mode = "global",
     filter_kind = false,

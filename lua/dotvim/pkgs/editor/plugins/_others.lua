@@ -96,7 +96,7 @@ return {
     "folke/trouble.nvim",
     dependencies = { "folke/lsp-colors.nvim", "telescope.nvim" },
     cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" },
-    opts = { use_diagnostic_signs = true },
+    opts = { use_diagnostic_signs = true, auto_preview = false },
     actions = function()
       ---@type dotvim.core.action
       local action = require("dotvim.core.action")

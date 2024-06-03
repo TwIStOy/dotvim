@@ -34,6 +34,7 @@ return {
           "nvim-spectre",
           "LuaSnip",
           "hydra.nvim",
+          "edgy.nvim",
         }
         for _, plugin in ipairs(add_plugins) do
           table.insert(
@@ -41,7 +42,6 @@ return {
             vim.fn.stdpath("data") .. "/lazy/" .. plugin .. "/lua"
           )
         end
-
         opts.servers.opts.lua_ls = {
           settings = {
             Lua = {

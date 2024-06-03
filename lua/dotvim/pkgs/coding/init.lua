@@ -4,7 +4,7 @@ local Utils = require("dotvim.utils")
 ---@type dotvim.core.package.PackageOption
 return {
   name = "coding",
-  depends = { "treesitter" },
+  depends = { "treesitter", "editor" },
   plugins = Utils.tbl.flatten_array {
     require("dotvim.pkgs.coding.plugins.nvim-cmp"),
     require("dotvim.pkgs.coding.plugins.luasnip"),

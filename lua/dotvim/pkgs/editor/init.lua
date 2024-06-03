@@ -28,6 +28,7 @@ return {
     require("dotvim.pkgs.editor.plugins.right-click"),
     require("dotvim.pkgs.editor.plugins.hydra"),
     require("dotvim.pkgs.editor.plugins.git-conflict"),
+    require("dotvim.pkgs.editor.plugins.edgy"),
   },
   setup = function()
     require("dotvim.pkgs.editor.setup.obsidian")()

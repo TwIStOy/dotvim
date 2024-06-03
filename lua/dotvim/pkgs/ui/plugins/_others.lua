@@ -122,9 +122,7 @@ return {
   {
     "nvim-zh/colorful-winsep.nvim",
     event = "WinNew",
-    enabled = function()
-      return not vim.g.neovide
-    end,
+    enabled = false,
     opts = {
       create_event = function()
         local winCount =
@@ -156,6 +154,8 @@ return {
             "",
             "noice",
             "neotest-summary",
+            "aerial",
+            "trouble",
           },
           buftype = { "terminal" },
         },

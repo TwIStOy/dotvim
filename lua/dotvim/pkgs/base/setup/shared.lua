@@ -17,6 +17,9 @@ local uncountable_filetypes = {
   ["neo-tree-popup"] = true,
   ["NvimSeparator"] = true,
   ["neotest-summary"] = true,
+  ["aerial"] = true,
+  ["trouble"] = true,
+  ["Outline"] = true,
 }
 
 function M.is_uncountable(win_id)

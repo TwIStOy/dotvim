@@ -54,6 +54,7 @@ local quick_close_filetypes = {
   "neotest-output",
   "spectre_panel",
   "glow",
+  "aerial",
 }
 
 local Shared = require("dotvim.pkgs.base.setup.shared")

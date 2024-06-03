@@ -8,7 +8,7 @@ local M = {
     require("dotvim.pkgs.lsp.plugins.nvim-lspconfig"),
     require("dotvim.pkgs.lsp.plugins.lspkind"),
     require("dotvim.pkgs.lsp.plugins.glance"),
-    require("dotvim.pkgs.lsp.plugins.aerial"),
+    require("dotvim.pkgs.lsp.plugins.outline"),
     require("dotvim.pkgs.lsp.plugins.lsp-lines"),
     require("dotvim.pkgs.lsp.plugins.corn"),
     require("dotvim.pkgs.lsp.plugins.lsp-progress"),

@@ -72,8 +72,8 @@ return {
       end,
     },
     icons = {
-      closed = " ",
-      open = " ",
+      closed = "󰍜 ",
+      open = "󰮫 ",
     },
     -- enable this on Neovim <= 0.10.0 to properly fold edgebar windows.
     -- Not needed on a nightly build >= June 5, 2023.

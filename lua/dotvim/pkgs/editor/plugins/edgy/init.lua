@@ -13,6 +13,7 @@ return {
         ft = "neo-tree",
         pinned = true,
         size = { height = 0.5, width = 30 },
+        open = "Neotree action=show"
       },
       {
         ft = "Outline",
@@ -38,7 +39,7 @@ return {
       enabled = false,
     },
     options = {
-      left = { size = 30 },
+      left = { size = 40 },
       bottom = { size = 10 },
       right = { size = 30 },
       top = { size = 10 },

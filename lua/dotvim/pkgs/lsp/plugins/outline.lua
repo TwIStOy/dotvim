@@ -40,5 +40,22 @@ return {
       up_and_jump = "<C-k>",
     },
   },
+  keys = {
+    {
+      "<leader>fo",
+      function()
+        local Outline = require("outline")
+        if Outline.is_open() then
+          Outline.focus_outline()
+        else
+          Outline.open_outline()
+          vim.schedule(function()
+            Outline.focus_outline()
+          end)
+        end
+      end,
+      desc = "Focus outline",
+    },
+  },
   cmd = "Outline",
 }

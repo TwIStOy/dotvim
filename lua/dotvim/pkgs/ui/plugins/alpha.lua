@@ -45,25 +45,24 @@ return {
           hl_shortcut = "Keyword",
           keymap = {
             "n",
-            sc,
-            "",
+            vim.trim(sc),
+            function()
+              on_press()
+              if opts.close_on_press then
+                clear_autocmd()
+              end
+            end,
             {
               noremap = true,
               silent = true,
               nowait = true,
-              callback = function()
-                on_press()
-                if opts.close_on_press then
-                  clear_autocmd()
-                end
-              end,
             },
           },
         }, opts)
         return {
           type = "button",
           val = txt,
-          on_press = opts.keymap[4].callback,
+          on_press = opts.keymap[3],
           opts = opts,
         }
       end

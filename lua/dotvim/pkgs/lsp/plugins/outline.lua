@@ -39,6 +39,9 @@ return {
       down_and_jump = "<C-j>",
       up_and_jump = "<C-k>",
     },
+    outline_window = {
+      winhl = "Normal:NormalFloat",
+    }
   },
   keys = {
     {

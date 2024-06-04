@@ -99,6 +99,7 @@ return {
   },
   {
     "TwIStOy/refactor.nvim",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-  }
+  },
 }

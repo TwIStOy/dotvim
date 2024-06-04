@@ -27,7 +27,7 @@ return {
   dependencies = {
     "plenary.nvim",
   },
-  event = "VeryLazy",
+  event = { "VeryLazy", "BufFilePre", "BufNewFile" },
   config = function(_, opts)
     ---@type dotvim.utils.async
     local Async = require("dotvim.utils.async")

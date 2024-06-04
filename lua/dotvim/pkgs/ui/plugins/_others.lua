@@ -157,6 +157,7 @@ return {
             "aerial",
             "trouble",
             "Outline",
+            "spectre_panel",
           },
           buftype = { "terminal" },
         },

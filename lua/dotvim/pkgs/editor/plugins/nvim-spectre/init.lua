@@ -12,6 +12,20 @@ return {
   opts = function(_, opts)
     ---@type dotvim.utils
     local Utils = require("dotvim.utils")
+    opts.mapping = {
+      ["toggle_line"] = {
+        cmd = false,
+      },
+      ["send_to_qf"] = {
+        cmd = false,
+      },
+      ["run_current_replace"] = {
+        cmd = false,
+      },
+      ["run_replace"] = {
+        cmd = false,
+      },
+    }
 
     opts.find_engine = {
       ["rg"] = {
@@ -41,12 +55,8 @@ return {
     vim.api.nvim_create_autocmd({ "FileType" }, {
       pattern = "spectre_panel",
       callback = function()
-        vim.api.nvim_buf_set_keymap(
-          0,
-          "n",
-          "r",
-          [[<cmd>lua require("spectre.actions").run_current_replace()<CR>]],
-          { noremap = true, silent = true }
+        require("dotvim.extra.hydra").create_hydra(
+          require("dotvim.pkgs.editor.plugins.nvim-spectre.hydra")()
         )
       end,
     })

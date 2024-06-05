@@ -41,7 +41,20 @@ return {
     },
     outline_window = {
       winhl = "Normal:NormalFloat",
-    }
+    },
+    symbol_folding = {
+      autofold_depth = 1,
+      auto_unfold = {
+        hovered = true,
+      },
+    },
+    providers = {
+      lsp = {
+        blacklist_clients = {
+          "copilot",
+        },
+      },
+    },
   },
   keys = {
     {

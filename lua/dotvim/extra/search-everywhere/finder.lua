@@ -2,6 +2,7 @@
 ---@field project_files dotvim.extra.search_everywhere.async_job.AsyncJob?
 ---@field workspace_symbols dotvim.extra.search_everywhere.async_job.AsyncJob?
 ---@field text dotvim.extra.search_everywhere.async_job.AsyncJob?
+---@field actions dotvim.extra.search_everywhere.async_job.AsyncJob?
 
 ---@class dotvim.extra.search_everywhere.UniversalFinder
 ---@field static_results dotvim.extra.search_everywhere.Entry[]
@@ -43,6 +44,11 @@ function universal_finder:create_static_providers()
       "dotvim.extra.search-everywhere.providers.lsp"
     ).workspace_symbols.new(self.ctx)
   end
+  if self.providers.actions == nil then
+    self.providers.actions = require(
+      "dotvim.extra.search-everywhere.providers.actions"
+    ).actions.new(self.ctx)
+  end
 end
 
 function universal_finder:create_dynamic_providers(prompt, process_result)
@@ -78,23 +84,20 @@ end
 
 function universal_finder:poll_results()
   local new_entries = {}
-  local project_files = self.providers.project_files
-  if project_files and project_files.thread then
-    local results = self:_poll_provider(project_files)
-    if results then
-      self.static_results = vim.list_extend(self.static_results, results)
-      new_entries = vim.list_extend(new_entries, results)
+
+  local function _poll_static_provider(provider)
+    if provider and provider.thread then
+      local results = self:_poll_provider(provider)
+      if results then
+        self.static_results = vim.list_extend(self.static_results, results)
+        new_entries = vim.list_extend(new_entries, results)
+      end
     end
   end
 
-  local workspace_symbols = self.providers.workspace_symbols
-  if workspace_symbols and workspace_symbols.thread then
-    local results = self:_poll_provider(workspace_symbols)
-    if results then
-      self.static_results = vim.list_extend(self.static_results, results)
-      new_entries = vim.list_extend(new_entries, results)
-    end
-  end
+  _poll_static_provider(self.providers.project_files)
+  _poll_static_provider(self.providers.workspace_symbols)
+  _poll_static_provider(self.providers.actions)
 
   local text = self.providers.text
   if text and text.thread then
@@ -104,19 +107,14 @@ function universal_finder:poll_results()
 end
 
 function universal_finder:is_complete()
-  if self.providers.text and self.providers.text.thread then
-    return false
+  local function check_provider(provider)
+    return provider == nil or provider.thread == nil
   end
-  if self.providers.project_files and self.providers.project_files.thread then
-    return false
-  end
-  if
-    self.providers.workspace_symbols
-    and self.providers.workspace_symbols.thread
-  then
-    return false
-  end
-  return true
+
+  return check_provider(self.providers.project_files)
+    and check_provider(self.providers.workspace_symbols)
+    and check_provider(self.providers.text)
+    and check_provider(self.providers.actions)
 end
 
 ---@param ctx dotvim.extra.search_everywhere.Context

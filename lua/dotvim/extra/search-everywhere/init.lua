@@ -5,7 +5,7 @@ local M = {}
 ---@field filename? string
 ---@field pos? { lnum: integer, col: integer }
 ---@field preview "FilePos" | 'FileLine' | 'File' | "None"
----@field kind "Symbols" | "Files" | 'Text'
+---@field kind "Symbols" | "Files" | 'Text' | 'Action'
 ---@field columns (string[]|string)[]
 ---@field search_key string
 

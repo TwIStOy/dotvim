@@ -119,7 +119,7 @@ function workspace_symbols.new(ctx)
     cancel = nil,
   }, { __index = workspace_symbols })
 
-  local _, cancel = vim.lsp.buf_request(
+  local clients, cancel = vim.lsp.buf_request(
     ctx.bufnr,
     "workspace/symbol",
     { query = "" },
@@ -130,10 +130,16 @@ function workspace_symbols.new(ctx)
       self.cancel = nil
     end)
   )
-  self.cancel = cancel
-  self.thread = coroutine.create(function()
-    return self:poll()
-  end)
+
+  if #vim.tbl_keys(clients) > 0 then
+    self.cancel = cancel
+    self.thread = coroutine.create(function()
+      return self:poll()
+    end)
+  else
+    self.finished = true
+  end
+
   return self
 end
 

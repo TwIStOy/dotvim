@@ -199,7 +199,7 @@ function universal_finder:_find(prompt, process_result, process_complete)
 
   vim.defer_fn(function()
     fragment()
-  end, 1)
+  end, 12)
 end
 
 function universal_finder:close()

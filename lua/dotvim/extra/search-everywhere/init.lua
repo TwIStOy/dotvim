@@ -42,22 +42,57 @@ local function fetch_providers(providers)
     local next_polls = {}
     for _, poll in ipairs(polls) do
       ---@type boolean, dotvim.extra.search_everywhere.ProviderPollResult
-      local err, poll_result = coroutine.resume(poll)
-      if err then
-        vim.api.nvim_err_writeln("Error when polling provider: " .. err)
+      local succ, poll_result = coroutine.resume(poll)
+      if not succ then
+        vim.api.nvim_err_writeln("Error when polling provider: " .. poll_result)
       else
-        results = vim.list_extend(results, poll_result.results)
-        if not poll_result.complete then
+        vim.api.nvim_out_write(
+          "Poll result: " .. vim.inspect(poll_result) .. "\n"
+        )
+        results = vim.list_extend(results, poll_result)
+        if coroutine.status(poll) ~= "dead" then
           next_polls[#next_polls + 1] = poll
         end
       end
     end
     polls = next_polls
-    -- coroutine.yield()
-    require("plenary.async").util.scheduler()
+    coroutine.yield()
+    -- require("plenary.async").util.scheduler()
   end
 
   return results
+end
+
+function M.test()
+  local providers = {}
+  providers[#providers + 1] =
+    require("dotvim.extra.search-everywhere.providers.file").project_files {
+      cwd = vim.uv.cwd(),
+      opts = {
+        hidden = true,
+        no_ignore = true,
+        follow = true,
+      },
+    }
+  local co = coroutine.create(function()
+    fetch_providers(providers)
+  end)
+  local next_tick
+  local count = 0
+  next_tick = function()
+    vim.print("Tick " .. count)
+    count = count + 1
+    vim.defer_fn(function()
+      local succ, msg = coroutine.resume(co)
+      if not succ then
+        vim.api.nvim_err_writeln("Error when polling provider: " .. msg)
+      end
+      if coroutine.status(co) ~= "dead" then
+        next_tick()
+      end
+    end, 1)
+  end
+  next_tick()
 end
 
 return M

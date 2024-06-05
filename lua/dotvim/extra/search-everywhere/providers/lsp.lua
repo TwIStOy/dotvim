@@ -114,16 +114,10 @@ local function workspace_symbols(ctx)
   )
 
   while not complete do
-    coroutine.yield {
-      results = {},
-      complete = false,
-    }
+    coroutine.yield {}
   end
 
-  return {
-    results = results,
-    complete = true,
-  }
+  return results
 end
 
 ---@param ctx dotvim.extra.search_everywhere.Context

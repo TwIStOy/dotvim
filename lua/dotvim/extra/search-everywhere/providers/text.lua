@@ -44,11 +44,13 @@ local Utils = require("dotvim.utils")
 ---@class dotvim.extra.search_everywhere.text.Finder
 ---@field finished boolean
 ---@field job vim.SystemObj
+---@field private lines string[]
 local finder = {}
 
 ---@param prompt string
 ---@param ctx dotvim.extra.search_everywhere.Context
-function finder.new(prompt, ctx)
+---@param process_result fun(entry: dotvim.extra.search_everywhere.Entry)
+function finder.new(prompt, ctx, process_result)
   local cmd = {
     Utils.which("rg"),
     "--smart-case",
@@ -60,6 +62,7 @@ function finder.new(prompt, ctx)
     prompt = prompt,
     stdout = "",
     finished = false,
+    lines = {},
   }, { __index = finder })
   local job = vim.system(cmd, {
     cwd = tostring(ctx.cwd),
@@ -71,15 +74,24 @@ function finder.new(prompt, ctx)
   end)
   self.job = job
   self.thread = coroutine.create(function()
-    return self:_poll()
+    return self:_poll(process_result)
   end)
   return self
 end
 
 function finder:on_stdout(_, data)
   if data then
+    data = string.gsub(data, "\r", "")
     self.stdout = self.stdout .. data
-    self.stdout = string.gsub(self.stdout, "\r", "")
+
+    while true do
+      local line = self:next_line()
+      if line then
+        self.lines[#self.lines + 1] = line
+      else
+        return
+      end
+    end
   end
 end
 
@@ -100,37 +112,27 @@ function finder:close()
   end
 end
 
-function finder:_poll()
-  local num_results = 0
-  local results = {}
+function finder:_poll(process_result)
+  local num_results = 1
 
-  repeat
-    local line = self:next_line()
+  while true do
+    local line = self.lines[num_results]
     if line then
-      num_results = num_results + 1
       if num_results % 500 == 0 then
-        coroutine.yield(results)
-        results = {}
+        coroutine.yield()
       end
-
       local entry = make_entry(line)
       if entry then
-        results[#results + 1] = entry
+        process_result(entry)
       end
-    end
-    coroutine.yield {}
-  until self.finished
-  while true do
-    local line = self:next_line()
-    if not line then
-      break
-    end
-    local entry = make_entry(line)
-    if entry then
-      results[#results + 1] = entry
+      num_results = num_results + 1
+    else
+      if self.finished then
+        return
+      end
+      coroutine.yield()
     end
   end
-  return results
 end
 
 M.text = finder

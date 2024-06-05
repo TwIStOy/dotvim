@@ -45,7 +45,7 @@ function universal_finder:create_static_providers()
   end
 end
 
-function universal_finder:create_dynamic_providers(prompt)
+function universal_finder:create_dynamic_providers(prompt, process_result)
   if self.providers.text ~= nil then
     self.providers.text:close()
     self.providers.text = nil
@@ -56,7 +56,8 @@ function universal_finder:create_dynamic_providers(prompt)
   self.providers.text =
     require("dotvim.extra.search-everywhere.providers.text").text.new(
       prompt,
-      self.ctx
+      self.ctx,
+      process_result
     )
 end
 
@@ -97,11 +98,7 @@ function universal_finder:poll_results()
 
   local text = self.providers.text
   if text and text.thread then
-    local results = self:_poll_provider(text)
-    if results then
-      self.dynamic_results = vim.list_extend(self.dynamic_results, results)
-      new_entries = vim.list_extend(new_entries, results)
-    end
+    self:_poll_provider(text)
   end
   return new_entries
 end
@@ -153,14 +150,16 @@ end
 function universal_finder:_find(prompt, process_result, process_complete)
   self.dynamic_results = {}
 
-  self:create_static_providers()
-  self:create_dynamic_providers(prompt)
-
   local entry_maker = gen_entry_maker(self.ctx)
+  local processed = 0
+
+  self:create_static_providers()
+  self:create_dynamic_providers(prompt, function(entry)
+    processed = processed + 1
+    return process_result(entry_maker(entry, processed))
+  end)
 
   local next_tick = coroutine.create(function()
-    local processed = 0
-
     local function yield_if_needed(entry)
       processed = processed + 1
       if processed % 100 == 0 then

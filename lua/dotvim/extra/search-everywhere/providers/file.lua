@@ -4,6 +4,14 @@ local M = {}
 ---@type dotvim.utils
 local Utils = require("dotvim.utils")
 
+local displayer = require("telescope.pickers.entry_display").create {
+  separator = "  ",
+  items = {
+    { width = 9, right_justify = true },
+    { remaining = true },
+  },
+}
+
 ---@class dotvim.extra.search_everywhere.project_files.Opts
 ---@field hidden boolean
 ---@field no_ignore boolean
@@ -17,6 +25,10 @@ local function make_entry(line)
     preview = "File",
     kind = "Files",
     search_key = line,
+    displayer = displayer,
+    columns = {
+      line,
+    },
   }
 end
 

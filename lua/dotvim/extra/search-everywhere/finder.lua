@@ -10,6 +10,9 @@
 ---@field ctx dotvim.extra.search_everywhere.Context
 local universal_finder = {}
 
+---@type Path
+local Path = require("plenary.path")
+
 ---@param ctx dotvim.extra.search_everywhere.Context
 function universal_finder.new(ctx)
   local obj = {
@@ -73,11 +76,13 @@ function universal_finder:_poll_provider(provider)
 end
 
 function universal_finder:poll_results()
+  local new_entries = {}
   local project_files = self.providers.project_files
   if project_files and project_files.thread then
     local results = self:_poll_provider(project_files)
     if results then
       self.static_results = vim.list_extend(self.static_results, results)
+      new_entries = vim.list_extend(new_entries, results)
     end
   end
 
@@ -86,6 +91,7 @@ function universal_finder:poll_results()
     local results = self:_poll_provider(workspace_symbols)
     if results then
       self.static_results = vim.list_extend(self.static_results, results)
+      new_entries = vim.list_extend(new_entries, results)
     end
   end
 
@@ -94,8 +100,10 @@ function universal_finder:poll_results()
     local results = self:_poll_provider(text)
     if results then
       self.dynamic_results = vim.list_extend(self.dynamic_results, results)
+      new_entries = vim.list_extend(new_entries, results)
     end
   end
+  return new_entries
 end
 
 function universal_finder:is_complete()
@@ -114,22 +122,68 @@ function universal_finder:is_complete()
   return true
 end
 
-function universal_finder:_find(prompt, process_result, process_complete)
-  for _, result in ipairs(self.static_results) do
-    process_result(result)
+---@param ctx dotvim.extra.search_everywhere.Context
+local function gen_entry_maker(ctx)
+  ---@param entry dotvim.extra.search_everywhere.Entry
+  ---@param idx number
+  return function(entry, idx)
+    ---@diagnostic disable-next-line: param-type-mismatch
+    local path = Path.new(entry.filename)
+    local root = Path.new(ctx.cwd)
+    if not path:is_absolute() then
+      path = root / path
+    end
+    return {
+      value = entry,
+      index = idx,
+      ordinal = entry.search_key,
+      display = function(t)
+        return t.value.displayer {
+          { t.value.kind, "Keyword" },
+          unpack(t.value.columns),
+        }
+      end,
+      ---@diagnostic disable-next-line: param-type-mismatch
+      path = tostring(path),
+      lnum = entry.pos and entry.pos.lnum,
+    }
   end
+end
+
+function universal_finder:_find(prompt, process_result, process_complete)
   self.dynamic_results = {}
 
   self:create_static_providers()
   self:create_dynamic_providers(prompt)
 
+  local entry_maker = gen_entry_maker(self.ctx)
+
   local next_tick = coroutine.create(function()
+    local processed = 0
+
+    local function yield_if_needed(entry)
+      processed = processed + 1
+      if processed % 100 == 0 then
+        coroutine.yield()
+      end
+      local e = entry_maker(entry, processed)
+      process_result(e)
+    end
+
+    for _, result in ipairs(self.static_results) do
+      yield_if_needed(result)
+    end
+    for _, result in ipairs(self.dynamic_results) do
+      yield_if_needed(result)
+    end
+
     while not self:is_complete() do
-      self:poll_results()
-      vim.iter(self.static_results):each(process_result)
-      vim.iter(self.dynamic_results):each(process_result)
+      local new_entrie = self:poll_results()
+      vim.iter(new_entrie):each(yield_if_needed)
       coroutine.yield()
     end
+
+    process_complete()
   end)
   local fragment
   fragment = function()
@@ -138,10 +192,8 @@ function universal_finder:_find(prompt, process_result, process_complete)
       vim.api.nvim_err_writeln("Error when polling providers: " .. res)
       return
     end
-    if not self:is_complete() and coroutine.status(next_tick) ~= "dead" then
+    if coroutine.status(next_tick) ~= "dead" then
       vim.schedule(fragment)
-    else
-      process_complete()
     end
   end
 

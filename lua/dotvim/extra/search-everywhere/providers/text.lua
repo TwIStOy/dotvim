@@ -1,6 +1,15 @@
 ---@class dotvim.extra.search_everywhere.text
 local M = {}
 
+local displayer = require("telescope.pickers.entry_display").create {
+  separator = "  ",
+  items = {
+    { width = 9, right_justify = true },
+    { width = 20 },
+    { remaining = true },
+  },
+}
+
 ---@param line string
 ---@return dotvim.extra.search_everywhere.Entry?
 local function make_entry(line)
@@ -12,18 +21,19 @@ local function make_entry(line)
   local filename = vim.tbl_get(object, "data", "path", "text")
   local line_number = vim.tbl_get(object, "data", "line_number")
   local text = vim.tbl_get(object, "data", "lines", "text")
+  text = text:match("^[\n]*(.*[^\n])") or ""
 
   ---@type dotvim.extra.search_everywhere.Entry
   return {
     filename = filename,
     pos = { lnum = line_number, col = 0 },
     preview = "FileLine",
-    kind = "Files",
+    kind = "Text",
     search_key = text,
+    displayer = displayer,
     columns = {
-      { text = filename },
-      { text = line_number },
-      { text = text },
+      filename .. ":" .. line_number,
+      text,
     },
   }
 end

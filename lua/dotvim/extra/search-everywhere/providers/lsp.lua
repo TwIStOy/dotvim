@@ -10,6 +10,16 @@ local function symbol_kind_name(kind)
   return vim.lsp.protocol.SymbolKind[kind] or "Unknown"
 end
 
+local displayer = require("telescope.pickers.entry_display").create {
+  separator = "  ",
+  items = {
+    { width = 9, right_justify = true },
+    { width = 10 },
+    { width = 40 },
+    { remaining = true },
+  },
+}
+
 ---Convert a symbol to a list of universal entries.
 ---
 ---@param symbol lsp.SymbolInformation | lsp.DocumentSymbol
@@ -36,9 +46,10 @@ local function normalize_universal_entry(symbol, ctx)
         columns = {
           kind,
           symbol.name,
-          file:make_relative(ctx.cwd),
+          { file:make_relative(ctx.cwd), "Comment" },
         },
         search_key = ("%s%s"):format(kind, symbol.name),
+        displayer = displayer,
       },
     }
   elseif symbol.selectionRange then
@@ -99,35 +110,16 @@ local function make_lsp_req_callback(ctx, item_callback, complete_callback)
   end
 end
 
--- local function workspace_symbols(ctx)
---   local results = {}
---   local complete = false
---   vim.lsp.buf_request(
---     ctx.bufnr,
---     "workspace/symbol",
---     { query = "" },
---     make_lsp_req_callback(ctx, function(entry)
---       results[#results + 1] = entry
---     end, function()
---       complete = true
---     end)
---   )
---
---   while not complete do
---     coroutine.yield {}
---   end
---
---   return results
--- end
-
 local workspace_symbols = {}
 
 function workspace_symbols.new(ctx)
   local self = setmetatable({
     results = {},
     finished = false,
+    cancel = nil,
   }, { __index = workspace_symbols })
-  self.cancel = vim.lsp.buf_request(
+
+  local _, cancel = vim.lsp.buf_request(
     ctx.bufnr,
     "workspace/symbol",
     { query = "" },
@@ -135,8 +127,10 @@ function workspace_symbols.new(ctx)
       self.results[#self.results + 1] = entry
     end, function()
       self.finished = true
+      self.cancel = nil
     end)
   )
+  self.cancel = cancel
   self.thread = coroutine.create(function()
     return self:poll()
   end)
@@ -144,16 +138,18 @@ function workspace_symbols.new(ctx)
 end
 
 function workspace_symbols:close()
-  if not self.finished then
+  if not self.finished and self.cancel then
     self.cancel()
   end
 end
 
 function workspace_symbols:poll()
-  if self.finished then
-    return self.results
+  while true do
+    if self.finished then
+      return self.results
+    end
+    coroutine.yield {}
   end
-  coroutine.yield {}
 end
 
 M.workspace_symbols = workspace_symbols

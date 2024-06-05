@@ -103,7 +103,7 @@ function project_files:poll()
     local line = self:next_line()
     if line then
       num_results = num_results + 1
-      if num_results % 1000 then
+      if num_results % 1000 == 0 then
         coroutine.yield(results)
         results = {}
       end

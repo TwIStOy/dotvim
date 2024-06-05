@@ -99,30 +99,63 @@ local function make_lsp_req_callback(ctx, item_callback, complete_callback)
   end
 end
 
-local function workspace_symbols(ctx)
-  local results = {}
-  local complete = false
-  vim.lsp.buf_request(
+-- local function workspace_symbols(ctx)
+--   local results = {}
+--   local complete = false
+--   vim.lsp.buf_request(
+--     ctx.bufnr,
+--     "workspace/symbol",
+--     { query = "" },
+--     make_lsp_req_callback(ctx, function(entry)
+--       results[#results + 1] = entry
+--     end, function()
+--       complete = true
+--     end)
+--   )
+--
+--   while not complete do
+--     coroutine.yield {}
+--   end
+--
+--   return results
+-- end
+
+local workspace_symbols = {}
+
+function workspace_symbols.new(ctx)
+  local self = setmetatable({
+    results = {},
+    finished = false,
+  }, { __index = workspace_symbols })
+  self.cancel = vim.lsp.buf_request(
     ctx.bufnr,
     "workspace/symbol",
     { query = "" },
     make_lsp_req_callback(ctx, function(entry)
-      results[#results + 1] = entry
+      self.results[#self.results + 1] = entry
     end, function()
-      complete = true
+      self.finished = true
     end)
   )
-
-  while not complete do
-    coroutine.yield {}
-  end
-
-  return results
-end
-
----@param ctx dotvim.extra.search_everywhere.Context
-function M.workspace_symbols(ctx)
-  return coroutine.create(function()
-    return workspace_symbols(ctx)
+  self.thread = coroutine.create(function()
+    return self:poll()
   end)
+  return self
 end
+
+function workspace_symbols:close()
+  if not self.finished then
+    self.cancel()
+  end
+end
+
+function workspace_symbols:poll()
+  if self.finished then
+    return self.results
+  end
+  coroutine.yield {}
+end
+
+M.workspace_symbols = workspace_symbols
+
+return M

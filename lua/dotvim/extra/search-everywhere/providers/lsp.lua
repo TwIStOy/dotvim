@@ -140,6 +140,8 @@ end
 function workspace_symbols:close()
   if not self.finished and self.cancel then
     self.cancel()
+    self.cancel = nil
+    self.finished = true
   end
 end
 

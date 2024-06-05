@@ -94,4 +94,8 @@ return function()
     local Extra = require("dotvim.extra")
     Extra.context_menu.open_context_menu()
   end, { desc = "open-context-menu" })
+
+  vim.keymap.set("n", "<F18>", function()
+    require("dotvim.extra.search-everywhere").open_telescope()
+  end)
 end

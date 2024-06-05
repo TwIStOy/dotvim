@@ -95,7 +95,7 @@ function finder:next_line()
 end
 
 function finder:close()
-  if not self.finished then
+  if not self.finished and self.job then
     self.job:kill(9)
   end
 end

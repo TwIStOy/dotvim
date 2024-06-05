@@ -71,7 +71,7 @@ function project_files.new(ctx)
 end
 
 function project_files:close()
-  if self.job then
+  if not self.finished and self.job then
     self.job:kill(9)
     self.finished = true
   end

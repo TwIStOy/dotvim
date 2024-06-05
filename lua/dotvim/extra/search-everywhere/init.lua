@@ -21,24 +21,6 @@ local M = {}
 ---@field results dotvim.extra.search_everywhere.Entry[]
 ---@field complete boolean
 
-function M.test()
-  local ctx = {
-    cwd = vim.uv.cwd(),
-    opts = {
-      hidden = true,
-      no_ignore = true,
-      follow = true,
-    },
-  }
-  local finder =
-    require("dotvim.extra.search-everywhere.finder").universal_finder.new(ctx)
-  finder("test", function(entry)
-    vim.print(entry)
-  end, function()
-    vim.print("Complete")
-  end)
-end
-
 function M.open_telescope()
   local ctx = {
     cwd = vim.uv.cwd(),
@@ -54,10 +36,6 @@ function M.open_telescope()
 
   local pickers = require("telescope.pickers")
   local conf = require("telescope.config").values
-  local finders = require("telescope.finders")
-  local action_state = require("telescope.actions.state")
-  local actions = require("telescope.actions")
-  local previewers = require("telescope.previewers.buffer_previewer")
 
   local opts = {}
 

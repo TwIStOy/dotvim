@@ -77,7 +77,7 @@ function M.sort_packages(packages)
 
   if #queue == 0 then
     vim.print(outgoing_edges)
-    error("No packages as first")
+    error("No packages at first")
   end
 
   ---@type string[]

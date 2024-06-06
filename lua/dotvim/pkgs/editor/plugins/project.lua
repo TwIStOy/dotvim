@@ -36,6 +36,10 @@ return {
       if ok and value ~= nil then
         return
       end
+      local ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+      if ft == "help" then
+        return
+      end
       local root, _ = require("project_nvim.project").get_project_root()
       if root == nil then
         return

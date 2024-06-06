@@ -39,6 +39,7 @@ function project_files.new(ctx)
     finished = false,
     job = nil,
     stdout = "",
+    lines = {},
   }, {
     __index = project_files,
   })
@@ -79,8 +80,17 @@ end
 
 function project_files:on_stdout(_, data)
   if data then
+    data = string.gsub(data, "\r", "")
     self.stdout = self.stdout .. data
-    self.stdout = string.gsub(self.stdout, "\r", "")
+
+    while true do
+      local line = self:next_line()
+      if line then
+        self.lines[#self.lines + 1] = line
+      else
+        return
+      end
+    end
   end
 end
 
@@ -96,33 +106,29 @@ function project_files:next_line()
 end
 
 function project_files:poll()
-  local num_results = 0
+  local num_results = 1
   local results = {}
 
-  repeat
-    local line = self:next_line()
+  while true do
+    local line = self.lines[num_results]
     if line then
-      num_results = num_results + 1
-      if num_results % 1000 == 0 then
+      if num_results % 500 == 0 then
         coroutine.yield(results)
         results = {}
       end
-
       local entry = make_entry(line)
-      results[#results + 1] = entry
+      if entry then
+        results[#results + 1] = entry
+      end
+      num_results = num_results + 1
+    else
+      if self.finished then
+        return results
+      end
+      coroutine.yield(results)
+      results = {}
     end
-    coroutine.yield {}
-  until self.finished
-  while true do
-    local line = self:next_line()
-    if not line then
-      break
-    end
-    local entry = make_entry(line)
-    results[#results + 1] = entry
   end
-
-  return results
 end
 
 M.project_files = project_files

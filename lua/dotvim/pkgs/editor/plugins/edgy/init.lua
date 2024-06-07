@@ -13,7 +13,7 @@ return {
         ft = "neo-tree",
         pinned = true,
         size = { height = 0.5, width = 30 },
-        open = "Neotree action=show"
+        open = "Neotree action=show",
       },
       {
         ft = "Outline",
@@ -33,6 +33,13 @@ return {
       {
         ft = "trouble",
         title = "Trouble",
+      },
+      {
+        ft = "qf",
+        title = "Quickfix",
+        size = {
+          height = 0.3,
+        },
       },
     },
     animate = {

@@ -35,6 +35,7 @@ return {
           "LuaSnip",
           "hydra.nvim",
           "edgy.nvim",
+          "overseer.nvim",
         }
         for _, plugin in ipairs(add_plugins) do
           table.insert(

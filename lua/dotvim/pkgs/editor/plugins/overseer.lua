@@ -19,7 +19,6 @@ return {
   opts = {
     templates = {
       "dotvim.just",
-      "dotvim.just-test",
     },
   },
 }

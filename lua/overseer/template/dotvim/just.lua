@@ -34,6 +34,21 @@ return {
       return
     end
 
+    table.insert(ret, {
+      name = "just",
+      desc = "Run a just recipe",
+      priority = 50,
+      builder = function()
+        return {
+          cmd = { "just" },
+          components = {
+            { "on_output_quickfix", open = true },
+            "default",
+          },
+        }
+      end,
+    })
+
     for k, recipe in pairs(data.recipes) do
       if recipe.private then
         goto continue

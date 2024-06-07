@@ -21,4 +21,18 @@ return {
       "dotvim.just",
     },
   },
+  keys = {
+    {
+      "<F9>",
+      function()
+        require("overseer").run_template { name = "just" }
+      end,
+    },
+    {
+      "<F10>",
+      function()
+        require("overseer").run_template { name = "just test" }
+      end,
+    },
+  },
 }

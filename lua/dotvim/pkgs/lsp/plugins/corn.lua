@@ -6,6 +6,7 @@ return {
   "RaafatTurki/corn.nvim",
   cmd = "Corn",
   opts = {
+    auto_cmds = false,
     blacklisted_modes = {
       "i",
     },

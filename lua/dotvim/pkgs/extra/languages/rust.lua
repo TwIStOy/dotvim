@@ -159,7 +159,7 @@ return {
                     enable = false,
                   },
                   privateEditable = {
-                    enable = true,
+                    enable = false,
                   },
                 },
                 -- diagnostics = {

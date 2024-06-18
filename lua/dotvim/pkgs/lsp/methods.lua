@@ -185,7 +185,8 @@ local function open_builtin_diagnostic()
 end
 
 function Methods.open_diagnostic()
-  require("corn").render()
+  -- require("corn").render()
+  open_builtin_diagnostic()
 end
 
 function Methods.rename(new_name, options)

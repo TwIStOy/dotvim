@@ -11,6 +11,7 @@ return {
     if vim.g.neovide then
       require("dotvim.pkgs.base.setup.neovide").setup()
     end
+    require("dotvim.pkgs.base.setup.commands")()
   end,
   plugins = Utils.tbl.flatten_array {
     require("dotvim.pkgs.base.plugins.init"),

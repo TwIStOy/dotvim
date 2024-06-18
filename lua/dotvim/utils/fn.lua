@@ -142,28 +142,21 @@ end
 ---@return F
 function M.throttle(delay, callback)
   ---@diagnostic disable-next-line: undefined-field
-  local timer = vim.uv.new_timer()
   local running = false
-  local first = true
 
   return function(...)
+    if running then
+      return
+    end
+
     local args = { ... }
     local wrapped = function()
+      running = false
       callback(unpack(args))
     end
-    if not running then
-      if first then
-        wrapped()
-        first = false
-      end
 
-      timer:start(delay, 0, function()
-        running = false
-        vim.schedule(wrapped)
-      end)
-
-      running = true
-    end
+    vim.defer_fn(wrapped, delay)
+    running = true
   end
 end
 

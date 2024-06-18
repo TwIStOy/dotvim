@@ -180,30 +180,6 @@ return {
       padding = 1,
     }
 
-    local lsp_progress = {
-      function()
-        local ok, lsp_progress = pcall(require, "lsp-progress")
-        if not ok then
-          return ""
-        end
-        return lsp_progress.progress {
-          max_size = 80,
-          format = function(messages)
-            if #messages > 0 then
-              return table.concat(messages, " ")
-            end
-            return ""
-          end,
-        }
-      end,
-      separator = { left = "", right = "" },
-      color = {
-        bg = resolve_bg("CursorLine"),
-        fg = resolve_fg("Comment"),
-        gui = "bold",
-      },
-    }
-
     local diff = {
       "diff",
       color = {
@@ -242,6 +218,9 @@ return {
         },
         always_divide_middle = true,
         padding = 0,
+        refresh = {
+          statusline = 2000,
+        },
       },
       sections = {
         lualine_a = {
@@ -258,7 +237,7 @@ return {
           full_space,
         },
         lualine_x = {
-          lsp_progress,
+          get_component("lsp_progress"),
           space,
           diagnostics,
         },

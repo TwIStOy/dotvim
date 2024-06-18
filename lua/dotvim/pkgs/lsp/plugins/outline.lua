@@ -1,6 +1,42 @@
+---@type dotvim.utils
+local Utils = require("dotvim.utils")
+
 ---@type dotvim.core.plugin.PluginOption
 return {
   "hedyhli/outline.nvim",
+  config = function(_, opts)
+    local Outline = require("outline")
+    Outline.setup(opts)
+    local outline_follow = Utils.fn.throttle(2000, function()
+      Outline.follow_cursor {
+        focus_outline = false,
+      }
+    end)
+    local outline_refresh = Utils.fn.throttle(2000, function()
+      Outline.refresh()
+    end)
+
+    vim.api.nvim_create_autocmd({
+      "InsertLeave",
+      "WinEnter",
+      "BufEnter",
+      "BufWinEnter",
+      "TabEnter",
+      "BufWritePost",
+    }, {
+      pattern = "*",
+      callback = function()
+        outline_refresh()
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      pattern = "*",
+      callback = function()
+        outline_follow()
+      end,
+    })
+  end,
   opts = {
     keymaps = {
       show_help = "?",
@@ -41,6 +77,12 @@ return {
     },
     outline_window = {
       winhl = "Normal:NormalFloat",
+    },
+    outline_items = {
+      auto_update_events = {
+        follow = {},
+        items = {},
+      },
     },
     symbol_folding = {
       autofold_depth = 1,

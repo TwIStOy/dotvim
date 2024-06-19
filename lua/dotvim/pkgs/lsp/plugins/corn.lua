@@ -5,7 +5,6 @@ local Utils = require("dotvim.utils")
 return {
   "RaafatTurki/corn.nvim",
   cmd = "Corn",
-  enabled = false,
   opts = {
     auto_cmds = false,
     blacklisted_modes = {

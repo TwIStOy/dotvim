@@ -92,17 +92,17 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-=>",
-          node_incremental = "<C-=>",
+          init_selection = "]x",
+          node_incremental = "]x",
           scope_incremental = false,
-          node_decremental = "<C-->",
+          node_decremental = "[x",
         },
       },
     }
   end,
   keys = {
-    { "<C-=>", desc = "init/increment-selection" },
-    { "<C-->", desc = "decrement-selection" },
+    { "]x", desc = "init/increment-selection" },
+    { "[x", desc = "decrement-selection" },
   },
   config = function(_, opts)
     local parser = require("nvim-treesitter.parsers").get_parser_configs()

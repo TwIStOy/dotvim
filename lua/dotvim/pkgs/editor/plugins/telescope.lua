@@ -1,3 +1,32 @@
+local function find_files()
+  if vim.b._dotvim_project_cwd ~= nil then
+    require("telescope.builtin").find_files {
+      cwd = vim.b._dotvim_project_cwd,
+      no_ignore = vim.b._dotvim_project_no_ignore,
+      follow = true,
+    }
+  else
+    require("telescope.builtin").find_files {}
+  end
+end
+
+local function live_grep()
+  if vim.b._dotvim_project_cwd ~= nil then
+    require("telescope.builtin").live_grep {
+      cwd = vim.b._dotvim_project_cwd,
+      additional_args = function()
+        if vim.b._dotvim_project_no_ignore then
+          return { "--no-ignore" }
+        end
+        return {}
+      end,
+      follow = true,
+    }
+  else
+    require("telescope.builtin").live_grep {}
+  end
+end
+
 ---@type dotvim.core.plugin.PluginOption[]
 return {
   {
@@ -91,7 +120,10 @@ return {
             callback = function()
               require("telescope.builtin").lsp_document_symbols {}
             end,
-            keys = { "<leader>ls", desc = "document-symbols" },
+            keys = {
+              { "<leader>ls", desc = "document-symbols" },
+              { "gs", desc = "document-symbols" },
+            },
           },
           {
             id = "telescope.lsp-workspace-symbols",
@@ -99,7 +131,10 @@ return {
             callback = function()
               require("telescope.builtin").lsp_workspace_symbols {}
             end,
-            keys = { "<leader>lw", desc = "workspace-symbols" },
+            keys = {
+              { "<leader>lw", desc = "workspace-symbols" },
+              { "gS", desc = "workspace-symbols" },
+            },
           },
         },
       }
@@ -118,40 +153,18 @@ return {
           },
           {
             id = "telescope.find-files",
-            callback = function()
-              if vim.b._dotvim_project_cwd ~= nil then
-                require("telescope.builtin").find_files {
-                  cwd = vim.b._dotvim_project_cwd,
-                  no_ignore = vim.b._dotvim_project_no_ignore,
-                  follow = true,
-                }
-              else
-                require("telescope.builtin").find_files {}
-              end
-            end,
+            callback = find_files,
             title = "Edit project files",
             keys = { "<leader>e", desc = "edit-project-files" },
           },
           {
             id = "telescope.live-grep",
-            callback = function()
-              if vim.b._dotvim_project_cwd ~= nil then
-                require("telescope.builtin").live_grep {
-                  cwd = vim.b._dotvim_project_cwd,
-                  additional_args = function()
-                    if vim.b._dotvim_project_no_ignore then
-                      return { "--no-ignore" }
-                    end
-                    return {}
-                  end,
-                  follow = true,
-                }
-              else
-                require("telescope.builtin").live_grep {}
-              end
-            end,
+            callback = live_grep,
             title = "Search for a string in current working directory",
-            keys = { "<leader>lg", desc = "live-grep" },
+            keys = {
+              { "<leader>lg", desc = "live-grep" },
+              { "g/", desc = "live-grep" },
+            },
           },
         },
       }

@@ -46,7 +46,7 @@ return {
       enabled = false,
     },
     options = {
-      left = { size = 40 },
+      left = { size = 32 },
       bottom = { size = 10 },
       right = { size = 30 },
       top = { size = 10 },

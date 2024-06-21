@@ -28,10 +28,10 @@ return {
                     command = { "alejandra" },
                   },
                   nix = {
-                    maxMemoryMB = 16 * 1024,
+                    maxMemoryMB = 2 * 1024,
                     flake = {
                       autoArchive = true,
-                      autoEvalInputs = true,
+                      autoEvalInputs = false,
                     },
                   },
                 },

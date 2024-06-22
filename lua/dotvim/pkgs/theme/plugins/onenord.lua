@@ -13,7 +13,7 @@ return {
         keywords = "NONE",
         functions = "NONE",
         variables = "NONE",
-        diagnostics = "underline",
+        diagnostics = "undercurl",
       },
       borders = true,
       disable = {

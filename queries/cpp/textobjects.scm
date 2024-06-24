@@ -33,3 +33,13 @@
 (for_range_loop
   right: (_) @for_range_loop.inner)
 
+
+(init_declarator
+  value: (_) @dotvim_omni_right.inner)
+
+(initializer_pair
+  value: (_) @dotvim_omni_right.inner)
+
+(if_statement
+  condition: (condition_clause
+               value: (_) @dotvim_omni_if.condition.inner) @dotvim_omni_if.condition.outer)

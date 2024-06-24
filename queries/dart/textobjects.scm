@@ -9,9 +9,9 @@
 
 ((assignment_expression
   left: (_)
-  right: (_) @super_right.inner
+  right: (_) @dotvim_omni_right.inner
 ))
 
 ((initialized_variable_definition
-  value: (_) @super_right.inner
+  value: (_) @dotvim_omni_right.inner
 ))

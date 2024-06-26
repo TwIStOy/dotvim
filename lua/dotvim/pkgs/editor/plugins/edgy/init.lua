@@ -12,7 +12,7 @@ return {
         title = "Neo-Tree",
         ft = "neo-tree",
         pinned = true,
-        size = { height = 0.5, width = 30 },
+        size = { height = 0.6, width = 30 },
         open = "Neotree action=show",
       },
       {

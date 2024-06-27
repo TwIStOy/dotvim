@@ -20,6 +20,7 @@ local uncountable_filetypes = {
   ["aerial"] = true,
   ["trouble"] = true,
   ["Outline"] = true,
+  ["edgy"] = true,
 }
 
 function M.is_uncountable(win_id)

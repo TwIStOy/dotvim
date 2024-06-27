@@ -147,12 +147,34 @@ return {
       init = function()
         vim.g.rustaceanvim = {
           server = {
+            capabilities = {
+              workspace = {
+                inlayHint = {
+                  refreshSupport = false,
+                },
+              },
+            },
             default_settings = {
               ["rust-analyzer"] = {
                 imports = {
                   granularity = {
                     group = "crate",
                   },
+                },
+                inlayHints = {
+                  typeHints = {
+                    enable = false,
+                  },
+                  parameterHints = {
+                    enable = false,
+                  },
+                  chainingHints = {
+                    enable = false,
+                  },
+                  closingBraceHints = {
+                    enable = false,
+                  },
+                  renderColons = false,
                 },
                 completion = {
                   postfix = {
@@ -162,11 +184,6 @@ return {
                     enable = false,
                   },
                 },
-                -- diagnostics = {
-                --   disabled = {
-                --     "inactive-code",
-                --   },
-                -- },
                 check = {
                   command = "clippy",
                 },

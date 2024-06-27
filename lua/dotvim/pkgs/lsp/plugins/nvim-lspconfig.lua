@@ -58,8 +58,25 @@ return {
       Utils.fn.require_then("cmp_nvim_lsp", function(cmp_nvim_lsp)
         return cmp_nvim_lsp.default_capabilities()
       end) or {},
-      opts.capabilities or {}
+      opts.capabilities or {},
+      {
+        textDocument = {
+          inlayHint = {
+            dynamicRegistration = false,
+          },
+        },
+        workspace = {
+          inlayHint = {
+            refreshSupport = false,
+          },
+        },
+      }
     )
+    -- -- disable workspace/inlayHints/refresh
+    -- local ms = require("vim.lsp.protocol").Methods
+    -- require("vim.lsp.handlers")[ms.workspace_inlayHint_refresh] = function(...)
+    --   return vim.NIL
+    -- end
 
     ---@return string[]?
     local function get_default_cmd(server)

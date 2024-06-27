@@ -158,6 +158,7 @@ return {
             "trouble",
             "Outline",
             "spectre_panel",
+            "edgy",
           },
           buftype = { "terminal" },
         },

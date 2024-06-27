@@ -366,6 +366,7 @@ return {
   },
   {
     "topaxi/gh-actions.nvim",
+    enabled = false,
     name = "gh-actions.nvim",
     pname = "gh-actions-nvim",
     cmd = { "GhActions" },

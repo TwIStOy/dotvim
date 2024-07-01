@@ -79,17 +79,6 @@ M.config = function() -- code to run after plugin loaded
   end
 
   require'dial.config'.augends:register_group(build_group())
-
-  --[[
-  local opt = { noremap = true, silent = true }
-
-  vim.api.nvim_set_keymap("n", "<C-a>", require("dial.map").inc_normal(), opt)
-  vim.api.nvim_set_keymap("n", "<C-x>", require("dial.map").dec_normal(), opt)
-  vim.api.nvim_set_keymap("v", "<C-a>", require("dial.map").inc_visual(), opt)
-  vim.api.nvim_set_keymap("v", "<C-x>", require("dial.map").dec_visual(), opt)
-  vim.api.nvim_set_keymap("v", "g<C-a>", require("dial.map").inc_gvisual(), opt)
-  vim.api.nvim_set_keymap("v", "g<C-x>", require("dial.map").dec_gvisual(), opt)
-  --]]
 end
 
 M.mappings = function() -- code for mappings

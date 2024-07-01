@@ -12,6 +12,7 @@ local M = {
     require("dotvim.pkgs.lsp.plugins.lsp-lines"),
     require("dotvim.pkgs.lsp.plugins.corn"),
     require("dotvim.pkgs.lsp.plugins.lsp-progress"),
+    require("dotvim.pkgs.lsp.plugins.inline-diagnostic"),
   },
   setup = function()
     require("dotvim.extra.fswatch")()
@@ -98,7 +99,7 @@ M.setup = function()
       local exists, value =
         pcall(vim.api.nvim_buf_get_var, buffer, "_dotvim_lsp_attached")
       if not exists or not value then
-        create_lsp_autocmds(buffer)
+        -- create_lsp_autocmds(buffer)
         setup_lsp_keymaps(client, buffer)
         vim.api.nvim_buf_set_var(buffer, "_dotvim_lsp_attached", true)
       end

@@ -3,7 +3,6 @@ return {
   {
     "RRethy/vim-illuminate",
     event = { "BufReadPost", "BufNewFile" },
-    enabled = false,
     opts = {
       delay = 200,
       filetypes_denylist = {
@@ -11,6 +10,9 @@ return {
         "rightclickpopup",
         "NvimTree",
         "help",
+      },
+      providers = {
+        "lsp",
       },
     },
     config = function(_, opts)

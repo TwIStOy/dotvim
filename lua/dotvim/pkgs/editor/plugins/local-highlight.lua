@@ -3,6 +3,7 @@ return {
   {
     "tzachar/local-highlight.nvim",
     event = { "BufReadPost", "BufNewFile" },
+    enabled = false,
     opts = {
       hlgroup = "IlluminatedWordWrite",
       disable_file_types = {

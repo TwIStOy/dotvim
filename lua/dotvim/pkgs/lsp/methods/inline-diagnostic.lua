@@ -221,6 +221,8 @@ local inline_diag_extmark_id = nil
 local rendering_win = nil
 local rendering_line = nil
 
+local inline_diag_disabled = false
+
 local setup_highlights = Fn.invoke_once(function()
   local colors = {
     Error = Vim.resolve_color("DiagnosticError"),
@@ -251,6 +253,10 @@ local setup_highlights = Fn.invoke_once(function()
 end)
 
 M.render_inline_diagnostic = function()
+  if inline_diag_disabled then
+    return
+  end
+
   setup_highlights()
 
   local win = vim.api.nvim_get_current_win()
@@ -311,6 +317,38 @@ M.clear_inline_diagnostic = function()
     rendering_win = nil
     rendering_line = nil
   end
+end
+
+M.disable_inline_diagnostic = function()
+  if inline_diag_extmark_id ~= nil then
+    local buffer = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_del_extmark(
+      buffer,
+      inline_diag_namespace,
+      inline_diag_extmark_id
+    )
+    inline_diag_extmark_id = nil
+    rendering_win = nil
+    rendering_line = nil
+  end
+  inline_diag_disabled = true
+end
+
+M.enable_inline_diagnostic = function()
+  inline_diag_disabled = false
+  M.render_inline_diagnostic()
+end
+
+M.toggle_inline_diagnostic = function()
+  if inline_diag_disabled then
+    M.enable_inline_diagnostic()
+  else
+    M.disable_inline_diagnostic()
+  end
+end
+
+M.inline_diag_disabled = function()
+  return inline_diag_disabled
 end
 
 return M

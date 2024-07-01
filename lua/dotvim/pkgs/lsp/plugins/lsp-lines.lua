@@ -13,7 +13,15 @@ return {
       id = "lsp_lines.toggle",
       title = "Toggle lsp-lines",
       callback = function()
-        require("lsp_lines").toggle()
+        local inline_diag = require("dotvim.pkgs.lsp.methods.inline-diagnostic")
+
+        if inline_diag.inline_diag_disabled() then
+          inline_diag.enable_inline_diagnostic()
+          vim.diagnostic.config { virtual_lines = false }
+        else
+          vim.diagnostic.config { virtual_lines = { only_current_line = true } }
+          inline_diag.disable_inline_diagnostic()
+        end
       end,
       keys = { "<leader>tl", desc = "toggle-lsp-lines" },
     },

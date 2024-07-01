@@ -282,11 +282,10 @@ M.render_inline_diagnostic = function()
   local other_lines = {}
   for i = 2, #virt_lines do
     other_lines[#other_lines + 1] = {
-      { string.rep(" ", #line + 1), 'CursorLine' },
+      { string.rep(" ", #line + 1), "CursorLine" },
       unpack(virt_lines[i]),
     }
   end
-  vim.print(other_lines)
 
   inline_diag_extmark_id =
     vim.api.nvim_buf_set_extmark(buffer, inline_diag_namespace, curline, 0, {
@@ -298,6 +297,20 @@ M.render_inline_diagnostic = function()
     })
   rendering_win = win
   rendering_line = curline
+end
+
+M.clear_inline_diagnostic = function()
+  if inline_diag_extmark_id ~= nil then
+    local buffer = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_del_extmark(
+      buffer,
+      inline_diag_namespace,
+      inline_diag_extmark_id
+    )
+    inline_diag_extmark_id = nil
+    rendering_win = nil
+    rendering_line = nil
+  end
 end
 
 return M

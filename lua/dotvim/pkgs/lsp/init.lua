@@ -27,9 +27,24 @@ local Core = require("dotvim.core")
 ---@param buffer number
 local function create_lsp_autocmds(buffer)
   -- display diagnostic win on CursorHold
+  -- vim.api.nvim_create_autocmd("CursorHold", {
+  --   buffer = buffer,
+  --   callback = methods.open_diagnostic,
+  -- })
+  local inline_diag = require("dotvim.pkgs.lsp.methods.inline-diagnostic")
+
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = buffer,
-    callback = methods.open_diagnostic,
+    callback = function()
+      inline_diag.render_inline_diagnostic()
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("InsertEnter", {
+    buffer = buffer,
+    callback = function()
+      inline_diag.clear_inline_diagnostic()
+    end,
   })
 end
 
@@ -99,7 +114,7 @@ M.setup = function()
       local exists, value =
         pcall(vim.api.nvim_buf_get_var, buffer, "_dotvim_lsp_attached")
       if not exists or not value then
-        -- create_lsp_autocmds(buffer)
+        create_lsp_autocmds(buffer)
         setup_lsp_keymaps(client, buffer)
         vim.api.nvim_buf_set_var(buffer, "_dotvim_lsp_attached", true)
       end

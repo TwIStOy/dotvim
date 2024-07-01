@@ -24,6 +24,22 @@ local function resolve_bg(group)
   return string.format("#%06x", info.bg)
 end
 
+-- use emotes for mode names
+local mode_map = {
+  n = "(ᴗ_ ᴗ。)",
+  nt = "(ᴗ_ ᴗ。)",
+  i = "(•̀ - •́ )",
+  R = "( •̯́ ₃ •̯̀)",
+  v = "(⊙ _ ⊙ )",
+  V = "(⊙ _ ⊙ )",
+  no = "Σ(°△°ꪱꪱꪱ)",
+  ["\22"] = "(⊙ _ ⊙ )",
+  t = "(⌐■_■)",
+  ["!"] = "Σ(°△°ꪱꪱꪱ)",
+  c = "Σ(°△°ꪱꪱꪱ)",
+  s = "SUB",
+}
+
 local function getLspName()
   local buf_clients = vim.lsp.get_clients {
     bufnr = 0,
@@ -154,12 +170,17 @@ return {
 
     local mode = {
       "mode",
-      icons_enabled = true,
+      icons_enabled = false,
       icon = {
         Utils.icon.predefined_icon("VimLogo", 1),
         align = "left",
       },
       separator = { left = "", right = "" },
+      padding = 1,
+      fmt = function()
+        return mode_map[vim.api.nvim_get_mode().mode]
+          or vim.api.nvim_get_mode().mode
+      end,
     }
 
     local diagnostics = {

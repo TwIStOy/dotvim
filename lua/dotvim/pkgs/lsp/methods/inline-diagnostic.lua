@@ -216,12 +216,10 @@ end
 
 local inline_diag_namespace =
   vim.api.nvim_create_namespace("dotvim_inline_diag")
-local inline_diag_extmark_id = nil
-
-local rendering_win = nil
-local rendering_line = nil
 
 local inline_diag_disabled = false
+
+local active_inline_diag_info = nil
 
 local setup_highlights = Fn.invoke_once(function()
   local colors = {
@@ -262,19 +260,16 @@ M.render_inline_diagnostic = function()
   local win = vim.api.nvim_get_current_win()
   local curline = vim.api.nvim_win_get_cursor(win)[1] - 1
   local buffer = vim.api.nvim_win_get_buf(win)
-  if rendering_win == win and rendering_line == curline then
-    return
-  end
-  if inline_diag_extmark_id ~= nil then
+  if active_inline_diag_info ~= nil then
+    if
+      active_inline_diag_info.win == win
+      and active_inline_diag_info.line == curline
+    then
+      -- fast return if the current line is already rendered
+      return
+    end
     -- clear current rendering
-    vim.api.nvim_buf_del_extmark(
-      buffer,
-      inline_diag_namespace,
-      inline_diag_extmark_id
-    )
-    inline_diag_extmark_id = nil
-    rendering_win = nil
-    rendering_line = nil
+    M.clear_inline_diagnostic()
   end
 
   local virt_lines = M.get_current_line_diag_virt_lines()
@@ -293,7 +288,7 @@ M.render_inline_diagnostic = function()
     }
   end
 
-  inline_diag_extmark_id =
+  local diag_extmark_id =
     vim.api.nvim_buf_set_extmark(buffer, inline_diag_namespace, curline, 0, {
       id = curline + 1,
       line_hl_group = "CursorLine",
@@ -301,36 +296,27 @@ M.render_inline_diagnostic = function()
       virt_lines = other_lines,
       priority = 1,
     })
-  rendering_win = win
-  rendering_line = curline
+  active_inline_diag_info = {
+    buffer = buffer,
+    extmark_id = diag_extmark_id,
+    win = win,
+    line = curline,
+  }
 end
 
 M.clear_inline_diagnostic = function()
-  if inline_diag_extmark_id ~= nil then
-    local buffer = vim.api.nvim_get_current_buf()
+  if active_inline_diag_info ~= nil then
     vim.api.nvim_buf_del_extmark(
-      buffer,
+      active_inline_diag_info.buffer,
       inline_diag_namespace,
-      inline_diag_extmark_id
+      active_inline_diag_info.extmark_id
     )
-    inline_diag_extmark_id = nil
-    rendering_win = nil
-    rendering_line = nil
+    active_inline_diag_info = nil
   end
 end
 
 M.disable_inline_diagnostic = function()
-  if inline_diag_extmark_id ~= nil then
-    local buffer = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_del_extmark(
-      buffer,
-      inline_diag_namespace,
-      inline_diag_extmark_id
-    )
-    inline_diag_extmark_id = nil
-    rendering_win = nil
-    rendering_line = nil
-  end
+  M.clear_inline_diagnostic()
   inline_diag_disabled = true
 end
 

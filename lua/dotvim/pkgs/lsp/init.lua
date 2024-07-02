@@ -33,14 +33,14 @@ local function create_lsp_autocmds(buffer)
   -- })
   local inline_diag = require("dotvim.pkgs.lsp.methods.inline-diagnostic")
 
-  vim.api.nvim_create_autocmd("CursorHold", {
+  vim.api.nvim_create_autocmd({ "CursorHold" }, {
     buffer = buffer,
     callback = function()
       inline_diag.render_inline_diagnostic()
     end,
   })
 
-  vim.api.nvim_create_autocmd("InsertEnter", {
+  vim.api.nvim_create_autocmd({ "InsertEnter" }, {
     buffer = buffer,
     callback = function()
       inline_diag.clear_inline_diagnostic()

@@ -36,6 +36,9 @@ local function create_lsp_autocmds(buffer)
   vim.api.nvim_create_autocmd({ "CursorHold", "DiagnosticChanged" }, {
     buffer = buffer,
     callback = function()
+      if vim.api.nvim_get_mode().mode == "i" then
+        inline_diag.clear_inline_diagnostic()
+      end
       inline_diag.render_inline_diagnostic()
     end,
   })

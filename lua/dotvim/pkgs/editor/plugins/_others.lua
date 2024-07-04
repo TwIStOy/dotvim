@@ -178,7 +178,7 @@ return {
       highlight = { keyword = "wide_bg", pattern = "(KEYWORDS)\\([^)]*\\):" },
       search = { pattern = "(KEYWORDS)\\([^)]*\\):" },
       keywords = {
-        HACK = { alt = { "UNSAFE" } },
+        HACK = { alt = { "UNSAFE", 'SAFETY' } },
         FIX = { alt = { "FIXME", "BUG", "FIXIT", "ISSUE", "FUCKING" } },
       },
     },

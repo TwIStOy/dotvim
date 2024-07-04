@@ -306,11 +306,13 @@ end
 
 M.clear_inline_diagnostic = function()
   if active_inline_diag_info ~= nil then
-    vim.api.nvim_buf_del_extmark(
-      active_inline_diag_info.buffer,
-      inline_diag_namespace,
-      active_inline_diag_info.extmark_id
-    )
+    if vim.api.nvim_buf_is_valid(active_inline_diag_info.buffer) then
+      vim.api.nvim_buf_del_extmark(
+        active_inline_diag_info.buffer,
+        inline_diag_namespace,
+        active_inline_diag_info.extmark_id
+      )
+    end
     active_inline_diag_info = nil
   end
 end

@@ -1,0 +1,3 @@
+[
+(function_definition)
+] @fold

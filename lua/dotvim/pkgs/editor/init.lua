@@ -31,6 +31,7 @@ return {
     require("dotvim.pkgs.editor.plugins.edgy"),
     require("dotvim.pkgs.editor.plugins.vim-illuminate"),
     require("dotvim.pkgs.editor.plugins.overseer"),
+    require("dotvim.pkgs.editor.plugins.nvim-ufo"),
   },
   setup = function()
     require("dotvim.pkgs.editor.setup.obsidian")()

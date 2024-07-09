@@ -17,7 +17,7 @@ return {
   setup = function()
     if not vim.g.vscode then
       vim.o.background = "dark"
-      vim.cmd("colorscheme tokyonight")
+      vim.cmd("colorscheme catppuccin")
     end
   end,
 }

@@ -51,6 +51,7 @@ local enabled_packages = {
   "extra.misc.ai",
   "extra.misc.rime",
   "extra.misc.devdocs",
+  "extra.misc.rest",
 }
 
 function M.setup()

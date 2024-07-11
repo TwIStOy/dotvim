@@ -21,18 +21,32 @@ return {
       end,
     },
     {
-      "rest-nvim/rest.nvim",
+      "mistweaverco/kulala.nvim",
       dependencies = {
         "telescope.nvim",
       },
-      pname = "rest-nvim",
       ft = { "http" },
-      cmd = { "Rest" },
-      config = function(_, opts)
-        require("rest-nvim").setup(opts)
-        require("telescope").load_extension("rest")
+      opts = function()
+        ---@type dotvim.utils
+        local Utils = require("dotvim.utils")
+
+        local xmllint = Utils.which("xmllint")
+        return {
+          formatters = {
+            json = { "jq", "." },
+            xml = { xmllint, "--format", "-" },
+            html = { xmllint, "--format", "--html", "-" },
+          },
+          icons = {
+            inlay = {
+              loading = "󰔟",
+              done = "󰄲",
+            },
+          },
+          additional_curl_options = { "--insecure" },
+        }
       end,
-      opts = {},
+      config = true,
     },
   },
 }

@@ -7,6 +7,7 @@ return {
     opts = {
       chunk = {
         enable = true,
+        delay = 0,
       },
       indent = {
         enable = false,

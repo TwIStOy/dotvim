@@ -68,7 +68,7 @@ return function()
     for i = 1, 9 do
       vim.keymap.set("n", "<leader>" .. i, function()
         goto_countable_window(i)
-      end, { desc = "goto-win-" .. i })
+      end, { desc = "goto-window-" .. i })
     end
   end
 

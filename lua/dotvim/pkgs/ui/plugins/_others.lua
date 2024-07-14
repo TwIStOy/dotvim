@@ -91,7 +91,7 @@ return {
             callback = function()
               require("notify").dismiss { silent = true, pending = true }
             end,
-            keys = { "<leader>nn", desc = "dismiss-all" },
+            keys = { "<leader>nn", desc = "dismiss-all-notifications" },
           },
         },
       }

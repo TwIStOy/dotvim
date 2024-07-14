@@ -4,6 +4,7 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
+      preset = "helix",
       key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
       layout = { align = "center" },
       ignore_missing = false,
@@ -28,22 +29,24 @@ return {
       vim.defer_fn(function()
         local wk = require("which-key")
         wk.setup(opts)
-        wk.register {
-          mode = { "n", "v" },
-          g = { name = "+goto" },
-          ["]"] = { name = "+next" },
-          ["["] = { name = "+prev" },
-          ["<leader>b"] = { name = "+bookmarks" },
-          ["<leader>f"] = { name = "+file" },
-          ["<leader>l"] = { name = "+list" },
-          ["<leader>n"] = { name = "+no" },
-          ["<leader>p"] = { name = "+preview" },
-          ["<leader>r"] = { name = "+remote" },
-          ["<leader>s"] = { name = "+search" },
-          ["<leader>t"] = { name = "+test/toggle" },
-          ["<leader>v"] = { name = "+vcs" },
-          ["<leader>w"] = { name = "+window" },
-          ["<leader>x"] = { name = "+xray" },
+        wk.add {
+          {
+            mode = { "n", "v" },
+            { "<leader>b", group = "bookmarks" },
+            { "<leader>f", group = "file" },
+            { "<leader>l", group = "list" },
+            { "<leader>n", group = "no" },
+            { "<leader>p", group = "preview" },
+            { "<leader>r", group = "remote" },
+            { "<leader>s", group = "search" },
+            { "<leader>t", group = "test/toggle" },
+            { "<leader>v", group = "vcs" },
+            { "<leader>w", group = "window" },
+            { "<leader>x", group = "xray" },
+            { "[", group = "prev" },
+            { "]", group = "next" },
+            { "g", group = "goto" },
+          },
         }
       end, 100)
     end,

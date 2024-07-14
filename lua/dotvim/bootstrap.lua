@@ -129,6 +129,9 @@ function M.setup()
     install = {
       missing = true,
     },
+    rocks = {
+      enabled = false,
+    },
     performance = {
       cache = { enabled = true },
       install = { colorscheme = { "tokyonight", "habamax" } },

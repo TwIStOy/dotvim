@@ -86,6 +86,9 @@ local function setup_lsp_keymaps(client, buffer)
 
   nmap("ga", methods.code_action, "code-action")
 
+  vim.api.nvim_del_keymap("n", "grr")
+  vim.api.nvim_del_keymap("n", "gra")
+  vim.api.nvim_del_keymap("n", "grn")
   nmap("gr", methods.references, "inspect-references")
 
   nmap("[c", methods.prev_diagnostic, "previous-diagnostic")

@@ -11,6 +11,10 @@ return {
         breadcrumb = "»",
         separator = "󰜴",
         group = "+",
+        rules = {
+          { pattern = "delete", icon = " ", color = "blue" },
+          { pattern = "xray", icon = " ", color = "red" },
+        },
       },
     },
     config = function(_, opts)
@@ -21,6 +25,7 @@ return {
           {
             mode = { "n", "v" },
             { "<leader>b", group = "bookmarks" },
+            { "<leader>c", group = "clear" },
             { "<leader>f", group = "file" },
             { "<leader>l", group = "list" },
             { "<leader>n", group = "no" },

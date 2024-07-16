@@ -19,10 +19,11 @@ return {
             color = "blue",
           },
           { plugin = "neotest", icon = "󰙨 ", color = "red" },
+          { pattern = "bookmark", icon = "󰸕 ", color = "yellow" },
+          { plugin = "ssr.nvim", icon = " ", color = "blue" },
 
           { pattern = "delete", icon = " ", color = "blue" },
           { pattern = "xray", icon = " ", color = "purple" },
-          { pattern = "bookmark", icon = "󰸕 ", color = "yellow" },
           { pattern = "clear", icon = " ", color = "red" },
           { pattern = "list", icon = " ", color = "grey" },
           { pattern = "hydra", icon = " ", color = "orange" },

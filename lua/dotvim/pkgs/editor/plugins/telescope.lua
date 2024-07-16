@@ -121,8 +121,7 @@ return {
               require("telescope.builtin").lsp_document_symbols {}
             end,
             keys = {
-              { "<leader>ls", desc = "document-symbols" },
-              { "gs", desc = "document-symbols" },
+              { "<leader>ss", desc = "document-symbols" },
             },
           },
           {
@@ -132,8 +131,7 @@ return {
               require("telescope.builtin").lsp_workspace_symbols {}
             end,
             keys = {
-              { "<leader>lw", desc = "workspace-symbols" },
-              { "gS", desc = "workspace-symbols" },
+              { "<leader>sw", desc = "workspace-symbols" },
             },
           },
         },

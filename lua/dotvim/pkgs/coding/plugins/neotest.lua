@@ -79,7 +79,7 @@ return {
         callback = function()
           require("neotest").run.run_last()
         end,
-        keys = { "<leader>tr", desc = "rerun-last" },
+        keys = { "<leader>tr", desc = "rerun-last-test" },
       },
       {
         id = "neotest.toggle-summary",

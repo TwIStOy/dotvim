@@ -194,7 +194,7 @@ return {
             id = "todo-comments.open-todos-in-trouble",
             title = "Open todos in trouble",
             callback = "TodoTrouble",
-            keys = { "<leader>xt", desc = "touble-todo" },
+            keys = { "<leader>xt", desc = "trouble-todo" },
           },
           {
             id = "todo-comments.open-todos-fix-fixme-in-trouble",

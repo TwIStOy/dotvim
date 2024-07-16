@@ -72,7 +72,7 @@ return function()
     end
   end
 
-  vim.keymap.set("n", "<leader>fs", "<cmd>update<CR>", { desc = "update" })
+  vim.keymap.set("n", "<leader>fs", "<cmd>update<CR>", { desc = "save" })
 
   vim.keymap.set("n", "<M-n>", "<cmd>nohl<CR>", { desc = "nohl" })
 

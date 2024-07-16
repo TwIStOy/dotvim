@@ -1,3 +1,0 @@
-[submodule "lua/3rd/cairo"]
-	path = lua/3rd/cairo
-	url = https://github.com/luapower/cairo.git

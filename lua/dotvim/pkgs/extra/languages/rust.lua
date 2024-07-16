@@ -1,3 +1,6 @@
+---@type dotvim.utils
+local Utils = require("dotvim.utils")
+
 ---@type dotvim.core.package.PackageOption
 return {
   name = "extra.languages.rust",
@@ -7,6 +10,94 @@ return {
     "editor",
     "treesitter",
   },
+  setup = function()
+    local on_rust_file = function(event)
+      -- add key bindings
+      local bufnr = event.buf
+      local add_map = function(lhs, rhs, desc)
+        vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>h" .. lhs, "", {
+          callback = rhs,
+          noremap = true,
+          nowait = true,
+          silent = true,
+          desc = "rust-" .. desc,
+        })
+      end
+
+      add_map("e", function()
+        vim.api.nvim_command("RustLsp expandMacro")
+      end, "expand-macro")
+      add_map("c", function()
+        vim.api.nvim_command("RustLsp openCargo")
+      end, "open-cargo")
+      add_map("p", function()
+        vim.api.nvim_command("RustLsp parentModule")
+      end, "parent-module")
+    end
+
+    local on_cargo_toml = function(event)
+      -- add key bindings
+      local bufnr = event.buf
+      local add_map = function(lhs, rhs, desc)
+        vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>h" .. lhs, "", {
+          callback = rhs,
+          noremap = true,
+          nowait = true,
+          silent = true,
+          desc = "cargo-toml-" .. desc,
+        })
+      end
+
+      add_map("h", function()
+        require("crates").open_homepage()
+      end, "open-homepage")
+
+      add_map("d", function()
+        require("crates").open_documentation()
+      end, "open-documentation")
+
+      add_map("r", function()
+        require("crates").open_repository()
+      end, "open-repository")
+
+      add_map("u", function()
+        require("crates").upgrade_crate()
+      end, "upgrade-crate")
+
+      add_map("c", function()
+        require("crates").show_crate_popup()
+      end, "open-crate-popup")
+
+      add_map("v", function()
+        require("crates").show_versions_popup()
+      end, "open-versions-popup")
+
+      add_map("f", function()
+        require("crates").show_features_popup()
+      end, "open-features-popup")
+    end
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "rust",
+      callback = on_rust_file,
+    })
+
+    vim.api.nvim_create_autocmd("BufEnter", {
+      pattern = "Cargo.toml",
+      callback = function(event)
+        local bufnr = event.buf
+
+        if
+          Utils.vim.buf_get_var(bufnr, "_dotvim_extra_rust_cargo_toml") == 1
+        then
+          return
+        end
+        vim.api.nvim_buf_set_var(bufnr, "_dotvim_extra_rust_cargo_toml", 1)
+
+        on_cargo_toml(event)
+      end,
+    })
+  end,
   plugins = {
     {
       "nvim-treesitter",

@@ -75,14 +75,30 @@ function M.blend(foreground, background, alpha)
     :upper()
 end
 
+---Returns the keymap for a given mode and lhs
+---@param mode string
+---@param lhs string
+---@return vim.api.keyset.keymap?
 function M.get_keymap(mode, lhs)
   local keymap = vim.api.nvim_get_keymap(mode)
   for _, map in ipairs(keymap) do
+    ---@diagnostic disable-next-line: undefined-field
     if map.lhs == lhs then
       return map
     end
   end
   return nil
+end
+
+---Returns the value of a buffer variable, or nil if it doesn't exist.
+---@param bufnr number
+---@param key string
+---@return any
+function M.buf_get_var(bufnr, key)
+  local succ, value = pcall(vim.api.nvim_buf_get_var, bufnr, key)
+  if succ then
+    return value
+  end
 end
 
 return M

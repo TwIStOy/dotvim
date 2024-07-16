@@ -38,6 +38,14 @@ return {
             { "<leader>b", group = "bookmarks" },
             { "<leader>c", group = "clear" },
             { "<leader>f", group = "file" },
+            {
+              "<leader>h",
+              group = "local",
+              icon = {
+                icon = " ",
+                color = "blue",
+              },
+            },
             { "<leader>l", group = "list" },
             {
               "<leader>n",

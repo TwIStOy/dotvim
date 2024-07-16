@@ -21,20 +21,22 @@ local M = {}
 ---@field results dotvim.extra.search_everywhere.Entry[]
 ---@field complete boolean
 
-local function get_buf_var(bufnr, key)
-  local succ, value = pcall(vim.api.nvim_buf_get_var, bufnr, key)
-  if succ then
-    return value
-  end
-end
+---@type dotvim.utils
+local Utils = require("dotvim.utils")
 
 function M.open_telescope()
   local bufnr = vim.api.nvim_get_current_buf()
   local project_cwd =
     ---@diagnostic disable-next-line: undefined-field
-    vim.F.if_nil(get_buf_var(bufnr, "_dotvim_project_cwd"), vim.uv.cwd())
-  local project_no_ignore =
-    vim.F.if_nil(get_buf_var(bufnr, "_dotvim_project_no_ignore"), false)
+    vim.F.if_nil(
+      Utils.vim.buf_get_var(bufnr, "_dotvim_project_cwd"),
+      ---@diagnostic disable-next-line: undefined-field
+      vim.uv.cwd()
+    )
+  local project_no_ignore = vim.F.if_nil(
+    Utils.vim.buf_get_var(bufnr, "_dotvim_project_no_ignore"),
+    false
+  )
 
   local ctx = {
     cwd = project_cwd,

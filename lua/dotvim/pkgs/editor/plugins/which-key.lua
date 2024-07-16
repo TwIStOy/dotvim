@@ -23,6 +23,8 @@ return {
           { pattern = "outline", icon = " ", color = "purple" },
           { pattern = "trouble", icon = " ", color = "yellow" },
           { pattern = "test", icon = "󰙨 ", color = "red" },
+          { pattern = "vcs", icon = "󰊢 ", color = "red" },
+          { pattern = "conflict", icon = " ", color = "cyan" },
         },
       },
     },

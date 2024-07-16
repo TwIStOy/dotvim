@@ -18,31 +18,33 @@ return {
         border = true,
       },
     },
+    invoke_on_body = false,
   },
+  body = "<leader>v",
   heads = {
     b = {
       "<cmd>GitConflictChooseBoth<CR>",
-      { desc = "choose both", exit = false },
+      { desc = "conflict - choose both", exit = false },
     },
     x = {
       "<cmd>GitConflictChooseNone<CR>",
-      { desc = "choose none", exit = true },
+      { desc = "conflict - choose none", exit = true },
     },
     n = {
       "<cmd>GitConflictNextConflict<CR>",
-      { desc = "move to next conflict", exit = false },
+      { desc = "conflict - move to next", exit = false },
     },
     o = {
       "<cmd>GitConflictChooseOurs<CR>",
-      { desc = "choose ours", exit = false },
+      { desc = "conflict - choose ours", exit = false },
     },
     p = {
       "<cmd>GitConflictPrevConflict<CR>",
-      { desc = "move to prev conflict", exit = false },
+      { desc = "conflict - move to prev", exit = false },
     },
     t = {
       "<cmd>GitConflictChooseTheirs<CR>",
-      { desc = "choose theirs", exit = false },
+      { desc = "conflict - choose theirs", exit = false },
     },
     q = {
       nil,

@@ -86,9 +86,6 @@ local function setup_lsp_keymaps(client, buffer)
 
   nmap("ga", methods.code_action, "code-action")
 
-  vim.api.nvim_del_keymap("n", "grr")
-  vim.api.nvim_del_keymap("n", "gra")
-  vim.api.nvim_del_keymap("n", "grn")
   nmap("gr", methods.references, "inspect-references")
 
   nmap("[c", methods.prev_diagnostic, "previous-diagnostic")
@@ -112,6 +109,16 @@ local function setup_lsp_keymaps(client, buffer)
 end
 
 M.setup = function()
+  ---@type dotvim.utils
+  local Utils = require("dotvim.utils")
+
+  if Utils.vim.get_keymap("n", "grr") ~= nil then
+    -- remove default lsp keymaps
+    vim.api.nvim_del_keymap("n", "grr")
+    vim.api.nvim_del_keymap("n", "gra")
+    vim.api.nvim_del_keymap("n", "grn")
+  end
+
   -- if in vscode environment, create key bindings globally, else only create
   -- keybindings on lsp enabled buffers
   if vim.g.vscode then

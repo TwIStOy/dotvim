@@ -75,4 +75,14 @@ function M.blend(foreground, background, alpha)
     :upper()
 end
 
+function M.get_keymap(mode, lhs)
+  local keymap = vim.api.nvim_get_keymap(mode)
+  for _, map in ipairs(keymap) do
+    if map.lhs == lhs then
+      return map
+    end
+  end
+  return nil
+end
+
 return M

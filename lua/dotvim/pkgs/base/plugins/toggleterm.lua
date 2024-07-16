@@ -61,7 +61,10 @@ return {
           })
           :open()
       end,
-      keys = { "<leader>ff", desc = "toggle-yazi" },
+      keys = {
+        "<leader>ff",
+        desc = "open-yazi",
+      },
     }
 
     actions[#actions + 1] = {
@@ -102,7 +105,7 @@ return {
           })
           :open()
       end,
-      keys = { "<leader>g", desc = "toggle-lazygit" },
+      keys = { "<leader>g", desc = "open-lazygit" },
     }
 
     return Core.action.make_options {

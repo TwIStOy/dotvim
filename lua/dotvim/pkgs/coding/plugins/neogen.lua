@@ -23,6 +23,10 @@ return {
           return #buf.ts_highlighter > 0
         end,
         category = "Neogen",
+        keys = {
+          ";a",
+          desc = "generate-annotation",
+        },
       },
     },
   },

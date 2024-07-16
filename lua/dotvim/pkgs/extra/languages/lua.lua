@@ -36,6 +36,7 @@ return {
           "hydra.nvim",
           "edgy.nvim",
           "overseer.nvim",
+          "which-key.nvim",
         }
         for _, plugin in ipairs(add_plugins) do
           table.insert(

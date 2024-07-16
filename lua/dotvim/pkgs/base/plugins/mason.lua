@@ -156,10 +156,15 @@ return {
       install_missing_or_update_packages()
     end)
 
-    vim.defer_fn(function()
+    if vim.fn.argc() == 0 then
+      vim.defer_fn(function()
+        require("mason").setup(opts)
+        do_setup()
+      end, 200)
+    else
+      -- skip update, setup immediately
       require("mason").setup(opts)
-      do_setup()
-    end, 200)
+    end
   end,
   actions = function()
     ---@type dotvim.core.action

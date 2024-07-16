@@ -70,6 +70,9 @@ return {
           { "g", group = "goto" },
         },
       },
+      win = {
+        border = "solid",
+      },
     },
     config = function(_, opts)
       local wk = require("which-key")

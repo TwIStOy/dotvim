@@ -5,19 +5,7 @@ return {
     event = "VeryLazy",
     opts = {
       preset = "helix",
-      key_labels = { ["<space>"] = "SPC", ["<cr>"] = "RET", ["<tab>"] = "TAB" },
       layout = { align = "center" },
-      ignore_missing = false,
-      hidden = {
-        "<silent>",
-        "<cmd>",
-        "<Cmd>",
-        "<CR>",
-        "call",
-        "lua",
-        "^:",
-        "^ ",
-      },
       show_help = true,
       icons = {
         breadcrumb = "»",

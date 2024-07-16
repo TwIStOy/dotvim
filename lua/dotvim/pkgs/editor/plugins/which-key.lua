@@ -21,6 +21,7 @@ return {
           { plugin = "neotest", icon = "󰙨 ", color = "red" },
           { pattern = "bookmark", icon = "󰸕 ", color = "yellow" },
           { plugin = "ssr.nvim", icon = " ", color = "blue" },
+          { plugin = "vim-illuminate", icon = " ", color = "grey" },
 
           { pattern = "delete", icon = " ", color = "blue" },
           { pattern = "xray", icon = " ", color = "purple" },

@@ -7,6 +7,11 @@ return {
       preset = "helix",
       layout = { align = "center" },
       show_help = true,
+      plugins = {
+        presets = {
+          g = false,
+        },
+      },
       icons = {
         breadcrumb = "»",
         separator = "󰜴",
@@ -22,6 +27,7 @@ return {
           { pattern = "bookmark", icon = "󰸕 ", color = "yellow" },
           { plugin = "ssr.nvim", icon = " ", color = "blue" },
           { plugin = "vim-illuminate", icon = " ", color = "grey" },
+          { plugin = "gx.nvim", icon = "󰇧 ", color = "blue" },
 
           { pattern = "delete", icon = " ", color = "blue" },
           { pattern = "xray", icon = " ", color = "purple" },

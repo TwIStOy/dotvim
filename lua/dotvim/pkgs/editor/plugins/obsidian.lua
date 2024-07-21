@@ -1,8 +1,9 @@
 local Shared = require("dotvim.pkgs.editor.shared")
 
 local default_vault_path = {
-  "~/Documents/Main",
+  "~/Projects/digital-garden/Digital Garden",
   "~/Projects/obsidian-data/Main",
+  "~/Documents/Main",
 }
 
 local function resolve_obsidian_vault()
@@ -52,10 +53,10 @@ return {
   },
   opts = {
     dir = resolve_obsidian_vault(),
-    notes_subdir = "3-Resources/0-Zettel",
+    notes_subdir = "2-Zettel",
     log_level = vim.log.levels.WARN,
     daily_notes = {
-      folder = "3-Resources/0-Dairy",
+      folder = "3-Journal",
       date_format = "%Y-%m-%d",
       alias_format = "%B %-d, %Y",
       template = "Templates.nvim/daily-note.md",
@@ -83,19 +84,17 @@ return {
         -- If title is given, transform it into valid file name.
         suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
       else
-        -- If title is nil, just add 4 random uppercase letters to the suffix.
-        for _ = 1, 4 do
+        -- If title is nil, just add 6 random uppercase letters to the suffix.
+        for _ = 1, 6 do
           suffix = suffix .. string.char(math.random(65, 90))
         end
       end
-      return ("%0x-%s"):format(os.time(), suffix)
+      return ("%s-%s"):format(os.date("%Y%m%d%H%M"), suffix)
     end,
     note_frontmatter_func = function(note)
       local out = {
-        id = note.id,
         aliases = note.aliases,
         tags = note.tags,
-        lastModifiedTime = os.date("%Y-%m-%d"),
       }
       if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
         for k, v in pairs(note.metadata) do
@@ -103,9 +102,6 @@ return {
             out[k] = v
           end
         end
-      end
-      if out["createdTime"] == nil then
-        out["createdTime"] = out["lastModifiedTime"]
       end
       return out
     end,

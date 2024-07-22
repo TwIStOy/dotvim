@@ -16,6 +16,28 @@ local function resolve_obsidian_vault()
   return vim.fn.resolve(vim.fn.expand(default_vault_path[1]))
 end
 
+local function cleanup_title(s)
+  local ret = {}
+  local ch_pattern = "[%z\1-\127\194-\244][\128-\191]*"
+  local single_symbol_pattern = "[A-Za-z0-9-:_]"
+
+  local start = 1
+  while start <= #s do
+    local ch_start, ch_end = string.find(s, ch_pattern, start)
+    if ch_start then
+      local v = string.sub(s, ch_start, ch_end)
+      if #v > 1 or string.find(v, single_symbol_pattern) then
+        ret[#ret + 1] = v
+      end
+      start = ch_end + 1
+    else
+      break
+    end
+  end
+
+  return table.concat(ret, "")
+end
+
 ---@type dotvim.core.plugin.PluginOption
 return {
   "epwalsh/obsidian.nvim",
@@ -83,7 +105,7 @@ return {
       local suffix = ""
       if title ~= nil then
         -- If title is given, transform it into valid file name.
-        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-:]", ""):lower()
+        suffix = cleanup_title(title:gsub(" ", "-")):lower()
       else
         -- If title is nil, just add 6 random uppercase letters to the suffix.
         for _ = 1, 6 do

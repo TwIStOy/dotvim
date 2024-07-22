@@ -50,6 +50,7 @@ return {
     "ObsidianTomorrow",
     "ObsidianWorkspace",
     "ObsidianYesterday",
+    "ObsidianNewFromTemplate",
   },
   opts = {
     dir = resolve_obsidian_vault(),
@@ -59,7 +60,7 @@ return {
       folder = "3-Journal",
       date_format = "%Y-%m-%d",
       alias_format = "%B %-d, %Y",
-      template = "Templates.nvim/daily-note.md",
+      template = "Templates.nvim/journal-template.md",
     },
     new_notes_location = "notes_subdir",
     completion = {
@@ -82,14 +83,14 @@ return {
       local suffix = ""
       if title ~= nil then
         -- If title is given, transform it into valid file name.
-        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-:]", ""):lower()
       else
         -- If title is nil, just add 6 random uppercase letters to the suffix.
         for _ = 1, 6 do
           suffix = suffix .. string.char(math.random(65, 90))
         end
       end
-      return ("%s-%s"):format(os.date("%Y%m%d%H%M"), suffix)
+      return ("%s - %s"):format(os.date("%Y%m%d%H%M"), suffix)
     end,
     note_frontmatter_func = function(note)
       local out = {

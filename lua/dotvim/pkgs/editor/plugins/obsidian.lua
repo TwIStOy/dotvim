@@ -48,6 +48,10 @@ return {
       ("BufNewFile %s/*.md"):format(Shared.vault_dir()),
     }
   end,
+  init = function()
+    -- Register treesitter parser for dataviewjs
+    vim.treesitter.language.register("javascript", "dataviewjs")
+  end,
   dependencies = {
     "plenary.nvim",
     "telescope.nvim",
@@ -101,7 +105,9 @@ return {
     },
     use_advanced_uri = true,
     mappings = {},
-    ui = { enable = false },
+    ui = {
+      enable = false,
+    },
     note_id_func = function(title)
       local suffix = ""
       if title ~= nil then

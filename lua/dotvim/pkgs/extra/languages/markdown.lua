@@ -113,14 +113,15 @@ return {
       end,
     },
     {
-      "lukas-reineke/headlines.nvim",
+      "MeanderingProgrammer/markdown.nvim",
+      name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
-      },
-      enabled = function()
-        return false
+        "nvim-tree/nvim-web-devicons",
+      }, -- if you prefer nvim-web-devicons
+      config = function(_, opts)
+        require("render-markdown").setup(opts)
       end,
-      ft = { "markdown", "vimwiki" },
       opts = {},
     },
     {

@@ -101,6 +101,7 @@ return {
     },
     use_advanced_uri = true,
     mappings = {},
+    ui = { enable = false },
     note_id_func = function(title)
       local suffix = ""
       if title ~= nil then

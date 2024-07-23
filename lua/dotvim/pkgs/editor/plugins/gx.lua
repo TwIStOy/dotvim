@@ -26,7 +26,7 @@ return {
 
       local function get_open_browser_app_and_args()
         if sysname == "Darwin" then
-          return "open", "--background"
+          return "open", { "--background" }
         elseif sysname == "Linux" then
           local is_SSH = (vim.env.SSH_CLIENT ~= nil) or (vim.env.SSH_TTY ~= nil)
           if is_SSH and try_kitty_remote_control() then

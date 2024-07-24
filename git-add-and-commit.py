@@ -36,6 +36,7 @@ if len(sys.argv) <= 1:
   exit(1)
 
 
+update_version()
 uncommit_changes = get_uncommit_changes().splitlines()
 if not uncommit_changes:
   print('Working tree is clean...')
@@ -50,7 +51,6 @@ else:
     print('Abort')
     exit(1)
   else:
-    update_version()
     subprocess.run(['git', 'add', '--all'])
     subprocess.run(['git', 'commit', '-m', sys.argv[1]])
 

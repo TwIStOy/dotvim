@@ -41,7 +41,6 @@ end
 ---@type dotvim.core.plugin.PluginOption
 return {
   "epwalsh/obsidian.nvim",
-  version = "*",
   event = function()
     return {
       ("BufReadPre %s/*.md"):format(Shared.vault_dir()),
@@ -78,6 +77,7 @@ return {
     "ObsidianYesterday",
     "ObsidianNewFromTemplate",
   },
+  config = true,
   opts = {
     dir = resolve_obsidian_vault(),
     notes_subdir = "2-Zettel",
@@ -93,7 +93,7 @@ return {
       nvim_cmp = true,
     },
     templates = {
-      subdir = "0-Assets",
+      subdir = "0-Assets/Templates.nvim",
       substitutions = {
         daily_title = function()
           return os.date("%B %-d, %Y")
@@ -134,6 +134,9 @@ return {
         end
       end
       return out
+    end,
+    follow_url_func = function(url)
+      require("gx").open("c", url)
     end,
     callbacks = {
       enter_note = function(client, note)

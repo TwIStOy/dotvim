@@ -13,11 +13,12 @@ return {
     require("dotvim.pkgs.theme.plugins.evergarden"),
     require("dotvim.pkgs.theme.plugins.citruszest"),
     require("dotvim.pkgs.theme.plugins.onenord"),
+    require("dotvim.pkgs.theme.plugins.ares"),
   },
   setup = function()
     if not vim.g.vscode then
       vim.o.background = "dark"
-      vim.cmd("colorscheme tokyonight")
+      vim.cmd("colorscheme ares")
     end
   end,
 }

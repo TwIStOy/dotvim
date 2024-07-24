@@ -4,7 +4,7 @@ return {
   lazy = false,
   priority = 1000,
   opts = {
-    style = "storm",
+    style = "night",
     styles = {
       comments = { italic = false },
       keywords = { italic = false },

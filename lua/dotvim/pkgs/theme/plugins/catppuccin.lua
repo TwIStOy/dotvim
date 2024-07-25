@@ -6,8 +6,8 @@ return {
   build = ":CatppuccinCompile",
   opts = {
     background = {
-      light = "macchiato",
-      dark = "frappe",
+      light = "latte",
+      dark = "mocha",
     },
     no_italic = true,
     term_colors = true,

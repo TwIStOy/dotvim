@@ -232,7 +232,7 @@ return {
     },
     {
       "mrcjkb/rustaceanvim",
-      version = "^4",
+      version = "*",
       dependencies = { "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
       ft = { "rust" },
       init = function()
@@ -249,8 +249,14 @@ return {
               ["rust-analyzer"] = {
                 imports = {
                   granularity = {
+                    enforce = true,
                     group = "crate",
                   },
+                  prefix = "crate",
+                },
+                semanticHighlighting = {
+                  operator = { specialization = { enable = true } },
+                  punctuation = { enable = true },
                 },
                 inlayHints = {
                   typeHints = {

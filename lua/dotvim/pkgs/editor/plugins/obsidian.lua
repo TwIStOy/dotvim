@@ -10,6 +10,7 @@ local function resolve_obsidian_vault()
   for _, path in ipairs(default_vault_path) do
     local p = vim.fn.resolve(vim.fn.expand(path))
     if vim.fn.isdirectory(p) == 1 then
+      vim.print("Obsidian vault found at: " .. p)
       return p
     end
   end
@@ -86,7 +87,7 @@ return {
       folder = "3-Journal",
       date_format = "%Y-%m-%d",
       alias_format = "%B %-d, %Y",
-      template = "Templates.nvim/journal-template.md",
+      template = "journal-template.md",
     },
     new_notes_location = "notes_subdir",
     completion = {

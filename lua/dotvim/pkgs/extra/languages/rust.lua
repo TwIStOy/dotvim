@@ -282,17 +282,19 @@ return {
                   },
                 },
                 check = {
-                  command = "clippy",
+                  -- command = "clippy",
                 },
                 files = {
                   watcher = "server",
                   excludeDirs = {
                     ".direnv",
                     ".devenv",
+                    "target",
                   },
                   watcherExclude = {
                     ".direnv",
                     ".devenv",
+                    "target",
                   },
                 },
                 lru = { capacity = 1024 * 2 },

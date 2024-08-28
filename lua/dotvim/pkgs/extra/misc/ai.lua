@@ -250,8 +250,7 @@ return {
       "yetone/avante.nvim",
       event = "VeryLazy",
       opts = {
-        provider = "openai",
-        debug = true,
+        provider = "copilot",
         openai = {
           endpoint = "https://api.gptsapi.net/v1/",
           api_key_name = "cmd:cat /run/agenix/wildcard-api-key",

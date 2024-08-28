@@ -47,6 +47,7 @@ return {
       spec = {
         {
           mode = { "n", "v" },
+          { "<leader>a", group = "ai" },
           { "<leader>b", group = "bookmarks" },
           { "<leader>c", group = "clear" },
           { "<leader>f", group = "file" },

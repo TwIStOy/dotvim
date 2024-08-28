@@ -247,20 +247,80 @@ return {
       end,
     },
     {
-      "David-Kunz/gen.nvim",
-      cmd = "Gen",
+      "yetone/avante.nvim",
+      event = "VeryLazy",
       opts = {
-        model = "mistral", -- The default model to use.
-        host = "localhost", -- The host running the Ollama service.
-        port = "11434", -- The port on which the Ollama service is listening.
-        quit_map = "q",
-        retry_map = "<c-r>",
-        init = function() end, -- do nothing!
-        display_mode = "float", -- The display mode. Can be "float" or "split".
-        show_prompt = false, -- Shows the prompt submitted to Ollama.
-        show_model = false, -- Displays which model you are using at the beginning of your chat session.
-        no_auto_close = false, -- Never closes the window automatically.
-        debug = false, -- Prints errors and the command which is run.
+        provider = "openai",
+        debug = true,
+        openai = {
+          endpoint = "https://api.gptsapi.net/v1/",
+          api_key_name = "cmd:cat /run/agenix/wildcard-api-key",
+        },
+        claude = {
+          endpoint = "https://api.gptsapi.net/",
+          api_key_name = "cmd:cat /run/agenix/wildcard-api-key",
+        },
+        mappings = {
+          ask = "<leader>aa",
+          edit = "<leader>ae",
+          refresh = "<leader>ar",
+          diff = {
+            ours = "co",
+            theirs = "ct",
+            both = "cb",
+            next = "]x",
+            prev = "[x",
+          },
+          jump = {
+            next = "]d",
+            prev = "[d",
+          },
+          submit = {
+            normal = "<CR>",
+            insert = "<C-CR>",
+          },
+          toggle = {
+            debug = "<leader>ad",
+            hint = "<leader>ah",
+          },
+        },
+        hints = { enabled = true },
+        windows = {
+          wrap = true, -- similar to vim.o.wrap
+          width = 30, -- default % based on available width
+          sidebar_header = {
+            align = "center", -- left, center, right for title
+            rounded = true,
+          },
+        },
+        highlights = {
+          diff = {
+            current = "DiffText",
+            incoming = "DiffAdd",
+          },
+        },
+        --- @class AvanteConflictUserConfig
+        diff = {
+          debug = false,
+          autojump = true,
+          ---@type string | fun(): any
+          list_opener = "copen",
+        },
+      },
+      config = true,
+      dependencies = {
+        "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+        "stevearc/dressing.nvim",
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+        --- The below is optional, make sure to setup it properly if you have lazy=true
+        {
+          "MeanderingProgrammer/render-markdown.nvim",
+          opts = {
+            file_types = { "markdown", "Avante" },
+          },
+          ft = { "markdown", "Avante" },
+        },
       },
     },
   },

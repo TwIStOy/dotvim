@@ -369,8 +369,14 @@ return {
         end
 
         if vim.uv.fs_stat(vault_dir()) then
-          buttons[#buttons + 1] =
-            make_button("t", "󱨰  Today Note", ":ObsidianToday<CR>")
+          buttons[#buttons + 1] = make_button(
+            "t",
+            "󱨰  Today Note",
+            function()
+              vim.cmd("cd " .. vault_dir())
+              vim.cmd("ObsidianToday")
+            end
+          )
         end
 
         buttons[#buttons + 1] = make_button("q", "󰗼  Quit", function()

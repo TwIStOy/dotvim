@@ -249,8 +249,10 @@ return {
     {
       "yetone/avante.nvim",
       event = "VeryLazy",
+      build = "make",
+      version = false,
       opts = {
-        provider = "copilot",
+        provider = "claude",
         openai = {
           endpoint = "https://api.gptsapi.net/v1/",
           api_key_name = "cmd:cat /run/agenix/wildcard-api-key",
@@ -306,7 +308,10 @@ return {
           list_opener = "copen",
         },
       },
-      config = true,
+      config = function(_, opts)
+        require("avante_lib").load()
+        require("avante").setup(opts)
+      end,
       dependencies = {
         "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
         "stevearc/dressing.nvim",
@@ -319,6 +324,23 @@ return {
             file_types = { "markdown", "Avante" },
           },
           ft = { "markdown", "Avante" },
+        },
+        {
+          -- support for image pasting
+          "HakonHarnes/img-clip.nvim",
+          event = "VeryLazy",
+          opts = {
+            -- recommended settings
+            default = {
+              embed_image_as_base64 = false,
+              prompt_for_file_name = false,
+              drag_and_drop = {
+                insert_mode = true,
+              },
+              -- required for Windows users
+              use_absolute_path = true,
+            },
+          },
         },
       },
     },

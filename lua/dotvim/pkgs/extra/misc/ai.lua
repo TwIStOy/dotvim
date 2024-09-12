@@ -250,6 +250,7 @@ return {
       "yetone/avante.nvim",
       event = "VeryLazy",
       build = "make",
+      enabled = false,
       version = false,
       opts = {
         provider = "openai",

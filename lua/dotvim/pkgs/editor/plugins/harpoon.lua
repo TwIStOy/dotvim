@@ -15,10 +15,22 @@ return {
         end,
       },
       {
-        "<C-o>",
+        "<leader>o",
         function()
           harpoon.ui:toggle_quick_menu(harpoon:list())
-        end
+        end,
+      },
+      {
+        "<C-S-P>",
+        function()
+          harpoon:list():prev()
+        end,
+      },
+      {
+        "<C-S-N>",
+        function()
+          harpoon:list():next()
+        end,
       }
     }
   end,

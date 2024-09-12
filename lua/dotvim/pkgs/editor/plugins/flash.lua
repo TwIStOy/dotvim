@@ -23,6 +23,18 @@ end
 return {
   "folke/flash.nvim",
   event = "BufReadPost",
+  opts = {
+    modes = { search = { enabled = false } },
+  },
+  keys = {
+    {
+      "s",
+      function()
+        require("flash").jump()
+      end,
+      desc = "flash search",
+    },
+  },
   dependencies = {
     {
       "telescope.nvim",

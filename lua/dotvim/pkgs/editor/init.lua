@@ -33,6 +33,7 @@ return {
     require("dotvim.pkgs.editor.plugins.overseer"),
     require("dotvim.pkgs.editor.plugins.nvim-ufo"),
     require("dotvim.pkgs.editor.plugins.gx"),
+    require("dotvim.pkgs.editor.plugins.harpoon"),
   },
   setup = function()
     require("dotvim.pkgs.editor.setup.obsidian")()

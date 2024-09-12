@@ -101,4 +101,26 @@ function M.buf_get_var(bufnr, key)
   end
 end
 
+function M.hack_global_vim_metatable()
+  setmetatable(vim, {
+    __index = function(t, key)
+      if vim._submodules[key] then
+        t[key] = require("vim." .. key)
+        return t[key]
+      elseif key == "inspect_pos" or key == "show_pos" then
+        require("vim._inspector")
+        return t[key]
+      elseif type(key) == "string" and vim.startswith(key, "uri_") then
+        --- @type any?
+        local val = require("vim.uri")[key]
+        if val ~= nil then
+          -- Expose all `vim.uri` functions on the `vim` module.
+          t[key] = val
+          return t[key]
+        end
+      end
+    end,
+  })
+end
+
 return M

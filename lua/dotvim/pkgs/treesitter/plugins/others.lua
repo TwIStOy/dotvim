@@ -64,6 +64,7 @@ return {
   {
     "RRethy/nvim-treesitter-endwise",
     gui = "all",
+    enabled = false,
     ft = { "lua", "ruby", "vimscript" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {

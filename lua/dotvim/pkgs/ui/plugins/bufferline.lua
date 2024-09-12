@@ -1,3 +1,10 @@
+-- numbers = function(number_opts)
+--             local harpoon = require("harpoon.mark")
+-- 	    local buf_name = vim.api.nvim_buf_get_name(number_opts.id)
+-- 	    local harpoon_mark = harpoon.get_index_of(buf_name)
+-- 	    return harpoon_mark
+-- 	end,
+
 ---@type dotvim.core.plugin.PluginOption[]
 return {
   {
@@ -16,7 +23,19 @@ return {
         hover = { enabled = true, delay = 200 },
         separator_style = "thick",
         close_command = "BDelete! %d",
-        numbers = "none",
+        numbers = function(number_opts)
+          local succ, harpoon = pcall(require, "harpoon")
+          if not succ then
+            return
+          end
+          local buf_name = vim.api.nvim_buf_get_name(number_opts.id)
+          buf_name = vim.fn.fnamemodify(buf_name, ":.")
+          for index, item in ipairs(harpoon:list().items) do
+            if item.value == buf_name then
+              return index
+            end
+          end
+        end,
         diagnostics = "",
         show_buf_icons = false,
         offsets = {

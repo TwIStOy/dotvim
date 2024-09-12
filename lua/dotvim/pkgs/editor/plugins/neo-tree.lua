@@ -150,8 +150,8 @@ return {
           end)
         end,
         find_in_dir = function(state)
-          local node = state.tree.get_node()
-          local path = node.get_id()
+          local node = state.tree:get_node()
+          local path = node:get_id()
           local cwd
           if node.type == "directory" then
             cwd = path

@@ -16,4 +16,7 @@ M.context_menu = require("dotvim.extra.context_menu")
 ---@type dotvim.extra.search_everywhere
 M.search_everywhere = require("dotvim.extra.search-everywhere")
 
+---@type dotvim.extra.harpoon
+M.harpoon = require("dotvim.extra.harpoon")
+
 return M

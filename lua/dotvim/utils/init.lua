@@ -1,6 +1,25 @@
 ---@class dotvim.utils
 local M = {}
 
+---Create a "lazy" module.
+---Lazy modules are modules that are only loaded its children when accessed.
+---@param base string The base module path
+function M.lazy_module(base)
+  return setmetatable({}, {
+    ---@param t table
+    ---@param key string
+    __index = function(t, key)
+      local path = ("%s.%s"):format(base, key)
+      local ok, mod = pcall(require, path)
+      if not ok then
+        error(mod)
+      end
+      t[key] = mod
+      return mod
+    end,
+  })
+end
+
 ---@type dotvim.utils.ansi
 M.ansi = require("dotvim.utils.ansi")
 

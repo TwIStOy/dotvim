@@ -282,7 +282,7 @@ return {
                   },
                 },
                 check = {
-                  -- command = "clippy",
+                  command = "clippy",
                 },
                 files = {
                   watcher = "server",

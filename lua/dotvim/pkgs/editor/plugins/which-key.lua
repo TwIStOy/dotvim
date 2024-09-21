@@ -42,6 +42,8 @@ return {
           { pattern = "conflict", icon = " ", color = "cyan" },
           { pattern = "yazi", icon = " ", color = "yellow" },
           { pattern = "format", icon = " ", color = "cyan" },
+          { pattern = "lazygit", icon = " ", color = "yellow" },
+          { pattern = "open", icon = " ", color = "cyan" },
         },
       },
       spec = {
@@ -66,7 +68,7 @@ return {
             icon = { icon = " ", color = "red" },
           },
           { "<leader>p", group = "preview" },
-          { "<leader>r", group = "remote" },
+          { "<leader>r", group = "remote", icon = " " },
           { "<leader>s", group = "search" },
           { "<leader>t", group = "test/toggle" },
           { "<leader>v", group = "vcs" },

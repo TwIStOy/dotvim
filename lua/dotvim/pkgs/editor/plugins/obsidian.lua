@@ -10,7 +10,6 @@ local function resolve_obsidian_vault()
   for _, path in ipairs(default_vault_path) do
     local p = vim.fn.resolve(vim.fn.expand(path))
     if vim.fn.isdirectory(p) == 1 then
-      vim.print("Obsidian vault found at: " .. p)
       return p
     end
   end

@@ -74,27 +74,38 @@ end
 
 ---Get the path to a binary
 ---@param name string
----@return string
-function M.which(name)
+---@param return_default? boolean
+---@return string?
+function M.which(name, return_default)
   if type(name) ~= "string" then
     return name
   end
 
-  return which_cache:ensure({ "bin", name }, function()
-    -- try to resolve the binary from PATH
-    -- NOTE: mason.nvim has already inject the mason bin path into PATH
-    if vim.fn.executable(name) == 1 then
-      return name
-    end
+  return_default = vim.F.if_nil(return_default, true)
 
-    if M.nix.is_nix_managed() then
-      local ret = M.nix.resolve_bin(name)
-      if ret ~= nil then
-        return ret
+  return which_cache:ensure(
+    { "bin", name, tostring(return_default) },
+    function()
+      -- try to resolve the binary from PATH
+      -- NOTE: mason.nvim has already inject the mason bin path into PATH
+      if vim.fn.executable(name) == 1 then
+        return name
+      end
+
+      if M.nix.is_nix_managed() then
+        local ret = M.nix.resolve_bin(name)
+        if ret ~= nil then
+          return ret
+        end
+      end
+
+      if return_default then
+        return name
+      else
+        return nil
       end
     end
-    return name
-  end)
+  )
 end
 
 ---NOTE: opts will be modified in place

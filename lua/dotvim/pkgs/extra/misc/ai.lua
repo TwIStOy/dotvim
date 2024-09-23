@@ -22,9 +22,40 @@ return {
         },
       },
       config = function(_, opts)
-        vim.defer_fn(function()
+        local setup = function(path)
+          opts.copilot_node_command = path
           require("copilot").setup(opts)
           _copilot_setup_done = true
+        end
+
+        vim.defer_fn(function()
+          ---@type dotvim.utils
+          local Utils = require("dotvim.utils")
+
+          local node_path = Utils.which("node", false)
+          if node_path == nil then
+            -- try to get node from fish shell
+            vim.system({
+              "fish",
+              "-c",
+              "which node",
+            }, {
+              text = true,
+            }, function(obj)
+              if obj.code == 0 then
+                local path = vim.trim(obj.stdout)
+                vim.schedule(function()
+                  setup(path)
+                end)
+              else
+                vim.notify("Node not found", vim.log.levels.ERROR)
+                vim.notify(obj.stdout, vim.log.levels.ERROR)
+                vim.notify(obj.stderr, vim.log.levels.ERROR)
+              end
+            end)
+          else
+            setup(node_path)
+          end
         end, 100)
       end,
       actions = function()

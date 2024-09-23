@@ -147,10 +147,6 @@ A language server for librime
               })
             end
 
-            vim.keymap.set("n", "<leader>rs", function()
-              vim.lsp.buf.execute_command { command = "rime-ls.sync-user-data" }
-            end, { desc = "rime-sync-user-data", buffer = bufnr })
-
             vim.api.nvim_create_autocmd("InsertCharPre", {
               buffer = bufnr,
               callback = function()

@@ -31,9 +31,9 @@ A language server for librime
         opts.servers.opts.rime_ls = {
           init_options = {
             enabled = false,
-            shared_data_dir = "~/.local/share/rime-ls-data-files",
-            user_data_dir = "~/.local/share/rime-ls-files",
-            log_dir = "~/.local/share/rime-ls-files/log",
+            shared_data_dir = "~/.local/share/shared-rime-scheme",
+            user_data_dir = "~/.local/share/shared-rime-scheme",
+            log_dir = "~/.local/share/shared-rime-scheme/log",
             max_candidates = 9,
             trigger_characters = {},
             schema_trigger_character = "&",

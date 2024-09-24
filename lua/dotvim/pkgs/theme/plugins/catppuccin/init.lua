@@ -78,6 +78,20 @@ return {
         HydraAmaranth = { fg = colors.mauve },
         HydraPink = { fg = colors.pink },
         HydraTeal = { fg = colors.teal },
+
+        NeotestPassed = { fg = colors.green },
+        NeotestFailed = { fg = colors.red },
+        NeotestRunning = { fg = colors.yellow },
+        NeotestSkipped = { fg = colors.blue },
+        NeotestFile = { fg = colors.peach },
+        NeotestNamespace = { fg = colors.peach },
+        NeotestDir = { fg = colors.peach },
+        NeotestFocused = { fg = colors.mauve, bold = true, underline = true },
+        NeotestAdapterName = { fg = colors.red },
+        NeotestIndent = { fg = colors.yellow },
+        NeotestExpandMarker = { fg = colors.yellow },
+        NeotestWinSelect = { fg = colors.yellow, bold = true },
+        NeotestTest = { fg = colors.subtext2 },
       }
     end,
     integrations = {

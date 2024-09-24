@@ -13,3 +13,8 @@
 (field_initializer
   value: (_) @dotvim_omni_right.inner)
 
+(field_declaration
+  type: (_) @dotvim_omni_right.inner)
+
+(closure_expression
+  body: (_) @dotvim_omni_right.inner)

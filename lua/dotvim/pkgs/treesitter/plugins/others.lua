@@ -32,6 +32,8 @@ return {
             il = "@lifetime.inner",
             ["a;"] = "@statement.outer",
             ir = "@dotvim_omni_right.inner",
+            ic = "@conditional.inner",
+            ac = "@conditional.outer",
           },
         },
         swap = {

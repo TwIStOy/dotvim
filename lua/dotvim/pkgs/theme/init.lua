@@ -14,6 +14,7 @@ return {
     require("dotvim.pkgs.theme.plugins.citruszest"),
     require("dotvim.pkgs.theme.plugins.onenord"),
     require("dotvim.pkgs.theme.plugins.ares"),
+    require("dotvim.pkgs.theme.plugins.yorumi"),
   },
   setup = function()
     if not vim.g.vscode then

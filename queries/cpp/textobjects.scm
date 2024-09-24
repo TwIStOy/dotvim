@@ -43,3 +43,12 @@
 (if_statement
   condition: (condition_clause
                value: (_) @dotvim_omni_if.condition.inner) @dotvim_omni_if.condition.outer)
+
+(lambda_capture_initializer
+  right: (_) @dotvim_omni_right.inner)
+
+(for_range_loop
+  right: (_) @dotvim_omni_right.inner)
+
+(assignment_expression
+  right: (_) @dotvim_omni_right.inner)

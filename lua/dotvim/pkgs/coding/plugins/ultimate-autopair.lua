@@ -29,14 +29,31 @@ return {
     },
     config_internal_pairs = {
       {
-        "'",
-        "'",
+        '"',
+        '"',
         suround = true,
-        cond = function(fn)
-          return not fn.in_lisp() or fn.in_string()
+        cond = function(fn, o)
+          -- vim
+          if
+            fn.get_ft() == "vim"
+            and (
+              o.line:sub(1, o.col - 1):match("^%s*$") ~= nil
+              or o.line:sub(o.col - 1, o.col - 1) == "@"
+            )
+          then
+            return false
+          end
+
+          -- luasnip-snippets expands `#"` in cpp
+          if
+            fn.get_ft() == "cpp"
+            and o.line:sub(1, o.col - 1):match("^%s*#$") ~= nil
+          then
+            return false
+          end
+
+          return true
         end,
-        alpha = true,
-        nft = { "tex", "rust" },
         multiline = false,
       },
     },

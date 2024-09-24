@@ -13,6 +13,9 @@ return {
         lua = {
           vim_snippet = true,
         },
+        rust = {
+          rstest_support = true,
+        },
       },
     },
   },

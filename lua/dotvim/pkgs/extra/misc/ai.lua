@@ -281,17 +281,16 @@ return {
       "yetone/avante.nvim",
       event = "VeryLazy",
       build = "make",
-      enabled = false,
-      version = false,
+      pname = "avante-nvim",
       opts = {
-        provider = "openai",
+        provider = "claude",
         openai = {
           endpoint = "https://api.gptsapi.net/v1/",
           api_key_name = "cmd:cat /run/agenix/wildcard-api-key",
         },
         claude = {
-          endpoint = "https://api.gptsapi.net/",
-          api_key_name = "cmd:cat /run/agenix/wildcard-api-key",
+          endpoint = "https://api.luee.net",
+          api_key_name = "cmd:cat /run/agenix/luee-net-api-key",
         },
         mappings = {
           ask = "<leader>aa",

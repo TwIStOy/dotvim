@@ -154,13 +154,15 @@ function M.setup()
     },
   }
 
+  Utils.lazy.fix_valid_fields()
+
   if Utils.nix.is_nix_managed() then
     lazy_opts.dev = {
       path = function(plugin)
         local name = Core.plugin.guess_name(plugin)
         local dev_path = os.getenv("HOME") .. "/Projects/nvim-plugins/" .. name
         ---@diagnostic disable-next-line: undefined-field
-        if vim.uv.fs_stat(dev_path) then
+        if not not vim.uv.fs_stat(dev_path) then
           return dev_path
         end
         local pname = Utils.nix.normalize_plugin_pname(plugin)
@@ -190,8 +192,6 @@ function M.setup()
   end
 
   require("lazy").setup(lazy_opts)
-
-  Utils.lazy.fix_valid_fields()
 
   for _, pkg in ipairs(packages) do
     pkg:setup()

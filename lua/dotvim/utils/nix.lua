@@ -62,17 +62,10 @@ end
 ---@param plugin dotvim.core.plugin.PluginOption
 ---@return string
 function M.normalize_plugin_pname(plugin)
-  if plugin.pname == nil then
-    return plugin.name
-  else
-    if type(plugin.pname) == "function" then
-      return plugin.pname(plugin)
-    elseif type(plugin.pname) == "string" then
-      return plugin.pname
-    else
-      error("invalid pname type")
-    end
-  end
+  local name = plugin.name
+  -- replace '.' with '-'
+  local ret, _ = name:gsub("%.", "-")
+  return ret
 end
 
 local function load_nix_related_data()

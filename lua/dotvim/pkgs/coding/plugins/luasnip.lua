@@ -20,7 +20,7 @@ return {
     },
   },
   {
-    "L3MON4D3/LuaSnip",
+    "TwIStOy/LuaSnip",
     gui = "all",
     build = "make install_jsregex",
     dependencies = {

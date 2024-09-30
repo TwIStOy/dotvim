@@ -22,7 +22,7 @@ return {
   {
     "TwIStOy/LuaSnip",
     gui = "all",
-    build = "make install_jsregex",
+    build = "make install_jsregexp",
     dependencies = {
       {
         "nvim-cmp",

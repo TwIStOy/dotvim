@@ -128,7 +128,6 @@ function M.setup()
     change_detection = { enabled = false },
     install = {
       missing = true,
-      colorscheme = { "nvchad" },
     },
     rocks = {
       enabled = false,

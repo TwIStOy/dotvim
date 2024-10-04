@@ -2,6 +2,7 @@
 return {
   "nvchad/base46",
   lazy = true,
+  enabled = false,
   build = function()
     require("base46").load_all_highlights()
   end,

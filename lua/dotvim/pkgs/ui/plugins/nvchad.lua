@@ -2,6 +2,7 @@
 return {
   {
     "nvchad/ui",
+    enabled = false,
     config = function()
       require("nvchad")
     end,

@@ -7,6 +7,7 @@ return {
   plugins = Utils.tbl.flatten_array {
     require("dotvim.pkgs.ui.plugins._others"),
     require("dotvim.pkgs.ui.plugins.alpha"),
+    require("dotvim.pkgs.ui.plugins.menu"),
     require("dotvim.pkgs.ui.plugins.bufferline"),
     require("dotvim.pkgs.ui.plugins.dropbar"),
     require("dotvim.pkgs.ui.plugins.lualine"),

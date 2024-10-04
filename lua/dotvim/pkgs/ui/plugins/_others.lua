@@ -1,5 +1,6 @@
 ---@type dotvim.core.plugin.PluginOption[]
 return {
+  { "nvchad/volt", lazy = true },
   {
     "rcarriga/nvim-notify",
     opts = {

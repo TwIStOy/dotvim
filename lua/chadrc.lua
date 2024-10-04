@@ -5,4 +5,9 @@ M.base46 = {
   transparency = true,
 }
 
+M.ui = {
+  statusline = { enabled = false },
+  tabufline = { enabled = false },
+}
+
 return M

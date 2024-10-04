@@ -128,13 +128,13 @@ function M.setup()
     change_detection = { enabled = false },
     install = {
       missing = true,
+      colorscheme = { "nvchad" },
     },
     rocks = {
       enabled = false,
     },
     performance = {
       cache = { enabled = true },
-      install = { colorscheme = { "tokyonight", "habamax" } },
       rtp = {
         paths = {
           os.getenv("HOME") .. "/.dotvim",
@@ -190,6 +190,9 @@ function M.setup()
       fallback = true,
     }
   end
+
+  -- before setup, init base46 cache folder
+  vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
   require("lazy").setup(lazy_opts)
 

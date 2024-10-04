@@ -14,5 +14,6 @@ return {
     require("dotvim.pkgs.ui.plugins.noice"),
     require("dotvim.pkgs.ui.plugins.nvim-colorizer"),
     require("dotvim.pkgs.ui.plugins.hlchunk"),
+    require("dotvim.pkgs.ui.plugins.nvchad"),
   },
 }

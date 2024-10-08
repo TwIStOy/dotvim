@@ -1,8 +1,8 @@
 ---@type dotvim.core.plugin.PluginOption
 return {
   -- use this fork until hrsh7th/nvim-cmp#1980 is merged
-  "yioneko/nvim-cmp",
-  branch = "perf-up",
+  "iguanacucumber/magazine.nvim",
+  name = "nvim-cmp",
   event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",

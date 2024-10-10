@@ -4,44 +4,68 @@ return {
     "folke/noice.nvim",
     event = { "ModeChanged", "BufReadPre", "InsertEnter" },
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
-    opts = {
-      lsp = {
-        progress = {
-          enabled = false,
-          throttle = 1000 / 10,
-          view = "mini",
-        },
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = false,
-        },
-        signature = {
-          enabled = false,
-          auto_open = {
+    opts = function()
+      local opts = {
+        lsp = {
+          progress = {
+            enabled = false,
+            throttle = 1000 / 10,
+            view = "mini",
+          },
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = false,
+          },
+          signature = {
+            enabled = false,
+            auto_open = {
+              enabled = true,
+              trigger = true,
+              luasnip = true,
+              throttle = 50,
+            },
+          },
+          hover = {
             enabled = true,
-            trigger = true,
-            luasnip = true,
-            throttle = 50,
+            opts = {
+              border = { style = "none", padding = { 1, 2 } },
+              position = { row = 2, col = 2 },
+            },
           },
         },
-        hover = {
-          enabled = true,
-          opts = {
-            border = { style = "none", padding = { 1, 2 } },
-            position = { row = 2, col = 2 },
+        messages = { enabled = false },
+        presets = {
+          bottom_search = false,
+          command_palette = true,
+          long_message_to_split = false,
+          inc_rename = false,
+          lsp_doc_border = false,
+        },
+        cmdline = {
+          format = {
+            search_down = {
+              view = "cmdline",
+            },
+            search_up = {
+              view = "cmdline",
+            },
           },
         },
-      },
-      messages = { enabled = false },
-      presets = {
-        bottom_search = false,
-        command_palette = true,
-        long_message_to_split = false,
-        inc_rename = false,
-        lsp_doc_border = false,
-      },
-    },
+      }
+
+      if vim.g.neovide then
+        opts = vim.tbl_deep_extend("force", opts, {
+          views = {
+            cmdline_popup = {
+              border = { style = "none", padding = { 1, 2 } },
+            },
+          },
+        })
+      end
+
+      return opts
+    end,
     config = function(_, opts)
       require("noice").setup(opts)
 

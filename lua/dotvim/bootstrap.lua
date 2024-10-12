@@ -191,7 +191,7 @@ function M.setup()
   end
 
   -- before setup, init base46 cache folder
-  vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
+  -- vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
   require("lazy").setup(lazy_opts)
 

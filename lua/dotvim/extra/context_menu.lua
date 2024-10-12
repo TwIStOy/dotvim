@@ -11,6 +11,8 @@ local Utils = require("dotvim.extra.context_menus.utils")
 local function build_nodes()
   return {
     Groups.build_plugin_refactor(),
+    { name = "separator" },
+    Groups.build_plugin_rust_lsp(),
   }
 end
 

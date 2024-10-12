@@ -1,7 +1,7 @@
 ---@class dotvim.extra.ContextMenuOption
 ---@field name string|'separator'
 ---@field rtxt? string
----@field hl? string
+---@field hl? 'ExBlue'|'ExRed'|'ExGreen'
 ---@field cmd? function
 ---@field items? dotvim.extra.ContextMenuOption[]
 
@@ -12,6 +12,9 @@ local M = {}
 
 ---@param opt dotvim.extra.ContextMenuOption
 function M.option_should_display(opt)
+  if opt.name == "separator" then
+    return true
+  end
   if opt.cmd ~= nil then
     return true
   end

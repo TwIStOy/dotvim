@@ -156,14 +156,22 @@ return {
       install_missing_or_update_packages()
     end)
 
+    local emit_user_mason_setup_done = function()
+      vim.api.nvim_exec_autocmds("User", {
+        pattern = "MasonSetupDone",
+      })
+    end
+
     if vim.fn.argc() == 0 then
       vim.defer_fn(function()
         require("mason").setup(opts)
         do_setup()
+        emit_user_mason_setup_done()
       end, 200)
     else
       -- skip update, setup immediately
       require("mason").setup(opts)
+      emit_user_mason_setup_done()
     end
   end,
   actions = function()

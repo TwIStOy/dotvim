@@ -1,6 +1,6 @@
 
 return {
   version = function()
-    return "2024.10.12"
+    return "2024.10.14"
   end,
 }

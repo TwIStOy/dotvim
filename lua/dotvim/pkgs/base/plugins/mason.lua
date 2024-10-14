@@ -160,6 +160,7 @@ return {
       vim.api.nvim_exec_autocmds("User", {
         pattern = "MasonSetupDone",
       })
+      vim.g.dotvim_mason_setup_done = true
     end
 
     if vim.fn.argc() == 0 then

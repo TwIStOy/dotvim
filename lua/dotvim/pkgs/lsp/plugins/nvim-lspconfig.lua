@@ -134,40 +134,47 @@ return {
         setup_server(server)
       end
     else
-      -- wait for mason.nvim has been initialized
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "MasonSetupDone",
-        once = true,
-        callback = function()
-          for server, _ in pairs(opts.servers.opts) do
-            setup_server(server)
+      local setup_all_servers_and_attach_missing_lsp_servers = function()
+        for server, _ in pairs(opts.servers.opts) do
+          setup_server(server)
+        end
+
+        -- for all currently opened buffers, try to attach to the LSP server
+        -- get all buffers
+        local buffers = vim.api.nvim_list_bufs()
+        for _, buf in ipairs(buffers) do
+          if not vim.api.nvim_buf_is_loaded(buf) or not vim.api.nvim_buf_is_valid(buf) then
+            goto continue
+          end
+          local ft = vim.api.nvim_get_option_value("filetype", {
+            buf = buf,
+          })
+          if ft == "" then
+            goto continue
           end
 
-          -- for all currently opened buffers, try to attach to the LSP server
-          -- get all buffers
-          local buffers = vim.api.nvim_list_bufs()
-          for _, buf in ipairs(buffers) do
-            if not vim.api.nvim_buf_is_loaded(buf) or not vim.api.nvim_buf_is_valid(buf) then
-              goto continue
+          for _, server_name in ipairs(require("lspconfig.util").available_servers()) do
+            local server = require("lspconfig")[server_name]
+            if server.filetypes ~= nil and vim.list_contains(server.filetypes, ft) then
+              server.launch(buf)
             end
-            local ft = vim.api.nvim_get_option_value("filetype", {
-              buf = buf,
-            })
-            if ft == "" then
-              goto continue
-            end
-
-            for _, server_name in ipairs(require("lspconfig.util").available_servers()) do
-              local server = require("lspconfig")[server_name]
-              if server.filetypes ~= nil and vim.list_contains(server.filetypes, ft) then
-                server.launch(buf)
-              end
-            end
-
-            ::continue::
           end
-        end,
-      })
+
+          ::continue::
+        end
+      end
+
+      if vim.g.dotvim_mason_setup_done == true then
+        -- setup immediately
+        setup_all_servers_and_attach_missing_lsp_servers()
+      else
+        -- wait for mason.nvim has been initialized
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "MasonSetupDone",
+          once = true,
+          callback = setup_all_servers_and_attach_missing_lsp_servers,
+        })
+      end
     end
   end,
 }

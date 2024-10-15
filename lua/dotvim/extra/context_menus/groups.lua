@@ -81,4 +81,61 @@ function M.build_plugin_rust_lsp()
   return ret
 end
 
+function M.build_plugin_harpoon()
+  local succ, harpoon = pcall(require, "harpoon")
+  if not succ then
+    return {}
+  end
+  local in_harpoon = function()
+    local buf_name = vim.api.nvim_buf_get_name(0)
+    buf_name = vim.fn.fnamemodify(buf_name, ":.")
+    for index, item in ipairs(harpoon:list().items) do
+      if item.value == buf_name then
+        return index
+      end
+    end
+  end
+
+  ---@type dotvim.extra.ContextMenuOption
+  local ret = {
+    name = "󰒤 Harpoon",
+    items = {},
+  }
+
+  local index = in_harpoon()
+  if index == nil then
+    ---@type dotvim.extra.ContextMenuOption
+    ret.items[#ret.items + 1] = {
+      name = "󰒤 Add to Harpoon",
+      rtxt = "m",
+      cmd = function()
+        harpoon:list():add()
+      end,
+    }
+  else
+    ---@type dotvim.extra.ContextMenuOption
+    ret.items[#ret.items + 1] = {
+      name = "󰒤 Remove from Harpoon",
+      rtxt = "m",
+      cmd = function()
+        harpoon:list():remove_at(index)
+      end,
+    }
+  end
+
+  ret.items[#ret.items + 1] = {
+    name = "󰒤 Toggle Harpoon",
+    rtxt = "o",
+    cmd = function()
+      if harpoon:list():length() > 0 then
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      else
+        vim.notify("No items in Harpoon", "warn")
+      end
+    end,
+  }
+
+  return ret
+end
+
 return M

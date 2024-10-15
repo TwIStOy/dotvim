@@ -16,6 +16,9 @@ local function build_nodes()
     {
       Groups.build_plugin_rust_lsp(),
     },
+    {
+      Groups.build_plugin_harpoon(),
+    }
   }
 end
 

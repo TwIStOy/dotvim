@@ -139,4 +139,20 @@ function M.build_plugin_harpoon()
   return ret
 end
 
+---@return dotvim.extra.ContextMenuOption
+function M.build_plugin_conform()
+  ---@type dotvim.extra.ContextMenuOption
+  return {
+    name = "Format buffer",
+    rtxt = "<leader>fc",
+    cmd = function()
+      local conform = require("conform")
+      conform.format {
+        async = true,
+        lsp_fallback = true,
+      }
+    end,
+  }
+end
+
 return M

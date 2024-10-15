@@ -11,6 +11,9 @@ local Utils = require("dotvim.extra.context_menus.utils")
 local function build_nodes()
   return {
     {
+      Groups.build_plugin_conform(),
+    },
+    {
       Groups.build_plugin_refactor(),
     },
     {
@@ -18,7 +21,7 @@ local function build_nodes()
     },
     {
       Groups.build_plugin_harpoon(),
-    }
+    },
   }
 end
 

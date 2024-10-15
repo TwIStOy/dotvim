@@ -99,6 +99,7 @@ function M.build_plugin_harpoon()
   ---@type dotvim.extra.ContextMenuOption
   local ret = {
     name = "󰒤 Harpoon",
+    hl = "ExBlue",
     items = {},
   }
 
@@ -106,7 +107,7 @@ function M.build_plugin_harpoon()
   if index == nil then
     ---@type dotvim.extra.ContextMenuOption
     ret.items[#ret.items + 1] = {
-      name = "󰒤 Add to Harpoon",
+      name = "Add to Harpoon",
       rtxt = "m",
       cmd = function()
         harpoon:list():add()
@@ -115,7 +116,7 @@ function M.build_plugin_harpoon()
   else
     ---@type dotvim.extra.ContextMenuOption
     ret.items[#ret.items + 1] = {
-      name = "󰒤 Remove from Harpoon",
+      name = "Remove from Harpoon",
       rtxt = "m",
       cmd = function()
         harpoon:list():remove_at(index)
@@ -124,7 +125,7 @@ function M.build_plugin_harpoon()
   end
 
   ret.items[#ret.items + 1] = {
-    name = "󰒤 Toggle Harpoon",
+    name = "Toggle Harpoon",
     rtxt = "o",
     cmd = function()
       if harpoon:list():length() > 0 then

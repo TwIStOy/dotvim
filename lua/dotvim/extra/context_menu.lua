@@ -4,6 +4,9 @@ local M = {}
 ---@type dotvim.extra.context_menus.groups
 local Groups = require("dotvim.extra.context_menus.groups")
 
+---@type dotvim.extra.context_menus.langs
+local Langs = require("dotvim.extra.context_menus.langs")
+
 ---@type dotvim.extra.context_menus.utils
 local Utils = require("dotvim.extra.context_menus.utils")
 
@@ -17,7 +20,7 @@ local function build_nodes()
       Groups.build_plugin_refactor(),
     },
     {
-      Groups.build_plugin_rust_lsp(),
+      Langs.build_langs_group(0),
     },
     {
       Groups.build_plugin_harpoon(),

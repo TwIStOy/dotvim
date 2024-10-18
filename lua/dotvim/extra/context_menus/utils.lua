@@ -29,4 +29,15 @@ function M.option_should_display(opt)
   return false
 end
 
+---@param list dotvim.extra.ContextMenuOptions
+---@param group dotvim.extra.ContextMenuOptions
+function M.append_group(list, group)
+  if #group > 0 then
+    if #list > 0 then
+      list[#list + 1] = { name = "separator" }
+    end
+    vim.list_extend(list, group)
+  end
+end
+
 return M

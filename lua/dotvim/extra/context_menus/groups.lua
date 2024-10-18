@@ -33,54 +33,6 @@ function M.build_plugin_refactor()
   }
 end
 
----@return dotvim.extra.ContextMenuOption
-function M.build_plugin_rust_lsp()
-  local ft = vim.api.nvim_get_option_value("filetype", {
-    buf = 0,
-  })
-  ---@type dotvim.extra.ContextMenuOption
-  local ret = {
-    name = "󱘗 Rust LSP",
-    hl = "ExBlue",
-    items = {},
-  }
-
-  if ft == "rust" then
-    ret.items = {
-      {
-        name = "Expand macro",
-        rtxt = "e",
-        cmd = function()
-          vim.api.nvim_command("RustLsp expandMacro")
-        end,
-      },
-      {
-        name = "Rebuild proc macro",
-        rtxt = "r",
-        cmd = function()
-          vim.api.nvim_command("RustLsp rebuildProcMacro")
-        end,
-      },
-      {
-        name = "Open cargo.toml",
-        rtxt = "c",
-        cmd = function()
-          vim.api.nvim_command("RustLsp openCargo")
-        end,
-      },
-      {
-        name = "Open parent module",
-        rtxt = "p",
-        cmd = function()
-          vim.api.nvim_command("RustLsp parentModule")
-        end,
-      },
-    }
-  end
-
-  return ret
-end
-
 function M.build_plugin_harpoon()
   local succ, harpoon = pcall(require, "harpoon")
   if not succ then

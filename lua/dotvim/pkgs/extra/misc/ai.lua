@@ -110,8 +110,12 @@ return {
         "CopilotChatFixDiagnostic",
         "CopilotChatCommit",
         "CopilotChatCommitStaged",
+        "CopilotChatModels",
+        "CopilotChatModel",
       },
-      opts = {},
+      opts = {
+        model = "claude-3.5-sonnet",
+      },
     },
     {
       "lualine.nvim",

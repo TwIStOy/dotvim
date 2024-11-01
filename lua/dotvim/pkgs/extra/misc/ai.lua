@@ -97,10 +97,13 @@ return {
         "CopilotChatOpen",
         "CopilotChatClose",
         "CopilotChatToggle",
+        "CopilotChatStop",
         "CopilotChatReset",
         "CopilotChatSave",
         "CopilotChatLoad",
         "CopilotChatDebugInfo",
+        "CopilotChatModels",
+        "CopilotChatModel",
         "CopilotChatExplain",
         "CopilotChatReview",
         "CopilotChatFix",
@@ -110,11 +113,22 @@ return {
         "CopilotChatFixDiagnostic",
         "CopilotChatCommit",
         "CopilotChatCommitStaged",
-        "CopilotChatModels",
-        "CopilotChatModel",
       },
       opts = {
         model = "claude-3.5-sonnet",
+        window = {
+          layout = "float",
+          width = 0.8,
+          height = 0.8,
+        },
+      },
+      keys = {
+        {
+          "<C-g>",
+          function()
+            vim.cmd("CopilotChatToggle")
+          end,
+        },
       },
     },
     {

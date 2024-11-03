@@ -301,7 +301,7 @@ return {
       build = "make",
       pname = "avante-nvim",
       opts = {
-        provider = "claude",
+        provider = "copilot",
         openai = {
           endpoint = "https://api.gptsapi.net/v1/",
           api_key_name = "cmd:cat /run/agenix/wildcard-api-key",

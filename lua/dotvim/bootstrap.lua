@@ -63,6 +63,8 @@ function M.setup()
   -- set mapleader at very beginning of profile
   vim.api.nvim_set_var("mapleader", " ")
 
+  Utils.nix.inject_cpath()
+
   for _, pkg in ipairs(enabled_packages) do
     Core.package.load_package(pkg)
   end

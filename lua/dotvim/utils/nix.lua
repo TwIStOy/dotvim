@@ -99,6 +99,22 @@ M.resolve_plugin = function(name)
   return nil
 end
 
+---@type fun(s: string): string
+local function trim_semicolon(s)
+  return s:sub(-1) == ";" and s:sub(1, -2) or s
+end
+
+M.inject_cpath = function()
+  assume_data_loaded()
+  local tiktoken_core = vim.tbl_get(nix_aware, "libs", "tiktoken_core")
+  if tiktoken_core then
+    package.cpath = trim_semicolon(package.cpath)
+      .. ";"
+      .. tiktoken_core
+      .. "/lib/lua/5.1/?.so"
+  end
+end
+
 ---@return boolean
 M.has_nix_store = Fn.invoke_once(function()
   return vim.fn.executable("nix-store") == 1

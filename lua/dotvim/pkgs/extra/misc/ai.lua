@@ -21,6 +21,7 @@ return {
           },
         },
       },
+      cmd = { "Copilot" },
       config = function(_, opts)
         local setup = function(path)
           opts.copilot_node_command = path

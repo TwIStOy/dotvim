@@ -116,7 +116,7 @@ return {
         "CopilotChatCommitStaged",
       },
       opts = {
-        model = "gpt-4o",
+        model = "claude-3.5-sonnet",
         window = {
           layout = "float",
           width = 0.8,

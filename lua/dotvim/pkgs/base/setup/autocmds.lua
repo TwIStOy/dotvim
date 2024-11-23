@@ -24,6 +24,7 @@ local relative_number_blacklist = {
   ["fzf"] = true,
   ["neotest-summary"] = true,
   ["neotest-output"] = true,
+  ["profile"] = true,
   [""] = true,
 }
 

@@ -113,6 +113,12 @@ M.inject_cpath = function()
       .. tiktoken_core
       .. "/lib/lua/5.1/?.so"
   end
+
+  local magick = vim.tbl_get(nix_aware, "libs", "magick")
+  if magick then
+    package.path = package.path .. ";" .. magick .. "/share/lua/5.1/?/init.lua;"
+    package.path = package.path .. ";" .. magick .. "/share/lua/5.1/?.lua;"
+  end
 end
 
 ---@return boolean

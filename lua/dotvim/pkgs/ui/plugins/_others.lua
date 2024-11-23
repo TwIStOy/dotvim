@@ -2,6 +2,24 @@
 return {
   { "nvchad/volt", lazy = true },
   {
+    "3rd/image.nvim",
+    lazy = true,
+    opts = {
+      integrations = {
+        markdown = {
+          enabled = false,
+        },
+        neorg = {
+          enabled = false,
+        },
+        typst = {
+          enabled = false,
+        },
+      },
+    },
+    config = true,
+  },
+  {
     "rcarriga/nvim-notify",
     opts = {
       timeout = 3000,

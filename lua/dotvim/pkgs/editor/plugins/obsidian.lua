@@ -2,13 +2,14 @@ local Shared = require("dotvim.pkgs.editor.shared")
 
 local default_vault_path = {
   "~/Projects/digital-garden/Digital Garden",
+  "~/Projects/digital-garden",
   "~/Projects/obsidian-data/Main",
   "~/Documents/Main",
 }
 
 local function resolve_obsidian_vault()
   for _, path in ipairs(default_vault_path) do
-    local p = vim.fn.resolve(vim.fn.expand(path))
+    local p = vim.fn.resolve(vim.fn.expand(path)) .. "/.obsidian"
     if vim.fn.isdirectory(p) == 1 then
       return p
     end

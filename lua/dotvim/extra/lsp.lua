@@ -1,12 +1,29 @@
 ---@class dotvim.extra.lsp
 local M = {}
 
--- thanks to https://www.reddit.com/r/neovim/comments/1c9q60s/tip_cmp_menu_with_rightaligned_import_location/
-function M.get_lsp_item_import_location(completion, source)
+local function try_to_get_source_name(completion, source)
   local ok, source_name = pcall(function()
     return source.source.client.config.name
   end)
-  if not ok then
+  if ok then
+    return source_name
+  end
+
+  local client_id = vim.tbl_get(completion, "client_id")
+  if client_id ~= nil then
+    local client = vim.lsp.get_client_by_id(client_id)
+    if client ~= nil then
+      return client.name
+    end
+  end
+
+  return nil
+end
+
+-- thanks to https://www.reddit.com/r/neovim/comments/1c9q60s/tip_cmp_menu_with_rightaligned_import_location/
+function M.get_lsp_item_import_location(completion, source)
+  local source_name = try_to_get_source_name(completion, source)
+  if source_name == nil then
     return nil
   end
 

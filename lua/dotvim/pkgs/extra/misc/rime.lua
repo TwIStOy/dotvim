@@ -158,7 +158,9 @@ A language server for librime
               callback = function()
                 if just_inserted then
                   -- check completion
-                  rime_ls_auto_confirm()
+                  if vim.g.dotvim_completion_engine == "nvim-cmp" then
+                    rime_ls_auto_confirm()
+                  end
                   just_inserted = false
                 end
               end,

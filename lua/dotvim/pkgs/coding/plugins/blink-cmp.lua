@@ -15,6 +15,10 @@ return {
   enabled = function()
     return vim.g.dotvim_completion_engine == "blink-cmp"
   end,
+  config = function(_, opts)
+    require("blink.cmp").setup(opts)
+  end,
+  opts_extend = { "sources.default" },
   opts = {
     keymap = {
       ["<CR>"] = { "accept", "fallback" },
@@ -30,9 +34,8 @@ return {
       nerd_font_variant = "mono",
     },
     sources = {
-      completion = {
-        enabled_providers = { "lsp", "buffer" },
-      },
+      default = { "lsp", "buffer" },
+      providers = {},
     },
     snippets = {
       expand = function(snippet)
@@ -51,13 +54,41 @@ return {
     completion = {
       accept = { auto_brackets = { enabled = true } },
       menu = {
+        scrolloff = 2,
+        scrollbar = true,
+        winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
         draw = {
+          gap = 2,
+          columns = {
+            { "kind_icon" },
+            { "label", "label_description", gap = 1 },
+          },
           components = {
             label = {
-              width = { max = 50 },
+              width = { max = 60 },
+            },
+            label_description = {
+              text = function(ctx)
+                if ctx.source_name == "LSP" then
+                  local menu_text = vim.F.if_nil(
+                    require("dotvim.extra.lsp").get_lsp_item_import_location(
+                      ctx.item,
+                      ctx.source
+                    ),
+                    ""
+                  )
+                  if #menu_text > 0 then
+                    return menu_text
+                  end
+                end
+                return ctx.label_description
+              end,
             },
           },
         },
+      },
+      documentation = {
+        auto_show = true,
       },
     },
     signature = { enabled = true },

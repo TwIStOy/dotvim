@@ -51,13 +51,28 @@ return {
   config = function(_, opts)
     vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
+    local lsp_capabilities = {}
+
+    if vim.g.dotvim_completion_engine == "nvim-cmp" then
+      lsp_capabilities = Utils.fn.require_then(
+        "cmp_nvim_lsp",
+        function(cmp_nvim_lsp)
+          return cmp_nvim_lsp.default_capabilities()
+        end
+      ) or {}
+    else
+      lsp_capabilities = Utils.fn.require_then("blink.cmp", function(blink_cmp)
+        return blink_cmp.get_lsp_capabilities(
+          vim.lsp.protocol.make_client_capabilities()
+        )
+      end) or {}
+    end
+
     local capabilities = vim.tbl_deep_extend(
       "force",
       {},
       vim.lsp.protocol.make_client_capabilities(),
-      Utils.fn.require_then("cmp_nvim_lsp", function(cmp_nvim_lsp)
-        return cmp_nvim_lsp.default_capabilities()
-      end) or {},
+      lsp_capabilities,
       opts.capabilities or {},
       {
         textDocument = {
@@ -143,7 +158,10 @@ return {
         -- get all buffers
         local buffers = vim.api.nvim_list_bufs()
         for _, buf in ipairs(buffers) do
-          if not vim.api.nvim_buf_is_loaded(buf) or not vim.api.nvim_buf_is_valid(buf) then
+          if
+            not vim.api.nvim_buf_is_loaded(buf)
+            or not vim.api.nvim_buf_is_valid(buf)
+          then
             goto continue
           end
           local ft = vim.api.nvim_get_option_value("filetype", {
@@ -153,9 +171,14 @@ return {
             goto continue
           end
 
-          for _, server_name in ipairs(require("lspconfig.util").available_servers()) do
+          for _, server_name in
+            ipairs(require("lspconfig.util").available_servers())
+          do
             local server = require("lspconfig")[server_name]
-            if server.filetypes ~= nil and vim.list_contains(server.filetypes, ft) then
+            if
+              server.filetypes ~= nil
+              and vim.list_contains(server.filetypes, ft)
+            then
               server.launch(buf)
             end
           end

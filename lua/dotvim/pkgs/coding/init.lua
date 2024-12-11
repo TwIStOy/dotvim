@@ -7,6 +7,7 @@ return {
   depends = { "treesitter", "editor" },
   plugins = Utils.tbl.flatten_array {
     require("dotvim.pkgs.coding.plugins.nvim-cmp"),
+    require("dotvim.pkgs.coding.plugins.blink-cmp"),
     require("dotvim.pkgs.coding.plugins.luasnip"),
     require("dotvim.pkgs.coding.plugins.comment"),
     require("dotvim.pkgs.coding.plugins.conform"),

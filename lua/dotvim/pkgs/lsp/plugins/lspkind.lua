@@ -5,6 +5,9 @@ local MIN_ABBR_WIDTH = 25
 return {
   "onsails/lspkind.nvim",
   lazy = true,
+  enabled = function()
+    return vim.g.dotvim_completion_engine == "nvim-cmp"
+  end,
   opts = {
     symbol_map = {
       TypeParameter = "",

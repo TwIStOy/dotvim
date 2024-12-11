@@ -54,6 +54,11 @@ local enabled_packages = {
   "extra.misc.rest",
 }
 
+local function additional_global_settings()
+  -- vim.g.dotvim_completion_engine = "nvim-cmp"
+  vim.g.dotvim_completion_engine = "blink-cmp"
+end
+
 function M.setup()
   ---@type dotvim.core
   local Core = require("dotvim.core")
@@ -62,6 +67,8 @@ function M.setup()
 
   -- set mapleader at very beginning of profile
   vim.api.nvim_set_var("mapleader", " ")
+
+  additional_global_settings()
 
   Utils.nix.inject_cpath()
 

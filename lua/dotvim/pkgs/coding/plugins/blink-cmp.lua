@@ -12,7 +12,9 @@ return {
       return "cargo build --release"
     end
   end)(),
-
+  enabled = function()
+    return vim.g.dotvim_completion_engine == "blink-cmp"
+  end,
   opts = {
     keymap = {
       ["<CR>"] = { "accept", "fallback" },
@@ -46,8 +48,18 @@ return {
         require("luasnip").jump(direction)
       end,
     },
-
-    completion = { accept = { auto_brackets = { enabled = true } } },
+    completion = {
+      accept = { auto_brackets = { enabled = true } },
+      menu = {
+        draw = {
+          components = {
+            label = {
+              width = { max = 50 },
+            },
+          },
+        },
+      },
+    },
     signature = { enabled = true },
   },
 }

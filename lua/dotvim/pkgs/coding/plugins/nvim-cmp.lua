@@ -4,6 +4,9 @@ return {
   "iguanacucumber/magazine.nvim",
   name = "nvim-cmp",
   event = "InsertEnter",
+  enabled = function()
+    return vim.g.dotvim_completion_engine == "nvim-cmp"
+  end,
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",

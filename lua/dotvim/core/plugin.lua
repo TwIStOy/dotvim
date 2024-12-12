@@ -5,6 +5,8 @@ local M = {}
 ---@field pname? string nix plugin name
 ---@field vscode? boolean whether this plugin can be used in vscode-neovim
 ---@field actions? dotvim.core.action.ActionOption[]|fun():dotvim.core.action.ActionOption[]
+---@field name? string
+---@field dir? string
 
 ---@class dotvim.core.plugin.PluginOption: dotvim.core.plugin.ExtraPluginOptions,LazyPluginSpec
 

@@ -57,6 +57,7 @@ return {
         scrolloff = 2,
         scrollbar = true,
         winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+        border = "single",
         draw = {
           gap = 2,
           columns = {
@@ -89,6 +90,11 @@ return {
       },
       documentation = {
         auto_show = true,
+        window = {
+          border = "single",
+          winhighlight = "FloatBorder:FloatBorder",
+          scrollbar = true,
+        },
       },
     },
     signature = { enabled = true },

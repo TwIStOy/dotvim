@@ -53,6 +53,9 @@ return {
     },
     completion = {
       accept = { auto_brackets = { enabled = true } },
+      list = {
+        selection = "auto_insert",
+      },
       menu = {
         scrolloff = 2,
         scrollbar = true,

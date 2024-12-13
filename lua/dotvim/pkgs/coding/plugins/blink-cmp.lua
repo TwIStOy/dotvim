@@ -1,6 +1,36 @@
 ---@type dotvim.utils
 local Utils = require("dotvim.utils")
 
+local function get_lsp_server_name_from_ctx(ctx)
+  if ctx.source_name ~= "LSP" then
+    return
+  end
+
+  local client_id = vim.tbl_get(ctx, "item", "client_id")
+  if client_id == nil then
+    return
+  end
+
+  local client = vim.lsp.get_client_by_id(client_id)
+  if client == nil then
+    return
+  end
+
+  return client.name
+end
+
+local CLANGD_MARKER = "•"
+
+local function remove_first_space_or_marker(str)
+  if str:sub(1, 1) == " " then
+    return str:sub(2)
+  end
+  if str:sub(1, #CLANGD_MARKER) == CLANGD_MARKER then
+    return str:sub(#CLANGD_MARKER + 1)
+  end
+  return str
+end
+
 ---@type dotvim.core.plugin.PluginOption
 return {
   "saghen/blink.cmp",
@@ -62,14 +92,71 @@ return {
         -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
         border = "none",
         draw = {
-          gap = 2,
+          gap = 1,
           columns = {
-            { "kind_icon" },
             { "label", "label_description", gap = 1 },
+            { "kind_icon", "kind" },
+            -- { "label", "label_description", gap = 3 },
           },
+          align_to_component = "label",
           components = {
+            kind_icon = {
+              ellipsis = false,
+              text = function(ctx)
+                return ctx.kind_icon .. " " .. ctx.icon_gap
+              end,
+              highlight = function(ctx)
+                return require("blink.cmp.completion.windows.render.tailwind").get_hl(
+                  ctx
+                ) or ("BlinkCmpKind" .. ctx.kind)
+              end,
+            },
+
             label = {
               width = { max = 60 },
+              text = function(ctx)
+                local lsp_client_name = get_lsp_server_name_from_ctx(ctx)
+                if lsp_client_name == "clangd" then
+                  -- Special handling for clangd.
+                  --
+                  -- Clangd adds an extra space at the beginning of the label, or a marker to
+                  -- indicate the completion item will add the missing include statement at the same time.
+                  --
+                  -- This is a workaround to remove the extra space or marker. If marker is present, will change
+                  -- the label description later.
+                  return remove_first_space_or_marker(ctx.label)
+                    .. ctx.label_detail
+                end
+                return ctx.label .. ctx.label_detail
+              end,
+              highlight = function(ctx)
+                -- label and label details
+                local highlights = {
+                  {
+                    0,
+                    #ctx.label,
+                    group = ctx.deprecated and "BlinkCmpLabelDeprecated"
+                      or "BlinkCmpLabel",
+                  },
+                }
+                if ctx.label_detail then
+                  table.insert(highlights, {
+                    #ctx.label,
+                    #ctx.label + #ctx.label_detail,
+                    group = "BlinkCmpLabelDetail",
+                  })
+                end
+
+                -- characters matched on the label by the fuzzy matcher
+                for _, idx in ipairs(ctx.label_matched_indices) do
+                  table.insert(
+                    highlights,
+                    { idx, idx + 1, group = "BlinkCmpLabelMatch" }
+                  )
+                end
+
+                return highlights
+              end,
             },
             label_description = {
               text = function(ctx)
@@ -82,6 +169,15 @@ return {
                     ""
                   )
                   if #menu_text > 0 then
+                    if get_lsp_server_name_from_ctx(ctx) == "clangd" then
+                      if ctx.item.label:sub(1, 1) == " " then
+                        return " " .. menu_text
+                      elseif
+                        ctx.item.label:sub(1, #CLANGD_MARKER) == CLANGD_MARKER
+                      then
+                        return CLANGD_MARKER .. menu_text
+                      end
+                    end
                     return menu_text
                   end
                 end

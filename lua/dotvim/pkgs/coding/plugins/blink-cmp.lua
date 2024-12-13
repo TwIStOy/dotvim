@@ -1,12 +1,8 @@
 ---@type dotvim.utils
 local Utils = require("dotvim.utils")
 
-local function get_lsp_server_name_from_ctx(ctx)
-  if ctx.source_name ~= "LSP" then
-    return
-  end
-
-  local client_id = vim.tbl_get(ctx, "item", "client_id")
+local function get_lsp_server_name_from_item(item)
+  local client_id = vim.tbl_get(item, "client_id")
   if client_id == nil then
     return
   end
@@ -21,14 +17,14 @@ end
 
 local CLANGD_MARKER = "•"
 
-local function remove_first_space_or_marker(str)
-  if str:sub(1, 1) == " " then
-    return str:sub(2)
+local function update_clangd_completion_item(item)
+  local label = item.label
+  if label:sub(1, 1) == " " then
+    item.label = label:sub(2)
+  elseif label:sub(1, #CLANGD_MARKER) == CLANGD_MARKER then
+    item.label = label:sub(#CLANGD_MARKER + 1)
+    item.clangd_marker = true
   end
-  if str:sub(1, #CLANGD_MARKER) == CLANGD_MARKER then
-    return str:sub(#CLANGD_MARKER + 1)
-  end
-  return str
 end
 
 ---@type dotvim.core.plugin.PluginOption
@@ -65,7 +61,29 @@ return {
     },
     sources = {
       default = { "lsp", "buffer" },
-      providers = {},
+      cmdline = {},
+      transform_items = function(_, items)
+        for _, item in ipairs(items) do
+          if
+            item.kind == require("blink.cmp.types").CompletionItemKind.Snippet
+          then
+            item.score_offset = item.score_offset - 3
+          end
+
+          local lsp_client_name = get_lsp_server_name_from_item(item)
+          if lsp_client_name == "clangd" then
+            -- Special handling for clangd.
+            --
+            -- Clangd adds an extra space at the beginning of the label, or a marker to
+            -- indicate the completion item will add the missing include statement at the same time.
+            --
+            -- This is a workaround to remove the extra space or marker. If marker is present, will change
+            -- the label description later.
+            update_clangd_completion_item(item)
+          end
+        end
+        return items
+      end,
     },
     snippets = {
       expand = function(snippet)
@@ -111,53 +129,6 @@ return {
                 ) or ("BlinkCmpKind" .. ctx.kind)
               end,
             },
-
-            label = {
-              width = { max = 60 },
-              text = function(ctx)
-                local lsp_client_name = get_lsp_server_name_from_ctx(ctx)
-                if lsp_client_name == "clangd" then
-                  -- Special handling for clangd.
-                  --
-                  -- Clangd adds an extra space at the beginning of the label, or a marker to
-                  -- indicate the completion item will add the missing include statement at the same time.
-                  --
-                  -- This is a workaround to remove the extra space or marker. If marker is present, will change
-                  -- the label description later.
-                  return remove_first_space_or_marker(ctx.label)
-                    .. ctx.label_detail
-                end
-                return ctx.label .. ctx.label_detail
-              end,
-              highlight = function(ctx)
-                -- label and label details
-                local highlights = {
-                  {
-                    0,
-                    #ctx.label,
-                    group = ctx.deprecated and "BlinkCmpLabelDeprecated"
-                      or "BlinkCmpLabel",
-                  },
-                }
-                if ctx.label_detail then
-                  table.insert(highlights, {
-                    #ctx.label,
-                    #ctx.label + #ctx.label_detail,
-                    group = "BlinkCmpLabelDetail",
-                  })
-                end
-
-                -- characters matched on the label by the fuzzy matcher
-                for _, idx in ipairs(ctx.label_matched_indices) do
-                  table.insert(
-                    highlights,
-                    { idx, idx + 1, group = "BlinkCmpLabelMatch" }
-                  )
-                end
-
-                return highlights
-              end,
-            },
             label_description = {
               text = function(ctx)
                 if ctx.source_name == "LSP" then
@@ -169,14 +140,8 @@ return {
                     ""
                   )
                   if #menu_text > 0 then
-                    if get_lsp_server_name_from_ctx(ctx) == "clangd" then
-                      if ctx.item.label:sub(1, 1) == " " then
-                        return " " .. menu_text
-                      elseif
-                        ctx.item.label:sub(1, #CLANGD_MARKER) == CLANGD_MARKER
-                      then
-                        return CLANGD_MARKER .. menu_text
-                      end
+                    if ctx.item.clangd_marker then
+                      return CLANGD_MARKER .. menu_text
                     end
                     return menu_text
                   end

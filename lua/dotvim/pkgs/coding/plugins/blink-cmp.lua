@@ -30,7 +30,7 @@ return {
       ["<C-d>"] = { "scroll_documentation_down", "fallback" },
     },
     appearance = {
-      use_nvim_cmp_as_default = true,
+      -- use_nvim_cmp_as_default = true,
       nerd_font_variant = "mono",
     },
     sources = {
@@ -59,8 +59,8 @@ return {
       menu = {
         scrolloff = 2,
         scrollbar = true,
-        winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-        border = "single",
+        -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+        border = "none",
         draw = {
           gap = 2,
           columns = {
@@ -95,7 +95,7 @@ return {
         auto_show = true,
         window = {
           border = "single",
-          winhighlight = "FloatBorder:FloatBorder",
+          -- winhighlight = "FloatBorder:FloatBorder",
           scrollbar = true,
         },
       },

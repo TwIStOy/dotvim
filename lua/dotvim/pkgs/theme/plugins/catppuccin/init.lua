@@ -9,7 +9,7 @@ return {
   opts = {
     background = {
       light = "latte",
-      dark = "frappe",
+      dark = "mocha",
     },
     no_italic = true,
     term_colors = true,
@@ -141,6 +141,7 @@ return {
       octo = true,
       navic = { enabled = true },
       window_picker = true,
+      blink_cmp = true,
     },
   },
   actions = {

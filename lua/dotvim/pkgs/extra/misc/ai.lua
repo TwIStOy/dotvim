@@ -88,7 +88,7 @@ return {
     },
     {
       "CopilotC-Nvim/CopilotChat.nvim",
-      branch = "canary",
+      branch = "main",
       dependencies = {
         "copilot.lua",
         "plenary.nvim",

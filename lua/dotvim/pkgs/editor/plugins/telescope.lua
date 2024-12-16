@@ -153,7 +153,6 @@ return {
             id = "telescope.find-files",
             callback = find_files,
             title = "Edit project files",
-            keys = { "<leader>e", desc = "edit-project-files" },
           },
           {
             id = "telescope.live-grep",

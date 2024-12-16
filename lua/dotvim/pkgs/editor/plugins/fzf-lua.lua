@@ -35,7 +35,7 @@ return {
       Utils.fix_opts_cmd(opts, bin[1], unpack(bin[2]))
     end
 
-    -- opts[1] = "telescope"
+    opts[1] = { "telescope" }
 
     require("fzf-lua").setup(opts)
   end,
@@ -46,7 +46,7 @@ return {
       id = "fzf-lua.find-files",
       callback = find_files,
       title = "Edit project files",
-      -- keys = { "<leader>e", desc = "edit-project-files" },
+      keys = { "<leader>e", desc = "edit-project-files" },
     }
 
     return ret

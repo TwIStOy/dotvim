@@ -159,10 +159,10 @@ return {
             id = "telescope.live-grep",
             callback = live_grep,
             title = "Search for a string in current working directory",
-            keys = {
-              { "<leader>lg", desc = "live-grep" },
-              { "g/", desc = "live-grep" },
-            },
+            -- keys = {
+            --   { "<leader>lg", desc = "live-grep" },
+            --   { "g/", desc = "live-grep" },
+            -- },
           },
         },
       }

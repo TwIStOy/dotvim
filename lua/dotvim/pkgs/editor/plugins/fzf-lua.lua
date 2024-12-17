@@ -5,6 +5,13 @@ local function find_files()
   }
 end
 
+local function live_grep()
+  local cwd = vim.b._dotvim_project_cwd
+  require("fzf-lua").live_grep {
+    cwd = cwd,
+  }
+end
+
 ---@type dotvim.core.plugin.PluginOption
 return {
   "ibhagwan/fzf-lua",
@@ -15,7 +22,9 @@ return {
   lazy = true,
   opts = {
     winopts = {
-      border = "none",
+      preview = {
+        default = "bat",
+      },
     },
   },
   cmd = { "FzfLua" },
@@ -47,6 +56,15 @@ return {
       callback = find_files,
       title = "Edit project files",
       keys = { "<leader>e", desc = "edit-project-files" },
+    }
+    ret[#ret + 1] = {
+      id = "fzf-lua.live-grep",
+      callback = live_grep,
+      title = "Search for a string in current working directory",
+      keys = {
+        { "<leader>lg", desc = "live-grep" },
+        { "g/", desc = "live-grep" },
+      },
     }
 
     return ret

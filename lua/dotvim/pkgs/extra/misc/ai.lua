@@ -297,10 +297,48 @@ return {
       end,
     },
     {
+      "olimorris/codecompanion.nvim",
+      enabled = false,
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+      },
+      config = true,
+      opts = {
+        strategies = {
+          chat = {
+            adapter = "anthropic",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+        },
+        adapters = {
+          anthropic = function()
+            return require("codecompanion.adapters").extend("anthropic", {
+              env = {
+                url = "https://api.luee.net",
+                api_key = "cmd:cat /run/agenix/luee-net-api-key",
+              },
+            })
+          end,
+          openai = function()
+            return require("codecompanion.adapters").extend("openai", {
+              env = {
+                url = "https://api.gptsapi.net/v1/",
+                api_key = "cmd:cat /run/agenix/wildcard-api-key",
+              },
+            })
+          end,
+        },
+      },
+    },
+    {
       "yetone/avante.nvim",
       event = "VeryLazy",
       build = "make",
       pname = "avante-nvim",
+      enabled = true,
       opts = {
         provider = "claude",
         openai = {

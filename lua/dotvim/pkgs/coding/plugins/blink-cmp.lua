@@ -114,7 +114,6 @@ return {
           columns = {
             { "label", "label_description", gap = 1 },
             { "kind_icon", "kind" },
-            -- { "label", "label_description", gap = 3 },
           },
           align_to_component = "label",
           components = {

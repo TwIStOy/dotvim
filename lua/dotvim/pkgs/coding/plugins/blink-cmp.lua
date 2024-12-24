@@ -46,6 +46,11 @@ return {
   end,
   opts_extend = { "sources.default" },
   opts = {
+    fuzzy = {
+      prebuilt_binaries = {
+        force_version = "0.8.2",
+      },
+    },
     keymap = {
       ["<CR>"] = { "accept", "fallback" },
       ["<C-p>"] = { "select_prev", "fallback" },

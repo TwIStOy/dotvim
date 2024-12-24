@@ -18,14 +18,6 @@ return {
       end,
     },
     {
-      "mason.nvim",
-      opts = function(_, opts)
-        vim.list_extend(opts.extra.ensure_installed, {
-          "beancount-language-server",
-        })
-      end,
-    },
-    {
       "nvim-lspconfig",
       opts = {
         servers = {

@@ -48,6 +48,7 @@ local enabled_packages = {
   "extra.languages.yaml",
   "extra.languages.toml",
   "extra.languages.golang",
+  "extra.languages.beancount",
   "extra.misc.competitive-programming",
   "extra.misc.ai",
   "extra.misc.rime",

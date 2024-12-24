@@ -6,13 +6,6 @@ return {
       "A7lavinraj/assistant.nvim",
       dependencies = { "dressing.nvim" },
       cmd = { "AssistantToggle" },
-      keys = {
-        {
-          "<leader>a",
-          "<cmd>AssistantToggle<cr>",
-          desc = "Toggle Assistant.nvim window",
-        },
-      },
       opts = {
         commands = {
           python = {

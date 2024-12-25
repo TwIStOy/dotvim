@@ -150,6 +150,19 @@ return {
                     return menu_text
                   end
                 end
+                if
+                  ctx.item ~= nil
+                  and ctx.item.label_description ~= nil
+                  and ctx.item.label_description ~= ""
+                then
+                  return ctx.item.label_description
+                elseif
+                  ctx.item ~= nil
+                  and ctx.item.label_details ~= nil
+                  and ctx.item.label_details ~= ""
+                then
+                  return ctx.item.label_details
+                end
                 return ctx.label_description
               end,
             },

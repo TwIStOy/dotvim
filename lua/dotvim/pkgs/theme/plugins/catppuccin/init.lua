@@ -9,7 +9,7 @@ return {
   opts = {
     background = {
       light = "latte",
-      dark = "frappe",
+      dark = "mocha",
     },
     no_italic = true,
     term_colors = true,

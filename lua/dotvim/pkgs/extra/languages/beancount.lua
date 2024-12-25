@@ -22,9 +22,7 @@ return {
       opts = {
         servers = {
           opts = {
-            beancount = {
-              settings = {},
-            },
+            beancount = {},
           },
         },
       },

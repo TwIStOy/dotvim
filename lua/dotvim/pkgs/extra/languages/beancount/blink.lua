@@ -98,6 +98,9 @@ function source:get_completions(context, callback)
 end
 
 function source:enabled()
+  if vim.bo.filetype ~= "beancount" then
+    return false
+  end
   return true
 end
 

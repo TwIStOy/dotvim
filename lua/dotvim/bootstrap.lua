@@ -67,6 +67,11 @@ function M.setup()
   ---@type dotvim.utils
   local Utils = require("dotvim.utils")
 
+  -- check if macos
+  if vim.uv.os_uname().sysname == "Darwin" then
+    vim.g.plenary_curl_bin_path = "/opt/homebrew/opt/curl/bin/curl"
+  end
+
   -- set mapleader at very beginning of profile
   vim.api.nvim_set_var("mapleader", " ")
 

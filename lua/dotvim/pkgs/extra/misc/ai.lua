@@ -298,13 +298,19 @@ return {
     },
     {
       "olimorris/codecompanion.nvim",
-      enabled = false,
+      enabled = true,
       dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
       },
-      config = true,
+      lazy = false,
+      config = function(_, opts)
+        require("codecompanion").setup(opts)
+      end,
       opts = {
+        opts = {
+          log_level = "DEBUG",
+        },
         strategies = {
           chat = {
             adapter = "anthropic",
@@ -316,8 +322,8 @@ return {
         adapters = {
           anthropic = function()
             return require("codecompanion.adapters").extend("anthropic", {
+              url = "https://api.luee.net",
               env = {
-                url = "https://api.luee.net",
                 api_key = "cmd:cat /run/agenix/luee-net-api-key",
               },
             })
@@ -340,6 +346,7 @@ return {
       pname = "avante-nvim",
       enabled = true,
       opts = {
+        devug = true,
         provider = "claude",
         openai = {
           endpoint = "https://api.gptsapi.net/v1/",

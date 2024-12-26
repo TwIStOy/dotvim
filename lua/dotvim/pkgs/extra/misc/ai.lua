@@ -322,7 +322,7 @@ return {
         adapters = {
           anthropic = function()
             return require("codecompanion.adapters").extend("anthropic", {
-              url = "https://api.luee.net",
+              url = "https://api.luee.net/v1/messages",
               env = {
                 api_key = "cmd:cat /run/agenix/luee-net-api-key",
               },
@@ -346,7 +346,6 @@ return {
       pname = "avante-nvim",
       enabled = true,
       opts = {
-        devug = true,
         provider = "claude",
         openai = {
           endpoint = "https://api.gptsapi.net/v1/",

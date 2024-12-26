@@ -120,7 +120,7 @@ return {
             { "label", "label_description", gap = 1 },
             { "kind_icon", "kind" },
           },
-          align_to_component = "label",
+          align_to = "label",
           components = {
             kind_icon = {
               ellipsis = false,

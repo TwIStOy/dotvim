@@ -163,7 +163,7 @@ return {
       separator = { left = "", right = "" },
       color = {
         bg = resolve_fg("String"),
-        fg = resolve_bg("Normal"),
+        fg = resolve_fg("IncSearch"),
         gui = "italic,bold",
       },
     }
@@ -205,7 +205,7 @@ return {
       "diff",
       color = {
         bg = resolve_bg("CursorLine"),
-        fg = resolve_bg("Normal"),
+        fg = resolve_fg("IncSearch"),
         gui = "bold",
       },
       padding = { left = 1 },
@@ -222,7 +222,7 @@ return {
       icon = "",
       color = {
         bg = resolve_fg("Type"),
-        fg = resolve_bg("Normal"),
+        fg = resolve_fg("IncSearch"),
         gui = "bold",
       },
       separator = { left = "", right = "" },
@@ -255,7 +255,7 @@ return {
           space,
           branch,
           diff,
-          full_space,
+          -- full_space,
         },
         lualine_x = {
           get_component("lsp_progress"),
@@ -308,7 +308,7 @@ return {
                 end,
                 color = {
                   bg = Utils.vim.resolve_fg("Macro"),
-                  fg = Utils.vim.resolve_bg("Normal"),
+                  fg = Utils.vim.resolve_fg("IncSearch"),
                   gui = "bold",
                 },
                 separator = { left = "", right = "" },

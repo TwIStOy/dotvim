@@ -11,9 +11,9 @@ return {
       light = "latte",
       dark = "mocha",
     },
-    no_italic = true,
+    no_italic = false,
     term_colors = true,
-    transparent_background = false,
+    transparent_background = true,
     compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
     dim_inactive = { enabled = false },
     styles = {

@@ -303,7 +303,10 @@ return {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
       },
-      lazy = false,
+      lazy = true,
+      cmd = {
+        "CodeCompanion",
+      },
       config = function(_, opts)
         require("codecompanion").setup(opts)
       end,

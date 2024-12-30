@@ -30,7 +30,6 @@ end
 ---@type dotvim.core.plugin.PluginOption
 return {
   "saghen/blink.cmp",
-  lazy = false,
   build = (function()
     if Utils.nix.is_nix_managed() then
       return "nix run .#build-plugin"

@@ -1,6 +1,7 @@
 ---@type dotvim.core.plugin.PluginOption
 return {
   "rmehri01/onenord.nvim",
+  enabled = false,
   priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
   opts = function()
     local colors = require("onenord.colors").load()

@@ -124,8 +124,8 @@ return {
           ),
           pattern = "Cargo.toml",
           callback = function()
-            local cmp = require("cmp")
-            cmp.setup.buffer { sources = { { name = "crates" } } }
+            -- local cmp = require("cmp")
+            -- cmp.setup.buffer { sources = { { name = "crates" } } }
 
             vim.keymap.set("n", "K", function()
               if require("crates").popup_available() then
@@ -142,7 +142,7 @@ return {
         popup = { autofocus = true, border = "rounded" },
         src = {
           cmp = {
-            enabled = true,
+            enabled = false,
           },
         },
       },

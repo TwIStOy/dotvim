@@ -239,4 +239,16 @@ return function()
       end
     end,
   })
+
+  vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    desc = "Disable eol for certain files",
+    pattern = "*",
+    callback = function(event)
+      local full_path = vim.api.nvim_buf_get_name(event.buf)
+      -- full_path contains "Tesla/firmware/components/UI"
+      if string.match(full_path, "Tesla/firmware") then
+        vim.bo[event.buf].fixendofline = false
+      end
+    end
+  })
 end

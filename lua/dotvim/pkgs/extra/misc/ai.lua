@@ -306,6 +306,7 @@ return {
       lazy = true,
       cmd = {
         "CodeCompanion",
+        "CodeCompanionChat",
       },
       config = function(_, opts)
         require("codecompanion").setup(opts)

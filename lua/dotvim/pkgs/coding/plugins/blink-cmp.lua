@@ -30,6 +30,7 @@ end
 ---@type dotvim.core.plugin.PluginOption
 return {
   "saghen/blink.cmp",
+  version = false,
   build = (function()
     if Utils.nix.is_nix_managed() then
       return "nix run .#build-plugin"
@@ -47,7 +48,7 @@ return {
   opts = {
     fuzzy = {
       prebuilt_binaries = {
-        force_version = "0.8.2",
+        download = false,
       },
     },
     keymap = {
@@ -106,7 +107,7 @@ return {
     completion = {
       accept = { auto_brackets = { enabled = true } },
       list = {
-        selection = "auto_insert",
+        selection = { preselect = false, auto_insert = true },
       },
       menu = {
         scrolloff = 2,

@@ -52,6 +52,7 @@ return {
       },
     },
     keymap = {
+      preset = "none",
       ["<CR>"] = { "accept", "fallback" },
       ["<C-p>"] = { "select_prev", "fallback" },
       ["<C-n>"] = { "select_next", "fallback" },

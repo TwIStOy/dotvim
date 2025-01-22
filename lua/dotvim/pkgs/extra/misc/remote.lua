@@ -15,9 +15,16 @@ return {
         "nui.nvim",
         "telescope.nvim",
       },
-      config = true,
-      opts = {
+      cmd = {
+        "RemoteStart",
+        "RemoteStop",
+        "RemoteLog",
+        "RemoteInfo",
+        "RemoteCleanup",
+        "RemoteConfigDel",
       },
+      config = true,
+      opts = {},
     },
   },
 }

@@ -7,11 +7,43 @@ return {
     contrast_dark = "medium", -- 'hard'|'medium'|'soft'
     overrides = {
       ["@lsp.typemod.variable.mutable.rust"] = {
-        underline = true,
+        style = {
+          "underline",
+        },
       },
       ["@lsp.typemod.selfKeyword.mutable.rust"] = {
-        underline = true,
+        style = {
+          "underline",
+        },
       },
+      ["DiagnosticUnderlineError"] = {
+        style = {
+          "undercurl",
+        },
+      },
+      ["DiagnosticUnderlineWarn"] = {
+        style = {
+          "undercurl",
+        },
+      },
+      ["DiagnosticUnderlineInfo"] = {
+        style = {
+          "undercurl",
+        },
+      },
+      ["DiagnosticUnderlineHint"] = {
+        style = {
+          "undercurl",
+        },
+      },
+    },
+    integrations = {
+      blink_cmp = true,
+      cmp = true,
+      gitsigns = true,
+      indent_blandline = { enable = false },
+      which_key = true,
+      telescope = true,
     },
   },
 }

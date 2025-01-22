@@ -54,6 +54,7 @@ local enabled_packages = {
   "extra.misc.rime",
   "extra.misc.devdocs",
   "extra.misc.rest",
+  "extra.misc.remote",
 }
 
 local function additional_global_settings()

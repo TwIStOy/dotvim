@@ -44,6 +44,12 @@ return {
   config = function(_, opts)
     require("blink.cmp").setup(opts)
   end,
+  dependencies = {
+    {
+      "xzbdmw/colorful-menu.nvim",
+      opts = {},
+    },
+  },
   opts_extend = { "sources.default" },
   opts = {
     fuzzy = {
@@ -132,6 +138,14 @@ return {
                 return require("blink.cmp.completion.windows.render.tailwind").get_hl(
                   ctx
                 ) or ("BlinkCmpKind" .. ctx.kind)
+              end,
+            },
+            label = {
+              -- text = function(ctx)
+              --   return require("colorful-menu").blink_components_text(ctx)
+              -- end,
+              highlight = function(ctx)
+                return require("colorful-menu").blink_components_highlight(ctx)
               end,
             },
             label_description = {

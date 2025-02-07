@@ -150,35 +150,42 @@ return {
             },
             label_description = {
               text = function(ctx)
-                if ctx.source_name == "LSP" then
-                  local menu_text = vim.F.if_nil(
-                    require("dotvim.extra.lsp").get_lsp_item_import_location(
-                      ctx.item,
-                      ctx.source
-                    ),
-                    ""
-                  )
-                  if #menu_text > 0 then
-                    if ctx.item.clangd_marker then
-                      return CLANGD_MARKER .. menu_text
+                local res = (function()
+                  if ctx.source_name == "LSP" then
+                    local menu_text = vim.F.if_nil(
+                      require("dotvim.extra.lsp").get_lsp_item_import_location(
+                        ctx.item,
+                        ctx.source
+                      ),
+                      ""
+                    )
+                    if #menu_text > 0 then
+                      if ctx.item.clangd_marker then
+                        return CLANGD_MARKER .. menu_text
+                      end
+                      return menu_text
                     end
-                    return menu_text
                   end
+                  if
+                    ctx.item ~= nil
+                    and ctx.item.label_description ~= nil
+                    and ctx.item.label_description ~= ""
+                  then
+                    return ctx.item.label_description
+                  elseif
+                    ctx.item ~= nil
+                    and ctx.item.label_details ~= nil
+                    and ctx.item.label_details ~= ""
+                  then
+                    return ctx.item.label_details
+                  end
+                  return ctx.label_description
+                end)()
+                if res == nil then
+                  return ""
                 end
-                if
-                  ctx.item ~= nil
-                  and ctx.item.label_description ~= nil
-                  and ctx.item.label_description ~= ""
-                then
-                  return ctx.item.label_description
-                elseif
-                  ctx.item ~= nil
-                  and ctx.item.label_details ~= nil
-                  and ctx.item.label_details ~= ""
-                then
-                  return ctx.item.label_details
-                end
-                return ctx.label_description
+                res = res:gsub("\n", "")
+                return res
               end,
             },
           },

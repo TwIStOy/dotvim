@@ -13,7 +13,7 @@ return {
     },
     no_italic = false,
     term_colors = true,
-    transparent_background = not vim.g.neovide,
+    transparent_background = false,
     compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
     dim_inactive = { enabled = false },
     styles = {

@@ -71,9 +71,11 @@ return {
       -- use_nvim_cmp_as_default = true,
       nerd_font_variant = "mono",
     },
+    cmdline = {
+      sources = {},
+    },
     sources = {
       default = { "lsp", "buffer" },
-      cmdline = {},
       transform_items = function(_, items)
         for _, item in ipairs(items) do
           if

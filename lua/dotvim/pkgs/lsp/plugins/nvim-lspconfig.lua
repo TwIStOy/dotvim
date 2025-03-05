@@ -39,7 +39,7 @@ return {
         },
       },
       inlay_hints = {
-        enabled = false,
+        enabled = true,
       },
       capabilities = {},
       servers = {
@@ -73,25 +73,8 @@ return {
       {},
       vim.lsp.protocol.make_client_capabilities(),
       lsp_capabilities,
-      opts.capabilities or {},
-      {
-        textDocument = {
-          inlayHint = {
-            dynamicRegistration = false,
-          },
-        },
-        workspace = {
-          inlayHint = {
-            refreshSupport = false,
-          },
-        },
-      }
+      opts.capabilities or {}
     )
-    -- -- disable workspace/inlayHints/refresh
-    -- local ms = require("vim.lsp.protocol").Methods
-    -- require("vim.lsp.handlers")[ms.workspace_inlayHint_refresh] = function(...)
-    --   return vim.NIL
-    -- end
 
     ---@return string[]?
     local function get_default_cmd(server)

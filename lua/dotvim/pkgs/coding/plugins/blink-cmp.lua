@@ -72,7 +72,7 @@ return {
       nerd_font_variant = "mono",
     },
     cmdline = {
-      sources = {},
+      enabled = false,
     },
     sources = {
       default = { "lsp", "buffer" },
@@ -137,59 +137,57 @@ return {
                 return ctx.kind_icon .. " " .. ctx.icon_gap
               end,
               highlight = function(ctx)
-                return require("blink.cmp.completion.windows.render.tailwind").get_hl(
-                  ctx
-                ) or ("BlinkCmpKind" .. ctx.kind)
+                return ctx.kind_hl
               end,
             },
             label = {
-              -- text = function(ctx)
-              --   return require("colorful-menu").blink_components_text(ctx)
-              -- end,
-              -- highlight = function(ctx)
-              --   return require("colorful-menu").blink_components_highlight(ctx)
-              -- end,
-            },
-            label_description = {
               text = function(ctx)
-                local res = (function()
-                  if ctx.source_name == "LSP" then
-                    local menu_text = vim.F.if_nil(
-                      require("dotvim.extra.lsp").get_lsp_item_import_location(
-                        ctx.item,
-                        ctx.source
-                      ),
-                      ""
-                    )
-                    if #menu_text > 0 then
-                      if ctx.item.clangd_marker then
-                        return CLANGD_MARKER .. menu_text
-                      end
-                      return menu_text
-                    end
-                  end
-                  if
-                    ctx.item ~= nil
-                    and ctx.item.label_description ~= nil
-                    and ctx.item.label_description ~= ""
-                  then
-                    return ctx.item.label_description
-                  elseif
-                    ctx.item ~= nil
-                    and ctx.item.label_details ~= nil
-                    and ctx.item.label_details ~= ""
-                  then
-                    return ctx.item.label_details
-                  end
-                  return ctx.label_description
-                end)()
-                if res == nil then
-                  return ""
-                end
-                res = res:gsub("\n", "")
-                return res
+                return require("colorful-menu").blink_components_text(ctx)
+              end,
+              highlight = function(ctx)
+                return require("colorful-menu").blink_components_highlight(ctx)
               end,
             },
+            -- label_description = {
+            --   text = function(ctx)
+            --     local res = (function()
+            --       if ctx.source_name == "LSP" then
+            --         local menu_text = vim.F.if_nil(
+            --           require("dotvim.extra.lsp").get_lsp_item_import_location(
+            --             ctx.item,
+            --             ctx.source
+            --           ),
+            --           ""
+            --         )
+            --         if #menu_text > 0 then
+            --           if ctx.item.clangd_marker then
+            --             return CLANGD_MARKER .. menu_text
+            --           end
+            --           return menu_text
+            --         end
+            --       end
+            --       if
+            --         ctx.item ~= nil
+            --         and ctx.item.label_description ~= nil
+            --         and ctx.item.label_description ~= ""
+            --       then
+            --         return ctx.item.label_description
+            --       elseif
+            --         ctx.item ~= nil
+            --         and ctx.item.label_details ~= nil
+            --         and ctx.item.label_details ~= ""
+            --       then
+            --         return ctx.item.label_details
+            --       end
+            --       return ctx.label_description
+            --     end)()
+            --     if res == nil then
+            --       return ""
+            --     end
+            --     res = res:gsub("\n", "")
+            --     return res
+            --   end,
+            -- },
           },
         },
       },

@@ -93,7 +93,7 @@ return {
                 autoSetHints = false,
                 hover_with_actions = true,
                 inlay_hints = {
-                  inline = false,
+                  inline = true,
                   only_current_line = false,
                   only_current_line_autocmd = "CursorHold",
                   show_parameter_hints = false,

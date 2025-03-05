@@ -131,6 +131,9 @@ M.setup = function()
         create_lsp_autocmds(buffer)
         setup_lsp_keymaps(client, buffer)
         vim.api.nvim_buf_set_var(buffer, "_dotvim_lsp_attached", true)
+        if not vim.lsp.inlay_hint.is_enabled { bufnr = buffer } then
+          vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+        end
       end
     end)
   end

@@ -9,7 +9,7 @@ return {
   opts = {
     background = {
       light = "latte",
-      dark = "mocha",
+      dark = "frappe",
     },
     no_italic = false,
     term_colors = true,
@@ -31,7 +31,7 @@ return {
       variables = {},
     },
     color_overrides = {
-      latte = custom_flavors.solarized_light,
+      latte = custom_flavors.kopicat_light,
       frappe = custom_flavors.ayu_inspired,
     },
     highlight_overrides = {

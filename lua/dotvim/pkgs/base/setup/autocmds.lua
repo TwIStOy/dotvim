@@ -246,9 +246,21 @@ return function()
     callback = function(event)
       local full_path = vim.api.nvim_buf_get_name(event.buf)
       -- full_path contains "Tesla/firmware/components/UI"
-      if string.match(full_path, "Tesla/firmware") or string.match(full_path, "tesla/firmware") then
+      if
+        string.match(full_path, "Tesla/firmware")
+        or string.match(full_path, "tesla/firmware")
+      then
         vim.bo[event.buf].fixendofline = false
       end
-    end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = "kconfig",
+    callback = function(event)
+      vim.api.nvim_set_option_value("expandtab", false, {
+        buf = event.buf,
+      })
+    end,
   })
 end

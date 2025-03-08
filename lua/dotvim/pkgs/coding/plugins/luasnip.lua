@@ -61,7 +61,7 @@ return {
         "CursorMovedI",
         "CursorHold",
       },
-      store_select_keys = "<C-/>",
+      cut_selection_keys = "<C-f>",
     },
     keys = {
       {

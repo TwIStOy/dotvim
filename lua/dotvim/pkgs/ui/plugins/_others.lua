@@ -163,25 +163,46 @@ return {
     "s1n7ax/nvim-window-picker",
     opts = {
       hint = "floating-big-letter",
-      filter_rules = {
-        bo = {
-          filetype = {
-            "NvimTree",
-            "neo-tree",
-            "notify",
-            "NvimSeparator",
-            "",
-            "noice",
-            "neotest-summary",
-            "aerial",
-            "trouble",
-            "Outline",
-            "spectre_panel",
-            "edgy",
-          },
-          buftype = { "terminal" },
-        },
-      },
+      filter_func = function(ids, _)
+        local filter_out_ft = {
+          ["NvimTree"] = true,
+          ["neo-tree"] = true,
+          ["notify"] = true,
+          ["NvimSeparator"] = true,
+          ["noice"] = true,
+          ["neotest-summary"] = true,
+          ["aerial"] = true,
+          ["trouble"] = true,
+          ["Outline"] = true,
+          ["spectre_panel"] = true,
+          ["edgy"] = true,
+        }
+        local filter_out_bt = {
+          ["terminal"] = true,
+        }
+
+        local res = {}
+        for _, id in ipairs(ids) do
+          local buf = vim.api.nvim_win_get_buf(id)
+          local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
+          if filter_out_ft[ft] then
+            goto continue
+          end
+          local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+          if filter_out_bt[buftype] then
+            goto continue
+          end
+          if ft == "" then
+            if vim.api.nvim_buf_get_name(buf) == "" then
+              goto continue
+            end
+          end
+          res[#res + 1] = id
+          ::continue::
+        end
+
+        return res
+      end,
     },
   },
 }

@@ -5,6 +5,7 @@ return {
   lazy = true,
   dependencies = {
     "IndianBoy42/tree-sitter-just",
+    "TwIStOy/tree-sitter-pidl",
   },
   event = { "BufReadPost", "BufNewFile" },
   build = function()
@@ -55,6 +56,7 @@ return {
         "pascal",
         "perl",
         "php",
+        "pidl",
         "proto",
         "python",
         "query",

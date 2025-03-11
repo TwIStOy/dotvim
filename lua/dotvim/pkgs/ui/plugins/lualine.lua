@@ -240,7 +240,7 @@ return {
         always_divide_middle = true,
         padding = 0,
         refresh = {
-          statusline = 2000,
+          -- statusline = 2000,
         },
       },
       sections = {
@@ -255,6 +255,7 @@ return {
           space,
           branch,
           diff,
+          space,
           -- full_space,
         },
         lualine_x = {

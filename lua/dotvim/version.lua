@@ -1,6 +1,6 @@
 
 return {
   version = function()
-    return "2025.03.10"
+    return "2025.03.11"
   end,
 }

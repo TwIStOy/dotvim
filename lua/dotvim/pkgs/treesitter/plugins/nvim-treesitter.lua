@@ -6,6 +6,7 @@ return {
   dependencies = {
     "IndianBoy42/tree-sitter-just",
     "TwIStOy/tree-sitter-pidl",
+    "TwIStOy/tree-sitter-kafel",
   },
   event = { "BufReadPost", "BufNewFile" },
   build = function()

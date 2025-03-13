@@ -32,7 +32,7 @@ return {
     },
     color_overrides = {
       latte = custom_flavors.kopicat_light,
-      frappe = custom_flavors.ayu_inspired,
+      mocha = custom_flavors.ayu_inspired,
     },
     highlight_overrides = {
       latte = function(C)

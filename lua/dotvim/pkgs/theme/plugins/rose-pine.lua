@@ -5,7 +5,7 @@ return {
   lazy = true,
   opts = {
     variant = "auto",
-    dark_variant = "moon",
+    dark_variant = "main",
     extend_background_behind_borders = false,
     styles = {
       bold = true,

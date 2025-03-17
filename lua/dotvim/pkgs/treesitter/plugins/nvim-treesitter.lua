@@ -72,7 +72,6 @@ return {
         "twig",
         "typescript",
         "vim",
-        "vimdoc",
         "vue",
       },
       indent = {

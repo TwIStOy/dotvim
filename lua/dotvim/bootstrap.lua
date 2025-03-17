@@ -39,6 +39,7 @@ local enabled_packages = {
   "extra.languages.latex",
   "extra.languages.lua",
   "extra.languages.markdown",
+  "extra.languages.help",
   "extra.languages.nix",
   "extra.languages.python",
   "extra.languages.rust",

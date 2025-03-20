@@ -9,7 +9,7 @@ return {
   opts = {
     background = {
       light = "latte",
-      dark = "frappe",
+      dark = "mocha",
     },
     no_italic = false,
     term_colors = true,
@@ -32,7 +32,7 @@ return {
     },
     color_overrides = {
       latte = custom_flavors.kopicat_light,
-      mocha = custom_flavors.ayu_inspired,
+      -- mocha = custom_flavors.ayu_inspired,
     },
     highlight_overrides = {
       latte = function(C)

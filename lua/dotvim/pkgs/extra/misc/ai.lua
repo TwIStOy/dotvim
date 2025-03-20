@@ -419,7 +419,7 @@ return {
       event = "VeryLazy",
       build = "make",
       pname = "avante-nvim",
-      enabled = true,
+      enabled = false,
       opts = {
         provider = "claude",
         openai = {

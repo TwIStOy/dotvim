@@ -16,11 +16,12 @@ return {
     require("dotvim.pkgs.theme.plugins.ares"),
     require("dotvim.pkgs.theme.plugins.yorumi"),
     require("dotvim.pkgs.theme.plugins.base46"),
+    require("dotvim.pkgs.theme.plugins.kanagawa"),
   },
   setup = function()
     if not vim.g.vscode then
       vim.o.background = "dark"
-      vim.cmd("colorscheme catppuccin")
+      vim.cmd("colorscheme kanagawa")
     end
   end,
 }

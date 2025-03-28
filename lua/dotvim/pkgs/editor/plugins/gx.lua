@@ -14,14 +14,33 @@ return {
       ---@diagnostic disable-next-line: undefined-field
       local sysname = vim.loop.os_uname().sysname
 
+      local locate_kitten_executable = function()
+        if vim.fn.executable("kitten") == 1 then
+          return "kitten"
+        end
+        if
+          vim.fn.filereadable(
+            os.getenv("HOME") .. "/.local/kitty.app/bin/kitten"
+          ) == 1
+        then
+          return os.getenv("HOME") .. "/.local/kitty.app/bin/kitten"
+        end
+        return nil
+      end
+
       local try_kitty_remote_control = function()
-        if vim.fn.executable("kitten") ~= 1 then
-          return false
+        local executable = locate_kitten_executable()
+        if executable == nil then
+          return nil
         end
         -- try "kitten @ ls" to determine if is running in kitty and remote_control enabled
         ---@type vim.SystemCompleted
-        local ret = vim.system({ "kitten", "@", "ls" }, {}):wait()
-        return ret.code == 0
+        local ret = vim.system({ executable, "@", "ls" }, {}):wait()
+        if ret.code == 0 then
+          return executable
+        else
+          return nil
+        end
       end
 
       local function get_open_browser_app_and_args()
@@ -29,8 +48,9 @@ return {
           return "open", { "--background" }
         elseif sysname == "Linux" then
           local is_SSH = (vim.env.SSH_CLIENT ~= nil) or (vim.env.SSH_TTY ~= nil)
-          if is_SSH and try_kitty_remote_control() then
-            return "kitten", { "@", "run", "open" }
+          local kitten = try_kitty_remote_control()
+          if is_SSH and kitten ~= nil then
+            return kitten, { "@", "run", "open" }
           else
             return "xdg-open", {
               "--background",
@@ -47,6 +67,7 @@ return {
       end
 
       local cmd, args = get_open_browser_app_and_args()
+      vim.print { cmd, args }
 
       require("gx").setup {
         open_browser_app = cmd,

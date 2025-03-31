@@ -209,7 +209,7 @@ return {
             return "InProgress"
           end
           if vim.b.copilot_suggestion_auto_trigger == nil then
-            if not require("copilot.config").get("suggestion").auto_trigger then
+            if not require("copilot.config").config.suggestion.auto_trigger then
               return "Sleeping"
             end
             return "Normal"

@@ -23,6 +23,7 @@ return {
           "${3rd}/luassert/library",
           vim.fn.expand("$VIMRUNTIME/lua"),
           vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
+          vim.fn.expand("$HOME/.dotvim/lua")
         }
         local add_plugins = {
           "lazy.nvim",

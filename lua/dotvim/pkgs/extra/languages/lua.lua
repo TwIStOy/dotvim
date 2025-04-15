@@ -23,7 +23,7 @@ return {
           "${3rd}/luassert/library",
           vim.fn.expand("$VIMRUNTIME/lua"),
           vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
-          vim.fn.expand("$HOME/.dotvim/lua")
+          vim.fn.expand("$HOME/.dotvim/lua"),
         }
         local add_plugins = {
           "lazy.nvim",
@@ -46,6 +46,11 @@ return {
           )
         end
         opts.servers.opts.lua_ls = {
+          -- cmd = {
+          --   "lua-language-server",
+          --   "--logpath=/tmp",
+          --   "--loglevel=trace",
+          -- },
           settings = {
             Lua = {
               runtime = {

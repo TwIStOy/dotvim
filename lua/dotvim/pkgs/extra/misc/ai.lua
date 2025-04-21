@@ -379,6 +379,14 @@ return {
         strategies = {
           chat = {
             adapter = "copilot",
+            tools = {
+              ["mcp"] = {
+                callback = function()
+                  return require("mcphub.extensions.codecompanion")
+                end,
+                description = "Call tools and resources from the MCP Servers",
+              },
+            },
           },
           inline = {
             adapter = "copilot",
@@ -415,6 +423,26 @@ return {
           end,
         },
       },
+    },
+    {
+      "ravitemer/mcphub.nvim",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+      },
+      cmd = "MCPHub",
+      build = "npm install -g mcp-hub@latest",
+      config = function()
+        require("mcphub").setup {
+          auto_approve = true,
+          extensions = {
+            codecompanion = {
+              show_result_in_chat = true,
+              make_vars = true,
+              make_slash_commands = true,
+            },
+          },
+        }
+      end,
     },
     {
       "yetone/avante.nvim",

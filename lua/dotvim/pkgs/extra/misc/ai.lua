@@ -208,17 +208,18 @@ return {
           elseif data == "InProgress" then
             return "InProgress"
           end
-          if vim.b.copilot_suggestion_auto_trigger == nil then
-            if not require("copilot.config").config.suggestion.auto_trigger then
-              return "Sleeping"
-            end
-            return "Normal"
-          else
-            if not vim.b.copilot_suggestion_auto_trigger then
-              return "Sleeping"
-            end
-            return "Normal"
-          end
+          return "Normal"
+          -- if vim.b.copilot_suggestion_auto_trigger == nil then
+          --   if not require("copilot.config").config.suggestion.auto_trigger then
+          --     return "Sleeping"
+          --   end
+          --   return "Normal"
+          -- else
+          --   if not vim.b.copilot_suggestion_auto_trigger then
+          --     return "Sleeping"
+          --   end
+          --   return "Normal"
+          -- end
         end
 
         ---@type dotvim.core

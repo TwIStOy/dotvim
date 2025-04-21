@@ -364,6 +364,7 @@ return {
       },
       config = function(_, opts)
         require("codecompanion").setup(opts)
+        vim.g.codecompanion_auto_tool_mode = true
       end,
       opts = {
         opts = {

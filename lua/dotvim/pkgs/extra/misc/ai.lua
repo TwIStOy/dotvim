@@ -132,171 +132,171 @@ return {
         },
       },
     },
-    {
-      "lualine.nvim",
-      opts = function(_, opts)
-        local spinners = {
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-          " ",
-        }
-        local normal_icon = " "
-        local disable_icon = " "
-        local warning_icon = " "
-        local sleeping_icon = "󰒲 "
-
-        local function hl_fg(name)
-          local hl = vim.api.nvim_get_hl(0, {
-            name = name,
-            link = false,
-          })
-          local fg = hl.fg
-          if fg ~= nil and fg ~= "" then
-            return string.format("#%x", fg)
-          end
-          return ""
-        end
-
-        local is_current_buffer_attached = function()
-          if not _copilot_setup_done then
-            return false
-          end
-          return require("copilot.client").buf_is_attached(
-            vim.api.nvim_get_current_buf()
-          )
-        end
-
-        local function is_enabled()
-          if not _copilot_setup_done then
-            return false
-          end
-
-          if require("copilot.client").is_disabled() then
-            return false
-          end
-
-          if not is_current_buffer_attached() then
-            return false
-          end
-
-          return true
-        end
-
-        ---@return 'Disabled' | 'Error' | 'InProgress' | 'Sleeping' | 'Normal'
-        local function copilot_status()
-          if not _copilot_setup_done then
-            return "InProgress"
-          end
-          if not is_enabled() then
-            return "Disabled"
-          end
-          local data = require("copilot.api").status.data.status
-          if data == "Warning" then
-            return "Error"
-          elseif data == "InProgress" then
-            return "InProgress"
-          end
-          return "Normal"
-          -- if vim.b.copilot_suggestion_auto_trigger == nil then
-          --   if not require("copilot.config").config.suggestion.auto_trigger then
-          --     return "Sleeping"
-          --   end
-          --   return "Normal"
-          -- else
-          --   if not vim.b.copilot_suggestion_auto_trigger then
-          --     return "Sleeping"
-          --   end
-          --   return "Normal"
-          -- end
-        end
-
-        ---@type dotvim.core
-        local Core = require("dotvim.core")
-
-        local spinner_count = 1
-
-        local component = require("lualine.component"):extend()
-
-        local highlight = require("lualine.highlight")
-
-        function component:init(options)
-          component.super:init(options)
-          Core.lsp.on_lsp_attach(function(client, _)
-            if client and client.name == "copilot" then
-              require("copilot.api").register_status_notification_handler(
-                function()
-                  require("lualine").refresh()
-                end
-              )
-              return true
-            end
-            return false
-          end)
-          self.error_hl = highlight.create_component_highlight_group({
-            {
-              fg = hl_fg("DiagnosticError"),
-            },
-          }, "copilot_lualine_error", options)
-          self.in_progress_hl = highlight.create_component_highlight_group({
-            {
-              fg = hl_fg("DiagnosticHint"),
-            },
-          }, "copilot_lualine_in_progress", options)
-          self.sleeping_hl = highlight.create_component_highlight_group({
-            {
-              fg = hl_fg("Comment"),
-            },
-          }, "copilot_lualine_sleeping", options)
-          self.current_icon = spinners[1]
-        end
-
-        ---@type dotvim.utils
-        local Utils = require("dotvim.utils")
-        local update_status = Utils.fn.throttle(1000, function(self)
-          local status = copilot_status()
-          if status == "Normal" then
-            self.current_icon = normal_icon
-          elseif status == "Disabled" then
-            self.current_icon = disable_icon
-          elseif status == "Error" then
-            self.current_icon = highlight.component_format_highlight(
-              self.error_hl
-            ) .. warning_icon
-          elseif status == "InProgress" then
-            local icon = spinners[spinner_count]
-            spinner_count = (spinner_count + 1) % #spinners + 1
-            self.current_icon = highlight.component_format_highlight(
-              self.in_progress_hl
-            ) .. icon
-          elseif status == "Sleeping" then
-            self.current_icon = highlight.component_format_highlight(
-              self.sleeping_hl
-            ) .. sleeping_icon
-          else
-            self.current_icon = normal_icon
-          end
-        end)
-
-        function component:update_status()
-          update_status(self)
-          return self.current_icon
-        end
-
-        table.insert(opts.sections.lualine_y, 1, component)
-      end,
-    },
+    -- {
+    --   "lualine.nvim",
+    --   opts = function(_, opts)
+    --     local spinners = {
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --       " ",
+    --     }
+    --     local normal_icon = " "
+    --     local disable_icon = " "
+    --     local warning_icon = " "
+    --     local sleeping_icon = "󰒲 "
+    --
+    --     local function hl_fg(name)
+    --       local hl = vim.api.nvim_get_hl(0, {
+    --         name = name,
+    --         link = false,
+    --       })
+    --       local fg = hl.fg
+    --       if fg ~= nil and fg ~= "" then
+    --         return string.format("#%x", fg)
+    --       end
+    --       return ""
+    --     end
+    --
+    --     local is_current_buffer_attached = function()
+    --       if not _copilot_setup_done then
+    --         return false
+    --       end
+    --       return require("copilot.client").buf_is_attached(
+    --         vim.api.nvim_get_current_buf()
+    --       )
+    --     end
+    --
+    --     local function is_enabled()
+    --       if not _copilot_setup_done then
+    --         return false
+    --       end
+    --
+    --       if require("copilot.client").is_disabled() then
+    --         return false
+    --       end
+    --
+    --       if not is_current_buffer_attached() then
+    --         return false
+    --       end
+    --
+    --       return true
+    --     end
+    --
+    --     ---@return 'Disabled' | 'Error' | 'InProgress' | 'Sleeping' | 'Normal'
+    --     local function copilot_status()
+    --       if not _copilot_setup_done then
+    --         return "InProgress"
+    --       end
+    --       if not is_enabled() then
+    --         return "Disabled"
+    --       end
+    --       local data = require("copilot.api").status.data.status
+    --       if data == "Warning" then
+    --         return "Error"
+    --       elseif data == "InProgress" then
+    --         return "InProgress"
+    --       end
+    --       return "Normal"
+    --       -- if vim.b.copilot_suggestion_auto_trigger == nil then
+    --       --   if not require("copilot.config").config.suggestion.auto_trigger then
+    --       --     return "Sleeping"
+    --       --   end
+    --       --   return "Normal"
+    --       -- else
+    --       --   if not vim.b.copilot_suggestion_auto_trigger then
+    --       --     return "Sleeping"
+    --       --   end
+    --       --   return "Normal"
+    --       -- end
+    --     end
+    --
+    --     ---@type dotvim.core
+    --     local Core = require("dotvim.core")
+    --
+    --     local spinner_count = 1
+    --
+    --     local component = require("lualine.component"):extend()
+    --
+    --     local highlight = require("lualine.highlight")
+    --
+    --     function component:init(options)
+    --       component.super:init(options)
+    --       Core.lsp.on_lsp_attach(function(client, _)
+    --         if client and client.name == "copilot" then
+    --           require("copilot.api").register_status_notification_handler(
+    --             function()
+    --               require("lualine").refresh()
+    --             end
+    --           )
+    --           return true
+    --         end
+    --         return false
+    --       end)
+    --       self.error_hl = highlight.create_component_highlight_group({
+    --         {
+    --           fg = hl_fg("DiagnosticError"),
+    --         },
+    --       }, "copilot_lualine_error", options)
+    --       self.in_progress_hl = highlight.create_component_highlight_group({
+    --         {
+    --           fg = hl_fg("DiagnosticHint"),
+    --         },
+    --       }, "copilot_lualine_in_progress", options)
+    --       self.sleeping_hl = highlight.create_component_highlight_group({
+    --         {
+    --           fg = hl_fg("Comment"),
+    --         },
+    --       }, "copilot_lualine_sleeping", options)
+    --       self.current_icon = spinners[1]
+    --     end
+    --
+    --     ---@type dotvim.utils
+    --     local Utils = require("dotvim.utils")
+    --     local update_status = Utils.fn.throttle(1000, function(self)
+    --       local status = copilot_status()
+    --       if status == "Normal" then
+    --         self.current_icon = normal_icon
+    --       elseif status == "Disabled" then
+    --         self.current_icon = disable_icon
+    --       elseif status == "Error" then
+    --         self.current_icon = highlight.component_format_highlight(
+    --           self.error_hl
+    --         ) .. warning_icon
+    --       elseif status == "InProgress" then
+    --         local icon = spinners[spinner_count]
+    --         spinner_count = (spinner_count + 1) % #spinners + 1
+    --         self.current_icon = highlight.component_format_highlight(
+    --           self.in_progress_hl
+    --         ) .. icon
+    --       elseif status == "Sleeping" then
+    --         self.current_icon = highlight.component_format_highlight(
+    --           self.sleeping_hl
+    --         ) .. sleeping_icon
+    --       else
+    --         self.current_icon = normal_icon
+    --       end
+    --     end)
+    --
+    --     function component:update_status()
+    --       update_status(self)
+    --       return self.current_icon
+    --     end
+    --
+    --     table.insert(opts.sections.lualine_y, 1, component)
+    --   end,
+    -- },
     {
       "lualine.nvim",
       opts = function(_, opts)

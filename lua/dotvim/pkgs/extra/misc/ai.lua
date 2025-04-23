@@ -25,8 +25,26 @@ return {
       config = function(_, opts)
         local setup = function(path)
           opts.copilot_node_command = path
+          
+          -- Setup Copilot with our options
           require("copilot").setup(opts)
           _copilot_setup_done = true
+          
+          -- Store current status for our lualine component without triggering notifications
+          local current_status = { status = "", message = "" }
+          
+          -- Register our handler to refresh lualine when status changes
+          local status_mod = require("copilot.status")
+          status_mod.register_status_notification_handler(function(data)
+            current_status = data
+            pcall(require("lualine").refresh)
+          end)
+          
+          -- Store the get_status function as a global that doesn't trigger notifications
+          _G.dotvim_copilot_get_status = function()
+            -- Get current data without calling status() which would trigger notifications
+            return current_status.status or ""
+          end
         end
 
         vim.defer_fn(function()
@@ -192,11 +210,14 @@ return {
           if not is_enabled() then
             return "Disabled"
           end
-          local ok, status_mod = pcall(require, "copilot.status")
-          if not ok or not status_mod.status then
-            return "Disabled"
+          
+          -- Use the global getter function that doesn't trigger notifications
+          -- instead of directly calling status_mod.status()
+          local status = ""
+          if _G.dotvim_copilot_get_status then
+            status = _G.dotvim_copilot_get_status()
           end
-          local status = status_mod.status()
+          
           -- Try to be robust to possible new/changed status values
           if status == "Warning" or status == "Error" then
             return "Error"
@@ -230,12 +251,8 @@ return {
           component.super:init(options)
           Core.lsp.on_lsp_attach(function(client, _)
             if client and client.name == "copilot" then
-              local ok, status_mod = pcall(require, "copilot.status")
-              if ok and status_mod.register_status_notification_handler then
-                status_mod.register_status_notification_handler(function()
-                  require("lualine").refresh()
-                end)
-              end
+              -- No longer register handler here, just refresh lualine
+              pcall(require("lualine").refresh)
               return true
             end
             return false

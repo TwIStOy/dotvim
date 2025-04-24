@@ -380,6 +380,7 @@ return {
       cmd = {
         "CodeCompanion",
         "CodeCompanionChat",
+        "CodeCompanionActions",
       },
       config = function(_, opts)
         require("codecompanion").setup(opts)
@@ -394,12 +395,39 @@ return {
             show_settings = true,
           },
         },
+        prompt_library = {
+          ["Cursor-Like"] = {
+            strategy = "chat",
+            description = "Cursor-like prompt",
+            opts = {
+              short_name = "Cursor",
+              user_prompt = false,
+            },
+            prompts = {
+              {
+                role = "system",
+                content = function()
+                  return require("dotvim.fs").read_file(
+                    os.getenv("HOME") .. "/.dotvim/resource/prompts/cursor.txt"
+                  )
+                end,
+              },
+              {
+                role = "user",
+                content = "",
+              },
+            },
+          },
+        },
         strategies = {
           chat = {
             adapter = "copilot",
             tools = {
               ["mcp"] = {
                 callback = function()
+                  vim.wait(5000, function()
+                    return require("mcphub").get_hub_instance() ~= nil
+                  end)
                   return require("mcphub.extensions.codecompanion")
                 end,
                 description = "Call tools and resources from the MCP Servers",
@@ -418,7 +446,7 @@ return {
                   default = "claude-3.7-sonnet-thought",
                 },
                 max_tokens = {
-                  default = 65536,
+                  default = 900000,
                 },
               },
             })
@@ -449,13 +477,14 @@ return {
       },
       cmd = "MCPHub",
       build = "bundled_build.lua",
+      lazy = true,
       config = function()
         require("mcphub").setup {
           auto_approve = true,
           use_bundled_binary = true,
           extensions = {
             codecompanion = {
-              show_result_in_chat = true,
+              show_result_in_chat = false,
               make_vars = true,
               make_slash_commands = true,
             },

@@ -25,21 +25,21 @@ return {
       config = function(_, opts)
         local setup = function(path)
           opts.copilot_node_command = path
-          
+
           -- Setup Copilot with our options
           require("copilot").setup(opts)
           _copilot_setup_done = true
-          
+
           -- Store current status for our lualine component without triggering notifications
           local current_status = { status = "", message = "" }
-          
+
           -- Register our handler to refresh lualine when status changes
           local status_mod = require("copilot.status")
           status_mod.register_status_notification_handler(function(data)
             current_status = data
             pcall(require("lualine").refresh)
           end)
-          
+
           -- Store the get_status function as a global that doesn't trigger notifications
           _G.dotvim_copilot_get_status = function()
             -- Get current data without calling status() which would trigger notifications
@@ -193,7 +193,7 @@ return {
             return false
           end
           -- Check if Copilot LSP client is attached to the current buffer
-          local clients = vim.lsp.get_clients({ bufnr = 0 })
+          local clients = vim.lsp.get_clients { bufnr = 0 }
           for _, client in ipairs(clients) do
             if client.name == "copilot" then
               return true
@@ -210,14 +210,14 @@ return {
           if not is_enabled() then
             return "Disabled"
           end
-          
+
           -- Use the global getter function that doesn't trigger notifications
           -- instead of directly calling status_mod.status()
           local status = ""
           if _G.dotvim_copilot_get_status then
             status = _G.dotvim_copilot_get_status()
           end
-          
+
           -- Try to be robust to possible new/changed status values
           if status == "Warning" or status == "Error" then
             return "Error"
@@ -225,8 +225,13 @@ return {
             return "InProgress"
           elseif status == "Normal" or status == "Enabled" then
             -- check for sleeping/idle
-            local suggestion_ok, suggestion = pcall(require, "copilot.suggestion")
-            if suggestion_ok and suggestion.is_auto_trigger and not suggestion.is_auto_trigger() then
+            local suggestion_ok, suggestion =
+              pcall(require, "copilot.suggestion")
+            if
+              suggestion_ok
+              and suggestion.is_auto_trigger
+              and not suggestion.is_auto_trigger()
+            then
               return "Sleeping"
             end
             return "Normal"
@@ -443,14 +448,18 @@ return {
         "nvim-lua/plenary.nvim",
       },
       cmd = "MCPHub",
-      build = "npm install -g mcp-hub@latest",
+      build = "bundled_build.lua",
       config = function()
         require("mcphub").setup {
           auto_approve = true,
+          use_bundled_binary = true,
           extensions = {
             codecompanion = {
               show_result_in_chat = true,
               make_vars = true,
+              make_slash_commands = true,
+            },
+            avante = {
               make_slash_commands = true,
             },
           },
@@ -464,7 +473,7 @@ return {
       pname = "avante-nvim",
       enabled = false,
       opts = {
-        provider = "claude",
+        provider = "copilot",
         openai = {
           endpoint = "https://api.gptsapi.net/v1/",
           api_key_name = "cmd:cat /run/agenix/wildcard-api-key",
@@ -472,6 +481,21 @@ return {
         claude = {
           endpoint = "https://api.luee.net",
           api_key_name = "cmd:cat /run/agenix/luee-net-api-key",
+        },
+        copilot = {
+          model = "claude-3.7-sonnet",
+        },
+        disabled_tools = {
+          "list_files",
+          "search_files",
+          "read_file",
+          "create_file",
+          "rename_file",
+          "delete_file",
+          "create_dir",
+          "rename_dir",
+          "delete_dir",
+          "bash",
         },
         mappings = {
           ask = "<leader>aa",
@@ -519,6 +543,15 @@ return {
           ---@type string | fun(): any
           list_opener = "copen",
         },
+        system_prompt = function()
+          local hub = require("mcphub").get_hub_instance()
+          return hub:get_active_servers_prompt()
+        end,
+        custom_tools = function()
+          return {
+            require("mcphub.extensions.avante").mcp_tool(),
+          }
+        end,
       },
       config = function(_, opts)
         require("avante_lib").load()

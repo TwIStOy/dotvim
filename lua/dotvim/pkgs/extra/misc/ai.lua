@@ -395,30 +395,6 @@ return {
             show_settings = true,
           },
         },
-        prompt_library = {
-          ["Cursor-Like"] = {
-            strategy = "chat",
-            description = "Cursor-like prompt",
-            opts = {
-              short_name = "Cursor",
-              user_prompt = false,
-            },
-            prompts = {
-              {
-                role = "system",
-                content = function()
-                  return require("dotvim.fs").read_file(
-                    os.getenv("HOME") .. "/.dotvim/resource/prompts/cursor.txt"
-                  )
-                end,
-              },
-              {
-                role = "user",
-                content = "",
-              },
-            },
-          },
-        },
         strategies = {
           chat = {
             adapter = "copilot",
@@ -500,7 +476,7 @@ return {
       event = "VeryLazy",
       build = "make",
       pname = "avante-nvim",
-      enabled = false,
+      enabled = true,
       opts = {
         provider = "copilot",
         openai = {
@@ -512,7 +488,7 @@ return {
           api_key_name = "cmd:cat /run/agenix/luee-net-api-key",
         },
         copilot = {
-          model = "claude-3.7-sonnet",
+          model = "claude-3.7-sonnet-thought",
         },
         disabled_tools = {
           "list_files",
@@ -573,6 +549,9 @@ return {
           list_opener = "copen",
         },
         system_prompt = function()
+          vim.wait(5000, function()
+            return require("mcphub").get_hub_instance() ~= nil
+          end)
           local hub = require("mcphub").get_hub_instance()
           return hub:get_active_servers_prompt()
         end,

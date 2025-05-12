@@ -1,0 +1,28 @@
+{
+  "nativeMCPServers": {
+    "mcphub": {
+      "disabled": false
+    }
+  },
+  "mcpServers": {
+    "git": {
+      "args": [
+        "--python",
+        "/etc/profiles/per-user/hawtian/bin/python",
+        "mcp-server-git"
+      ],
+      "disabled": false,
+      "command": "uvx"
+    },
+    "github": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$: cmd:cat /run/agenix/github-cli-access-token"
+      },
+      "command": "npx"
+    }
+  }
+}

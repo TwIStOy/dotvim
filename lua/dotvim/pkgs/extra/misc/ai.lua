@@ -457,6 +457,7 @@ return {
       config = function()
         require("mcphub").setup {
           auto_approve = true,
+          config = os.getenv("HOME") .. "/.dotvim/mcp-servers.json",
           use_bundled_binary = true,
           extensions = {
             codecompanion = {

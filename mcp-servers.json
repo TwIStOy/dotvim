@@ -7,10 +7,11 @@
   "mcpServers": {
     "git": {
       "args": [
-        "--python",
-        "/etc/profiles/per-user/hawtian/bin/python",
         "mcp-server-git"
       ],
+      "env": {
+        "UV_PYTHON": "$:which python3"
+      },
       "disabled": false,
       "command": "uvx"
     },
@@ -20,7 +21,7 @@
         "@modelcontextprotocol/server-github"
       ],
       "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "$: cmd:cat /run/agenix/github-cli-access-token"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$:cat /run/agenix/github-cli-access-token"
       },
       "command": "npx"
     }

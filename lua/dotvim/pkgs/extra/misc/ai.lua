@@ -469,6 +469,12 @@ return {
               make_slash_commands = true,
             },
           },
+          log = {
+            level = vim.log.levels.TRACE,
+            to_file = true,
+            file_path = "/tmp/mcphub.log",
+            prefix = "MCPHub",
+          },
         }
       end,
     },

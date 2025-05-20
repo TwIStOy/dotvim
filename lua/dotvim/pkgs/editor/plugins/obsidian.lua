@@ -41,7 +41,7 @@ end
 
 ---@type dotvim.core.plugin.PluginOption
 return {
-  "epwalsh/obsidian.nvim",
+  "obsidian-nvim/obsidian.nvim",
   event = function()
     return {
       ("BufReadPre %s/*.md"):format(Shared.vault_dir()),

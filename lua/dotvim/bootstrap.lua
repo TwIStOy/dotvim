@@ -43,6 +43,7 @@ local enabled_packages = {
   "extra.languages.nix",
   "extra.languages.python",
   "extra.languages.rust",
+  "extra.languages.bash",
   -- "extra.languages.swift",
   "extra.languages.typescript",
   "extra.languages.json",

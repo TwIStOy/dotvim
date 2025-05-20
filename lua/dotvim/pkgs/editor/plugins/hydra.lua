@@ -2,7 +2,7 @@
 return {
   "nvimtools/hydra.nvim",
   event = "VeryLazy",
-  enabled = false,
+  enabled = true,
   opts = {},
   config = function(_, opts)
     local hydra = require("hydra")

@@ -21,7 +21,13 @@ return {
       opts = {
         servers = {
           opts = {
-            pyright = {},
+            pyright = {
+              cmd = {
+                "npx",
+                "@delance/runtime",
+                "--stdio",
+              },
+            },
           },
         },
       },

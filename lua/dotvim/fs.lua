@@ -17,11 +17,11 @@ function M.read_file(filepath)
   if not file then
     return nil
   end
-  
+
   -- Read the entire file content
   local content = file:read("*a")
   file:close()
-  
+
   return content
 end
 

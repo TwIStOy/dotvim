@@ -134,7 +134,7 @@ return {
         "CopilotChatCommitStaged",
       },
       opts = {
-        model = "claude-3.5-sonnet",
+        model = "claude-sonnet-4",
         window = {
           layout = "float",
           width = 0.8,
@@ -419,7 +419,7 @@ return {
             return require("codecompanion.adapters").extend("copilot", {
               schema = {
                 model = {
-                  default = "claude-3.7-sonnet-thought",
+                  default = "claude-sonnet-4",
                 },
                 max_tokens = {
                   default = 900000,

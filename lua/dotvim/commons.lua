@@ -5,6 +5,7 @@ local M = vim._defer_require("dotvim.commons", {
   vim = ..., ---@module 'dotvim.commons.vim'
   validator = ..., ---@module 'dotvim.commons.validator'
   lsp = ..., ---@module 'dotvim.commons.lsp'
+  nix = ..., ---@module 'dotvim.commons.nix'
 })
 
 --[[

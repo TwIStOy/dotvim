@@ -54,9 +54,7 @@ function M.bind(fn, args)
   vim.validate("fn", fn, "function")
   vim.validate("args", args, function(value)
     return type(value) == "table"
-      and require("dotvim.commons.validator").is_array(value, function(v)
-        return type(v) == "number"
-      end)
+      and require("dotvim.commons.validator").is_array(value)
   end)
 
   local max_index = 0
@@ -71,12 +69,8 @@ function M.bind(fn, args)
     local index = 1
     local input_index = 1
 
-    while true do
-      if index > max_index and input_index > #input_args then
-        break
-      end
-
-      if args[index] ~= nil then
+    while index <= max_index or input_index <= #input_args do
+      if index <= max_index and args[index] ~= nil then
         result_args[index] = args[index]
       else
         if input_index <= #input_args then
@@ -84,6 +78,7 @@ function M.bind(fn, args)
           input_index = input_index + 1
         end
       end
+      index = index + 1
     end
 
     return fn(unpack(result_args))

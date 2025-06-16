@@ -5,6 +5,30 @@ local Commons = require("dotvim.commons")
 ---@type LazyPluginSpec[]
 return {
   {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "LspAttach",
+    priority = 1000,
+    enabled = function()
+      return not vim.g.vscode
+    end,
+    opts = {
+      preset = "amongus",
+      options = {
+        show_source = {
+          enabled = true,
+          if_many = true,
+        },
+        multilines = {
+          enabled = true,
+        },
+      },
+    },
+    config = function(_, opts)
+      require("tiny-inline-diagnostic").setup(opts)
+      vim.diagnostic.config({ virtual_text = false })
+    end,
+  },
+  {
     "williamboman/mason.nvim",
     enabled = function()
       return not Commons.nix.in_nix_env() and not vim.g.vscode

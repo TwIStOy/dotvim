@@ -66,7 +66,7 @@ local function in_nix_env()
   end
 
   -- Check for Nix-specific directories
-  local nix_dirs = { "/nix", "/run/current-system" }
+  local nix_dirs = { "/run/current-system" }
   for _, dir in ipairs(nix_dirs) do
     if vim.fn.isdirectory(dir) == 1 then
       return true

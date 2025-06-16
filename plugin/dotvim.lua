@@ -43,3 +43,6 @@ Very useful functions, exposed in the global scope
 local commons = require("dotvim.commons")
 
 dv.on_lsp_attach = commons.lsp.on_lsp_attach
+
+dv.which = commons.which
+

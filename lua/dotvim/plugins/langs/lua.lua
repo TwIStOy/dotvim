@@ -13,4 +13,20 @@ return {
       })
     end,
   },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      lsp_configs = {
+        emmylua_ls = {},
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+      },
+    },
+  },
 }

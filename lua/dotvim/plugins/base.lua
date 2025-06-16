@@ -8,6 +8,14 @@ return {
   { "nvim-lua/popup.nvim" },
   { "MunifTanjim/nui.nvim" },
   {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+    },
+  },
+  {
     "willothy/flatten.nvim",
     enabled = not vim.g.vscode,
     lazy = false,

@@ -15,8 +15,13 @@ local function install_missing_lazy()
   vim.opt.rtp:prepend(lazypath)
 end
 
+-- set mapleader at very beginning of profile
+vim.api.nvim_set_var("mapleader", " ")
+
 install_missing_lazy()
 require("lazy").setup {
+  root = vim.fn.stdpath("data") .. "/lazy2", -- directory where plugins will be installed
+  lockfile = vim.fn.stdpath("config") .. "/lazy2-lock.json", -- lockfile generated after running update.
   spec = {
     { import = "dotvim.plugins" },
     { import = "dotvim.plugins.langs" },
@@ -41,3 +46,5 @@ require("lazy").setup {
     },
   },
 }
+
+require("dotvim.configs")

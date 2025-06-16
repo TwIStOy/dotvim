@@ -25,7 +25,7 @@ applyTo: "**/*.lua"
 
 - DO NOT keep spaces in empty lines.
 - When editing new style config files, DO NOT use anything from the old style config files.
-- keymaps' description should be a simple short string in `snake-case` format.
+- Keymaps' description(`desc`) should be a simple short string in `snake-case` format.
 - DO NOT add diagnostic disable comments.
 - `vim` is a global variable.
 
@@ -44,3 +44,10 @@ applyTo: "**/*.lua"
 - DO NOT use old style utilities in new style config files.
 - DO NOT use types from old style config files in new style config files.
 - KEEP the old style configs as they are during the refactoring process to make sure that the old style configs are not broken.
+
+## Others
+
+- You MUST read plugin's documentation before using it.
+- If you are asked to add some feature related to vscode, you MUST read the documentation of both vscode and "vscode-neovim".
+- When you call a neovim API, you MUST check the documentation of the API at https://neovim.io/doc/ to make sure that you are using it correctly.
+- If you are not sure about something, you MUST ask for help.

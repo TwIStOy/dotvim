@@ -9,13 +9,13 @@ return function()
 
   if not not vim.g.vscode then
     vim.keymap.set("n", "<leader>1", function()
-      require("vscode-neovim").call("workbench.action.focusFirstEditorGroup")
+      require("vscode").call("workbench.action.focusFirstEditorGroup")
     end, { desc = "goto-win-1" })
     vim.keymap.set("n", "<leader>2", function()
-      require("vscode-neovim").call("workbench.action.focusSecondEditorGroup")
+      require("vscode").call("workbench.action.focusSecondEditorGroup")
     end, { desc = "goto-win-2" })
     vim.keymap.set("n", "<leader>3", function()
-      require("vscode-neovim").call("workbench.action.focusThirdEditorGroup")
+      require("vscode").call("workbench.action.focusThirdEditorGroup")
     end, { desc = "goto-win-3" })
   else
     vim.keymap.set("n", "<leader>wv", "<cmd>wincmd v<CR>", {

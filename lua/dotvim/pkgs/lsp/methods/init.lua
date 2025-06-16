@@ -1,16 +1,14 @@
 local Methods = {}
 
 function Methods.declaration()
-  if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.revealDeclaration")
-  else
-    vim.lsp.buf.declaration()
-  end
+  -- vscode-neovim provides builtin vim.lsp.buf overrides
+  vim.lsp.buf.declaration()
 end
 
 function Methods.definitions()
   if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.revealDefinition")
+    -- vscode-neovim provides builtin vim.lsp.buf overrides
+    vim.lsp.buf.definition()
   else
     require("glance").open("definitions")
   end
@@ -18,7 +16,8 @@ end
 
 function Methods.type_definitions()
   if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.goToTypeDefinition")
+    -- vscode-neovim provides builtin vim.lsp.buf overrides
+    vim.lsp.buf.type_definition()
   else
     require("glance").open("type_definitions")
   end
@@ -26,7 +25,8 @@ end
 
 function Methods.implementations()
   if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.goToImplementation")
+    -- vscode-neovim provides builtin vim.lsp.buf overrides
+    vim.lsp.buf.implementation()
   else
     require("glance").open("implementations")
   end
@@ -34,23 +34,21 @@ end
 
 function Methods.references()
   if vim.g.vscode then
-    require("vscode-neovim").call("references-view.findReferences")
+    -- vscode-neovim provides builtin vim.lsp.buf overrides
+    vim.lsp.buf.references()
   else
     require("glance").open("references")
   end
 end
 
 function Methods.code_action()
-  if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.quickFix")
-  else
-    vim.lsp.buf.code_action()
-  end
+  -- vscode-neovim provides builtin vim.lsp.buf overrides
+  vim.lsp.buf.code_action()
 end
 
 function Methods.next_diagnostic()
   if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.marker.nextInFiles")
+    require("vscode").call("editor.action.marker.nextInFiles")
   else
     vim.diagnostic.goto_next { wrap = false, float = false }
   end
@@ -58,7 +56,7 @@ end
 
 function Methods.prev_diagnostic()
   if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.marker.prevInFiles")
+    require("vscode").call("editor.action.marker.prevInFiles")
   else
     vim.diagnostic.goto_prev { wrap = false, float = false }
   end
@@ -69,7 +67,8 @@ local lsp_hover_group =
 
 function Methods.show_hover()
   if vim.g.vscode then
-    require("vscode-neovim").call("editor.action.showHover")
+    -- vscode-neovim provides builtin vim.lsp.buf overrides
+    vim.lsp.buf.hover()
   else
     vim.o.eventignore = "CursorHold"
     vim.api.nvim_exec_autocmds("User", {

@@ -7,6 +7,7 @@ local M = vim._defer_require("dotvim.commons", {
   lsp = ..., ---@module 'dotvim.commons.lsp'
   nix = ..., ---@module 'dotvim.commons.nix'
   option = ..., ---@module 'dotvim.commons.option'
+  fn = ..., ---@module 'dotvim.commons.fn'
 })
 
 --[[

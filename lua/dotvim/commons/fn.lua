@@ -85,4 +85,31 @@ function M.bind(fn, args)
   end
 end
 
+---Returns a throttled version of the callback function that delays invoking
+---callback until after `delay` milliseconds have elapsed since the last time
+---the throttled function was invoked.
+---@generic F: function
+---@param delay number The delay in milliseconds.
+---@param callback F The function to throttle.
+---@return F The throttled function.
+function M.throttle(delay, callback)
+  local running = false
+
+  return function(...)
+    if running then
+      return
+    end
+
+    local args = { ... }
+    local wrapped = function()
+      running = false
+      callback(unpack(args))
+    end
+
+    ---@diagnostic disable-next-line: undefined-global
+    vim.defer_fn(wrapped, delay)
+    running = true
+  end
+end
+
 return M

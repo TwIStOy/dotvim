@@ -80,4 +80,42 @@ return {
       },
     },
   },
+  {
+    "monaqa/dial.nvim",
+    ft = { "c", "cpp" },
+    opts = function(_, opts)
+      local augend = require("dial.augend")
+
+      local function define_custom(...)
+        return augend.constant.new({
+          elements = { ... },
+          word = true,
+          cyclic = true,
+        })
+      end
+
+      opts = opts or {}
+      opts.language_configs = opts.language_configs or {}
+
+      opts.language_configs.cpp = {
+        define_custom("Debug", "Info", "Warn", "Error", "Fatal"),
+        define_custom("first", "second"),
+        define_custom("true_type", "false_type"),
+        define_custom("uint8_t", "uint16_t", "uint32_t", "uint64_t"),
+        define_custom("int8_t", "int16_t", "int32_t", "int64_t"),
+        define_custom("htonl", "ntohl"),
+        define_custom("htons", "ntohs"),
+      }
+
+      opts.language_configs.c = {
+        define_custom("Debug", "Info", "Warn", "Error", "Fatal"),
+        define_custom("uint8_t", "uint16_t", "uint32_t", "uint64_t"),
+        define_custom("int8_t", "int16_t", "int32_t", "int64_t"),
+        define_custom("htonl", "ntohl"),
+        define_custom("htons", "ntohs"),
+      }
+
+      return opts
+    end,
+  },
 }

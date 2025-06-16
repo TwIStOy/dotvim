@@ -25,7 +25,7 @@ applyTo: "**/*.lua"
 
 - DO NOT keep spaces in empty lines.
 - When editing new style config files, DO NOT use anything from the old style config files.
-- Keymaps' description(`desc`) should be a simple short string in `snake-case` format.
+- Keymaps' description(`desc`) should be a simple short string in `kebab-case` format.
 - DO NOT add diagnostic disable comments.
 - `vim` is a global variable.
 

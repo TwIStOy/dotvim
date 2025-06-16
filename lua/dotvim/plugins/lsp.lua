@@ -6,11 +6,8 @@ local Commons = require("dotvim.commons")
 return {
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "LspAttach",
     priority = 1000,
-    enabled = function()
-      return not vim.g.vscode
-    end,
+    enabled = not vim.g.vscode,
     opts = {
       preset = "amongus",
       options = {
@@ -18,9 +15,7 @@ return {
           enabled = true,
           if_many = true,
         },
-        multilines = {
-          enabled = true,
-        },
+        overwrite_events = { "BufEnter", "LspAttach" },
       },
     },
     config = function(_, opts)
@@ -59,6 +54,18 @@ return {
     config = function(_, opts)
       for lsp, config in pairs(opts.lsp_configs or {}) do
         vim.lsp.config(lsp, config)
+        
+        -- Try to replace cmd in the final merged config using Commons.which
+        local final_config = vim.lsp.config[lsp]
+        if final_config and final_config.cmd and type(final_config.cmd) == "table" and #final_config.cmd > 0 then
+          local resolved_cmd = Commons.which(final_config.cmd[1])
+          if resolved_cmd then
+            local new_cmd = vim.deepcopy(final_config.cmd)
+            new_cmd[1] = resolved_cmd
+            final_config.cmd = new_cmd
+          end
+        end
+        
         vim.lsp.enable(lsp)
       end
     end,

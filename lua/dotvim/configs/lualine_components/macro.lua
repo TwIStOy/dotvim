@@ -14,10 +14,10 @@ local function create_component()
     end,
     color = {
       bg = utils.resolve_fg("Error"),
-      fg = utils.resolve_bg("Normal"),
+      fg = utils.resolve_fg("IncSearch"),
       gui = "bold",
     },
-    separator = { left = "", right = "" },
+    separator = { left = "", right = "" },
   }
 end
 

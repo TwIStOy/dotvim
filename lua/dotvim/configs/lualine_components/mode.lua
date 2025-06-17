@@ -25,7 +25,7 @@ local function create_component()
       icon.get("VimLogo", 1),
       align = "left",
     },
-    separator = { left = "", right = "" },
+    separator = { left = "", right = "" },
     padding = 1,
     fmt = function()
       return mode_map[vim.api.nvim_get_mode().mode]

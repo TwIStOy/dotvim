@@ -11,7 +11,7 @@ local function create_component()
       fg = utils.resolve_fg("IncSearch"),
       gui = "bold",
     },
-    separator = { left = "", right = "" },
+    separator = { left = "", right = "" },
   }
 end
 

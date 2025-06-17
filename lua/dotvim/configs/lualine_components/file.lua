@@ -40,7 +40,7 @@ local function create_component()
       bg = utils.resolve_bg("CursorLine"),
       fg = utils.resolve_fg("Normal"),
     },
-    separator = { left = "", right = "" },
+    separator = { left = "", right = "" },
     padding = { left = 1 },
   }
 end

@@ -27,7 +27,7 @@ local function create_component()
       fg = utils.resolve_fg("Normal"),
       gui = "bold",
     },
-    separator = { left = "", right = "" },
+    separator = { left = "", right = "" },
     padding = 1,
   }
 end

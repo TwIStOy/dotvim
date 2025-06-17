@@ -30,7 +30,7 @@ local function create_component()
     function()
       return current_message or ""
     end,
-    separator = { left = "", right = "" },
+    separator = { left = "", right = "" },
     color = {
       bg = utils.resolve_bg("CursorLine"),
       fg = utils.resolve_fg("Comment"),

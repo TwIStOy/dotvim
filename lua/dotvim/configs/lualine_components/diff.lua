@@ -11,7 +11,7 @@ local function create_component()
       gui = "bold",
     },
     padding = { left = 1 },
-    separator = { left = "", right = "" },
+    separator = { left = "", right = "" },
     symbols = {
       added = icon.get("GitAdd", 1),
       modified = icon.get("GitChange", 1),

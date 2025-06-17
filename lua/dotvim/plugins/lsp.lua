@@ -92,7 +92,7 @@ return {
             end)
           end
         end,
-        desc = "focus_outline",
+        desc = "focus-outline",
       },
     },
     config = function(_, opts)

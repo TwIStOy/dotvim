@@ -118,8 +118,10 @@ function M.show_hover()
     -- VSCode hover action
     require("vscode").action("editor.action.showHover")
   else
-    -- Native neovim hover
-    vim.lsp.buf.hover()
+    -- Native neovim hover with solid border
+    vim.lsp.buf.hover({
+      border = "solid",
+    })
   end
 end
 

@@ -32,10 +32,9 @@ applyTo: "**/*.lua"
 ## PluginSpec Standards
 
 - FOLLOWING "lazy.nvim"'s best practices from web https://lazy.folke.io/developers#best-practices to define plugins.
-- When defining plugins, could visit Github to find the plugin's repository and check its documentation for configuration options.
-- If some options are not documented, could check the plugin's source code to find out how to configure it.
-- If some options are the same as the default options, could omit them in the configuration.
-- If some options are not needed, could omit them in the configuration.
+- MUST read README of plugin before configuring it.
+- If some options are the same as the default options, MUST omit them in the configuration.
+- If some options are not needed, MUST omit them in the configuration.
 
 ## Refactoring Standards
 

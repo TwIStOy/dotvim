@@ -95,10 +95,10 @@ local function create_component()
       end
     end
 
-    local result = table.concat(unique_client_names, ", ")
+    local result = table.concat(unique_client_names, ",")
 
     if #unique_client_names == 0 then
-      local result = " No servers"
+      local result = "No servers"
       buffer_cache[current_buffer] = {
         servers = result,
       }
@@ -123,7 +123,7 @@ local function create_component()
       fg = utils.resolve_fg("IncSearch"),
       gui = "italic,bold",
     },
-    padding = { left = 1 },
+    padding = { left = 0 },
   }
 end
 

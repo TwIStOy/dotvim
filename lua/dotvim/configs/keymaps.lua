@@ -9,6 +9,16 @@ vim.api.nvim_set_keymap("", "<Down>", "<Nop>", {})
 -- Basic file operations
 vim.keymap.set("n", "<leader>fs", "<cmd>update<CR>", { desc = "save" })
 
+-- FZF-lua keymaps (non-vscode)
+if not vim.g.vscode then
+  local fzf_search = require("dotvim.features.fzf_search")
+  
+  vim.keymap.set("n", "<leader>e", fzf_search.find_files, { desc = "edit-project-files" })
+  vim.keymap.set("n", "g/", fzf_search.live_grep, { desc = "live-grep" })
+  vim.keymap.set("n", "<leader>lg", fzf_search.live_grep, { desc = "live-grep" })
+  vim.keymap.set("n", "<F4>", fzf_search.buffers, { desc = "all-buffers" })
+end
+
 -- Clear search highlighting
 vim.keymap.set("n", "<M-n>", "<cmd>nohl<CR>", { desc = "nohl" })
 

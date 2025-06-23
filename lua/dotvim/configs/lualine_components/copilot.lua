@@ -4,25 +4,25 @@ local Commons = require("dotvim.commons")
 -- Component: Copilot status indicator
 local function create_component()
   local spinners = {
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
   }
-  local normal_icon = " "
-  local disable_icon = " "
-  local warning_icon = " "
+  local normal_icon = " "
+  local disable_icon = " "
+  local warning_icon = " "
   local sleeping_icon = "󰒲 "
 
   local function hl_fg(name)

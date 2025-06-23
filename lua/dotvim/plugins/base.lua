@@ -64,6 +64,7 @@ return {
         end
       end
       return {
+        { "<C-t>", nil, desc = "open-term" },
         {
           "<leader>ff",
           open_prog_term("yazi"),

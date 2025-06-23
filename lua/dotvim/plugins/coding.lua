@@ -19,8 +19,29 @@ return {
     opts = {},
   },
   {
+    "TwIStOy/luasnip-snippets",
+    lazy = true,
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    opts = {
+      user = {
+        name = "Hawtian Wang",
+      },
+      snippet = {
+        lua = {
+          vim_snippet = true,
+        },
+        rust = {
+          rstest_support = true,
+        },
+      },
+    },
+  },
+  {
     "L3MON4D3/LuaSnip",
     build = "make install_jsregexp",
+    dependencies = {
+      "TwIStOy/luasnip-snippets",
+    },
     opts = {
       enable_autosnippets = true,
       history = false,
@@ -101,7 +122,7 @@ return {
         enabled = false,
       },
       sources = {
-        default = { "lsp", "buffer" },
+        default = { "lsp", "buffer", "snippets" },
       },
       snippets = {
         expand = function(snippet)

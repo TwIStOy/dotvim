@@ -51,6 +51,7 @@ return {
             components.get("diagnostics"),
           },
           lualine_y = {
+            components.get("copilot"),
             components.get("space"),
           },
           lualine_z = { 

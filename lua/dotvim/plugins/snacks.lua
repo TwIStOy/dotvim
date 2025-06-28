@@ -85,10 +85,8 @@ return {
           },
         },
         sections = {
-          { section = "header", padding = 2 },
           { section = "keys", gap = 1, padding = 1 },
           {
-            pane = 2,
             icon = icon.icon("FolderOpen"),
             title = "Recent Files",
             section = "recent_files",
@@ -98,7 +96,6 @@ return {
             cwd = true,
           },
           {
-            pane = 2,
             icon = icon.icon("Git"),
             title = "Projects",
             section = "projects",
@@ -107,6 +104,14 @@ return {
             limit = 5,
           },
           { section = "startup" },
+          {
+            section = "terminal",
+            cmd = "krabby random --no-title --padding-left 5; sleep .1",
+            random = 100,
+            pane = 2,
+            indent = 4,
+            height = 30,
+          },
         },
       },
     }

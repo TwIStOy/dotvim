@@ -12,10 +12,10 @@ return {
       local components = require("dotvim.configs.lualine_components")
       local utils = require("dotvim.configs.lualine_components.utils")
       local icon = require("dotvim.commons.icon")
-      
+
       local lualine = require("lualine")
-      
-      lualine.setup({
+
+      lualine.setup {
         options = {
           component_separators = { left = "", right = "" },
           section_separators = { left = "", right = "" },
@@ -32,7 +32,7 @@ return {
             components.get("space"),
             components.get("mode"),
           },
-          lualine_b = { 
+          lualine_b = {
             components.get("space"),
           },
           lualine_c = {
@@ -51,10 +51,13 @@ return {
             components.get("diagnostics"),
           },
           lualine_y = {
-            components.get("copilot"),
+            {
+              components.get("copilot"),
+              separator = { left = "", right = "" },
+            },
             components.get("space"),
           },
-          lualine_z = { 
+          lualine_z = {
             components.get("lsp_servers"),
           },
         },
@@ -74,7 +77,8 @@ return {
               lualine_a = {
                 {
                   function()
-                    return require("dotvim.commons.icon").get("FolderClosed", 1) .. "Neo-tree"
+                    return require("dotvim.commons.icon").get("FolderClosed", 1)
+                      .. "Neo-tree"
                   end,
                   separator = { left = "", right = "" },
                 },
@@ -93,7 +97,9 @@ return {
               lualine_a = {
                 {
                   function()
-                    return icon.get("Terminal", 1) .. "ToggleTerm #" .. vim.b.toggle_number
+                    return icon.get("Terminal", 1)
+                      .. "ToggleTerm #"
+                      .. vim.b.toggle_number
                   end,
                   separator = { left = "", right = "" },
                 },
@@ -111,7 +117,7 @@ return {
                     bg = utils.resolve_bg("CursorLine"),
                     fg = utils.resolve_fg("Normal"),
                   },
-                    separator = { left = "", right = "" },
+                  separator = { left = "", right = "" },
                   padding = { left = 1 },
                 },
               },
@@ -166,7 +172,7 @@ return {
             },
           },
         },
-      })
+      }
     end,
   },
   {
@@ -193,7 +199,7 @@ return {
     },
     opts = function()
       local icon = require("dotvim.commons.icon")
-      
+
       return {
         close_if_last_window = true,
         enable_git_status = false,
@@ -215,58 +221,58 @@ return {
             symbol = icon.get("FileModified"),
           },
         },
-      window = {
-        width = 30,
-        mappings = {
-          ["<space>"] = false,
-          ["<cr>"] = "open",
-          ["o"] = "open",
-          ["S"] = "open_split",
-          ["s"] = "open_vsplit",
-          ["t"] = "open_tabnew",
-          ["h"] = "close_node",
-          ["l"] = { "toggle_node", nowait = false },
-          ["C"] = "close_all_nodes",
-          ["z"] = "close_all_nodes",
-          ["R"] = "refresh",
-          ["a"] = "add",
-          ["A"] = "add_directory",
-          ["d"] = "delete",
-          ["r"] = "rename",
-          ["y"] = "copy_to_clipboard",
-          ["x"] = "cut_to_clipboard",
-          ["p"] = "paste_from_clipboard",
-          ["c"] = "copy",
-          ["m"] = "move",
-          ["q"] = "close_window",
-          ["?"] = "show_help",
-        },
-      },
-      filesystem = {
-        follow_current_file = {
-          enabled = true,
-        },
-        hijack_netrw_behavior = "open_current",
-        use_libuv_file_watcher = true,
-        filtered_items = {
-          hide_dotfiles = false,
-          hide_gitignored = false,
-          hide_by_name = {
-            "node_modules",
-            ".git",
-          },
-          never_show = {
-            ".DS_Store",
-            "thumbs.db",
+        window = {
+          width = 30,
+          mappings = {
+            ["<space>"] = false,
+            ["<cr>"] = "open",
+            ["o"] = "open",
+            ["S"] = "open_split",
+            ["s"] = "open_vsplit",
+            ["t"] = "open_tabnew",
+            ["h"] = "close_node",
+            ["l"] = { "toggle_node", nowait = false },
+            ["C"] = "close_all_nodes",
+            ["z"] = "close_all_nodes",
+            ["R"] = "refresh",
+            ["a"] = "add",
+            ["A"] = "add_directory",
+            ["d"] = "delete",
+            ["r"] = "rename",
+            ["y"] = "copy_to_clipboard",
+            ["x"] = "cut_to_clipboard",
+            ["p"] = "paste_from_clipboard",
+            ["c"] = "copy",
+            ["m"] = "move",
+            ["q"] = "close_window",
+            ["?"] = "show_help",
           },
         },
-      },
-      buffers = {
-        follow_current_file = {
-          enabled = true,
+        filesystem = {
+          follow_current_file = {
+            enabled = true,
+          },
+          hijack_netrw_behavior = "open_current",
+          use_libuv_file_watcher = true,
+          filtered_items = {
+            hide_dotfiles = false,
+            hide_gitignored = false,
+            hide_by_name = {
+              "node_modules",
+              ".git",
+            },
+            never_show = {
+              ".DS_Store",
+              "thumbs.db",
+            },
+          },
         },
-      },
-    }
+        buffers = {
+          follow_current_file = {
+            enabled = true,
+          },
+        },
+      }
     end,
   },
 }

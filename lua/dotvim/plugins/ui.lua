@@ -176,6 +176,18 @@ return {
     end,
   },
   {
+    "s1n7ax/nvim-window-picker",
+    name = "window-picker",
+    event = "VeryLazy",
+    version = "2.*",
+    opts = {
+      hint = "floating-big-letter",
+    },
+    config = function(_, opts)
+      require("window-picker").setup(opts)
+    end,
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     enabled = not vim.g.vscode,
@@ -185,16 +197,19 @@ return {
       "MunifTanjim/nui.nvim",
     },
     cmd = "Neotree",
+    init = function()
+      vim.g.neo_tree_remove_legacy_commands = true
+    end,
     keys = {
       {
         "<F2>",
-        "<cmd>Neotree toggle<cr>",
-        desc = "toggle-explorer",
+        "<cmd>Neotree action=focus<cr>",
+        desc = "open-file-explorer",
       },
       {
         "<leader>ft",
-        "<cmd>Neotree reveal<cr>",
-        desc = "find-file-in-explorer",
+        "<cmd>Neotree action=focus<cr>",
+        desc = "open-file-explorer",
       },
     },
     opts = function()
@@ -225,7 +240,7 @@ return {
           width = 30,
           mappings = {
             ["<space>"] = false,
-            ["<cr>"] = "open",
+            ["<cr>"] = "open_with_window_picker",
             ["o"] = "open",
             ["S"] = "open_split",
             ["s"] = "open_vsplit",

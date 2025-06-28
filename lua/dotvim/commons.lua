@@ -32,13 +32,13 @@ end
 ---@param program string
 ---@return string|nil
 function M.which(program)
-  if vim.fn.executable(program) == 1 then
-    return program
-  end
-
   if M.nix.in_nix_env() then
     local config = M.nix.get_nix_aware_config()
     return vim.tbl_get(config, "bin", program)
+  end
+
+  if vim.fn.executable(program) == 1 then
+    return program
   end
 
   return nil

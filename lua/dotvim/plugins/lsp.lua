@@ -20,7 +20,7 @@ return {
     },
     config = function(_, opts)
       require("tiny-inline-diagnostic").setup(opts)
-      vim.diagnostic.config({ virtual_text = false })
+      vim.diagnostic.config { virtual_text = false }
     end,
   },
   {
@@ -54,18 +54,26 @@ return {
     config = function(_, opts)
       for lsp, config in pairs(opts.lsp_configs or {}) do
         vim.lsp.config(lsp, config)
-        
+
         -- Try to replace cmd in the final merged config using Commons.which
         local final_config = vim.lsp.config[lsp]
-        if final_config and final_config.cmd and type(final_config.cmd) == "table" and #final_config.cmd > 0 then
+        if
+          final_config
+          and final_config.cmd
+          and type(final_config.cmd) == "table"
+          and #final_config.cmd > 0
+        then
           local resolved_cmd = Commons.which(final_config.cmd[1])
           if resolved_cmd then
             local new_cmd = vim.deepcopy(final_config.cmd)
             new_cmd[1] = resolved_cmd
             final_config.cmd = new_cmd
+
+            -- Merge the final config to update cmd if necessary
+            vim.lsp.config(lsp, final_config)
           end
         end
-        
+
         vim.lsp.enable(lsp)
       end
     end,
@@ -99,14 +107,14 @@ return {
       local Outline = require("outline")
       ---@diagnostic disable-next-line: undefined-field
       Outline.setup(opts)
-      
+
       local outline_follow = Commons.fn.throttle(2000, function()
         ---@diagnostic disable-next-line: undefined-field
         Outline.follow_cursor {
           focus_outline = false,
         }
       end)
-      
+
       local outline_refresh = Commons.fn.throttle(2000, function()
         ---@diagnostic disable-next-line: undefined-field
         Outline.refresh()

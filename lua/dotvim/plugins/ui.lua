@@ -22,7 +22,7 @@ return {
           theme = "auto",
           globalstatus = true,
           disabled_filetypes = {
-            statusline = { "dashboard", "alpha", "starter" },
+            statusline = { "snacks_dashboard", "dashboard", "alpha", "starter" },
           },
           always_divide_middle = true,
           padding = 0,

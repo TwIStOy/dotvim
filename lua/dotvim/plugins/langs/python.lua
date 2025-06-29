@@ -24,4 +24,26 @@ return {
       return opts
     end,
   },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      lsp_configs = {
+        pyright = {
+          cmd = {
+            "npx",
+            "@delance/runtime",
+            "--stdio",
+          },
+        },
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "black" },
+      },
+    },
+  },
 }

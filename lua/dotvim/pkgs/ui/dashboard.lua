@@ -54,6 +54,7 @@ local dashboard_header_winnee_light = {
   [[⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣤⣀⣀⠀⠀⠀⣀⣶⣿⣿⣿⣷⣶⣤⣀⠀]],
 }
 
+---@type fun(): string[]
 M.resolve_dashboard_header = function()
   local bg = vim.api.nvim_get_option_value("background", {
     scope = "global",

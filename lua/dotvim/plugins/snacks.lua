@@ -1,7 +1,5 @@
 ---@module "dotvim.plugins.snacks"
 
-local Commons = require("dotvim.commons")
-
 ---@type LazyPluginSpec
 return {
   "folke/snacks.nvim",
@@ -85,7 +83,6 @@ return {
           },
         },
         sections = {
-          { section = "keys", gap = 1, padding = 1 },
           {
             icon = icon.icon("FolderOpen"),
             title = "Recent Files",
@@ -103,6 +100,7 @@ return {
             padding = 1,
             limit = 5,
           },
+          { section = "keys", gap = 1, padding = 1 },
           { section = "startup" },
           {
             section = "terminal",

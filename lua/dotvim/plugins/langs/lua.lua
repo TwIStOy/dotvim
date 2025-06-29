@@ -17,7 +17,8 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       lsp_configs = {
-        emmylua_ls = {},
+        emmylua_ls = {
+        },
       },
     },
   },

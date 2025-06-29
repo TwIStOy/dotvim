@@ -36,35 +36,11 @@ return {
               action = ":ene | startinsert",
             },
             {
-              icon = icon.icon("Diagnostic"),
-              key = "g",
-              desc = "Find Text",
-              action = function()
-                require("dotvim.features.fzf_search").live_grep()
-              end,
-            },
-            {
               icon = icon.icon("FolderOpen"),
               key = "r",
               desc = "Recent Files",
               action = function()
                 require("fzf-lua").oldfiles()
-              end,
-            },
-            {
-              icon = icon.icon("FolderClosed"),
-              key = "c",
-              desc = "Config",
-              action = function()
-                require("fzf-lua").files { cwd = vim.fn.stdpath("config") }
-              end,
-            },
-            {
-              icon = icon.icon("BufferClose"),
-              key = "b",
-              desc = "Buffers",
-              action = function()
-                require("dotvim.features.fzf_search").buffers()
               end,
             },
             {

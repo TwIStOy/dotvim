@@ -18,29 +18,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       lsp_configs = {
-        clangd = {
-          capabilities = {
-            offsetEncoding = { "utf-16" },
-          },
-          cmd = {
-            "clangd",
-            "--clang-tidy",
-            "--background-index",
-            "--background-index-priority=normal",
-            "--ranking-model=decision_forest",
-            "--completion-style=detailed",
-            "--header-insertion=iwyu",
-            "--limit-references=100",
-            "--include-cleaner-stdlib",
-            "--all-scopes-completion",
-            "-j=20",
-          },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
-          },
-        },
+        clangd = {},
       },
     },
   },
@@ -87,11 +65,11 @@ return {
       local augend = require("dial.augend")
 
       local function define_custom(...)
-        return augend.constant.new({
+        return augend.constant.new {
           elements = { ... },
           word = true,
           cyclic = true,
-        })
+        }
       end
 
       opts = opts or {}

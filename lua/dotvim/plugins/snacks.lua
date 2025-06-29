@@ -80,7 +80,7 @@ return {
           { section = "startup" },
           {
             section = "terminal",
-            cmd = "krabby random --no-title --padding-left 5; sleep .1",
+            cmd = "krabby random --no-title; sleep .1",
             random = 100,
             pane = 2,
             indent = 4,

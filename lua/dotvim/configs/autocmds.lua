@@ -17,7 +17,11 @@ vim.api.nvim_create_autocmd("TermEnter", {
   callback = function()
     local winnr = vim.api.nvim_get_current_win()
     vim.api.nvim_set_option_value("nu", false, { scope = "local", win = winnr })
-    vim.api.nvim_set_option_value("rnu", false, { scope = "local", win = winnr })
+    vim.api.nvim_set_option_value(
+      "rnu",
+      false,
+      { scope = "local", win = winnr }
+    )
   end,
 })
 
@@ -25,6 +29,19 @@ vim.api.nvim_create_autocmd("TermEnter", {
 vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank({ timeout = 200 })
+    vim.highlight.on_yank { timeout = 200 }
+  end,
+})
+
+local tesla_firmware_path_pattern = "[Tt]esla%d*/firmware"
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  desc = "Disable eol for certain files",
+  pattern = "*",
+  callback = function(event)
+    local full_path = vim.api.nvim_buf_get_name(event.buf)
+    -- full_path contains "Tesla/firmware/components/UI"
+    if string.match(full_path, tesla_firmware_path_pattern) then
+      vim.bo[event.buf].fixendofline = false
+    end
   end,
 })

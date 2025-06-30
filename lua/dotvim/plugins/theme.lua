@@ -110,7 +110,7 @@ return {
   opts = {
     background = {
       light = "latte",
-      dark = "frappe",
+      dark = "macchiato",
     },
     no_italic = false,
     term_colors = true,
@@ -243,6 +243,7 @@ return {
       navic = { enabled = true },
       window_picker = true,
       blink_cmp = true,
+      snacks = { enabled = true },
     },
   },
   config = function(_, opts)

@@ -9,7 +9,7 @@ vim.keymap.set("n", "gt", features.lsp_methods.type_definitions, { desc = "goto-
 vim.keymap.set("n", "gi", features.lsp_methods.implementations, { desc = "goto-implementations" })
 vim.keymap.set("n", "gr", features.lsp_methods.references, { desc = "goto-references" })
 vim.keymap.set("n", "ga", features.lsp_methods.code_action, { desc = "code-action" })
-vim.keymap.set("n", "<leader>rn", features.lsp_methods.rename, { desc = "rename-symbol" })
+vim.keymap.set("n", "gR", features.lsp_methods.rename, { desc = "rename-symbol" })
 vim.keymap.set("n", "<leader>oi", features.lsp_methods.organize_imports, { desc = "organize-imports" })
 vim.keymap.set("n", "K", features.lsp_methods.show_hover, { desc = "show-hover" })
 

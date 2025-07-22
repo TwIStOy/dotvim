@@ -6,15 +6,8 @@ applyTo: "**/*.lua"
 
 ## Project Structure
 
-- Old style config folders/files under "dotvim":
-    - "core/"
-    - "experiments/"
-    - "pkgs/"
-    - "extra/"
-    - "tools/"
-    - "utils/"
-    - "bootstrap.lua"
-- New style config folders/files under "nvim":
+- Old style config folders/files under "deprecated"
+- New style config folders/files under "dotvim":
     - "commons/": plugin unrelated utilities
     - "configs/": plugin related configurations
     - "features/": all provided features by the project, can use plugins

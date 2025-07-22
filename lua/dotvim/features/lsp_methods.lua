@@ -50,8 +50,12 @@ end
 
 ---Trigger code action
 function M.code_action()
-  -- vscode-neovim provides builtin vim.lsp.buf overrides
-  vim.lsp.buf.code_action()
+  if vim.g.vscode then
+    -- vscode-neovim provides builtin vim.lsp.buf overrides
+    vim.lsp.buf.code_action()
+  else
+    require("tiny-code-action").code_action()
+  end
 end
 
 ---Navigate to next diagnostic
@@ -61,11 +65,11 @@ function M.next_diagnostic()
     -- This navigates through all diagnostics, not just errors
     require("vscode").action("editor.action.marker.nextInFiles")
   else
-    vim.diagnostic.jump { 
+    vim.diagnostic.jump {
       count = 1,
-      wrap = false, 
+      wrap = false,
       float = false,
-      severity = vim.diagnostic.severity.ERROR
+      severity = vim.diagnostic.severity.ERROR,
     }
   end
 end
@@ -77,11 +81,11 @@ function M.prev_diagnostic()
     -- This navigates through all diagnostics, not just errors
     require("vscode").action("editor.action.marker.prevInFiles")
   else
-    vim.diagnostic.jump { 
+    vim.diagnostic.jump {
       count = -1,
-      wrap = false, 
+      wrap = false,
       float = false,
-      severity = vim.diagnostic.severity.ERROR
+      severity = vim.diagnostic.severity.ERROR,
     }
   end
 end
@@ -91,10 +95,10 @@ function M.next_diagnostic_all()
   if vim.g.vscode then
     require("vscode").action("editor.action.marker.nextInFiles")
   else
-    vim.diagnostic.jump { 
+    vim.diagnostic.jump {
       count = 1,
-      wrap = false, 
-      float = false
+      wrap = false,
+      float = false,
     }
   end
 end
@@ -104,10 +108,10 @@ function M.prev_diagnostic_all()
   if vim.g.vscode then
     require("vscode").action("editor.action.marker.prevInFiles")
   else
-    vim.diagnostic.jump { 
+    vim.diagnostic.jump {
       count = -1,
-      wrap = false, 
-      float = false
+      wrap = false,
+      float = false,
     }
   end
 end
@@ -119,9 +123,9 @@ function M.show_hover()
     require("vscode").action("editor.action.showHover")
   else
     -- Native neovim hover with solid border
-    vim.lsp.buf.hover({
+    vim.lsp.buf.hover {
       border = "solid",
-    })
+    }
   end
 end
 
@@ -143,12 +147,12 @@ function M.organize_imports()
     require("vscode").action("editor.action.organizeImports")
   else
     -- Native neovim organize imports using generic LSP code action
-    vim.lsp.buf.code_action({
+    vim.lsp.buf.code_action {
       context = {
         only = { "source.organizeImports" },
       },
       apply = true,
-    })
+    }
   end
 end
 

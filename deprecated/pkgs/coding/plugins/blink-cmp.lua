@@ -114,7 +114,7 @@ return {
       end,
     },
     completion = {
-      accept = { auto_brackets = { enabled = true } },
+      accept = { auto_brackets = { enabled = false } },
       list = {
         selection = { preselect = false, auto_insert = true },
       },

@@ -24,6 +24,17 @@ return {
     end,
   },
   {
+    "rachartier/tiny-code-action.nvim",
+    dependencies = {
+      { "ibhagwan/fzf-lua" },
+    },
+    event = "LspAttach",
+    opts = {
+      backend = "difftastic",
+      picker = "snacks",
+    },
+  },
+  {
     "williamboman/mason.nvim",
     enabled = function()
       return not Commons.nix.in_nix_env() and not vim.g.vscode

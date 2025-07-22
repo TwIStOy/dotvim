@@ -26,11 +26,6 @@ return {
     opts = {
       autoload = true,
       popup = { autofocus = true, border = "rounded" },
-      src = {
-        cmp = {
-          enabled = false,
-        },
-      },
     },
     config = function(_, opts)
       require("crates").setup(opts)

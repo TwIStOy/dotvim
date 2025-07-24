@@ -1,29 +1,29 @@
 {
-  "nativeMCPServers": {
-    "mcphub": {
-      "disabled": false
-    }
-  },
   "mcpServers": {
     "git": {
       "args": [
         "mcp-server-git"
       ],
-      "env": {
-        "UV_PYTHON": "$:which python3"
-      },
+      "command": "uvx",
       "disabled": false,
-      "command": "uvx"
+      "env": {
+        "UV_PYTHON": "${cmd: which python3}"
+      }
     },
     "github": {
       "args": [
         "-y",
         "@modelcontextprotocol/server-github"
       ],
+      "command": "npx",
       "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "$:cat /run/agenix/github-cli-access-token"
-      },
-      "command": "npx"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${cmd:cat /run/agenix/github-cli-access-token}"
+      }
+    }
+  },
+  "nativeMCPServers": {
+    "mcphub": {
+      "disabled": false
     }
   }
 }

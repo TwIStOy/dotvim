@@ -15,6 +15,7 @@ require("nvim-treesitter").install {
   "gitcommit",
   "gitignore",
   "glimmer",
+  "glsl",
   "go",
   "graphql",
   "html",

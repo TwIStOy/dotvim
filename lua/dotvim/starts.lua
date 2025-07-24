@@ -1,3 +1,5 @@
+_G["dotvim_lazyroot"] = vim.fn.stdpath("data") .. "/lazy2"
+
 local function install_missing_lazy()
   local lazypath = vim.fn.stdpath("data") .. "/lazy2/lazy.nvim"
   ---@diagnostic disable-next-line: undefined-field

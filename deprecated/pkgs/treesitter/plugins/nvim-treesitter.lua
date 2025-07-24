@@ -5,8 +5,8 @@ return {
   lazy = true,
   dependencies = {
     "IndianBoy42/tree-sitter-just",
-    "TwIStOy/tree-sitter-pidl",
-    "TwIStOy/tree-sitter-kafel",
+    {"TwIStOy/tree-sitter-pidl", dev = true },
+    {"TwIStOy/tree-sitter-kafel", dev = true },
   },
   event = { "BufReadPost", "BufNewFile" },
   build = function()

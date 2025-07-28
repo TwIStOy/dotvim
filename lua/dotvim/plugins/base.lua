@@ -23,6 +23,7 @@ return {
     end,
     opts = {
       open_mapping = "<C-t>",
+      insert_mappings = false,
       hide_numbers = true,
       direction = "float",
       start_in_insert = true,

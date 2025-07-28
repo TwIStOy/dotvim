@@ -245,6 +245,7 @@ return {
         window_picker = true,
         blink_cmp = true,
         snacks = { enabled = true },
+        fzf = true,
       },
     },
     config = function(_, opts)

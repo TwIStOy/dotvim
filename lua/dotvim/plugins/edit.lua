@@ -126,6 +126,25 @@ return {
               end,
             },
           },
+          ["<"] = {
+            {
+              "<",
+              ">",
+              when = function(ctx)
+                return ctx.ts:whitelist("angle").matches
+              end,
+              languages = { "rust" },
+            },
+            {
+              "<",
+              ">",
+              when = function(ctx)
+                local text_before_cursor = ctx:text_before_cursor(1)
+                return text_before_cursor ~= '#' and text_before_cursor ~= ' '
+              end,
+              languages = { "cpp" },
+            },
+          },
         },
       },
     },

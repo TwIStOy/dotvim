@@ -89,61 +89,63 @@ return {
     opts = {},
   },
   {
-    "altermo/ultimate-autopair.nvim",
-    event = {
-      "InsertEnter",
-      "CmdlineEnter",
-    },
+    "saghen/blink.pairs",
+    build = (function()
+      if Commons.nix.in_nix_env() then
+        return "nix run .#build-plugin"
+      else
+        return "cargo build --release"
+      end
+    end)(),
     opts = {
-      close = {
-        map = "<C-0>",
-        cmap = "<C-0>",
+      highlights = {
+        enabled = false,
       },
-      tabout = {
-        hopout = true,
-      },
-      fastwarp = {
-        enable = true,
-        map = "<C-=>",
-        rmap = "<C-->",
-        cmap = "<C-=>",
-        crmap = "<C-->",
-        enable_normal = true,
-        enable_reverse = true,
-        hopout = false,
-        multiline = true,
-        nocursormove = true,
-        no_nothing_if_fail = false,
-      },
-      config_internal_pairs = {
-        {
-          '"',
-          '"',
-          suround = true,
-          cond = function(fn, o)
-            -- vim
-            if
-              fn.get_ft() == "vim"
-              and (
-                o.line:sub(1, o.col - 1):match("^%s*$") ~= nil
-                or o.line:sub(o.col - 1, o.col - 1) == "@"
-              )
-            then
-              return false
-            end
-
-            -- luasnip-snippets expands `#"` in cpp
-            if
-              fn.get_ft() == "cpp"
-              and o.line:sub(1, o.col - 1):match("^%s*#$") ~= nil
-            then
-              return false
-            end
-
-            return true
-          end,
-          multiline = false,
+      mappings = {
+        pairs = {
+          ['"'] = {
+            {
+              'r#"',
+              '"#',
+              languages = { "rust" },
+              priority = 100,
+            },
+            {
+              '"""',
+              when = function(ctx)
+                return ctx:text_before_cursor(2) == '""'
+              end,
+              languages = { "python", "elixir", "julia", "kotlin", "scala" },
+            },
+            {
+              '"',
+              enter = false,
+              space = false,
+              when = function(ctx)
+                return ctx:text_before_cursor(1) ~= "#"
+              end,
+            },
+          },
         },
+      },
+    },
+  },
+  {
+    "phaazon/hop.nvim",
+    cmd = {
+      "HopWord",
+      "HopPattern",
+      "HopChar1",
+      "HopChar2",
+      "HopLine",
+      "HopLineStart",
+    },
+    opts = { keys = "etovxqpdygfblzhckisuran", term_seq_bias = 0.5 },
+    keys = {
+      {
+        ",l",
+        "<cmd>HopLine<cr>",
+        desc = "jump-to-line",
       },
     },
   },

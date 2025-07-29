@@ -1,5 +1,11 @@
 {
   "mcpServers": {
+    "fetch": {
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "command": "uvx"
+    },
     "git": {
       "args": [
         "mcp-server-git"

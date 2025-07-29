@@ -40,6 +40,35 @@ return {
           adapter = "copilot",
         },
       },
+      prompt_library = {
+        ["Beast Mode"] = (function()
+          local beast_mode = require("dotvim.configs.beast-mode-prompt")
+          return {
+            strategy = "chat",
+            description = "Autonomous agent with extensive research and todo list capabilities",
+            opts = {
+              short_name = "beast",
+              is_slash_cmd = true,
+              auto_submit = false,
+              ignore_system_prompt = true,
+              adapter = {
+                name = "copilot",
+                model = "claude-sonnet-4",
+              },
+            },
+            prompts = {
+              {
+                role = "system",
+                content = beast_mode.system_prompt,
+              },
+              {
+                role = "user",
+                content = beast_mode.user_prompt,
+              },
+            },
+          }
+        end)(),
+      },
       adapters = {
         copilot = function()
           return require("codecompanion.adapters").extend("copilot", {

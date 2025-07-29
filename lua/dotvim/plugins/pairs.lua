@@ -56,7 +56,7 @@ return {
               ">",
               when = function(ctx)
                 local text_before_cursor = ctx:text_before_cursor(1)
-                return text_before_cursor ~= "#" and text_before_cursor ~= " "
+                return text_before_cursor ~= "#" and text_before_cursor ~= " " and text_before_cursor ~= '<'
               end,
               languages = { "cpp" },
             },

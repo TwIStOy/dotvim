@@ -8,7 +8,7 @@ return {
     "saghen/blink.pairs",
     build = (function()
       if Commons.nix.in_nix_env() then
-        return "nix run .#build-plugin"
+        return "nix run .#build-plugin --accept-flake-config"
       else
         return "cargo build --release"
       end

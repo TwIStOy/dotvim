@@ -33,7 +33,7 @@ return {
   version = false,
   build = (function()
     if Utils.nix.is_nix_managed() then
-      return "nix run .#build-plugin"
+      return "nix run .#build-plugin --accept-flake-config"
     else
       return "cargo build --release"
     end

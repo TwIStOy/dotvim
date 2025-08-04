@@ -29,7 +29,7 @@ vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<CR>", { desc = "quit-all" })
 -- Window management (non-vscode)
 if not vim.g.vscode then
   vim.keymap.set("n", "<leader>wv", "<cmd>wincmd v<CR>", { desc = "split-window-vertical" })
-  vim.keymap.set("n", "<leader>w-", "<cmd>wincmd -<CR>", { desc = "split-window-horizontal" })
+  vim.keymap.set("n", "<leader>w-", "<cmd>wincmd s<CR>", { desc = "split-window-horizontal" })
   vim.keymap.set("n", "<leader>w=", "<cmd>wincmd =<CR>", { desc = "balance-window" })
   vim.keymap.set("n", "<leader>wr", "<cmd>wincmd r<CR>", { desc = "rotate-window-rightwards" })
   vim.keymap.set("n", "<leader>wx", "<cmd>wincmd x<CR>", { desc = "exchange-window-with-next" })

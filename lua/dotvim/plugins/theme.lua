@@ -111,7 +111,7 @@ return {
     opts = {
       background = {
         light = "latte",
-        dark = "macchiato",
+        dark = "mocha",
       },
       no_italic = false,
       term_colors = true,
@@ -134,6 +134,7 @@ return {
       },
       color_overrides = {
         latte = M.kopicat_light,
+        mocha = M.kopicat_dark,
         -- mocha = M.ayu_inspired,
       },
       highlight_overrides = {

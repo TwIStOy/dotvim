@@ -7,11 +7,7 @@ return {
   lazy = false,
   enabled = not vim.g.vscode,
   opts = function()
-    -- Use the existing dashboard header from the project
-    -- local dashboard_header =
-    --   require("dotvim.pkgs.ui.dashboard").resolve_dashboard_header()
     local icon = require("dotvim.commons.icon")
-
     return {
       bigfile = { enabled = true },
       dashboard = {
@@ -19,7 +15,6 @@ return {
           and vim.o.lines >= 36
           and vim.o.columns >= 80,
         preset = {
-          -- header = table.concat(dashboard_header, "\n"),
           keys = {
             {
               icon = icon.icon("DefaultFile"),

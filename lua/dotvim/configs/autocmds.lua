@@ -42,6 +42,8 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     -- full_path contains "Tesla/firmware/components/UI"
     if string.match(full_path, tesla_firmware_path_pattern) then
       vim.bo[event.buf].fixendofline = false
+      vim.bo[event.buf].tabstop = 4
+      vim.bo[event.buf].shiftwidth = 4
     end
   end,
 })

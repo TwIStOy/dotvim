@@ -29,6 +29,23 @@ return {
     },
   },
   {
+    "windwp/nvim-projectconfig",
+    event = "VeryLazy",
+    opts = {
+      project_dir = "~/.config/nvim-projectconfig/",
+      silent = false,
+      project_config = {
+        {
+          path = "[Tt]esla%d*/firmware",
+          config = function()
+            vim.o.tabstop = 4
+            vim.o.shiftwidth = 4
+          end,
+        },
+      },
+    },
+  },
+  {
     "numToStr/Comment.nvim",
     enabled = not vim.g.vscode,
     keys = {

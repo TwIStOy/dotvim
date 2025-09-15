@@ -31,3 +31,13 @@ vim.api.nvim_create_autocmd("User", {
     vim.b.copilot_suggestion_hidden = false
   end,
 })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "copilot-*",
+  callback = function()
+    vim.opt_local.relativenumber = false
+    vim.opt_local.number = false
+    vim.opt_local.concelllevel = 0
+    vim.b.blink_pairs = false
+  end,
+})

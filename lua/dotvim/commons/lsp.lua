@@ -1,5 +1,4 @@
 ---@module 'dotvim.commons.lsp'
-
 local M = {}
 
 ---Register a callback on LspAttach event.

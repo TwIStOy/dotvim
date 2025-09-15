@@ -1,5 +1,4 @@
 ---@module "dotvim.features.fzf_search"
-
 local M = {}
 
 ---Find files using fzf-lua

@@ -1,5 +1,3 @@
----@module "dotvim.configs.autocmds"
-
 -- Auto create directories when saving files
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",

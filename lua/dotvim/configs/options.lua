@@ -1,5 +1,3 @@
----@module "dotvim.configs.options"
-
 vim.opt.title = false
 vim.opt.ttyfast = true
 

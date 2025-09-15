@@ -1,5 +1,3 @@
----@module "dotvim.plugins.copilot"
-
 local Commons = require("dotvim.commons")
 
 ---@type LazyPluginSpec[]

@@ -1,5 +1,3 @@
----@module "dotvim.plugins.ui"
-
 ---@type LazyPluginSpec[]
 return {
   {

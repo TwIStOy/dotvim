@@ -1,5 +1,3 @@
----@module "dotvim.plugins.fzf"
-
 ---@type LazyPluginSpec[]
 return {
   {

@@ -1,5 +1,3 @@
----@module "dotvim.plugins.bufferline"
-
 ---@type LazyPluginSpec[]
 return {
   {

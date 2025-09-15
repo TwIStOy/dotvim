@@ -1,5 +1,4 @@
 ---@module "dotvim.commons.option"
-
 local M = {}
 
 ---Deep merge two tables recursively.

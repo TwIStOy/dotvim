@@ -1,5 +1,3 @@
----@module "dotvim.plugins.edit"
-
 local Commons = require("dotvim.commons")
 
 ---@type LazyPluginSpec[]

@@ -1,5 +1,3 @@
----@module "dotvim.plugins.snacks"
-
 ---@type LazyPluginSpec
 return {
   "folke/snacks.nvim",

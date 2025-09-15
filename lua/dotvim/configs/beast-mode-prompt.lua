@@ -1,8 +1,7 @@
----@module "dotvim.configs.beast-mode-prompt"
-
 -- Beast Mode 3.1 System Prompt for CodeCompanion
 -- Based on: https://gist.github.com/burkeholland/88af0249c4b6aff3820bf37898c8bacf
 
+---@module "dotvim.configs.beast-mode-prompt"
 local M = {}
 
 M.system_prompt = [[You are an agent - please keep going until the user's query is completely resolved, before ending your turn and yielding back to the user.

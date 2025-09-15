@@ -1,5 +1,4 @@
 ---@module 'dotvim.commons.validator'
-
 local M = {}
 
 ---Test if value is an array. If validator is provided, it will be used to validate the elements of the array.

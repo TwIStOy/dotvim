@@ -1,5 +1,4 @@
 ---@module "dotvim.commons.sys"
-
 local M = {}
 
 function M.is_darwin()

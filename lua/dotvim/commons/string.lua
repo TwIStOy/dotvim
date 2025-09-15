@@ -1,5 +1,4 @@
 ---@module 'dotvim.commons.string'
-
 local M = {}
 
 ---Split a string by delimiter

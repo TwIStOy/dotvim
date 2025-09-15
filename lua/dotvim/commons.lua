@@ -1,5 +1,4 @@
 ---@module 'dotvim.commons'
-
 local M = vim._defer_require("dotvim.commons", {
   fs = ..., ---@module 'dotvim.commons.fs'
   vim = ..., ---@module 'dotvim.commons.vim'

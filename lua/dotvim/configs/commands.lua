@@ -1,5 +1,3 @@
----@module "dotvim.configs.commands"
-
 local profile_started = false
 
 vim.api.nvim_create_user_command("StartProfile", function()

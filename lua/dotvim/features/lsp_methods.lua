@@ -1,5 +1,4 @@
 ---@module 'dotvim.features.lsp_methods'
-
 local M = {}
 
 ---Navigate to declaration

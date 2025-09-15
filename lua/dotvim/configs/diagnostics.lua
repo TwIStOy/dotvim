@@ -1,5 +1,3 @@
----@module 'dotvim.configs.diagnostics'
-
 local Icons = require("dotvim.commons.icon")
 
 -- Configure diagnostics with signs in signcolumn
@@ -23,4 +21,3 @@ vim.diagnostic.config {
     prefix = "",
   },
 }
-

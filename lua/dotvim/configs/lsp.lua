@@ -1,5 +1,3 @@
----@module 'dotvim.configs.lsp'
-
 local features = require("dotvim.features")
 
 -- LSP method keybindings

@@ -1,7 +1,6 @@
----@module 'dotvim.commons.nix'
-
 ---@diagnostic disable: undefined-global
 
+---@module 'dotvim.commons.nix'
 local M = {}
 
 local Fs = require("dotvim.commons.fs")

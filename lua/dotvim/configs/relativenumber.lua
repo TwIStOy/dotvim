@@ -1,5 +1,3 @@
----@module 'dotvim.configs.relativenumber'
-
 -- Configuration for relative number toggling functionality
 
 local exclude_ft = {

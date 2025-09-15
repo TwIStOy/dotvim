@@ -1,5 +1,4 @@
 ---@module 'dotvim.commons.fs'
-
 local M = {}
 
 ---Read a file and return its contents

@@ -1,5 +1,4 @@
 ---@module 'dotvim.commons.vim'
-
 local M = {}
 
 ---Invokes the given callback and trie to restore the cursor position.

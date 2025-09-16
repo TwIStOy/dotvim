@@ -10,6 +10,7 @@ return {
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "franco-ruggeri/codecompanion-spinner.nvim",
     },
     opts = {
       -- Flat opts structure (not nested)
@@ -39,6 +40,7 @@ return {
             make_slash_commands = true,
           },
         },
+        spinner = {},
       },
       prompt_library = {
         ["Beast Mode"] = (function()

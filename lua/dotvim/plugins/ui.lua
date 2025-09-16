@@ -42,6 +42,7 @@ return {
             components.get("space"),
             components.get("macro"),
             components.get("search_count"),
+            components.get("c_preproc"),
           },
           lualine_x = {
             components.get("lsp_progress"),

@@ -14,6 +14,7 @@ M.space = require("dotvim.configs.lualine_components.space")
 M.search_count = require("dotvim.configs.lualine_components.search_count")
 M.macro = require("dotvim.configs.lualine_components.macro")
 M.copilot = require("dotvim.configs.lualine_components.copilot")
+M.c_preproc = require("dotvim.configs.lualine_components.c_preproc")
 
 -- Helper function to get a component by name
 function M.get(name)

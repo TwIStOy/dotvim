@@ -4,10 +4,22 @@ return {
   priority = 1000,
   lazy = false,
   enabled = not vim.g.vscode,
+  keys = {
+    {
+      "<leader>g",
+      function()
+        require("snacks").lazygit.open()
+      end,
+      desc = "open-lazygit",
+    },
+  },
   opts = function()
     local icon = require("dotvim.commons.icon")
     return {
       bigfile = { enabled = true },
+      lazygit = {
+        configure = true,
+      },
       dashboard = {
         enabled = vim.fn.argc() == 0
           and vim.o.lines >= 36

@@ -61,13 +61,6 @@ return {
           open_prog_term("yazi"),
           desc = "open-yazi",
         },
-        {
-          "<leader>g",
-          open_prog_term("lazygit", function()
-            return vim.fn.expand("%:p:h")
-          end),
-          desc = "open-lazygit",
-        },
       }
     end,
   },

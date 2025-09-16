@@ -49,6 +49,12 @@ return {
     end,
   },
   {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = {
+      enable = true,
+    },
+  },
+  {
     "TwIStOy/luasnip-snippets",
     lazy = true,
     dependencies = "nvim-treesitter/nvim-treesitter",

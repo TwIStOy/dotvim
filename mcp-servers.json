@@ -22,6 +22,7 @@
         "@modelcontextprotocol/server-github"
       ],
       "command": "npx",
+      "disabled": false,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${cmd:cat /run/agenix/github-cli-access-token}"
       }

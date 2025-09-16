@@ -1,4 +1,3 @@
----@type LazyPluginSpec[]
 return {
   {
     "olimorris/codecompanion.nvim",
@@ -9,11 +8,14 @@ return {
       "CodeCompanionChat",
       "CodeCompanionActions",
     },
-    config = function(_, opts)
-      require("codecompanion").setup(opts)
-      vim.g.codecompanion_auto_tool_mode = true
-    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
     opts = {
+      -- Flat opts structure (not nested)
+      opts = {
+        log_level = "ERROR", -- Changed from nested structure
+      },
       display = {
         chat = {
           show_settings = true,
@@ -22,20 +24,20 @@ return {
       strategies = {
         chat = {
           adapter = "copilot",
-          tools = {
-            ["mcp"] = {
-              callback = function()
-                vim.wait(5000, function()
-                  return require("mcphub").get_hub_instance() ~= nil
-                end)
-                return require("mcphub.extensions.codecompanion")
-              end,
-              description = "Call tools and resources from the MCP Servers",
-            },
-          },
         },
         inline = {
           adapter = "copilot",
+        },
+      },
+      -- Extensions configuration (new style)
+      extensions = {
+        mcphub = {
+          callback = "mcphub.extensions.codecompanion",
+          opts = {
+            show_result_in_chat = false,
+            make_vars = true,
+            make_slash_commands = true,
+          },
         },
       },
       prompt_library = {
@@ -48,11 +50,6 @@ return {
               short_name = "beast",
               is_slash_cmd = true,
               auto_submit = false,
-              ignore_system_prompt = true,
-              adapter = {
-                name = "copilot",
-                model = "claude-sonnet-4",
-              },
             },
             prompts = {
               {
@@ -61,46 +58,56 @@ return {
               },
               {
                 role = "user",
-                content = beast_mode.user_prompt,
+                content = beast_mode.user_prompt(),
               },
             },
           }
         end)(),
       },
       adapters = {
-        copilot = function()
-          return require("codecompanion.adapters").extend("copilot", {
-            schema = {
-              model = {
-                default = "claude-sonnet-4",
+        http = {
+          copilot = function()
+            return require("codecompanion.adapters").extend("copilot", {
+              schema = {
+                model = {
+                  -- default = "claude-sonnet-4",
+                  default = "gpt-5",
+                },
+                max_tokens = {
+                  default = 900000,
+                },
               },
-              max_tokens = {
-                default = 900000,
+            })
+          end,
+          anthropic = function()
+            return require("codecompanion.adapters").extend("anthropic", {
+              url = "https://api.luee.net/v1/messages",
+              env = {
+                api_key = "cmd:cat /run/agenix/luee-net-api-key",
               },
-            },
-          })
-        end,
-        anthropic = function()
-          return require("codecompanion.adapters").extend("anthropic", {
-            url = "https://api.luee.net/v1/messages",
-            env = {
-              api_key = "cmd:cat /run/agenix/luee-net-api-key",
-            },
-          })
-        end,
-        openai = function()
-          return require("codecompanion.adapters").extend("openai", {
-            env = {
-              url = "https://api.gptsapi.net/v1/",
-              api_key = "cmd:cat /run/agenix/wildcard-api-key",
-            },
-          })
-        end,
+            })
+          end,
+          openai = function()
+            return require("codecompanion.adapters").extend("openai", {
+              env = {
+                url = "https://api.gptsapi.net/v1/",
+                api_key = "cmd:cat /run/agenix/wildcard-api-key",
+              },
+            })
+          end,
+        },
       },
     },
+    config = function(_, opts)
+      require("codecompanion").setup(opts)
+      vim.g.codecompanion_auto_tool_mode = true
+    end,
   },
   {
     "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
     cmd = "MCPHub",
     build = "bundled_build.lua",
     lazy = true,
@@ -117,12 +124,6 @@ return {
           },
           avante = {
             make_slash_commands = true,
-          },
-          copilotchat = {
-            enabled = true,
-            convert_tools_to_functions = true,
-            convert_resources_to_functions = true,
-            add_mcp_prefix = false,
           },
         },
       }

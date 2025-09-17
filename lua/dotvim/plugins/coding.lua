@@ -127,7 +127,7 @@ return {
     version = false,
     build = (function()
       if Commons.nix.in_nix_env() then
-        return "nix run .#build-plugin"
+        return "nix run .#build-plugin --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command"
       else
         return "cargo build --release"
       end

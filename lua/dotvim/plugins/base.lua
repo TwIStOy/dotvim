@@ -2,9 +2,10 @@ local Commons = require("dotvim.commons")
 
 ---@type LazyPluginSpec[]
 return {
-  { "nvim-lua/plenary.nvim" },
-  { "nvim-lua/popup.nvim" },
-  { "MunifTanjim/nui.nvim" },
+  "nvim-lua/plenary.nvim",
+  "nvim-lua/popup.nvim",
+  "MunifTanjim/nui.nvim",
+  "grapp-dev/nui-components.nvim",
   {
     "willothy/flatten.nvim",
     enabled = not vim.g.vscode,

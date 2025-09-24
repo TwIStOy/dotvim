@@ -1,0 +1,143 @@
+---@type LazyPluginSpec[]
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    branch = "main",
+    build = ":TSUpdate",
+    dependencies = {
+      {
+        "TwIStOy/tree-sitter-pidl",
+        url = "git@github.com:TwIStOy/tree-sitter-pidl.git",
+      },
+      {
+        "TwIStOy/tree-sitter-kafel",
+        url = "git@github.com:TwIStOy/tree-sitter-kafel.git",
+      },
+    },
+    opts = {},
+    config = function(_, opts)
+      require("nvim-treesitter").setup(opts)
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "TSUpdate",
+        callback = function()
+          -- add parsers
+          require("nvim-treesitter.parsers").pidl = {
+            install_info = {
+              path = _G["dotvim_lazyroot"] .. "/tree-sitter-pidl",
+              generate = false,
+            },
+          }
+          require("nvim-treesitter.parsers").kafel = {
+            install_info = {
+              path = _G["dotvim_lazyroot"] .. "/tree-sitter-kafel",
+              generate = false,
+            },
+          }
+        end,
+      })
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = {
+      enable = true,
+    },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      select = {
+        lookahead = true,
+        selection_modes = {},
+      },
+      include_surrounding_whitespace = true,
+    },
+    keys = function()
+      local def_select = function(key, query)
+        local desc = query:gsub("@", ""):gsub("%.", "_"):gsub(":", "_")
+        return {
+          key,
+          function()
+            require("nvim-treesitter-textobjects.select").select_textobject(
+              query,
+              "textobjects"
+            )
+          end,
+          desc = "select-" .. desc,
+          mode = { "o", "x" },
+        }
+      end
+      return {
+        def_select("af", "@function.outer"),
+        def_select("if", "@function.inner"),
+        def_select("i,", "@parameter.inner"),
+        def_select("a,", "@parameter.outer"),
+        def_select("i:", "@assignment.rhs"),
+        def_select("il", "@lifetime.inner"),
+        def_select("a;", "@statement.outer"),
+        def_select("ir", "@dotvim_omni_right.inner"),
+        def_select("ic", "@conditional.inner"),
+        def_select("ac", "@conditional.outer"),
+        {
+          "<M-l>",
+          function()
+            require("nvim-treesitter-textobjects.swap").swap_next(
+              "@parameter.inner"
+            )
+          end,
+          desc = "swap-next-parameter",
+          mode = { "n", "ix" },
+        },
+        {
+          "<M-h>",
+          function()
+            require("nvim-treesitter-textobjects.swap").swap_previous(
+              "@parameter.inner"
+            )
+          end,
+          desc = "swap-previous-parameter",
+          mode = { "n", "ix" },
+        },
+      }
+    end,
+  },
+  -- {
+  --   "nvim-treesitter/nvim-treesitter-textobjects",
+  --   opts = {
+  --     textobjects = {
+  --       select = {
+  --         enable = true,
+  --         lookahead = true,
+  --       },
+  --       swap = {
+  --         enable = true,
+  --         swap_next = { ["<M-l>"] = "@parameter.inner" },
+  --         swap_previous = { ["<M-h>"] = "@parameter.inner" },
+  --       },
+  --       move = {
+  --         enable = true,
+  --         set_jumps = true,
+  --         goto_next_start = {
+  --           ["],"] = "@parameter.inner",
+  --           ["]l"] = "@lifetime.inner",
+  --           ["]f"] = "@function.outer",
+  --           ["]r"] = "@dotvim_omni_right.inner",
+  --         },
+  --         goto_previous_start = {
+  --           ["[,"] = "@parameter.inner",
+  --           ["[l"] = "@lifetime.inner",
+  --           ["[f"] = "@function.outer",
+  --           ["[r"] = "@dotvim_omni_right.inner",
+  --         },
+  --       },
+  --     },
+  --   },
+  --   config = function(_, opts)
+  --     require("nvim-treesitter.configs").setup(opts)
+  --   end,
+  -- },
+}

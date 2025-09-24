@@ -145,7 +145,7 @@ return {
         },
       },
       win = {
-        border = "solid",
+        border = "single",
       },
     },
     config = function(_, opts)
@@ -192,6 +192,7 @@ return {
       },
       preserve_window_layout = { "this" },
       next_buffer_cmd = function(windows)
+        ---@diagnostic disable-next-line: undefined-field
         require("bufferline").cycle(1)
         local bufnr = vim.api.nvim_get_current_buf()
         for _, window in ipairs(windows) do

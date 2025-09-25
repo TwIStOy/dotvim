@@ -2,15 +2,16 @@
 
 (return_statement
   (expression_list
-    "," @_start .
-    (_) @parameter.inner
-  (#make-range! "parameter.outer" @_start @parameter.inner))
+    "," @parameter.outer
+    .
+    (_) @parameter.inner @parameter.outer
+  )
 )
 
 (return_statement
   (expression_list
-    . (_) @parameter.inner
-    . ","? @_end
-   (#make-range! "parameter.outer" @parameter.inner @_end))
+    . (_) @parameter.inner @parameter.outer
+    . ","? @parameter.outer
+ )
 )
 

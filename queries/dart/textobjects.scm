@@ -1,11 +1,10 @@
 ; extends
 
-((named_argument
+(named_argument
   (_)
   .
-  (_) @_start
-  (_)? @_end .)
- (#make-range! "super_right.inner" @_start @_end))
+  (_) @super_right.inner
+  (_)? @super_right.inner .)
 
 ((assignment_expression
   left: (_)

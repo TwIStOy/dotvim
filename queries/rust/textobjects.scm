@@ -3,9 +3,11 @@
 (reference_type
   (lifetime) @lifetime.inner)
 
-((parameters
-  . (self_parameter) @parameter.inner . ","? @_end)
- (#make-range! "parameter.outer" @parameter.inner @_end))
+(parameters
+  .
+  (self_parameter) @parameter.inner @parameter.outer
+  .
+  ","? @parameter.outer)
 
 (let_declaration
   value: (_) @dotvim_omni_right.inner)

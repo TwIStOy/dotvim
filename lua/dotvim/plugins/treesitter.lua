@@ -71,6 +71,34 @@ return {
           mode = { "o", "x" },
         }
       end
+      local move_next = function(key, query)
+        local desc = query:gsub("@", ""):gsub("%.", "_"):gsub(":", "_")
+        return {
+          key,
+          function()
+            require("nvim-treesitter-textobjects.move").goto_next_start(
+              query,
+              "textobjects"
+            )
+          end,
+          desc = "goto-next-" .. desc,
+          mode = { "n", "o", "x" },
+        }
+      end
+      local move_prev = function(key, query)
+        local desc = query:gsub("@", ""):gsub("%.", "_"):gsub(":", "_")
+        return {
+          key,
+          function()
+            require("nvim-treesitter-textobjects.move").goto_previous_start(
+              query,
+              "textobjects"
+            )
+          end,
+          desc = "goto-previous-" .. desc,
+          mode = { "n", "o", "x" },
+        }
+      end
       return {
         def_select("af", "@function.outer"),
         def_select("if", "@function.inner"),
@@ -90,7 +118,7 @@ return {
             )
           end,
           desc = "swap-next-parameter",
-          mode = { "n", "ix" },
+          mode = { "n" },
         },
         {
           "<M-h>",
@@ -100,44 +128,17 @@ return {
             )
           end,
           desc = "swap-previous-parameter",
-          mode = { "n", "ix" },
+          mode = { "n" },
         },
+        move_next("],", "@parameter.inner"),
+        move_next("]l", "@lifetime.inner"),
+        move_next("]f", "@function.outer"),
+        move_next("]r", "@dotvim_omni_right.inner"),
+        move_prev("[,", "@parameter.inner"),
+        move_prev("[l", "@lifetime.inner"),
+        move_prev("[f", "@function.outer"),
+        move_prev("[r", "@dotvim_omni_right.inner"),
       }
     end,
   },
-  -- {
-  --   "nvim-treesitter/nvim-treesitter-textobjects",
-  --   opts = {
-  --     textobjects = {
-  --       select = {
-  --         enable = true,
-  --         lookahead = true,
-  --       },
-  --       swap = {
-  --         enable = true,
-  --         swap_next = { ["<M-l>"] = "@parameter.inner" },
-  --         swap_previous = { ["<M-h>"] = "@parameter.inner" },
-  --       },
-  --       move = {
-  --         enable = true,
-  --         set_jumps = true,
-  --         goto_next_start = {
-  --           ["],"] = "@parameter.inner",
-  --           ["]l"] = "@lifetime.inner",
-  --           ["]f"] = "@function.outer",
-  --           ["]r"] = "@dotvim_omni_right.inner",
-  --         },
-  --         goto_previous_start = {
-  --           ["[,"] = "@parameter.inner",
-  --           ["[l"] = "@lifetime.inner",
-  --           ["[f"] = "@function.outer",
-  --           ["[r"] = "@dotvim_omni_right.inner",
-  --         },
-  --       },
-  --     },
-  --   },
-  --   config = function(_, opts)
-  --     require("nvim-treesitter.configs").setup(opts)
-  --   end,
-  -- },
 }

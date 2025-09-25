@@ -16,20 +16,25 @@
   body:  (compound_statement)) @function.outer
 
 (lambda_expression
-  body: (compound_statement . "{" . (_) @_start @_end (_)? @_end . "}"
- (#make-range! "function.inner" @_start @_end)))
+  body: (compound_statement . "{" . (_) @function.inner @function.inner_end (_)? @function.inner . "}"
+))
 
-((structured_binding_declarator
-   "," @_start . (_) @parameter.inner @_end)
- (#make-range! "parameter.outer" @_start @parameter.inner))
-((structured_binding_declarator
-   . (_) @parameter.inner . ","? @_end)
-  (#make-range! "parameter.outer" @parameter.inner @_end))
+(structured_binding_declarator
+  "," @parameter.outer
+  .
+  (_) @parameter.inner @parameter.outer
+)
+(structured_binding_declarator
+  .
+  (_) @parameter.inner @parameter.outer
+  .
+  ","? @parameter.outer
+)
 
-((for_range_loop
-   type: (_) @_start
-   declarator: (_) @_end)
- (#make-range! "for_range_loop.inner" @_start @_end))
+
+(for_range_loop
+  type: (_) @for_range_loop.inner
+  declarator: (_) @for_range_loop.inner)
 (for_range_loop
   right: (_) @for_range_loop.inner)
 

@@ -55,6 +55,9 @@ return {
         selection_modes = {},
       },
       include_surrounding_whitespace = true,
+      move = {
+        set_jumps = true,
+      },
     },
     keys = function()
       local def_select = function(key, query)
@@ -111,7 +114,7 @@ return {
         def_select("ic", "@conditional.inner"),
         def_select("ac", "@conditional.outer"),
         {
-          "<M-l>",
+          "<leader>a",
           function()
             require("nvim-treesitter-textobjects.swap").swap_next(
               "@parameter.inner"
@@ -121,10 +124,10 @@ return {
           mode = { "n" },
         },
         {
-          "<M-h>",
+          "<leader>A",
           function()
             require("nvim-treesitter-textobjects.swap").swap_previous(
-              "@parameter.inner"
+              "@parameter.outer"
             )
           end,
           desc = "swap-previous-parameter",

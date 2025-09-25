@@ -59,7 +59,9 @@ return {
         set_jumps = true,
       },
     },
+    ---@return LazyKeysSpec[]
     keys = function()
+      ---@return LazyKeysSpec
       local def_select = function(key, query)
         local desc = query:gsub("@", ""):gsub("%.", "_"):gsub(":", "_")
         return {
@@ -74,6 +76,7 @@ return {
           mode = { "o", "x" },
         }
       end
+      ---@return LazyKeysSpec
       local move_next = function(key, query)
         local desc = query:gsub("@", ""):gsub("%.", "_"):gsub(":", "_")
         return {
@@ -88,6 +91,7 @@ return {
           mode = { "n", "o", "x" },
         }
       end
+      ---@return LazyKeysSpec
       local move_prev = function(key, query)
         local desc = query:gsub("@", ""):gsub("%.", "_"):gsub(":", "_")
         return {

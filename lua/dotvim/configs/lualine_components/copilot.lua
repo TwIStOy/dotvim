@@ -1,4 +1,3 @@
-local utils = require("dotvim.configs.lualine_components.utils")
 local Commons = require("dotvim.commons")
 
 -- Component: Copilot status indicator
@@ -68,7 +67,11 @@ local function create_component()
     elseif status == "Normal" or status == "Enabled" then
       -- Check for sleeping/idle
       local suggestion_ok, suggestion = pcall(require, "copilot.suggestion")
-      if suggestion_ok and suggestion.is_auto_trigger and not suggestion.is_auto_trigger() then
+      if
+        suggestion_ok
+        and suggestion.is_auto_trigger
+        and not suggestion.is_auto_trigger()
+      then
         return "Sleeping"
       end
       return "Normal"
@@ -86,25 +89,25 @@ local function create_component()
 
   function component:init(options)
     component.super:init(options)
-    
+
     self.error_hl = highlight.create_component_highlight_group({
       {
         fg = hl_fg("DiagnosticError"),
       },
     }, "copilot_lualine_error", options)
-    
+
     self.in_progress_hl = highlight.create_component_highlight_group({
       {
         fg = hl_fg("DiagnosticHint"),
       },
     }, "copilot_lualine_in_progress", options)
-    
+
     self.sleeping_hl = highlight.create_component_highlight_group({
       {
         fg = hl_fg("Comment"),
       },
     }, "copilot_lualine_sleeping", options)
-    
+
     self.current_icon = spinners[1]
   end
 
@@ -115,13 +118,17 @@ local function create_component()
     elseif status == "Disabled" then
       self.current_icon = disable_icon
     elseif status == "Error" then
-      self.current_icon = highlight.component_format_highlight(self.error_hl) .. warning_icon
+      self.current_icon = highlight.component_format_highlight(self.error_hl)
+        .. warning_icon
     elseif status == "InProgress" then
       local icon = spinners[spinner_count]
       spinner_count = (spinner_count + 1) % #spinners + 1
-      self.current_icon = highlight.component_format_highlight(self.in_progress_hl) .. icon
+      self.current_icon = highlight.component_format_highlight(
+        self.in_progress_hl
+      ) .. icon
     elseif status == "Sleeping" then
-      self.current_icon = highlight.component_format_highlight(self.sleeping_hl) .. sleeping_icon
+      self.current_icon = highlight.component_format_highlight(self.sleeping_hl)
+        .. sleeping_icon
     else
       self.current_icon = normal_icon
     end

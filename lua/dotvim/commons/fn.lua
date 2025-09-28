@@ -11,6 +11,7 @@ function M.invoke_once(fun)
   return function()
     if not invoked then
       ret = { fun() }
+      ---@diagnostic disable-next-line: unused
       invoked = true
     end
     return unpack(ret)
@@ -59,7 +60,7 @@ function M.bind(fn, args)
 
   local max_index = 0
   for i, _ in pairs(args) do
-    max_index = math.max(max_index, i)
+    max_index = math.max(max_index, i) ---@as integer
   end
 
   return function(...)
@@ -89,7 +90,7 @@ end
 ---callback until after `delay` milliseconds have elapsed since the last time
 ---the throttled function was invoked.
 ---@generic F: function
----@param delay number The delay in milliseconds.
+---@param delay integer The delay in milliseconds.
 ---@param callback F The function to throttle.
 ---@return F The throttled function.
 function M.throttle(delay, callback)
@@ -106,8 +107,8 @@ function M.throttle(delay, callback)
       callback(unpack(args))
     end
 
-    ---@diagnostic disable-next-line: undefined-global
     vim.defer_fn(wrapped, delay)
+    ---@diagnostic disable-next-line: unused
     running = true
   end
 end

@@ -32,7 +32,8 @@ end
 ---@param str string
 ---@return string
 function M.trim(str)
-  return str:match("^%s*(.-)%s*$")
+  local ret = str:match("^%s*(.-)%s*$")
+  return ret or str
 end
 
 ---Check if string starts with prefix

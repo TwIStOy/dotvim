@@ -9,4 +9,20 @@ return {
       require("render-markdown").setup(opts)
     end,
   },
+  {
+    "obsidian-nvim/obsidian.nvim",
+    version = "*",
+    event = {
+      "BufReadPre " .. vim.fn.expand "~" .. "/Projects/Nexus/*.md",
+      "BufNewFile " .. vim.fn.expand "~" .. "/Projects/Nexus/*.md"
+    },
+    opts = {
+      workspaces = {
+        {
+          name = "Nexus",
+          path = "~/Projects/Nexus",
+        },
+      },
+    },
+  },
 }

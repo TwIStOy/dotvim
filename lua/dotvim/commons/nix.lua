@@ -8,6 +8,7 @@ local Str = require("dotvim.commons.string")
 local Fn = require("dotvim.commons.fn")
 
 -- Cache for nix plugin packages to avoid repeated nix-store calls
+---@type table<string, {path: string}>|nil
 local nix_packages_cache = nil
 
 ---Get all installed vim plugin packages from nix
@@ -83,7 +84,6 @@ local function load_nix_aware_configs()
   local path = vim.fn.stdpath("config") .. "/nix-aware.json"
   ---@diagnostic disable-next-line: undefined-field
   if not not vim.uv.fs_stat(path) then
-    ---@type dotvim.utils
     local content = Fs.read_file(path)
     if content ~= nil then
       return vim.fn.json_decode(content)

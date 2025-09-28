@@ -47,7 +47,7 @@ M.icons = {
 
 -- Get predefined icon with optional padding
 ---@param kind string The icon name
----@param padding? number Number of spaces to add after the icon
+---@param padding? integer Number of spaces to add after the icon
 ---@return string
 function M.get(kind, padding)
   local icon = M.icons[kind]

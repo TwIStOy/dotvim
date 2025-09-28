@@ -23,7 +23,7 @@ function M.preserve_cursor_position(callback)
 end
 
 ---Returns the value of a buffer variable, or nil if it doesn't exist.
----@param bufnr number
+---@param bufnr integer
 ---@param key string
 ---@return any?
 function M.buf_get_var(bufnr, key)

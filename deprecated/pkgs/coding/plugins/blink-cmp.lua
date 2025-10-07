@@ -27,17 +27,19 @@ local function update_clangd_completion_item(item)
   end
 end
 
+local function blink_cmp_build()
+  if Utils.nix.is_nix_managed() then
+    return "nix run .#build-plugin --accept-flake-config"
+  else
+    return "cargo build --release"
+  end
+end
+
 ---@type dotvim.core.plugin.PluginOption
 return {
-  "saghen/blink.cmp",
+  "TwIStOy/blink.cmp",
   version = false,
-  build = (function()
-    if Utils.nix.is_nix_managed() then
-      return "nix run .#build-plugin --accept-flake-config"
-    else
-      return "cargo build --release"
-    end
-  end)(),
+  build = blink_cmp_build(),
   enabled = function()
     return vim.g.dotvim_completion_engine == "blink-cmp"
   end,
@@ -56,6 +58,7 @@ return {
       prebuilt_binaries = {
         download = false,
       },
+      implementation = "lua",
     },
     keymap = {
       preset = "none",
@@ -148,46 +151,6 @@ return {
                 return require("colorful-menu").blink_components_highlight(ctx)
               end,
             },
-            -- label_description = {
-            --   text = function(ctx)
-            --     local res = (function()
-            --       if ctx.source_name == "LSP" then
-            --         local menu_text = vim.F.if_nil(
-            --           require("dotvim.extra.lsp").get_lsp_item_import_location(
-            --             ctx.item,
-            --             ctx.source
-            --           ),
-            --           ""
-            --         )
-            --         if #menu_text > 0 then
-            --           if ctx.item.clangd_marker then
-            --             return CLANGD_MARKER .. menu_text
-            --           end
-            --           return menu_text
-            --         end
-            --       end
-            --       if
-            --         ctx.item ~= nil
-            --         and ctx.item.label_description ~= nil
-            --         and ctx.item.label_description ~= ""
-            --       then
-            --         return ctx.item.label_description
-            --       elseif
-            --         ctx.item ~= nil
-            --         and ctx.item.label_details ~= nil
-            --         and ctx.item.label_details ~= ""
-            --       then
-            --         return ctx.item.label_details
-            --       end
-            --       return ctx.label_description
-            --     end)()
-            --     if res == nil then
-            --       return ""
-            --     end
-            --     res = res:gsub("\n", "")
-            --     return res
-            --   end,
-            -- },
           },
         },
       },

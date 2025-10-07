@@ -55,6 +55,7 @@ require("nvim-treesitter").install {
   "vim",
   "vue",
   "yaml",
+  "zig"
 }
 
 if not not vim.g.vscode then

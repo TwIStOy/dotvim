@@ -60,7 +60,7 @@ end
 ---@param background string background color
 ---@param alpha number|string number between 0 and 1. 0 results in bg, 1 results in fg
 function M.blend(foreground, background, alpha)
-  alpha = type(alpha) == "string" and (tonumber(alpha, 16) / 0xff) or alpha
+  alpha = type(alpha) == "string" and (tonumber(alpha, 16) or 0 / 0xff) or alpha
 
   local fg = M.hex_to_rgb(foreground)
   local bg = M.hex_to_rgb(background)

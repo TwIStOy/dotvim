@@ -62,7 +62,7 @@ end
 ---@param plugin dotvim.core.plugin.PluginOption
 ---@return string
 function M.normalize_plugin_pname(plugin)
-  local name = plugin.name
+  local name = plugin.name or ""
   -- replace '.' with '-'
   local ret, _ = name:gsub("%.", "-")
   return ret
@@ -99,7 +99,8 @@ M.resolve_plugin = function(name)
   return nil
 end
 
----@type fun(s: string): string
+---@param s string
+---@return string
 local function trim_semicolon(s)
   return s:sub(-1) == ";" and s:sub(1, -2) or s
 end

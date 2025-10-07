@@ -3,7 +3,7 @@ local Commons = require("dotvim.commons")
 ---@type LazyPluginSpec[]
 return {
   {
-    "saghen/blink.pairs",
+    "TwIStOy/blink.pairs",
     build = (function()
       if Commons.nix.in_nix_env() then
         return "nix run .#build-plugin --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command"
@@ -54,7 +54,9 @@ return {
               ">",
               when = function(ctx)
                 local text_before_cursor = ctx:text_before_cursor(1)
-                return text_before_cursor ~= "#" and text_before_cursor ~= " " and text_before_cursor ~= '<'
+                return text_before_cursor ~= "#"
+                  and text_before_cursor ~= " "
+                  and text_before_cursor ~= "<"
               end,
               languages = { "cpp" },
             },
@@ -86,9 +88,8 @@ return {
     },
   },
   {
-    'abecodes/tabout.nvim',
+    "abecodes/tabout.nvim",
     lazy = false,
-    opts = {
-    }
-  }
+    opts = {},
+  },
 }

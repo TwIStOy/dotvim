@@ -58,7 +58,6 @@ return {
       prebuilt_binaries = {
         download = false,
       },
-      implementation = "lua",
     },
     keymap = {
       preset = "none",

@@ -17,6 +17,15 @@ return {
       opts = {
         log_level = "ERROR", -- Changed from nested structure
       },
+      memory = {
+        opts = {
+          chat = {
+            condition = function(chat)
+              return chat.adapter.type ~= "acp"
+            end,
+          },
+        },
+      },
       display = {
         chat = {
           show_settings = true,
@@ -65,6 +74,26 @@ return {
             },
           }
         end)(),
+        ["Code Review"] = {
+          strategy = "chat",
+          description = "Code review assistant",
+          opts = {
+            short_name = "review",
+            is_slash_cmd = true,
+            auto_submit = true,
+            stop_context_insertion = true,
+          },
+          prompts = {
+            {
+              role = "system",
+              content = require("dotvim.configs.prompts.copilot-review").system_prompt,
+            },
+            {
+              role = "user",
+              content = require("dotvim.configs.prompts.copilot-review").user_prompt,
+            },
+          },
+        },
       },
       adapters = {
         http = {
@@ -110,15 +139,20 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    cmd = "MCPHub",
     build = "bundled_build.lua",
-    lazy = true,
+    lazy = false,
     config = function()
       require("mcphub").setup {
         auto_approve = true,
         config = os.getenv("HOME") .. "/.dotvim/mcp-servers.json",
         use_bundled_binary = true,
         extensions = {
+          copilotchat = {
+            enabled = true,
+            convert_tools_to_functions = true,
+            convert_resources_to_functions = true,
+            add_mcp_prefix = false,
+          },
           codecompanion = {
             show_result_in_chat = false,
             make_vars = true,

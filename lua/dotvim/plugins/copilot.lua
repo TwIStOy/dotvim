@@ -39,7 +39,7 @@ return {
 
       vim.defer_fn(function()
         local node_path = vim.fn.exepath("node")
-        
+
         if node_path and node_path ~= "" then
           setup(node_path)
         else
@@ -95,11 +95,15 @@ return {
       "CopilotChatCommitStaged",
     },
     opts = {
-      model = "claude-sonnet-4",
+      model = "gpt-5",
       window = {
-        layout = "float",
-        width = 0.8,
-        height = 0.8,
+        layout = "vertical",
+        width = 0.5,
+      },
+      headers = {
+        user = "👤 You",
+        assistant = "🤖 Copilot",
+        tool = "🔧 Tool",
       },
     },
     keys = {

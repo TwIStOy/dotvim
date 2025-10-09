@@ -29,14 +29,6 @@ applyTo: "**/*.lua"
 - If some options are the same as the default options, MUST omit them in the configuration.
 - If some options are not needed, MUST omit them in the configuration.
 
-## Refactoring Standards
-
-- DO NOT edit old style config files.
-- DO NOT use old style config files in new style config files.
-- DO NOT use old style utilities in new style config files.
-- DO NOT use types from old style config files in new style config files.
-- KEEP the old style configs as they are during the refactoring process to make sure that the old style configs are not broken.
-
 ## Others
 
 - You MUST read plugin's documentation before using it.

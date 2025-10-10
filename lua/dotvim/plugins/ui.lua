@@ -290,120 +290,81 @@ return {
     end,
   },
   {
-    "folke/noice.nvim",
-    event = { "ModeChanged", "BufReadPre", "InsertEnter" },
-    dependencies = { "MunifTanjim/nui.nvim" },
-    opts = function()
-      local opts = {
-        lsp = {
-          progress = {
-            enabled = false,
-            throttle = 1000 / 10,
-            view = "mini",
-          },
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = false,
-          },
-          signature = {
-            enabled = false,
-            auto_open = {
-              enabled = true,
-              trigger = true,
-              luasnip = true,
-              throttle = 50,
-            },
-          },
-          hover = {
-            enabled = true,
-            opts = {
-              border = { style = "none", padding = { 1, 2 } },
-              position = { row = 2, col = 2 },
-            },
-          },
-        },
-        messages = { enabled = false },
-        presets = {
-          bottom_search = false,
-          command_palette = true,
-          long_message_to_split = false,
-          inc_rename = false,
-          lsp_doc_border = false,
-        },
-        cmdline = {
-          format = {
-            search_down = {
-              view = "cmdline",
-            },
-            search_up = {
-              view = "cmdline",
-            },
-          },
-        },
-      }
-
-      if vim.g.neovide then
-        opts = vim.tbl_deep_extend("force", opts, {
-          views = {
-            cmdline_popup = {
-              border = { style = "none", padding = { 1, 2 } },
-            },
-          },
-        })
+    "rcarriga/nvim-notify",
+    opts = {
+      timeout = 3000,
+      stages = "static",
+      fps = 60,
+      max_height = function()
+        return math.floor(
+          vim.api.nvim_get_option_value("lines", { scope = "global" }) * 0.75
+        )
+      end,
+      max_width = function()
+        return math.floor(
+          vim.api.nvim_get_option_value("columns", { scope = "global" }) * 0.75
+        )
+      end,
+      on_open = function(win)
+        vim.api.nvim_win_set_config(win, { zindex = 100 })
+      end,
+    },
+    init = function()
+      local notifs = {}
+      local function temp(...)
+        table.insert(notifs, vim.F.pack_len(...))
       end
 
-      return opts
-    end,
-    config = function(_, opts)
-      require("noice").setup(opts)
+      local orig = vim.notify
+      vim.notify = temp
 
-      local Format = require("noice.lsp.format")
-      local Hacks = require("noice.util.hacks")
+      local timer = vim.uv.new_timer()
+      local check = vim.uv.new_check()
 
-      local function from_lsp_clangd(e)
-        return vim.tbl_get(e, "source", "name") == "nvim_lsp"
-          and vim.tbl_get(e, "source", "source", "client", "name") == "clangd"
+      local replay = function()
+        timer:stop()
+        check:stop()
+        vim.schedule(function()
+          if vim.notify == temp then
+            -- try to load nvim-notify
+            local succ, notify = pcall(require, "notify")
+            if succ and notify ~= nil then
+              vim.notify = notify
+            else
+              vim.notify = orig -- put back the original notify if needed
+            end
+          end
+          vim.schedule(function()
+            for _, notif in ipairs(notifs) do
+              vim.notify(vim.F.unpack_len(notif))
+            end
+          end)
+        end)
       end
 
-      Hacks.on_module("cmp.entry", function(mod)
-        mod.get_documentation = function(self)
-          local item = self:get_completion_item()
-
-          local lines = item.documentation
-              and Format.format_markdown(item.documentation)
-            or {}
-          local ret = table.concat(lines, "\n")
-          local detail = item.detail
-          if detail and type(detail) == "table" then
-            detail = table.concat(detail, "\n")
-          end
-
-          if from_lsp_clangd(self) then
-            local label_details = item.labelDetails
-            if
-              label_details
-              and type(label_details) == "table"
-              and label_details.detail
-            then
-              if detail == nil then
-                detail = ""
-              end
-              detail = detail .. label_details.detail
-            end
-          end
-
-          if detail and not ret:find(detail, 1, true) then
-            local ft = self.context.filetype
-            local dot_index = string.find(ft, "%.")
-            if dot_index ~= nil then
-              ft = string.sub(ft, 0, dot_index - 1)
-            end
-            ret = ("```%s\n%s\n```\n%s"):format(ft, vim.trim(detail), ret)
-          end
-          return vim.split(ret, "\n")
+      -- wait till vim.notify has been replaced
+      check:start(function()
+        if vim.notify ~= temp then
+          replay()
         end
       end)
+      -- or if it took more than 500ms, then something went wrong
+      timer:start(500, 0, replay)
     end,
+    config = function(_, opts)
+      vim.defer_fn(function()
+        require("notify").setup(opts)
+      end, 30)
+    end,
+    keys = {
+      {
+        "<leader>nn",
+        function()
+          require("notify").dismiss { silent = true, pending = true }
+        end,
+        desc = "dismiss-all-notifications",
+        mode = { "n", "v" },
+      },
+    },
   },
 }

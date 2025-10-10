@@ -167,6 +167,7 @@ return {
   },
   {
     "folke/sidekick.nvim",
+    enabled = false,
     opts = {
       mux = {
         backend = "tmux",

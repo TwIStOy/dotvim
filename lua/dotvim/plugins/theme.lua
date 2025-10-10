@@ -114,8 +114,14 @@ return {
         dark = "mocha",
       },
       no_italic = false,
+      no_bold = false,
+      no_underline = false,
       term_colors = true,
       transparent_background = true,
+      float = {
+        transparent = true,
+        solid = true,
+      },
       compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
       dim_inactive = { enabled = false },
       styles = {
@@ -131,6 +137,23 @@ return {
         types = {},
         strings = {},
         variables = {},
+      },
+      lsp_styles = {
+        virtual_text = {
+          errors = { "italic" },
+          hints = { "italic" },
+          warnings = { "italic" },
+          information = { "italic" },
+        },
+        underlines = {
+          errors = { "undercurl" },
+          hints = { "undercurl" },
+          warnings = { "undercurl" },
+          information = { "undercurl" },
+        },
+        inlay_hints = {
+          background = true,
+        },
       },
       color_overrides = {
         latte = M.kopicat_light,
@@ -197,6 +220,7 @@ return {
           NeotestTest = { fg = colors.subtext2 },
         }
       end,
+      auto_integrations = true,
       integrations = {
         alpha = true,
         aerial = true,
@@ -209,21 +233,6 @@ return {
         flash = true,
         gitsigns = true,
         notify = true,
-        native_lsp = {
-          enabled = true,
-          virtual_text = {
-            errors = { "italic" },
-            hints = { "italic" },
-            warnings = { "italic" },
-            information = { "italic" },
-          },
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
-        },
         semantic_tokens = true,
         lsp_trouble = true,
         markdown = true,

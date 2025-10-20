@@ -1,12 +1,22 @@
 local Commons = require("dotvim.commons")
 
+local function get_installed_plugin_path(plug)
+  return _G["dotvim_lazyroot"] .. "/" .. plug
+end
+
 ---@type LazyPluginSpec[]
 return {
   {
     "TwIStOy/blink.pairs",
     build = (function()
       if Commons.nix.in_nix_env() then
-        return "nix run .#build-plugin --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command"
+        return {
+          ("cp %s %s"):format(
+            os.getenv("HOME") .. "/.dotvim/patches/blink.flake.lock",
+            get_installed_plugin_path("blink.pairs") .. "/flake.lock"
+          ),
+          "nix run .#build-plugin --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command",
+        }
       else
         return "cargo build --release"
       end

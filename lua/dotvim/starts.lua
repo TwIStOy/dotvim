@@ -21,6 +21,9 @@ end
 vim.api.nvim_set_var("mapleader", " ")
 
 install_missing_lazy()
+
+require("dotvim.configs_pre")
+
 require("lazy").setup {
   root = vim.fn.stdpath("data") .. "/lazy2", -- directory where plugins will be installed
   lockfile = vim.fn.stdpath("config") .. "/lazy2-lock.json", -- lockfile generated after running update.

@@ -6,13 +6,7 @@ return {
       lsp_configs = {
         gopls = {
           setttings = {
-            gopls = {
-              analyses = {
-                unusedparams = true,
-                shadow = true,
-              },
-              staticcheck = true,
-            },
+            gopls = {},
           },
         },
       },
@@ -38,6 +32,28 @@ return {
           },
         },
       })
+    end,
+  },
+  {
+    "monaqa/dial.nvim",
+    ft = { "go" },
+    opts = function(_, opts)
+      local augend = require("dial.augend")
+
+      local function define_custom(...)
+        return augend.constant.new {
+          elements = { ... },
+          word = true,
+          cyclic = true,
+        }
+      end
+
+      opts = opts or {}
+      opts.language_configs = opts.language_configs or {}
+
+      opts.language_configs.go = {
+        define_custom("int8", "int16", "int32", "int64"),
+      }
     end,
   },
 }

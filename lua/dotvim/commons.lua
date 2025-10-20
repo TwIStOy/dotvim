@@ -31,6 +31,10 @@ end
 ---@param program string
 ---@return string|nil
 function M.which(program)
+  if type(program) ~= "string" then
+    return program
+  end
+
   if vim.fn.executable(program) == 1 then
     return program
   end

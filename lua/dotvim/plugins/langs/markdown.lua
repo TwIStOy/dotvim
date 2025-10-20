@@ -13,8 +13,8 @@ return {
     "obsidian-nvim/obsidian.nvim",
     version = "*",
     event = {
-      "BufReadPre " .. vim.fn.expand "~" .. "/Projects/Nexus/*.md",
-      "BufNewFile " .. vim.fn.expand "~" .. "/Projects/Nexus/*.md"
+      "BufReadPre " .. vim.fn.expand("~") .. "/Projects/Nexus/*.md",
+      "BufNewFile " .. vim.fn.expand("~") .. "/Projects/Nexus/*.md",
     },
     opts = {
       workspaces = {
@@ -22,6 +22,14 @@ return {
           name = "Nexus",
           path = "~/Projects/Nexus",
         },
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        markdown = { "prettier" },
       },
     },
   },

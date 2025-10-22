@@ -111,13 +111,13 @@ return {
     opts = {
       background = {
         light = "latte",
-        dark = "mocha",
+        dark = "macchiato",
       },
       no_italic = false,
       no_bold = false,
       no_underline = false,
       term_colors = true,
-      transparent_background = true,
+      transparent_background = false,
       float = {
         transparent = true,
         solid = true,
@@ -182,7 +182,6 @@ return {
           CursorLineNr = { fg = colors.blue, style = { "bold" } },
           DashboardFooter = { fg = colors.overlay0 },
           TreesitterContextBottom = { style = {} },
-          WinSeparator = { fg = colors.overlay0, style = { "bold" } },
           ["@markup.italic"] = { fg = colors.blue, style = { "italic" } },
           ["@markup.strong"] = { fg = colors.blue, style = { "bold" } },
           Headline = { style = { "bold" } },
@@ -204,20 +203,6 @@ return {
           HydraAmaranth = { fg = colors.mauve },
           HydraPink = { fg = colors.pink },
           HydraTeal = { fg = colors.teal },
-
-          NeotestPassed = { fg = colors.green },
-          NeotestFailed = { fg = colors.red },
-          NeotestRunning = { fg = colors.yellow },
-          NeotestSkipped = { fg = colors.blue },
-          NeotestFile = { fg = colors.peach },
-          NeotestNamespace = { fg = colors.peach },
-          NeotestDir = { fg = colors.peach },
-          NeotestFocused = { fg = colors.mauve, bold = true, underline = true },
-          NeotestAdapterName = { fg = colors.red },
-          NeotestIndent = { fg = colors.yellow },
-          NeotestExpandMarker = { fg = colors.yellow },
-          NeotestWinSelect = { fg = colors.yellow, bold = true },
-          NeotestTest = { fg = colors.subtext2 },
         }
       end,
       auto_integrations = true,
@@ -256,6 +241,8 @@ return {
         blink_cmp = true,
         snacks = { enabled = true },
         fzf = true,
+        neotest = true,
+        colorful_winsep = { enabled = true },
       },
     },
     config = function(_, opts)

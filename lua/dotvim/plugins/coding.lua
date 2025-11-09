@@ -83,26 +83,13 @@ return {
   },
   {
     "saghen/blink.cmp",
-    version = false,
-    build = (function()
-      if Commons.nix.in_nix_env() then
-        return {
-          ("cp %s %s"):format(
-            os.getenv("HOME") .. "/.dotvim/patches/blink.flake.lock",
-            get_installed_plugin_path("blink.cmp") .. "/flake.lock"
-          ),
-          "nix run .#build-plugin --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command",
-        }
-      else
-        return "cargo build --release"
-      end
-    end)(),
+    version = "1.*",
     enabled = not vim.g.vscode,
     opts_extend = { "sources.default" },
     opts = {
       fuzzy = {
         prebuilt_binaries = {
-          download = false,
+          download = true,
         },
       },
       keymap = {

@@ -155,4 +155,22 @@ function M.organize_imports()
   end
 end
 
+---Show LSP document symbols
+function M.document_symbols()
+  if vim.g.vscode then
+    require("vscode").action("workbench.action.gotoSymbol")
+  else
+    require("snacks").picker.lsp_symbols()
+  end
+end
+
+---Show LSP workspace symbols
+function M.workspace_symbols()
+  if vim.g.vscode then
+    require("vscode").action("workbench.action.showAllSymbols")
+  else
+    require("snacks").picker.lsp_workspace_symbols()
+  end
+end
+
 return M

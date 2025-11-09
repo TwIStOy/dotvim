@@ -8,16 +8,6 @@ return {
     keys = {
       { "<leader>e", "<cmd>FzfLua files<cr>", desc = "find-files" },
       { "g/", "<cmd>FzfLua live_grep<cr>", desc = "live-grep" },
-      {
-        "<leader>ss",
-        "<cmd>FzfLua lsp_document_symbols<cr>",
-        desc = "document-symbols",
-      },
-      {
-        "<leader>sw",
-        "<cmd>FzfLua lsp_workspace_symbols<cr>",
-        desc = "workspace-symbols",
-      },
     },
     opts = {
       "telescope",

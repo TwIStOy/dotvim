@@ -10,6 +10,8 @@ vim.keymap.set("n", "ga", features.lsp_methods.code_action, { desc = "code-actio
 vim.keymap.set("n", "gR", features.lsp_methods.rename, { desc = "rename-symbol" })
 vim.keymap.set("n", "<leader>oi", features.lsp_methods.organize_imports, { desc = "organize-imports" })
 vim.keymap.set("n", "K", features.lsp_methods.show_hover, { desc = "show-hover" })
+vim.keymap.set("n", "<leader>ss", features.lsp_methods.document_symbols, { desc = "document-symbols" })
+vim.keymap.set("n", "<leader>sw", features.lsp_methods.workspace_symbols, { desc = "workspace-symbols" })
 
 -- Diagnostic navigation keybindings
 vim.keymap.set("n", "]c", features.lsp_methods.next_diagnostic, { desc = "goto-next-error" })

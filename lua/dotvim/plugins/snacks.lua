@@ -20,6 +20,15 @@ return {
       lazygit = {
         configure = true,
       },
+      picker = {
+        win = {
+          input = {
+            keys = {
+              ["<Esc>"] = { "close", mode = { "n", "i" } },
+            }
+          }
+        }
+      },
       dashboard = {
         enabled = vim.fn.argc() == 0
           and vim.o.lines >= 36

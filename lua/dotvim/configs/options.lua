@@ -7,7 +7,6 @@ vim.o.updatetime = 100
 vim.o.redrawtime = 1500
 vim.o.timeout = true
 vim.o.ttimeout = true
-vim.o.timeoutlen = 500
 vim.o.ttimeoutlen = 10
 
 vim.o.foldcolumn = "0"

@@ -14,4 +14,15 @@ function M.on_lsp_attach(callback)
   })
 end
 
+---@param client vim.lsp.Client
+---@param method vim.lsp.protocol.Method.ClientToServer
+---@param bufnr? integer
+function M.client_supports(client, method, bufnr)
+  if vim.fn.has("nvim-0.11") == 1 then
+    return client:supports_method(method, { bufnr = bufnr })
+  else
+    return client.supports_method(method)
+  end
+end
+
 return M

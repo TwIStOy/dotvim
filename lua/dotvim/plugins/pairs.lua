@@ -9,6 +9,7 @@ return {
   {
     "saghen/blink.pairs",
     dependencies = 'saghen/blink.download',
+    version = "*",
     opts = {
       highlights = {
         enabled = false,

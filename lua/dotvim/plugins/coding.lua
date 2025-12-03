@@ -84,6 +84,7 @@ return {
   {
     "saghen/blink.cmp",
     version = "1.*",
+    event = "VeryLazy",
     enabled = not vim.g.vscode,
     opts_extend = { "sources.default" },
     opts = {

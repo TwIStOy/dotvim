@@ -10,6 +10,7 @@ return {
     "saghen/blink.pairs",
     dependencies = 'saghen/blink.download',
     version = "*",
+    event = "VeryLazy",
     opts = {
       highlights = {
         enabled = false,

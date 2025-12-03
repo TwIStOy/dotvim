@@ -11,6 +11,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "franco-ruggeri/codecompanion-spinner.nvim",
+      "ravitemer/mcphub.nvim",
     },
     opts = {
       -- Flat opts structure (not nested)
@@ -140,7 +141,7 @@ return {
       "nvim-lua/plenary.nvim",
     },
     build = "bundled_build.lua",
-    lazy = false,
+    lazy = true,
     config = function()
       require("mcphub").setup {
         auto_approve = true,

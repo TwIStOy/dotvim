@@ -14,6 +14,9 @@ return {
           if_many = true,
         },
         overwrite_events = { "BufEnter", "LspAttach" },
+        multilines = {
+          enabled = true,
+        },
       },
     },
     config = function(_, opts)

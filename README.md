@@ -19,17 +19,17 @@
 - Language Server Protocol with [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
 - Resolving plugins installed by [nix](https://github.com/NixOS/nixpkgs)
 - Resolving lsp servers and formatters from [nix](https://github.com/NixOS/nixpkgs) or [mason.nvim](https://github.com/williamboman/mason.nvim)
-- Autocompletion with [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+- Autocompletion with [blink.cmp](https://github.com/saghen/blink.cmp)
 - Formatting with [conform.nvim](https://github.com/stevearc/conform.nvim)
 - Treesitter related snippets with [LuaSnip](https://github.com/L3MON4D3/LuaSnip) and [luasnip-snipepts](https://github.com/TwIStOy/luasnip-snippets)
-- Fuzzy find with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) and [fzf-lua](https://github.com/ibhagwan/fzf-lua)
+- Fuzzy find with [snacks.nvim](https://github.com/folke/snacks.nvim)
 
 > [!CAUTION]
 > **Please use my configuration with care and understand what will happen before using it. If you are looking for a more general configuration, see [dora.nvim](https://github.com/TwIStOy/dora.nvim)**
 
 # ⚡️Requirements
 
-1. [Neovim 0.9+ (nightly is better)](https://github.com/neovim/neovim)
+1. [Neovim 0.10+](https://github.com/neovim/neovim)
 1. Nerd Fonts
     - Any nerd font to show glyph correctly.
     - Or using font fallback([kitty](https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.symbol_map), [wezterm](https://wezfurlong.org/wezterm/config/lua/wezterm/font_with_fallback.html)) if terminal supports that.
@@ -105,11 +105,11 @@ $ cp ~/.dotvim/init.lua ~/.config/nvim/init.lua
     '';
   };
 
-  init-dora = ''
+  init-dotvim = ''
     vim.loader.enable()
     local dotpath = "${user-dotpath}"
     vim.opt.rtp:prepend(dotpath)
-    require("dotvim").setup()
+    require("dotvim.starts")
   '';
 in {
   home.packages = with pkgs; [
@@ -127,7 +127,7 @@ in {
 
   xdg.configFile = {
     "nvim/init.lua" = {
-      text = init-dora;
+      text = init-dotvim;
       force = true;
     };
     "nvim/nix-aware.json" = {

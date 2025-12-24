@@ -1,9 +1,3 @@
-local Commons = require("dotvim.commons")
-
-local function get_installed_plugin_path(plug)
-  return _G["dotvim_lazyroot"] .. "/" .. plug
-end
-
 ---@type LazyPluginSpec[]
 return {
   {

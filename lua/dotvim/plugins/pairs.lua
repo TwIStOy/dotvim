@@ -1,14 +1,8 @@
-local Commons = require("dotvim.commons")
-
-local function get_installed_plugin_path(plug)
-  return _G["dotvim_lazyroot"] .. "/" .. plug
-end
-
----@type LazyPluginSpec[]
+---@type LazyPloginSpec[]
 return {
   {
     "saghen/blink.pairs",
-    dependencies = 'saghen/blink.download',
+    dependencies = "saghen/blink.download",
     version = "*",
     event = "VeryLazy",
     opts = {

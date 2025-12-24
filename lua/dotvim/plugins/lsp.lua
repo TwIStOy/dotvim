@@ -42,6 +42,7 @@ return {
     end,
     opts = function(_, opts)
       return Commons.option.deep_merge(opts, {
+        install_root_dir = _G.dotvim_dataroot .. "/mason",
         PATH = "append",
         ui = {
           icons = {

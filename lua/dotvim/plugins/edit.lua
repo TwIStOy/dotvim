@@ -288,4 +288,8 @@ return {
     end,
     config = true,
   },
+  {
+    "esmuellert/vscode-diff.nvim",
+    cmd = "CodeDiff",
+  },
 }

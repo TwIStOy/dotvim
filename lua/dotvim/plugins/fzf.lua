@@ -2,7 +2,7 @@
 return {
   {
     "ibhagwan/fzf-lua",
-    enabled = not vim.g.vscode,
+    enabled = false, -- Replaced by snacks.picker
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = { "FzfLua" },
     keys = {

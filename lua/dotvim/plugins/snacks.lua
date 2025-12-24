@@ -21,13 +21,24 @@ return {
         configure = true,
       },
       picker = {
+        enabled = true,
         win = {
           input = {
             keys = {
               ["<Esc>"] = { "close", mode = { "n", "i" } },
-            }
-          }
-        }
+            },
+          },
+        },
+        formatters = {
+          file = {
+            filename_first = true,
+          },
+        },
+        previewers = {
+          file = {
+            max_size = 1024 * 1024,
+          },
+        },
       },
       dashboard = {
         enabled = vim.fn.argc() == 0
@@ -40,7 +51,7 @@ return {
               key = "f",
               desc = "Find File",
               action = function()
-                require("dotvim.features.fzf_search").find_files()
+                require("snacks").picker.files()
               end,
             },
             {
@@ -54,7 +65,7 @@ return {
               key = "r",
               desc = "Recent Files",
               action = function()
-                require("fzf-lua").oldfiles()
+                require("snacks").picker.recent()
               end,
             },
             {

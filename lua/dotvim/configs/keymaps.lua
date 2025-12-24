@@ -7,24 +7,24 @@ vim.api.nvim_set_keymap("", "<Down>", "<Nop>", {})
 -- Basic file operations
 vim.keymap.set("n", "<leader>fs", "<cmd>update<CR>", { desc = "save" })
 
--- FZF-lua keymaps (non-vscode)
+-- Snacks picker keymaps (non-vscode)
 if not vim.g.vscode then
-  local fzf_search = require("dotvim.features.fzf_search")
+  local picker = require("dotvim.features.snacks_picker")
 
   vim.keymap.set(
     "n",
     "<leader>e",
-    fzf_search.find_files,
+    picker.find_files,
     { desc = "edit-project-files" }
   )
-  vim.keymap.set("n", "g/", fzf_search.live_grep, { desc = "live-grep" })
+  vim.keymap.set("n", "g/", picker.live_grep, { desc = "live-grep" })
   vim.keymap.set(
     "n",
     "<leader>lg",
-    fzf_search.live_grep,
+    picker.live_grep,
     { desc = "live-grep" }
   )
-  vim.keymap.set("n", "<F4>", fzf_search.buffers, { desc = "all-buffers" })
+  vim.keymap.set("n", "<F4>", picker.buffers, { desc = "all-buffers" })
 end
 
 -- Clear search highlighting

@@ -173,4 +173,13 @@ function M.workspace_symbols()
   end
 end
 
+---Show LSP workspace symbols for word under cursor
+function M.workspace_symbols_cword()
+  if vim.g.vscode then
+    require("vscode").action("workbench.action.showAllSymbols")
+  else
+    require("dotvim.features.snacks_picker").lsp_workspace_symbols_cword()
+  end
+end
+
 return M

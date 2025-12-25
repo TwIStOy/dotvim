@@ -6,12 +6,27 @@
 - Format code: Use stylua with settings in `.stylua.toml` (2 spaces, 80 column width)
 
 ## Project Structure
+- `init.lua`: Main entry point that loads dotvim
+- `lua/dotvim.lua`: Module entry point with lazy-loaded submodules
+- `lua/dotvim/starts.lua`: Bootstrap and lazy.nvim setup
+- `lua/dotvim/commons/`: Plugin-independent utilities (fn, fs, icon, lsp, 
+  nix, option, string, sys, validator, vim)
+- `lua/dotvim/configs/`: Plugin-specific configurations and setup
+  - `lualine_components/`: Custom lualine components
+  - `prompts/`: AI prompt configurations
+  - Core configs: autocmds, commands, keymaps, options, diagnostics, etc.
+- `lua/dotvim/features/`: Feature implementations (fzf_search, lsp_methods, snacks_picker)
+- `lua/dotvim/plugins/`: Plugin specifications (lazy.nvim format). A plugin's spec will be placed in a subfolder based on its category, and each plugin will have its own file named after the plugin. Current categories:
+  - `ai/`: AI assistants (codecompanion, mcphub, sidekick)
+  - `coding/`: Code completion and snippets (blink-cmp, luasnip, conform)
+  - `edit/`: Editing tools (fzf-lua, gitsigns, hop, surround, spectre, etc.)
+  - `langs/`: Language-specific plugins (bash, cpp, go, lua, rust, etc.)
+  - `lsp/`: LSP-related plugins (lspconfig, mason, glance, outline, etc.)
+  - `pairs/`: Auto-pairing (blink-pairs, clasp, tabout)
+  - `theme/`: Color schemes (catppuccin)
+  - `treesitter/`: Treesitter and related plugins
+  - `ui/`: UI components (lualine, bufferline, neo-tree, notify, etc.)
 - `deprecated/`: Old style config (DO NOT use in new code)
-- `lua/dotvim/commons/`: Plugin-independent utilities
-- `lua/dotvim/configs/`: Plugin-specific configurations
-- `lua/dotvim/features/`: Feature implementations (can use plugins)
-- `lua/dotvim/plugins/`: Plugin specifications (lazy.nvim format)
-- `lua/dotvim/starts.lua`: Entry point
 
 ## Code Style
 - Use 2-space indentation, 80 char line width, NO spaces in empty lines

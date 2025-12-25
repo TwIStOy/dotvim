@@ -51,7 +51,17 @@ require("lazy").setup {
   },
   spec = {
     { import = "dotvim.plugins" },
+    { import = "dotvim.plugins.ai" },
+    { import = "dotvim.plugins.base" },
+    { import = "dotvim.plugins.coding" },
+    { import = "dotvim.plugins.copilot" },
+    { import = "dotvim.plugins.edit" },
     { import = "dotvim.plugins.langs" },
+    { import = "dotvim.plugins.lsp" },
+    { import = "dotvim.plugins.pairs" },
+    { import = "dotvim.plugins.theme" },
+    { import = "dotvim.plugins.treesitter" },
+    { import = "dotvim.plugins.ui" },
   },
   performance = {
     cache = { enabled = true },

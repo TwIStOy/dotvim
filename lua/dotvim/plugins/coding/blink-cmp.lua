@@ -46,6 +46,7 @@ return {
       end,
     },
     completion = {
+      keyword = { range = "full" },
       accept = { auto_brackets = { enabled = true } },
       list = {
         selection = { preselect = false, auto_insert = true },
@@ -76,9 +77,7 @@ return {
                 return require("colorful-menu").blink_components_text(ctx)
               end,
               highlight = function(ctx)
-                return require("colorful-menu").blink_components_highlight(
-                  ctx
-                )
+                return require("colorful-menu").blink_components_highlight(ctx)
               end,
             },
           },

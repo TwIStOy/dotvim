@@ -6,7 +6,7 @@
   "workspace": {
     "library": [
       "$VIMRUNTIME",
-      "$HOME/.local/share/nvim/lazy2",
+      "/mnt/data/home/local/lazy",
       "$HOME/.dotvim"
     ]
   }

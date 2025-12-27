@@ -24,13 +24,13 @@ return {
         -- add parsers
         require("nvim-treesitter.parsers").pidl = {
           install_info = {
-            path = _G["dotvim_lazyroot"] .. "/tree-sitter-pidl",
+            path = DOTVIM_lazy_root .. "/tree-sitter-pidl",
             generate = false,
           },
         }
         require("nvim-treesitter.parsers").kafel = {
           install_info = {
-            path = _G["dotvim_lazyroot"] .. "/tree-sitter-kafel",
+            path = DOTVIM_lazy_root .. "/tree-sitter-kafel",
             generate = false,
           },
         }

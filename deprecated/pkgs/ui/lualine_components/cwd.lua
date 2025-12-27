@@ -32,7 +32,6 @@ return {
   color = {
     bg = Utils.vim.resolve_fg("Macro"),
     fg = Utils.vim.resolve_fg("IncSearch"),
-    gui = "bold",
   },
   separator = { left = "", right = "" },
 }

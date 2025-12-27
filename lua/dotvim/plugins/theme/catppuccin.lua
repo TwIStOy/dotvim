@@ -248,7 +248,7 @@ return {
     require("catppuccin").setup(opts)
 
     -- Set the colorscheme
-    if not vim.g.vscode then
+    if not vim.g.vscode and DOTVIM_theme == "catppuccin" then
       vim.o.background = "dark"
       vim.cmd("colorscheme catppuccin")
     end

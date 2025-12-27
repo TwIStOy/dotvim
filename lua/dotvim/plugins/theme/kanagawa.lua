@@ -16,7 +16,6 @@ return {
       transparent = false,
       dimInactive = false,
       terminalColors = true,
-      theme = "wave",
       background = {
         dark = "wave",
         light = "lotus",
@@ -49,6 +48,7 @@ return {
       require("kanagawa").setup(opts)
 
       if not vim.g.vscode and DOTVIM_theme == "kanagawa" then
+        vim.o.background = "dark"
         vim.cmd("colorscheme kanagawa")
       end
     end,

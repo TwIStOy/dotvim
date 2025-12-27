@@ -34,9 +34,8 @@ local function create_component()
       return current_cwd
     end,
     color = {
-      bg = utils.resolve_fg("Macro"),
+      bg = utils.resolve_fg("String"),
       fg = utils.resolve_fg("IncSearch"),
-      gui = "bold",
     },
     separator = { left = "", right = "" },
   }

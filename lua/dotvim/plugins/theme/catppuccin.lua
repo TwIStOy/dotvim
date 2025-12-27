@@ -106,6 +106,7 @@ return {
   name = "catppuccin",
   priority = 1000,
   build = ":CatppuccinCompile",
+  enabled = not vim.g.vscode,
   opts = {
     background = {
       light = "latte",

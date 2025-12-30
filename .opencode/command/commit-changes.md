@@ -17,8 +17,8 @@ Follow these steps to create a well-structured commit message:
    - Why the change was made (purpose, goal)
    - Impact of the change
 5. Generate a commit message with:
-   - **Type**: feat, fix, docs, style, refactor, test, chore, etc. If there are
-     breaking changes, append "!" after the type (e.g., feat!, fix!).
+   - **Type**: feat, fix, etc. All available types are listed below.
+     If there are breaking changes, append "!" after the type (e.g., feat!, fix!).
    - **Summary**: imperative mood, max 50 characters
 6. Use `git-add-and-commit` to commit changes.
 
@@ -33,16 +33,19 @@ The commit message is ALWAYS a single line and should follow this structure:
 ### Examples
 
 #### Example 1: Feature
+
 ```
 feat: add JWT token refresh mechanism
 ```
 
 #### Example 2: Bug fix
+
 ```
 fix: handle null values in user profile endpoint
 ```
 
 #### Example 3: Documentation
+
 ```
 docs: update installation instructions
 ```
@@ -59,7 +62,7 @@ docs: update installation instructions
 - **feat**: New feature
 - **fix**: Bug fix
 - **docs**: Documentation changes
-- **ai**: Agent or AI-related changes
+- **agent**: Agent or AI-related changes
 - **style**: Code style changes (formatting, no logic change)
 - **refactor**: Code refactoring (no feature or bug fix)
 - **perf**: Performance improvements
@@ -67,4 +70,3 @@ docs: update installation instructions
 - **chore**: Maintenance tasks (dependencies, config)
 - **ci**: CI/CD changes
 - **build**: Build system changes
-

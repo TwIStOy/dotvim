@@ -7,8 +7,10 @@ Generate clear, conventional commit messages following best practices.
 
 ## Instructions
 
+Follow these steps to create a well-structured commit message:
+
 1. Run `git status --porcelain` to see changed files.
-2. Stage changes using `git add <file>` or `git add .` for all.
+2. Stage changes using `git add --all`.
 3. Review staged changes with `git diff --staged`.
 4. Analyze the changes to understand:
    - What was modified (files, functions, components)
@@ -18,34 +20,29 @@ Generate clear, conventional commit messages following best practices.
    - **Type**: feat, fix, docs, style, refactor, test, chore, etc. If there are
      breaking changes, append "!" after the type (e.g., feat!, fix!).
    - **Summary**: imperative mood, max 50 characters
-   - **Footer**:(optional) breaking changes, issue references
 6. Use `git-add-and-commit` to commit changes.
 
 ## Format
 
+The commit message is ALWAYS a single line and should follow this structure:
+
 ```
 <type>: <summary>
-
-[<footer>]
 ```
 
-## Examples
+### Examples
 
-### Example 1: Feature
+#### Example 1: Feature
 ```
 feat: add JWT token refresh mechanism
-
-Closes #123
 ```
 
-### Example 2: Bug fix
+#### Example 2: Bug fix
 ```
 fix: handle null values in user profile endpoint
-
-Fixes #456
 ```
 
-### Example 3: Documentation
+#### Example 3: Documentation
 ```
 docs: update installation instructions
 ```
@@ -55,8 +52,6 @@ docs: update installation instructions
 - Use present tense ("add feature" not "added feature")
 - Don't end summary with a period
 - Explain **what** and **why**, not **how**
-- Reference issues/tickets when applicable
-- Keep summary under 50 characters
 - Use imperative mood ("fix" not "fixes" or "fixed")
 
 ## Commit Types

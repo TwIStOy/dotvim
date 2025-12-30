@@ -59,6 +59,7 @@ docs: update installation instructions
 - **feat**: New feature
 - **fix**: Bug fix
 - **docs**: Documentation changes
+- **ai**: Agent or AI-related changes
 - **style**: Code style changes (formatting, no logic change)
 - **refactor**: Code refactoring (no feature or bug fix)
 - **perf**: Performance improvements

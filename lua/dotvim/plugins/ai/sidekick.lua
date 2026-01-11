@@ -1,10 +1,12 @@
 ---@type LazyPluginSpec
 return {
   "folke/sidekick.nvim",
-  enabled = false,
   opts = {
     mux = {
       backend = "tmux",
+    },
+    nes = {
+      enabled = false,
     },
   },
   event = "VeryLazy",

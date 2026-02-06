@@ -1,7 +1,7 @@
 ---@type LazyPluginSpec
 return {
   "TwIStOy/luasnip-snippets",
-  lazy = true,
+  event = { "InsertEnter" },
   dependencies = "nvim-treesitter/nvim-treesitter",
   opts = {
     user = {
@@ -13,6 +13,15 @@ return {
       },
       rust = {
         rstest_support = true,
+      },
+      cpp = {
+        quick_type = {
+          extra_trig = {
+            { trig = "m", params = 2, template = "std::unordered_map<%s, %s>" },
+          },
+          qt = true,
+          cpplint = false,
+        },
       },
     },
   },

@@ -13,6 +13,11 @@ return {
         accept = "<C-l>",
       },
     },
+    server_opts_overrides = {
+      cmd_env = {
+        NODE_TLS_REJECT_UNAUTHORIZED = "0",
+      },
+    },
   },
   cmd = { "Copilot" },
   config = function(_, opts)

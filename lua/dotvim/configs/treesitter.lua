@@ -34,7 +34,6 @@ require("nvim-treesitter").install {
   "matlab",
   "ninja",
   "nix",
-  "norg",
   "pascal",
   "perl",
   "php",

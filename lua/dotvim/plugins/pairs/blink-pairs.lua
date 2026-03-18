@@ -1,12 +1,20 @@
+local Commons = require("dotvim.commons")
+
 ---@type LazyPluginSpec
 return {
   "saghen/blink.pairs",
-  dependencies = "saghen/blink.download",
+  build = (function()
+    if Commons.nix.in_nix_env() then
+      return "nix run .#build-plugin"
+    else
+      return "cargo build --release"
+    end
+  end)(),
   version = "*",
   event = "VeryLazy",
   opts = {
     highlights = {
-      enabled = false,
+      enabled = true,
     },
     mappings = {
       pairs = {

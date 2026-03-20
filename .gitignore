@@ -2,3 +2,5 @@
 .DS_Store
 /node_modules/
 /lua/htts/**/*.lua
+# CocoIndex Code (ccc)
+/.cocoindex_code/

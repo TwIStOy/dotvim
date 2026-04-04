@@ -32,6 +32,33 @@ return {
 }
 ```
 
+### Add a new colorscheme
+
+Create file at `lua/dotvim/plugins/theme/<name>.lua`. Colorschemes must
+not be lazy-loaded and need high priority to load before other plugins:
+
+```lua
+---@type LazyPluginSpec
+return {
+  "author/theme-name",
+  enabled = not vim.g.vscode,
+  lazy = false,
+  priority = 1000,
+  opts = {},
+  config = function(_, opts)
+    require("theme-name").setup(opts)
+
+    if not vim.g.vscode and DOTVIM_theme == "theme-name" then
+      vim.o.background = "dark"
+      vim.cmd("colorscheme theme-name")
+    end
+  end,
+}
+```
+
+`DOTVIM_theme` is a global set during bootstrap (`lua/dotvim/starts.lua`)
+that controls which installed colorscheme is active.
+
 ### Add a new language config
 
 Create file at `lua/dotvim/plugins/langs/<language>.lua`. Return a

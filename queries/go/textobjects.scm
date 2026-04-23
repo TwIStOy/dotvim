@@ -15,3 +15,22 @@
  )
 )
 
+(short_var_declaration
+  left: (_)
+  right: (_) @dotvim_omni_right.inner
+)
+
+(keyed_element
+  key: (_)
+  value: (_) @dotvim_omni_right.inner
+)
+
+(assignment_statement
+  left: (_)
+  right: (_) @dotvim_omni_right.inner
+)
+
+(binary_expression
+  left: (_)
+  right: (_) @dotvim_omni_right.inner
+)

@@ -1,6 +1,6 @@
 ---@type LazyPluginSpec
 return {
-  "phaazon/hop.nvim",
+  "yehuohan/hop.nvim",
   cmd = {
     "HopWord",
     "HopPattern",
@@ -13,7 +13,7 @@ return {
   keys = {
     {
       ",l",
-      "<cmd>HopLine<cr>",
+      "<cmd>HopLineStart<cr>",
       desc = "jump-to-line",
     },
   },

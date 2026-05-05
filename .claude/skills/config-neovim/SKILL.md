@@ -119,3 +119,72 @@ vim.keymap.set("n", "<M-n>", "<cmd>nohl<CR>", { desc = "nohl" })
 
 If the new keymap also creates a new which-key group, add the group in `lua/dotvim/plugins/base/which-key.lua`.
 
+### Keymaps in Nix (nixvim)
+
+The project has a parallel nixvim config under `config/keymaps.nix` for the
+Nix build. Simple keymaps should be added in **both** places. Complex keymaps
+(Lua function rhs, vscode-conditional logic) remain Lua-only.
+
+#### Nix keymap format
+
+Each keymap is an attrset in the `keymaps` list:
+
+```nix
+{
+  mode = "n";          # string or list of strings, e.g. [ "n" "x" ]
+  key = "<leader>fs";  # lhs
+  action = "<cmd>update<CR>";  # rhs: vim command string
+  options = {
+    desc = "save";     # optional
+    silent = true;     # optional
+    expr = true;       # optional
+  };
+}
+```
+
+#### Lua → Nix conversion table
+
+| Lua pattern | Nix equivalent |
+|---|---|
+| `vim.keymap.set("n", lhs, rhs, { desc = d })` | `{ mode = "n"; key = lhs; action = rhs; options.desc = d; }` |
+| `vim.api.nvim_set_keymap("", lhs, "<Nop>", {})` | `{ mode = "n"; key = lhs; action = "<Nop>"; }` |
+| `vim.g.mapleader = " "` | `globals.mapleader = " ";` |
+| `"<cmd>update<CR>"` (command string) | Same literal string: `"<cmd>update<CR>"` |
+| Lua function as rhs | `action.__raw = "function() ... end";` |
+| `if not vim.g.vscode then ... end` | Keep in Lua, or use nixvim plugin `keys` with `enabled` |
+
+#### Helper functions in config/keymaps.nix
+
+```nix
+nmap = lhs: rhs: desc: {
+  mode = "n";
+  key = lhs;
+  action = rhs;
+  options = { inherit desc; };
+};
+
+nop-key = lhs: {
+  mode = "n";
+  key = lhs;
+  action = "<Nop>";
+};
+```
+
+#### Lua function rhs with `action.__raw`
+
+For keymaps whose rhs is a Lua function (e.g. `require('module').method`),
+use `action.__raw` to embed raw Lua:
+
+```nix
+# Lua: vim.keymap.set("n", "<leader>e", require("picker").find_files, { desc = "files" })
+{
+  mode = "n";
+  key = "<leader>e";
+  action.__raw = "require('picker').find_files";
+  options.desc = "files";
+}
+```
+
+When adding a keymap, add it to both `config/keymaps.nix` (for Nix
+build) and `lua/dotvim/configs/keymaps.lua` (for lazy.nvim runtime).
+

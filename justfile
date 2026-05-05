@@ -3,6 +3,7 @@ alias t := test
 
 build:
   @echo "Building..."
+  @nix build .# --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command
 
 # Run all tests
 test:

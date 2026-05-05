@@ -130,9 +130,11 @@ Lua (lazy.nvim runtime) and Nix (nixvim build).
 ```
 config/
 ├── default.nix        # entry point, auto-imports submodules via listModules
+├── options.nix        # vim options (opts)
 ├── keymaps.nix        # global keymaps
 └── plugins/
     ├── default.nix    # auto-imports plugin files via listModules
+    ├── lz-n.nix       # lazy loading backend (required for lazyLoad)
     └── snacks.nix     # one file per plugin
 ```
 
@@ -200,6 +202,69 @@ _: {
 | `require("dotvim.commons.icon").icon("X")` | Hardcode the icon string directly |
 | `if not vim.g.vscode then ... end` | Omit — Nix build is standalone neovim only |
 | `package.loaded.lazy` / `:Lazy` | Omit — no lazy.nvim in Nix build |
+
+#### Vim options
+
+Create `config/options.nix` using nixvim's `opts`:
+
+```nix
+_: {
+  opts = {
+    number = true;
+    relativenumber = true;
+    tabstop = 2;
+    shiftwidth = 2;
+    scrolloff = 5;
+    # ... maps directly to vim.opt / vim.o
+  };
+}
+```
+
+For options that can't be expressed as `opts` (e.g. `set noerrorbells`),
+use `extraConfigLua`.
+
+#### Lazy loading (lz-n)
+
+nixvim uses `lz.n` as the lazy loading backend. It must be enabled globally:
+
+```nix
+# config/plugins/lz-n.nix
+_: {
+  plugins.lz-n.enable = true;
+}
+```
+
+Then configure per-plugin with `lazyLoad.settings`:
+
+```nix
+plugins.<name> = {
+  enable = true;
+  lazyLoad.settings = {
+    cmd = "PluginCommand";
+    # Load on keymap — keymaps MUST go here, not in top-level `keymaps`
+    keys = [
+      {
+        __unkeyed-1 = "gd";
+        __unkeyed-2.__raw = ''
+          function()
+            require("plugin").open("definitions")
+          end
+        '';
+        desc = "goto-definitions";
+        mode = "n";
+      }
+    ];
+  };
+};
+```
+
+**Gotcha**: Keymaps for lazy-loaded plugins must go in
+`lazyLoad.settings.keys` (using `__unkeyed-1` for key, `__unkeyed-2` for
+action), NOT the top-level `keymaps` list — otherwise the plugin won't be
+loaded when the keymap fires.
+
+**Gotcha**: New nix files must be `git add`-ed before `just build` — nix
+flakes only see tracked files.
 
 #### Embedded Lua: extraConfigLuaPre / extraConfigLua / extraConfigLuaPost
 

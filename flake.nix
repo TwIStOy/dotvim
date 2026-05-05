@@ -38,6 +38,7 @@
           inherit pkgs;
           module = import ./config configArguments;
           extraSpecialArgs = {
+            inherit utils;
           };
         };
         nvim = nixvim'.makeNixvimWithModule nixvimModule;

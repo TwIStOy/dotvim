@@ -1,3 +1,3 @@
-_: {
-  imports = [];
+{utils, ...}: {
+  imports = utils.path.listModules ./.;
 }

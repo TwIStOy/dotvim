@@ -119,39 +119,95 @@ vim.keymap.set("n", "<M-n>", "<cmd>nohl<CR>", { desc = "nohl" })
 
 If the new keymap also creates a new which-key group, add the group in `lua/dotvim/plugins/base/which-key.lua`.
 
-### Keymaps in Nix (nixvim)
+### Nixvim (Nix Build)
 
-The project has a parallel nixvim config under `config/keymaps.nix` for the
-Nix build. Simple keymaps should be added in **both** places. Complex keymaps
-(Lua function rhs, vscode-conditional logic) remain Lua-only.
+The project has a parallel nixvim config under `config/` for the Nix build
+(`just build`). Plugins, keymaps, and options should be mirrored in both
+Lua (lazy.nvim runtime) and Nix (nixvim build).
+
+#### File structure
+
+```
+config/
+├── default.nix        # entry point, auto-imports submodules via listModules
+├── keymaps.nix        # global keymaps
+└── plugins/
+    ├── default.nix    # auto-imports plugin files via listModules
+    └── snacks.nix     # one file per plugin
+```
+
+Plugin files in `config/plugins/` are auto-discovered by `listModules`
+(from `lib/path.nix`) — just create the file and it's imported.
+
+**Gotcha**: `listModules` skips `default.nix`. Sub-modules discovered via
+`imports` **cannot** reference `utils` or other module args in their own
+`imports` list — it causes infinite recursion with `_module.args`. Only
+`config/default.nix` receives `utils` as a direct function argument.
+
+#### Add a nixvim plugin
+
+Create `config/plugins/<name>.nix`:
+
+```nix
+_: {
+  plugins.<plugin-name> = {
+    enable = true;
+    settings = {
+      # plugin options — use nixvim option names, not lazy.nvim opts
+    };
+  };
+
+  # Plugin-specific keymaps go here, not in keymaps.nix
+  keymaps = [
+    {
+      mode = "n";
+      key = "<leader>x";
+      action = "<cmd>Something<CR>";
+      options.desc = "do-something";
+    }
+  ];
+}
+```
 
 #### Nix keymap format
 
-Each keymap is an attrset in the `keymaps` list:
-
 ```nix
 {
-  mode = "n";          # string or list of strings, e.g. [ "n" "x" ]
-  key = "<leader>fs";  # lhs
-  action = "<cmd>update<CR>";  # rhs: vim command string
+  mode = "n";          # string or list, e.g. [ "n" "x" ]
+  key = "<leader>fs";
+  action = "<cmd>update<CR>";       # vim command string
+  # OR for Lua function rhs:
+  action.__raw = ''
+    function()
+      require("module").method()
+    end
+  '';
   options = {
     desc = "save";     # optional
     silent = true;     # optional
-    expr = true;       # optional
   };
 }
 ```
 
-#### Lua → Nix conversion table
+#### Lua to Nix conversion table
 
-| Lua pattern | Nix equivalent |
+| Lua | Nix |
 |---|---|
 | `vim.keymap.set("n", lhs, rhs, { desc = d })` | `{ mode = "n"; key = lhs; action = rhs; options.desc = d; }` |
 | `vim.api.nvim_set_keymap("", lhs, "<Nop>", {})` | `{ mode = "n"; key = lhs; action = "<Nop>"; }` |
 | `vim.g.mapleader = " "` | `globals.mapleader = " ";` |
-| `"<cmd>update<CR>"` (command string) | Same literal string: `"<cmd>update<CR>"` |
-| Lua function as rhs | `action.__raw = "function() ... end";` |
-| `if not vim.g.vscode then ... end` | Keep in Lua, or use nixvim plugin `keys` with `enabled` |
+| Lua function as rhs | `action.__raw = '' function() ... end '';` |
+| `require("dotvim.commons.icon").icon("X")` | Hardcode the icon string directly |
+| `if not vim.g.vscode then ... end` | Omit — Nix build is standalone neovim only |
+| `package.loaded.lazy` / `:Lazy` | Omit — no lazy.nvim in Nix build |
+
+#### Embedded Lua: extraConfigLuaPre / extraConfigLua / extraConfigLuaPost
+
+For Lua code that can't be expressed as keymaps or plugin settings:
+
+- `extraConfigLuaPre` — runs first. Use for function definitions.
+- `extraConfigLua` — runs after plugins load. Use for keymaps calling those functions.
+- `extraConfigLuaPost` — runs last.
 
 #### Helper functions in config/keymaps.nix
 
@@ -163,6 +219,13 @@ nmap = lhs: rhs: desc: {
   options = { inherit desc; };
 };
 
+nraw = lhs: rhs: desc: {
+  mode = "n";
+  key = lhs;
+  action.__raw = rhs;
+  options = { inherit desc; };
+};
+
 nop-key = lhs: {
   mode = "n";
   key = lhs;
@@ -170,21 +233,8 @@ nop-key = lhs: {
 };
 ```
 
-#### Lua function rhs with `action.__raw`
+#### API differences from Lua
 
-For keymaps whose rhs is a Lua function (e.g. `require('module').method`),
-use `action.__raw` to embed raw Lua:
-
-```nix
-# Lua: vim.keymap.set("n", "<leader>e", require("picker").find_files, { desc = "files" })
-{
-  mode = "n";
-  key = "<leader>e";
-  action.__raw = "require('picker').find_files";
-  options.desc = "files";
-}
-```
-
-When adding a keymap, add it to both `config/keymaps.nix` (for Nix
-build) and `lua/dotvim/configs/keymaps.lua` (for lazy.nvim runtime).
+- `globals` not `global` for vim.g settings
+- `mode` must be a valid vim mode string (`"n"`, `"x"`, etc.) — empty `""` causes errors
 

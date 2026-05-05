@@ -22,7 +22,6 @@ _: let
       inherit desc;
     };
   };
-
   # lsp = method: "require('dotvim.features.lsp_methods').${method}()";
 in {
   globals.mapleader = " ";
@@ -45,23 +44,45 @@ in {
     (nmap "<leader>wr" "<cmd>wincmd r<CR>" "rotate-window-rightwards")
     (nmap "<leader>wx" "<cmd>wincmd x<CR>" "exchange-window-with-next")
 
-    # LSP
-    # (nraw "gD" (lsp "declaration") "goto-declaration")
-    # (nraw "gd" (lsp "definitions") "goto-definitions")
-    # (nraw "gt" (lsp "type_definitions") "goto-type-definitions")
-    # (nraw "gi" (lsp "implementations") "goto-implementations")
-    # (nraw "gr" (lsp "references") "goto-references")
-    # (nraw "ga" (lsp "code_action") "code-action")
-    # (nraw "gR" (lsp "rename") "rename-symbol")
-    # (nraw "<leader>oi" (lsp "organize_imports") "organize-imports")
-    # (nraw "K" (lsp "show_hover") "show-hover")
-    # (nraw "<leader>ss" (lsp "document_symbols") "document-symbols")
-    # (nraw "<leader>sw" (lsp "workspace_symbols") "workspace-symbols")
-    # (nraw "<leader>sW" (lsp "workspace_symbols_cword") "workspace-symbols-cword")
-    # (nraw "]c" (lsp "next_diagnostic") "goto-next-error")
-    # (nraw "[c" (lsp "prev_diagnostic") "goto-prev-error")
-    # (nraw "]d" (lsp "next_diagnostic_all") "goto-next-diagnostic")
-    # (nraw "[d" (lsp "prev_diagnostic_all") "goto-prev-diagnostic")
+    # LSP (gd/gt/gi/gr in glance.nix)
+    (nraw "gD" ''function() vim.lsp.buf.declaration() end '' "goto-declaration")
+    (nraw "ga" ''function() vim.lsp.buf.code_action() end '' "code-action")
+    (nraw "gR" ''function() vim.lsp.buf.rename() end '' "rename-symbol")
+    (nraw "<leader>oi" ''
+      function()
+        vim.lsp.buf.code_action({
+          context = { only = { "source.organizeImports" } },
+          apply = true,
+        })
+      end
+    '' "organize-imports")
+    (nraw "K" ''function() vim.lsp.buf.hover({ border = "solid" }) end '' "show-hover")
+    (nraw "]c" ''
+      function()
+        vim.diagnostic.jump({
+          count = 1, wrap = false, float = false,
+          severity = vim.diagnostic.severity.ERROR,
+        })
+      end
+    '' "goto-next-error")
+    (nraw "[c" ''
+      function()
+        vim.diagnostic.jump({
+          count = -1, wrap = false, float = false,
+          severity = vim.diagnostic.severity.ERROR,
+        })
+      end
+    '' "goto-prev-error")
+    (nraw "]d" ''
+      function()
+        vim.diagnostic.jump({ count = 1, wrap = false, float = false })
+      end
+    '' "goto-next-diagnostic")
+    (nraw "[d" ''
+      function()
+        vim.diagnostic.jump({ count = -1, wrap = false, float = false })
+      end
+    '' "goto-prev-diagnostic")
   ];
 
   extraConfigLuaPre = ''

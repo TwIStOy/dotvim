@@ -133,5 +133,31 @@ _: {
       '';
       options.desc = "all-buffers";
     }
+    {
+      mode = "n";
+      key = "<leader>ss";
+      action.__raw = ''
+        function() require("snacks").picker.lsp_symbols() end
+      '';
+      options.desc = "document-symbols";
+    }
+    {
+      mode = "n";
+      key = "<leader>sw";
+      action.__raw = ''
+        function() require("snacks").picker.lsp_workspace_symbols() end
+      '';
+      options.desc = "workspace-symbols";
+    }
+    {
+      mode = "n";
+      key = "<leader>sW";
+      action.__raw = ''
+        function()
+          require("snacks").picker.lsp_workspace_symbols({ filter = { cwd = vim.fn.expand("<cword>") } })
+        end
+      '';
+      options.desc = "workspace-symbols-cword";
+    }
   ];
 }

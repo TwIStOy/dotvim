@@ -136,6 +136,11 @@ config/
     ├── default.nix    # auto-imports plugin files via listModules
     ├── lz-n.nix       # lazy loading backend (required for lazyLoad)
     └── snacks.nix     # one file per plugin
+
+lib/
+├── default.nix        # exports utils: path, lua
+├── path.nix           # listModules helper
+└── lua.nix            # setup helper using toLuaObject
 ```
 
 Plugin files in `config/plugins/` are auto-discovered by `listModules`
@@ -263,6 +268,10 @@ plugins.<name> = {
 action), NOT the top-level `keymaps` list — otherwise the plugin won't be
 loaded when the keymap fires.
 
+**Gotcha**: When lz-n is enabled, `autoLoad` defaults to `false`. Core
+plugins that need early setup (e.g. blink-cmp for LSP capabilities, luasnip
+for snippet expansion) must explicitly set `autoLoad = true`.
+
 **Gotcha**: New nix files must be `git add`-ed before `just build` — nix
 flakes only see tracked files.
 
@@ -302,4 +311,79 @@ nop-key = lhs: {
 
 - `globals` not `global` for vim.g settings
 - `mode` must be a valid vim mode string (`"n"`, `"x"`, etc.) — empty `""` causes errors
+
+#### Mixed Lua tables (positional + named keys)
+
+Lua tables like `{ "a", "b", gap = 1 }` can't be expressed as a plain Nix
+list or attrset. Use `lib.nixvim.utils.listToUnkeyedAttrs`:
+
+```nix
+{ lib, ... }:
+let
+  lu = lib.nixvim.utils.listToUnkeyedAttrs;
+in
+{
+  # produces Lua: { "label", "label_description", gap = 1 }
+  columns = [
+    (lu [ "label" "label_description" ] // { gap = 1; })
+    (lu [ "kind_icon" "kind" ])
+  ];
+}
+```
+
+Only use `__raw` for Lua function values — keep everything else as native Nix.
+
+#### Nix→Lua serialization
+
+`lib.nixvim.toLuaObject` converts Nix values to Lua table strings.
+**Note**: it's at `lib.nixvim.toLuaObject`, NOT `lib.nixvim.utils.toLuaObject`.
+
+The `utils.lua.setup` helper (`lib/lua.nix`) generates `require("plugin").setup(...)` 
+calls from Nix attrsets. It uses delayed init — `lib/default.nix` exports the 
+module function, nixvim modules call it with `{ inherit lib; }`:
+
+```nix
+{ lib, utils, ... }:
+let
+  lua = utils.lua { inherit lib; };
+in
+{
+  extraConfigLua = lua.setup "my-plugin" {
+    opt = true;
+    nested.key = "val";
+  };
+}
+```
+
+#### Custom plugins from GitHub
+
+For plugins not in nixpkgs, use `buildVimPlugin` + `fetchFromGitHub`.
+Set `doCheck = false` when the plugin requires other plugins at load time
+(neovim-require-check fails without deps available during build):
+
+```nix
+{ pkgs, lib, utils, ... }:
+let
+  lua = utils.lua { inherit lib; };
+in
+{
+  extraPlugins = [
+    (pkgs.vimUtils.buildVimPlugin {
+      name = "my-plugin";
+      doCheck = false;
+      src = pkgs.fetchFromGitHub {
+        owner = "user";
+        repo = "repo";
+        rev = "commit-hash";
+        hash = "sha256-...";
+      };
+    })
+  ];
+
+  extraConfigLua = lua.setup "my-plugin" { opt = true; };
+}
+```
+
+Install plugins in `extraPlugins`, configure them separately in
+`extraConfigLua` — avoid the inline `config` field of `extraPlugins`.
 

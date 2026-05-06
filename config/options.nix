@@ -49,4 +49,6 @@ _: {
     vim.cmd.cnoreabbrev("Wq", "wq")
     vim.cmd.cnoreabbrev("WQ", "wq")
   '';
+
+  luaLoader.enable = true;
 }

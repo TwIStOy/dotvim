@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit (lib.nixvim.utils) toRawKeys;
+in {
   plugins.lspconfig.enable = true;
 
   lsp = {
@@ -156,16 +162,16 @@
     };
   };
 
+  plugins.web-devicons.enable = true;
+
   diagnostic.settings = {
     signs = {
-      text.__raw = ''
-        {
-          [vim.diagnostic.severity.ERROR] = "",
-          [vim.diagnostic.severity.WARN] = "",
-          [vim.diagnostic.severity.INFO] = "",
-          [vim.diagnostic.severity.HINT] = "",
-        }
-      '';
+      text = toRawKeys {
+        "vim.diagnostic.severity.ERROR" = "";
+        "vim.diagnostic.severity.WARN" = "";
+        "vim.diagnostic.severity.INFO" = "󰋼";
+        "vim.diagnostic.severity.HINT" = "󰌵";
+      };
     };
     severity_sort = true;
     virtual_text = false;

@@ -244,17 +244,22 @@ config.settings = {
 };
 ```
 
-**Gotcha: Raw Lua in nested values** via `__raw`:
+**Raw Lua keys** via `lib.nixvim.utils.toRawKeys` — converts attrset
+keys to raw Lua `[key]` syntax. Prefer this over `__raw` multiline strings
+when keys are dynamic Lua expressions:
 ```nix
-diagnostic.settings = {
-  signs = {
-    text.__raw = ''
-      {
-        [vim.diagnostic.severity.ERROR] = "",
-      }
-    '';
+{ lib, ... }:
+let inherit (lib.nixvim.utils) toRawKeys; in
+{
+  diagnostic.settings = {
+    signs = {
+      text = toRawKeys {
+        "vim.diagnostic.severity.ERROR" = "";
+        "vim.diagnostic.severity.WARN" = "";
+      };
+    };
   };
-};
+}
 ```
 
 **Gotcha: nixpkgs package renames** — `pkgs.nodePackages.*` has been
@@ -281,6 +286,18 @@ in
 ```
 
 Only use `__raw` for Lua function values — keep everything else as native Nix.
+
+## nixvim utility functions (lib.nixvim.utils.*)
+
+| Function | Purpose |
+|---|---|
+| `toRawKeys attrs` | Prefix keys with `__rawKey__` → renders as `[key]` in Lua |
+| `mkRawKey name value` | Single raw-key entry `{ __rawKey__name = value; }` |
+| `mkRaw str` | Equivalent to `{ __raw = str; }` — write raw Lua inline |
+| `listToUnkeyedAttrs list` | List → positional Lua table entries (see Mixed Lua tables) |
+| `emptyTable` | Explicit empty Lua table `{}` |
+
+Docs: https://nix-community.github.io/nixvim/lib/nixvim/utils/index.html
 
 ## Nix→Lua serialization
 

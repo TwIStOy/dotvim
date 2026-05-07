@@ -39,9 +39,40 @@
       define_custom("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
     }
 
-    require("dial.config").augends:register_group({
+    local lang_configs = {
+      python = {
+        define_custom("True", "False"),
+      },
+      go = {
+        define_custom("int8", "int16", "int32", "int64"),
+      },
+      cpp = {
+        define_custom("Debug", "Info", "Warn", "Error", "Fatal"),
+        define_custom("first", "second"),
+        define_custom("true_type", "false_type"),
+        define_custom("uint8_t", "uint16_t", "uint32_t", "uint64_t"),
+        define_custom("int8_t", "int16_t", "int32_t", "int64_t"),
+        define_custom("htonl", "ntohl"),
+        define_custom("htons", "ntohs"),
+      },
+      c = {
+        define_custom("Debug", "Info", "Warn", "Error", "Fatal"),
+        define_custom("uint8_t", "uint16_t", "uint32_t", "uint64_t"),
+        define_custom("int8_t", "int16_t", "int32_t", "int64_t"),
+        define_custom("htonl", "ntohl"),
+        define_custom("htons", "ntohs"),
+      },
+    }
+
+    local groups = {
       default = commons,
-    })
+    }
+
+    for lang, lang_augends in pairs(lang_configs) do
+      groups[lang] = vim.list_extend(vim.deepcopy(commons), lang_augends)
+    end
+
+    require("dial.config").augends:register_group(groups)
 
     vim.keymap.set({ "n", "v" }, "<C-a>", function()
       require("dial.map").manipulate("increment", "normal")
@@ -50,5 +81,20 @@
     vim.keymap.set({ "n", "v" }, "<C-x>", function()
       require("dial.map").manipulate("decrement", "normal")
     end, { desc = "dial-dec" })
+
+    for filetype, _ in pairs(lang_configs) do
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = filetype,
+        callback = function()
+          vim.keymap.set({ "n", "v" }, "<C-a>", function()
+            require("dial.map").manipulate("increment", "normal", filetype)
+          end, { desc = "dial-inc", buffer = true })
+
+          vim.keymap.set({ "n", "v" }, "<C-x>", function()
+            require("dial.map").manipulate("decrement", "normal", filetype)
+          end, { desc = "dial-dec", buffer = true })
+        end,
+      })
+    end
   '';
 }

@@ -285,6 +285,38 @@ in
 }
 ```
 
+## Nested mixed Lua tables (which-key spec pattern)
+
+When both the outer container and inner entries are mixed tables (e.g.
+which-key `spec`), each inner entry also needs `lu`. A common mistake is
+using plain attrsets which produce named keys instead of positional ones:
+
+```nix
+# WRONG: produces ["<leader>a"] = { group = "ai" } (named key)
+{"<leader>a".group = "ai";}
+
+# CORRECT: produces { "<leader>a", group = "ai" } (positional)
+(lu ["<leader>a"]) // { group = "ai"; }
+```
+
+Define helpers for DRY:
+
+```nix
+{ lib, ... }:
+let
+  lu = lib.nixvim.utils.listToUnkeyedAttrs;
+  grp = key: name: (lu [key]) // { group = name; };
+  grpIcon = key: name: icon: (lu [key]) // { group = name; icon = icon; };
+in {
+  plugins.which-key.settings.spec = [
+    ((lu [
+      (grp "<leader>a" "ai")
+      (grpIcon "<leader>n" "no" { icon = " "; color = "red"; })
+    ]) // { mode = [ "n" "v" ]; })
+  ];
+}
+```
+
 Only use `__raw` for Lua function values — keep everything else as native Nix.
 
 ## nixvim utility functions (lib.nixvim.utils.*)
@@ -319,6 +351,46 @@ in
     nested.key = "val";
   };
 }
+```
+
+## Checking for native modules
+
+Always check if nixvim has a native plugin module before using
+`extraPlugins`. Search the [nixvim plugin
+list](https://nix-community.github.io/nixvim/plugins/) or check if
+`plugins.<name>` option exists. Native modules handle package
+management, settings, and lazy loading integration automatically.
+
+For native modules with `hasLuaConfig = false`, you must provide
+`lazyLoad.settings.after.__raw` to run setup code after load.
+
+## Custom files on runtimepath (extraFiles)
+
+Add custom query files, ftplugins, or other runtimepath content:
+
+```nix
+extraFiles = {
+  "queries/cpp/textobjects.scm".source = ./../../queries/cpp/textobjects.scm;
+  "after/ftplugin/nix.lua".text = ''
+    vim.opt_local.tabstop = 2
+  '';
+};
+```
+
+Files appear at the nvim config root (on runtimepath).
+
+## Accessing build artifacts from flake.nix
+
+`makeNixvimWithModule` returns a package with `passthru.config`:
+
+```nix
+nixvimNvx.passthru.config.build.printInitPackage  # print-init tool
+nixvimNvx.passthru.config.build.initSource         # init.lua source path
+```
+
+Include print-init in the nvx wrapper:
+```nix
+ln -s ${lib.getExe printInit} $out/bin/nixvim-print-init
 ```
 
 ## Custom plugins from GitHub

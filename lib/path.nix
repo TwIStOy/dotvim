@@ -29,5 +29,5 @@ in {
       (nixpkgs.lib.attrsets.filterAttrs isNixModule allFiles)
     );
 
-  pathFromRoot = nixpkgs.lib.path.append ../../.;
+  pathFromRoot = nixpkgs.lib.path.append ../.;
 }

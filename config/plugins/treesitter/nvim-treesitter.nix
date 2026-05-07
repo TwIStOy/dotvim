@@ -1,5 +1,9 @@
-{config, ...}: let
-  queries = ./../../queries;
+{
+  config,
+  utils,
+  ...
+}: let
+  queries = utils.path.pathFromRoot "queries";
 in {
   extraFiles = {
     "queries/cpp/textobjects.scm".source = queries + "/cpp/textobjects.scm";

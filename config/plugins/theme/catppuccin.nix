@@ -114,7 +114,7 @@ in {
       no_bold = false;
       no_underline = false;
       term_colors = true;
-      transparent_background = false;
+      transparent_background = true;
       float = {
         transparent = true;
         solid = true;

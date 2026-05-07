@@ -13,11 +13,13 @@ config/
 ├── keymaps.nix        # global keymaps
 └── plugins/
     ├── default.nix    # auto-imports plugin files/subdirs via listModules
-    ├── core/          # core infrastructure (lz-n, snacks, which-key)
+    ├── core/          # core infrastructure (lz-n, snacks, which-key, mini-move, toggleterm)
     │   └── default.nix
-    ├── coding/        # code completion & AI (blink-cmp, luasnip, copilot-lua)
+    ├── coding/        # code completion & formatting (blink-cmp, luasnip, conform-nvim)
     │   └── default.nix
-    ├── ui/            # UI enhancements (colorful-menu, glance, ansi-nvim)
+    ├── edit/          # editing tools (dial, hop, nvim-surround)
+    │   └── default.nix
+    ├── ui/            # UI enhancements (colorful-menu, glance, ansi-nvim, window-picker)
     │   └── default.nix
     ├── theme/         # color schemes (catppuccin)
     │   └── default.nix
@@ -358,6 +360,11 @@ in {
 
 Only use `__raw` for Lua function values — keep everything else as native Nix.
 
+**Gotcha**: `listToUnkeyedAttrs` is ONLY for mixed Lua tables inside plugin
+settings (e.g. which-key `spec`, blink-cmp `columns`). Top-level `keymaps`
+entries use plain attrsets with `key`, `mode`, `action`, `options` — using
+`lu` there causes `__unkeyed-0` errors.
+
 ## nixvim utility functions (lib.nixvim.utils.*)
 
 | Function | Purpose |
@@ -480,4 +487,49 @@ Install plugins in `extraPlugins`, configure them separately in
 hash (not valid SRI). Convert it:
 ```
 nix hash convert --hash-algo sha256 --to sri <base32-hash>
+```
+
+## Conform formatter packages with nix store paths
+
+For conform-nvim, override formatter `command` to nix store binaries.
+Use `lib.getExe` when binary name matches package name, `lib.getExe'` when
+it differs:
+
+```nix
+{pkgs, lib, ...}: {
+  plugins.conform-nvim = {
+    enable = true;
+    settings = {
+      formatters_by_ft = {
+        lua = ["stylua"];
+        python = ["black"];
+        go = ["goimports" "gofumpt"];
+        nix = ["alejandra"];
+      };
+      formatters = {
+        stylua.command = lib.getExe pkgs.stylua;
+        black.command = lib.getExe pkgs.black;
+        gofumpt.command = lib.getExe pkgs.gofumpt;
+        alejandra.command = lib.getExe pkgs.alejandra;
+        # binary name differs from package name:
+        goimports.command = lib.getExe' pkgs.gotools "goimports";
+        clang_format.command = lib.getExe' pkgs.clang-tools "clang-format";
+      };
+    };
+  };
+}
+```
+
+## Gotcha: settings with angle-bracket values
+
+nixvim's Lua serializer may render angle-bracket strings like `"<C-t>"` as
+bare Lua tokens instead of quoted strings, causing parse errors. Use `__raw`
+to force string quoting:
+
+```nix
+# WRONG: produces bare <C-t> in Lua
+open_mapping = "<C-t>";
+
+# CORRECT: produces "<C-t>" in Lua
+open_mapping.__raw = ''"<C-t>"'';
 ```

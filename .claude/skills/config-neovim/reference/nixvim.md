@@ -12,18 +12,36 @@ config/
 ├── options.nix        # vim options (opts)
 ├── keymaps.nix        # global keymaps
 └── plugins/
-    ├── default.nix    # auto-imports plugin files via listModules
-    ├── lz-n.nix       # lazy loading backend (required for lazyLoad)
-    └── snacks.nix     # one file per plugin
+    ├── default.nix    # auto-imports plugin files/subdirs via listModules
+    ├── core/          # core infrastructure (lz-n, snacks, which-key)
+    │   └── default.nix
+    ├── coding/        # code completion & AI (blink-cmp, luasnip, copilot-lua)
+    │   └── default.nix
+    ├── ui/            # UI enhancements (colorful-menu, glance, ansi-nvim)
+    │   └── default.nix
+    ├── theme/         # color schemes (catppuccin)
+    │   └── default.nix
+    └── treesitter/    # treesitter & grammars
+        └── default.nix
 
 lib/
 ├── default.nix        # exports utils: path, lua
-├── path.nix           # listModules helper
+├── path.nix           # listModules + pathFromRoot helpers
 └── lua.nix            # setup helper using toLuaObject
 ```
 
 Plugin files in `config/plugins/` are auto-discovered by `listModules`
 (from `lib/path.nix`) — just create the file and it's imported.
+
+`listModules` also discovers **subdirectories** that contain a `default.nix`.
+Each subdirectory's `default.nix` should use `utils.path.listModules ./.` to
+import its sibling files:
+
+```nix
+{utils, ...}: {
+  imports = utils.path.listModules ./.;
+}
+```
 
 **Gotcha**: `listModules` skips `default.nix`. Sub-modules discovered via
 `imports` **cannot** reference `utils` or other module args in their own
@@ -54,6 +72,27 @@ _: {
   ];
 }
 ```
+
+## pathFromRoot — project-root-relative paths
+
+`utils.path.pathFromRoot "subpath"` returns an absolute path from the
+project root. Use this instead of relative paths (`./../../..`) to make
+configs resilient to file moves between subdirectories:
+
+```nix
+{config, utils, ...}: let
+  queries = utils.path.pathFromRoot "queries";
+in {
+  extraFiles = {
+    "queries/cpp/textobjects.scm".source = queries + "/cpp/textobjects.scm";
+  };
+}
+```
+
+**Gotcha**: `pathFromRoot` uses `lib.path.append ../.` (one level up from
+`lib/` = project root). Do NOT use `../../.` — in the nix store, files are
+copied under `/nix/store/<hash>-source/`, so `../../.` resolves to the
+store root instead of the project root.
 
 ## Nix keymap format
 
@@ -355,11 +394,19 @@ in
 
 ## Checking for native modules
 
-Always check if nixvim has a native plugin module before using
-`extraPlugins`. Search the [nixvim plugin
-list](https://nix-community.github.io/nixvim/plugins/) or check if
-`plugins.<name>` option exists. Native modules handle package
-management, settings, and lazy loading integration automatically.
+Always check if nixvim has a native module before using `extraPlugins`.
+nixvim has **two namespaces**:
+- `plugins.<name>` — most plugins. Search the [plugin list](https://nix-community.github.io/nixvim/plugins/)
+- `colorschemes.<name>` — colorscheme plugins (catppuccin, kanagawa, etc.). Search the [colorscheme list](https://nix-community.github.io/nixvim/colorschemes/)
+
+Always search the nixvim docs site before migrating any Lua config.
+Use `https://nix-community.github.io/nixvim/index.html?search=$PLUGIN_NAME`
+to search by plugin name.
+Native modules handle package management, settings, and lazy loading
+integration automatically.
+
+When migrating, verify every field from the Lua source is accounted for
+in the Nix config before writing — easy to accidentally drop options.
 
 For native modules with `hasLuaConfig = false`, you must provide
 `lazyLoad.settings.after.__raw` to run setup code after load.
@@ -369,12 +416,16 @@ For native modules with `hasLuaConfig = false`, you must provide
 Add custom query files, ftplugins, or other runtimepath content:
 
 ```nix
-extraFiles = {
-  "queries/cpp/textobjects.scm".source = ./../../queries/cpp/textobjects.scm;
-  "after/ftplugin/nix.lua".text = ''
-    vim.opt_local.tabstop = 2
-  '';
-};
+{utils, ...}: let
+  queries = utils.path.pathFromRoot "queries";
+in {
+  extraFiles = {
+    "queries/cpp/textobjects.scm".source = queries + "/cpp/textobjects.scm";
+    "after/ftplugin/nix.lua".text = ''
+      vim.opt_local.tabstop = 2
+    '';
+  };
+}
 ```
 
 Files appear at the nvim config root (on runtimepath).
@@ -424,3 +475,9 @@ in
 
 Install plugins in `extraPlugins`, configure them separately in
 `extraConfigLua` — avoid the inline `config` field of `extraPlugins`.
+
+**Hash conversion**: `nix-prefetch-url --unpack <url>` returns a base32
+hash (not valid SRI). Convert it:
+```
+nix hash convert --hash-algo sha256 --to sri <base32-hash>
+```

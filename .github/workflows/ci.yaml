@@ -1,4 +1,4 @@
-name: Run Tests
+name: CI
 
 on:
   push:
@@ -7,14 +7,14 @@ on:
   pull_request:
     branches:
       - master
-      
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
   cancel-in-progress: true
 
 jobs:
   tests:
-    name: ${{ matrix.os }} ${{ matrix.flavor }}
+    name: test / ${{ matrix.os }} / nvim-${{ matrix.flavor }}
     strategy:
       fail-fast: false
       matrix:
@@ -22,7 +22,7 @@ jobs:
         flavor: [v0.11.0, nightly]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup neovim ${{ matrix.flavor }}
         uses: rhysd/action-setup-vim@v1
         with:
@@ -30,6 +30,24 @@ jobs:
           version: ${{ matrix.flavor }}
       - uses: extractions/setup-just@v3
       - name: Run tests
-        run: |
-          just test
-        
+        run: just test
+
+  nix-flake:
+    name: nix / ${{ matrix.system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: x86_64-linux
+            os: ubuntu-latest
+          - system: aarch64-darwin
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v17
+      - uses: DeterminateSystems/magic-nix-cache-action@v9
+      - name: Check Nix flake
+        run: nix flake check --system ${{ matrix.system }} --accept-flake-config
+      - name: Build nixvim package
+        run: nix build .# --system ${{ matrix.system }} --accept-flake-config

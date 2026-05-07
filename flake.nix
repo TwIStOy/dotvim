@@ -41,7 +41,15 @@
             inherit utils;
           };
         };
-        nvim = nixvim'.makeNixvimWithModule nixvimModule;
+        nixvimNvx = nixvim'.makeNixvimWithModule nixvimModule;
+        nvx =
+          pkgs.runCommand "nvx" {
+            nativeBuildInputs = [pkgs.makeWrapper];
+          } ''
+            mkdir -p $out/bin
+            makeWrapper ${lib.getExe nixvimNvx} $out/bin/nvx \
+              --set NVIM_APPNAME nvx
+          '';
       in {
         checks = {
           default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
@@ -49,9 +57,7 @@
 
         formatter = nixpkgs.legacyPackages.${system}.alejandra;
 
-        packages = {
-          default = nvim;
-        };
+        packages.default = nvx;
       };
     };
 }

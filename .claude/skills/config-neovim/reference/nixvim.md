@@ -412,6 +412,15 @@ to search by plugin name.
 Native modules handle package management, settings, and lazy loading
 integration automatically.
 
+**Gotcha**: Don't guess plugin page URLs (e.g. `/plugins/schemastore.html`
+→ 404). Use the search URL (`index.html?search=NAME`) or the dedicated
+[Nixvim Option Search](https://nix-community.github.io/nixvim/search/index.html).
+
+Some native modules auto-configure related services. For example,
+`plugins.schemastore` auto-configures jsonls/yamlls schemas — no manual
+LSP settings needed. Always check the native module docs before manually
+wiring LSP config for a plugin.
+
 When migrating, verify every field from the Lua source is accounted for
 in the Nix config before writing — easy to accidentally drop options.
 

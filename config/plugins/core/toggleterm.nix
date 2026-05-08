@@ -1,4 +1,6 @@
-_: {
+{pkgs, ...}: {
+  extraPackages = [pkgs.lazygit];
+
   plugins.toggleterm = {
     enable = true;
     settings = {
@@ -27,18 +29,9 @@ _: {
       key = "<leader>ff";
       action.__raw = ''
         function()
-          local exec = vim.fn.executable("yazi")
-          if exec ~= 1 then
-            vim.notify(
-              "Command [yazi] not found!",
-              vim.log.levels.ERROR,
-              { title = "toggleterm.nvim" }
-            )
-            return
-          end
           require("toggleterm.terminal").Terminal
             :new({
-              cmd = "yazi",
+              cmd = "${pkgs.yazi}/bin/yazi",
               direction = "float",
               close_on_exit = true,
               float_opts = { border = "none" },
@@ -49,6 +42,25 @@ _: {
         end
       '';
       options.desc = "open-yazi";
+    }
+    {
+      mode = "n";
+      key = "<leader>g";
+      action.__raw = ''
+        function()
+          require("toggleterm.terminal").Terminal
+            :new({
+              cmd = "${pkgs.lazygit}/bin/lazygit",
+              direction = "float",
+              close_on_exit = true,
+              float_opts = { border = "none" },
+              start_in_insert = true,
+              hidden = true,
+            })
+            :open()
+        end
+      '';
+      options.desc = "open-lazygit";
     }
   ];
 }

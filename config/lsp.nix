@@ -112,6 +112,11 @@ in {
         package = pkgs.vscode-langservers-extracted;
       };
 
+      yamlls = {
+        enable = true;
+        package = pkgs.yaml-language-server;
+      };
+
       basedpyright = {
         enable = true;
         package = pkgs.basedpyright;

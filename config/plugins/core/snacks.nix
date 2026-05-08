@@ -3,7 +3,7 @@ _: {
     enable = true;
     settings = {
       bigfile.enabled = true;
-      lazygit.configure = true;
+      lazygit.enabled = false;
       picker = {
         enabled = true;
         win.input.keys = {
@@ -83,16 +83,6 @@ _: {
   };
 
   keymaps = [
-    {
-      mode = "n";
-      key = "<leader>g";
-      action.__raw = ''
-        function()
-          require("snacks").lazygit.open()
-        end
-      '';
-      options.desc = "open-lazygit";
-    }
     {
       mode = "n";
       key = "<leader>e";

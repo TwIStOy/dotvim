@@ -5,6 +5,10 @@ build:
   @echo "Building..."
   @nix build .# --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command
 
+ubuntu-install:
+  @echo "Installing..."
+  @nix profile install . --accept-flake-config --extra-experimental-features flakes --extra-experimental-features nix-command
+
 # Run all tests
 test:
   ./tests/run_tests.sh

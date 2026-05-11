@@ -41,15 +41,15 @@
             inherit utils;
           };
         };
-        nixvimNvx = nixvim'.makeNixvimWithModule nixvimModule;
-        printInit = nixvimNvx.passthru.config.build.printInitPackage;
-        nvx =
-          pkgs.runCommand "nvx" {
+        nixvimNe = nixvim'.makeNixvimWithModule nixvimModule;
+        printInit = nixvimNe.passthru.config.build.printInitPackage;
+        ne =
+          pkgs.runCommand "ne" {
             nativeBuildInputs = [pkgs.makeWrapper];
           } ''
             mkdir -p $out/bin
-            makeWrapper ${lib.getExe nixvimNvx} $out/bin/nvx \
-              --set NVIM_APPNAME nvx
+            makeWrapper ${lib.getExe nixvimNe} $out/bin/ne \
+              --set NVIM_APPNAME ne
             ln -s ${lib.getExe printInit} $out/bin/nixvim-print-init
           '';
       in {
@@ -60,7 +60,7 @@
         formatter = nixpkgs.legacyPackages.${system}.alejandra;
 
         packages = {
-          default = nvx;
+          default = ne;
           print-init = printInit;
         };
       };

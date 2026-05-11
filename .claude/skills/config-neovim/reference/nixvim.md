@@ -451,11 +451,11 @@ Files appear at the nvim config root (on runtimepath).
 `makeNixvimWithModule` returns a package with `passthru.config`:
 
 ```nix
-nixvimNvx.passthru.config.build.printInitPackage  # print-init tool
-nixvimNvx.passthru.config.build.initSource         # init.lua source path
+nixvimNe.passthru.config.build.printInitPackage  # print-init tool
+nixvimNe.passthru.config.build.initSource         # init.lua source path
 ```
 
-Include print-init in the nvx wrapper:
+Include print-init in the ne wrapper:
 ```nix
 ln -s ${lib.getExe printInit} $out/bin/nixvim-print-init
 ```

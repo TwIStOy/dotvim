@@ -21,7 +21,7 @@ in {
         package = pkgs.nil;
         config.settings = {
           formatting = {
-            command = ["alejandra"];
+            command = [(lib.getExe pkgs.alejandra)];
           };
           nix = {
             maxMemoryMB = 2048;
@@ -43,7 +43,7 @@ in {
         package = pkgs.clang-tools;
         config = {
           cmd = [
-            "clangd"
+            (lib.getExe' pkgs.clang-tools "clangd")
             "--clang-tidy"
             "--background-index"
             "--background-index-priority=normal"

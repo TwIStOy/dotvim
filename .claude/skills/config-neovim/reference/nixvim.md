@@ -194,6 +194,46 @@ loaded when the keymap fires.
 plugins that need early setup (e.g. blink-cmp for LSP capabilities, luasnip
 for snippet expansion) must explicitly set `autoLoad = true`.
 
+### Filetype-based lazy loading
+
+Load native modules only on specific filetypes with `lazyLoad.settings.ft`:
+
+```nix
+plugins.clangd-extensions = {
+  enable = true;
+  lazyLoad.settings.ft = ["c" "cpp"];
+  settings = {
+    memory_usage = { border = "rounded"; };
+  };
+};
+```
+
+### LSP-specific keymaps via LspAttach autocmd
+
+For keymaps that should only be active when a specific LSP server is attached,
+use `autoCmd` with `LspAttach` and check `client.name` in the callback:
+
+```nix
+autoCmd = [
+  {
+    event = "LspAttach";
+    callback.__raw = ''
+      function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client.name == "clangd" then
+          vim.keymap.set("n", "<leader>fa", function()
+            vim.cmd("ClangdSwitchSourceHeader")
+          end, { desc = "switch-source-header", buffer = args.buf })
+        end
+      end
+    '';
+  }
+];
+```
+
+**Gotcha**: `LspAttach` does NOT support `pattern` for filetype filtering.
+Always check `client.name` inside the callback.
+
 **Gotcha**: New nix files must be `git add`-ed before `just build` — nix
 flakes only see tracked files.
 

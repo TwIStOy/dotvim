@@ -243,7 +243,4 @@ in {
       };
     };
   };
-
-  colorscheme = "catppuccin";
-  opts.background = "dark";
 }

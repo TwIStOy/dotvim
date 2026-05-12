@@ -21,7 +21,9 @@ config/
     │   └── default.nix
     ├── ui/            # UI enhancements (colorful-menu, glance, ansi-nvim, window-picker)
     │   └── default.nix
-    ├── theme/         # color schemes (catppuccin)
+    ├── theme/         # color schemes (catppuccin, darkearth)
+    │   └── default.nix
+    ├── langs/          # language-specific plugins (cpp/clangd-extensions)
     │   └── default.nix
     └── treesitter/    # treesitter & grammars
         └── default.nix
@@ -399,10 +401,21 @@ in
 }
 ```
 
-## Checking for native modules
+## Checking for native modules and nixpkgs packages
 
-Always check if nixvim has a native module before using `extraPlugins`.
-nixvim has **two namespaces**:
+Before using `extraPlugins` or `buildVimPlugin`, check **two things**:
+
+1. **nixpkgs**: Is the plugin already in `pkgs.vimPlugins.*`?
+   Verify: `nix eval nixpkgs#vimPlugins.<name>.meta.description`
+2. **nixvim native module**: Does nixvim have a `plugins.<name>` option?
+   Search: `https://nix-community.github.io/nixvim/index.html?search=$PLUGIN_NAME`
+
+**Decision tree:**
+- In nixpkgs + has native module → use `plugins.<name>` (best: handles package, settings, lazy loading)
+- In nixpkgs + no native module → use `extraPlugins = [ pkgs.vimPlugins.<name> ]` (no buildVimPlugin needed)
+- Not in nixpkgs → use `buildVimPlugin` + `fetchFromGitHub`
+
+nixvim has **two namespaces** for native modules:
 - `plugins.<name>` — most plugins. Search the [plugin list](https://nix-community.github.io/nixvim/plugins/)
 - `colorschemes.<name>` — colorscheme plugins (catppuccin, kanagawa, etc.). Search the [colorscheme list](https://nix-community.github.io/nixvim/colorschemes/)
 

@@ -1,4 +1,4 @@
-{pkgs, lib, ...}: {
+{pkgs, ...}: {
   extraPlugins = [
     (pkgs.vimUtils.buildVimPlugin {
       name = "darkearth-nvim";
@@ -11,6 +11,4 @@
       };
     })
   ];
-
-  colorscheme = lib.mkForce "darkearth";
 }

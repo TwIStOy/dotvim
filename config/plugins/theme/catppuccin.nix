@@ -108,7 +108,7 @@ in {
     settings = {
       background = {
         light = "latte";
-        dark = "macchiato";
+        dark = "mocha";
       };
       no_italic = false;
       no_bold = false;
@@ -151,7 +151,7 @@ in {
       };
       color_overrides = {
         latte = kopicat_light;
-        mocha = kopicat_dark;
+        macchiato = kopicat_dark;
       };
       highlight_overrides = {
         latte.__raw = ''

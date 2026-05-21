@@ -1,13 +1,13 @@
 ---
 name: config-neovim
-description: Use this skill when working with neovim configurations, Lua scripting for Neovim, plugin management, LSP setup, or any Neovim-related development tasks.
+description: Use this skill when working with neovim configurations (including the nix/nixvim version), Lua scripting for Neovim, plugin management, LSP setup, or any Neovim-related development tasks.
 ---
 
 # config-neovim
 
 ## When To Use
 
-Use this skill when working with neovim configurations, Lua scripting for Neovim, plugin management, LSP setup, or any Neovim-related development tasks.
+Use this skill when working with neovim configurations (including the nix/nixvim version), Lua scripting for Neovim, plugin management, LSP setup, or any Neovim-related development tasks.
 
 ## What Can Do
 

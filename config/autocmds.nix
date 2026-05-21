@@ -24,5 +24,21 @@
       '';
       desc = "Start treesitter automatically for supported filetypes";
     }
+    {
+      event = ["BufReadPost"];
+      pattern = "*";
+      callback.__raw = ''
+        function(event)
+          local full_path = vim.api.nvim_buf_get_name(event.buf)
+          local tesla_firmware_path_pattern = "[Tt]esla%d*/firmware"
+          if string.match(full_path, tesla_firmware_path_pattern) then
+            vim.bo[event.buf].fixendofline = false
+            vim.bo[event.buf].tabstop = 4
+            vim.bo[event.buf].shiftwidth = 4
+          end
+        end
+      '';
+      desc = "Disable eol and use 4-space indent for Tesla firmware files";
+    }
   ];
 }

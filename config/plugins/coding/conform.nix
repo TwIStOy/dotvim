@@ -10,7 +10,7 @@
       formatters_by_ft = {
         lua = ["stylua"];
         python = ["black"];
-        go = ["goimports" "gofumpt"];
+        go = ["gofumpt"];
         sh = ["shfmt"];
         nix = ["alejandra"];
         cpp = ["clang_format"];

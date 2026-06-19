@@ -115,10 +115,6 @@ in {
       no_underline = false;
       term_colors = true;
       transparent_background = true;
-      float = {
-        transparent = true;
-        solid = true;
-      };
       dim_inactive = {enabled = false;};
       styles = {
         comments = ["italic"];
@@ -172,6 +168,16 @@ in {
             ["@variable.builtin"] = { fg = colors.maroon, style = { "italic" } },
 
             CmpItemMenu = { link = "@comment" },
+
+            -- Transparent floating windows so neovide floating blur + winblend show through
+            NormalFloat = { bg = "none" },
+            FloatBorder = { bg = "none" },
+            FloatTitle = { bg = "none" },
+            Pmenu = { bg = "none" },
+            PmenuKind = { bg = "none" },
+            PmenuExtra = { bg = "none" },
+            PmenuSbar = { bg = "none" },
+            PmenuThumb = { bg = "none" },
 
             CurSearch = { bg = colors.sky },
             IncSearch = { bg = colors.sky },

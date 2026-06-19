@@ -169,16 +169,6 @@ in {
 
             CmpItemMenu = { link = "@comment" },
 
-            -- Transparent floating windows so neovide floating blur + winblend show through
-            NormalFloat = { bg = "none" },
-            FloatBorder = { bg = "none" },
-            FloatTitle = { bg = "none" },
-            Pmenu = { bg = "none" },
-            PmenuKind = { bg = "none" },
-            PmenuExtra = { bg = "none" },
-            PmenuSbar = { bg = "none" },
-            PmenuThumb = { bg = "none" },
-
             CurSearch = { bg = colors.sky },
             IncSearch = { bg = colors.sky },
             CursorLineNr = { fg = colors.blue, style = { "bold" } },

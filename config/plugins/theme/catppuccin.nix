@@ -116,6 +116,10 @@ in {
       term_colors = true;
       transparent_background = true;
       dim_inactive = {enabled = false;};
+      float = {
+        transparent = true;
+        solid = true;
+      };
       styles = {
         comments = ["italic"];
         conditionals = ["italic"];

@@ -4,7 +4,7 @@ _: {
       vim.api.nvim_create_autocmd("VimEnter", {
         pattern = "*",
         callback = function()
-          vim.g.neovide_opacity = 0.5
+          vim.g.neovide_opacity = 1
           vim.g.neovide_normal_opacity = 0.5
           vim.g.neovide_window_blurred = true
           vim.g.neovide_floating_blur_amount_x = 2.0

@@ -405,6 +405,82 @@ describe("dotvim.commons.fs", function()
     end)
   end)
 
+  describe("is_sensitive_file", function()
+    it("returns false for nil / empty / non-string", function()
+      assert.is_false(fs.is_sensitive_file(nil))
+      assert.is_false(fs.is_sensitive_file(""))
+      assert.is_false(fs.is_sensitive_file(123))
+    end)
+
+    it("matches exact secret basenames", function()
+      for _, name in ipairs {
+        ".envrc",
+        "secrets.yaml",
+        "secrets.yml",
+        "secrets.json",
+        "secrets.jsonc",
+      } do
+        assert.is_true(
+          fs.is_sensitive_file(name),
+          name .. " should be sensitive"
+        )
+      end
+    end)
+
+    it("matches .env and its dotfile variants", function()
+      for _, name in ipairs {
+        ".env",
+        ".env.local",
+        ".env.production",
+        ".env.development.local",
+      } do
+        assert.is_true(
+          fs.is_sensitive_file(name),
+          name .. " should be sensitive"
+        )
+      end
+    end)
+
+    it("matches the *.env suffix form", function()
+      assert.is_true(fs.is_sensitive_file("production.env"))
+      assert.is_true(fs.is_sensitive_file("staging.env"))
+    end)
+
+    it("is case-insensitive", function()
+      assert.is_true(fs.is_sensitive_file(".ENV"))
+      assert.is_true(fs.is_sensitive_file(".Env.Local"))
+      assert.is_true(fs.is_sensitive_file("Secrets.YAML"))
+      assert.is_true(fs.is_sensitive_file("PRODUCTION.ENV"))
+    end)
+
+    it("extracts the basename from a full path", function()
+      assert.is_true(fs.is_sensitive_file("/home/user/project/.env"))
+      assert.is_true(fs.is_sensitive_file("./config/secrets.yaml"))
+      assert.is_true(
+        fs.is_sensitive_file(vim.fn.getcwd() .. "/deploy/prod.env")
+      )
+    end)
+
+    it("does not match unrelated files", function()
+      for _, name in ipairs {
+        ".environment",
+        ".envvars",
+        ".envrc.bak",
+        "secrets.txt",
+        "package.json",
+        "app.json",
+        "config.yaml",
+        "main.go",
+        "foo.envrc",
+      } do
+        assert.is_false(
+          fs.is_sensitive_file(name),
+          name .. " should NOT be sensitive"
+        )
+      end
+    end)
+  end)
+
   describe("integration scenarios", function()
     it("should handle write then read workflow", function()
       local content = "Test content for integration"

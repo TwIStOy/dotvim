@@ -7,6 +7,34 @@
     };
     settings = {
       copilot_node_command = "${pkgs.nodejs}/bin/node";
+      # Refuse to attach to sensitive files (env / secrets) so their contents
+      # are never sent to Copilot. Kept in sync with the Lua spec's
+      # `copilot_should_attach` in lua/dotvim/plugins/ai/copilot.lua.
+      # NOTE: the `ne` build does not load lua/dotvim/**, so this is inlined
+      # rather than reaching for dotvim.commons.fs.is_sensitive_file.
+      should_attach = {__raw = ''
+        function(bufnr, bufname)
+          local name = type(bufname) == "string" and vim.fn.fnamemodify(bufname, ":t"):lower() or ""
+          local sensitive = name == ".envrc"
+            or name == "secrets.yaml"
+            or name == "secrets.yml"
+            or name == "secrets.json"
+            or name == "secrets.jsonc"
+            or name == ".env"
+            or vim.startswith(name, ".env.")
+            or vim.endswith(name, ".env")
+          if sensitive then
+            return false
+          end
+          if not vim.bo[bufnr].buflisted then
+            return false
+          end
+          if vim.bo[bufnr].buftype ~= "" then
+            return false
+          end
+          return true
+        end
+      '';};
       suggestion = {
         auto_trigger = true;
         keymap.accept = "<C-l>";

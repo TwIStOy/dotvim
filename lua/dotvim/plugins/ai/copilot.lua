@@ -1,5 +1,24 @@
 local Commons = require("dotvim.commons")
 
+---Decides whether Copilot may attach to a buffer. Mirrors copilot.lua's
+---default `should_attach` (buflisted + plain buftype) and additionally
+---refuses sensitive files (env / secrets) so their contents are never sent.
+---@param bufnr integer
+---@param bufname string
+---@return boolean
+local function copilot_should_attach(bufnr, bufname)
+  if Commons.fs.is_sensitive_file(bufname) then
+    return false
+  end
+  if not vim.bo[bufnr].buflisted then
+    return false
+  end
+  if vim.bo[bufnr].buftype ~= "" then
+    return false
+  end
+  return true
+end
+
 ---@type LazyPluginSpec
 return {
   "zbirenbaum/copilot.lua",
@@ -7,6 +26,7 @@ return {
   event = "InsertEnter",
   dependencies = { "nvim-lua/plenary.nvim" },
   opts = {
+    should_attach = copilot_should_attach,
     suggestion = {
       auto_trigger = true,
       keymap = {

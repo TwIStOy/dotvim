@@ -8,8 +8,8 @@ in {
       src = pkgs.fetchFromGitHub {
         owner = "ChuYanLon";
         repo = "chad46";
-        rev = "60492c4c1250b60b53c4d75e347c4cf78b5564e6";
-        hash = "sha256-7xFlFAL+k+507WRfgqo4chGwZc1jQhoQJ1NPjJkdCd8=";
+        rev = "6c2708d747f2b5d03050978df60766ac0c194f54";
+        hash = "sha256-6YLJ3psYcBcCT3i1TEE0OaKRQBewZixUz3r7spuWqg4=";
       };
     })
   ];

@@ -149,10 +149,6 @@ in {
         };
         inlay_hints = {background = true;};
       };
-      color_overrides = {
-        latte = kopicat_light;
-        macchiato = kopicat_dark;
-      };
       highlight_overrides = {
         latte.__raw = ''
           function(C)

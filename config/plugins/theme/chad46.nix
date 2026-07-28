@@ -1,4 +1,9 @@
-{pkgs, lib, utils, ...}: let
+{
+  pkgs,
+  lib,
+  utils,
+  ...
+}: let
   lua = utils.lua {inherit lib;};
 in {
   extraPlugins = [

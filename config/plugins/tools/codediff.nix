@@ -18,6 +18,11 @@
     {
       __unkeyed-1 = "codediff.nvim";
       cmd = ["CodeDiff"];
+      after.__raw = ''
+        function()
+          require("codediff").setup({ explorer = { view_mode = "tree" } })
+        end
+      '';
     }
   ];
 }

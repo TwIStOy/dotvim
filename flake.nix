@@ -21,11 +21,17 @@
 
       perSystem = {
         system,
-        pkgs,
         self,
         lib,
         ...
       }: let
+        # Re-import nixpkgs with unfree enabled so upgrades never need
+        # NIXPKGS_ALLOW_UNFREE / --impure. The only unfree dependency today
+        # is `copilot-language-server`, pulled in by copilot-lua.
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
         nixvimLib = nixvim.lib.${system};
         nixvim' = nixvim.legacyPackages.${system};
         utils = import ./lib {inherit inputs;};

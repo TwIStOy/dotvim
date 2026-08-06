@@ -10,17 +10,23 @@
 - Always `git add` new files before running `just build` — nix flakes require tracked files
 
 ## Project Structure
-- `init.lua`: Main entry point that loads dotvim
-- `lua/dotvim.lua`: Module entry point with lazy-loaded submodules
-- `lua/dotvim/starts.lua`: Bootstrap and lazy.nvim setup
+
+> **IMPORTANT**: The Lua-based lazy.nvim config (`init.lua`, `lua/dotvim/`) is
+> **frozen — reference only, do NOT update it**. All active development happens
+> in the nix-based nixvim config (`config/`). Read the Lua side only to mine it
+> for options/keymaps when migrating to nixvim.
+
+- `init.lua`: Main entry point that loads dotvim (LEGACY, reference only)
+- `lua/dotvim.lua`: Module entry point with lazy-loaded submodules (LEGACY)
+- `lua/dotvim/starts.lua`: Bootstrap and lazy.nvim setup (LEGACY)
 - `lua/dotvim/commons/`: Plugin-independent utilities (fn, fs, icon, lsp, 
-  nix, option, string, sys, validator, vim)
-- `lua/dotvim/configs/`: Plugin-specific configurations and setup
+  nix, option, string, sys, validator, vim) (LEGACY)
+- `lua/dotvim/configs/`: Plugin-specific configurations and setup (LEGACY)
   - `lualine_components/`: Custom lualine components
   - `prompts/`: AI prompt configurations
   - Core configs: autocmds, commands, keymaps, options, diagnostics, etc.
-- `lua/dotvim/features/`: Feature implementations (fzf_search, lsp_methods, snacks_picker)
-- `lua/dotvim/plugins/`: Plugin specifications (lazy.nvim format). A plugin's spec will be placed in a subfolder based on its category, and each plugin will have its own file named after the plugin. Current categories:
+- `lua/dotvim/features/`: Feature implementations (fzf_search, lsp_methods, snacks_picker) (LEGACY)
+- `lua/dotvim/plugins/`: Plugin specifications (lazy.nvim format) (LEGACY). A plugin's spec will be placed in a subfolder based on its category, and each plugin will have its own file named after the plugin. Current categories:
   - `ai/`: AI assistants (codecompanion, mcphub, sidekick)
   - `coding/`: Code completion and snippets (blink-cmp, luasnip, conform)
   - `edit/`: Editing tools (fzf-lua, gitsigns, hop, surround, spectre, etc.)
@@ -34,7 +40,9 @@
 
 ### Nix-based Configuration (nixvim)
 
-This project uses a **dual-config** approach: Lua-based lazy.nvim config AND a nix-based nixvim config.
+This project was previously a **dual-config** setup (Lua lazy.nvim + nixvim).
+The Lua side is now frozen as reference; **nixvim is the only active config**.
+New plugins, keymaps, and options go into the nix config only.
 
 - `flake.nix`: Flake entry point — defines systems (`x86_64-linux`, `aarch64-darwin`), nixvim checks, and the default package
 - `lib/`: Nix utility modules
@@ -46,11 +54,14 @@ This project uses a **dual-config** approach: Lua-based lazy.nvim config AND a n
   - `config/keymaps.nix`: Core keymaps defined in nix
   - `config/options.nix`: Neovim options
   - `config/lsp.nix`: LSP configuration
-  - `config/plugins/`: Per-plugin nixvim modules (one file per plugin)
-    - Each file is a nixvim module (uses `config`, `options`, `imports` as needed)
-    - `config/plugins/default.nix`: Auto-imports all sibling nix modules
+  - `config/plugins/`: Per-plugin nixvim modules, grouped in category
+    subdirectories: `coding/`, `core/`, `edit/`, `langs/`, `theme/`, `tools/`
+    (development-assistant tools like REST clients), `treesitter/`, `ui/`
+    - Each category has a `default.nix` that auto-imports its siblings
+    - Each plugin file is a nixvim module (uses `config`, `options`, `imports` as needed)
+    - `config/plugins/default.nix`: Auto-imports all category directories
 
-When adding a new nixvim plugin config: create `config/plugins/<plugin-name>.nix` as a nixvim module. It will be auto-discovered by `listModules`.
+When adding a new nixvim plugin config: create `config/plugins/<category>/<plugin-name>.nix` as a nixvim module. It will be auto-discovered by `listModules`. Pick the matching category, or create a new one if none fits.
 
 ## Code Style
 - Use 2-space indentation, 80 char line width, NO spaces in empty lines
@@ -63,8 +74,9 @@ When adding a new nixvim plugin config: create `config/plugins/<plugin-name>.nix
 ## Plugin Configuration
 - Read plugin README/docs before configuring
 - Omit options that match defaults
-- Return `LazyPluginSpec[]` tables from plugin files
-- Use `enabled = not vim.g.vscode` for non-vscode plugins
+- The rules below apply to the legacy Lua config only (reference, not updated):
+  - Return `LazyPluginSpec[]` tables from plugin files
+  - Use `enabled = not vim.g.vscode` for non-vscode plugins
 
 ## Best Practices
 - `vim` is a global variable - verify APIs at https://neovim.io/doc/

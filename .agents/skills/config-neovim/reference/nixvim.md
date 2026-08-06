@@ -1,8 +1,10 @@
 # Nixvim (Nix Build)
 
-The project has a parallel nixvim config under `config/` for the Nix build
-(`just build`). Plugins, keymaps, and options should be mirrored in both
-Lua (lazy.nvim runtime) and Nix (nixvim build).
+The project's active config is the nixvim config under `config/` for the Nix
+build (`just build`). The Lua side (`lua/dotvim/`, lazy.nvim runtime) is
+frozen — reference only, do NOT update it. New plugins, keymaps, and options
+go into the nixvim config only; consult the Lua side only as a migration
+reference.
 
 ## File structure
 

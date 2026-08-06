@@ -196,6 +196,37 @@ loaded when the keymap fires.
 plugins that need early setup (e.g. blink-cmp for LSP capabilities, luasnip
 for snippet expansion) must explicitly set `autoLoad = true`.
 
+### Lazy-loading a non-native plugin (no nixvim module) via lz-n
+
+`lazyLoad.settings` only exists on native nixvim modules (`plugins.<name>`).
+For a plugin you add via `extraPlugins` (no native module) that should still
+lazy-load, use this two-part pattern:
+
+1. Add the package with `optional = true` so nixvim places it under
+   `pack/.../opt/` (NOT auto-sourced at startup). nixvim's `extraPlugins`
+   accepts the `{ plugin, optional }` attrs form — native modules use exactly
+   this internally (`optional = !autoLoad`).
+2. Register a lz.n spec under `plugins.lz-n.plugins` with the trigger(s). The
+   spec name (`__unkeyed-1`) MUST equal the `opt/` folder name, which is
+   `lib.getName` of the package (compute it; e.g. a `buildVimPlugin` with
+   `pname = "codediff.nvim"` → folder `codediff.nvim`).
+
+```nix
+{pkgs, ...}: {
+  extraPlugins = [
+    { plugin = pkgs.vimPlugins.some-plugin; optional = true; }
+  ];
+  plugins.lz-n.plugins = [
+    { __unkeyed-1 = "some-plugin"; cmd = ["SomeCommand"]; }
+  ];
+}
+```
+
+lz.n registers a stub `:SomeCommand` that fires `packadd some-plugin` on first
+use (like lazy.nvim's `cmd`). Verify with `result/bin/nixvim-print-init` (look
+for `require("lz.n").load({ ... })`) and `nix-store -q --requisites <ne>` →
+the referenced `vim-pack-dir` should contain `pack/.../opt/<name>`.
+
 ### Filetype-based lazy loading
 
 Load native modules only on specific filetypes with `lazyLoad.settings.ft`:
@@ -451,6 +482,17 @@ Before using `extraPlugins` or `buildVimPlugin`, check **two things**:
    Verify: `nix eval nixpkgs#vimPlugins.<name>.meta.description`
 2. **nixvim native module**: Does nixvim have a `plugins.<name>` option?
    Search: `https://nix-community.github.io/nixvim/index.html?search=$PLUGIN_NAME`
+
+**Gotcha: eval against the flake's pinned nixpkgs, not the registry.**
+`nix eval nixpkgs#<attr>` resolves `nixpkgs` via the **system/user registry**
+(often an older/different pin than the project's flake.lock), so a package that
+exists in the project's pinned nixpkgs can falsely report "attribute not found".
+Check the flake's actual input instead:
+```bash
+nix eval github:nixos/nixpkgs/<flake.lock-rev>#<attr>.meta.description
+# or, inside the repo:
+nix eval --impure --expr 'let f = builtins.getFlake (toString ./.); p = f.inputs.nixpkgs.legacyPackages.${builtins.currentSystem}; in p.lib.getName p.vimPlugins.<name>'
+```
 
 **Decision tree:**
 - In nixpkgs + has native module → use `plugins.<name>` (best: handles package, settings, lazy loading)

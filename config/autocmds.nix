@@ -40,5 +40,22 @@
       '';
       desc = "Disable eol and use 4-space indent for Tesla firmware files";
     }
+    {
+      event = ["BufWritePre"];
+      pattern = "*";
+      callback.__raw = ''
+        function(event)
+          -- Skip remote/special buffers (e.g. scp://, term://)
+          if vim.bo[event.buf].buftype ~= "" or event.match:match("^%w+://") then
+            return
+          end
+          local dir = vim.fn.fnamemodify(event.match, ":p:h")
+          if vim.fn.isdirectory(dir) == 0 then
+            vim.fn.mkdir(dir, "p")
+          end
+        end
+      '';
+      desc = "Create parent directories with mkdir -p on save if missing";
+    }
   ];
 }

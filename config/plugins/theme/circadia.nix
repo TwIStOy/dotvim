@@ -27,8 +27,11 @@
       src = pkgs.fetchFromGitHub {
         owner = "tanmaymanojgandhi";
         repo = "circadia";
-        rev = "d60f502b06e8454ef09bf3c4a74b9cb9f6ae4ed3";
-        hash = "sha256-FSja+0c9h/vQQpQU5wIX8KmFMJt3TWYyy4L2VeIV9Nk=";
+        # Pinned to v1.1.2: upstream's v2.0.0 rewrite (all commits after
+        # this) ships a syntactically broken palette.lua (bad JSON->Lua
+        # codegen, unbalanced quotes). Revisit when upstream fixes it.
+        rev = "1054edc976272a6880e3f16e4aaa5a20484e0cad";
+        hash = "sha256-S41CW13xYVersqAa9TIsm27LdmLfCNCYquclFfycDg4=";
       };
       postInstall = ''
         mkdir -p $out/lua $out/colors

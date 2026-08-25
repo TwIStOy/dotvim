@@ -13,8 +13,8 @@ in {
       src = pkgs.fetchFromGitHub {
         owner = "ChuYanLon";
         repo = "chad46";
-        rev = "6c2708d747f2b5d03050978df60766ac0c194f54";
-        hash = "sha256-6YLJ3psYcBcCT3i1TEE0OaKRQBewZixUz3r7spuWqg4=";
+        rev = "2e73776baba02583d457eb82f6888c83a7469817";
+        hash = "sha256-llsAbqFwNx5GEvAtKOvhDOUg86fZ2Hhhy1QhJQWBKWk=";
       };
     })
   ];

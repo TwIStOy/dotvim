@@ -6,8 +6,8 @@
       src = pkgs.fetchFromGitHub {
         owner = "ptdewey";
         repo = "darkearth-nvim";
-        rev = "v2.4.2";
-        hash = "sha256-j7pFWOD/pbhjSmSepaWhB94Sawp7uHmkRhZDlo+bzxo=";
+        rev = "v2.5.1";
+        hash = "sha256-whiwZ8YlCwPAkIbubwEPDkD7lwVMGKWqinQIlIXqDmE=";
       };
     })
   ];

@@ -8,8 +8,8 @@ in {
       src = pkgs.fetchFromGitHub {
         owner = "0xferrous";
         repo = "ansi.nvim";
-        rev = "95de464c315ecbe9d7ca3d9a203ef85def0cf6aa";
-        hash = "sha256-BIf3gXwVwtNFSZdGjdLqboKCwzviKJefe3zjwvUn5GA=";
+        rev = "195b64c3da1c22c2e95648dcbdc6ed075d507064";
+        hash = "sha256-GrU7Q6ZTzSWnZaNoU+yh2BDYweY6RQx6p+RNNvGx8nY=";
       };
     })
   ];

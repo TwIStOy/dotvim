@@ -44,6 +44,74 @@ _: let
       crust = "#171719";
     };
 
+  # https://github.com/tanmaymanojgandhi/circadia — "Warm Parchment" (light).
+  # Spec tokens map to: bg_canvas->base, bg_surface->surface0 (sidebars),
+  # bg_element->surface1 (active line/selection), border->surface2,
+  # text_primary/muted/faint->text/subtext1/overlay1, accent->rosewater+blue
+  # (cursor/focus + functions), keyword->mauve, type->yellow, string->green,
+  # number->peach, comment->overlay0/overlay2 (Comment slot in old/new
+  # catppuccin). Keys marked `synth` are not in the spec and are interpolated
+  # in OKLCH within the neighbouring hues.
+  circadia_light = {
+    rosewater = "#09489a"; # spec accent (focus/links; cursor bg)
+    flamingo = "#8d2e4b"; # synth
+    pink = "#842162"; # synth
+    mauve = "#631c84"; # spec keyword
+    red = "#9b1111"; # synth
+    maroon = "#7e2735"; # synth
+    peach = "#8a2d00"; # spec number
+    yellow = "#7f3500"; # spec type
+    green = "#085802"; # spec string
+    teal = "#005c41"; # synth
+    sky = "#556b82"; # synth, muted: operators read as secondary text
+    sapphire = "#005391"; # synth
+    blue = "#09489a"; # spec accent/function
+    lavender = "#5a4886"; # synth
+    text = "#28323a"; # spec text_primary
+    subtext1 = "#46535f"; # spec text_muted
+    subtext0 = "#545f6a"; # synth
+    overlay2 = "#574f46"; # spec comment
+    overlay1 = "#5f6d7a"; # spec text_faint (line numbers/guides)
+    overlay0 = "#574f46"; # spec comment
+    surface2 = "#d4c8b2"; # spec border
+    surface1 = "#e2d8c3"; # spec bg_element
+    surface0 = "#ece4d4"; # spec bg_surface
+    base = "#f4eee1"; # spec bg_canvas
+    mantle = "#eee9de"; # synth
+    crust = "#eae4d8"; # synth
+  };
+
+  # Circadia "Warm Ember & Obsidian" (dark). Same mapping as circadia_light;
+  # accents stay warm (hue 10-30) except keyword (320) and function/sky (230).
+  circadia_dark = {
+    rosewater = "#e89a49"; # spec accent (focus/links; cursor bg)
+    flamingo = "#eaa0aa"; # synth
+    pink = "#f09dc4"; # synth
+    mauve = "#e59de8"; # spec keyword
+    red = "#f68678"; # synth
+    maroon = "#dc8a90"; # synth
+    peach = "#f6a84d"; # spec number
+    yellow = "#f1be85"; # spec type
+    green = "#a7db76"; # spec string
+    teal = "#75cca7"; # synth
+    sky = "#98b6c6"; # synth, muted: operators read as secondary text
+    sapphire = "#88c0e1"; # synth
+    blue = "#89c8e4"; # spec function
+    lavender = "#c0b2dc"; # synth, bg hue (290) family
+    text = "#eae3d8"; # spec text_primary
+    subtext1 = "#b7aca0"; # spec text_muted
+    subtext0 = "#a7a195"; # synth
+    overlay2 = "#b3aba0"; # spec comment
+    overlay1 = "#92887d"; # spec text_faint (line numbers/guides)
+    overlay0 = "#b3aba0"; # spec comment
+    surface2 = "#343041"; # spec border
+    surface1 = "#252330"; # spec bg_element
+    surface0 = "#1c1a24"; # spec bg_surface
+    base = "#15141b"; # spec bg_canvas
+    mantle = "#0f0f14"; # synth
+    crust = "#0b0a10"; # synth
+  };
+
   solarized_light = {
     rosewater = "#fdf7e8";
     flamingo = "#cb4b16";

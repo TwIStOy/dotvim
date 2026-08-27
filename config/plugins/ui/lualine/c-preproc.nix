@@ -27,11 +27,13 @@
         local ret = table.concat(parts, " | ")
         return ret
       end,
-      color = {
-        bg = _G.dotvim_resolve_fg("Macro"),
-        fg = _G.dotvim_resolve_fg("IncSearch"),
-        gui = "bold",
-      },
+      color = function()
+        return {
+          bg = _G.dotvim_resolve_fg("Macro"),
+          fg = _G.dotvim_resolve_fg("IncSearch"),
+          gui = "bold",
+        }
+      end,
       separator = { left = "", right = "" },
     }
   '';

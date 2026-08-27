@@ -152,10 +152,12 @@ in {
                     function()
                       return vim.fn.getcwd()
                     end,
-                    color = {
-                      bg = _G.dotvim_resolve_bg("CursorLine"),
-                      fg = _G.dotvim_resolve_fg("Normal"),
-                    },
+                    color = function()
+                      return {
+                        bg = _G.dotvim_resolve_bg("CursorLine"),
+                        fg = _G.dotvim_resolve_fg("Normal"),
+                      }
+                    end,
                     separator = { left = "", right = "" },
                     padding = { left = 1 },
                   }

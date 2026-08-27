@@ -15,11 +15,13 @@
         local denominator = math.min(result.total, result.maxcount)
         return string.format("%d/%d", result.current, denominator)
       end,
-      color = {
-        bg = _G.dotvim_resolve_fg("IncSearch"),
-        fg = _G.dotvim_resolve_bg("Normal"),
-        gui = "bold",
-      },
+      color = function()
+        return {
+          bg = _G.dotvim_resolve_fg("IncSearch"),
+          fg = _G.dotvim_resolve_bg("Normal"),
+          gui = "bold",
+        }
+      end,
       separator = { left = "", right = "" },
     }
   '';

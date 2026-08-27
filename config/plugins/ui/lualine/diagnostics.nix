@@ -11,19 +11,29 @@
         ok = "",
       },
       diagnostics_color = {
-        error = { fg = _G.dotvim_resolve_fg("DiagnosticError") },
-        warn = { fg = _G.dotvim_resolve_fg("DiagnosticWarn") },
-        info = { fg = _G.dotvim_resolve_fg("DiagnosticInfo") },
-        hint = { fg = _G.dotvim_resolve_fg("DiagnosticHint") },
+        error = function()
+          return { fg = _G.dotvim_resolve_fg("DiagnosticError") }
+        end,
+        warn = function()
+          return { fg = _G.dotvim_resolve_fg("DiagnosticWarn") }
+        end,
+        info = function()
+          return { fg = _G.dotvim_resolve_fg("DiagnosticInfo") }
+        end,
+        hint = function()
+          return { fg = _G.dotvim_resolve_fg("DiagnosticHint") }
+        end,
       },
       colored = true,
       update_in_insert = false,
       always_visible = false,
-      color = {
-        bg = _G.dotvim_resolve_bg("CursorLine"),
-        fg = _G.dotvim_resolve_fg("Normal"),
-        gui = "bold",
-      },
+      color = function()
+        return {
+          bg = _G.dotvim_resolve_bg("CursorLine"),
+          fg = _G.dotvim_resolve_fg("Normal"),
+          gui = "bold",
+        }
+      end,
       separator = { left = "", right = "" },
       padding = 1,
     }

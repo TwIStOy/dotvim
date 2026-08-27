@@ -30,11 +30,13 @@
           return current_message or ""
         end,
         separator = { left = "", right = "" },
-        color = {
-          bg = _G.dotvim_resolve_bg("CursorLine"),
-          fg = _G.dotvim_resolve_fg("Comment"),
-          gui = "bold",
-        },
+        color = function()
+          return {
+            bg = _G.dotvim_resolve_bg("CursorLine"),
+            fg = _G.dotvim_resolve_fg("Comment"),
+            gui = "bold",
+          }
+        end,
       }
     end)()
   '';

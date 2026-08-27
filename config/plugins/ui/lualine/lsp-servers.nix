@@ -109,11 +109,13 @@
           return get_enabled_servers()
         end,
         separator = { left = "", right = "" },
-        color = {
-          bg = _G.dotvim_resolve_fg("String"),
-          fg = _G.dotvim_resolve_fg("IncSearch"),
-          gui = "italic,bold",
-        },
+        color = function()
+          return {
+            bg = _G.dotvim_resolve_fg("String"),
+            fg = _G.dotvim_resolve_fg("IncSearch"),
+            gui = "italic,bold",
+          }
+        end,
         padding = { left = 0 },
       }
     end)()

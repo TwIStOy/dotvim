@@ -31,10 +31,12 @@
           end
           return current_cwd
         end,
-        color = {
-          bg = _G.dotvim_resolve_fg("String"),
-          fg = _G.dotvim_resolve_fg("IncSearch"),
-        },
+        color = function()
+          return {
+            bg = _G.dotvim_resolve_fg("String"),
+            fg = _G.dotvim_resolve_fg("IncSearch"),
+          }
+        end,
         separator = { left = "", right = "" },
       }
     end)()

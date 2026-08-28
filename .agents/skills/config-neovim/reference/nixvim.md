@@ -595,6 +595,34 @@ hash (not valid SRI). Convert it:
 nix hash convert --hash-algo sha256 --to sri <base32-hash>
 ```
 
+## Custom plugins with their own flake
+
+When a plugin ships an upstream flake that builds it (or native deps) from
+source (e.g. codesnap.nvim's Rust generator), prefer the flake input over
+`fetchFromGitHub` + `buildVimPlugin`:
+
+1. Add the input in `flake.nix` (usually `inputs.nixpkgs.follows = "nixpkgs"`);
+2. Overlay the package into `pkgs.vimPlugins` inside the `perSystem` pkgs import,
+   so config modules keep using the standard `pkgs.vimPlugins.<name>` shape:
+
+```nix
+# flake.nix (perSystem)
+pkgs = import nixpkgs {
+  inherit system;
+  config.allowUnfree = true;
+  overlays = [
+    (_: prev: {
+      vimPlugins = prev.vimPlugins.extend (_: _: {
+        codesnap-nvim = inputs.codesnap.packages.${system}.default;
+      });
+    })
+  ];
+};
+```
+
+3. Use it like any nixpkgs plugin — reference `config/plugins/tools/codesnap.nix`
+for the full lz.n cmd-triggered pattern.
+
 ## Conform formatter packages with nix store paths
 
 For conform-nvim, override formatter `command` to nix store binaries.

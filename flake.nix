@@ -5,6 +5,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixvim.url = "github:nix-community/nixvim";
+    codesnap = {
+      url = "github:mistricky/codesnap.nvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -31,6 +35,15 @@
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = [
+            # codesnap.nvim ships its own flake that builds the Rust generator
+            # from source; expose it as a regular vimPlugins entry.
+            (_: prev: {
+              vimPlugins = prev.vimPlugins.extend (_: _: {
+                codesnap-nvim = inputs.codesnap.packages.${system}.default;
+              });
+            })
+          ];
         };
         nixvimLib = nixvim.lib.${system};
         nixvim' = nixvim.legacyPackages.${system};

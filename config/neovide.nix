@@ -13,6 +13,9 @@ _: {
           vim.g.neovide_floating_shadow = true
           vim.opt.winblend = 20
           vim.opt.pumblend = 20
+          vim.g.neovide_detach_on_quit = "always_detach"
+
+          vim.cmd([[silent detach!]])
         end,
       })
     end

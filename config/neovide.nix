@@ -1,29 +1,23 @@
 _: {
   extraConfigLuaPre = ''
-    if vim.g.neovide then
-      vim.api.nvim_create_autocmd("VimEnter", {
-        pattern = "*",
-        callback = function()
-          vim.g.neovide_opacity = 1
-          vim.g.neovide_normal_opacity = 0.5
-          vim.g.neovide_window_blurred = true
-          vim.g.neovide_floating_blur_amount_x = 2.0
-          vim.g.neovide_floating_blur_amount_y = 2.0
-          vim.g.neovide_floating_corner_radius = 0.1
-          vim.g.neovide_floating_shadow = true
-          vim.opt.winblend = 20
-          vim.opt.pumblend = 20
-        end,
-      })
-    end
-
     vim.api.nvim_create_autocmd("UIEnter", {
       pattern = "*",
       callback = function()
-        if vim.g.neovide then
-          vim.g.neovide_detach_on_quit = "always_detach"
-          vim.cmd([[silent detach!]])
+        if not vim.g.neovide then
+          return
         end
+        vim.g.neovide_opacity = 1
+        vim.g.neovide_normal_opacity = 0.5
+        vim.g.neovide_window_blurred = true
+        vim.g.neovide_floating_blur_amount_x = 2.0
+        vim.g.neovide_floating_blur_amount_y = 2.0
+        vim.g.neovide_floating_corner_radius = 0.1
+        vim.g.neovide_floating_shadow = true
+        vim.opt.winblend = 20
+        vim.opt.pumblend = 20
+        vim.g.neovide_detach_on_quit = "always_detach"
+
+        vim.cmd([[silent! detach!]])
       end,
     })
   '';

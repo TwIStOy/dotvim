@@ -13,12 +13,19 @@ _: {
           vim.g.neovide_floating_shadow = true
           vim.opt.winblend = 20
           vim.opt.pumblend = 20
-          vim.g.neovide_detach_on_quit = "always_detach"
-
-          vim.cmd([[silent detach!]])
         end,
       })
     end
+
+    vim.api.nvim_create_autocmd("UIEnter", {
+      pattern = "*",
+      callback = function()
+        if vim.g.neovide then
+          vim.g.neovide_detach_on_quit = "always_detach"
+          vim.cmd([[silent detach!]])
+        end
+      end,
+    })
   '';
 
   extraConfigLua = ''

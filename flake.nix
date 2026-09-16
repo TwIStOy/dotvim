@@ -65,6 +65,7 @@
         ne =
           pkgs.runCommand "ne" {
             nativeBuildInputs = [pkgs.makeWrapper];
+            meta.mainProgram = "ne";
           } ''
             mkdir -p $out/bin
             makeWrapper ${lib.getExe nixvimNe} $out/bin/ne \

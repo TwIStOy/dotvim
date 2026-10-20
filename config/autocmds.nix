@@ -31,7 +31,8 @@
         function(event)
           local full_path = vim.api.nvim_buf_get_name(event.buf)
           local tesla_firmware_path_pattern = "[Tt]esla%d*/firmware"
-          if string.match(full_path, tesla_firmware_path_pattern) then
+          local tesla_firmware_path_pattern2 = "works/firmwares"
+          if string.match(full_path, tesla_firmware_path_pattern) or string.match(full_path, tesla_firmware_path_pattern2) then
             vim.bo[event.buf].fixendofline = false
             vim.bo[event.buf].tabstop = 4
             vim.bo[event.buf].shiftwidth = 4

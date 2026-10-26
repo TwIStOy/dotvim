@@ -1,6 +1,7 @@
 {pkgs, ...}: {
-  # Pick the C++ server before startup. Not switchable at runtime:
-  # "clangd" or "clice".
+  # Default C++ server. A trusted project .nvim.lua can override this:
+  # exrc runs after init, and VimEnter reads the value. Not switchable
+  # after that. "clangd" or "clice" ("clang" is accepted).
   globals.dotvim_cpp_lsp = "clangd";
 
   extraPlugins = [pkgs.clice.nvim];
@@ -37,24 +38,29 @@
         end
       '';
     }
-  ];
-
-  extraConfigLuaPost = ''
-    local servers = {
-      clang = "clangd",
-      clangd = "clangd",
-      clice = "clice",
+    {
+      event = "VimEnter";
+      once = true;
+      callback.__raw = ''
+        function()
+          local servers = {
+            clang = "clangd",
+            clangd = "clangd",
+            clice = "clice",
+          }
+          local choice = vim.g.dotvim_cpp_lsp
+          local server = servers[choice]
+          if server == nil then
+            vim.notify(
+              "dotvim_cpp_lsp: expected clangd or clice, got "
+                .. vim.inspect(choice),
+              vim.log.levels.ERROR
+            )
+            server = "clangd"
+          end
+          vim.lsp.enable(server)
+        end
+      '';
     }
-    local choice = vim.g.dotvim_cpp_lsp
-    local server = servers[choice]
-    if server == nil then
-      vim.notify(
-        "dotvim_cpp_lsp: expected clangd or clice, got "
-          .. vim.inspect(choice),
-        vim.log.levels.ERROR
-      )
-      server = "clangd"
-    end
-    vim.lsp.enable(server)
-  '';
+  ];
 }

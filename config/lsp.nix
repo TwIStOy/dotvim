@@ -38,8 +38,17 @@ in {
         package = pkgs.gopls;
       };
 
+      # Both installed. cpp.nix starts exactly one, from
+      # vim.g.dotvim_cpp_lsp, so they never attach together.
+      clice = {
+        enable = true;
+        activate = false;
+        package = pkgs.clice;
+      };
+
       clangd = {
         enable = true;
+        activate = false;
         package = pkgs.clang-tools;
         config = {
           cmd = [

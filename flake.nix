@@ -42,6 +42,8 @@
               vimPlugins = prev.vimPlugins.extend (_: _: {
                 codesnap-nvim = inputs.codesnap.packages.${system}.default;
               });
+              # Prebuilt clice binary; nixpkgs does not package it.
+              clice = prev.callPackage ./pkgs/clice {};
             })
           ];
         };

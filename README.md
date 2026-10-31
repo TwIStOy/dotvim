@@ -3,7 +3,7 @@
 <p align="center">
     <a href="https://github.com/TwIStOy/dotvim/pulse">
       <img src="https://img.shields.io/github/last-commit/TwIStOy/dotvim?style=for-the-badge&logo=github&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/></a>
-    <a href="https://github.com/TwIStOy/dotvim/blob/main/LICENSE">
+    <a href="https://github.com/TwIStOy/dotvim/blob/master/LICENSE">
       <img alt="License" src="https://img.shields.io/github/license/TwIStOy/dotvim?style=for-the-badge&logo=starship&color=ee999f&logoColor=D9E0EE&labelColor=302D41" /></a>
     <a href="https://github.com/TwIStOy/dotvim/stargazers">
       <img src="https://img.shields.io/github/stars/TwIStOy/dotvim?style=for-the-badge&logo=apachespark&color=eed49f&logoColor=D9E0EE&labelColor=302D41"/></a>
@@ -13,127 +13,114 @@
 
 <!-- ![](https://raw.githubusercontent.com/TwIStOy/dotvim/master/screenshots/start_page.png) -->
 
-# ✨Features
+My Neovim configuration, fully managed by [Nix] via [nixvim]. Plugins,
+language servers, formatters, treesitter parsers, and external tools are all
+built from `flake.nix` — no plugin manager downloads, no `mason`. The flake
+produces a single `ne` command (running with `NVIM_APPNAME=ne`), so it never
+touches an existing `~/.config/nvim`.
 
-- Blazing fast startup time with [lazy.nvim](https://github.com/folke/lazy.nvim)
-- Language Server Protocol with [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
-- Resolving plugins installed by [nix](https://github.com/NixOS/nixpkgs)
-- Resolving lsp servers and formatters from [nix](https://github.com/NixOS/nixpkgs) or [mason.nvim](https://github.com/williamboman/mason.nvim)
-- Autocompletion with [blink.cmp](https://github.com/saghen/blink.cmp)
-- Formatting with [conform.nvim](https://github.com/stevearc/conform.nvim)
-- Treesitter related snippets with [LuaSnip](https://github.com/L3MON4D3/LuaSnip) and [luasnip-snipepts](https://github.com/TwIStOy/luasnip-snippets)
-- Fuzzy find with [snacks.nvim](https://github.com/folke/snacks.nvim)
+# ✨ Features
 
-> [!CAUTION]
-> **Please use my configuration with care and understand what will happen before using it. If you are looking for a more general configuration, see [dora.nvim](https://github.com/TwIStOy/dora.nvim)**
+- Declarative Neovim configuration with [nixvim] and [flake-parts]
+- Plugins, LSP servers, formatters, and binaries resolved entirely from [nixpkgs]
+- Language Server Protocol via [nvim-lspconfig]
+- Autocompletion with [blink.cmp]
+- Formatting with [conform.nvim]
+- Snippets with [LuaSnip] and [luasnip-snippets]
+- Fuzzy finding with [snacks.nvim]
+- Git integration with [gitsigns.nvim], plus a [lazygit] terminal via [toggleterm.nvim]
+- GitHub Copilot with [copilot.lua]
+- Multiple color schemes: [catppuccin], bamboo, circadia, darkearth, and more
+- Runtime configuration (theme, C++ language server) from `~/.config/dotvim/config.json`
+- Supported on `x86_64-linux` and `aarch64-darwin`
 
-# ⚡️Requirements
+# ⚡️ Requirements
 
-1. [Neovim 0.10+](https://github.com/neovim/neovim)
-1. Nerd Fonts
-    - Any nerd font to show glyph correctly.
-    - Or using font fallback([kitty](https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.symbol_map), [wezterm](https://wezfurlong.org/wezterm/config/lua/wezterm/font_with_fallback.html)) if terminal supports that.
-1. Node
-    - Needed by [copilot.lua](https://github.com/zbirenbaum/copilot.lua)
-1. Terminal with true color and graphic protocol support, recommand [Kitty](https://sw.kovidgoyal.net/kitty/binary/)
-1. (Optional) [rime_ls](https://github.com/wlh320/rime-ls): [RIME](https://github.com/rime) as [LSP](https://microsoft.github.io/language-server-protocol/specifications/specification-current)
-1. Optional Requirements
-    - [ripgrep](https://github.com/BurntSushi/ripgrep)
-    - [fd](https://github.com/sharkdp/fd)
-    - [delta](https://github.com/dandavison/delta)
-    - [bat](https://github.com/sharkdp/bat)
+1. [Nix] with flakes enabled
+1. A [Nerd Font] for correct glyph rendering — or a terminal with font
+   fallback ([kitty], [wezterm])
+1. A terminal with true color support
 
+Everything else — Neovim itself, Node.js for Copilot, language servers,
+formatters, lazygit — is bundled by Nix. The only unfree dependency
+(`copilot-language-server`) is already allowed inside the flake.
 
-# 📦Installation
+# 📦 Installation
 
-## Non-nix
+Try it without installing:
 
 ```
-$ ln -s /path/to/dotvim ~/.dotvim
-$ mkdir -p ~/.config/nvim
-$ cp ~/.dotvim/init.lua ~/.config/nvim/init.lua
+$ nix run github:TwIStOy/dotvim
 ```
 
-## Nix
+Install the `ne` command:
 
-```nix
+```
+$ nix profile install github:TwIStOy/dotvim
+```
+
+From a checkout of this repo:
+
+```
+$ nix profile install .    # or: just build
+```
+
+The package also ships `nixvim-print-init`, which prints the fully generated
+init.lua for debugging.
+
+# ⚙️ Runtime Configuration
+
+`ne` deep-merges JSON configuration from several files at startup, in
+increasing precedence:
+
+1. Built-in defaults (from Nix)
+1. `~/.config/dotvim/config.json` — user config
+1. `.dotvim.json` — project configs, collected editorconfig-style: every
+   `.dotvim.json` found walking from the filesystem root down to the startup
+   directory is merged, and the file nearest to the cwd wins on conflicts
+
+```json
 {
-  config,
-  lib,
-  pkgs,
-  pkgs-unstable,
-  nur-hawtian,
-  ...
-}: let
-  user-dotpath = "${config.home.homeDirectory}/.dotvim";
-
-  plugins = {
-    inherit (nur-hawtian.packages.${pkgs.system}.vimPlugins) gh-actions-nvim;
-    inherit (pkgs-unstable.vimPlugins) telescope-fzf-native-nvim;
-    inherit (pkgs-unstable.vimPlugins) markdown-preview-nvim;
-  };
-
-  bins = with pkgs-unstable; {
-    inherit fzf stylua lua-language-server statix;
-    clangd = llvmPackages_17.clang-unwrapped;
-    clang-format = llvmPackages_17.clang-unwrapped;
-    inherit (python312Packages) black;
-    inherit (pkgs) rust-analyzer rustfmt;
-  };
-
-  nixAwareNvimConfig = pkgs.stdenv.mkDerivation {
-    name = "nix-aware-nvim-config";
-
-    buildInputs =
-      (lib.mapAttrsToList (_: pkg: pkg) plugins)
-      ++ (lib.mapAttrsToList (_: pkg: pkg) bins);
-
-    phases = ["installPhase"];
-
-    nixAwareNvimConfigJson =
-      pkgs.writeText
-      "nixAwareNvimConfig.json"
-      (builtins.toJSON {
-        pkgs = plugins;
-        bin = lib.mapAttrs (name: pkg: "${pkg}/bin/${name}") bins;
-        try_nix_only = true;
-      });
-
-    installPhase = ''
-      mkdir -p $out
-      cp $nixAwareNvimConfigJson $out/nix-aware.json
-    '';
-  };
-
-  init-dotvim = ''
-    vim.loader.enable()
-    local dotpath = "${user-dotpath}"
-    vim.opt.rtp:prepend(dotpath)
-    require("dotvim.starts")
-  '';
-in {
-  home.packages = with pkgs; [
-    python3.pkgs.pynvim
-    nodePackages.neovim
-    tree-sitter
-    nixAwareNvimConfig
-  ];
-
-  programs.neovim = {
-    enable = true;
-    package = pkgs.neovim-nightly;
-    plugins = builtins.attrValues plugins;
-  };
-
-  xdg.configFile = {
-    "nvim/init.lua" = {
-      text = init-dotvim;
-      force = true;
-    };
-    "nvim/nix-aware.json" = {
-      source = "${nixAwareNvimConfig}/nix-aware.json";
-      force = true;
-    };
-  };
+  "theme": "circadia",
+  "cpp_lsp": "clice"
 }
 ```
+
+- `theme` — colorscheme to load; unknown names fall back to `circadia`
+- `cpp_lsp` — C++ language server to activate, `clangd` (default) or `clice`
+
+Invalid or missing files are skipped with a warning. A trusted project
+`.nvim.lua` (exrc) still runs after all of this and can override anything.
+
+# 🔧 Development
+
+```
+$ just test                                    # all tests (plenary.nvim)
+$ just test-file tests/spec/commons/fn_spec.lua
+$ nix flake check --accept-flake-config        # nixvim module evaluation
+```
+
+# 🗿 Legacy
+
+`init.lua` and `lua/dotvim/` are the previous lazy.nvim-based configuration,
+kept as reference only — all active development happens in the nixvim modules
+under `config/`.
+
+[Nix]: https://nixos.org
+[nixvim]: https://nix-community.github.io/nixvim
+[flake-parts]: https://flake.parts
+[nixpkgs]: https://github.com/NixOS/nixpkgs
+[nvim-lspconfig]: https://github.com/neovim/nvim-lspconfig
+[blink.cmp]: https://github.com/saghen/blink.cmp
+[conform.nvim]: https://github.com/stevearc/conform.nvim
+[LuaSnip]: https://github.com/L3MON4D3/LuaSnip
+[luasnip-snippets]: https://github.com/TwIStOy/luasnip-snippets
+[snacks.nvim]: https://github.com/folke/snacks.nvim
+[gitsigns.nvim]: https://github.com/lewis6991/gitsigns.nvim
+[lazygit]: https://github.com/jesseduffield/lazygit
+[toggleterm.nvim]: https://github.com/akinsho/toggleterm.nvim
+[copilot.lua]: https://github.com/zbirenbaum/copilot.lua
+[catppuccin]: https://github.com/catppuccin/nvim
+[Nerd Font]: https://www.nerdfonts.com
+[kitty]: https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.symbol_map
+[wezterm]: https://wezfurlong.org/wezterm/config/lua/wezterm/font_with_fallback.html

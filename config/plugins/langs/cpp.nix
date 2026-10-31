@@ -1,8 +1,9 @@
 {pkgs, ...}: {
-  # Default C++ server. A trusted project .nvim.lua can override this:
-  # exrc runs after init, and VimEnter reads the value. Not switchable
+  # C++ server choice: vim.g.dotvim_cpp_lsp is owned by
+  # config/runtime-config.nix ("cpp_lsp" in ~/.config/dotvim/config.json,
+  # default "clangd"). A trusted project .nvim.lua can still override it
+  # (exrc runs after init); VimEnter reads the final value. Not switchable
   # after that. "clangd" or "clice" ("clang" is accepted).
-  globals.dotvim_cpp_lsp = "clangd";
 
   extraPlugins = [pkgs.clice.nvim];
 

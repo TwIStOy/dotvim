@@ -1,4 +1,4 @@
--- Vendored from clice editors/nvim/plugin/clice.lua at v0.1.2026102507.
+-- Vendored from clice editors/nvim/plugin/clice.lua at v0.1.2026110404.
 -- clice names its semantic token kinds and modifiers itself: link the
 -- ones Neovim has no default for to the tree-sitter groups coloring the
 -- same things. `default = true` keeps a link a colorscheme or the user set.

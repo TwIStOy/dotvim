@@ -1,4 +1,4 @@
--- Vendored from clice editors/nvim/lsp/clice.lua at v0.1.2026102507.
+-- Vendored from clice editors/nvim/lsp/clice.lua at v0.1.2026110404.
 -- after/lsp so this wins over nvim-lspconfig's copy.
 
 ---@brief
@@ -9,9 +9,10 @@
 --- Commands:
 --- - `:LspCliceShowContext`, `:LspCliceSwitchContext`, `:LspCliceResetContext`: show, choose or
 ---   reset the compilation context of the buffer: the source file a header compiles in, or the
----   compile command of a source file listed with several.
+---   compile command of a source file listed with several. Showing it also tells where the
+---   buffer's command comes from.
 --- - `:LspCliceSwitchConfiguration`: select the build configuration (the `configuration` tags of
----   the `clice.toml` rules) clice runs from its next start.
+---   the `clice.toml` rules) and restart clice under it; before Neovim 0.12, from its next start.
 --- - `:LspCliceRefactor {kind}`: apply the refactoring of a code action kind at the cursor, such as
 ---   `refactor.rewrite.populateSwitch`, offering a choice when several apply.
 --- - `:LspCliceSwitchSourceHeader`: open the file the buffer pairs with — a header's source, a
@@ -78,16 +79,30 @@ local function show_context(client, bufnr)
     "clice/currentContext",
     { uri = vim.uri_from_bufnr(bufnr) },
     function(current)
+      -- Where the command comes from: database, host, default, borrowed or fallback.
+      local command = current.command
+      local source = ""
+      if command ~= nil and command ~= vim.NIL then
+        local from = command.from ~= vim.NIL
+            and (" from %s"):format(
+              vim.fn.fnamemodify(vim.uri_to_fname(command.from), ":~:.")
+            )
+          or ""
+        source = ("; its command: %s%s"):format(command.source, from)
+      end
       local context = current.context
       if context == nil or context == vim.NIL then
-        return vim.notify("clice: no compilation context for this file")
+        return vim.notify(
+          ("clice: no compilation context for this file%s"):format(source)
+        )
       end
       local chosen = current.automatic and "picked automatically" or "chosen"
       vim.notify(
-        ("clice: %s, %s (%s)"):format(
+        ("clice: %s, %s (%s)%s"):format(
           context.label,
           context.description,
-          chosen
+          chosen,
+          source
         )
       )
     end
@@ -212,11 +227,11 @@ local function switch_configuration(client, bufnr)
           function(result)
             if not result.success then
               vim.notify(
-                "clice: failed to switch the build configuration",
+                ("clice: cannot switch the build configuration: %s"):format(
+                  result.reason
+                ),
                 vim.log.levels.WARN
               )
-            elseif name ~= list.active then
-              vim.notify(("clice: %s applies once clice restarts"):format(name))
             end
           end
         )
@@ -261,11 +276,25 @@ local function switch_source_header(client, bufnr)
   )
 end
 
+-- `:lsp restart` (Neovim 0.12) restarts the server when it asks to: what it
+-- was started on changed, a configuration file or the build.
+local restarts = vim.fn.exists(":lsp") == 2
+
 ---@type vim.lsp.Config
 return {
   cmd = { "clice", "serve" },
   filetypes = { "c", "cpp", "cuda" },
   root_markers = { "clice.toml", "compile_commands.json", ".git" },
+  capabilities = restarts and { experimental = { restartServer = true } }
+    or nil,
+  handlers = restarts and {
+    ["clice/restartServer"] = function()
+      vim.schedule(function()
+        vim.cmd("lsp restart clice")
+      end)
+      return vim.NIL
+    end,
+  } or nil,
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_create_user_command(
       bufnr,

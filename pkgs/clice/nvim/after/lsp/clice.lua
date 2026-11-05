@@ -276,25 +276,29 @@ local function switch_source_header(client, bufnr)
   )
 end
 
--- `:lsp restart` (Neovim 0.12) restarts the server when it asks to: what it
--- was started on changed, a configuration file or the build.
-local restarts = vim.fn.exists(":lsp") == 2
+local capabilities = {
+  textDocument = {
+    semanticTokens = {
+      requests = { full = { delta = false } },
+    },
+  },
+  experimental = { restartServer = true }
+}
 
 ---@type vim.lsp.Config
 return {
   cmd = { "clice", "serve" },
   filetypes = { "c", "cpp", "cuda" },
   root_markers = { "clice.toml", "compile_commands.json", ".git" },
-  capabilities = restarts and { experimental = { restartServer = true } }
-    or nil,
-  handlers = restarts and {
+  capabilities = capabilities,
+  handlers = {
     ["clice/restartServer"] = function()
       vim.schedule(function()
         vim.cmd("lsp restart clice")
       end)
       return vim.NIL
     end,
-  } or nil,
+  },
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_create_user_command(
       bufnr,

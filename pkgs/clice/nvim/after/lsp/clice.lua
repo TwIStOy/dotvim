@@ -282,7 +282,7 @@ local capabilities = {
       requests = { full = { delta = false } },
     },
   },
-  experimental = { restartServer = true }
+  experimental = { restartServer = true },
 }
 
 ---@type vim.lsp.Config
@@ -300,6 +300,13 @@ return {
     end,
   },
   on_attach = function(client, bufnr)
+    -- Disable semantic tokens delta updates, to avoid the bug
+    local full = client.server_capabilities.semanticTokensProvider
+      and client.server_capabilities.semanticTokensProvider.full
+    if type(full) == "table" then
+      full.delta = false
+    end
+
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LspCliceShowContext",

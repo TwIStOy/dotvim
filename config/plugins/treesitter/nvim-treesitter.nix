@@ -43,6 +43,8 @@ in {
     grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
       cpp
       lua
+      markdown
+      markdown_inline
       rust
       nix
       typescript

@@ -48,7 +48,7 @@ in {
     (nraw "gD" ''function() vim.lsp.buf.declaration() end '' "goto-declaration")
     (nraw "ga" ''function() vim.lsp.buf.code_action() end '' "code-action")
     (nraw "gR" ''function() vim.lsp.buf.rename() end '' "rename-symbol")
-    (nraw "<leader>oi" ''
+    (nraw "<leader>ci" ''
       function()
         vim.lsp.buf.code_action({
           context = { only = { "source.organizeImports" } },

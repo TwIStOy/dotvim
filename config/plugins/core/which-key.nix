@@ -141,6 +141,7 @@ in {
               icon = " ";
               color = "red";
             })
+            (grp "<leader>o" "org")
             (grp "<leader>p" "preview")
             (grpIcon "<leader>r" "remote" " ")
             (grp "<leader>s" "search")

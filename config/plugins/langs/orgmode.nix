@@ -35,8 +35,39 @@ in {
 
   plugins.orgmode = {
     enable = true;
-    settings.mappings.org.org_open_at_point = "gd";
+    settings = {
+      # orgmode sets `foldlevel` from this in ftplugin/org.lua, overriding the
+      # global `foldlevelstart`. Show every fold by default.
+      org_startup_folded = "showeverything";
+      org_agenda_files = "~/org/**/*";
+      org_default_notes_file = "~/org/inbox.org";
+      mappings.org.org_open_at_point = "gd";
+    };
   };
+
+  # Insert-mode <CR> is broken in org buffers: `org_return` falls back to the
+  # global <CR> mapping, which is blink.pairs' expr callback returning
+  # `<C-]><CR>`; org evaluates that as an expression and fails with
+  # `E15: Invalid expression`, so Enter inserts nothing. Replace it with a
+  # wrapper that keeps org's table-row behaviour and otherwise feeds a real
+  # <CR>. Runs on a scheduled callback so it lands after org's ftplugin and
+  # blink.cmp wraps it as its accept fallback.
+  extraConfigLua = ''
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "org",
+      callback = function(args)
+        vim.schedule(function()
+          vim.keymap.set("i", "<CR>", function()
+            local element = require("orgmode.files.elements.table").from_current_node()
+            if element and element:handle_cr() then
+              return
+            end
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", false)
+          end, { buffer = args.buf, desc = "org-return" })
+        end)
+      end,
+    })
+  '';
 
   plugins.render-markdown = {
     enable = true;

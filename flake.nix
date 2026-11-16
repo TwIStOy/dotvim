@@ -70,8 +70,12 @@
             meta.mainProgram = "ne";
           } ''
             mkdir -p $out/bin
+            # orgmode formats timestamps with strftime(%a), so an inherited
+            # LC_TIME=zh_CN.UTF-8 would rewrite weekdays as 日/六. Pin it to C
+            # so org files keep the English weekday names Emacs writes.
             makeWrapper ${lib.getExe nixvimNe} $out/bin/ne \
-              --set NVIM_APPNAME ne
+              --set NVIM_APPNAME ne \
+              --set LC_TIME C
             ln -s ${lib.getExe printInit} $out/bin/nixvim-print-init
           '';
       in {

@@ -142,6 +142,12 @@ in {
               color = "red";
             })
             (grp "<leader>o" "org")
+            (grp "<leader>ob" "babel")
+            (grp "<leader>od" "timestamp")
+            (grp "<leader>oi" "insert")
+            (grp "<leader>ol" "link")
+            (grp "<leader>on" "note")
+            (grp "<leader>ox" "clock")
             (grp "<leader>p" "preview")
             (grpIcon "<leader>r" "remote" " ")
             (grp "<leader>s" "search")

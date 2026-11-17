@@ -45,14 +45,43 @@ in {
     };
   };
 
-  # Insert-mode <CR> is broken in org buffers: `org_return` falls back to the
-  # global <CR> mapping, which is blink.pairs' expr callback returning
-  # `<C-]><CR>`; org evaluates that as an expression and fails with
-  # `E15: Invalid expression`, so Enter inserts nothing. Replace it with a
-  # wrapper that keeps org's table-row behaviour and otherwise feeds a real
-  # <CR>. Runs on a scheduled callback so it lands after org's ftplugin and
-  # blink.cmp wraps it as its accept fallback.
+  # Two orgmode fixes share the FileType hook:
+  # 1. insert-mode <CR>: `org_return` falls back to the global <CR> mapping,
+  #    which is blink.pairs' expr callback returning `<C-]><CR>`; org evaluates
+  #    that as an expression and fails with `E15: Invalid expression`, so
+  #    Enter inserts nothing. Replace it with a wrapper that keeps org's
+  #    table-row behaviour and otherwise feeds a real <CR>.
+  # 2. text objects: org registers `ih`/`ir`/`i*`/... without a description, so
+  #    which-key falls back to printing the raw rhs. Describe them
+  #    buffer-locally (they shadow treesitter-textobjects only inside org
+  #    buffers); the ` oi`/` ol`/` ox` sub-prefix group names live in
+  #    which-key.nix.
+  # Both run on a scheduled callback so they land after org's ftplugin and
+  # blink.cmp wraps the <CR> one as its accept fallback.
   extraConfigLua = ''
+    local org_text_object_descriptions = {
+      ih = "select-inner-heading",
+      ah = "select-around-heading",
+      ir = "select-inner-subtree",
+      ar = "select-around-subtree",
+      Oh = "select-inner-heading-from-root",
+      OH = "select-around-heading-from-root",
+      Or = "select-inner-subtree-from-root",
+      OR = "select-around-subtree-from-root",
+      ["i*"] = "select-inner-bold",
+      ["a*"] = "select-around-bold",
+      ["i/"] = "select-inner-italic",
+      ["a/"] = "select-around-italic",
+      ["i+"] = "select-inner-strikethrough",
+      ["a+"] = "select-around-strikethrough",
+      ["i_"] = "select-inner-underline",
+      ["a_"] = "select-around-underline",
+      ["i="] = "select-inner-verbatim",
+      ["a="] = "select-around-verbatim",
+      ["i~"] = "select-inner-code",
+      ["a~"] = "select-around-code",
+    }
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "org",
       callback = function(args)
@@ -64,6 +93,20 @@ in {
             end
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", false)
           end, { buffer = args.buf, desc = "org-return" })
+
+          for _, mode in ipairs({ "x", "o" }) do
+            for _, map in ipairs(vim.api.nvim_buf_get_keymap(args.buf, mode)) do
+              local desc = org_text_object_descriptions[map.lhs]
+              if desc and (map.desc == nil or map.desc == "") then
+                vim.api.nvim_buf_set_keymap(args.buf, mode, map.lhs, map.rhs, {
+                  desc = desc,
+                  nowait = map.nowait == 1,
+                  silent = map.silent == 1,
+                  noremap = map.noremap == 1,
+                })
+              end
+            end
+          end
         end)
       end,
     })

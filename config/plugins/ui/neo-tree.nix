@@ -8,12 +8,6 @@ _: {
       cmd = "Neotree";
       keys = [
         {
-          __unkeyed-1 = "<F2>";
-          __unkeyed-2 = "<cmd>Neotree action=focus<cr>";
-          desc = "open-file-explorer";
-          mode = "n";
-        }
-        {
           __unkeyed-1 = "<leader>ft";
           __unkeyed-2 = "<cmd>Neotree action=focus<cr>";
           desc = "open-file-explorer";

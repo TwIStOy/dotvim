@@ -1,4 +1,4 @@
--- Vendored from clice editors/nvim/lsp/clice.lua at v0.1.2026110404.
+-- Vendored from clice editors/nvim/lsp/clice.lua at v1.1.2026111609.
 -- after/lsp so this wins over nvim-lspconfig's copy.
 
 ---@brief
@@ -83,7 +83,8 @@ local function show_context(client, bufnr)
       local command = current.command
       local source = ""
       if command ~= nil and command ~= vim.NIL then
-        local from = command.from ~= vim.NIL
+        local from = command.from ~= nil
+            and command.from ~= vim.NIL
             and (" from %s"):format(
               vim.fn.fnamemodify(vim.uri_to_fname(command.from), ":~:.")
             )
@@ -200,17 +201,32 @@ local function switch_configuration(client, bufnr)
       if #list.configurations == 0 then
         return vim.notify("clice: the rules declare no build configurations")
       end
+      local build = list.build ~= vim.NIL and list.build or nil
       vim.ui.select(list.configurations, {
         prompt = "Build configuration",
         format_item = function(name)
           local notes = {}
           if name == list.active then
             table.insert(notes, "active")
+            if build then
+              local directory =
+                vim.fs.dirname(vim.uri_to_fname(build.databases[1]))
+              table.insert(
+                notes,
+                "links to " .. vim.fn.fnamemodify(directory, ":~:.")
+              )
+            end
           elseif name == list.selected then
             table.insert(notes, "selected for the next start")
           end
           if name == list.defaultConfiguration then
             table.insert(notes, "default")
+          end
+          if build and name == build.configuration then
+            table.insert(
+              notes,
+              ("the links of %s resolve here"):format(list.active)
+            )
           end
           return #notes == 0 and name
             or ("%s (%s)"):format(name, table.concat(notes, ", "))
@@ -288,7 +304,8 @@ local capabilities = {
 ---@type vim.lsp.Config
 return {
   cmd = { "clice", "serve" },
-  filetypes = { "c", "cpp", "cuda" },
+  cmd_env = { CLICE_LOG_LEVEL = "warn" },
+  filetypes = { "c", "cpp", "cuda", "objc", "objcpp", "opencl", "hip" },
   root_markers = { "clice.toml", "compile_commands.json", ".git" },
   capabilities = capabilities,
   handlers = {

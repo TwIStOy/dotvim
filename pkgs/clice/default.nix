@@ -5,18 +5,19 @@
   autoPatchelfHook,
   vimUtils,
 }: let
-  version = "0.1.2026110404";
-  # Nightly prebuilt. nixpkgs does not package clice, and a from-source
-  # build pulls clice's own LLVM. The binary looks up lib/clang next to
-  # itself, so bin/ and lib/ must stay siblings.
+  # Nightly prebuilt: 1.1.x is the channel that continued after the 1.0.0
+  # stable release. nixpkgs does not package clice, and a from-source build
+  # pulls clice's own LLVM. The binary looks up lib/clang next to itself, so
+  # bin/ and lib/ must stay siblings.
+  version = "1.1.2026111609";
   sources = {
     aarch64-darwin = {
       target = "aarch64-apple-darwin";
-      hash = "sha256-Oloo1Se0FjP9vyOWZL10LL/hMeX9ehBSG5jG7uQ8Cxo=";
+      hash = "sha256-HqUTeHxJqspJ+fAghj2dpf0ftrvoQ2T3aEUTkYvy1GI=";
     };
     x86_64-linux = {
       target = "x86_64-unknown-linux-gnu";
-      hash = "sha256-3FVz0MN/Zpoth/lWAUzxGwt+IX4BUzfpmYDH/mlhTHw=";
+      hash = "sha256-bLfJb7s4fgUlBu3BwQIOVZj8M1qpafmSFnPeoJbz/xA=";
     };
   };
   source =

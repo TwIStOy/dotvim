@@ -15,14 +15,54 @@
       pattern = "*";
       callback.__raw = ''
         function(ev)
+          -- nvim-treesitter is deferred (see plugins/treesitter): it loads
+          -- via the `User DotvimTreesitter` trigger the first time a real
+          -- file with a parser is opened. Parsers/queries stay available
+          -- before that through the eager nvim-treesitter-grammars package.
+          -- NOTE: vim.g only persists scalars reliably (tables are copied
+          -- on read), hence the boolean flag.
+          if vim.g.dotvim_ts_loaded then
+            -- nvim-treesitter is up; start immediately for new buffers
+            local lang = vim.treesitter.language.get_lang(ev.match)
+            if lang and vim.treesitter.language.add(lang) then
+              pcall(vim.treesitter.start, ev.buf, lang)
+            end
+            return
+          end
+
+          -- Before nvim-treesitter is loaded, filetype->language aliases
+          -- from its plugin/filetypes.lua are not registered yet, so a nil
+          -- lang here does not mean "no parser": it may resolve after load.
           local lang = vim.treesitter.language.get_lang(ev.match)
-          local parser = vim.treesitter.get_parser(ev.buf, lang, { error = false })
-          if parser ~= nil then
-            vim.treesitter.start(ev.buf, lang)
+          if not lang then
+            return
+          end
+          if not vim.treesitter.get_parser(ev.buf, lang, { error = false }) then
+            return
+          end
+
+          -- A real file with a treesitter parser was opened: load
+          -- nvim-treesitter now, then attach to all listed buffers (covers
+          -- buffers already opened and alias filetypes skipped above).
+          vim.g.dotvim_ts_loaded = true
+          vim.api.nvim_exec_autocmds("User", {
+            pattern = "DotvimTreesitter",
+            modeline = false,
+          })
+          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_valid(buf) then
+              local buf_ft = vim.bo[buf].filetype
+              local buf_language = vim.treesitter.language.get_lang(buf_ft or "")
+              if buf_language and vim.treesitter.language.add(buf_language) then
+                if not vim.treesitter.highlighter.active[buf] then
+                  pcall(vim.treesitter.start, buf, buf_language)
+                end
+              end
+            end
           end
         end
       '';
-      desc = "Start treesitter automatically for supported filetypes";
+      desc = "Start treesitter automatically for supported filetypes (deferred)";
     }
     {
       event = ["BufReadPost"];

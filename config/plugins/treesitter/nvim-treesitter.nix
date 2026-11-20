@@ -39,20 +39,29 @@ in {
 
   plugins.treesitter = {
     enable = true;
+    # Deferred: nvim-treesitter is loaded only when the autocmd in
+    # config/autocmds.nix emits the `User DotvimTreesitter` event, i.e. the
+    # first time a real file with a parser is opened. This keeps the
+    # treesitter query engine (vim.treesitter.query, pulled in by
+    # plugin/query_predicates.lua) and query compilation off the startup
+    # path of buffers that have no parser (e.g. the dashboard).
+    lazyLoad.settings.event = ["User DotvimTreesitter"];
     nixGrammars = true;
-    grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
-      cpp
-      lua
-      markdown
-      markdown_inline
-      rust
-      nix
-      typescript
-      dart
-      go
-    ] ++ [
-      pidl-grammar
-      kafel-grammar
-    ];
+    grammarPackages = with config.plugins.treesitter.package.builtGrammars;
+      [
+        cpp
+        lua
+        markdown
+        markdown_inline
+        rust
+        nix
+        typescript
+        dart
+        go
+      ]
+      ++ [
+        pidl-grammar
+        kafel-grammar
+      ];
   };
 }

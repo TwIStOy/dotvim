@@ -25,10 +25,15 @@ _: {
       key = "<F2>";
       action.__raw = ''
         function()
-          require("oil").open()
+          local oil = require("oil")
+          if vim.bo.filetype == "oil" then
+            oil.close()
+          else
+            oil.open()
+          end
         end
       '';
-      options.desc = "open-oil";
+      options.desc = "toggle-oil";
     }
     {
       mode = "n";

@@ -72,18 +72,39 @@ in {
           -- todo_states mirror orgmode's org_todo_keywords above. `keymap`
           -- is the in-agenda quick filter; each state's first letter doubles
           -- as the direct-set shortcut (`st`/`sw`/`sp`/`sd`/`sc`, no
-          -- conflicts). Colors follow the active catppuccin flavour
-          -- (latte/mocha via OSC 11); the hex literals are mid-tone
-          -- fallbacks for other colorschemes.
-          local palette = {}
-          pcall(function()
-            palette = require("catppuccin.palettes").get_palette()
-          end)
-          local function state(name, keymap, hue, fallback, strike)
+          -- conflicts). Link to the active theme's semantic groups instead
+          -- of baking in a palette. Direct links inherit all target attrs:
+          -- state strike_through values below remain as intent, but cannot
+          -- add strikethrough/bold on top of a link.
+          local links = {
+            OrgSA_TODO = "DiffDelete",
+            OrgSA_WAITING = "DiffText",
+            OrgSA_PROCESSING = "DiffChange",
+            OrgSA_DONE = "DiffAdd",
+            OrgSA_CANCEL = "Comment",
+            OrgSA_NONE = "Comment",
+            OrgSA_Marked = "Visual",
+            OrgSA_Clock = "Special",
+            OrgSA_Group = "Title",
+            OrgSA_TreeConnector = "NonText",
+            OrgSA_TreeGhost = "Comment",
+          }
+          local function apply_links()
+            for group, target in pairs(links) do
+              vim.api.nvim_set_hl(0, group, { link = target })
+            end
+          end
+          -- Set these before the plugin's highlight-default initialization.
+          -- Its cached ensure() will not restore groups after ColorScheme.
+          apply_links()
+          vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("dotvim_org_super_agenda_links", { clear = true }),
+            callback = apply_links,
+          })
+          local function state(name, keymap, strike)
             return {
               name = name,
               keymap = keymap,
-              color = type(palette) == "table" and palette[hue] or fallback,
               strike_through = strike,
               fields = {
                 "filename", "todo", "headline", "priority", "date", "tags",
@@ -96,11 +117,11 @@ in {
             -- `ov` still cycles classic/compact/tree inside the agenda
             view_mode = "compact",
             todo_states = {
-              state("TODO", "ot", "red", "#ed8796", false),
-              state("WAITING", "ow", "mauve", "#ca9ee6", false),
-              state("PROCESSING", "op", "peach", "#f5a97f", false),
-              state("DONE", "od", "green", "#a6d189", true),
-              state("CANCEL", "oc", "overlay0", "#737994", true),
+              state("TODO", "ot", false),
+              state("WAITING", "ow", false),
+              state("PROCESSING", "op", false),
+              state("DONE", "od", true),
+              state("CANCEL", "oc", true),
             },
           })
         end

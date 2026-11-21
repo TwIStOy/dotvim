@@ -56,7 +56,18 @@ in {
         })
       end
     '' "organize-imports")
-    (nraw "K" ''function() vim.lsp.buf.hover({ border = "solid" }) end '' "show-hover")
+    # Close the CursorHold diagnostic float first, so it cannot sit on top of
+    # the hover window (see _G.dotvim_diag_float in autocmds.nix).
+    (nraw "K" ''
+      function()
+        local diag_float = _G.dotvim_diag_float
+        if diag_float then
+          diag_float.hover({ border = "solid" })
+        else
+          vim.lsp.buf.hover({ border = "solid" })
+        end
+      end
+    '' "show-hover")
     (nraw "]c" ''
       function()
         vim.diagnostic.jump({

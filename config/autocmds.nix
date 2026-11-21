@@ -1,11 +1,82 @@
 {
+  # CursorHold shows a diagnostic float, and LSP hover (keymap `K`) is another
+  # LSP float in the same screen area. Both go through
+  # `vim.lsp.util.open_floating_preview`, which records the newest float for a
+  # buffer in `vim.b[buf].lsp_floating_preview` and closes it when the next one
+  # opens: an unconditional CursorHold float would therefore replace (and so
+  # hide) a hover window. Track our own float so it can be closed on demand and
+  # distinguish it from hover/signature help floats.
+  extraConfigLuaPre = ''
+    _G.dotvim_diag_float = (function()
+      --- Window id of the diagnostic float opened by CursorHold.
+      local win --- @type integer?
+
+      --- Upper bound (ms) for muting CursorHold diagnostics while a hover
+      --- request is in flight; the hover float takes over the muting once it
+      --- appears.
+      local HOVER_GRACE_MS = 1000
+      local mute_diag_until = 0
+
+      local M = {}
+
+      --- Close the diagnostic float opened by CursorHold if it is still shown.
+      function M.close()
+        if win and vim.api.nvim_win_is_valid(win) then
+          vim.api.nvim_win_close(win, true)
+        end
+        win = nil
+      end
+
+      --- Window id of a visible LSP float that is not our diagnostic float
+      --- (hover, signature help, ...), if any.
+      --- @return integer?
+      local function other_lsp_float()
+        -- open_floating_preview tags the preview window (and the buffer it was
+        -- opened from) so the next preview can replace it. The window tag also
+        -- covers floats left over from another buffer.
+        for _, w in ipairs(vim.api.nvim_list_wins()) do
+          if w ~= win and vim.w[w].lsp_floating_bufnr ~= nil then
+            return w
+          end
+        end
+        local other = vim.b.lsp_floating_preview
+        if other and other ~= win and vim.api.nvim_win_is_valid(other) then
+          return other
+        end
+      end
+
+      --- CursorHold callback: show diagnostics for the cursor position.
+      function M.show()
+        if other_lsp_float() or vim.uv.now() < mute_diag_until then
+          return
+        end
+        M.close()
+        local _, winnr = vim.diagnostic.open_float(
+          nil,
+          { focusable = false, scope = "cursor", border = "single" }
+        )
+        win = winnr
+      end
+
+      --- Show LSP hover, with no diagnostic float left to cover it.
+      --- @param opts? table
+      function M.hover(opts)
+        M.close()
+        mute_diag_until = vim.uv.now() + HOVER_GRACE_MS
+        vim.lsp.buf.hover(opts)
+      end
+
+      return M
+    end)()
+  '';
+
   autoCmd = [
     {
       event = ["CursorHold"];
       pattern = "*";
       callback.__raw = ''
         function()
-          vim.diagnostic.open_float(nil, { focusable = false, scope = "cursor", border = "single" })
+          _G.dotvim_diag_float.show()
         end
       '';
       desc = "Show diagnostic in a single bordered floating window";
